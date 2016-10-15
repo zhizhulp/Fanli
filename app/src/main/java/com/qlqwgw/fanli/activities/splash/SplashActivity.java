@@ -1,46 +1,117 @@
 package com.qlqwgw.fanli.activities.splash;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.SystemClock;
+import android.view.KeyEvent;
+import android.widget.ImageView;
 
-import com.qlqwgw.fanli.R;
-import com.qlqwgw.fanli.activities.base.BaseActivity;
 import com.qlqwgw.fanli.activities.guide.GuideActivity;
+import com.qlqwgw.fanli.activities.main.MainActivity;
+import com.qlqwgw.fanli.utils.SharedPreferencesUtil;
+import com.qlqwgw.fanli.R;
 
-public class SplashActivity extends BaseActivity {
-    private static final int MESSAGE_JUMP=0X00;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-    //Handler的创建
-    private void initHandler(){
-        mHandler=new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                int order=msg.what;
-                switch (order){
-                    case MESSAGE_JUMP:
-                        Intent intent=new Intent(SplashActivity.this,GuideActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-            }
-        };
-    }
-    //Runnable的创建
-    private void initThread(){
-        mThread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mHandler.sendEmptyMessageDelayed(MESSAGE_JUMP,3000);
-            }
-        });
-    }
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+
+public class SplashActivity extends Activity {
+
+    //@Bind(R.id.iv_entry)
+    ImageView mIVEntry;
+
+    private static final int ANIM_TIME = 2000;
+
+    private static final float SCALE_END = 1.15F;
+
+    private static final int[] Imgs = {
+            R.drawable.welcomimg1, R.drawable.welcomimg2,
+            R.drawable.welcomimg3, R.drawable.welcomimg4,
+            R.drawable.welcomimg5, R.drawable.welcomimg6,
+            R.drawable.welcomimg7, R.drawable.welcomimg8,
+            R.drawable.welcomimg9, R.drawable.welcomimg10,
+            R.drawable.welcomimg11, R.drawable.welcomimg12};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 判断是否是第一次开启应用
+//        boolean isFirstOpen = SharedPreferencesUtil.getBoolean(this, SharedPreferencesUtil.FIRST_OPEN, true);
+//        // 如果是第一次启动，则先进入功能引导页
+//        if (isFirstOpen) {
+//            Intent intent = new Intent(this, SplashActivity.class);
+//            startActivity(intent);
+//            finish();
+//            return;
+//        }
+
+        // 如果不是第一次启动app，则正常显示启动屏
         setContentView(R.layout.activity_splash);
+        //ButterKnife.bind(this);
+        startMainActivity();
+    }
+
+    private void startMainActivity() {
+        Random random = new Random(SystemClock.elapsedRealtime());//SystemClock.elapsedRealtime() 从开机到现在的毫秒数（手机睡眠(sleep)的时间也包括在内）
+        mIVEntry = ((ImageView) findViewById(R.id.iv_entry));
+        mIVEntry.setImageResource(Imgs[random.nextInt(Imgs.length)]);
+
+        Observable.timer(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+
+                    @Override
+                    public void call(Long aLong) {
+                        startAnim();
+                    }
+                });
+    }
+
+    private void startAnim() {
+
+        ObjectAnimator animatorX = ObjectAnimator.ofFloat(mIVEntry, "scaleX", 1f, SCALE_END);
+        ObjectAnimator animatorY = ObjectAnimator.ofFloat(mIVEntry, "scaleY", 1f, SCALE_END);
+
+        AnimatorSet set = new AnimatorSet();
+        set.setDuration(ANIM_TIME).play(animatorX).with(animatorY);
+        set.start();
+
+        set.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                boolean isFirstOpen = SharedPreferencesUtil.getBoolean(SplashActivity.this, SharedPreferencesUtil.FIRST_OPEN, true);
+                if (isFirstOpen) {
+                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
+                SplashActivity.this.finish();
+            }
+        });
+    }
+
+    /**
+     * 屏蔽物理返回按钮
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
+
