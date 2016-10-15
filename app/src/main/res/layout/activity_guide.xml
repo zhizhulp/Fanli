@@ -11,11 +11,7 @@
             android:id="@+id/vp_guide"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
     </FrameLayout>
-
-
-
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="wrap_content"

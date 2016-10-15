@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.qlqwgw.fanli.R;
@@ -37,10 +38,10 @@ public class GuideActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //设置无标题
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  //设置全屏
         setContentView(R.layout.activity_guide);
-
         views = new ArrayList<View>();
-
         // 初始化引导页视图列表
         for (int i = 0; i < pics.length; i++) {
             View view = LayoutInflater.from(this).inflate(pics[i], null);
