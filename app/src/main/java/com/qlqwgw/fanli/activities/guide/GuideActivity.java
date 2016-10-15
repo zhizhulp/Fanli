@@ -22,7 +22,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
     private ViewPager vp;
     private GuideViewPagerAdapter adapter;
     private List<View> views;
-    private Button startBtn;
+    private ImageView startImg;
 
     // 引导页图片资源
     private static final int[] pics = { R.layout.guide_view1,
@@ -46,9 +46,9 @@ public class GuideActivity extends Activity implements View.OnClickListener {
             View view = LayoutInflater.from(this).inflate(pics[i], null);
 
             if (i == pics.length - 1) {
-                startBtn = (Button) view.findViewById(R.id.btn_enter);
-                startBtn.setTag("enter");
-                startBtn.setOnClickListener(this);
+                startImg = (ImageView) view.findViewById(R.id.guide03_start);
+                startImg.setTag("enter");
+                startImg.setOnClickListener(this);
             }
 
             views.add(view);

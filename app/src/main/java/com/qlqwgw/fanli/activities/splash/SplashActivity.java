@@ -25,52 +25,37 @@ import rx.functions.Action1;
 
 public class SplashActivity extends Activity {
 
-    //@Bind(R.id.iv_entry)
-    ImageView mIVEntry;
+    private ImageView mIVEntry;
 
     private static final int ANIM_TIME = 2000;
 
     private static final float SCALE_END = 1.15F;
 
-    private static final int[] Imgs = {
-            R.drawable.welcomimg1, R.drawable.welcomimg2,
-            R.drawable.welcomimg3, R.drawable.welcomimg4,
-            R.drawable.welcomimg5, R.drawable.welcomimg6,
-            R.drawable.welcomimg7, R.drawable.welcomimg8,
-            R.drawable.welcomimg9, R.drawable.welcomimg10,
-            R.drawable.welcomimg11, R.drawable.welcomimg12};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 判断是否是第一次开启应用
-//        boolean isFirstOpen = SharedPreferencesUtil.getBoolean(this, SharedPreferencesUtil.FIRST_OPEN, true);
-//        // 如果是第一次启动，则先进入功能引导页
-//        if (isFirstOpen) {
-//            Intent intent = new Intent(this, SplashActivity.class);
-//            startActivity(intent);
-//            finish();
-//            return;
-//        }
-
-        // 如果不是第一次启动app，则正常显示启动屏
         setContentView(R.layout.activity_splash);
-        //ButterKnife.bind(this);
         startMainActivity();
     }
 
     private void startMainActivity() {
-        Random random = new Random(SystemClock.elapsedRealtime());//SystemClock.elapsedRealtime() 从开机到现在的毫秒数（手机睡眠(sleep)的时间也包括在内）
         mIVEntry = ((ImageView) findViewById(R.id.iv_entry));
-        mIVEntry.setImageResource(Imgs[random.nextInt(Imgs.length)]);
 
-        Observable.timer(1000, TimeUnit.MILLISECONDS)
+        Observable.timer(2000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
 
                     @Override
                     public void call(Long aLong) {
-                        startAnim();
+                        //startAnim();
+                        boolean isFirstOpen = SharedPreferencesUtil.getBoolean(SplashActivity.this, SharedPreferencesUtil.FIRST_OPEN, true);
+                        if (isFirstOpen) {
+                            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                        } else {
+                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        }
+                        SplashActivity.this.finish();
                     }
                 });
     }
