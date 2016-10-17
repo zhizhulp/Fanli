@@ -18,7 +18,6 @@ import com.qlqwgw.fanli.activities.main.MainActivity;
 import com.qlqwgw.fanli.utils.SharedPreferencesUtil;
 import com.qlqwgw.fanli.R;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
