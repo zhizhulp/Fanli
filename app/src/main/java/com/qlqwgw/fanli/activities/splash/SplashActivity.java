@@ -52,12 +52,13 @@ public class SplashActivity extends Activity {
                     @Override
                     public void call(Long aLong) {
                         //startAnim();
-                        boolean isFirstOpen = SharedPreferencesUtil.getBoolean(SplashActivity.this, SharedPreferencesUtil.FIRST_OPEN, true);
-                        if (isFirstOpen) {
-                            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-                        } else {
-                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        }
+//                        boolean isFirstOpen = SharedPreferencesUtil.getBoolean(SplashActivity.this, SharedPreferencesUtil.FIRST_OPEN, true);
+//                        if (isFirstOpen) {
+//                            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+//                        } else {
+//                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+//                        }
+                        startActivity(new Intent(SplashActivity.this, GuideActivity.class));
                         SplashActivity.this.finish();
                     }
                 });
