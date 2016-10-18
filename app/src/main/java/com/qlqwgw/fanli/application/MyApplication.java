@@ -47,6 +47,5 @@ public class MyApplication extends Application {
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .build();
         OkHttpUtils.initClient(okHttpClient);
-
     }
 }

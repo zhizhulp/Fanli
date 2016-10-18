@@ -29,6 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.main.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait"/>
@@ -36,11 +38,6 @@
             android:screenOrientation="portrait"
             android:name=".activities.login.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity
-            android:screenOrientation="portrait"
-            android:name=".activities.main.MainActivity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.base.BaseActivity" />
     </application>
 
