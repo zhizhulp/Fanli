@@ -8,10 +8,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.qlqwgw.fanli.R;
-import com.qlqwgw.fanli.fragments.FirstFragment;
-import com.qlqwgw.fanli.fragments.FourthFragment;
-import com.qlqwgw.fanli.fragments.SecondFragment;
-import com.qlqwgw.fanli.fragments.ThirdFragment;
+import com.qlqwgw.fanli.fragments.main.FirstFragment;
+import com.qlqwgw.fanli.fragments.me.FourthFragment;
+import com.qlqwgw.fanli.fragments.message.SecondFragment;
+import com.qlqwgw.fanli.fragments.shop.ThirdFragment;
 
 /**
  * 主界面

@@ -1,4 +1,4 @@
-package com.qlqwgw.fanli.fragments;
+package com.qlqwgw.fanli.fragments.me;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,17 +13,17 @@ import com.qlqwgw.fanli.R;
 /**
  * Created by linhonghong on 2015/8/11.
  */
-public class FirstFragment extends Fragment {
+public class FourthFragment extends Fragment {
 
-    public static FirstFragment instance() {
-        FirstFragment view = new FirstFragment();
-		return view;
-	}
+    public static FourthFragment instance() {
+        FourthFragment view = new FourthFragment();
+        return view;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.first_fragment, null);
+        View view = inflater.inflate(R.layout.fourth_fragment, null);
         return view;
     }
 }
