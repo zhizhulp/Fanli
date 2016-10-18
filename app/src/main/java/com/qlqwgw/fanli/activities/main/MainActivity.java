@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.qlqwgw.fanli.R;
@@ -15,19 +14,19 @@ import com.qlqwgw.fanli.fragments.SecondFragment;
 import com.qlqwgw.fanli.fragments.ThirdFragment;
 
 /**
- * Created by linhonghong on 2015/8/11.
+ * 主界面
  */
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
+public class MainActivity extends AppCompatActivity{
 
     public AdvancedPagerSlidingTabStrip mAPSTS;
     public APSTSViewPager mVP;
 
-    private static final int VIEW_FIRST 		= 0;
-    private static final int VIEW_SECOND	    = 1;
-    private static final int VIEW_THIRD       = 2;
-    private static final int VIEW_FOURTH    = 3;
+    private static final int VIEW_FIRST = 0;
+    private static final int VIEW_SECOND = 1;
+    private static final int VIEW_THIRD = 2;
+    private static final int VIEW_FOURTH = 3;
 
-    private static final int VIEW_SIZE = 4;
+    private static final int VIEW_SIZE = 2;
 
     private FirstFragment mFirstFragment = null;
     private SecondFragment mSecondFragment = null;
@@ -48,33 +47,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private void init(){
-        mVP.setOffscreenPageLimit(VIEW_SIZE);
+        mVP.setOffscreenPageLimit(VIEW_SIZE);//设置viewPager缓存页
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
-
         mVP.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
-
         adapter.notifyDataSetChanged();
         mAPSTS.setViewPager(mVP);
-        mAPSTS.setOnPageChangeListener(this);
-        mVP.setCurrentItem(VIEW_FIRST);
-        mAPSTS.showDot(VIEW_FIRST,"99+");
+        mVP.setNoFocus(false);//设置viewpager禁止滑动
+        mVP.setCurrentItem(VIEW_FIRST);//设置viewpager默认页
+        //mAPSTS.showDot(VIEW_FIRST,"99+");
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
+    /**
+     * 主页viewPager设配器
+     */
     public class FragmentAdapter extends FragmentStatePagerAdapter implements AdvancedPagerSlidingTabStrip.IconTabProvider{
 
         public FragmentAdapter(FragmentManager fm) {
