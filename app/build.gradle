@@ -30,6 +30,10 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.zhy:okhttputils:2.6.1'
-    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.0'//cookie支持
-    compile 'homhomlin.lib:apsts:1.4.0'//底部导航
+    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.0'
+    //cookie支持
+    compile 'homhomlin.lib:apsts:1.4.0'
+    //底部导航
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.google.code.gson:gson:2.7'
 }

@@ -111,13 +111,13 @@ public class MainActivity extends AppCompatActivity{
             if(position >= 0 && position < VIEW_SIZE){
                 switch (position){
                     case  VIEW_FIRST:
-                        return  "first";
+                        return  "首页";
                     case  VIEW_SECOND:
-                        return  "second";
+                        return  "商城";
                     case  VIEW_THIRD:
-                        return  "third";
+                        return  "消息";
                     case  VIEW_FOURTH:
-                        return  "fourth";
+                        return  "我";
                     default:
                         break;
                 }
@@ -130,13 +130,13 @@ public class MainActivity extends AppCompatActivity{
             if(index >= 0 && index < VIEW_SIZE){
                 switch (index){
                     case  VIEW_FIRST:
-                        return  R.mipmap.home_main_icon_n;
+                        return  R.mipmap.tab_main;
                     case VIEW_SECOND:
-                        return  R.mipmap.home_categry_icon_n;
+                        return  R.mipmap.tab_message;
                     case VIEW_THIRD:
-                        return  R.mipmap.home_live_icon_n;
+                        return  R.mipmap.tab_shop;
                     case VIEW_FOURTH:
-                        return  R.mipmap.home_mine_icon_n;
+                        return  R.mipmap.tab_me;
                     default:
                         break;
                 }
@@ -149,13 +149,13 @@ public class MainActivity extends AppCompatActivity{
             if(index >= 0 && index < VIEW_SIZE){
                 switch (index){
                     case  VIEW_FIRST:
-                        return  R.mipmap.home_main_icon_f_n;
+                        return  R.mipmap.tab_main_select;
                     case VIEW_SECOND:
-                        return  R.mipmap.home_categry_icon_f_n;
+                        return  R.mipmap.tab_message_select;
                     case VIEW_THIRD:
-                        return  R.mipmap.home_live_icon_f_n;
+                        return  R.mipmap.tab_shop_select;
                     case VIEW_FOURTH:
-                        return  R.mipmap.home_mine_icon_f_n;
+                        return  R.mipmap.tab_me_select;
                     default:
                         break;
                 }
