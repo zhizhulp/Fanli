@@ -11,18 +11,18 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
 import com.qlqwgw.fanli.activities.guide.GuideActivity;
 import com.qlqwgw.fanli.activities.main.MainActivity;
 import com.qlqwgw.fanli.utils.SharedPreferencesUtil;
 import com.qlqwgw.fanli.R;
-
 import java.util.concurrent.TimeUnit;
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
+/**
+ * 启动页
+ */
 public class SplashActivity extends Activity {
 
     private ImageView mIVEntry;
