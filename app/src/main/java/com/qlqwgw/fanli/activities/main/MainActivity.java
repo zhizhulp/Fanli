@@ -6,12 +6,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.qlqwgw.fanli.R;
 import com.qlqwgw.fanli.fragments.main.FirstFragment;
 import com.qlqwgw.fanli.fragments.me.FourthFragment;
 import com.qlqwgw.fanli.fragments.message.SecondFragment;
 import com.qlqwgw.fanli.fragments.shop.ThirdFragment;
+import com.qlqwgw.fanli.utils.LogUtils;
+import com.qlqwgw.fanli.utils.ScreenDpiUtils;
 
 /**
  * 主界面
@@ -26,7 +31,7 @@ public class MainActivity extends AppCompatActivity{
     private static final int VIEW_THIRD = 2;
     private static final int VIEW_FOURTH = 3;
 
-    private static final int VIEW_SIZE = 2;
+    private static final int VIEW_SIZE = 4;
 
     private FirstFragment mFirstFragment = null;
     private SecondFragment mSecondFragment = null;
@@ -36,9 +41,10 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_icon_tab);
+        setContentView(R.layout.activity_main);
         findViews();
         init();
+        LogUtils.PrintLog("123","当前屏幕密度是："+ScreenDpiUtils.getScreenDpi(this));
     }
 
     private void findViews(){
@@ -47,7 +53,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void init(){
-        mVP.setOffscreenPageLimit(VIEW_SIZE);//设置viewPager缓存页
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
         mVP.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
         adapter.notifyDataSetChanged();
