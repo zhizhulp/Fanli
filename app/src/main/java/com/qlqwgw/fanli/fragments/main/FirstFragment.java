@@ -32,14 +32,12 @@ public class FirstFragment extends Fragment {
     private List<Business> mList;
     private ViewPager vp;
     int msgWhat = 0;
-    private ScrollView mScrollView;
     private Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
             vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
             handler.sendEmptyMessageDelayed(msgWhat, 3);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
         };
     };
-    //private ScrollView mScrollView;
 
     public static FirstFragment instance() {
         FirstFragment view = new FirstFragment();
@@ -50,16 +48,20 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.first_fragment, null);
-        mScrollView = ((ScrollView) view.findViewById(R.id.main_scroll));
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //handler.sendEmptyMessageDelayed(msgWhat, 2000);
-        mScrollView.smoothScrollTo(0,0);
-}
+        handler.sendEmptyMessageDelayed(msgWhat, 2000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class FirstFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        //handler.removeMessages(msgWhat);
+        handler.removeMessages(msgWhat);
     }
 
 
