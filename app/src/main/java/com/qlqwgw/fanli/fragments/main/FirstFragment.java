@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -35,8 +36,8 @@ public class FirstFragment extends Fragment {
     private Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
             vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
-            handler.sendEmptyMessageDelayed(msgWhat, 3);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
-        };
+            handler.sendEmptyMessageDelayed(msgWhat, 1500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+        }
     };
 
     public static FirstFragment instance() {
@@ -76,12 +77,6 @@ public class FirstFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
 
@@ -98,7 +93,7 @@ public class FirstFragment extends Fragment {
         initList();
         mAdapter=new RecBusinessAdapter(mList,getContext());
         recBusiness.setAdapter(mAdapter);
-        setListViewHeightBasedOnChildren(recBusiness);
+        //setListViewHeightBasedOnChildren(recBusiness);
     }
     /**
      * viewPager初始化
@@ -164,13 +159,30 @@ public class FirstFragment extends Fragment {
          */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(imageList.get(position % imageList.size()));
-            return imageList.get(position % imageList.size());
+//            container.addView(imageList.get(position % imageList.size()));
+//            return imageList.get(position % imageList.size());
+            //container.addView(imageList.get(position % imageList.size()));
+            //return imageList.get(position % imageList.size());
+            //对ViewPager页号求模取出View列表中要显示的项
+            position %= imageList.size();
+            if (position<0){
+                position = imageList.size()+position;
+            }
+            ImageView view = imageList.get(position);
+            //如果View已经在之前添加到了一个父组件，则必须先remove，否则会抛出IllegalStateException。
+            ViewParent vp =view.getParent();
+            if (vp!=null){
+                ViewGroup parent = (ViewGroup)vp;
+                parent.removeView(view);
+            }
+            container.addView(view);
+            //add listeners here if necessary
+            return view;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View)object);
+            //container.removeView((View)object);
         }
     }
 
