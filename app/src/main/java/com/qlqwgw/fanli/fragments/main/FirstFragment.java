@@ -61,6 +61,10 @@ public class FirstFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if(handler.hasMessages(msgWhat)){
+            handler.removeMessages(msgWhat);
+        }
+
     }
 
     @Override
@@ -80,7 +84,7 @@ public class FirstFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        handler.removeMessages(msgWhat);
+
     }
 
 
