@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import com.qlqwgw.fanli.R;
 import com.qlqwgw.fanli.beans.Business;
+import com.qlqwgw.fanli.view.ScrollViewWithListView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import okhttp3.Call;
  */
 public class FirstFragment extends Fragment {
 
-    private ListView recBusiness;
+    private ScrollViewWithListView recBusiness;
     private List<ImageView> imageList;
     private RecBusinessAdapter mAdapter;
     private List<Business> mList;
@@ -88,12 +89,14 @@ public class FirstFragment extends Fragment {
      * @param view
      */
     private void initRecBusiness(View view) {
-        recBusiness= (ListView) view.findViewById(R.id.main_business_list);
+        recBusiness= (ScrollViewWithListView) view.findViewById(R.id.main_business_list);
         recBusiness.setFocusable(false);//解决直接滑动到listview以上部分的问题
         initList();
         mAdapter=new RecBusinessAdapter(mList,getContext());
+
         recBusiness.setAdapter(mAdapter);
         //setListViewHeightBasedOnChildren(recBusiness);
+
     }
     /**
      * viewPager初始化
@@ -159,10 +162,6 @@ public class FirstFragment extends Fragment {
          */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-//            container.addView(imageList.get(position % imageList.size()));
-//            return imageList.get(position % imageList.size());
-            //container.addView(imageList.get(position % imageList.size()));
-            //return imageList.get(position % imageList.size());
             //对ViewPager页号求模取出View列表中要显示的项
             position %= imageList.size();
             if (position<0){
@@ -182,7 +181,6 @@ public class FirstFragment extends Fragment {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            //container.removeView((View)object);
         }
     }
 

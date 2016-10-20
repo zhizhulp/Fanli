@@ -18,6 +18,7 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/main_sweep_bg"/>
             <LinearLayout
+                android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -26,6 +27,8 @@
                     android:layout_height="wrap_content"
                     android:text="北京"/>
                 <ImageView
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/main_location_more"/>
@@ -41,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -55,6 +59,8 @@
                         android:text="昨日返还积分"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:gravity="center"
+
                     android:orientation="vertical"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -62,13 +68,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="50"/>
+                        android:text="10000"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="昨日返还积分"/>
+                        android:text="赠送积分总额"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -76,11 +83,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="50"/>
+                        android:text="50%"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="昨日返还积分"/>
+                        android:text="昨日赠送比率"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -104,28 +111,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/main_business_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@mipmap/main_business_title"/>
             <TextView
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/main_business_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="热门推荐"/>
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/main_business_more_icon_01"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/main_business_more"/>
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/main_business_more_icon_02"
                 android:layout_toLeftOf="@id/main_business_more_icon_01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/main_business_more"/>
             <ImageView
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/main_business_more_icon_02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,7 +150,7 @@
             android:background="#ccc"/>
 
         <!--商家列表-->
-        <ListView
+        <com.qlqwgw.fanli.view.ScrollViewWithListView
             android:id="@+id/main_business_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
