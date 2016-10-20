@@ -8,4 +8,5 @@
     <color name="white">#ffffffff</color>
     <color name="home_bar_text_push">#ff5959</color>
     <color name="textnormal">#adadad</color>
+    <color name="view_line">#e0dfdf</color>
 </resources>

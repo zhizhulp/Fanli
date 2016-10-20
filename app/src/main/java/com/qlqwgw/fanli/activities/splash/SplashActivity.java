@@ -57,7 +57,7 @@ public class SplashActivity extends Activity {
 //                        } else {
 //                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
 //                        }
-                        startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         SplashActivity.this.finish();
                     }
                 });
