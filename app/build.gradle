@@ -36,4 +36,5 @@ dependencies {
     //底部导航
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

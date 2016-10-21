@@ -1,5 +1,7 @@
 package com.qlqwgw.fanli.fragments.main;
 
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -37,7 +40,7 @@ public class FirstFragment extends Fragment {
     private Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
             vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
-            handler.sendEmptyMessageDelayed(msgWhat, 1500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+            handler.sendEmptyMessageDelayed(msgWhat, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
         }
     };
 
@@ -50,14 +53,14 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.first_fragment, null);
-
         return view;
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        handler.sendEmptyMessageDelayed(msgWhat, 2000);
+        handler.sendEmptyMessageDelayed(msgWhat, 2500);
     }
 
     @Override
@@ -115,18 +118,23 @@ public class FirstFragment extends Fragment {
         imageList.clear();
         ImageView iva = new ImageView(getContext());
         iva.setBackgroundResource(R.mipmap.main_pager);
+        iva.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivb = new ImageView(getContext());
         ivb.setBackgroundResource(R.mipmap.main_pager);
+        ivb.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivc = new ImageView(getContext());
         ivc.setBackgroundResource(R.mipmap.main_pager);
+        ivc.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivd = new ImageView(getContext());
         ivd.setBackgroundResource(R.mipmap.main_pager);
+        ivd.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ive = new ImageView(getContext());
         ive.setBackgroundResource(R.mipmap.main_pager);
+        ive.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         imageList.add(iva);
         imageList.add(ivb);

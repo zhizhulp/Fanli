@@ -1,11 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <!--头部布局-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp">
+        <ImageView
+            android:scaleType="centerCrop"
+            android:src="@mipmap/me_head_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView" />
+        <TextView
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/me_user_img"
+            android:src="@mipmap/me_user_icon"
+            android:layout_width="64dp"
+            android:layout_height="75dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:textSize="14sp"
+            android:textColor="#fff"
+            android:layout_below="@id/me_user_img"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="钱来钱往"/>
+        <LinearLayout
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/me_head_cash_mini"
+                android:layout_width="13dp"
+                android:layout_height="13dp" />
+            <ImageView
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/me_head_category_mini"
+                android:layout_width="13dp"
+                android:layout_height="13dp" />
+            <ImageView
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/me_head_vip_mini"
+                android:layout_width="13dp"
+                android:layout_height="13dp" />
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/me_head_users_mini"
+                android:layout_width="13dp"
+                android:layout_height="13dp" />
+            <ImageView
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/me_head_sweep_mini"
+                android:layout_width="13dp"
+                android:layout_height="13dp" />
+            <ImageView
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/me_head_good_mini"
+                android:layout_width="13dp"
+                android:layout_height="13dp" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <!--账户余额title-->
+    <RelativeLayout
+        android:background="#fff"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账户余额：8765.78"/>
+        <ImageView
+            android:scaleType="fitCenter"
+            android:id="@+id/me_go"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/me_account_go"/>
+        <TextView
+            android:textSize="15sp"
+            android:textColor="#2e82ff"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@id/me_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提现"/>
+    </RelativeLayout>
+
+    <View
+        android:background="@color/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <!--九宫格-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Fourth Fragment"
-        android:textSize="18sp"/>
+        android:orientation="vertical">
+        <GridView
+            android:background="@color/view_line"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp"
+            android:numColumns="2"
+            android:id="@+id/me_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/view_line"/>
+    </LinearLayout>
 </LinearLayout>

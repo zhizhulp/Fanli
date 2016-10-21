@@ -18,7 +18,7 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/main_sweep_bg"/>
             <LinearLayout
-                android:layout_margin="8dp"
+                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -27,18 +27,27 @@
                     android:layout_height="wrap_content"
                     android:text="北京"/>
                 <ImageView
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_width="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="12dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/main_location_more"/>
             </LinearLayout>
             <ImageView
+                android:id="@+id/main_sweep_icon"
+                android:scaleType="fitCenter"
                 android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
+                android:layout_width="66dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/main_sweep"/>
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/main_sweep_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="扫一扫"/>
             <LinearLayout
+                android:layout_marginBottom="5dp"
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,38 +118,43 @@
         <!--商家推荐标题-->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="40dp">
             <ImageView
+                android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/main_business_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/main_business_title"/>
             <TextView
+                android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/main_business_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="热门推荐"/>
             <ImageView
+                android:layout_marginRight="5dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/main_business_more_icon_01"
                 android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
                 android:src="@mipmap/main_business_more"/>
             <ImageView
+                android:layout_marginRight="3dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/main_business_more_icon_02"
                 android:layout_toLeftOf="@id/main_business_more_icon_01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
                 android:src="@mipmap/main_business_more"/>
             <ImageView
+                android:layout_marginRight="3dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/main_business_more_icon_02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
                 android:src="@mipmap/main_business_more"/>
 
         </RelativeLayout>
