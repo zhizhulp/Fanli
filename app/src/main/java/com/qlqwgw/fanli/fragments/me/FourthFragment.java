@@ -1,18 +1,14 @@
 package com.qlqwgw.fanli.fragments.me;
 
-import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.GridView;
 
 import com.qlqwgw.fanli.R;
-import com.qlqwgw.fanli.beans.GridBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +20,7 @@ import java.util.List;
 public class FourthFragment extends Fragment {
 
     private GridView gv;
-    private MyCenterGridAdapter mAdapter;
+    //private MyCenterGridAdapter mAdapter;
     private List<GridBean> mList;
 
     public static FourthFragment instance() {
@@ -42,15 +38,15 @@ public class FourthFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initGridView(view);
+        //initGridView(view);
     }
 
-    private void initGridView(View view) {
-        gv = ((GridView) view.findViewById(R.id.me_gv));
-        initMList();
-        mAdapter=new MyCenterGridAdapter(mList,getContext());
-        gv.setAdapter(mAdapter);
-    }
+//    private void initGridView(View view) {
+//        gv = ((GridView) view.findViewById(R.id.me_gv));
+//        initMList();
+//        mAdapter=new MyCenterGridAdapter(mList,getContext());
+//        gv.setAdapter(mAdapter);
+//    }
 
     private void initMList() {
         mList=new ArrayList<>();
