@@ -6,7 +6,7 @@
     <!--头部布局-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="185dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -18,7 +18,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="8dp"
             android:text="设置"
             android:textColor="#fff"
             android:textSize="16sp" />
@@ -313,8 +314,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"

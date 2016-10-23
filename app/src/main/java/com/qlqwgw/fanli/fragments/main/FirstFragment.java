@@ -52,8 +52,13 @@ public class FirstFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.first_fragment, null);
-        return view;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            View view = inflater.inflate(R.layout.first_fragment_status, null);
+            return view;
+        }else{
+            View view = inflater.inflate(R.layout.first_fragment, null);
+            return view;
+        }
     }
 
 

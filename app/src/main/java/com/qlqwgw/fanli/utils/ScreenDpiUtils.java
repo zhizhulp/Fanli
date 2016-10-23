@@ -21,4 +21,9 @@ public class ScreenDpiUtils {
         final float scale=context.getResources().getDisplayMetrics().densityDpi;
         return (int)((pxValue*160)/scale+0.5f);
     }
+    private static int getStatusBarHeight(Context context) {
+        // 获得状态栏高度
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
+    }
 }
