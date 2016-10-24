@@ -6,7 +6,7 @@
     <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="48dp"
         style="@style/pagertab_icon_style"
         android:layout_alignParentBottom="true"
         android:fillViewport="false"/>
@@ -14,7 +14,7 @@
         android:layout_above="@id/tabs"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ccc"/>
+        android:background="@color/view_line"/>
 
     <com.qlqwgw.fanli.activities.main.APSTSViewPager
         android:id="@+id/vp_main"

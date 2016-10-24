@@ -1,6 +1,5 @@
 package com.qlqwgw.fanli.fragments.main;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,11 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import com.qlqwgw.fanli.R;
 import com.qlqwgw.fanli.beans.Business;
 import com.qlqwgw.fanli.view.ScrollViewWithListView;

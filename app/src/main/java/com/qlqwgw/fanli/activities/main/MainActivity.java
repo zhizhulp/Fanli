@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity{
 
     public AdvancedPagerSlidingTabStrip mAPSTS;
     public APSTSViewPager mVP;
-
     private static final int VIEW_FIRST = 0;
     private static final int VIEW_SECOND = 1;
     private static final int VIEW_THIRD = 2;
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setStatusBar();
         //透明状态栏
         setStatusBar();
         findViews();
@@ -62,12 +60,16 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void setStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= 19) {
             Window window = getWindow();
             // Translucent status bar
-            window.setFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            window.setFlags(
+//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //设置状态栏颜色
+            //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //window.setStatusBarColor(Color.BLACK);
         }
     }
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
         mAPSTS.setViewPager(mVP);
         mVP.setNoFocus(false);//设置viewpager禁止滑动
         mVP.setCurrentItem(VIEW_FOURTH);//设置viewpager默认页
-        mAPSTS.showDot(VIEW_FIRST,"99+");
+        //mAPSTS.showDot(VIEW_FIRST,"99+");
     }
 
     /**

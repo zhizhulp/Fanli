@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="73dp">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/me_account_go"/>
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:id="@+id/money_bar_title"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人中心"/>
+    </RelativeLayout>
+</LinearLayout>
