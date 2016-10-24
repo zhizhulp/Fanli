@@ -98,7 +98,6 @@ public class FirstFragment extends Fragment {
         recBusiness.setFocusable(false);//解决直接滑动到listview以上部分的问题
         initList();
         mAdapter=new RecBusinessAdapter(mList,getContext());
-
         recBusiness.setAdapter(mAdapter);
         //setListViewHeightBasedOnChildren(recBusiness);
 

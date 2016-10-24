@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:paddingTop="21dp"
+    android:paddingBottom="21dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="wrap_content">
     <ImageView
         android:layout_centerVertical="true"
-        android:layout_margin="15dp"
+        android:layout_marginLeft="12dp"
         android:id="@+id/iv_main_business_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/logo"/>
     <LinearLayout
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iv_main_business_logo"
         android:id="@+id/gp_main_business_text"
@@ -19,22 +21,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:textSize="15sp"
             android:id="@+id/tv_main_business_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="华融典当"/>
         <LinearLayout
+            android:layout_marginTop="19dp"
             android:gravity="center"
-            android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:textSize="13sp"
                 android:id="@+id/tv_main_business_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="金牌商家"/>
             <ImageView
+                android:layout_marginLeft="12dp"
                 android:id="@+id/iv_main_business_category_icon"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
@@ -42,20 +47,22 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="12dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:textSize="13sp"
             android:id="@+id/tv_main_business_goodjob"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1350人好评"/>
         <TextView
+            android:textSize="13sp"
             android:id="@+id/tv_main_business_distance"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="22dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="352m"/>

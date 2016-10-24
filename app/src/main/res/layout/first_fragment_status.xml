@@ -11,30 +11,29 @@
         android:orientation="vertical">
         <!--扫一扫区域 -->
         <RelativeLayout
+            android:background="#e73030"
             android:layout_width="match_parent"
-            android:layout_height="240dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@mipmap/main_sweep_bg"/>
+            android:layout_height="228dp">
             <LinearLayout
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="北京"/>
                 <ImageView
-                    android:layout_marginTop="4dp"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="12dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/main_location_more"/>
             </LinearLayout>
             <ImageView
+                android:layout_marginTop="71dp"
                 android:id="@+id/main_sweep_icon"
                 android:scaleType="fitCenter"
                 android:layout_centerInParent="true"
@@ -42,13 +41,14 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/main_sweep"/>
             <TextView
+                android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/main_sweep_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="扫一扫"/>
             <LinearLayout
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="11dp"
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,10 +60,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="50"/>
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="昨日返还积分"/>
@@ -76,10 +80,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10000"/>
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="赠送积分总额"/>
@@ -91,10 +99,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="50%"/>
                     <TextView
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="昨日赠送比率"/>
@@ -104,38 +116,40 @@
         <!--轮播图区域 -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="#ccc"/>
+            android:layout_height="8dp"
+            android:background="@color/view_line"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/main_pager"
             android:layout_width="match_parent"
-            android:layout_height="140dp"/>
+            android:layout_height="115dp"/>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="#ccc"/>
+            android:layout_height="8dp"
+            android:background="@color/view_line"/>
         <!--商家推荐标题-->
         <RelativeLayout
+            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="43dp">
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="12dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/main_business_icon"
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/main_business_title"/>
             <TextView
-                android:layout_marginLeft="5dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="9dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/main_business_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="热门推荐"/>
             <ImageView
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="12dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/main_business_more_icon_01"
                 android:layout_alignParentRight="true"
@@ -143,7 +157,7 @@
                 android:layout_height="6dp"
                 android:src="@mipmap/main_business_more"/>
             <ImageView
-                android:layout_marginRight="3dp"
+                android:layout_marginRight="4dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/main_business_more_icon_02"
                 android:layout_toLeftOf="@id/main_business_more_icon_01"
@@ -151,7 +165,7 @@
                 android:layout_height="6dp"
                 android:src="@mipmap/main_business_more"/>
             <ImageView
-                android:layout_marginRight="3dp"
+                android:layout_marginRight="4dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/main_business_more_icon_02"
                 android:layout_width="6dp"
@@ -166,6 +180,7 @@
 
         <!--商家列表-->
         <com.qlqwgw.fanli.view.ScrollViewWithListView
+            android:background="@color/white"
             android:id="@+id/main_business_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

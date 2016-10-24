@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register_input_number"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.qlqwgw.fanli.activities.register.RegisterInputNumberActivity">
+    <com.qlqwgw.fanli.view.MoneyBar
+        android:id="@+id/register_input_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/register_input_number"
+        android:id="@+id/register_input_number_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请输入您的手机号"/>
+    <RelativeLayout
+        android:layout_below="@id/register_input_number_text"
+        android:id="@+id/register_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/register_country_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="国家/地区"/>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/register_country_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中国"/>
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/me_account_go"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_below="@id/register_location"
+        android:id="@+id/register_line_01"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_line"/>
+    <LinearLayout
+        android:layout_below="@id/register_line_01"
+        android:id="@+id/register_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+86"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/view_line"/>
+        <EditText
+            android:background="@null"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:id="@+id/register_line_02"
+        android:layout_below="@id/register_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_line"/>
+    <Button
+        android:text="注册"
+        android:layout_below="@id/register_line_02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

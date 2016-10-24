@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.splash.SplashActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
@@ -37,7 +37,9 @@
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.base.BaseActivity" />
-        <activity android:name=".activities.login.LoginActivity"></activity>
+        <activity android:name=".activities.login.LoginActivity" />
+        <activity android:name=".activities.register.RegisterInputNumberActivity" />
+        <activity android:name=".activities.register.RegisterAfterReceiveCodeActivity"></activity>
     </application>
 
 </manifest>
