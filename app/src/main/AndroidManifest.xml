@@ -39,7 +39,10 @@
         <activity android:name=".activities.base.BaseActivity" />
         <activity android:name=".activities.login.LoginActivity" />
         <activity android:name=".activities.register.RegisterInputNumberActivity" />
-        <activity android:name=".activities.register.RegisterAfterReceiveCodeActivity"></activity>
+        <activity android:name=".activities.register.RegisterAfterReceiveCodeActivity" />
+        <activity android:name=".activities.password_loss.PasswordLossActivity" />
+        <activity android:name=".activities.password_loss.PasswordLossWithCodeActivity" />
+        <activity android:name=".activities.PersonalDataActivity"></activity>
     </application>
 
 </manifest>

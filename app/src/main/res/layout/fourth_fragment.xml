@@ -6,87 +6,89 @@
     <!--头部布局-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="176.5dp">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/me_head_bg" />
+            android:src="@mipmap/me_sweep_bg" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="12dp"
             android:text="设置"
-            android:textColor="#fff"
-            android:textSize="16sp" />
-
+            android:textColor="@color/white"
+            android:textSize="15sp" />
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/me_user_img"
-            android:layout_width="64dp"
-            android:layout_height="75dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:src="@mipmap/me_user_icon" />
 
         <TextView
+            android:layout_marginTop="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/me_user_img"
             android:layout_centerHorizontal="true"
             android:text="钱来钱往"
             android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textSize="15sp"
+            android:id="@+id/textView" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout2">
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/me_head_cash_mini" />
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/me_head_category_mini" />
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/me_head_vip_mini" />
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/me_head_users_mini" />
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/me_head_sweep_mini" />
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/me_head_good_mini" />
         </LinearLayout>
@@ -96,8 +98,8 @@
     <!--账户余额title-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:background="#fff"
+        android:layout_height="54dp"
+        android:background="@color/white"
         android:gravity="center">
 
         <TextView
@@ -106,14 +108,14 @@
             android:layout_marginLeft="8dp"
             android:text="账户余额：8765.78"
             android:textColor="@color/black"
-            android:textSize="16dp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/me_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="2dp"
             android:scaleType="fitCenter"
             android:src="@mipmap/me_account_go" />
@@ -121,11 +123,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/me_go"
             android:text="提现"
             android:textColor="#2e82ff"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <View
@@ -134,13 +136,15 @@
         android:background="@color/view_line" />
     <!--九宫格-->
     <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <!-- 第一个横向布局-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_height="0dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
@@ -148,35 +152,36 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/me_white_score" />
+
                 <LinearLayout
+                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
-                    android:layout_marginTop="16dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="白积分"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="6821"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
             <View
 
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="52dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.01"
                 android:background="@color/view_line" />
@@ -186,10 +191,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="15dp"
                     android:src="@mipmap/me_pre_cash" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -202,13 +207,13 @@
                         android:layout_height="wrap_content"
                         android:text="预付款"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="10.00"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -219,7 +224,8 @@
         <!-- 第二个横向布局-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_height="0dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
@@ -227,8 +233,8 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/me_red" />
@@ -243,13 +249,13 @@
                         android:layout_height="wrap_content"
                         android:text="红积分"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="486"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
             <View
@@ -258,17 +264,21 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.01"
                 android:background="@color/view_line" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="16dp"
-                    android:src="@mipmap/me_card" />
+                    android:src="@mipmap/me_card"
+                    android:id="@+id/imageView3" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -280,13 +290,13 @@
                         android:layout_height="wrap_content"
                         android:text="银行卡"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="5"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -297,7 +307,8 @@
         <!-- 第三个横向布局-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_height="0dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
@@ -305,29 +316,29 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/me_vip" />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="会员升级"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="立即升级"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
             <View
@@ -342,8 +353,8 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/me_recommend" />
@@ -358,13 +369,13 @@
                         android:layout_height="wrap_content"
                         android:text="我的推荐"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="0/0"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -375,7 +386,8 @@
         <!-- 第四个横向布局-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_height="0dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
@@ -383,8 +395,8 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/me_business" />
@@ -399,13 +411,13 @@
                         android:layout_height="wrap_content"
                         android:text="商户中心"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="暂未开通"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
             <View
@@ -420,8 +432,8 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="16dp"
                     android:src="@mipmap/me_employee_score" />
@@ -436,13 +448,13 @@
                         android:layout_height="wrap_content"
                         android:text="佣金积分"
                         android:textColor="#000"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="7689"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

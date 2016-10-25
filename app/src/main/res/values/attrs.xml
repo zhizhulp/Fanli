@@ -3,4 +3,7 @@
     <declare-styleable name="MoneyBar">
         <attr name="textTitle" format="string"/>
     </declare-styleable>
+    <declare-styleable name="EditTextWithCustomHint">
+        <attr name="hintSize" format="dimension"/>
+    </declare-styleable>
 </resources>

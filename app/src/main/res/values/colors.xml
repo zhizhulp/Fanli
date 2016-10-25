@@ -9,4 +9,7 @@
     <color name="home_bar_text_push">#dc0404</color>
     <color name="textnormal">#adadad</color>
     <color name="view_line">#e0dfdf</color>
+    <color name="transText">#B3000000</color>
+    <color name="moneyBarColor">#e50202</color>
+    <color name="btn">#dc0404</color>
 </resources>

@@ -1,10 +1,13 @@
 package com.qlqwgw.fanli.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,9 +17,10 @@ import com.qlqwgw.fanli.R;
  * app自定义toolBar
  */
 
-public class MoneyBar extends LinearLayout {
+public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private TextView mTextView;
     private String title;
+    private ImageView mImageView;
 
 
     public MoneyBar(Context context, AttributeSet attrs) {
@@ -38,13 +42,17 @@ public class MoneyBar extends LinearLayout {
         }
 
         mTextView= (TextView) findViewById(R.id.money_bar_title);
+        mImageView= (ImageView) findViewById(R.id.money_bar_back);
+        mImageView.setOnClickListener(this);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MoneyBar);
         title = ta.getString(R.styleable.MoneyBar_textTitle);
         mTextView.setText(title);
         ta.recycle();
     }
-    //标题的修改
-    public void setTitleText(String title){
-        mTextView.setText(title);
+
+
+    @Override
+    public void onClick(View v) {
+        ((Activity) getContext()).finish();
     }
 }

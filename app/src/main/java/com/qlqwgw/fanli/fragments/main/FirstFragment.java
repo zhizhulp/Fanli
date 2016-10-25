@@ -148,8 +148,15 @@ public class FirstFragment extends Fragment {
     private void initList() {
         mList=new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            Business business=new Business(R.mipmap.logo,"测试"+i,"金牌会员",R.mipmap.main_business_category,(20+i)+"个好评",(200+i*100)+"m");
-            mList.add(business);
+            if( i%2 ==0){
+                Business business=new Business(R.mipmap.main_business_01,"利信快捷金融","金牌商家",R.mipmap.main_business_category,(20+i)+"个好评",(200+i*100)+"m");
+                mList.add(business);
+            } else {
+                Business business=new Business(R.mipmap.main_business_02,"华融典当","金牌商家",R.mipmap.main_business_category,(20+i)+"个好评",(200+i*100)+"m");
+                mList.add(business);
+            }
+
+
         }
     }
 

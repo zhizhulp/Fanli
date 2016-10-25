@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity{
                     case  VIEW_FIRST:
                         return  "首页";
                     case  VIEW_SECOND:
-                        return  "商城";
-                    case  VIEW_THIRD:
                         return  "消息";
+                    case  VIEW_THIRD:
+                        return  "商城";
                     case  VIEW_FOURTH:
                         return  "我";
                     default:
