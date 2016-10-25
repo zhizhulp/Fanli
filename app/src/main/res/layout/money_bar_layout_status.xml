@@ -12,7 +12,7 @@
         android:layout_height="48dp">
         <ImageView
             android:id="@+id/money_bar_back"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
             android:layout_centerVertical="true"
             android:layout_width="20dp"
             android:layout_height="20dp"
