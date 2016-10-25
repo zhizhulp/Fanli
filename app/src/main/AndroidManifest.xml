@@ -45,7 +45,9 @@
         <activity android:name=".activities.PersonalDataActivity" />
         <activity android:name=".activities.SafeSettingActivity" />
         <activity android:name=".activities.SettingActivity" />
-        <activity android:name=".activities.RealNameCofirmActivity"></activity>
+        <activity android:name=".activities.RealNameCofirmActivity" />
+        <activity android:name=".activities.LocationActivity" />
+        <activity android:name=".activities.QRCodeActivity"></activity>
     </application>
 
 </manifest>
