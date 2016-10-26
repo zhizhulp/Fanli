@@ -11,11 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="安全设置"/>
+
     <RelativeLayout
+        android:onClick="safeSettingPhoneChange"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/line_space">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/safe_setting_img_01"
@@ -23,22 +25,22 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改手机号码"/>
         <ImageView
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -47,7 +49,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/line_space">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/safe_setting_img_02"
@@ -55,18 +57,18 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
+            android:textColor="@color/black"
+
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改登录密码"/>
         <ImageView
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
@@ -79,7 +81,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/line_space">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/safe_setting_img_03"
@@ -87,18 +89,17 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改支付密码"/>
         <ImageView
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
@@ -108,10 +109,11 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:onClick="safeSettingPasswordProtect"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/line_space">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/safe_setting_img_04"
@@ -119,18 +121,17 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_04"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改密保问题"/>
         <ImageView
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>

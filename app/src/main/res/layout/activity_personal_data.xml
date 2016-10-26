@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_personal_data"
@@ -66,6 +67,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:onClick="personalNickNameChange"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="20dp"
@@ -96,7 +98,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
+
     <RelativeLayout
+        android:onClick="personalSexChange"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="20dp"
@@ -123,11 +127,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:onClick="personalAgeChange"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="20dp"
@@ -159,6 +165,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:onClick="personalLocationChange"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="20dp"

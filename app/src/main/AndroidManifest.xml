@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qlqwgw.fanli">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -37,17 +32,77 @@
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.base.BaseActivity" />
-        <activity android:name=".activities.login.LoginActivity" />
-        <activity android:name=".activities.register.RegisterInputNumberActivity" />
-        <activity android:name=".activities.register.RegisterAfterReceiveCodeActivity" />
-        <activity android:name=".activities.password_loss.PasswordLossActivity" />
-        <activity android:name=".activities.password_loss.PasswordLossWithCodeActivity" />
-        <activity android:name=".activities.PersonalDataActivity" />
-        <activity android:name=".activities.SafeSettingActivity" />
-        <activity android:name=".activities.SettingActivity" />
-        <activity android:name=".activities.RealNameCofirmActivity" />
-        <activity android:name=".activities.LocationActivity" />
-        <activity android:name=".activities.QRCodeActivity"></activity>
+        <activity
+            android:name=".activities.register.RegisterInputNumberActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.register.RegisterAfterReceiveCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.password_loss.PasswordLossActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.password_loss.PasswordLossWithCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.PersonalDataActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SafeSettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RealNameCofirmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.LocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.QRCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.ModifyNicknameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.PhoneChangeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SexChangeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.LoginPasswordChangeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.MyPowerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.AgeChangeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.PasswordProtectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity android:name=".activities.PasswordProtect2Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.jaeger.library.StatusBarUtil;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.qlqwgw.fanli.R;
+import com.qlqwgw.fanli.activities.base.BaseActivity;
 import com.qlqwgw.fanli.fragments.main.FirstFragment;
 import com.qlqwgw.fanli.fragments.me.FourthFragment;
 import com.qlqwgw.fanli.fragments.message.SecondFragment;
@@ -32,7 +33,7 @@ import java.util.Random;
 /**
  * 主界面
  */
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends BaseActivity{
 
     public AdvancedPagerSlidingTabStrip mAPSTS;
     public APSTSViewPager mVP;
@@ -52,25 +53,9 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //透明状态栏
-        setStatusBar();
         findViews();
         init();
-        LogUtils.PrintLog("123","当前屏幕密度是："+ScreenDpiUtils.getScreenDpi(this));
-    }
-
-    private void setStatusBar() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            Window window = getWindow();
-            // Translucent status bar
-//            window.setFlags(
-//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //设置状态栏颜色
-            //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            //window.setStatusBarColor(Color.BLACK);
-        }
+        //LogUtils.PrintLog("123","当前屏幕密度是："+ScreenDpiUtils.getScreenDpi(this));
     }
 
     private void findViews(){

@@ -32,7 +32,7 @@ public class EditTextWithCustomHint extends EditText {
     private void init(Context context,AttributeSet attrs) {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EditTextWithCustomHint);
-        int mpx = ScreenDpiUtils.dip2px(context, 12);
+        int mpx = ScreenDpiUtils.dip2px(context, 14);
         float dimension = ta.getDimension(R.styleable.EditTextWithCustomHint_hintSize, mpx);
         int mdp2 = ScreenDpiUtils.px2dp(context, dimension);
         HintUtils.customHint(this,getHint().toString(),mdp2);

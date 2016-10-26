@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.qlqwgw.fanli.view.MoneyBar
+        app:needBack="false"
         app:textTitle="商城"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

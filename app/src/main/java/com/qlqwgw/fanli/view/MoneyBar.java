@@ -21,6 +21,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private TextView mTextView;
     private String title;
     private ImageView mImageView;
+    private boolean needBack;
 
 
     public MoneyBar(Context context, AttributeSet attrs) {
@@ -40,12 +41,17 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         }else{
             LayoutInflater.from(context).inflate(R.layout.money_bar_layout_no_status, this,true);
         }
-
         mTextView= (TextView) findViewById(R.id.money_bar_title);
         mImageView= (ImageView) findViewById(R.id.money_bar_back);
-        mImageView.setOnClickListener(this);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MoneyBar);
         title = ta.getString(R.styleable.MoneyBar_textTitle);
+        needBack = ta.getBoolean(R.styleable.MoneyBar_needBack, true);
+        //设置是否需要返回图标
+        if( !needBack){
+            mImageView.setVisibility(GONE);
+        }else{
+            mImageView.setOnClickListener(this);
+        }
         mTextView.setText(title);
         ta.recycle();
     }
