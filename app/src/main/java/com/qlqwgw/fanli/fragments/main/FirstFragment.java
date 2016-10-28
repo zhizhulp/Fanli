@@ -1,5 +1,6 @@
 package com.qlqwgw.fanli.fragments.main;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.qlqwgw.fanli.R;
+import com.qlqwgw.fanli.activities.BusinessDetailsActivity;
 import com.qlqwgw.fanli.beans.Business;
 import com.qlqwgw.fanli.view.ScrollViewWithListView;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -99,7 +102,13 @@ public class FirstFragment extends Fragment {
         initList();
         mAdapter=new RecBusinessAdapter(mList,getContext());
         recBusiness.setAdapter(mAdapter);
-        //setListViewHeightBasedOnChildren(recBusiness);
+        recBusiness.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getActivity(), BusinessDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     /**

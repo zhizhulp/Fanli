@@ -21,13 +21,7 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
@@ -100,9 +94,50 @@
             android:name=".activities.PasswordProtectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.PasswordProtect2Activity"
+        <activity
+            android:name=".activities.PasswordProtect2Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.AccountRechargeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.CashGetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RedScoreActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.AccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
+        </activity>
+        <activity
+            android:name=".activities.BusinessCenterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BusinessDataActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity android:name=".activities.BusinessDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" >
+
+        </activity>
     </application>
 
 </manifest>

@@ -55,7 +55,6 @@ public class MainActivity extends BaseActivity{
         setContentView(R.layout.activity_main);
         findViews();
         init();
-        //LogUtils.PrintLog("123","当前屏幕密度是："+ScreenDpiUtils.getScreenDpi(this));
     }
 
     private void findViews(){
@@ -65,7 +64,7 @@ public class MainActivity extends BaseActivity{
 
     private void init(){
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
-        mVP.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
+        mVP.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         mAPSTS.setViewPager(mVP);
         mVP.setNoFocus(false);//设置viewpager禁止滑动

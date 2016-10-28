@@ -25,6 +25,22 @@
         <item name="apTabPaddingTopBottom">3dp</item>
         <item name="apTabTextSelectColor">@color/home_bar_text_push</item>
     </style>
+    <style name="pagertab_style">
+        <item name="android:background">@drawable/tab_bg_normal</item>
+        <item name="apTabBackground">@drawable/tab_bg_transparent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@drawable/tab_color_select</item>
+        <item name="apTabIndicatorColor">@color/home_bar_text_push</item>
+        <item name="apTabUnderlineColor">#1A000000</item>
+        <item name="apTabIndicatorHeight">1dp</item>
+        <item name="apTabUnderlineHeight">0dp</item>
+        <item name="apTabDividerColor">#00000000</item>
+        <item name="apTabShouldExpand">true</item>
+        <item name="apTabPaddingLeftRight">8dp</item>
+        <item name="apTabDrawMode">normal</item>
+        <item name="apTabTextSelectColor">@color/home_bar_text_push</item>
+    </style>
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:typeface">monospace</item>
     </style>

@@ -65,7 +65,8 @@
             android:layout_height="wrap_content"
             android:text="获取验证码"/>
         <View
-            android:layout_marginRight="8dp"
+            android:background="@color/view_line"
+            android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/phone_change_code_tv"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
