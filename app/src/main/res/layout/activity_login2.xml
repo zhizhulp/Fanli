@@ -70,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:onClick="goForgetPassword"
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:text="忘记密码?"
