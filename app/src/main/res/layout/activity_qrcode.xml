@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.QRCodeActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.QRCodeActivity">
+    <com.ascba.fanli.view.MoneyBar
         app:textTitle="我的二维码"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -5,8 +5,8 @@
     android:id="@+id/activity_register_input_number"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.qlqwgw.fanli.activities.register.RegisterInputNumberActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.register.RegisterInputNumberActivity">
+    <com.ascba.fanli.view.MoneyBar
         android:id="@+id/register_input_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -82,7 +82,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/view_line"/>
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             android:padding="15dp"
             app:hintSize="15sp"
             android:hint="请填写您的手机号码"

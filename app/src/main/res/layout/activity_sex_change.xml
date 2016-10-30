@@ -7,8 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.SexChangeActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.SexChangeActivity">
+    <com.ascba.fanli.view.MoneyBar
         app:textTitle="修改性别"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.AccountRechargeActivity">
+    tools:context="com.ascba.fanli.activities.AccountRechargeActivity">
 
-    <com.qlqwgw.fanli.view.MoneyBar
+    <com.ascba.fanli.view.MoneyBar
         app:textTitle="红积分"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

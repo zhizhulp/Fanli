@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.SafeSettingActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.SafeSettingActivity">
+    <com.ascba.fanli.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="设置"/>

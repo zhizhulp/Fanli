@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/login_bg"
-    tools:context="com.qlqwgw.fanli.activities.login.LoginActivity">
+    tools:context="com.ascba.fanli.activities.login.LoginActivity">
     <LinearLayout
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/login_name"/>
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/login_password"/>
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:layout_width="match_parent"

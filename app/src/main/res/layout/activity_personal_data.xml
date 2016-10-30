@@ -7,8 +7,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.qlqwgw.fanli.activities.PersonalDataActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.PersonalDataActivity">
+    <com.ascba.fanli.view.MoneyBar
         app:textTitle="个人资料"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

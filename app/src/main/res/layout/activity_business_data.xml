@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.BusinessDataActivity">
+    tools:context="com.ascba.fanli.activities.BusinessDataActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.qlqwgw.fanli.view.MoneyBar
+        <com.ascba.fanli.view.MoneyBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:textTitle="商家资料"/>

@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.register.RegisterAfterReceiveCodeActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.register.RegisterAfterReceiveCodeActivity">
+    <com.ascba.fanli.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView
@@ -60,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="验证码"/>
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:text="密码"/>
 
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
@@ -119,7 +119,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="确认密码"/>
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
@@ -147,7 +147,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="推荐人"/>
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"

@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.AccountActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.AccountActivity">
+    <com.ascba.fanli.view.MoneyBar
         app:textTitle="账单"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -17,7 +17,7 @@
         android:layout_height="48dp"
         style="@style/pagertab_style"
         android:fillViewport="false"/>
-    <com.qlqwgw.fanli.activities.main.APSTSViewPager
+    <com.ascba.fanli.activities.main.APSTSViewPager
         android:id="@+id/vp_account"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

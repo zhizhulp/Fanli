@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qlqwgw.fanli.activities.ModifyNicknameActivity">
-    <com.qlqwgw.fanli.view.MoneyBar
+    tools:context="com.ascba.fanli.activities.ModifyNicknameActivity">
+    <com.ascba.fanli.view.MoneyBar
         app:textTitle="修改昵称"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="昵称"/>
 
-        <com.qlqwgw.fanli.view.EditTextWithCustomHint
+        <com.ascba.fanli.view.EditTextWithCustomHint
             android:layout_marginLeft="20dp"
             app:hintSize="14sp"
             android:hint="一头发疯的小猫"
