@@ -102,11 +102,7 @@
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.AccountRechargeActivity"
@@ -163,7 +159,15 @@
         <activity android:name=".activities.BusinessTagActivity" />
         <activity android:name=".activities.BusinessNameActivity" />
         <activity android:name=".activities.BusinessDescriptionActivity" />
-        <activity android:name=".activities.BusinessPicActivity"></activity>
+        <activity android:name=".activities.BusinessPicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

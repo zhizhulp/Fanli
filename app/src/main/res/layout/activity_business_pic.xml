@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space" />
     <GridView
+        android:layout_margin="20dp"
         android:id="@+id/business_pic_gv"
         android:numColumns="3"
         android:horizontalSpacing="20dp"
