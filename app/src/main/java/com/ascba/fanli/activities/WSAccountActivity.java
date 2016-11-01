@@ -1,5 +1,6 @@
 package com.ascba.fanli.activities;
 
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -7,29 +8,30 @@ import com.ascba.fanli.R;
 import com.ascba.fanli.activities.base.BaseActivity;
 import com.ascba.fanli.adapter.WhiteAccountAdapter;
 import com.ascba.fanli.beans.WhiteAccount;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountActivity extends BaseActivity {
-    private ListView cashAccountListView;
-    private WhiteAccountAdapter adapter;
+public class WSAccountActivity extends BaseActivity {
+
+    private ListView mWSAccountList;
+    private WhiteAccountAdapter mAdapter;
     private List<WhiteAccount> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
-        init();
+        setContentView(R.layout.activity_wsaccount);
+        initListView();
     }
 
-    private void init() {
-        cashAccountListView = ((ListView) findViewById(R.id.cash_account_list));
-        initData();
-        adapter = new WhiteAccountAdapter(this,mList);
+    private void initListView() {
+        mWSAccountList = ((ListView) findViewById(R.id.wsaccount_list));
+        initList();
+        mAdapter = new WhiteAccountAdapter(this,mList);
+        mWSAccountList.setAdapter(mAdapter);
     }
 
-    private void initData() {
+    private void initList() {
         mList=new ArrayList<>();
         for (int i = 0; i < 21; i++) {
             if(i %3==0){
@@ -41,5 +43,4 @@ public class AccountActivity extends BaseActivity {
             }
         }
     }
-
 }

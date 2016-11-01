@@ -16,92 +16,92 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.splash.SplashActivity"
+            android:name=".activities.splash.SplashActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.main.MainActivity"
+            android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.guide.GuideActivity"
+            android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.ascba.com.ascba.fanli.activities.base.BaseActivity" />
+        <activity android:name=".activities.base.BaseActivity" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.register.RegisterInputNumberActivity"
+            android:name=".activities.register.RegisterInputNumberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.register.RegisterAfterReceiveCodeActivity"
+            android:name=".activities.register.RegisterAfterReceiveCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.password_loss.PasswordLossActivity"
+            android:name=".activities.password_loss.PasswordLossActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.password_loss.PasswordLossWithCodeActivity"
+            android:name=".activities.password_loss.PasswordLossWithCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.PersonalDataActivity"
+            android:name=".activities.PersonalDataActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.SafeSettingActivity"
+            android:name=".activities.SafeSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.SettingActivity"
+            android:name=".activities.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.RealNameCofirmActivity"
+            android:name=".activities.RealNameCofirmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.LocationActivity"
+            android:name=".activities.LocationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.QRCodeActivity"
+            android:name=".activities.QRCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.ModifyNicknameActivity"
+            android:name=".activities.ModifyNicknameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.PhoneChangeActivity"
+            android:name=".activities.PhoneChangeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.SexChangeActivity"
+            android:name=".activities.SexChangeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.LoginPasswordChangeActivity"
+            android:name=".activities.LoginPasswordChangeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.MyPowerActivity"
+            android:name=".activities.MyPowerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.AgeChangeActivity"
+            android:name=".activities.AgeChangeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.PasswordProtectActivity"
+            android:name=".activities.PasswordProtectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.PasswordProtect2Activity"
+            android:name=".activities.PasswordProtect2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.login.LoginActivity"
+            android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
+            android:theme="@style/AppStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -109,35 +109,61 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.AccountRechargeActivity"
+            android:name=".activities.AccountRechargeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.CashGetActivity"
+            android:name=".activities.CashGetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.RedScoreActivity"
+            android:name=".activities.RedScoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.AccountActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-        </activity>
-        <activity
-            android:name="com.ascba.com.ascba.fanli.activities.BusinessCenterActivity"
+            android:name=".activities.AccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name="com.ascba.com.ascba.fanli.activities.BusinessDataActivity"
+            android:name=".activities.BusinessCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name="com.ascba.com.ascba.fanli.activities.BusinessDetailsActivity"
+        <activity
+            android:name=".activities.BusinessDataActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
-
-        </activity>
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BusinessDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.WSAccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.TicketActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.UserUpdateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.PayPasswordChangeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.EmployeeRateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BusinessPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity android:name=".activities.BusinessTagActivity" />
+        <activity android:name=".activities.BusinessNameActivity" />
+        <activity android:name=".activities.BusinessDescriptionActivity" />
+        <activity android:name=".activities.BusinessPicActivity"></activity>
     </application>
 
 </manifest>

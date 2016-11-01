@@ -7,4 +7,5 @@
     <dimen name="activity_text_title">15sp</dimen>
     <dimen name="activity_text_normal">15sp</dimen>
     <dimen name="line_space">47dp</dimen>
+    <dimen name="wsaccount_line_space">50dp</dimen>
 </resources>

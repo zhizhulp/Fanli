@@ -7,105 +7,115 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.ascba.fanli.activities.AccountRechargeActivity">
-
     <com.ascba.fanli.view.MoneyBar
         app:textTitle="提现"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:layout_marginTop="18dp"
+    <RelativeLayout
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/recharge_rec_bg"
         android:layout_width="match_parent"
-        android:layout_height="236dp"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:gravity="center_vertical"
-            android:background="@drawable/rechage_bg"
-            android:layout_width="match_parent"
-            android:layout_height="58dp">
-            <TextView
-                android:id="@+id/recharge_tv_01"
-                android:textSize="@dimen/activity_text_normal"
-                android:layout_marginLeft="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="到账银行卡"/>
-            <TextView
-                android:textColor="@color/white"
-                android:layout_toRightOf="@id/recharge_tv_01"
-                android:textSize="@dimen/activity_text_normal"
-                android:layout_marginLeft="23dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="招商银行（7894）"/>
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_go"/>
-        </RelativeLayout>
-        <TextView
-            android:textSize="@dimen/activity_text_title"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="23dp"
+        android:layout_height="80dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/recharge_card_icon"
+            android:background="@color/colorAccent"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/recharge_card_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提现金额"/>
-        <LinearLayout
-            android:layout_marginTop="29dp"
-            android:layout_marginLeft="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <TextView
+                android:textColor="@color/black"
+                android:textSize="@dimen/activity_text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¥"/>
-            <com.ascba.fanli.view.EditTextWithCustomHint
-                android:hint="请输入金额"
-                android:background="@null"
-                android:layout_marginLeft="15dp"
-                android:textSize="25sp"
+                android:text="农业银行"/>
+            <TextView
+                android:textSize="@dimen/activity_text_title"
+                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="214.13"/>
-
+                android:text="储蓄卡-尾号(7894)"/>
         </LinearLayout>
-        <View
-            style="@style/viewStyleMargin"
-            android:layout_marginTop="20dp"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textSize="@dimen/activity_text_normal"
-                android:textColor="#80000000"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="账户余额 ¥ 486.23"/>
-            <TextView
-                android:textColor="@color/text_blue"
-                android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="全部提现"/>
-        </RelativeLayout>
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_go"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@color/view_line"/>
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="提现金额（免收服务费）"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="¥"/>
+        <com.ascba.fanli.view.EditTextWithCustomHint
+            android:hint=""
+            android:background="@null"
+            android:textColor="@color/black"
+            android:layout_marginLeft="7dp"
+            android:textSize="37sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="214.13"/>
     </LinearLayout>
+    <View
+        android:layout_marginTop="7dp"
+        style="@style/viewStyleMargin"/>
+    <RelativeLayout
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_margin="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账户余额 ¥ 486.23"/>
+        <TextView
+            android:textColor="@color/text_blue"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全部提现"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/viewStyleMatch"/>
+
     <Button
         android:text="提现"
         android:layout_marginTop="29dp"
         style="@style/btnNormal"/>
     <TextView
-        android:layout_marginTop="12dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        android:text="当天24小时内到账"/>
+
 </LinearLayout>

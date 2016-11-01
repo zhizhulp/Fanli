@@ -22,6 +22,11 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private String title;
     private ImageView mImageView;
     private boolean needBack;
+    private boolean needTailIcon;
+    private ImageView tailIcon;
+    private int tailIconId;
+    private boolean needComplete;
+    private TextView completeText;
 
 
     public MoneyBar(Context context, AttributeSet attrs) {
@@ -43,22 +48,48 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         }
         mTextView= (TextView) findViewById(R.id.money_bar_title);
         mImageView= (ImageView) findViewById(R.id.money_bar_back);
+        tailIcon = ((ImageView) findViewById(R.id.money_bar_tail_icon));
+        completeText = ((TextView) findViewById(R.id.money_bar_ok));
+
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MoneyBar);
         title = ta.getString(R.styleable.MoneyBar_textTitle);
         needBack = ta.getBoolean(R.styleable.MoneyBar_needBack, true);
+        needTailIcon= ta.getBoolean(R.styleable.MoneyBar_needTailIcon,false);
+        tailIconId = ta.getResourceId(R.styleable.MoneyBar_tailIcon,R.mipmap.ic_search);
+        needComplete = ta.getBoolean(R.styleable.MoneyBar_needComplete,false);
+        //设置是否需要完成选项
+        if(needComplete){
+            completeText.setVisibility(VISIBLE);
+            completeText.setOnClickListener(this);
+        }
         //设置是否需要返回图标
         if( !needBack){
             mImageView.setVisibility(GONE);
         }else{
             mImageView.setOnClickListener(this);
         }
+        //设置标题
         mTextView.setText(title);
+        //设置尾部的图标
+        if(needTailIcon){
+            tailIcon.setVisibility(VISIBLE);
+            tailIcon.setImageResource(tailIconId);
+        }
         ta.recycle();
     }
 
-
+    //返回导航的功能
     @Override
     public void onClick(View v) {
-        ((Activity) getContext()).finish();
+        int id = v.getId();
+        switch (id){
+            case R.id.money_bar_back:
+                ((Activity) getContext()).finish();
+                break;
+            case R.id.money_bar_ok:
+                ((Activity) getContext()).finish();
+                break;
+        }
+
     }
 }

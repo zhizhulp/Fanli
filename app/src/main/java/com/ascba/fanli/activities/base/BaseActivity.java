@@ -1,5 +1,6 @@
 package com.ascba.fanli.activities.base;
 
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
