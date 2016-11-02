@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -74,13 +75,14 @@ public class CardActivity extends BaseActivity {
                                 .setDuration(1000)
                                 .start();
                         for (int i = 0; i <cardListAdapter.getCount(); i++) {
-                            //ViewGroup childAt = (ViewGroup) cardListView.getChildAt(i);
                             RelativeLayout relativeLayout = (RelativeLayout) cardListAdapter.getView(i, null, cardListView);
-                            ImageView imageView=new ImageView(CardActivity.this);
-                            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            imageView.setImageResource(R.mipmap.ic_right);
-                            relativeLayout.addView(imageView);
-                            //childAt.addView(imageView);
+                            LogUtils.PrintLog("123",cardListAdapter.getView(i, null, cardListView).toString());
+                            CheckBox checkBox=new CheckBox(CardActivity.this) ;
+                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                            checkBox.setLayoutParams(layoutParams);
+                            relativeLayout.addView(checkBox);
                         }
                     }
                 });
