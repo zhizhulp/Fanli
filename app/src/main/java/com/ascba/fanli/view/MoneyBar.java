@@ -23,10 +23,11 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private ImageView mImageView;
     private boolean needBack;
     private boolean needTailIcon;
-    private ImageView tailIcon;
+    public ImageView tailIcon;
     private int tailIconId;
     private boolean needComplete;
     private TextView completeText;
+    private CallBack callBack;
 
 
     public MoneyBar(Context context, AttributeSet attrs) {
@@ -37,6 +38,10 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     public MoneyBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context,attrs);
+    }
+
+    public void setCallBack(CallBack callBack){
+        this.callBack=callBack;
     }
 
     //初始化
@@ -74,6 +79,12 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         if(needTailIcon){
             tailIcon.setVisibility(VISIBLE);
             tailIcon.setImageResource(tailIconId);
+            tailIcon.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callBack.clickImage(v);
+                }
+            });
         }
         ta.recycle();
     }
@@ -90,6 +101,8 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
                 ((Activity) getContext()).finish();
                 break;
         }
-
+    }
+    public interface CallBack{
+        public void clickImage(View im);
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.fanli.activities.CardActivity">
+    <com.ascba.fanli.view.MoneyBar
+        android:id="@+id/card_money_bar"
+        app:needTailIcon="true"
+        app:tailIcon="@mipmap/ic_go"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textTitle="银行卡"/>
+    <ListView
+        android:scrollbars="none"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:divider="#00000000"
+        android:dividerHeight="10dp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/card_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

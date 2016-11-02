@@ -101,9 +101,7 @@
         <activity
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle"></activity>
         <activity
             android:name=".activities.AccountRechargeActivity"
             android:screenOrientation="portrait"
@@ -159,7 +157,13 @@
         <activity android:name=".activities.BusinessTagActivity" />
         <activity android:name=".activities.BusinessNameActivity" />
         <activity android:name=".activities.BusinessDescriptionActivity" />
-        <activity android:name=".activities.BusinessPicActivity"
+        <activity
+            android:name=".activities.BusinessPicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
+
+        </activity>
+        <activity android:name=".activities.CardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">
             <intent-filter>
