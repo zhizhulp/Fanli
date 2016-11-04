@@ -1,11 +1,18 @@
 package com.ascba.fanli.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import com.ascba.fanli.R;
 import com.ascba.fanli.activities.base.BaseActivity;
+import com.ascba.fanli.activities.main.MainActivity;
+import com.ascba.fanli.utils.ScreenDpiUtils;
 
 public class PersonalDataActivity extends BaseActivity {
     public static final int nickNameRequest= 0x00;
@@ -47,5 +54,20 @@ public class PersonalDataActivity extends BaseActivity {
     public void personalAgeChange(View view) {
         Intent intent=new Intent(this, AgeChangeActivity.class);
         startActivityForResult(intent,ageRequest);
+    }
+    //进入修改用户头像的页面
+    public void userIconClick(View view) {
+        PopupWindow popupWindow=new PopupWindow(this);
+        popupWindow.setContentView(getLayoutInflater().inflate(R.layout.personal_select_icon_pop,null));
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        int screenWideDp = ScreenDpiUtils.px2dp(this, getResources().getDisplayMetrics().widthPixels);
+        int popWide = ScreenDpiUtils.dip2px(this, screenWideDp - 30);
+        popupWindow.setWidth(popWide);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        int marinBottom=ScreenDpiUtils.dip2px(this, 15);
+        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM,0,marinBottom);
     }
 }

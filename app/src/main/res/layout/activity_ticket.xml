@@ -12,28 +12,29 @@
         android:layout_height="wrap_content"
         app:textTitle="代金券"/>
     <FrameLayout
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="116dp">
         <ImageView
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/main_sweep_bg"/>
+            android:src="@mipmap/ticket_bg"/>
         <RelativeLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_marginLeft="17dp"
+                android:layout_marginLeft="19dp"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
                     android:textColor="@color/moneyBarColor"
-                    android:textSize="@dimen/activity_text_title"
+                    android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="商城代金券"/>
@@ -45,22 +46,22 @@
                     android:layout_height="wrap_content"
                     android:text="有效期至2018-01-01"/>
             </LinearLayout>
+            <ImageView
+                android:layout_marginTop="32dp"
+                android:id="@+id/ticket_money_label_01"
+                android:layout_marginLeft="232dp"
+                android:src="@mipmap/ticket_money_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:textSize="25sp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:id="@+id/ticket_money"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="17dp"
+                android:layout_toRightOf="@id/ticket_money_label_01"
+                android:textColor="@color/moneyBarColor"
+                android:textSize="35sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100"/>
-            <TextView
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_toLeftOf="@id/ticket_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¥"/>
+                android:text="50"/>
         </RelativeLayout>
     </FrameLayout>
     <FrameLayout
@@ -68,18 +69,17 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="116dp">
         <ImageView
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/main_sweep_bg"/>
+            android:src="@mipmap/ticket_bg"/>
         <RelativeLayout
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_marginLeft="17dp"
+                android:layout_marginLeft="19dp"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,27 +98,27 @@
                     android:layout_height="wrap_content"
                     android:text="有效期至2018-01-01"/>
             </LinearLayout>
+            <ImageView
+                android:layout_marginTop="32dp"
+                android:id="@+id/ticket_money_label_02"
+                android:layout_marginLeft="232dp"
+                android:src="@mipmap/ticket_money_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:textSize="25sp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:id="@+id/ticket_money_02"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="17dp"
+                android:layout_toRightOf="@id/ticket_money_label_02"
+                android:textColor="@color/moneyBarColor"
+                android:textSize="35sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100"/>
-            <TextView
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_toLeftOf="@id/ticket_money_02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¥"/>
         </RelativeLayout>
     </FrameLayout>
     <Button
         android:text="钱往商城"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         style="@style/btnNormal"/>
     <TextView
         android:layout_gravity="center_horizontal"

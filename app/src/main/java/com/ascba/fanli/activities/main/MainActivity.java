@@ -14,6 +14,7 @@ import com.ascba.fanli.fragments.me.FourthFragment;
 import com.ascba.fanli.fragments.message.SecondFragment;
 import com.ascba.fanli.fragments.shop.ThirdFragment;
 import com.ascba.fanli.utils.ScreenDpiUtils;
+import com.lhh.apst.library.Margins;
 
 /**
  * 主界面
@@ -160,9 +161,10 @@ public class MainActivity extends BaseActivity{
 
         @Override
         public Rect getPageIconBounds(int position) {
-            int pxw = ScreenDpiUtils.dip2px(MainActivity.this, 25);
-            int pxh = ScreenDpiUtils.dip2px(MainActivity.this, 25);
+            int pxw = ScreenDpiUtils.dip2px(MainActivity.this, 24.75f);
+            int pxh = ScreenDpiUtils.dip2px(MainActivity.this, 22.5f);
             return new Rect(0,0,pxw,pxh);
+            //return null;
 
         }
     }

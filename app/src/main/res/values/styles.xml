@@ -22,7 +22,7 @@
         <item name="apTabDividerColor">#00000000</item>
         <item name="apTabShouldExpand">false</item>
         <item name="apTabPaddingLeftRight">8dp</item>
-        <item name="apTabPaddingTopBottom">3dp</item>
+        <item name="apTabPaddingTopBottom">2dp</item>
         <item name="apTabTextSelectColor">@color/home_bar_text_push</item>
     </style>
     <style name="pagertab_style">
@@ -46,14 +46,14 @@
     </style>
     <style name="viewStyleMatch">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_height">0.5dp</item>
         <item name="android:background">@color/view_line</item>
     </style>
     <style name="viewStyleMargin">
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:layout_marginRight">15dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_height">0.5dp</item>
         <item name="android:background">@color/view_line</item>
     </style>
     <style name="btnNormal">

@@ -19,7 +19,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
-            android:drawableRight="@mipmap/main_business_category"
+            android:drawableRight="@mipmap/logo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
             android:text="100%"/>
@@ -29,7 +29,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
-            android:drawableRight="@mipmap/main_business_category"
+            android:drawableRight="@mipmap/logo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
             android:text="100%"/>
@@ -39,7 +39,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
-            android:drawableRight="@mipmap/main_business_category"
+            android:drawableRight="@mipmap/logo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
             android:text="100%"/>

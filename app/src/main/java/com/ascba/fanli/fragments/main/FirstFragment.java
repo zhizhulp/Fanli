@@ -161,7 +161,7 @@ public class FirstFragment extends Fragment {
                 Business business=new Business(R.mipmap.main_business_01,"利信快捷金融","金牌商家",R.mipmap.main_business_category,(20+i)+"个好评",(200+i*100)+"m");
                 mList.add(business);
             } else {
-                Business business=new Business(R.mipmap.main_business_02,"华融典当","金牌商家",R.mipmap.main_business_category,(20+i)+"个好评",(200+i*100)+"m");
+                Business business=new Business(R.mipmap.main_business_logo,"华融典当","金牌商家",R.mipmap.main_business_category,(20+i)+"个好评",(200+i*100)+"m");
                 mList.add(business);
             }
 

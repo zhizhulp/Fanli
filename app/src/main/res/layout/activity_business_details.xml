@@ -1,184 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_business_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.ascba.fanli.activities.BusinessDetailsActivity">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp" >
-        <ImageView
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/business_details_img"/>
-        <ImageView
-            android:onClick="back"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_back_blank"/>
-        <!--<TextView-->
-            <!--android:textSize="@dimen/activity_text_title"-->
-            <!--android:layout_marginTop="25dp"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="商家详情"/>-->
-    </FrameLayout>
-    <TextView
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="钱来钱往（光彩店）"/>
-    <LinearLayout
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <RatingBar
-            style="?android:attr/ratingBarStyleSmall"
-            android:stepSize="1"
-            android:rating="3"
-            android:numStars="5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5.0分"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
-        <TextView
-            android:layout_marginLeft="7dp"
-            android:text="金融公司"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <View
-        android:layout_marginTop="10dp"
-        android:background="@color/view_line"
-        android:layout_width="match_parent"
-        android:layout_height="7dp"/>
-    <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_space"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@color/colorAccent"/>
-        <TextView
-            android:layout_marginLeft="14dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="丰台区光彩路石榴庄花园北区3号院13号楼底商农行赵公口支行南侧（全聚德对面）"/>
-    </LinearLayout>
-    <View
-        style="@style/viewStyleMargin"/>
-    <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_space"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@color/colorAccent"/>
-        <TextView
-            android:layout_marginLeft="14dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="400-8333-200"/>
-    </LinearLayout>
-    <View
-        style="@style/viewStyleMargin"/>
-    <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_space"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@color/colorAccent"/>
-        <TextView
-            android:layout_marginLeft="14dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="营业时间 9:00-18:00"/>
-    </LinearLayout>
-    <View
-        style="@style/viewStyleMargin"/>
-    <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_space">
-        <ImageView
-            android:id="@+id/img_01"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@color/colorAccent"/>
-        <TextView
-            android:layout_toRightOf="@id/img_01"
-            android:layout_marginLeft="14dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="商家简介"/>
-        <ImageView
-            android:layout_marginRight="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_go"/>
-    </RelativeLayout>
-    <View
-        android:background="@color/view_line"
-        android:layout_width="match_parent"
-        android:layout_height="7dp"/>
-    <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_space"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@color/colorAccent"/>
-        <TextView
-            android:layout_marginLeft="14dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="返佣比例 100%"/>
-    </LinearLayout>
-    <View style="@style/viewStyleMatch"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -196,10 +23,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:background="@color/colorPrimary"/>
+                    android:src="@mipmap/business_detail_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <TextView
+                    android:textSize="@dimen/activity_text_title"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -214,13 +42,14 @@
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="47dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:background="@color/colorPrimary"/>
+                    android:src="@mipmap/business_detail_phone_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <TextView
+                    android:textSize="@dimen/activity_text_title"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -228,8 +57,202 @@
             </LinearLayout>
         </LinearLayout>
         <View
+            android:id="@+id/view002"
             android:layout_above="@id/business_details_go_where"
             style="@style/viewStyleMatch"/>
-    </RelativeLayout>
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_above="@id/view002"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="213.5dp" >
+                    <ImageView
+                        android:scaleType="centerCrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/business_detail_img"/>
+                    <ImageView
+                        android:onClick="back"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/business_detail_back"/>
+                    <TextView
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/activity_text_title"
+                        android:layout_marginTop="27dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商家详情"/>
+                </FrameLayout>
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="钱来钱往（光彩店）"/>
+                    <LinearLayout
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RatingBar
+                            android:progressDrawable="@mipmap/business_detail_rating_img"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:stepSize="1"
+                            android:rating="3"
+                            android:numStars="5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="13dp" />
+                        <TextView
+                            android:layout_marginLeft="8dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5.0分"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/business_detail_type"/>
+                        <TextView
+                            android:layout_marginLeft="7dp"
+                            android:text="金融公司"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
 
+                <View
+                    android:background="@color/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="7.5dp"/>
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="50dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_space"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:src="@mipmap/business_detail_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginLeft="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="丰台区光彩路石榴庄花园北区3号院13号楼底商农行赵公口支行南侧（全聚德对面）"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/viewStyleMargin"/>
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="50dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_space"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:src="@mipmap/business_detail_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginLeft="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="400-8333-200"/>
+                </LinearLayout>
+                <View
+                    style="@style/viewStyleMargin"/>
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="50dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_space"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:src="@mipmap/business_detail_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginLeft="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="营业时间 9:00-18:00"/>
+                </LinearLayout>
+                <View
+                    style="@style/viewStyleMargin"/>
+                <RelativeLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_space">
+                    <ImageView
+                        android:src="@mipmap/business_detail_desc"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/img_01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/img_01"
+                        android:layout_marginLeft="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商家简介"/>
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_go"/>
+                </RelativeLayout>
+                <View
+                    android:background="@color/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"/>
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="50dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_space"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:src="@mipmap/business_detail_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginLeft="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="返佣比例 100%"/>
+                </LinearLayout>
+                <View style="@style/viewStyleMatch"/>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 </LinearLayout>

@@ -24,17 +24,13 @@ public class SettingActivity extends BaseActivity {
         Intent intent=new Intent(this,RealNameCofirmActivity.class);
         startActivity(intent);
     }
-    //进入  我的特权  界面
-    public void settingMyPower(View view) {
-        Intent intent=new Intent(this,MyPowerActivity.class);
-        startActivity(intent);
-    }
+
     //进入  我的二维码  界面
     public void settingMyQRCode(View view) {
         Intent intent=new Intent(this,QRCodeActivity.class);
         startActivity(intent);
     }
-    //进入  安全设置  界面
+    //进入  安全中心  界面
     public void settingSafeSetting(View view) {
         Intent intent=new Intent(this,SafeSettingActivity.class);
         startActivity(intent);

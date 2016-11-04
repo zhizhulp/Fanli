@@ -11,35 +11,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="设置"/>
+
     <RelativeLayout
         android:onClick="settingPersonalDataClick"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/safe_setting_img_01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
+            android:src="@mipmap/setting_me"/>
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个人资料"/>
         <ImageView
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="19dp"
             android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_go"/>
+            android:src="@mipmap/setting_go"/>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -49,62 +51,29 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/safe_setting_img_02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
+            android:src="@mipmap/setting_real_name"/>
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="实名认证"/>
         <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_go"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/view_line"/>
-    <RelativeLayout
-        android:onClick="settingMyPower"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
             android:layout_centerVertical="true"
-            android:id="@+id/safe_setting_img_03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
-        <TextView
-            android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/safe_setting_img_03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的特权"/>
-        <ImageView
             android:layout_alignParentRight="true"
             android:layout_marginTop="19dp"
             android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_go"/>
+            android:src="@mipmap/setting_go"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -115,29 +84,63 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/safe_setting_img_04"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
+            android:src="@mipmap/setting_qr_code"/>
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_04"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的二维码"/>
         <ImageView
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="19dp"
             android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_go"/>
+            android:src="@mipmap/setting_go"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_line"/>
+    <RelativeLayout
+        android:onClick="settingPay"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/safe_setting_img_03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setting_pay"/>
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/safe_setting_img_03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付设置"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setting_go"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/imageView3" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -148,29 +151,68 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
+
+
         <ImageView
             android:layout_centerVertical="true"
-            android:id="@+id/safe_setting_img_05"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
-        <TextView
-            android:textSize="15sp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/safe_setting_img_05"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="安全设置"/>
-        <ImageView
             android:layout_alignParentRight="true"
             android:layout_marginTop="19dp"
             android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_go"/>
+            android:src="@mipmap/setting_go"/>
+
+        <ImageView
+            android:id="@+id/safe_setting_img_06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setting_protect"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/safe_setting_img_06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密保设置"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_line"/>
+
+    <RelativeLayout
+        android:onClick="settingSafeSetting"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/safe_setting_img_05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setting_safe"/>
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/safe_setting_img_05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="安全中心"/>
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setting_go"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

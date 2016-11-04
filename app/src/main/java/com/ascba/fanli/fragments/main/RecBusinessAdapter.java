@@ -55,7 +55,7 @@ public class RecBusinessAdapter extends BaseAdapter {
         viewHolder.mLogo.setImageResource(business.getLogo());
         viewHolder.bName.setText(business.getbName());
         viewHolder.bCategory.setText(business.getbCategory());
-        viewHolder.bCategoryIcon.setImageResource(business.getbCategoryIcon());
+        //viewHolder.bCategoryIcon.setImageResource(business.getbCategoryIcon());
         viewHolder.goodComm.setText(business.getGoodComm());
         viewHolder.distance.setText(business.getDistance());
         return convertView;
@@ -73,7 +73,7 @@ public class RecBusinessAdapter extends BaseAdapter {
             mLogo= ((ImageView) root.findViewById(R.id.iv_main_business_logo));
             bName= ((TextView) root.findViewById(R.id.tv_main_business_name));
             bCategory= ((TextView) root.findViewById(R.id.tv_main_business_category));
-            bCategoryIcon= ((ImageView) root.findViewById(R.id.iv_main_business_category_icon));
+            //bCategoryIcon= ((ImageView) root.findViewById(R.id.iv_main_business_category_icon));
             goodComm= ((TextView) root.findViewById(R.id.tv_main_business_goodjob));
             distance= ((TextView) root.findViewById(R.id.tv_main_business_distance));
         }

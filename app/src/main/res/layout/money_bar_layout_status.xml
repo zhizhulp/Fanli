@@ -11,13 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
         <ImageView
-            android:scaleType="fitCenter"
             android:id="@+id/money_bar_back"
-            android:layout_marginLeft="12dp"
+            android:scaleType="center"
             android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_back"/>
+            android:src="@mipmap/money_bar_back"/>
         <TextView
             android:textColor="@color/white"
             android:textSize="16sp"

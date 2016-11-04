@@ -4,10 +4,10 @@
     android:paddingBottom="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="87dp">
     <ImageView
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="15dp"
         android:id="@+id/iv_main_business_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:orientation="vertical">
         <TextView
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:id="@+id/tv_main_business_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,16 +39,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="金牌商家"/>
-            <ImageView
-                android:layout_marginLeft="12dp"
-                android:id="@+id/iv_main_business_category_icon"
+            <RatingBar
+                android:layout_marginLeft="15dp"
+                android:stepSize="1"
+                android:numStars="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/main_business_category"/>
+                style="@style/Widget.AppCompat.RatingBar.Small"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="15dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
@@ -64,7 +65,7 @@
         <TextView
             android:textSize="13sp"
             android:id="@+id/tv_main_business_distance"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="21dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="352m"/>

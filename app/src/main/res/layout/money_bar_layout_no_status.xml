@@ -4,11 +4,12 @@
     android:background="@color/moneyBarColor"
     android:layout_height="48dp">
     <ImageView
-        android:layout_marginLeft="12dp"
+        android:id="@+id/money_bar_back"
+        android:scaleType="center"
         android:layout_centerVertical="true"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@mipmap/ic_back"/>
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:src="@mipmap/money_bar_back"/>
     <TextView
         android:textColor="@color/white"
         android:textSize="16sp"
