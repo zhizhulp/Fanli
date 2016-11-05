@@ -1,6 +1,8 @@
 package com.ascba.fanli.activities;
 
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -51,38 +53,37 @@ public class CardActivity extends BaseActivity {
             public void clickImage(View im) {
                 PopupWindow p=new PopupWindow(CardActivity.this);
                 View view = LayoutInflater.from(CardActivity.this).inflate(R.layout.card_add_pop, null);
-
-                addCardEvent(view);
-                deleteCardEvent(view);
-
+                p.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                p.setOutsideTouchable(true);
                 p.setContentView(view);
                 p.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
                 p.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                 p.showAsDropDown(CardMB.tailIcon);
+                addCardEvent(view,p);
+                deleteCardEvent(view);
+
+
             }
             //添加银行卡事件
             private void deleteCardEvent(View view) {
+
                 addTextView = ((TextView) view.findViewById(R.id.card_add));
             }
             //删除银行卡事件
-            private void addCardEvent(View view) {
+            private void addCardEvent(View view,final PopupWindow p) {
 
                 deleteTextView = ((TextView) view.findViewById(R.id.card_delete));
                 deleteTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ObjectAnimator.ofFloat(cardListView,"TranslationX",0.0f,150.0f)
-                                .setDuration(1000)
-                                .start();
+                        p.dismiss();
                         for (int i = 0; i <cardListAdapter.getCount(); i++) {
-                            RelativeLayout relativeLayout = (RelativeLayout) cardListAdapter.getView(i, null, cardListView);
-                            LogUtils.PrintLog("123",cardListAdapter.getView(i, null, cardListView).toString());
-                            CheckBox checkBox=new CheckBox(CardActivity.this) ;
-                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
-                            checkBox.setLayoutParams(layoutParams);
-                            relativeLayout.addView(checkBox);
+                            RelativeLayout relativeLayout = (RelativeLayout) cardListView.getChildAt(i);
+                            ObjectAnimator.ofFloat(relativeLayout,"TranslationX",0.0f,50.0f)
+                                    .setDuration(1000)
+                                    .start();
+                            CheckBox checkBox = (CheckBox) relativeLayout.findViewById(R.id.cb);
+                            checkBox.setPadding(50,0,0,0);
                         }
                     }
                 });
@@ -93,7 +94,7 @@ public class CardActivity extends BaseActivity {
 
         cardListView = ((ListView) findViewById(R.id.card_list));
         mList=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 3; i++) {
             if(i%3==0){
                 Card card=new Card("中国农业银行","储蓄卡","**** **** **** 1234",false);
                 mList.add(card);
