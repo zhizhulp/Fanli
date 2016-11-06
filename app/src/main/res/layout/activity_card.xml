@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
+        android:onClick="batchDelete"
         android:text="删除"
         android:layout_marginTop="29dp"
         style="@style/btnNormal" />

@@ -138,6 +138,7 @@
         </LinearLayout>
     </LinearLayout>
     <ListView
+        android:scrollbars="none"
         android:id="@+id/wsaccount_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

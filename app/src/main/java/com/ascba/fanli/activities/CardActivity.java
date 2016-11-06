@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -24,6 +25,7 @@ import com.ascba.fanli.activities.base.BaseActivity;
 import com.ascba.fanli.adapter.CardListAdapter;
 import com.ascba.fanli.beans.Card;
 import com.ascba.fanli.utils.LogUtils;
+import com.ascba.fanli.utils.ScreenDpiUtils;
 import com.ascba.fanli.view.MoneyBar;
 
 import java.util.ArrayList;
@@ -61,8 +63,6 @@ public class CardActivity extends BaseActivity {
                 p.showAsDropDown(CardMB.tailIcon);
                 addCardEvent(view,p);
                 deleteCardEvent(view);
-
-
             }
             //添加银行卡事件
             private void deleteCardEvent(View view) {
@@ -79,11 +79,15 @@ public class CardActivity extends BaseActivity {
                         p.dismiss();
                         for (int i = 0; i <cardListAdapter.getCount(); i++) {
                             RelativeLayout relativeLayout = (RelativeLayout) cardListView.getChildAt(i);
-                            ObjectAnimator.ofFloat(relativeLayout,"TranslationX",0.0f,50.0f)
+                            float move = ScreenDpiUtils.dip2px(CardActivity.this, 10);
+                            ObjectAnimator.ofFloat(relativeLayout,"TranslationX",0.0f,move)
                                     .setDuration(1000)
                                     .start();
                             CheckBox checkBox = (CheckBox) relativeLayout.findViewById(R.id.cb);
-                            checkBox.setPadding(50,0,0,0);
+                            checkBox.setVisibility(View.VISIBLE);
+                            checkBox.setChecked(false);//默认为不选中
+                            int padding = ScreenDpiUtils.dip2px(CardActivity.this, 10);
+                            checkBox.setPadding(padding,0,0,0);
                         }
                     }
                 });
@@ -109,5 +113,33 @@ public class CardActivity extends BaseActivity {
         }
         cardListAdapter = new CardListAdapter(mList,this);
         cardListView.setAdapter(cardListAdapter);
+    }
+
+    //批量删除银行卡
+    public void batchDelete(View view) {
+        for (int i = 0; i <mList.size(); i++) {
+//            RelativeLayout relativeLayout = (RelativeLayout) cardListView.getChildAt(i);
+//            CheckBox checkBox = (CheckBox) relativeLayout.findViewById(R.id.cb);
+//            if(checkBox.isChecked()){
+//                LogUtils.PrintLog("123",checkBox.isChecked()+"::::"+i);
+//                //mList.get(i).setSelect(true);
+//                mList.remove(i);
+//            }
+            Card item = (Card) cardListAdapter.getItem(i);
+            if(item.isSelect()){
+                mList.remove(i);
+            }
+        }
+        cardListAdapter.notifyDataSetChanged();
+        for (int i = 0; i <mList.size(); i++) {
+            RelativeLayout relativeLayout = (RelativeLayout) cardListView.getChildAt(i);
+            int move = ScreenDpiUtils.dip2px(CardActivity.this, 10);
+            ObjectAnimator.ofFloat(relativeLayout,"TranslationX",move,0)
+                    .setDuration(500)
+                    .start();
+            CheckBox checkBox = (CheckBox) relativeLayout.findViewById(R.id.cb);
+            checkBox.setChecked(false);
+            checkBox.setVisibility(View.GONE);
+        }
     }
 }
