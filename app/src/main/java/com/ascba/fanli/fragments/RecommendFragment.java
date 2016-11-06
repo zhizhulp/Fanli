@@ -39,6 +39,7 @@ public class RecommendFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mAPSTS= (AdvancedPagerSlidingTabStrip) view.findViewById(R.id.tabs_recommend);
         mVP= (APSTSViewPager) view.findViewById(R.id.vp_recommend);
+        mVP.setAdapter(new RecommendItemAdapter(getFragmentManager()));
     }
 
     public class RecommendItemAdapter extends FragmentStatePagerAdapter{
@@ -49,6 +50,12 @@ public class RecommendFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+            switch (position){
+                case 0:
+                    return new RecommendListFragment();
+                case 1:
+                    return new RecommendListFragment();
+            }
             return null;
         }
 
