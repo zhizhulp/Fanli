@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/moneyBarColor"
+    android:layout_height="73dp">
+    <View
+        android:id="@+id/topview"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:background="@color/moneyBarColor"/>
+    <RelativeLayout
+        android:layout_below="@id/topview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_back"/>
+        <RadioGroup
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/btn_left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:checked="true"
+                android:textColor="@color/moneyBarColor"
+                android:background="@drawable/recommend_title_status"
+                android:button="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="推荐"/>
+            <RadioButton
+                android:id="@+id/btn_right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:textColor="@color/white"
+                android:checked="false"
+                android:button="@null"
+                android:background="@drawable/recommend_title_status_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返利"/>
+        </RadioGroup>
+    </RelativeLayout>
+
+</RelativeLayout>

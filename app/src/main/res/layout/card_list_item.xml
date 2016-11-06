@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="108dp">
+    <CheckBox
+        android:checked="false"
+        android:visibility="gone"
+        android:paddingLeft="-50dp"
+        android:id="@+id/cb"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_toRightOf="@id/cb"
+        android:padding="15dp"
+        android:id="@+id/card_position"
+        android:background="@drawable/rechage_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/card_name"
+            android:textSize="@dimen/activity_text_normal"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中国农业银行"/>
+        <TextView
+            android:id="@+id/card_type"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="储蓄卡"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:padding="15dp"
+        android:id="@+id/card_number"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:text="**** **** **** 9564"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

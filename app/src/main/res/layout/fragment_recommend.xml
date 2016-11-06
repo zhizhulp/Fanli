@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.fanli.fragments.RecommendFragment">
+    <LinearLayout
+        android:background="@color/moneyBarColor"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:text="累计奖励(元)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:text="100.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+        android:id="@+id/tabs_recommend"
+        style="@style/pagertab_style"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+    </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+    <com.ascba.fanli.activities.main.APSTSViewPager
+        android:id="@+id/vp_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
