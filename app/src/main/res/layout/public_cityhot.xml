@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout android:orientation="vertical" android:id="@+id/city_home_layout" android:layout_width="fill_parent"
                   android:layout_height="fill_parent">
-        <include android:id="@+id/city_home" layout="@layout/public_title"/>
+        <com.ascba.fanli.view.MoneyBar
+            app:textTitle="选择城市"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <include android:id="@+id/home_edittext_layout" layout="@layout/public_cityhot_header_searchview"/>
 
         <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">

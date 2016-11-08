@@ -14,6 +14,7 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.ascba.fanli.R;
+import com.ascba.fanli.activities.base.BaseActivity;
 import com.ascba.fanli.view.cityList.CityModel;
 import com.ascba.fanli.view.cityList.ContactsHelper;
 import com.ascba.fanli.view.cityList.DBManager;
@@ -31,7 +32,7 @@ import java.util.List;
  *
  * @author gugalor
  */
-public class CityList extends Activity {
+public class CityList extends BaseActivity {
     private BaseAdapter adapter;
     private ListView mCityLit;
     private TextView overlay, citysearch;
@@ -128,12 +129,12 @@ public class CityList extends Activity {
         initOverlay();
         setAdapter(mCityNames);
         mCityLit.setOnItemClickListener(new CityListOnItemClick());
-        backbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        backbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
         citysearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

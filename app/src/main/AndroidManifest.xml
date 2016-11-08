@@ -37,7 +37,13 @@
         <activity
             android:name=".activities.register.RegisterInputNumberActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.register.RegisterAfterReceiveCodeActivity"
             android:screenOrientation="portrait"
@@ -178,13 +184,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
         <activity android:name=".activities.TestActivity" />
-        <activity android:name=".activities.CityList" />
-        <activity android:name=".activities.HotActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activities.CityList"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity android:name=".activities.HotActivity">
+
         </activity>
     </application>
 
