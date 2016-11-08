@@ -26,13 +26,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+    <com.lhh.apst.library.CustomPagerSlidingTabStrip
         android:id="@+id/tabs_recommend"
         style="@style/pagertab_style"
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
-    </com.lhh.apst.library.AdvancedPagerSlidingTabStrip>
+    </com.lhh.apst.library.CustomPagerSlidingTabStrip>
     <com.ascba.fanli.activities.main.APSTSViewPager
         android:id="@+id/vp_recommend"
         android:layout_width="match_parent"

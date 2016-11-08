@@ -9,6 +9,9 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -21,15 +24,16 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.base.BaseActivity"
+        <activity
+            android:name=".activities.base.BaseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.register.RegisterInputNumberActivity"
             android:screenOrientation="portrait"
@@ -49,7 +53,7 @@
         <activity
             android:name=".activities.PersonalDataActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.SafeSettingActivity"
             android:screenOrientation="portrait"
@@ -105,7 +109,7 @@
         <activity
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.AccountRechargeActivity"
             android:screenOrientation="portrait"
@@ -121,7 +125,7 @@
         <activity
             android:name=".activities.AccountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.BusinessCenterActivity"
             android:screenOrientation="portrait"
@@ -133,13 +137,11 @@
         <activity
             android:name=".activities.BusinessDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.WSAccountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.TicketActivity"
             android:screenOrientation="portrait"
@@ -170,10 +172,14 @@
         <activity
             android:name=".activities.CardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
-        <activity android:name=".activities.RecommendActivity"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RecommendActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
+            android:theme="@style/AppStyle"></activity>
+        <activity android:name=".activities.TestActivity" />
+        <activity android:name=".activities.CityList" />
+        <activity android:name=".activities.HotActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

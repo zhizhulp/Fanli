@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentManager;
 
 import com.ascba.fanli.R;
 import com.ascba.fanli.activities.base.BaseActivity;
+import com.ascba.fanli.fragments.BackMoneyFragment;
 import com.ascba.fanli.fragments.RecommendFragment;
+import com.ascba.fanli.utils.LogUtils;
 import com.ascba.fanli.view.SwitchButton;
 
 public class RecommendActivity extends BaseActivity {
@@ -17,37 +19,33 @@ public class RecommendActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
-
         switchFragment();
     }
 
     private void switchFragment() {
         final FragmentManager fm = getSupportFragmentManager();
         final RecommendFragment rf=new RecommendFragment();
-        final RecommendFragment rf2=new RecommendFragment();
-        fm.beginTransaction().add(R.id.recommend_fragment,rf).commit();
+        final BackMoneyFragment rf2=new BackMoneyFragment();
+        fm.beginTransaction().add(R.id.recommend_fragment,rf).add(R.id.recommend_fragment,rf2).commit();
+        fm.beginTransaction().show(rf).hide(rf2).commit();
         sb = ((SwitchButton) findViewById(R.id.switch_action_bar));
         sb.setCallback(new SwitchButton.Callback() {
             @Override
             public void onLeftClick() {
-
-                if(!rf.isAdded()){
-                    fm.beginTransaction().add(R.id.recommend_fragment,rf).commit();
-                    if(rf2.isVisible()){
-                        fm.beginTransaction().hide(rf2);
-                    }
-                }
-
+                LogUtils.PrintLog("123","left is click");
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                ft.show(rf);
+                ft.hide(rf2);
+                ft.commit();
             }
 
             @Override
             public void onRightClick() {
-                if(!rf2.isAdded()){
-                    fm.beginTransaction().add(R.id.recommend_fragment,rf2).commit();
-                    if(rf.isVisible()){
-                        fm.beginTransaction().hide(rf);
-                    }
-                }
+                LogUtils.PrintLog("123","right is click");
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                ft.show(rf2);
+                ft.hide(rf);
+                ft.commit();
             }
         });
     }

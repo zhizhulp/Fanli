@@ -16,9 +16,13 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.ascba.fanli.R;
 import com.ascba.fanli.activities.BusinessDetailsActivity;
+import com.ascba.fanli.activities.CityList;
 import com.ascba.fanli.beans.Business;
+import com.ascba.fanli.utils.LogUtils;
 import com.ascba.fanli.view.ScrollViewWithListView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import java.util.ArrayList;
@@ -35,6 +39,7 @@ public class FirstFragment extends Fragment {
     private List<ImageView> imageList;
     private RecBusinessAdapter mAdapter;
     private List<Business> mList;
+    private TextView location_text;
     private ViewPager vp;
     int msgWhat = 0;
     private Handler handler = new Handler(){
@@ -82,7 +87,33 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initRecBusiness(view);//初始化ListView
         initViewPager(view);//初始化viewpager
+        initLocation(view);//地址显示
 
+    }
+
+    private void initLocation(View view) {
+        location_text=(TextView)view.findViewById(R.id.home_location_text);
+        location_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CityList.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null)
+            switch (resultCode) {
+                case 2:
+                    location_text.setText(data.getStringExtra("city"));
+                    break;
+
+                default:
+                    break;
+            }
     }
 
     @Override

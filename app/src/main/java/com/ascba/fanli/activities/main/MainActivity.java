@@ -1,5 +1,6 @@
 package com.ascba.fanli.activities.main;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -164,8 +165,11 @@ public class MainActivity extends BaseActivity{
             int pxw = ScreenDpiUtils.dip2px(MainActivity.this, 24.75f);
             int pxh = ScreenDpiUtils.dip2px(MainActivity.this, 22.5f);
             return new Rect(0,0,pxw,pxh);
-            //return null;
-
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

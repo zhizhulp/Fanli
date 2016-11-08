@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/login_name"/>
         <com.ascba.fanli.view.EditTextWithCustomHint
+            android:id="@+id/login_phone_ed"
+            android:inputType="phone"
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:layout_width="match_parent"
@@ -42,6 +44,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/login_password"/>
         <com.ascba.fanli.view.EditTextWithCustomHint
+            android:id="@+id/login_password_ed"
+            android:inputType="textWebPassword"
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:layout_width="match_parent"

@@ -5,9 +5,11 @@
     tools:context="com.ascba.fanli.fragments.RecommendListFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:background="@color/white"
+        android:scrollbars="none"
+        android:id="@+id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -43,7 +43,7 @@ public class RecommendListFragment extends ListFragment {
 
     private void initData() {
         list=new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 20; i++) {
             FirstRec firstRec=new FirstRec("某某某",R.mipmap.me_business_center,"推荐5人","获得100元奖励","2016.03.15");
             list.add(firstRec);
         }

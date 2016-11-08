@@ -39,4 +39,6 @@ dependencies {
     compile 'com.jaeger.statusbaruitl:library:1.2.8'
     compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'
+    compile project(':android-expandpoptab-library')
+    compile 'com.alibaba:fastjson:1.2.20'
 }
