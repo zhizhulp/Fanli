@@ -11,8 +11,11 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
@@ -38,11 +41,7 @@
             android:name=".activities.register.RegisterInputNumberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.register.RegisterAfterReceiveCodeActivity"
@@ -55,7 +54,9 @@
         <activity
             android:name=".activities.password_loss.PasswordLossWithCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+
+        </activity>
         <activity
             android:name=".activities.PersonalDataActivity"
             android:screenOrientation="portrait"
@@ -115,7 +116,13 @@
         <activity
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.AccountRechargeActivity"
             android:screenOrientation="portrait"
@@ -182,7 +189,9 @@
         <activity
             android:name=".activities.RecommendActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle">
+
+        </activity>
         <activity android:name=".activities.TestActivity" />
         <activity android:name=".activities.CityList"
             android:screenOrientation="portrait"

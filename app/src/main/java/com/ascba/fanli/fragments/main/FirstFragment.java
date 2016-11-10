@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.ascba.fanli.R;
 import com.ascba.fanli.activities.BusinessDetailsActivity;
 import com.ascba.fanli.activities.CityList;
+import com.ascba.fanli.activities.HotActivity;
 import com.ascba.fanli.beans.Business;
 import com.ascba.fanli.utils.LogUtils;
 import com.ascba.fanli.view.ScrollViewWithListView;
@@ -48,6 +49,7 @@ public class FirstFragment extends Fragment {
             handler.sendEmptyMessageDelayed(msgWhat, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
         }
     };
+    private View goBusinessList;
 
     public static FirstFragment instance() {
         FirstFragment view = new FirstFragment();
@@ -88,7 +90,19 @@ public class FirstFragment extends Fragment {
         initRecBusiness(view);//初始化ListView
         initViewPager(view);//初始化viewpager
         initLocation(view);//地址显示
+        goHotList(view);//进入
 
+    }
+
+    private void goHotList(View view) {
+        goBusinessList = view.findViewById(R.id.main_business_go_more);
+        goBusinessList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), HotActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initLocation(View view) {

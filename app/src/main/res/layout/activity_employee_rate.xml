@@ -22,7 +22,7 @@
             android:drawableRight="@mipmap/logo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="100%"/>
+            android:text="50%"/>
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
@@ -42,7 +42,7 @@
             android:drawableRight="@mipmap/logo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="100%"/>
+            android:text="200%"/>
         <View
             style="@style/viewStyleMatch"/>
     </RadioGroup>

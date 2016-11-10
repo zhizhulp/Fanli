@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_business_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -60,9 +61,15 @@
             android:id="@+id/view002"
             android:layout_above="@id/business_details_go_where"
             style="@style/viewStyleMatch"/>
+        <com.ascba.fanli.view.MoneyBar
+            android:id="@+id/business_detail_mb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textTitle="商家详情"/>
         <ScrollView
+            android:layout_below="@id/business_detail_mb"
+            android:layout_above="@id/business_details_go_where"
             android:scrollbars="none"
-            android:layout_above="@id/view002"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -70,29 +77,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <FrameLayout
+
+                <ImageView
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
-                    android:layout_height="213.5dp" >
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/business_detail_img"/>
-                    <ImageView
-                        android:onClick="back"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/business_detail_back"/>
-                    <TextView
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/activity_text_title"
-                        android:layout_marginTop="27dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="商家详情"/>
-                </FrameLayout>
+                    android:layout_height="213.5dp"
+                    android:src="@mipmap/business_detail_img"/>
+
                 <LinearLayout
                     android:gravity="center"
                     android:layout_width="match_parent"

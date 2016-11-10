@@ -20,7 +20,6 @@ public class NetUtils {
 
     /**
      * 网络是否可用
-     *
      * @param context
      * @return
      */

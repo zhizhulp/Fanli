@@ -135,12 +135,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="115dp">
-            <ImageView
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/main_pager_left"/>
             <android.support.v4.view.ViewPager
                 android:id="@+id/main_pager"
                 android:layout_width="match_parent"
@@ -153,6 +147,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/main_pager_right"/>
+            <ImageView
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/main_pager_left"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -179,29 +180,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="热门推荐"/>
-            <ImageView
-                android:layout_marginRight="12dp"
+            <RelativeLayout
+                android:id="@+id/main_business_go_more"
+                android:layout_marginRight="15dp"
                 android:layout_centerVertical="true"
-                android:id="@+id/main_business_more_icon_01"
                 android:layout_alignParentRight="true"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:src="@mipmap/main_business_more"/>
-            <ImageView
-                android:layout_marginRight="2.5dp"
-                android:layout_centerVertical="true"
-                android:id="@+id/main_business_more_icon_02"
-                android:layout_toLeftOf="@id/main_business_more_icon_01"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:src="@mipmap/main_business_more"/>
-            <ImageView
-                android:layout_marginRight="2.5dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/main_business_more_icon_02"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:src="@mipmap/main_business_more"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginRight="2.5dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/main_business_more_icon_01"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:src="@mipmap/main_business_more"/>
+                <ImageView
+                    android:layout_marginRight="2.5dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/main_business_more_icon_02"
+                    android:layout_toRightOf="@id/main_business_more_icon_01"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:src="@mipmap/main_business_more"/>
+                <ImageView
+                    android:layout_marginRight="2.5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/main_business_more_icon_02"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:src="@mipmap/main_business_more"/>
+            </RelativeLayout>
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
