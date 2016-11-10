@@ -46,15 +46,17 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
         initViews();
-        backFirstPhone();//传回注册成功的手机账号
         notFirstLogin();
+        //backFirstPhone();//传回注册成功的手机账号
     }
-
+    //以后登陆之前直接写到ed
     private void notFirstLogin() {
+        SharedPreferences sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
+        isFirstLogin=sf.getBoolean("first_login_success",true);
+        LogUtils.PrintLog("123",""+isFirstLogin);
         if(!isFirstLogin){
-            SharedPreferences sp = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
-            loginPhone=sp.getString("login_phone","");
-            loginPassword=sp.getString("login_password","");
+            loginPhone=sf.getString("login_phone","");
+            loginPassword=sf.getString("login_password","");
             edPhone.setText(loginPhone);
             edPassword.setText(loginPassword);
             edPassword.requestFocusFromTouch();
@@ -90,19 +92,9 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, "账号或密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        sendMsgToSevr("http://.........");
+        sendMsgToSevr("http://api.qlqwgw.com/v1/register");
     }
 
-    private void confirmIsUserRight() {
-
-        isFirstLogin=SharedPreferencesUtil.getBoolean(this,"first_login_success",true);
-        LogUtils.PrintLog("123",isFirstLogin+"");
-        if(isFirstLogin){
-            SharedPreferencesUtil.putBoolean(this,"first_login_success",false);
-            SharedPreferences sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
-            sf.edit().putString("login_phone",loginPhone).putString("login_password",loginPassword).apply();
-        }
-    }
 
     //进入密码找回页面
     public void goForgetPassword(View view) {
@@ -132,6 +124,11 @@ public class LoginActivity extends BaseActivity {
                 JSONObject jObj= (JSONObject) msg.obj;
                 LogUtils.PrintLog("123",jObj.toString());
                 if(true){//服务端返回成功
+                    if(isFirstLogin){
+                        LogUtils.PrintLog("123","数据写入之前");
+                        SharedPreferences sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
+                        sf.edit().putBoolean("first_login_success",false).putString("login_phone",loginPhone).putString("login_password",loginPassword).apply();
+                    }
                     Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
