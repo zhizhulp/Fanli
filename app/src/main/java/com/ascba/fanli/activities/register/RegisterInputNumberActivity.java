@@ -20,6 +20,7 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
@@ -61,8 +62,7 @@ public class RegisterInputNumberActivity extends BaseActivity {
             return;
         }
 
-        // TODO: 2016/11/9  给服务端发送注册信息
-        sendMsgToSevr("http://api.qlqwgw.com/v1/register");
+        sendMsgToSevr("http://api.qlqwgw.com/v1/sendMsg");
 
     }
 
@@ -70,24 +70,26 @@ public class RegisterInputNumberActivity extends BaseActivity {
         requestQueue= NoHttp.newRequestQueue();
         Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
         objRequest.add("sign",UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("mobile","123");
-        objRequest.add("captcha","李平");
-        objRequest.add("password","1");
-        objRequest.add("repassword","1");
-        objRequest.add("referee","123");
+        objRequest.add("mobile",phone);
+        LogUtils.PrintLog("123",baseUrl+"?"+"sign="+UrlEncodeUtils.createSign(baseUrl)+"&mobile="+phone);
         phoneHandler=new PhoneHandler();
         phoneHandler.setCallback(new PhoneHandler.Callback() {
             @Override
             public void getMessage(Message msg) {
                 JSONObject jObj= (JSONObject) msg.obj;
                 LogUtils.PrintLog("123",jObj.toString());
-                if(true){//服务端返回成功
-                    Intent intent=new Intent(RegisterInputNumberActivity.this, RegisterAfterReceiveCodeActivity.class);
-                    intent.putExtra("phone_number",phone);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(RegisterInputNumberActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                try {
+                    int status = jObj.getInt("status");
+                    if(status==200){//服务端返回成功
+                        Intent intent=new Intent(RegisterInputNumberActivity.this, RegisterAfterReceiveCodeActivity.class);
+                        intent.putExtra("phone_number",phone);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Toast.makeText(RegisterInputNumberActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });

@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
@@ -16,6 +18,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+    }
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 
@@ -25,6 +33,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //cookie支持
+
     //底部导航
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
@@ -42,4 +51,12 @@ dependencies {
     compile project(':android-expandpoptab-library')
     compile 'com.alibaba:fastjson:1.2.20'
     compile 'com.yolanda.nohttp:nohttp:1.1.0'
+    compile files('libs/baidumapapi_base_v4_1_1.jar')
+    compile files('libs/baidumapapi_cloud_v4_1_1.jar')
+    compile files('libs/baidumapapi_map_v4_1_1.jar')
+    compile files('libs/baidumapapi_radar_v4_1_1.jar')
+    compile files('libs/baidumapapi_search_v4_1_1.jar')
+    compile files('libs/baidumapapi_util_v4_1_1.jar')
+    compile files('libs/locSDK_6.13.jar')
+    compile project(':zXingLibrary')
 }

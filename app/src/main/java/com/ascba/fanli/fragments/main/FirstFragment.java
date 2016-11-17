@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.fanli.R;
 import com.ascba.fanli.activities.BusinessDetailsActivity;
@@ -26,6 +27,8 @@ import com.ascba.fanli.beans.Business;
 import com.ascba.fanli.utils.LogUtils;
 import com.ascba.fanli.view.ScrollViewWithListView;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zxing.activity.CaptureActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 import okhttp3.Call;
@@ -50,6 +53,7 @@ public class FirstFragment extends Fragment {
         }
     };
     private View goBusinessList;
+    private ImageView goSweepActiviIcon;
 
     public static FirstFragment instance() {
         FirstFragment view = new FirstFragment();
@@ -90,8 +94,19 @@ public class FirstFragment extends Fragment {
         initRecBusiness(view);//初始化ListView
         initViewPager(view);//初始化viewpager
         initLocation(view);//地址显示
-        goHotList(view);//进入
+        goHotList(view);//进入热门推荐的页面
+        goSweepActivity(view);//进入扫一扫的界面
 
+    }
+
+    private void goSweepActivity(View view) {
+        goSweepActiviIcon = ((ImageView) view.findViewById(R.id.main_sweep_icon));
+        goSweepActiviIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getActivity(), CaptureActivity.class), 0);
+            }
+        });
     }
 
     private void goHotList(View view) {
@@ -124,7 +139,10 @@ public class FirstFragment extends Fragment {
                 case 2:
                     location_text.setText(data.getStringExtra("city"));
                     break;
-
+                case -1:
+                    // TODO: 2016/11/14 二维码扫描返回结果处理
+                    Toast.makeText(getContext(), "扫面结果为："+data.getStringExtra("result"), Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     break;
             }

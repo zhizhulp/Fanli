@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.*;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
@@ -15,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.ascba.fanli.R;
 import com.ascba.fanli.activities.base.BaseActivity;
+import com.ascba.fanli.utils.LogUtils;
 import com.ascba.fanli.view.cityList.CityModel;
 import com.ascba.fanli.view.cityList.ContactsHelper;
 import com.ascba.fanli.view.cityList.DBManager;
@@ -22,6 +24,10 @@ import com.ascba.fanli.view.cityList.HotCityGridAdapter;
 import com.ascba.fanli.view.cityList.MyLetterListView;
 import com.ascba.fanli.view.cityList.Setting;
 import com.ascba.fanli.view.cityList.searchactivity;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +42,6 @@ public class CityList extends BaseActivity {
     private BaseAdapter adapter;
     private ListView mCityLit;
     private TextView overlay, citysearch;
-    private Button backbutton;
     private MyLetterListView letterListView;
     private HashMap<String, Integer> alphaIndexer;
     private String[] sections;
@@ -49,7 +54,7 @@ public class CityList extends BaseActivity {
     private TextView city_locate_state;
     private ProgressBar city_locating_progress;
     private ImageView city_locate_success_img;
-    //private LocationClient locationClient = null;
+    private LocationClient locationClient = null;
 
     View hotcityall;
 
@@ -63,7 +68,6 @@ public class CityList extends BaseActivity {
         setContentView(city_layout);
 
         citysearch = (TextView) city_layout.findViewById(R.id.city_search_edittext);
-        backbutton = (Button) city_layout.findViewById(R.id.title_left_txt_btn);
         mCityLit = (ListView) city_layout.findViewById(R.id.public_allcity_list);
         letterListView = (MyLetterListView) city_layout.findViewById(R.id.cityLetterListView);
 
@@ -111,7 +115,7 @@ public class CityList extends BaseActivity {
                 finish();
             }
         });
-        //loadLocation();
+        loadLocation();
 
 
         DBManager dbManager = new DBManager(this);
@@ -129,12 +133,6 @@ public class CityList extends BaseActivity {
         initOverlay();
         setAdapter(mCityNames);
         mCityLit.setOnItemClickListener(new CityListOnItemClick());
-//        backbutton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
         citysearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -168,58 +166,59 @@ public class CityList extends BaseActivity {
     /**
      * 获取位置
      */
-//    public void loadLocation() {
-//
-//        city_locate_failed.setVisibility(View.GONE);
-//        city_locate_state.setVisibility(View.VISIBLE);
-//        city_locating_progress.setVisibility(View.VISIBLE);
-//        city_locate_success_img.setVisibility(View.GONE);
-//        city_locate_state.setText(getString(R.string.locating));
-//        if (locationClient == null) {
-//            locationClient = new LocationClient(CityList.this);
-//            locationClient.registerLocationListener(new LocationListenner());
-//            LocationClientOption option = new LocationClientOption();
-//            option.setAddrType("all");
-//            option.setOpenGps(true);
-//            option.setCoorType("bd09ll");
-//            option.setScanSpan(2000);
-//            locationClient.setLocOption(option);
-//        }
-//
-//        locationClient.start();
-//        locationClient.requestLocation();
-//    }
+    public void loadLocation() {
+
+        city_locate_failed.setVisibility(View.GONE);
+        city_locate_state.setVisibility(View.VISIBLE);
+        city_locating_progress.setVisibility(View.VISIBLE);
+        city_locate_success_img.setVisibility(View.GONE);
+        city_locate_state.setText(getString(R.string.locating));
+        if (locationClient == null) {
+            locationClient = new LocationClient(CityList.this);
+            locationClient.registerLocationListener(new LocationListenner());
+            LocationClientOption option = new LocationClientOption();
+            option.setAddrType("all");
+            option.setOpenGps(true);
+            option.setCoorType("bd09ll");
+            option.setScanSpan(0);//
+            locationClient.setLocOption(option);
+        }
+
+        locationClient.start();
+        locationClient.requestLocation();
+    }
 
     /**
      * 监听函数，又新位置的时候，格式化成字符串，输出到屏幕中
      */
-//    private class LocationListenner implements BDLocationListener {
-//        public void onReceiveLocation(BDLocation location) {
-//            city_locating_progress.setVisibility(View.GONE);
-//
-//            if (location != null) {
-//
-//                if (location.getCity() != null
-//                        && !location.getCity().equals("")) {
-//                    locationClient.stop();
-//                    city_locate_failed.setVisibility(View.GONE);
-//                    city_locate_state.setVisibility(View.VISIBLE);
-//                    city_locating_progress.setVisibility(View.GONE);
-//                    city_locate_success_img.setVisibility(View.VISIBLE);
-//                    city_locate_state.setText(location.getCity());
-//
-//                } else {
-//                    city_locating_state.setVisibility(View.GONE);
-//                    city_locate_failed.setVisibility(View.VISIBLE);
-//                }
-//            } else {
-//                // 定位失败
-//                city_locating_state.setVisibility(View.GONE);
-//                city_locate_failed.setVisibility(View.VISIBLE);
-//            }
-//
-//        }
-//    }
+    private class LocationListenner implements BDLocationListener {
+        public void onReceiveLocation(BDLocation location) {
+            city_locating_progress.setVisibility(View.GONE);
+
+            if (location != null) {
+
+                if (location.getCity() != null
+                        && !location.getCity().equals("")) {
+                    LogUtils.PrintLog("123",location.getAddrStr());
+                    locationClient.stop();
+                    city_locate_failed.setVisibility(View.GONE);
+                    city_locate_state.setVisibility(View.VISIBLE);
+                    city_locating_progress.setVisibility(View.GONE);
+                    city_locate_success_img.setVisibility(View.VISIBLE);
+                    city_locate_state.setText(location.getCity());
+
+                } else {
+                    city_locating_state.setVisibility(View.GONE);
+                    city_locate_failed.setVisibility(View.VISIBLE);
+                }
+            } else {
+                // 定位失败
+                LogUtils.PrintLog("123","定位失败");
+                city_locating_state.setVisibility(View.GONE);
+                city_locate_failed.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     /**
      * @return

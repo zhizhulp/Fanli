@@ -23,6 +23,7 @@ import com.yolanda.nohttp.rest.RequestQueue;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Call;
@@ -39,6 +40,10 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
     private EditText confirmRePassword;//重复密码
     private EditText confirmRecommendMan;//推荐人
     private String phone_number;
+    private String code;
+    private String password;
+    private String rePassword;
+    private String recommendMan;
     private RequestQueue requestQueue;
     private PhoneHandler phoneHandler;
     private CheckThread checkThread;
@@ -62,10 +67,10 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
 
     //注册成功 跳转到登录页
     public void goMain2(View view) {
-        String code=confirmCode.getText().toString();
-        String password = confirmPassword.getText().toString();
-        String rePassword = confirmRePassword.getText().toString();
-        String recommendMan=confirmRecommendMan.getText().toString();
+        code=confirmCode.getText().toString();
+        password = confirmPassword.getText().toString();
+        rePassword = confirmRePassword.getText().toString();
+        recommendMan=confirmRecommendMan.getText().toString();
         if("".equals(code)){
             Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
             return;
@@ -87,7 +92,6 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
             return;
         }
 
-        // TODO: 2016/11/9  给服务端发送注册信息
         sendMsgToSevr("http://api.qlqwgw.com/v1/register");
     }
 
@@ -95,26 +99,36 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
         requestQueue= NoHttp.newRequestQueue();
         Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
         objRequest.add("sign",UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("mobile","123");
-        objRequest.add("captcha","李平");
-        objRequest.add("password","1");
-        objRequest.add("repassword","1");
-        objRequest.add("referee","123");
+        objRequest.add("mobile",phone_number);
+        objRequest.add("captcha",code);
+        objRequest.add("password",password);
+        objRequest.add("repassword",rePassword);
+        objRequest.add("referee",recommendMan);//可选
         phoneHandler=new PhoneHandler();
         phoneHandler.setCallback(new PhoneHandler.Callback() {
             @Override
             public void getMessage(Message msg) {
                 JSONObject jObj= (JSONObject) msg.obj;
                 LogUtils.PrintLog("123",jObj.toString());
-                if(true){//服务端返回成功
-                    sendMsgToSevr("http://api.qlqwgw.com/v1/register");
-                    Intent intent=new Intent(RegisterAfterReceiveCodeActivity.this, LoginActivity.class);
-                    intent.putExtra("phone_number",phone_number);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(RegisterAfterReceiveCodeActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                try {
+                    int status = jObj.getInt("status");
+                    LogUtils.PrintLog("123","状态码为："+status);
+                    if(status==200){//服务端返回成功
+                        Intent intent=new Intent(RegisterAfterReceiveCodeActivity.this, LoginActivity.class);
+                        intent.putExtra("phone_number",phone_number);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, "注册失败，请重新发送验证码", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(RegisterAfterReceiveCodeActivity.this, RegisterInputNumberActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+
             }
         });
         checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);

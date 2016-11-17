@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity{
         adapter.notifyDataSetChanged();
         mAPSTS.setViewPager(mVP);
         mVP.setNoFocus(false);//设置viewpager禁止滑动
-        mVP.setCurrentItem(VIEW_FOURTH);//设置viewpager默认页
+        mVP.setCurrentItem(VIEW_FIRST);//设置viewpager默认页
         //mAPSTS.showDot(VIEW_FIRST,"99+");
     }
 

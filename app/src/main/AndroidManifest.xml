@@ -10,9 +10,22 @@
         android:xlargeScreens="true" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".application.MyApplication"
@@ -21,6 +34,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="4E8pe2i48Sb3pQvSXRpWvvnDV0GwLFxu" />
+
         <activity
             android:name=".activities.splash.SplashActivity"
             android:screenOrientation="portrait" />
@@ -40,9 +57,7 @@
         <activity
             android:name=".activities.register.RegisterInputNumberActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
-
-        </activity>
+            android:theme="@style/AppStyle"></activity>
         <activity
             android:name=".activities.register.RegisterAfterReceiveCodeActivity"
             android:screenOrientation="portrait"
@@ -54,9 +69,7 @@
         <activity
             android:name=".activities.password_loss.PasswordLossWithCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
-
-        </activity>
+            android:theme="@style/AppStyle"></activity>
         <activity
             android:name=".activities.PersonalDataActivity"
             android:screenOrientation="portrait"
@@ -116,7 +129,7 @@
         <activity
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
+            android:theme="@style/AppStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -193,12 +206,27 @@
 
         </activity>
         <activity android:name=".activities.TestActivity" />
-        <activity android:name=".activities.CityList"
+        <activity
+            android:name=".activities.CityList"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">
 
         </activity>
         <activity android:name=".activities.HotActivity">
+
+        </activity>
+        <activity android:name=".view.cityList.searchactivity" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+
+        </service>
+
+        <activity android:name=".activities.PayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
 
         </activity>
     </application>

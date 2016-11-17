@@ -2,6 +2,7 @@ package com.ascba.fanli.application;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -39,6 +40,7 @@ public class MyApplication extends Application {
         if(requestQueue==null){
             requestQueue=NoHttp.newRequestQueue();
         }
+        SDKInitializer.initialize(this);
 
 //        ClearableCookieJar cookieJar1 = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplicationContext()));
 //

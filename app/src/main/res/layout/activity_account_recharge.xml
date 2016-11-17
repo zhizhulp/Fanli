@@ -73,7 +73,8 @@
             android:layout_height="match_parent"
             android:text="¥"/>
         <com.ascba.fanli.view.EditTextWithCustomHint
-            android:hint=""
+            app:hintSize="37sp"
+            android:hint="请输入充值金额"
             android:background="@null"
             android:textColor="@color/black"
             android:layout_marginLeft="7dp"
@@ -93,6 +94,7 @@
     <View
         style="@style/viewStyleMatch"/>
     <Button
+        android:onClick="goRechargeActivity"
         android:text="充值"
         android:layout_marginTop="29dp"
        style="@style/btnNormal"/>
