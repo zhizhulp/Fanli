@@ -45,7 +45,11 @@
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.guide.GuideActivity"
@@ -57,7 +61,9 @@
         <activity
             android:name=".activities.register.RegisterInputNumberActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle">
+
+        </activity>
         <activity
             android:name=".activities.register.RegisterAfterReceiveCodeActivity"
             android:screenOrientation="portrait"
@@ -73,7 +79,9 @@
         <activity
             android:name=".activities.PersonalDataActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+
+        </activity>
         <activity
             android:name=".activities.SafeSettingActivity"
             android:screenOrientation="portrait"
@@ -89,7 +97,9 @@
         <activity
             android:name=".activities.LocationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+
+        </activity>
         <activity
             android:name=".activities.QRCodeActivity"
             android:screenOrientation="portrait"
@@ -130,11 +140,7 @@
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.AccountRechargeActivity"
@@ -225,6 +231,11 @@
         </service>
 
         <activity android:name=".activities.PayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
+
+        </activity>
+        <activity android:name=".activities.PhoneChange2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">
 

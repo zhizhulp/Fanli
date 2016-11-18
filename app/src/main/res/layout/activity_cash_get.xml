@@ -65,7 +65,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
@@ -74,14 +74,13 @@
             android:layout_height="match_parent"
             android:text="¥"/>
         <com.ascba.fanli.view.EditTextWithCustomHint
-            android:hint=""
+            android:hint="请输入提现金额"
             android:background="@null"
             android:textColor="@color/black"
             android:layout_marginLeft="7dp"
             android:textSize="37sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="214.13"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <View
         android:layout_marginTop="7dp"

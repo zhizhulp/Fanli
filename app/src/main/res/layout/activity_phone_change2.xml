@@ -11,6 +11,7 @@
         app:textTitle="修改手机号码"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
@@ -21,17 +22,19 @@
         <TextView
             android:textColor="@color/black"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:text="原手机号"
+            android:layout_height="wrap_content"
+            android:text="新手机号"
             android:textSize="@dimen/activity_text_normal"/>
-        <TextView
+        <com.ascba.fanli.view.EditTextWithCustomHint
+            android:background="@null"
+            android:hint="请输入您的新手机号"
             android:textColor="@color/black"
             android:textSize="@dimen/activity_text_normal"
             android:layout_marginLeft="21dp"
-            android:text="18311011381"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <View style="@style/viewStyleMatch"/>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,7 +44,7 @@
         <TextView
             android:textColor="@color/black"
             android:layout_centerVertical="true"
-            android:id="@+id/phone_change_confirm_text"
+            android:id="@+id/phone_change_confirm_text02"
             android:textSize="@dimen/activity_text_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,12 +54,12 @@
             android:layout_marginLeft="21dp"
             app:hintSize="@dimen/activity_text_normal"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/phone_change_confirm_text"
+            android:layout_toRightOf="@id/phone_change_confirm_text02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="请输入验证码"/>
         <TextView
-            android:id="@+id/phone_change_code_tv"
+            android:id="@+id/phone_change_code_tv02"
             android:layout_centerVertical="true"
             android:textColor="@color/moneyBarColor"
             android:textSize="@dimen/activity_text_title"
@@ -67,15 +70,14 @@
         <View
             android:background="@color/view_line"
             android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/phone_change_code_tv"
+            android:layout_toLeftOf="@id/phone_change_code_tv02"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
     </RelativeLayout>
     <View style="@style/viewStyleMatch"/>
     <Button
-        android:onClick="goModifyPhone"
         android:textSize="@dimen/activity_text_title"
-        android:text="下一步"
+        android:text="提交"
         android:textColor="@color/white"
         android:layout_marginTop="25dp"
         style="@style/btnNormal" />

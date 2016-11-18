@@ -46,6 +46,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:onClick="loginPassword"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
@@ -78,6 +79,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:onClick="goModifyPayPassword"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"

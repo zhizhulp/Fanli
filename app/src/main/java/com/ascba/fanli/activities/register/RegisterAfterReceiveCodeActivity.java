@@ -109,7 +109,7 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
             @Override
             public void getMessage(Message msg) {
                 JSONObject jObj= (JSONObject) msg.obj;
-                LogUtils.PrintLog("123",jObj.toString());
+                LogUtils.PrintLog("123RegisterAfterReceiveCodeActivity",jObj.toString());
                 try {
                     int status = jObj.getInt("status");
                     LogUtils.PrintLog("123","状态码为："+status);

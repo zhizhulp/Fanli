@@ -140,7 +140,6 @@ public class FirstFragment extends Fragment {
                     location_text.setText(data.getStringExtra("city"));
                     break;
                 case -1:
-                    // TODO: 2016/11/14 二维码扫描返回结果处理
                     Toast.makeText(getContext(), "扫面结果为："+data.getStringExtra("result"), Toast.LENGTH_SHORT).show();
                     break;
                 default:
@@ -151,7 +150,6 @@ public class FirstFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-
     }
 
 

@@ -13,15 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:onClick="userIconClick"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="64dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
-            android:layout_marginTop="26dp"
-            android:layout_marginBottom="26dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="账户头像"/>
@@ -33,11 +32,12 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/head_icon"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/personal_user_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
             android:src="@mipmap/me_user_img" />
     </RelativeLayout>
     <View
@@ -45,12 +45,11 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="14dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <TextView
             android:textSize="15sp"
             android:layout_width="wrap_content"
@@ -68,14 +67,13 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:onClick="personalNickNameChange"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="14dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,14 +99,13 @@
         android:background="@color/view_line"/>
 
     <RelativeLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:onClick="personalSexChange"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="14dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,13 +117,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
-        <TextView
-            android:text="男"
+        <ImageView
+            android:tag="1"
+            android:id="@+id/show_sex"
+            android:src="@mipmap/ic_go"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/personal_user_img_04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="10dp"
+            android:layout_height="10dp" />
     </RelativeLayout>
 
     <View
@@ -134,14 +133,13 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:onClick="personalAgeChange"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="14dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -166,14 +164,13 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:onClick="personalLocationChange"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="14dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

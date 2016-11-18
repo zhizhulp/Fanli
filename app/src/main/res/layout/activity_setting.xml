@@ -147,7 +147,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
-        android:onClick="settingSafeSetting"
+        android:onClick="goPasswordProtect"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
@@ -218,4 +218,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
+
+    <RelativeLayout
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:onClick="exitUser"
+            android:text="退出"
+            android:layout_alignParentBottom="true"
+            style="@style/btnNormal" />
+    </RelativeLayout>
 </LinearLayout>

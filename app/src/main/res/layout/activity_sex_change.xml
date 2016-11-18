@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
+        android:id="@+id/select_man"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
@@ -25,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="男"/>
         <ImageView
+            android:id="@+id/iv_sex_man"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:src="@mipmap/ic_right"
@@ -33,6 +35,7 @@
     </RelativeLayout>
     <ImageView style="@style/viewStyleMatch"/>
     <RelativeLayout
+        android:id="@+id/select_woman"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
@@ -45,6 +48,7 @@
             android:layout_height="wrap_content"
             android:text="女"/>
         <ImageView
+            android:id="@+id/iv_sex_woman"
             android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

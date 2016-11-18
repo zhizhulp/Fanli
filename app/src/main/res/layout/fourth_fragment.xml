@@ -102,10 +102,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:background="@color/white"
-            android:gravity="center">
+            android:background="@color/white">
 
             <TextView
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -114,6 +114,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/me_go"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,6 +125,7 @@
                 android:src="@mipmap/me_account_go" />
 
             <TextView
+                android:layout_centerVertical="true"
                 android:id="@+id/tv_go_get_cash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,7 +135,6 @@
                 android:textColor="@color/text_blue"
                 android:textSize="13sp" />
         </RelativeLayout>
-
         <View style="@style/viewStyleMatch" />
         <!-- 第一个横向布局-->
         <LinearLayout
@@ -224,6 +225,7 @@
             android:layout_height="@dimen/me_line_space"
             android:orientation="horizontal">
             <LinearLayout
+                android:id="@+id/me_go_cash_account"
                 android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -268,6 +270,7 @@
                 android:background="@color/view_line" />
 
             <LinearLayout
+                android:id="@+id/me_go_ticket"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -497,6 +500,7 @@
                 android:background="@color/view_line" />
 
             <LinearLayout
+                android:id="@+id/me_go_recommend"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

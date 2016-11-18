@@ -226,6 +226,7 @@
             android:layout_height="@dimen/me_line_space"
             android:orientation="horizontal">
             <LinearLayout
+                android:id="@+id/me_go_cash_account"
                 android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -270,6 +271,7 @@
                 android:background="@color/view_line" />
 
             <LinearLayout
+                android:id="@+id/me_go_ticket"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -501,6 +503,7 @@
                 android:background="@color/view_line" />
 
             <LinearLayout
+                android:id="@+id/me_go_recommend"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

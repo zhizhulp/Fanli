@@ -90,6 +90,7 @@ public class BusinessDetailsActivity extends BaseActivity {
 
         try {
             BaiduMapNavigation.openBaiduMapWalkNavi(para, this);
+            LogUtils.PrintLog("BusinessDetailsActivity","百度导航");
         } catch (BaiduMapAppNotSupportNaviException e) {
             e.printStackTrace();
             showDialog();

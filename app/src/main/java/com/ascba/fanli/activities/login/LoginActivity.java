@@ -123,14 +123,20 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void getMessage(Message msg) {
                 JSONObject jObj= (JSONObject) msg.obj;
-                LogUtils.PrintLog("123",jObj.toString());
+                LogUtils.PrintLog("123LoginActivity",jObj.toString());
                 try {
                     int status = jObj.getInt("status");
-                    LogUtils.PrintLog("123","状态栏为："+status);
                     if(status==200){//服务端返回成功
+                        int uuid=jObj.getInt("uuid");
+                        String token=jObj.getString("token");
                         if(isFirstLogin){
-                            LogUtils.PrintLog("123","数据写入之前");
-                            sf.edit().putBoolean("first_login_success",false).putString("login_phone",loginPhone).putString("login_password",loginPassword).apply();
+                            sf.edit()
+                                    .putBoolean("first_login_success",false)
+                                    .putString("login_phone",loginPhone)
+                                    .putString("login_password",loginPassword)
+                                    .putInt("uuid",uuid)
+                                    .putString("token",token)
+                                    .apply();
                         }
                         Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);

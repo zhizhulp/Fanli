@@ -22,6 +22,19 @@ public class SafeSettingActivity extends BaseActivity {
     //修改密保问题
     public void safeSettingPasswordProtect(View view) {
         Intent intent=new Intent(this,PasswordProtectActivity.class);
+        intent.putExtra("type",111);
         startActivity(intent);
     }
+    //修改登录问题
+    public void loginPassword(View view) {
+        Intent intent=new Intent(this,LoginPasswordChangeActivity.class);
+        startActivity(intent);
+    }
+    //修改支付密码
+    public void goModifyPayPassword(View view) {
+        Intent intent=new Intent(this,PasswordProtectActivity.class);
+        intent.putExtra("type",222);
+        startActivity(intent);
+    }
+
 }

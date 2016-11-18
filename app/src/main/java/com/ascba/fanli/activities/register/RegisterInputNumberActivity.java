@@ -77,7 +77,7 @@ public class RegisterInputNumberActivity extends BaseActivity {
             @Override
             public void getMessage(Message msg) {
                 JSONObject jObj= (JSONObject) msg.obj;
-                LogUtils.PrintLog("123",jObj.toString());
+                LogUtils.PrintLog("123RegisterInputNumberActivity",jObj.toString());
                 try {
                     int status = jObj.getInt("status");
                     if(status==200){//服务端返回成功

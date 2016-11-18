@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.ascba.fanli.R;
 import com.ascba.fanli.activities.base.BaseActivity;
+import com.ascba.fanli.activities.main.MainActivity;
+import com.ascba.fanli.fragments.me.FourthFragment;
 
 public class SettingActivity extends BaseActivity {
 
@@ -35,5 +37,20 @@ public class SettingActivity extends BaseActivity {
         Intent intent=new Intent(this,SafeSettingActivity.class);
         startActivity(intent);
     }
-
+    //进入  支付设置  界面
+    public void settingPay(View view) {
+        Intent intent=new Intent(this,PayPasswordChangeActivity.class);
+        startActivity(intent);
+    }
+    //进入  密保设置  界面
+    public void goPasswordProtect(View view) {
+        Intent intent=new Intent(this,PasswordProtect2Activity.class);
+        startActivity(intent);
+    }
+    //点击退出，清除缓存，进入登录界面
+    public void exitUser(View view) {
+        Intent intent=new Intent(this, FourthFragment.class);
+        setResult(2,intent);
+        finish();
+    }
 }

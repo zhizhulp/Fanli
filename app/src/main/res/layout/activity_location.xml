@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
+        android:onClick="goLocation"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="20dp"
@@ -32,8 +33,9 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_go"/>
         <TextView
+            android:id="@+id/location_tv"
             android:textSize="15sp"
-            android:text="中国"
+            android:text="北京市北京市丰台区"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/personal_user_img_04"

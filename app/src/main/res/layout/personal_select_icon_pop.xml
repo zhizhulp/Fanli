@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@drawable/select_icon_bg"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/head_icon_select_camera"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:gravity="center"
@@ -14,6 +17,7 @@
     <View
         style="@style/viewStyleMargin"/>
     <TextView
+        android:id="@+id/head_icon_select_album"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:gravity="center"
@@ -24,6 +28,7 @@
     <View
         style="@style/viewStyleMargin"/>
     <TextView
+        android:id="@+id/head_icon_select_cancel"
         android:textColor="@color/text_blue"
         android:layout_gravity="center"
         android:gravity="center"
