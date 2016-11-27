@@ -216,7 +216,7 @@
         <View
             style="@style/viewStyleMatch"/>
         <!--商家列表-->
-        <com.ascba.fanli.view.ScrollViewWithListView
+        <com.ascba.rebate.view.ScrollViewWithListView
             android:background="@color/white"
             android:id="@+id/main_business_list"
             android:layout_width="match_parent"

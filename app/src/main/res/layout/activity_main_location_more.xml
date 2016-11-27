@@ -4,6 +4,6 @@
     android:id="@+id/activity_main_location_more"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.fanli.activities.MainLocationMoreActivity">
+    tools:context="com.ascba.rebate.activities.MainLocationMoreActivity">
 
 </RelativeLayout>

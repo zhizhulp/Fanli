@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.EmployeeRateActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.EmployeeRateActivity">
+    <com.ascba.rebate.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="返佣比"/>
@@ -19,30 +19,30 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
-            android:drawableRight="@mipmap/logo"
+            android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="50%"/>
+            android:text="8%"/>
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
-            android:drawableRight="@mipmap/logo"
+            android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="100%"/>
+            android:text="16%"/>
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
-            android:drawableRight="@mipmap/logo"
+            android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="200%"/>
+            android:text="24%"/>
         <View
             style="@style/viewStyleMatch"/>
     </RadioGroup>

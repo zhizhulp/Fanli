@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout android:orientation="vertical" android:id="@+id/city_home_layout" android:layout_width="fill_parent"
                   android:layout_height="fill_parent">
-        <com.ascba.fanli.view.MoneyBar
+        <com.ascba.rebate.view.MoneyBar
             app:textTitle="选择城市"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -17,7 +17,7 @@
                       android:layout_marginTop="0.0dip" android:listSelector="@android:color/transparent"
                       android:cacheColorHint="@android:color/transparent"
                       android:divider="@null"/>
-            <com.ascba.fanli.view.cityList.MyLetterListView
+            <com.ascba.rebate.view.cityList.MyLetterListView
                     android:id="@+id/cityLetterListView"
                     android:layout_width="40dip"
                     android:layout_height="fill_parent"

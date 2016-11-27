@@ -7,8 +7,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.fanli.activities.PersonalDataActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.PersonalDataActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="个人资料"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -57,10 +57,10 @@
             android:text="登录账号"
             android:layout_alignParentTop="true" />
         <TextView
+            android:id="@+id/personal_data_mobile"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="183183183145"/>
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <TextView
-            android:text="钱来钱往"
+            android:id="@+id/personal_data_nickname"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/personal_user_img_03"
@@ -117,15 +117,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
-        <ImageView
-            android:tag="1"
+        <TextView
             android:id="@+id/show_sex"
-            android:src="@mipmap/ic_go"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/personal_user_img_04"
-            android:layout_width="10dp"
-            android:layout_height="10dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <View
@@ -152,7 +150,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <TextView
-            android:text="32"
+            android:id="@+id/personal_data_age"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/personal_user_img_05"
@@ -174,7 +172,8 @@
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="所在地区"/>
+            android:text="所在地区"
+            android:id="@+id/textView2" />
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/personal_user_img_02"
@@ -182,19 +181,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
+
         <TextView
-            android:text="北京市"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/personal_user_img_02"
+            android:id="@+id/personal_data_location"
+            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView2"
+            android:layout_toLeftOf="@+id/personal_user_img_02"
+            android:layout_toStartOf="@+id/personal_user_img_02"
+            android:layout_marginEnd="12dp" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
+
     <Button
+        android:onClick="saveData"
         android:textColor="@color/white"
         android:text="保存"
         android:layout_marginTop="27dp"

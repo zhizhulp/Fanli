@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.ModifyNicknameActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.ModifyNicknameActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="修改昵称"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -24,18 +24,19 @@
             android:layout_height="wrap_content"
             android:text="昵称"/>
 
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
             android:layout_marginLeft="20dp"
             app:hintSize="14sp"
             android:hint="一头发疯的小猫"
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextWithCustomHint3" />
+            android:id="@+id/et_nickname" />
     </LinearLayout>
     <ImageView
         style="@style/viewStyleMatch"/>
     <Button
+        android:onClick="saveNickName"
         android:layout_marginTop="30dp"
         android:text="保存"
         style="@style/btnNormal"/>

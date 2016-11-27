@@ -6,148 +6,214 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.BusinessDataActivity">
+    tools:context="com.ascba.rebate.activities.BusinessDataActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.ascba.fanli.view.MoneyBar
+        <com.ascba.rebate.view.MoneyBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:textTitle="商家资料"/>
+
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessName"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="商家名称"/>
             <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/business_name_go"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_go"/>
+            <TextView
+                android:layout_centerVertical="true"
+
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/business_name_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="钱来钱往"/>
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessTag"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商家标签"/>
+                android:text="商家类型"/>
             <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/business_tag_go"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_go"/>
+            <TextView
+                android:layout_centerVertical="true"
+
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/business_tag_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="金融"/>
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessLocation"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="商家地址"/>
             <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/business_address_go"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_go"/>
+            <TextView
+                android:layout_centerVertical="true"
+
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/business_address_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="北京市 丰台区"/>
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessPhone"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="联系电话"/>
             <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/business_phone_go"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_go"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/business_phone_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15510115653"/>
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessTime"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="营业时间"/>
             <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/business_time_go"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_go"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/business_time_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.30~12.30"/>
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessRate"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="返佣金比例"/>
+                android:text="赠返比例"/>
             <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/business_rate_go"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_go"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/business_rate_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16%"/>
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessDetail"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="商家详情"/>
             <ImageView
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,18 +222,20 @@
         <View
             style="@style/viewStyleMatch"/>
         <RelativeLayout
-            android:gravity="center_vertical"
+            android:onClick="goBusinessPic"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space">
             <TextView
+                android:layout_centerVertical="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="商家照片"/>
             <ImageView
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,6 +243,7 @@
         </RelativeLayout>
         <View
             style="@style/viewStyleMatch"/>
+
         <Button
             android:layout_marginTop="30dp"
             android:text="提交"

@@ -6,12 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.QRCodeActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.QRCodeActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="我的二维码"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <ImageView
+        android:id="@+id/qrcode"
         android:layout_marginTop="48dp"
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"

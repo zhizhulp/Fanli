@@ -101,7 +101,8 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         }else{
             popContainerView.setBackgroundColor(Color.parseColor("#b0000000"));
         }
-        RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mDisplayHeight * 0.7));
+//        RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mDisplayHeight * 0.7));
+        RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         popContainerView.addView(tabItemView, rl);
         popContainerView.setOnClickListener(new OnClickListener() {
             @Override

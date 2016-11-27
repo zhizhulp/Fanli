@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.AccountRechargeActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.AccountRechargeActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="充值"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="¥"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
             app:hintSize="37sp"
             android:hint="请输入充值金额"
             android:background="@null"

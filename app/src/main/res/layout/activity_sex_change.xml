@@ -7,8 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.SexChangeActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.SexChangeActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="修改性别"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -49,6 +49,29 @@
             android:text="女"/>
         <ImageView
             android:id="@+id/iv_sex_woman"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <ImageView style="@style/viewStyleMatch"/>
+    <RelativeLayout
+        android:id="@+id/select_pri"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space">
+        <TextView
+            android:textColor="@color/black"
+            android:textSize="@dimen/activity_text_normal"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保密"/>
+        <ImageView
+            android:id="@+id/iv_sex_pri"
             android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

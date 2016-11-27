@@ -10,7 +10,7 @@
         style="@style/pagertab_icon_style"
         android:layout_alignParentBottom="true"
         android:fillViewport="false"/>
-    <com.ascba.fanli.activities.main.APSTSViewPager
+    <com.ascba.rebate.activities.main.APSTSViewPager
         android:id="@+id/vp_main"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

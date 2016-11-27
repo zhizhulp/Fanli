@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.BusinessCenterActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.BusinessCenterActivity">
+    <com.ascba.rebate.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="商户中心"/>
@@ -22,9 +22,9 @@
             android:textSize="@dimen/activity_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="姓名"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
-            android:layout_marginLeft="46dp"
+            android:text="公司名称"/>
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:layout_marginLeft="30dp"
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,8 +43,8 @@
             android:textSize="@dimen/activity_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="身份证"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
+            android:text="法人姓名"/>
+        <com.ascba.rebate.view.EditTextWithCustomHint
             android:layout_marginLeft="30dp"
             android:background="@null"
             android:layout_width="match_parent"
@@ -54,31 +54,55 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
-        android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="@dimen/activity_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="返佣金比例"/>
+            android:text="公司地址"/>
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/business_back_employee_go"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <TextView
+            android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/business_back_employee_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100%"/>
+            android:text="北京市丰台区光彩路"/>
     </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space"
+        android:orientation="horizontal">
+        <TextView
+            android:textSize="@dimen/activity_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="公司电话"/>
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:layout_marginLeft="30dp"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入公司电话"/>
+    </LinearLayout>
+    <View
+        style="@style/viewStyleMatch"/>
+
     <TextView
         android:textSize="@dimen/activity_text_title"
         android:layout_marginLeft="15dp"
@@ -86,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="营业执照"/>
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:background="@drawable/add_picture_all_wide_bg"
         android:layout_marginLeft="15dp"
@@ -94,8 +118,12 @@
         android:layout_marginTop="18dp"
         android:layout_width="match_parent"
         android:layout_height="164dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         <TextView
-            android:layout_gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:id="@+id/add_passport"
             android:layout_marginTop="33dp"
             android:textColor="@color/white"
             android:background="@drawable/add_picture_bg"
@@ -104,13 +132,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:layout_centerInParent="true"
+            android:layout_below="@id/add_passport"
             android:textSize="@dimen/activity_text_normal"
             android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"
             android:text="请上传照片"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
     <Button
         android:onClick="go_business_center"
         android:layout_marginTop="43dp"

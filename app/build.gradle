@@ -6,7 +6,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
-        applicationId "com.ascba.fanli"
+        applicationId "com.ascba.rebate"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
@@ -35,6 +35,22 @@ dependencies {
     //cookie支持
 
     //底部导航
+    compile project(':android-expandpoptab-library')
+    compile files('libs/baidumapapi_base_v4_1_1.jar')
+    compile files('libs/baidumapapi_cloud_v4_1_1.jar')
+    compile files('libs/baidumapapi_map_v4_1_1.jar')
+    compile files('libs/baidumapapi_radar_v4_1_1.jar')
+    compile files('libs/baidumapapi_search_v4_1_1.jar')
+    compile files('libs/baidumapapi_util_v4_1_1.jar')
+    compile files('libs/locSDK_6.13.jar')
+    //compile project(':zXingLibrary')
+
+    //compile 'com.google.zxing:core:3.3.0'
+
+    //compile files('libs/zxingscanner-1.2.1.jar')
+
+    //compile 'com.mylhyl:zxingscanner:1.2.0'
+    compile files('libs/jpush-android-2.2.0.jar')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -47,16 +63,9 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jaeger.statusbaruitl:library:1.2.8'
     compile 'com.android.support:support-v4:24.2.1'
-    testCompile 'junit:junit:4.12'
-    compile project(':android-expandpoptab-library')
     compile 'com.alibaba:fastjson:1.2.20'
     compile 'com.yolanda.nohttp:nohttp:1.1.0'
-    compile files('libs/baidumapapi_base_v4_1_1.jar')
-    compile files('libs/baidumapapi_cloud_v4_1_1.jar')
-    compile files('libs/baidumapapi_map_v4_1_1.jar')
-    compile files('libs/baidumapapi_radar_v4_1_1.jar')
-    compile files('libs/baidumapapi_search_v4_1_1.jar')
-    compile files('libs/baidumapapi_util_v4_1_1.jar')
-    compile files('libs/locSDK_6.13.jar')
-    compile project(':zXingLibrary')
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'cn.yipianfengye.android:zxing-library:2.1'
+    testCompile 'junit:junit:4.12'
 }

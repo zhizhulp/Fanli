@@ -38,19 +38,19 @@
         android:background="@color/c3"
         android:orientation="horizontal">
 
-        <com.ascba.fanli.view.wheelview.MyWheelView
+        <com.ascba.rebate.view.wheelview.MyWheelView
             android:id="@+id/province_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.ascba.fanli.view.wheelview.MyWheelView
+        <com.ascba.rebate.view.wheelview.MyWheelView
             android:id="@+id/city_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.ascba.fanli.view.wheelview.MyWheelView
+        <com.ascba.rebate.view.wheelview.MyWheelView
             android:id="@+id/district_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -4,8 +4,8 @@
     android:id="@+id/activity_recommend"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.fanli.activities.RecommendActivity">
-    <com.ascba.fanli.view.SwitchButton
+    tools:context="com.ascba.rebate.activities.RecommendActivity">
+    <com.ascba.rebate.view.SwitchButton
         android:id="@+id/switch_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

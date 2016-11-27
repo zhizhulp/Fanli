@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.MyPowerActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.MyPowerActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="我的特权"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

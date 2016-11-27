@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.BusinessPhoneActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.BusinessPhoneActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:needComplete="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="联系电话"/>
-    <com.ascba.fanli.view.EditTextWithCustomHint
+    <com.ascba.rebate.view.EditTextWithCustomHint
         android:layout_marginTop="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

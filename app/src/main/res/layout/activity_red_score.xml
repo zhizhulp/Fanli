@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.AccountRechargeActivity">
+    tools:context="com.ascba.rebate.activities.AccountRechargeActivity">
 
-    <com.ascba.fanli.view.MoneyBar
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="红积分"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -106,30 +106,37 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_marginLeft="93dp"
-                    android:textSize="@dimen/activity_text_normal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="返现金"/>
-                <LinearLayout
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="29dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/logo"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                     <TextView
-                        android:textColor="@color/black"
-                        android:textSize="25sp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/red_score_ticket_tv"
+                        android:textSize="@dimen/activity_text_normal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200"/>
-                </LinearLayout>
+                        android:text="返代金券"/>
+                    <LinearLayout
+                        android:layout_marginTop="29dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/red_score_ticket_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/logo"/>
+                        <TextView
+                            android:textColor="@color/black"
+                            android:textSize="25sp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
             </LinearLayout>
         </LinearLayout>
 

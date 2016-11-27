@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/login_bg"
-    tools:context="com.ascba.fanli.activities.login.LoginActivity">
+    tools:context="com.ascba.rebate.activities.login.LoginActivity">
     <LinearLayout
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/login_name"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
             android:id="@+id/login_phone_ed"
             android:inputType="phone"
             android:layout_marginLeft="20dp"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/login_password"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
             android:id="@+id/login_password_ed"
             android:inputType="textWebPassword"
             android:layout_marginLeft="20dp"

@@ -5,7 +5,7 @@
     android:textColor="@android:color/background_dark"
     android:gravity="center_vertical"
     android:paddingLeft="10dp"
-    android:textSize="17sp"
+    android:textSize="14sp"
     android:paddingTop="@dimen/expand_tab_popview_padingtop"
     android:paddingBottom="@dimen/expand_tab_popview_padingtop"
     android:background="@drawable/expand_tab_popview_item_selector" >

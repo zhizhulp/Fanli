@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.fragments.RecommendFragment">
+    tools:context="com.ascba.rebate.fragments.RecommendFragment">
     <LinearLayout
         android:background="@color/moneyBarColor"
         android:orientation="vertical"
@@ -30,10 +30,9 @@
         android:id="@+id/tabs_recommend"
         style="@style/pagertab_style"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"/>
 
-    </com.lhh.apst.library.CustomPagerSlidingTabStrip>
-    <com.ascba.fanli.activities.main.APSTSViewPager
+    <com.ascba.rebate.activities.main.APSTSViewPager
         android:id="@+id/vp_recommend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

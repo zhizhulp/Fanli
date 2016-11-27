@@ -6,41 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.SafeSettingActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.SafeSettingActivity">
+    <com.ascba.rebate.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="实名认证"/>
     <LinearLayout
-        android:paddingTop="19dp"
-        android:paddingBottom="14dp"
-        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:textSize="15sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="姓名"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
-            app:hintSize="15dp"
-            android:hint="请输入您的姓名"
-            android:layout_marginLeft="52dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/view_line"/>
-    <LinearLayout
-        android:paddingTop="19dp"
-        android:paddingBottom="14dp"
-        android:paddingLeft="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:orientation="horizontal">
         <TextView
             android:textSize="15sp"
@@ -48,7 +24,8 @@
             android:layout_height="wrap_content"
             android:text="身份证号"/>
 
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:inputType="number"
             app:hintSize="15dp"
             android:hint="请输入您的身份证号"
             android:layout_marginLeft="23dp"
@@ -62,6 +39,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <Button
+        android:onClick="goConfirm"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:layout_marginLeft="15dp"

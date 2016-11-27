@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.BusinessPhoneActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.BusinessPhoneActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:needComplete="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
             android:gravity="left"
             android:layout_marginTop="15dp"
             android:paddingTop="15dp"

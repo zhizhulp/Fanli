@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.ascba.fanli.view.MoneyBar
+    <com.ascba.rebate.view.MoneyBar
         app:needBack="false"
         app:textTitle="消息中心"
         android:layout_width="match_parent"

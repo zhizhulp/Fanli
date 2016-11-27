@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.AgeChangeActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.AgeChangeActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="修改年龄"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
             android:text="年龄"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/et_age"
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:layout_width="match_parent"
@@ -33,6 +34,7 @@
     <View
         style="@style/viewStyleMatch"/>
     <Button
+        android:onClick="saveAge"
         android:textSize="@dimen/activity_text_normal"
         android:text="保存"
         android:layout_marginTop="29dp"

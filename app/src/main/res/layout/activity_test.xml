@@ -4,7 +4,7 @@
     android:id="@+id/activity_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.fanli.activities.TestActivity">
+    tools:context="com.ascba.rebate.activities.TestActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

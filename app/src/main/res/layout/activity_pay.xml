@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.PayActivity">
-    <com.ascba.fanli.view.MoneyBar
+    tools:context="com.ascba.rebate.activities.PayActivity">
+    <com.ascba.rebate.view.MoneyBar
         app:textTitle="扫一扫支付"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="金额(元)"/>
-        <com.ascba.fanli.view.EditTextWithCustomHint
+        <com.ascba.rebate.view.EditTextWithCustomHint
             android:textSize="15sp"
             android:layout_marginLeft="15dp"
             app:hintSize="15sp"

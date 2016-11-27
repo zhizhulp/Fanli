@@ -22,7 +22,8 @@
             <RelativeLayout android:id="@+id/title_right_btns_layout" android:layout_width="wrap_content"
                             android:layout_height="fill_parent" android:layout_marginRight="5.0dip"
                             android:layout_alignParentRight="true">
-                <com.ascba.fanli.view.cityList.TitleButton android:textSize="@dimen/wb_home_title_textsize_26"
+                <com.ascba.rebate.view.cityList.TitleButton
+                    android:textSize="@dimen/wb_home_title_textsize_26"
                                                  android:textColor="@color/wb_title_text_color_selector"
                                                  android:gravity="center_vertical" android:id="@+id/title_right_btn"
                                                  android:background="@null" android:paddingLeft="10.0dip"

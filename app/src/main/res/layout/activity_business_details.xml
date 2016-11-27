@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.fanli.activities.BusinessDetailsActivity">
+    tools:context="com.ascba.rebate.activities.BusinessDetailsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
             android:id="@+id/view002"
             android:layout_above="@id/business_details_go_where"
             style="@style/viewStyleMatch"/>
-        <com.ascba.fanli.view.MoneyBar
+        <com.ascba.rebate.view.MoneyBar
             android:id="@+id/business_detail_mb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
