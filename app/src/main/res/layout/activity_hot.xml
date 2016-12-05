@@ -8,10 +8,14 @@
         app:textTitle="搜索"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.warmtel.expandtab.ExpandPopTabView
+    <ListView
+        android:id="@+id/hot_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <!--<com.warmtel.expandtab.ExpandPopTabView
         android:id="@+id/expandtab_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 
     <!--<com.warmtel.expandtab.ExpandPopTabView
         android:id="@+id/expandtab_view"

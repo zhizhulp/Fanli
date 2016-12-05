@@ -406,4 +406,47 @@
 <color name="c20">#1f1f1f</color>
 <color name="c21">#f28f25</color>
 <color name="c22">#86BA63</color>
+    <!--payUI-->
+    <color name="action_bar_tittle_color_555555">#555555</color>
+    <color name="color_red_f04c62">#f04c62</color>
+    <color name="color_yellow_fcf3cd">#fcf3cd</color>
+    <color name="color_network_bar_bg_ee4b62">#ee4b62</color>
+    <color name="grey_white">#F7F7F7</color>
+    <color name="userblack">#333333</color>
+    <color name="usergray">#c4c3c3</color>
+    <!-- 用于写view -->
+    <color name="userview">#e1e1e1</color>
+    <!-- 文字黑色 -->
+    <color name="textblack">#000000</color>
+    <!-- 文字灰色 -->
+    <color name="textgray">#999999</color>
+
+    <!-- 标题栏背景 -->
+    <color name="titleBg">#58ADFE</color>
+    <color name="blackLight40">#40000000</color>
+    <!-- 全透明 -->
+    <color name="transparent50">#50FFFFFF</color>
+    <!-- 黑色80%的透明度 -->
+    <color name="blackLight80">#80000000</color>
+    <!-- 黑色90%的透明度 -->
+    <color name="blackLight90">#90000000</color>
+    <!-- 浅蓝色 -->
+    <color name="bluelight">#58ADFE</color>
+    <!-- 红色50透明 -->
+    <color name="red50">#50ff0000</color>
+    <!-- 小红色 -->
+    <color name="redlight">#ffff5460</color>
+    <!-- 小红色 50透明度-->
+    <color name="redlight50">#70ff5460</color>
+
+    <!-- 浅灰色 -->
+    <color name="graylight">#fff3f3f3</color>
+    <!-- 自定义蓝 -->
+    <color name="blue2">#009cff</color>
+    <!-- 自定义灰 -->
+    <color name="gray2">#f1f1f1</color>
+    <!-- 咖啡色 -->
+    <color name="coffee">#472a00</color>
+    <!-- 黄色 -->
+    <color name="huase">#fffbe8</color>
 </resources>

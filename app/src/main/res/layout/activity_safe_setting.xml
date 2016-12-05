@@ -13,6 +13,7 @@
         app:textTitle="安全设置"/>
 
     <RelativeLayout
+        android:visibility="gone"
         android:onClick="safeSettingPhoneChange"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -42,6 +43,7 @@
     </RelativeLayout>
 
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
@@ -75,10 +77,14 @@
             android:src="@mipmap/ic_go"/>
     </RelativeLayout>
     <View
+        android:visibility="gone"
+
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:visibility="gone"
+
         android:onClick="goModifyPayPassword"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -107,10 +113,14 @@
             android:src="@mipmap/ic_go"/>
     </RelativeLayout>
     <View
+        android:visibility="gone"
+
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:visibility="gone"
+
         android:onClick="safeSettingPasswordProtect"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

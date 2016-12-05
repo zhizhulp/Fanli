@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.adapter.FirstRecAdapter;
+import com.ascba.rebate.adapter.RecAdapter;
 import com.ascba.rebate.beans.FirstRec;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class RecommendListFragment extends ListFragment {
     private List<FirstRec> list;
-    private FirstRecAdapter firstRecAdapter;
+    private RecAdapter firstRecAdapter;
 
 
     public RecommendListFragment() {
@@ -33,7 +33,7 @@ public class RecommendListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         initData();
-        firstRecAdapter = new FirstRecAdapter(list,getContext());
+        firstRecAdapter = new RecAdapter(list,getContext());
         setListAdapter(firstRecAdapter);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_recommend_list, container, false);

@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+    <com.flyco.tablayout.CommonTabLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        style="@style/pagertab_icon_style"
-        android:layout_alignParentBottom="true"
-        android:fillViewport="false"/>
-    <com.ascba.rebate.activities.main.APSTSViewPager
-        android:id="@+id/vp_main"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/tabs"/>
+        android:background="#ffffff"
+        tl:tl_iconHeight="23dp"
+        tl:tl_iconWidth="23dp"
+        tl:tl_indicator_color="#2C97DE"
+        tl:tl_indicator_height="0dp"
+        tl:tl_textSelectColor="@color/moneyBarColor"
+        tl:tl_textUnselectColor="#66000000"
+        tl:tl_textsize="12sp"
+        tl:tl_underline_color="#DDDDDD"
+        tl:tl_underline_height="1dp"/>
+    <FrameLayout
+        android:layout_above="@id/tabs"
+        android:id="@+id/fl_change"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
     <View
         android:layout_above="@id/tabs"
         android:layout_width="match_parent"

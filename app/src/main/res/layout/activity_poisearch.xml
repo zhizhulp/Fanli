@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textTitle="地点选择" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所在城市："/>
+
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="当前城市"
+            app:hintSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="市内找："/>
+
+        <AutoCompleteTextView
+            android:gravity="center_vertical"
+            android:id="@+id/searchkey"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入搜索内容(餐厅)" />
+    </LinearLayout>
+
+
+    <Button
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        style="@style/btnNormal"
+        android:onClick="searchButtonProcess"
+        android:text="点击搜索" />
+    <!--<Button
+            android:id="@+id/searchNearby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="12"
+            android:onClick="searchNearbyProcess"
+            android:padding="10dip"
+            android:text="周边搜索" />
+
+    <Button
+            android:id="@+id/searchBound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="12"
+            android:onClick="searchBoundProcess"
+            android:padding="10dip"
+            android:text="区域搜索" />-->
+
+
+    <fragment
+        android:id="@+id/map"
+        class="com.baidu.mapapi.map.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_ticket"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,121 +10,36 @@
     <com.ascba.rebate.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textTitle="代金券"/>
-    <FrameLayout
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        app:textTitle="代金券" />
+    <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="116dp">
-        <ImageView
-            android:scaleType="fitXY"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ticket_bg"/>
-        <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_marginLeft="19dp"
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
+            android:orientation="vertical">
+            <com.ascba.rebate.view.ScrollViewWithListView
+                android:id="@+id/ticket_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:textColor="@color/moneyBarColor"
-                    android:textSize="17sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商城代金券"/>
-                <TextView
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/moneyBarColor"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="有效期至2018-01-01"/>
-            </LinearLayout>
-            <ImageView
-                android:layout_marginTop="32dp"
-                android:id="@+id/ticket_money_label_01"
-                android:layout_marginLeft="232dp"
-                android:src="@mipmap/ticket_money_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_margin="15dp"
+                android:divider="#E8E8E7"
+                android:dividerHeight="10dp"
+                android:scrollbars="none" />
+            <Button
+                style="@style/btnNormal"
+                android:layout_marginTop="28dp"
+                android:text="钱往商城" />
             <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/ticket_money_label_01"
-                android:textColor="@color/moneyBarColor"
-                android:textSize="35sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50"/>
-        </RelativeLayout>
-    </FrameLayout>
-    <FrameLayout
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="116dp">
-        <ImageView
-            android:scaleType="fitXY"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/ticket_bg"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_marginLeft="19dp"
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:textColor="@color/moneyBarColor"
-                    android:textSize="@dimen/activity_text_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商城代金券"/>
-                <TextView
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/moneyBarColor"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="有效期至2018-01-01"/>
-            </LinearLayout>
-            <ImageView
-                android:layout_marginTop="32dp"
-                android:id="@+id/ticket_money_label_02"
-                android:layout_marginLeft="232dp"
-                android:src="@mipmap/ticket_money_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/ticket_money_label_02"
-                android:textColor="@color/moneyBarColor"
-                android:textSize="35sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100"/>
-        </RelativeLayout>
-    </FrameLayout>
-    <Button
-        android:text="钱往商城"
-        android:layout_marginTop="28dp"
-        style="@style/btnNormal"/>
-    <TextView
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/text_blue"
-        android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="如何获得代金券?"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="如何获得代金券?"
+                android:textColor="@color/text_blue" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

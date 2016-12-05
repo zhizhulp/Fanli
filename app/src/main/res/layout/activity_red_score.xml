@@ -24,7 +24,7 @@
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="您可兑换红积分为400"/>
+            android:text="您可兑换红积分为 0"/>
         <TextView
             android:textColor="@color/text_blue"
             android:layout_width="wrap_content"
@@ -34,31 +34,35 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:background="@drawable/recharge_rec_bg"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/recharge_rec_bg"
         android:layout_width="match_parent"
         android:layout_height="236dp"
         android:orientation="vertical">
         <RelativeLayout
-            android:gravity="center_vertical"
-            android:background="@drawable/rechage_bg"
+            android:background="#f5f5f5"
             android:layout_width="match_parent"
             android:layout_height="58dp">
             <TextView
+                android:layout_centerVertical="true"
                 android:id="@+id/recharge_tv_01"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请输入积分"/>
-            <TextView
+            <com.ascba.rebate.view.EditTextWithCustomHint
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:text="0"
+                android:inputType="number"
                 android:layout_marginRight="15dp"
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="400"/>
+                android:layout_height="wrap_content" />
         </RelativeLayout>
         <LinearLayout
             android:layout_marginTop="23dp"
@@ -74,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:textColor="@color/black"
                     android:textSize="@dimen/activity_text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,14 +91,14 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/logo"/>
+                        android:src="@mipmap/red_money_icon"/>
                     <TextView
                         android:textColor="@color/black"
-                        android:textSize="25sp"
+                        android:textSize="35sp"
                         android:layout_marginLeft="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200"/>
+                        android:text="0"/>
                 </LinearLayout>
             </LinearLayout>
             <View
@@ -110,6 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <TextView
+                        android:textColor="@color/black"
                         android:layout_alignParentRight="true"
                         android:id="@+id/red_score_ticket_tv"
                         android:textSize="@dimen/activity_text_normal"
@@ -126,14 +132,14 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/logo"/>
+                            android:src="@mipmap/red_ticket_icon"/>
                         <TextView
                             android:textColor="@color/black"
-                            android:textSize="25sp"
+                            android:textSize="35sp"
                             android:layout_marginLeft="15dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200"/>
+                            android:text="0"/>
                     </LinearLayout>
                 </RelativeLayout>
 

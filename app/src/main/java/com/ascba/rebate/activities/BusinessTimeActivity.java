@@ -1,5 +1,7 @@
 package com.ascba.rebate.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -7,8 +9,10 @@ import android.widget.TimePicker;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.view.EditTextWithCustomHint;
+import com.ascba.rebate.view.MoneyBar;
 
-public class BusinessTimeActivity extends BaseActivity {
+public class BusinessTimeActivity extends Activity {
 
     private TimePicker startTime;
     private TimePicker endTime;
@@ -28,6 +32,22 @@ public class BusinessTimeActivity extends BaseActivity {
         endTime.setIs24HourView(true);
         tvTime = ((TextView) findViewById(R.id.tv_time));
 
+        ((MoneyBar) findViewById(R.id.mb_time)).setCallBack(new MoneyBar.CallBack() {
+            @Override
+            public void clickImage(View im) {
+
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+                String s = tvTime.getText().toString();
+                Intent intent=getIntent();
+                intent.putExtra("business_data_time",s);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
+
     }
     //时间设置完成
     public void timeComplete(View view) {
@@ -37,4 +57,5 @@ public class BusinessTimeActivity extends BaseActivity {
         Integer endMinute = endTime.getCurrentMinute();
         tvTime.setText(startHour+":"+startMinute+"~"+endHour+":"+endMinute);
     }
+
 }

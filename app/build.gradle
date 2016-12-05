@@ -10,7 +10,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,9 +32,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //cookie支持
 
-    //底部导航
+
     compile project(':android-expandpoptab-library')
     compile files('libs/baidumapapi_base_v4_1_1.jar')
     compile files('libs/baidumapapi_cloud_v4_1_1.jar')
@@ -43,29 +42,23 @@ dependencies {
     compile files('libs/baidumapapi_search_v4_1_1.jar')
     compile files('libs/baidumapapi_util_v4_1_1.jar')
     compile files('libs/locSDK_6.13.jar')
-    //compile project(':zXingLibrary')
-
-    //compile 'com.google.zxing:core:3.3.0'
-
-    //compile files('libs/zxingscanner-1.2.1.jar')
-
-    //compile 'com.mylhyl:zxingscanner:1.2.0'
     compile files('libs/jpush-android-2.2.0.jar')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.zhy:okhttputils:2.6.1'
-    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.0'
-    compile 'homhomlin.lib:apsts:1.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     compile 'com.google.code.gson:gson:2.7'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jaeger.statusbaruitl:library:1.2.8'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.alibaba:fastjson:1.2.20'
+    compile 'homhomlin.lib:apsts:1.4.0'
     compile 'com.yolanda.nohttp:nohttp:1.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'cn.yipianfengye.android:zxing-library:2.1'
     testCompile 'junit:junit:4.12'
+    compile files('libs/alipaySdk-20161009.jar')
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'
 }

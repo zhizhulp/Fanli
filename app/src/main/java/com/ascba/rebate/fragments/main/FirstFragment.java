@@ -1,10 +1,17 @@
 package com.ascba.rebate.fragments.main;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -19,43 +26,53 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessDetailsActivity;
 import com.ascba.rebate.activities.CityList;
 import com.ascba.rebate.activities.HotActivity;
+import com.ascba.rebate.activities.PayActivity;
+import com.ascba.rebate.activities.RecQRActivity;
+import com.ascba.rebate.activities.SweepActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.handlers.ReceiveThread;
-import com.ascba.rebate.handlers.SendThread;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.MySqliteOpenHelper;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.yolanda.nohttp.Headers;
+import com.yolanda.nohttp.Logger;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.download.DownloadListener;
+import com.yolanda.nohttp.download.DownloadQueue;
+import com.yolanda.nohttp.download.DownloadRequest;
+import com.yolanda.nohttp.error.NetworkError;
+import com.yolanda.nohttp.error.ServerError;
+import com.yolanda.nohttp.error.StorageReadWriteError;
+import com.yolanda.nohttp.error.StorageSpaceNotEnoughError;
+import com.yolanda.nohttp.error.TimeoutError;
+import com.yolanda.nohttp.error.URLError;
+import com.yolanda.nohttp.error.UnKnownHostError;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
-import com.zhy.http.okhttp.OkHttpUtils;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
-
 import static android.content.Context.MODE_PRIVATE;
-
-
 /**
  * 扫一扫主页
  */
 public class FirstFragment extends Fragment {
 
+    private static final String PROGRESS_KEY = "progress";
     private ScrollViewWithListView recBusiness;
     private List<ImageView> imageList;
     private RecBusinessAdapter mAdapter;
@@ -65,8 +82,16 @@ public class FirstFragment extends Fragment {
     int msgWhat = 0;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
-            handler.sendEmptyMessageDelayed(msgWhat, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+            switch (msg.what) {
+                case 0:
+                    vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
+                    handler.sendEmptyMessageDelayed(msgWhat, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+                    break;
+                case 1:
+                    pD.setProgress(msg.arg1);
+                    break;
+            }
+
         }
     };
     private View goBusinessList;
@@ -75,8 +100,11 @@ public class FirstFragment extends Fragment {
     private CheckThread checkThread;
     private RequestQueue requestQueue;
     private SharedPreferences sf;
-    private ReceiveThread thread;
-    private SendThread sendThread;
+    private ImageView imGoRec;
+    private MySqliteOpenHelper db;
+    private ProgressDialog pD;
+    private DownloadQueue downloadQueue;
+    private TextView tvAllScore;
 
     public static FirstFragment instance() {
         FirstFragment view = new FirstFragment();
@@ -115,28 +143,26 @@ public class FirstFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        tvAllScore = ((TextView) view.findViewById(R.id.score_all));
         initRecBusiness(view);//初始化ListView
         initViewPager(view);//初始化viewpager
         initLocation(view);//地址显示
         goHotList(view);//进入热门推荐的页面
         goSweepActivity(view);//进入扫一扫的界面
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Socket s=new Socket("test.qlqwgw.com",2346);
-//                    sendThread=new SendThread(s,"你好，赵俊锋");
-//                    sendThread.start();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-        thread=new ReceiveThread();
-        //thread.start();
-
+        goRecommend(view);//进入推荐页面
         sendMsgToSevr("http://api.qlqwgw.com/v1/index");
+    }
 
+
+    private void goRecommend(View view) {
+        imGoRec = ((ImageView) view.findViewById(R.id.recommend_main));
+        imGoRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RecQRActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void goSweepActivity(View view) {
@@ -144,7 +170,7 @@ public class FirstFragment extends Fragment {
         goSweepActiviIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getActivity(), CaptureActivity.class), 0);
+                startActivityForResult(new Intent(getActivity(), SweepActivity.class), 0);
             }
         });
     }
@@ -161,6 +187,7 @@ public class FirstFragment extends Fragment {
     }
 
     private void initLocation(View view) {
+
         location_text = (TextView) view.findViewById(R.id.home_location_text);
         location_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,18 +201,24 @@ public class FirstFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bundle bundle=data.getExtras();
-        if(bundle==null){
+        if (data == null) {
+            return;
+        }
+        Bundle bundle = data.getExtras();
+        if (bundle == null) {
             return;
         }
         switch (resultCode) {
             case 2:
-                location_text.setText(data.getStringExtra("city"));
+                location_text.setText(data.getStringExtra("city") + data.getIntExtra("id", -1));
                 break;
             case -1:
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+                    String uuid = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(getActivity(), "解析结果:" + uuid, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), PayActivity.class);
+                    intent.putExtra("result", uuid);
+                    startActivity(intent);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
@@ -216,6 +249,8 @@ public class FirstFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
+                Business business = mList.get(position);
+                intent.putExtra("business_id",business.getId());
                 startActivity(intent);
             }
         });
@@ -243,8 +278,9 @@ public class FirstFragment extends Fragment {
         iva.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivb = new ImageView(getContext());
-        ivb.setBackgroundResource(R.mipmap.main_pager);
+        ivb.setBackgroundResource(R.mipmap.banner2);
         ivb.setScaleType(ImageView.ScaleType.CENTER_CROP);
+/*
 
         ImageView ivc = new ImageView(getContext());
         ivc.setBackgroundResource(R.mipmap.main_pager);
@@ -257,28 +293,18 @@ public class FirstFragment extends Fragment {
         ImageView ive = new ImageView(getContext());
         ive.setBackgroundResource(R.mipmap.main_pager);
         ive.setScaleType(ImageView.ScaleType.CENTER_CROP);
+*/
 
         imageList.add(iva);
         imageList.add(ivb);
-        imageList.add(ivc);
+/*        imageList.add(ivc);
         imageList.add(ivd);
-        imageList.add(ive);
+        imageList.add(ive);*/
     }
 
-    //模拟商家列表
+    //初始化商家列表
     private void initList() {
         mList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            if (i % 2 == 0) {
-                Business business = new Business(R.mipmap.main_business_01, "利信快捷金融", "金牌商家", R.mipmap.main_business_category, (20 + i) + "个好评", (200 + i * 100) + "m");
-                mList.add(business);
-            } else {
-                Business business = new Business(R.mipmap.main_business_logo, "华融典当", "金牌商家", R.mipmap.main_business_category, (20 + i) + "个好评", (200 + i * 100) + "m");
-                mList.add(business);
-            }
-
-
-        }
     }
 
     public class MyAdapter extends PagerAdapter {
@@ -322,6 +348,7 @@ public class FirstFragment extends Fragment {
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        String version = getPackageVersion();
         int uuid = sf.getInt("uuid", -1000);
         String token = sf.getString("token", "");
         Long expiring = sf.getLong("expiring_time", -2000);
@@ -333,6 +360,7 @@ public class FirstFragment extends Fragment {
         objRequest.add("uuid", uuid);
         objRequest.add("token", token);
         objRequest.add("expiring_time", expiring);
+        objRequest.add("version_code", version);
         phoneHandler = new PhoneHandler(getActivity());
         phoneHandler.setCallback(new PhoneHandler.Callback() {
             @Override
@@ -345,14 +373,44 @@ public class FirstFragment extends Fragment {
                     JSONObject dataObj = jObj.optJSONObject("data");
                     int update_status = dataObj.optInt("update_status");
                     if (status == 200) {
+
                         if (update_status == 1) {
                             sf.edit()
                                     .putString("token", dataObj.getString("token"))
                                     .putLong("expiring_time", dataObj.getLong("expiring_time"))
                                     .apply();
                         }
+                        JSONObject rebate = dataObj.getJSONObject("rebate");
+                        int white_score = rebate.optInt("white_score");
+                        tvAllScore.setText(white_score+"");
+                        //app更新
+                        JSONObject verObj = dataObj.getJSONObject("version");
+                        int isUpdate = verObj.getInt("isUpdate");
+                        if(isUpdate==1){
+                            String apk_url = verObj.getString("apk_url");
+                            downLoadApp(apk_url);
+                        }
+                        //商家列表
+                        JSONArray optJSONArray = dataObj.optJSONArray("pushBusinessList");
+                        if(optJSONArray!=null && optJSONArray.length()!=0){
+                            for (int i = 0; i < optJSONArray.length(); i++) {
+                                JSONObject busObj = optJSONArray.optJSONObject(i);
+                                String bus_icon = busObj.optString("seller_cover_logo");
+                                String base_url= "http://api.qlqwgw.com";
+                                String seller_taglib = busObj.optString("seller_taglib");
+                                String seller_name = busObj.optString("seller_name");
+                                int id = busObj.optInt("id");
+                                Business b=new Business(base_url + bus_icon,seller_name,seller_taglib,0,"0个评论","0m");
+                                b.setId(id);
+                                mList.add(b);
+                            }
+                            mAdapter.notifyDataSetChanged();
+                        }
                     } else if (status == 5) {
-                        Toast.makeText(getActivity(), jObj.getString("msg"), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
+                        startActivity(intent);
+                        getActivity().finish();
                     } else if (status == 3) {
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                         sf.edit().putInt("uuid", -1000).apply();
@@ -369,30 +427,127 @@ public class FirstFragment extends Fragment {
         dialog.show();
     }
 
+    private String getPackageVersion() {
+        PackageManager packageManager = getActivity().getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(getActivity().getPackageName(),0);
+            String versionName = packInfo.versionName;
+            return versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void downLoadApp(String url) {
+        createDownloadDialog(url);
+    }
+
     /**
-     * 网络请求主页商户列表
-     *
-     * @param url
+     * 下载监听
      */
-    private void downRecBusinessData(String url) {
-        //Map<String, String> params = new HashMap<String, String>();
-        //params.put("name", "zhy");
-        //String url1 = mBaseUrl + "user!getUsers";
-        OkHttpUtils//
-                .post()//
-                .url(url)//
-//                .params(params)//
-                .build()//
-                .execute(new ListUserCallback()//
-                {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                    }
+    private DownloadListener downloadListener = new DownloadListener() {
+        @Override
+        public void onStart(int what, boolean isResume, long beforeLength, Headers headers, long allCount) {
+            pD.show();
+        }
 
-                    @Override
-                    public void onResponse(List<Business> response, int id) {
+        @Override
+        public void onDownloadError(int what, Exception exception) {
+            Logger.e(exception);
 
-                    }
-                });
+            if (exception instanceof ServerError) {
+                Toast.makeText(getActivity(), "后台错误", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof NetworkError) {
+                Toast.makeText(getActivity(), "网络有问题", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof StorageReadWriteError) {
+
+            } else if (exception instanceof StorageSpaceNotEnoughError) {
+                Toast.makeText(getActivity(), "没有足够空间", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof TimeoutError) {
+                Toast.makeText(getActivity(), "请求超时", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof UnKnownHostError) {
+
+            } else if (exception instanceof URLError) {
+                Toast.makeText(getActivity(), "网址错误", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "未知错误", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onProgress(int what, int progress, long fileCount) {
+            pD.setProgress(progress);
+        }
+
+        @Override
+        public void onFinish(int what, String filePath) {
+            pD.setMessage("下载成功");
+            pD.dismiss();
+            if(filePath!=null){
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+                getActivity().startActivity(i);
+            }
+        }
+
+        @Override
+        public void onCancel(int what) {
+
+        }
+
+    };
+
+    private void createDownloadDialog(final String url) {
+        pD = new ProgressDialog(getContext(), R.style.dialog);
+        pD.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pD.setMessage("您有新的更新，点击下载");
+
+        pD.setButton(DialogInterface.BUTTON_POSITIVE, "下载", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                pD.show();
+                downloadQueue = NoHttp.newDownloadQueue(2);
+                DownloadRequest downloadRequest = NoHttp.createDownloadRequest(url, getDiskCacheDir(getActivity()), true);
+                downloadQueue.add(0, downloadRequest, downloadListener);
+            }
+        });
+        pD.show();
+
+/*        pD.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });*/
+
+    }
+
+
+    public String getDiskCacheDir(Context context) {
+        String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = context.getExternalCacheDir().getPath();
+        } else {
+            cachePath = context.getCacheDir().getPath();
+        }
+        return cachePath;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(requestQueue!=null){
+            requestQueue.cancelAll();
+        }
+        if(downloadQueue!=null){
+            downloadQueue.cancelAll();
+        }
+
+
     }
 }

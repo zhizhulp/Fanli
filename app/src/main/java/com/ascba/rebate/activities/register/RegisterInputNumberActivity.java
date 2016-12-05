@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.RegisterProtocolActivity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
@@ -99,5 +100,10 @@ public class RegisterInputNumberActivity extends BaseActivity {
         checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
         checkThread.start();
         dialog4.show();
+    }
+    //服务协议
+    public void goServerProtocol(View view) {
+        Intent intent=new Intent(this,RegisterProtocolActivity.class);
+        startActivity(intent);
     }
 }

@@ -20,9 +20,12 @@ public class SwitchButton extends RadioGroup {
     private RadioButton btnLeft;
     private RadioButton btnRight;
     private Callback callback;
+    private RadioButton btnCenter;
+
     public interface Callback{
         void onLeftClick();
         void onRightClick();
+        void onCenterClick();
     }
 
     public Callback getCallback() {
@@ -42,12 +45,14 @@ public class SwitchButton extends RadioGroup {
         LayoutInflater.from(context).inflate(R.layout.switch_btn,this,true);
         btnLeft = ((RadioButton) findViewById(R.id.btn_left));
         btnRight = ((RadioButton) findViewById(R.id.btn_right));
-        ((ImageView) findViewById(R.id.recommend_title_back)).setOnClickListener(new OnClickListener() {
+        btnCenter = ((RadioButton) findViewById(R.id.btn_center));
+        findViewById(R.id.recommend_title_back).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((Activity) context).finish();
             }
         });
+
         btnLeft.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -65,6 +70,25 @@ public class SwitchButton extends RadioGroup {
             public void onClick(View v) {
                 if(callback!=null){
                     callback.onLeftClick();
+                }
+            }
+        });
+        btnCenter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    btnCenter.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                }else{
+                    btnCenter.setTextColor(getResources().getColor(R.color.white));
+                }
+
+            }
+        });
+        btnCenter.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(callback!=null){
+                    callback.onCenterClick();
                 }
             }
         });

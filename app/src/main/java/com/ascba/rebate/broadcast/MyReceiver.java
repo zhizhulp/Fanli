@@ -1,11 +1,16 @@
 package com.ascba.rebate.broadcast;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PushResultActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 
@@ -15,6 +20,7 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
+import okhttp3.internal.framed.Variant;
 
 /**
  * 自定义接收器
@@ -38,8 +44,9 @@ public class MyReceiver extends BroadcastReceiver {
                         
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
         	Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-        	processCustomMessage(context, bundle);
-        
+        	//processCustomMessage(context, bundle);
+			//自定义通知栏
+			createNotification(bundle,context);
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
@@ -47,14 +54,12 @@ public class MyReceiver extends BroadcastReceiver {
         	
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-            
-        	//打开自定义的Activity
-        	Intent i = new Intent(context, PushResultActivity.class);
-        	i.putExtras(bundle);
-        	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-        	context.startActivity(i);
-        	
+			//打开自定义的Activity
+			Intent i = new Intent(context, PushResultActivity.class);
+			i.putExtras(bundle);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+			context.startActivity(i);
+
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
@@ -66,6 +71,38 @@ public class MyReceiver extends BroadcastReceiver {
         	Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
 	}
+
+	private void createNotification(Bundle bundle,Context context) {
+		//需要获取推送中的title和content
+		String title = bundle.getString(JPushInterface.EXTRA_TITLE);
+		String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+		String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+		//创建通知Notification对象，并将title和message设置到通知对象当中
+		//1 创建通知构造类
+		Notification.Builder builder = new Notification.Builder(context);
+		//2 通过builder设置通知的title content icon
+		builder.setSmallIcon(R.mipmap.logo);  //设置通知的图标
+		builder.setContentTitle(title == null ? "Message From JPush" : title);  //设置通知的标题
+		builder.setContentText(message);  //设置通知的正文
+
+		//获取点击通知之后需要跳转的Intent对象
+		Intent messageIntent = new Intent(context, PushResultActivity.class);
+		messageIntent.putExtra("title", title == null ? "Message From JPush" : title);
+		messageIntent.putExtra("content", message);
+		messageIntent.putExtra("extra", extra);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+				messageIntent, PendingIntent.FLAG_ONE_SHOT);
+		builder.setContentIntent(pendingIntent);
+		//3 获取Notification对象
+		Notification notification = builder.getNotification();
+		//notification.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" +R.raw.test));
+		//4 调用系统服务通知管理器发送通知
+		NotificationManager manager = (NotificationManager) context.getSystemService(
+				Context.NOTIFICATION_SERVICE);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		manager.notify(100, notification);
+	}
+
 
 	// 打印所有的 intent extra 数据
 	private static String printBundle(Bundle bundle) {

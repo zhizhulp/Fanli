@@ -53,7 +53,6 @@ public class AddCardActivity extends BaseActivity {
     private void sendMsgToSevr(String baseUrl) {
         String name = edName.getText().toString();
         String cardNumber = edCardNumber.getText().toString();
-        LogUtils.PrintLog("123",cardNumber);
         if(name.equals("")||cardNumber.equals("")){
             Toast.makeText(this, "请输入姓名或卡号", Toast.LENGTH_SHORT).show();
         }
@@ -82,15 +81,16 @@ public class AddCardActivity extends BaseActivity {
                     JSONObject dataObj = jObj.optJSONObject("data");
                     int update_status = dataObj.optInt("update_status");
                     if (status == 200) {
-                        String realname = dataObj.optString("realname");
-                        String cardid = dataObj.optString("cardid");
-                        String bank_card = dataObj.optString("bank_card");
-                        String bank = dataObj.optString("bank");
-                        String type = dataObj.optString("type");
-                        String nature = dataObj.optString("nature");
-                        String kefu = dataObj.optString("kefu");
-                        String logo = dataObj.optString("logo");
-                        String info = dataObj.optString("info");
+                        JSONObject bankObj = dataObj.optJSONObject("bankCardInfo");
+                        String realname = bankObj.optString("realname");
+                        String cardid = bankObj.optString("cardid");
+                        String bank_card = bankObj.optString("bank_card");
+                        String bank = bankObj.optString("bank");
+                        String type = bankObj.optString("type");
+                        String nature = bankObj.optString("nature");
+                        String kefu = bankObj.optString("kefu");
+                        String logo = bankObj.optString("logo");
+                        String info = bankObj.optString("info");
                         if (update_status == 1) {
                             sf.edit()
                                     .putString("token", dataObj.optString("token"))
@@ -129,5 +129,10 @@ public class AddCardActivity extends BaseActivity {
         checkThread = new CheckThread(requestQueue, phoneHandler, objRequest);
         checkThread.start();
         dialog.show();
+    }
+
+    public void goCardProtocol(View view) {
+        Intent intent=new Intent(this,CardProtocolActivity.class);
+        startActivity(intent);
     }
 }

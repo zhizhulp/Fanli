@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Business;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class RecBusinessAdapter extends BaseAdapter {
 
     public RecBusinessAdapter(List<Business> mList, Context mContext) {
         this.mList = mList;
+        this.mContext=mContext;
         this.mInflater=LayoutInflater.from(mContext);
     }
 
@@ -52,7 +54,7 @@ public class RecBusinessAdapter extends BaseAdapter {
         }
         viewHolder= ((ViewHolder) convertView.getTag());
         Business business = mList.get(position);
-        viewHolder.mLogo.setImageResource(business.getLogo());
+        Picasso.with(mContext).load(business.getLogo()).into(viewHolder.mLogo);
         viewHolder.bName.setText(business.getbName());
         viewHolder.bCategory.setText(business.getbCategory());
         //viewHolder.bCategoryIcon.setImageResource(business.getbCategoryIcon());
@@ -76,6 +78,7 @@ public class RecBusinessAdapter extends BaseAdapter {
             //bCategoryIcon= ((ImageView) root.findViewById(R.id.iv_main_business_category_icon));
             goodComm= ((TextView) root.findViewById(R.id.tv_main_business_goodjob));
             distance= ((TextView) root.findViewById(R.id.tv_main_business_distance));
+
         }
     }
 }

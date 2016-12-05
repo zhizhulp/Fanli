@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.BusinessLocationActivity">
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb_location"
         app:textTitle="商家地址"
         app:needComplete="true"
         android:layout_width="match_parent"
@@ -25,6 +26,9 @@
             android:layout_height="wrap_content"
             android:text="地区"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/ed_city"
+            android:maxLines="1"
+            android:background="@null"
             android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -45,6 +49,9 @@
             android:layout_height="wrap_content"
             android:text="地址"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/ed_locate"
+            android:maxLines="1"
+            android:background="@null"
             android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,8 +59,4 @@
     </LinearLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <Button
-        android:text="提交"
-        android:layout_marginTop="50dp"
-        style="@style/btnNormal" />
 </LinearLayout>

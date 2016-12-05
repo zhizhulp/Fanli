@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
+        android:visibility="gone"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
@@ -50,10 +51,12 @@
             android:src="@mipmap/ic_go"/>
     </RelativeLayout>
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="7dp"
         android:background="@color/view_line"/>
     <TextView
+        android:textColor="@color/black"
         android:layout_marginTop="7dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -64,7 +67,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
@@ -73,15 +76,16 @@
             android:layout_height="match_parent"
             android:text="¥"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
-            app:hintSize="37sp"
+            android:id="@+id/ed_recharge_money"
+            android:inputType="numberDecimal"
+            app:hintSize="15sp"
             android:hint="请输入充值金额"
             android:background="@null"
             android:textColor="@color/black"
             android:layout_marginLeft="7dp"
             android:textSize="37sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="214.13"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <View
         android:layout_marginTop="7dp"

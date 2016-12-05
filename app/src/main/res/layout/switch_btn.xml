@@ -26,10 +26,10 @@
             android:layout_height="wrap_content">
             <RadioButton
                 android:id="@+id/btn_left"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:checked="true"
                 android:textColor="@color/moneyBarColor"
                 android:background="@drawable/recommend_title_status"
@@ -38,11 +38,25 @@
                 android:layout_height="wrap_content"
                 android:text="推荐"/>
             <RadioButton
+                android:visibility="gone"
+                android:id="@+id/btn_center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/white"
+                android:checked="false"
+                android:button="@null"
+                android:background="@drawable/recommend_title_status_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返利"/>
+            <RadioButton
                 android:id="@+id/btn_right"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:textColor="@color/white"
                 android:checked="false"
                 android:button="@null"
@@ -51,6 +65,11 @@
                 android:layout_height="wrap_content"
                 android:text="返利"/>
         </RadioGroup>
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
+
 
 </RelativeLayout>

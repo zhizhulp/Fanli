@@ -19,15 +19,18 @@
         android:layout_height="@dimen/line_space"
         android:orientation="horizontal">
         <TextView
+
             android:textSize="@dimen/activity_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="公司名称"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/ed_company_name"
+            android:maxLines="1"
             android:layout_marginLeft="30dp"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="请输入姓名"/>
     </LinearLayout>
     <View
@@ -45,15 +48,18 @@
             android:layout_height="wrap_content"
             android:text="法人姓名"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:maxLines="1"
+            android:id="@+id/ed_busi_law_man"
             android:layout_marginLeft="30dp"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="请输入姓名"/>
     </LinearLayout>
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
+        android:onClick="goSelectLocation"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
@@ -72,12 +78,12 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <TextView
+            android:id="@+id/tv_busi_address"
             android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/business_back_employee_go"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="北京市丰台区光彩路"/>
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
@@ -94,10 +100,12 @@
             android:layout_height="wrap_content"
             android:text="公司电话"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:maxLines="1"
+            android:id="@+id/ed_busi_phone"
             android:layout_marginLeft="30dp"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="请输入公司电话"/>
     </LinearLayout>
     <View

@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -116,7 +117,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.personal_head_icon_select_pop_bg));//外部点击消失
         popupWindow.setFocusable(true);
         popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -270,12 +271,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                         if (type == 1) {
                             Toast.makeText(PersonalDataActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
                         } else {
-                            String avatar = dataObj.optString("avatar");
-                            String mobile = dataObj.optString("mobile");
-                            String nickname = dataObj.optString("nickname");
-                            int sex = dataObj.optInt("sex");
-                            int age = dataObj.optInt("age");
-                            String location = dataObj.optString("location");
+                            JSONObject userInfo = dataObj.getJSONObject("userInfo");
+                            String avatar = userInfo.optString("avatar");
+                            String mobile = userInfo.optString("mobile");
+                            String nickname = userInfo.optString("nickname");
+                            int sex = userInfo.optInt("sex");
+                            int age = userInfo.optInt("age");
+                            String location = userInfo.optString("location");
+
                             Picasso.with(PersonalDataActivity.this).load(avatar).into(userIconView);
                             tvMobile.setText(mobile);
                             tvNickname.setText(nickname);
@@ -301,6 +304,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                         Toast.makeText(PersonalDataActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
                     } else if (status == 3) {
                         Intent intent = new Intent(PersonalDataActivity.this, LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         finish();
                     } else if (status == 404) {

@@ -1,14 +1,20 @@
 package com.ascba.rebate.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.beans.ConfigAreaDTO;
 import com.ascba.rebate.beans.ConfigsDTO;
 import com.ascba.rebate.beans.ConfigsMessageDTO;
+import com.ascba.rebate.fragments.main.RecBusinessAdapter;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
@@ -27,22 +33,39 @@ public class HotActivity extends BaseActivity {
     private List<KeyValueBean> mPriceLists;
     private List<KeyValueBean> mSortLists;
     private List<KeyValueBean> mFavorLists;
+    private ListView listView;
+    private RecBusinessAdapter recBusinessAdapter;
+    private List<Business> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hot);
+        listView = ((ListView) findViewById(R.id.hot_list));
+        initData();
+        recBusinessAdapter = new RecBusinessAdapter(mList,this);
+        listView.setAdapter(recBusinessAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(HotActivity.this, BusinessDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
+        //setConfigsDatas();
 
-
-        setConfigsDatas();
-
-        expandTabView = (ExpandPopTabView) findViewById(R.id.expandtab_view);
-        addItem(expandTabView, mPriceLists, "", "全部");
-        addItem(expandTabView, mParentLists, mChildrenListLists, "锦江区", "合江亭", "附近");
+        //expandTabView = (ExpandPopTabView) findViewById(R.id.expandtab_view);
+        //addItem(expandTabView, mPriceLists, "", "全部");
+        //addItem(expandTabView, mParentLists, mChildrenListLists, "锦江区", "合江亭", "附近");
         //addItem(expandTabView, mFavorLists, "默认", "排序");
-        addItem(expandTabView, mSortLists, "优惠最多", "智能排序");
+        //addItem(expandTabView, mSortLists, "优惠最多", "智能排序");
 
 //        addItem(expandTabView, mParentLists, mChildrenListLists, null, null, "区域");
+    }
+
+    private void initData() {
+        mList=new ArrayList<>();
+
     }
 
     public void addItem(ExpandPopTabView expandTabView, List<KeyValueBean> lists, String defaultSelect, String defaultShowText) {

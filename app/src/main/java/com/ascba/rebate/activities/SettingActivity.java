@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -48,6 +49,13 @@ public class SettingActivity extends BaseActivity {
     }
     //点击退出，清除缓存，进入登录界面
     public void exitUser(View view) {
+        SharedPreferences sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
+        sf.edit()
+                .putInt("uuid",-1000)
+                .putString("token","")
+                .putLong("expiring_time",-2000)
+                .putString("login_phone","")
+                .putString("login_password","").apply();
         Intent intent=new Intent(this, FourthFragment.class);
         setResult(2,intent);
         finish();

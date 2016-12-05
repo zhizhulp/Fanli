@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -62,6 +63,8 @@ public class NetworkBaseActivity extends AppCompatActivity {
         objRequest.add("uuid", uuid);
         objRequest.add("token", token);
         objRequest.add("expiring_time", expiring_time);
+//        LogUtils.PrintLog("123",baseUrl+"?"+"sign="+UrlEncodeUtils.createSign(baseUrl)
+//        +"&uuid="+uuid+"&token="+token+"&expiring_time="+expiring_time);
         PhoneHandler phoneHandler = new PhoneHandler(this);
         checkThread = new CheckThread(requestQueue, phoneHandler, objRequest);
     }

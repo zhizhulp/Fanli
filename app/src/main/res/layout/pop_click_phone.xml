@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/select_icon_bg"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="135dp"
+    android:minHeight="135dp">
+    <RelativeLayout
+
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TextView
+            android:layout_centerInParent="true"
+            android:text="联系商家"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_alignParentBottom="true"
+            style="@style/viewStyleMargin"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/pop_phone"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:textColor="@android:color/holo_blue_light"
+            android:text="01051247889"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_alignParentBottom="true"
+            style="@style/viewStyleMargin"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/pop_cancel"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="17sp"
+        android:text="取消"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+</LinearLayout>

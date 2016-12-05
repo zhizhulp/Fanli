@@ -1,56 +1,123 @@
 package com.ascba.rebate.activities;
-
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.utils.LogUtils;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.navi.BaiduMapAppNotSupportNaviException;
-import com.baidu.mapapi.navi.BaiduMapNavigation;
-import com.baidu.mapapi.navi.NaviParaOption;
-import com.baidu.mapapi.utils.OpenClientUtil;
-import com.baidu.mapapi.utils.poi.BaiduMapPoiSearch;
-import com.baidu.mapapi.utils.poi.PoiParaOption;
 
-public class BusinessDetailsActivity extends BaseActivity {
+import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.PhoneHandler;
+
+import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.baidu.mapapi.model.LatLng;
+
+import com.baidu.mapapi.utils.OpenClientUtil;
+import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
+import com.baidu.mapapi.utils.route.RouteParaOption;
+import com.squareup.picasso.Picasso;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONObject;
+
+public class BusinessDetailsActivity extends NetworkBaseActivity {
     // 天安门坐标
     double mLat1 = 39.915291;
     double mLon1 = 116.403857;
     // 百度大厦坐标
     double mLat2 = 40.056858;
     double mLon2 = 116.308194;
+    private int business_id;
+    private ImageView imBusiPic;
+    private TextView tvName;
+    private TextView tvType;
+    private TextView tvAddress;
+    private TextView tvPhone;
+    private TextView tvTime;
+    private TextView tvRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_details);
+        initViews();
+        getDataFromMain();
     }
-    //返回按钮
-    public void back(View view) {
-        finish();
+
+    private void initViews() {
+        imBusiPic = ((ImageView) findViewById(R.id.im_busi_pic));
+        tvName = ((TextView) findViewById(R.id.tv_busi_name));
+        tvType = ((TextView) findViewById(R.id.tv_busi_type));
+        tvAddress = ((TextView) findViewById(R.id.tv_busi_address));
+        tvPhone = ((TextView) findViewById(R.id.tv_busi_phone));
+        tvTime = ((TextView) findViewById(R.id.tv_busi_time));
+        //商家简介特殊处理
+        tvRate = ((TextView) findViewById(R.id.tv_busi_rate));
+    }
+
+    private void getDataFromMain() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            business_id = intent.getIntExtra("business_id",-1);
+            if(business_id!=-1){
+                sendMsgToSevr("http://api.qlqwgw.com/v1/getBusinesses",0);
+                CheckThread checkThread = getCheckThread();
+                Request<JSONObject> objRequest = checkThread.getObjRequest();
+                final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
+                p.setMessage("请稍后");
+                objRequest.add("businesses_id",business_id);
+                PhoneHandler phoneHandler = checkThread.getPhoneHandler();
+                phoneHandler.setCallback(phoneHandler.new Callback2(){
+                    @Override
+                    public void getMessage(Message msg) {
+                        p.dismiss();
+                        super.getMessage(msg);
+                        JSONObject jObj = (JSONObject) msg.obj;
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        int status = jObj.optInt("status");
+                        if(status==200){
+                            JSONObject seObj = dataObj.optJSONObject("sellerInfo");
+                            String seller_name = seObj.optString("seller_name");
+                            String seller_taglib = seObj.optString("seller_taglib");
+                            String seller_description = seObj.optString("seller_description");
+                            String seller_address = seObj.optString("seller_address");
+                            String seller_tel = seObj.optString("seller_tel");
+                            String seller_business_hours = seObj.optString("seller_business_hours");
+                            String base_url="http://api.qlqwgw.com";
+                            String seller_cover = seObj.optString("seller_cover");
+                            String seller_return_ratio = seObj.optString("seller_return_ratio");
+                            Picasso.with(BusinessDetailsActivity.this).load(base_url+seller_cover).into(imBusiPic);
+                            tvName.setText(seller_name);
+                            tvType.setText(seller_taglib);
+                            tvAddress.setText(seller_address);
+                            tvPhone.setText(seller_tel);
+                            tvTime.setText(seller_business_hours);
+                            tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
+                        }
+                    }
+                });
+                checkThread.start();
+                p.show();
+            }
+        }
     }
 
     public void goBaiduNavi(View view) {
-        startWalkingNavi();
-        //startPoiDetails();
+        startRoutePlanTransit();
     }
-    /**
-     * 启动百度地图Poi详情页面
-     */
-    public void startPoiDetails() {
-        PoiParaOption para = new PoiParaOption().uid("65e1ee886c885190f60e77ff"); // 天安门
-        try {
-            BaiduMapPoiSearch.openBaiduMapPoiDetialsPage(para, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showDialog();
-        }
 
-    }
     /**
      * 提示未安装百度地图app或app版本过低
      */
@@ -76,25 +143,64 @@ public class BusinessDetailsActivity extends BaseActivity {
     }
 
     /**
-     * 启动百度地图步行导航(Native)
-     *
+     * 启动百度地图公交路线规划
      */
-    public void startWalkingNavi() {
-        LatLng pt1 = new LatLng(mLat1, mLon1);
-        LatLng pt2 = new LatLng(mLat2, mLon2);
+    public void startRoutePlanTransit() {
+        LatLng ptStart = new LatLng(mLat1, mLon1);
+        LatLng ptEnd = new LatLng(mLat2, mLon2);
 
-        // 构建 导航参数
-        NaviParaOption para = new NaviParaOption()
-                .startPoint(pt1).endPoint(pt2)
-                .startName("天安门").endName("百度大厦");
+        RouteParaOption para = new RouteParaOption()
+        .startPoint(ptStart).endPoint(ptEnd).busStrategyType(RouteParaOption.EBusStrategyType.bus_recommend_way);
 
         try {
-            BaiduMapNavigation.openBaiduMapWalkNavi(para, this);
-            LogUtils.PrintLog("BusinessDetailsActivity","百度导航");
-        } catch (BaiduMapAppNotSupportNaviException e) {
+            BaiduMapRoutePlan.openBaiduMapTransitRoute(para, this);
+        } catch (Exception e) {
             e.printStackTrace();
             showDialog();
         }
 
+    }
+    //用户点击了 联系他
+    public void goPhone(View view) {
+        final PopupWindow p=new PopupWindow(this);
+        View popView = getLayoutInflater().inflate(R.layout.pop_click_phone, null);
+        p.setContentView(popView);
+        p.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams params = getWindow().getAttributes();
+                params.alpha = 1.0f;
+                getWindow().setAttributes(params);
+            }
+        });
+        View phoneView = popView.findViewById(R.id.pop_phone);
+        View cancelView = popView.findViewById(R.id.pop_cancel);
+        phoneView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView tvPhone = (TextView) v.findViewById(R.id.tv_phone);
+                String phone = tvPhone.getText().toString();
+                if(!phone.equals("")){
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                    startActivity(intent);
+                }
+
+            }
+        });
+        cancelView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                p.dismiss();
+            }
+        });
+        p.setOutsideTouchable(true);
+        p.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        p.setHeight(ScreenDpiUtils.dip2px(this,135));
+        p.setBackgroundDrawable(new ColorDrawable(0xE8E8E7));
+        p.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM,0,0);
+        //设置背景变暗
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha = 0.5f;
+        getWindow().setAttributes(params);
     }
 }

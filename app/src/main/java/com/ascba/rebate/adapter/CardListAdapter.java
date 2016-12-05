@@ -84,21 +84,6 @@ public class CardListAdapter extends BaseAdapter {
         viewHolder.TVName.setText(card.getName());
         viewHolder.TVType.setText(card.getType());
         viewHolder.TVNumber.setText(card.getNumber());
-//        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    mList.get(index).setSelect(true);
-//                } else {
-//                    mList.get(index).setSelect(false);
-//                }
-//            }
-//        });
-//        if (card.isSelect() ){
-//            viewHolder.checkBox.setChecked(true);
-//        }else{
-//            viewHolder.checkBox.setChecked(false);
-//        }
         return slideView;
     }
 

@@ -12,29 +12,93 @@
         <TextView
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
-            android:textSize="17sp"
+            android:textSize="23sp"
             android:textColor="@color/white"
-            android:text="累计奖励(元)"
+            android:text="486284"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginTop="15dp"
+            android:id="@+id/money_money"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:textSize="17sp"
             android:textColor="@color/white"
-            android:text="100.00"
+            android:text="累计兑换券(元)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <com.lhh.apst.library.CustomPagerSlidingTabStrip
-        android:id="@+id/tabs_recommend"
-        style="@style/pagertab_style"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:background="@color/moneyBarColor"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
 
-    <com.ascba.rebate.activities.main.APSTSViewPager
-        android:id="@+id/vp_recommend"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            <RelativeLayout
+                android:id="@+id/recommend_first"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20人"/>
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="一级推广"/>
+                </LinearLayout>
+                <View
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/view_line"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/recommend_second"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20人"/>
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="二级推广"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <ListView
+            android:scrollbars="none"
+            android:id="@+id/recommend_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
 
 </LinearLayout>

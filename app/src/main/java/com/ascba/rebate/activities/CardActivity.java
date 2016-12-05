@@ -58,6 +58,8 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
     private RequestQueue requestQueue;
     private SharedPreferences sf;
     private int positionL;
+    private View noCardVeiw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,7 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
     //点击+号，出现弹出框
     private void findView() {
         sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
+        noCardVeiw = findViewById(R.id.no_card_view);
         initMoneyBar();
         initListView();
     }
@@ -75,19 +78,19 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
     private void initListView() {
         cardListView = ((ListViewCompat) findViewById(R.id.card_list));
         mList=new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            if(i%3==0){
-                Card card=new Card("中国农业银行","储蓄卡","**** **** **** 1234",false);
-                mList.add(card);
-            }else if(i%3==1){
-                Card card=new Card("中国招商银行","信用卡","**** **** **** 3659",false);
-                mList.add(card);
-            }else{
-                Card card=new Card("中国人民银行","储蓄卡","**** **** **** 4568",false);
-                mList.add(card);
-            }
-
-        }
+//        for (int i = 0; i < 3; i++) {
+//            if(i%3==0){
+//                Card card=new Card("中国农业银行","储蓄卡","**** **** **** 1234",false);
+//                mList.add(card);
+//            }else if(i%3==1){
+//                Card card=new Card("中国招商银行","信用卡","**** **** **** 3659",false);
+//                mList.add(card);
+//            }else{
+//                Card card=new Card("中国人民银行","储蓄卡","**** **** **** 4568",false);
+//                mList.add(card);
+//            }
+//
+//        }
         cardListAdapter = new CardListAdapter(mList,this);
         cardListView.setAdapter(cardListAdapter);
         cardListView.setOnItemClickListener(this);
@@ -103,6 +106,11 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
             public void clickImage(View im) {
                 Intent intent=new Intent(CardActivity.this,AddCardActivity.class);
                 startActivityForResult(intent,1);
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+
             }
         });
     }
@@ -144,23 +152,26 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
                                     .putLong("expiring_time", dataObj.optLong("expiring_time"))
                                     .apply();
                         }
-
-                        Toast.makeText(CardActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
                         if(type==0){
                             JSONArray bank_list = dataObj.optJSONArray("bank_list");
-                            LogUtils.PrintLog("123CardActivity",bank_list.toString());
-                            for (int i = 0; i < bank_list.length(); i++) {
-                                JSONObject jsonObject = bank_list.optJSONObject(i);
-                                int id = jsonObject.optInt("id");
-                                String bank = jsonObject.optString("bank");
-                                String bank_card = jsonObject.optString("bank_card");
-                                String type = jsonObject.optString("type");
-                                String bank_logo = jsonObject.optString("bank_logo");
-                                Card card=new Card(bank,type,bank_card,false);
-                                card.setId(id);
-                                mList.add(card);
+                            if(bank_list!=null && bank_list.length()!=0){
+                                noCardVeiw.setVisibility(View.GONE);
+                                for (int i = 0; i < bank_list.length(); i++) {
+                                    JSONObject jsonObject = bank_list.optJSONObject(i);
+                                    int id = jsonObject.optInt("id");
+                                    String bank = jsonObject.optString("bank");
+                                    String bank_card = jsonObject.optString("bank_card");
+                                    String type = jsonObject.optString("type");
+                                    String bank_logo = jsonObject.optString("bank_logo");
+                                    Card card=new Card(bank,type,bank_card,false);
+                                    card.setId(id);
+                                    mList.add(card);
+                                }
+                                cardListAdapter.notifyDataSetChanged();
+                            }else{
+                                noCardVeiw.setVisibility(View.VISIBLE);
                             }
-                            cardListAdapter.notifyDataSetChanged();
+
                         }else {
                             deleteSuccess();
                             Toast.makeText(CardActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();

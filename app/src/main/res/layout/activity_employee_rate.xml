@@ -12,10 +12,12 @@
         android:layout_height="wrap_content"
         app:textTitle="返佣比"/>
     <RadioGroup
+        android:id="@+id/rg_rate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <RadioButton
+            android:id="@+id/rate_8"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
@@ -26,6 +28,7 @@
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
+            android:id="@+id/rate_16"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
@@ -36,6 +39,7 @@
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
+            android:id="@+id/rate_24"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"

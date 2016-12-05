@@ -3,6 +3,7 @@ package com.ascba.rebate.handlers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -62,7 +63,7 @@ public class PhoneHandler extends Handler {
                 JSONObject dataObj = jObj.optJSONObject("data");
                 int update_status = dataObj.optInt("update_status");
                 if (status == 200) {
-                    Toast.makeText(context, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
                     if (update_status == 1) {
                         context.getSharedPreferences("first_login_success_name_password",MODE_PRIVATE).edit()
                                 .putString("token", dataObj.optString("token"))
@@ -70,10 +71,15 @@ public class PhoneHandler extends Handler {
                                 .apply();
                     }
                 } else if (status == 5) {
-                    Toast.makeText(context, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                    ((Activity) context).finish();
                 } else if (status == 3) {
                     Toast.makeText(context, "请重新登录", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, LoginActivity.class);
+                    SharedPreferences sf = context.getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
+                    sf.edit().putInt("uuid", -1000).apply();
                     context.startActivity(intent);
                     ((Activity) context).finish();
                 } else if (status == 404) {

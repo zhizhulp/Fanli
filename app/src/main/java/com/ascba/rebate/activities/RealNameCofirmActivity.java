@@ -73,10 +73,11 @@ public class RealNameCofirmActivity extends BaseActivity {
                     JSONObject dataObj = jObj.optJSONObject("data");
                     int update_status = dataObj.optInt("update_status");
                     if (status == 200) {
-                        String card = dataObj.optString("cardid");
-                        String sex = dataObj.optString("sex");
-                        String age = dataObj.optString("age");
-                        String location = dataObj.optString("location");
+                        JSONObject cardObj = dataObj.getJSONObject("cardIdInfo");
+                        String card = cardObj.optString("cardid");
+                        String sex = cardObj.optString("sex");
+                        String age = cardObj.optString("age");
+                        String location = cardObj.optString("location");
                         if (update_status == 1) {
                             sf.edit()
                                     .putString("token", dataObj.optString("token"))

@@ -53,6 +53,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".application.MyApplication"
@@ -67,17 +68,17 @@
 
         <activity
             android:name=".activities.splash.SplashActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
@@ -139,10 +140,6 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.LoginPasswordChangeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.MyPowerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
@@ -215,9 +212,18 @@
             android:name=".activities.BusinessPhoneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.BusinessTagActivity" />
-        <activity android:name=".activities.BusinessNameActivity" />
-        <activity android:name=".activities.BusinessDescriptionActivity" />
+        <activity
+            android:name=".activities.BusinessTagActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BusinessNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BusinessDescriptionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.BusinessPicActivity"
             android:screenOrientation="portrait"
@@ -261,7 +267,7 @@
         <activity
             android:name=".activities.BusinessTimeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity
             android:name=".activities.CardDataActivity"
             android:screenOrientation="portrait"
@@ -358,7 +364,10 @@
             android:name="JPUSH_APPKEY"
             android:value="38b7d12e3ef40facf5b431d6" /> <!-- </>值来自开发者平台取得的AppKey -->
 
-        <activity android:name=".activities.PushResultActivity" />
+        <activity
+            android:name=".activities.PushResultActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.BankCardActivity"
             android:screenOrientation="portrait"
@@ -366,12 +375,65 @@
         <activity
             android:name=".activities.base.NetworkBaseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
-        <activity android:name=".activities.AllAccountActivity"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.AllAccountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SweepActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <!-- 支付宝相关 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+        <activity
+            android:name=".activities.FirstRecActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SecondRecActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BusinessCenter2Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.PoiSearchDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RecQRActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.ProxyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.base.WebViewBaseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RegisterProtocolActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.CardProtocolActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity android:name=".activities.OpenProxyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
     </application>
 
 </manifest>

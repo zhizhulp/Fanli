@@ -106,8 +106,13 @@ public class LoginPasswordChangeActivity extends BaseActivity {
                         }
                     } else if (status == 5) {
                         Toast.makeText(LoginPasswordChangeActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginPasswordChangeActivity.this, LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
+                        startActivity(intent);
+                        finish();
                     } else if (status == 3) {
                         Intent intent = new Intent(LoginPasswordChangeActivity.this, LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         finish();
                     } else if (status == 404) {

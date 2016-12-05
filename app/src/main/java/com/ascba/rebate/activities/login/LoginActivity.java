@@ -46,7 +46,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
         initViews();
-        //autoLogin();
+        autoLogin();
         backFirstPhone();//传回注册成功的手机账号
         backLossPhone();//密码找回成功
     }

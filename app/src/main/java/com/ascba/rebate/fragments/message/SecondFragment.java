@@ -15,10 +15,6 @@ import com.ascba.rebate.R;
  */
 public class SecondFragment extends Fragment {
 
-    public static SecondFragment instance() {
-        SecondFragment view = new SecondFragment();
-        return view;
-    }
 
     @Nullable
     @Override

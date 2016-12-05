@@ -8,11 +8,14 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.BusinessPhoneActivity">
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb_name"
         app:needComplete="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="商家名称"/>
     <com.ascba.rebate.view.EditTextWithCustomHint
+        android:id="@+id/ed_business_data_name"
+        android:maxLines="1"
         android:layout_marginTop="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

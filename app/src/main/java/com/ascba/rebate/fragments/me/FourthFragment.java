@@ -3,14 +3,22 @@ package com.ascba.rebate.fragments.me;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +26,9 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.AccountActivity;
 import com.ascba.rebate.activities.AccountRechargeActivity;
 import com.ascba.rebate.activities.AllAccountActivity;
+import com.ascba.rebate.activities.BusinessCenter2Activity;
 import com.ascba.rebate.activities.BusinessCenterActivity;
+import com.ascba.rebate.activities.BusinessDataActivity;
 import com.ascba.rebate.activities.CardActivity;
 import com.ascba.rebate.activities.CashGetActivity;
 import com.ascba.rebate.activities.PersonalDataActivity;
@@ -32,6 +42,7 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.NoHttp;
@@ -39,6 +50,7 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,6 +75,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     private View goCashAcView;
     private View goRecView;
     private View goTicketView;
+    private View goProxyCenterView;
     private CircleImageView goUserCenterView;
     private PhoneHandler phoneHandler;
     private CheckThread checkThread;
@@ -73,11 +86,13 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     private TextView tvMoney;
     private TextView tvBanks;
     private TextView tvTicket;
+    private LinearLayout imgsContainer;
+    private int merchant;
 
-    public static FourthFragment instance() {
-        FourthFragment view = new FourthFragment();
-        return view;
-    }
+//    public static FourthFragment instance() {
+//        FourthFragment view = new FourthFragment();
+//        return view;
+//    }
 
     @Nullable
     @Override
@@ -95,9 +110,10 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-
+        //初始化8个小图标parent
+        imgsContainer = ((LinearLayout) view.findViewById(R.id.container_imgs));
         sf=getActivity().getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
-        sendMsgToSevr("http://api.qlqwgw.com/v1/user");
+        sendMsgToSevr("http://api.qlqwgw.com/v1/user",0);
 
 
         //点击设置进入设置页面
@@ -143,6 +159,10 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         //点击商户中心进入商户中心界面
         goCenterView = view.findViewById(R.id.me_go_business_center);
         goCenterView.setOnClickListener(this);
+        //点击商户中心进入商户中心界面
+        goProxyCenterView = view.findViewById(R.id.me_go_proxy_center);
+        goProxyCenterView.setOnClickListener(this);
+
 
     }
 
@@ -154,7 +174,6 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         tvTicket = ((TextView) view.findViewById(R.id.me_tv_ticket));
     }
 
-
     @Override
     public void onClick(View v) {
         int id= v.getId();
@@ -164,8 +183,39 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 startActivity(intentUser);
                 break;
             case R.id.go_white_score_account:
-                Intent intent=new Intent(getActivity(), WSAccountActivity.class);
-                startActivity(intent);
+                if(true){
+                    final PopupWindow pop=new PopupWindow(getActivity());
+                    pop.setBackgroundDrawable(new ColorDrawable(0xE8E8E7));
+                    pop.setOutsideTouchable(false);
+                    View view=getActivity().getLayoutInflater().inflate(R.layout.pop_white_no_permission,null);
+                    view.findViewById(R.id.cry_close_icon).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            pop.dismiss();
+                        }
+                    });
+                    pop.setContentView(view);
+                    pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
+                            params.alpha = 1.0f;
+                            getActivity().getWindow().setAttributes(params);
+                        }
+                    });
+                    DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
+                    int widthPixels = dm.widthPixels;
+                    pop.setWidth(widthPixels/2);
+                    pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                    pop.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.CENTER,0,0);
+                    //设置背景变暗
+                    WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
+                    params.alpha = 0.5f;
+                    getActivity().getWindow().setAttributes(params);
+                }else{
+                    Intent intent=new Intent(getActivity(), WSAccountActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.me_go_card:
                 Intent intentCard=new Intent(getActivity(), CardActivity.class);
@@ -188,8 +238,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent4);
                 break;
             case R.id.me_go_business_center:
-                Intent intent5=new Intent(getActivity(), BusinessCenterActivity.class);
-                startActivity(intent5);
+                sendMsgToSevr("http://api.qlqwgw.com/v1/getCompany",1);
                 break;
             case R.id.tv_go_get_cash:
                 Intent intent6=new Intent(getActivity(), CashGetActivity.class);
@@ -203,6 +252,9 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 Intent intent8=new Intent(getActivity(), TicketActivity.class);
                 startActivity(intent8);
                 break;
+            case R.id.me_go_proxy_center:
+                Toast.makeText(getActivity(), "稍后开放", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -215,11 +267,14 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
             startActivity(intent);
         }
     }
-    private void sendMsgToSevr(String baseUrl) {
+    private void sendMsgToSevr(String baseUrl, final int scene) {
         int uuid = sf.getInt("uuid",-1000 );
         String token = sf.getString("token", "");
         long expiring_time = sf.getLong("expiring_time", -2000);
-        requestQueue= NoHttp.newRequestQueue();
+        if(requestQueue==null){
+            requestQueue= NoHttp.newRequestQueue();
+        }
+
         final ProgressDialog dialog = new ProgressDialog(getActivity(), R.style.dialog);
         dialog.setMessage("请稍后");
         Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
@@ -227,8 +282,13 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         objRequest.add("uuid",uuid);
         objRequest.add("token",token);
         objRequest.add("expiring_time",expiring_time);
+        if(scene==1){
+            objRequest.add("company_stauts",merchant);
+        }
         phoneHandler=new PhoneHandler(getActivity());
         phoneHandler.setCallback(new PhoneHandler.Callback() {
+
+
             @Override
             public void getMessage(Message msg) {
                 dialog.dismiss();
@@ -239,27 +299,101 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                     JSONObject dataObj = jObj.optJSONObject("data");
                     int update_status = dataObj.optInt("update_status");
                     if(status==200){
-                        if(update_status==1){
-                            sf.edit()
-                                    .putString("token",dataObj.getString("token"))
-                                    .putLong("expiring_time",dataObj.getLong("expiring_time"))
-                                    .apply();
-                        }
-                        String avatar = dataObj.optString("avatar");//头像url地址
-                        int white_score = dataObj.optInt("white_score");//白积分
-                        String nickname = dataObj.optString("nickname");//用户昵称
-                        String money = dataObj.getString("money");//用户余额
-                        int banks = dataObj.getInt("banks");//银行卡数量
-                        int vouchers = dataObj.getInt("vouchers");//代金券数量
+                        if(scene==0){
+                            if(update_status==1){
+                                sf.edit()
+                                        .putString("token",dataObj.getString("token"))
+                                        .putLong("expiring_time",dataObj.getLong("expiring_time"))
+                                        .apply();
+                            }
+                            JSONObject infoObj = dataObj.optJSONObject("myInfo");
+                            String avatar = infoObj.optString("avatar");//头像url地址
+                            int white_score = infoObj.optInt("white_score");//白积分
+                            String nickname = infoObj.optString("nickname");//用户昵称
+                            String money = infoObj.getString("money");//用户余额
+                            int banks = infoObj.getInt("banks");//银行卡数量
+                            int vouchers = infoObj.getInt("vouchers");//代金券数量
+                            merchant = infoObj.getInt("merchant");
+                            Picasso.with(getActivity()).load(avatar).into(goUserCenterView);
+                            JSONArray group_type = infoObj.getJSONArray("group_type");
+                            for (int i = 0; i < group_type.length(); i++) {
+                                JSONObject typeObj = group_type.getJSONObject(i);
+                                int isUpgraded = typeObj.getInt("isUpgraded");
+                                int id = typeObj.getInt("id");
+                                ImageView imageView=new ImageView(getActivity());
+                                int i1 = ScreenDpiUtils.dip2px(getActivity(), 18);
+                                LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(i1, i1);
+                                int dpLeft = ScreenDpiUtils.dip2px(getActivity(), 7);
+                                lp.leftMargin=dpLeft;
+                                imageView.setLayoutParams(lp);
+                                String baseUrl="http://api.qlqwgw.com";
 
-                        Picasso.with(getActivity()).load(avatar).into(goUserCenterView);
-                        tvWhiteScore.setText(white_score+"");
-                        tvNickName.setText(nickname);
-                        tvMoney.setText("账户余额："+money);
-                        tvBanks.setText(banks+"");
-                        tvTicket.setText(vouchers+"张");
-                    }else if(status==5){
-                        Toast.makeText(getActivity(), jObj.getString("msg"), Toast.LENGTH_SHORT).show();
+                                if(isUpgraded==1||id==1){
+                                    String upgraded_icon = typeObj.getString("upgraded_icon");
+                                    Picasso.with(getActivity()).load(baseUrl+upgraded_icon).into(imageView);
+                                }else{
+                                    String default_icon = typeObj.getString("default_icon");
+                                    Picasso.with(getActivity()).load(baseUrl+default_icon).into(imageView);
+                                }
+                                imgsContainer.addView(imageView);
+                            }
+                            tvWhiteScore.setText(white_score+"");
+                            tvNickName.setText(nickname);
+                            tvMoney.setText("账户余额："+money);
+                            tvBanks.setText(banks+"");
+                            tvTicket.setText(vouchers+"张");
+                        }else{
+                            if(merchant==3){
+                                JSONObject company = dataObj.getJSONObject("company");
+                                Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
+                                String name = company.optString("name");
+                                String corporate = company.optString("corporate");
+                                String address = company.optString("address");
+                                String tel = company.optString("tel");
+                                intent.putExtra("name",name);
+                                intent.putExtra("corporate",corporate);
+                                intent.putExtra("tel",tel);
+                                intent.putExtra("address",address);
+                                startActivity(intent);
+                            }
+                        }
+
+
+                    } else if(status==404){
+                        JSONObject comObj = dataObj.optJSONObject("company");
+
+                        if(merchant==0){
+                            Intent intent=new Intent(getActivity(),BusinessCenterActivity.class);
+                            startActivity(intent);
+                        }else if(merchant==1){
+                            Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
+                            String name = comObj.optString("name");
+                            String corporate = comObj.optString("corporate");
+                            String address = comObj.optString("address");
+                            String tel = comObj.optString("tel");
+                            intent.putExtra("name_01",name);
+                            intent.putExtra("corporate_01",corporate);
+                            intent.putExtra("tel_01",tel);
+                            intent.putExtra("address_01",address);
+                            startActivity(intent);
+                        }else if(merchant==2){
+                            Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
+                            String name = comObj.optString("name");
+                            String corporate = comObj.optString("corporate");
+                            String address = comObj.optString("address");
+                            String tel = comObj.optString("tel");
+                            intent.putExtra("name",name);
+                            intent.putExtra("corporate",corporate);
+                            intent.putExtra("tel",tel);
+                            intent.putExtra("address",address);
+                            startActivity(intent);
+                        }
+
+                    } else if(status==5){
+                        Intent intent=new Intent(getActivity(),LoginActivity.class);
+                        sf.edit().putInt("uuid",-1000).apply();
+                        startActivity(intent);
+                        getActivity().finish();
                     }else if(status==3){
                         Intent intent=new Intent(getActivity(),LoginActivity.class);
                         sf.edit().putInt("uuid",-1000).apply();

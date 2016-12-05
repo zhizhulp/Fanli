@@ -5,7 +5,8 @@ package com.ascba.rebate.beans;
  */
 
 public class Business {
-    private int logo;
+    private int id;
+    private String logo;
     private String bName;
     private String bCategory;
     private int bCategoryIcon;
@@ -14,7 +15,16 @@ public class Business {
     public Business(){
 
     }
-    public Business(int logo, String bName, String bCategory, int bCategoryIcon, String goodComm, String distance) {
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Business(String logo, String bName, String bCategory, int bCategoryIcon, String goodComm, String distance) {
         this.logo = logo;
         this.bName = bName;
         this.bCategory = bCategory;
@@ -23,11 +33,11 @@ public class Business {
         this.distance = distance;
     }
 
-    public int getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(int logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 

@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:text="持卡人"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
-           android:background="@null"
+            android:inputType="text"
+            android:background="@null"
             android:id="@+id/ed_add_card_name"
             android:maxLines="1"
             android:textSize="14sp"
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:text="卡号"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:inputType="number"
             android:background="@null"
             android:id="@+id/ed_add_card_number"
             android:maxLines="1"
@@ -64,4 +66,13 @@
         android:layout_marginTop="50dp"
         android:text="下一步"
         style="@style/btnNormal" />
+    <TextView
+        android:onClick="goCardProtocol"
+        android:textSize="13sp"
+        android:textColor="@color/text_blue"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="使用前请阅读服务协议?"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
 </LinearLayout>

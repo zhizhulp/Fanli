@@ -112,11 +112,8 @@ public class PasswordLossWithCodeActivity extends BaseActivity {
                         finish();
                     }else if(status==-1){
                         Toast.makeText(PasswordLossWithCodeActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(PasswordLossWithCodeActivity.this, "请重新发送验证码", Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(PasswordLossWithCodeActivity.this, PasswordLossActivity.class);
-                        startActivity(intent);
-                        finish();
+                    }else if(status==404){
+                        Toast.makeText(PasswordLossWithCodeActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

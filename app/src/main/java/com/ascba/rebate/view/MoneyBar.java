@@ -29,7 +29,9 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private TextView completeText;
     private CallBack callBack;
 
-
+    public MoneyBar(Context context){
+        super(context);
+    }
     public MoneyBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context,attrs);
@@ -98,11 +100,18 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
                 ((Activity) getContext()).finish();
                 break;
             case R.id.money_bar_ok:
-                ((Activity) getContext()).finish();
+                if(callBack!=null){
+                    callBack.clickComplete(completeText);
+                }
                 break;
         }
     }
     public interface CallBack{
         void clickImage(View im);
+        void clickComplete(View tv);
+    }
+    public void setTextTitle(String title){
+        this.title=title;
+        invalidate();
     }
 }

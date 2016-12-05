@@ -17,11 +17,11 @@ import java.util.List;
  * Created by Administrator on 2016/11/6.
  */
 
-public class FirstRecAdapter extends BaseAdapter {
+public class RecAdapter extends BaseAdapter {
     private List<FirstRec> mList;
     private LayoutInflater mInflater;
 
-    public FirstRecAdapter(List<FirstRec> mList, Context mContext) {
+    public RecAdapter(List<FirstRec> mList, Context mContext) {
         this.mList = mList;
         this.mInflater = LayoutInflater.from(mContext);
     }
@@ -45,7 +45,7 @@ public class FirstRecAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if(convertView==null){
-            convertView= mInflater.inflate(R.layout.first_rec_list_item,null);
+            convertView= mInflater.inflate(R.layout.rec_list_item,null);
             viewHolder=new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
@@ -55,6 +55,7 @@ public class FirstRecAdapter extends BaseAdapter {
         viewHolder.tvNum.setText(firstRec.getRecNum());
         viewHolder.tvMoney.setText(firstRec.getMoney());
         viewHolder.tvTime.setText(firstRec.getTime());
+        viewHolder.imType.setImageResource(firstRec.getTypeIcon());
         return convertView;
     }
     private class ViewHolder{

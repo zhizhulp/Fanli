@@ -50,6 +50,7 @@
                 android:textSize="15sp" />
 
             <LinearLayout
+                android:id="@+id/container_imgs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -57,7 +58,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
+               <!-- <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
@@ -96,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="9dp"
                     android:scaleType="fitCenter"
-                    android:src="@mipmap/me_cash_account_mini" />
+                    android:src="@mipmap/me_cash_account_mini" />-->
             </LinearLayout>
         </RelativeLayout>
         <!--账户余额title-->
@@ -124,9 +125,10 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="2.5dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/me_account_go" />
+                android:src="@mipmap/setting_go" />
 
             <TextView
+                android:padding="5dp"
                 android:layout_centerVertical="true"
                 android:id="@+id/tv_go_get_cash"
                 android:layout_width="wrap_content"
@@ -315,10 +317,11 @@
             style="@style/viewStyleMatch"/>
 
         <TextView
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingBottom="14dp"
             android:paddingTop="14dp"
             android:text="我的积分"
@@ -446,10 +449,11 @@
         <View style="@style/viewStyleMatch" />
         <!-- 会员中心-->
         <TextView
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingBottom="14dp"
             android:paddingTop="14dp"
             android:text="会员中心"
@@ -592,10 +596,11 @@
         <View style="@style/viewStyleMatch" />
         <!-- 钱来钱往合作商-->
         <TextView
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingBottom="14dp"
             android:paddingTop="14dp"
             android:text="钱来钱往合作商"

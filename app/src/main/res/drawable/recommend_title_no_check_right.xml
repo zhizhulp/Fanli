@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/moneyBarColor"/>
     <corners android:topRightRadius="3dp" android:bottomRightRadius="3dp"/>
-    <stroke android:color="@color/view_line" android:width="1dp"/>
+    <stroke android:color="@color/white" android:width="0.5dp" />
 </shape>
