@@ -11,11 +11,14 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.RegisterProtocolActivity;
 import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
@@ -61,11 +64,16 @@ public class RegisterInputNumberActivity extends BaseActivity {
             return;
         }
 
-        sendMsgToSevr("http://api.qlqwgw.com/v1/sendMsg");
+        sendMsgToSevr(UrlUtils.sendMsg);
 
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         requestQueue= NoHttp.newRequestQueue();
         final ProgressDialog dialog4 = new ProgressDialog(this,R.style.dialog);
         dialog4.setMessage("正在发送验证码");
@@ -79,18 +87,38 @@ public class RegisterInputNumberActivity extends BaseActivity {
             public void getMessage(Message msg) {
                 dialog4.dismiss();
                 JSONObject jObj= (JSONObject) msg.obj;
-                LogUtils.PrintLog("123RegisterInputNumberActivity",jObj.toString());
                 try {
                     int status = jObj.getInt("status");
+                    String message = jObj.getString("msg");
                     if(status==200){//服务端返回成功
+                        JSONObject dataObj = jObj.getJSONObject("data");
+                        String sms_code = dataObj.getString("sms_code");
                         Intent intent=new Intent(RegisterInputNumberActivity.this, RegisterAfterReceiveCodeActivity.class);
                         intent.putExtra("phone_number",phone);
+                        intent.putExtra("sms_code",sms_code);
                         startActivity(intent);
                         finish();
-                    }else if(status==6){
-                        Toast.makeText(RegisterInputNumberActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(RegisterInputNumberActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    }else if(status==-1){//用户不存在
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==1){//缺少sign参数
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==2){//非法请求，sign验证失败
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==3){//跳转登录
+                        Intent intent=new Intent(RegisterInputNumberActivity.this, LoginActivity.class);
+                        intent.putExtra("uuid",-1000);
+                        startActivity(intent);
+                        finish();
+                    } else if(status==4){//登陆后缺少uuid/token/expiring_time参数
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==5){//token验证失败
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==6){//用户已存在
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==404){//失败
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){//数据异常，内部错误
+                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -16,7 +16,7 @@
         android:gravity="center"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:textColor="@color/black"
             android:layout_weight="1"
             android:textSize="15sp"
             android:layout_width="0dp"
@@ -38,10 +39,8 @@
             android:id="@+id/tv_phone_number"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
-            android:textSize="15sp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="+86 18311011381"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <View
         android:layout_marginTop="12dp"
@@ -57,6 +56,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:textColor="@color/black"
+
             android:layout_weight="1"
             android:textSize="15sp"
             android:layout_width="0dp"
@@ -65,7 +66,6 @@
         <com.ascba.rebate.view.EditTextWithCustomHint
             android:id="@+id/confirm_code"
             android:maxLines="1"
-            android:textSize="14sp"
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
@@ -89,6 +89,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:textColor="@color/black"
+
             android:layout_weight="1"
             android:textSize="15sp"
             android:layout_width="0dp"
@@ -98,7 +100,6 @@
         <com.ascba.rebate.view.EditTextWithCustomHint
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textSize="14sp"
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
@@ -122,16 +123,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:textColor="@color/black"
+
             android:layout_weight="1"
             android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="确认密码"/>
+
         <com.ascba.rebate.view.EditTextWithCustomHint
             android:inputType="textPassword"
             android:id="@+id/confirm_repassword"
             android:maxLines="1"
-            android:textSize="14sp"
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
@@ -154,15 +157,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
+            android:textColor="@color/black"
+
             android:layout_weight="1"
             android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="推荐人"/>
+            android:text="推荐人"
+            android:id="@+id/textView3" />
+
         <com.ascba.rebate.view.EditTextWithCustomHint
             android:id="@+id/confirm_recommend_man"
-            android:textSize="14sp"
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"

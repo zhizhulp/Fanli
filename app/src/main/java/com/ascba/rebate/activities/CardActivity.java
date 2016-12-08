@@ -29,8 +29,10 @@ import com.ascba.rebate.beans.Card;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.deletelistview.ListViewCompat;
@@ -94,14 +96,12 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
         cardListAdapter = new CardListAdapter(mList,this);
         cardListView.setAdapter(cardListAdapter);
         cardListView.setOnItemClickListener(this);
-        sendMsgToSevr("http://api.qlqwgw.com/v1/getBankList",0);
+        sendMsgToSevr(UrlUtils.getBankList,0);
     }
 
     private void initMoneyBar() {
         CardMB = ((MoneyBar) findViewById(R.id.card_money_bar));
         CardMB.setCallBack(new MoneyBar.CallBack() {
-            private TextView deleteTextView;
-            private TextView addTextView;
             @Override
             public void clickImage(View im) {
                 Intent intent=new Intent(CardActivity.this,AddCardActivity.class);
@@ -116,9 +116,15 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
     }
 
     private void sendMsgToSevr(String baseUrl, final int type) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         StringBuilder sb=new StringBuilder();
         if(type==1){
-            sb.append(positionL+"");
+            Card card = mList.get(positionL);
+            sb.append(card.getId()+"");
         }
         int uuid = sf.getInt("uuid", -1000);
         String token = sf.getString("token", "");
@@ -140,12 +146,12 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
             public void getMessage(Message msg) {
                 dialog.dismiss();
                 JSONObject jObj = (JSONObject) msg.obj;
-                LogUtils.PrintLog("123CardActivity", jObj.toString());
                 try {
                     int status = jObj.optInt("status");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
+                    String message = jObj.getString("msg");
                     if (status == 200) {
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        int update_status = dataObj.optInt("update_status");
                         if (update_status == 1) {
                             sf.edit()
                                     .putString("token", dataObj.optString("token"))
@@ -172,21 +178,20 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
                                 noCardVeiw.setVisibility(View.VISIBLE);
                             }
 
-                        }else {
+                        }else {//删除银行卡
                             deleteSuccess();
                             Toast.makeText(CardActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
                         }
 
-                    } else if (status == 5) {
-                        Toast.makeText(CardActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
-                    } else if (status == 3) {
+                    }  else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                         Intent intent = new Intent(CardActivity.this, LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         finish();
-                    } else if (status == 404) {
-                        Toast.makeText(CardActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(CardActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    } else if(status==404){
+                        Toast.makeText(CardActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){
+                        Toast.makeText(CardActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -214,7 +219,7 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
     }
 
     @Override
-    public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
         CardListAdapter.ViewHolder v = (CardListAdapter.ViewHolder) ((SlideView) view).getTag();
         v.rightHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,7 +230,7 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
                 builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         positionL=cardListView.getPosition();
-                        sendMsgToSevr("http://api.qlqwgw.com/v1/delBanks",1);
+                        sendMsgToSevr(UrlUtils.delBanks,1);
 
                     }
                 });

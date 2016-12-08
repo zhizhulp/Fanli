@@ -2,16 +2,20 @@ package com.ascba.rebate.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -30,6 +34,7 @@ public class BusinessDataActivity extends NetworkBaseActivity {
     private TextView tvPhone;
     private TextView tvTime;
     private TextView tvRate;
+    private SharedPreferences sf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,7 @@ public class BusinessDataActivity extends NetworkBaseActivity {
 
 
     private void initViews() {
+        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         tvName = ((TextView) findViewById(R.id.business_data_name));
         tvType = ((TextView) findViewById(R.id.business_data_type));
         tvLocation = ((TextView) findViewById(R.id.business_data_location));
@@ -63,7 +69,7 @@ public class BusinessDataActivity extends NetworkBaseActivity {
         tvRate = ((TextView) findViewById(R.id.business_data_rate));
     }
 
-    private void requestForServer() {
+    /*private void requestForServer() {
         sendMsgToSevr("http://api.qlqwgw.com/v1/getCompany",0);
         CheckThread checkThread = getCheckThread();
         Request<JSONObject> objRequest = checkThread.getObjRequest();
@@ -95,8 +101,7 @@ public class BusinessDataActivity extends NetworkBaseActivity {
         });
         checkThread.start();
         p.show();
-
-    }
+    }*/
 
     public void goBusinessName(View view) {
         Intent intent=new Intent(this,BusinessNameActivity.class);
@@ -109,9 +114,7 @@ public class BusinessDataActivity extends NetworkBaseActivity {
     }
 
     public void goBusinessLocation(View view) {
-//        Intent intent=new Intent(this,BusinessLocationActivity.class);
-//        startActivityForResult(intent,REQUEST_BUSINESS_LOCATION);
-        //接入百度地图
+        //商家地理位置，此处接入百度地图
         Intent intent=new Intent(this,PoiSearchDemo.class);
         startActivityForResult(intent,REQUEST_BUSINESS_LOCATION);
 
@@ -167,32 +170,53 @@ public class BusinessDataActivity extends NetworkBaseActivity {
             case REQUEST_BUSINESS_RATE:
                 tvRate.setText(data.getStringExtra("business_data_rate"));
                 break;
+            case REQUEST_BUSINESS_DESC:
+                String desc = data.getStringExtra("desc");//返回的商家描述
+                break;
         }
     }
 
     //提交商家资料
     public void businessDataGo(View view) {
-        sendMsgToSevr("http://api.qlqwgw.com/v1/setCompany",0);
+        sendMsgToSevr(UrlUtils.setCompany,0);
         CheckThread checkThread = getCheckThread();
-        Request<JSONObject> objRequest = checkThread.getObjRequest();
-        PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-        final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-        p.setMessage("请稍后");
-        phoneHandler.setCallback(phoneHandler.new Callback2(){
-            @Override
-            public void getMessage(Message msg) {
-                p.dismiss();
-                super.getMessage(msg);
-            }
-        });
-        objRequest.add("seller_name",tvName.getText().toString());
-        objRequest.add("seller_taglib",tvType.getText().toString());
-        objRequest.add("seller_address",tvLocation.getText().toString());
-        objRequest.add("seller_tel",tvPhone.getText().toString());
-        objRequest.add("seller_business_hours",tvTime.getText().toString());
-        objRequest.add("seller_return_ratio",tvLocation.getText().toString());
-        objRequest.add("seller_description","12345654545645654");
-        checkThread.start();
-        p.show();
+        if(checkThread!=null){
+            Request<JSONObject> objRequest = checkThread.getObjRequest();
+            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
+            final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
+            p.setMessage("请稍后");
+            phoneHandler.setCallback(phoneHandler.new Callback2(){
+                @Override
+                public void getMessage(Message msg) {
+                    p.dismiss();
+                    super.getMessage(msg);
+                    JSONObject jObj = (JSONObject) msg.obj;
+                    int status = jObj.optInt("status");
+                    String message = jObj.optString("msg");
+                    if(status==200){
+                        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
+                        Intent intent = new Intent(BusinessDataActivity.this, LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
+                        startActivity(intent);
+                        finish();
+                    } else if(status==404){
+                        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){
+                        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            objRequest.add("seller_name",tvName.getText().toString());
+            objRequest.add("seller_taglib",tvType.getText().toString());
+            objRequest.add("seller_address",tvLocation.getText().toString());
+            objRequest.add("seller_tel",tvPhone.getText().toString());
+            objRequest.add("seller_business_hours",tvTime.getText().toString());
+            objRequest.add("seller_return_ratio",tvLocation.getText().toString());
+            objRequest.add("seller_description","12345654545645654");
+            checkThread.start();
+            p.show();
+        }
+
     }
 }

@@ -20,6 +20,6 @@ public class RegisterProtocolActivity extends BaseActivity {
 
     private void initViews() {
         webView = ((WebView) findViewById(R.id.webView));
-        webView.loadUrl("http://app.qlqwgw.com/regAgree");
+        webView.loadUrl("http://home.qlqwgw.com/regAgree");
     }
 }

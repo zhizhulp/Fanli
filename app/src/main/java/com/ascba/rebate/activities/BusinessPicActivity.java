@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.adapter.BusPicGVAdapter;
 
-public class BusinessPicActivity extends AppCompatActivity {
+public class BusinessPicActivity extends BaseActivity {
 
     private GridView busPicGridView;
     private BusPicGVAdapter busPicGVAdapter;

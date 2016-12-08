@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.ascba.rebate.activities.CardDataActivity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.utils.LogUtils;
@@ -23,6 +24,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class PhoneHandler extends Handler {
     private Callback callback;
     private Context context;
+    private SharedPreferences sf;
 
     public Context getContext() {
         return context;
@@ -34,6 +36,7 @@ public class PhoneHandler extends Handler {
 
     public PhoneHandler(Context context) {
         this.context = context;
+        sf=context.getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
     }
 
     public Callback getCallback() {
@@ -58,34 +61,16 @@ public class PhoneHandler extends Handler {
     public class Callback2 implements Callback{
         public void getMessage(Message msg){
             JSONObject jObj = (JSONObject) msg.obj;
-            LogUtils.PrintLog("123", jObj.toString());
                 int status = jObj.optInt("status");
-                JSONObject dataObj = jObj.optJSONObject("data");
-                int update_status = dataObj.optInt("update_status");
-                if (status == 200) {
-                    //Toast.makeText(context, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
+            if (status == 200) {
+                    JSONObject dataObj = jObj.optJSONObject("data");
+                    int update_status = dataObj.optInt("update_status");
                     if (update_status == 1) {
-                        context.getSharedPreferences("first_login_success_name_password",MODE_PRIVATE).edit()
+                        sf.edit()
                                 .putString("token", dataObj.optString("token"))
                                 .putLong("expiring_time", dataObj.optLong("expiring_time"))
                                 .apply();
                     }
-                } else if (status == 5) {
-                    //Toast.makeText(context, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    context.startActivity(intent);
-                    ((Activity) context).finish();
-                } else if (status == 3) {
-                    Toast.makeText(context, "请重新登录", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    SharedPreferences sf = context.getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
-                    sf.edit().putInt("uuid", -1000).apply();
-                    context.startActivity(intent);
-                    ((Activity) context).finish();
-                } else if (status == 404) {
-                    Toast.makeText(context, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "未知原因", Toast.LENGTH_SHORT).show();
                 }
         }
     }

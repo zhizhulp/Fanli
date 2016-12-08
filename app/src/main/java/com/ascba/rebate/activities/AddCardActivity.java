@@ -14,7 +14,9 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -47,10 +49,15 @@ public class AddCardActivity extends BaseActivity {
     }
 
     public void next(View view) {
-        sendMsgToSevr("http://api.qlqwgw.com/v1/getBankCard");
+        sendMsgToSevr(UrlUtils.getBankCard);
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String name = edName.getText().toString();
         String cardNumber = edCardNumber.getText().toString();
         if(name.equals("")||cardNumber.equals("")){
@@ -78,9 +85,10 @@ public class AddCardActivity extends BaseActivity {
                 LogUtils.PrintLog("123AddCardActivity", jObj.toString());
                 try {
                     int status = jObj.optInt("status");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
+                    String message = jObj.getString("msg");
                     if (status == 200) {
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        int update_status = dataObj.optInt("update_status");
                         JSONObject bankObj = dataObj.optJSONObject("bankCardInfo");
                         String realname = bankObj.optString("realname");
                         String cardid = bankObj.optString("cardid");
@@ -109,16 +117,15 @@ public class AddCardActivity extends BaseActivity {
                         intent.putExtra("info",info);
                         startActivity(intent);
                         finish();
-                    } else if (status == 5) {
-                        Toast.makeText(AddCardActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
-                    } else if (status == 3) {
+                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                         Intent intent = new Intent(AddCardActivity.this, LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         finish();
-                    } else if (status == 404) {
-                        Toast.makeText(AddCardActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(AddCardActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    } else if(status==404){
+                        Toast.makeText(AddCardActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){
+                        Toast.makeText(AddCardActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -14,7 +14,7 @@
             android:id="@+id/money_bar_back"
             android:scaleType="center"
             android:layout_centerVertical="true"
-            android:layout_width="45dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:src="@mipmap/money_bar_back"/>
         <TextView

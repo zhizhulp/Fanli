@@ -4,6 +4,7 @@ package com.ascba.rebate.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.OnPasswordInputFinish;
 import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
 import com.yolanda.nohttp.rest.Request;
@@ -35,6 +38,7 @@ public class PayActivity extends NetworkBaseActivity {
     private EditTextWithCustomHint edMoney;
     private PayPopWindow popWindow;
     private TextView tvTpye;
+    private SharedPreferences sf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class PayActivity extends NetworkBaseActivity {
     }
 
     private void initViews() {
+        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.sweep_money));
         tvTpye = ((TextView) findViewById(R.id.tv_pay_type));
     }
@@ -69,37 +74,48 @@ public class PayActivity extends NetworkBaseActivity {
         popWindow.setOnFinishInput(new OnPasswordInputFinish() {
             @Override
             public void inputFinish() {
-                //Toast.makeText(PayActivity.this, popWindow.getStrPassword(), Toast.LENGTH_SHORT).show();
-                //popWindow.StartAnima();
                 popWindow.onDismiss();
                 String money = edMoney.getText().toString();
-                sendMsgToSevr("http://api.qlqwgw.com/v1/confirmOrder",0);
+                sendMsgToSevr(UrlUtils.confirmOrder,0);
                 CheckThread checkThread = getCheckThread();
-                final ProgressDialog p=new ProgressDialog(PayActivity.this,R.style.dialog);
-                p.setCanceledOnTouchOutside(false);
-                p.setMessage("请稍后");
-                Request<JSONObject> objRequest = checkThread.getObjRequest();
-                objRequest.add("seller",bus_uuid);
-                objRequest.add("money",money);
-                objRequest.add("region_id",1);
-                objRequest.add("pay_password",popWindow.getStrPassword());
-                objRequest.add("pay_type",2);
-                objRequest.add("scenetype",2);
-                PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-                phoneHandler.setCallback(phoneHandler.new Callback2(){
-                    @Override
-                    public void getMessage(Message msg) {
-                        p.dismiss();
-                        super.getMessage(msg);
-                        JSONObject jObj = (JSONObject) msg.obj;
-                        int status = jObj.optInt("status");
-                        if(status==200){
+                if(checkThread!=null){
+                    final ProgressDialog p=new ProgressDialog(PayActivity.this,R.style.dialog);
+                    p.setCanceledOnTouchOutside(false);
+                    p.setMessage("请稍后");
+                    Request<JSONObject> objRequest = checkThread.getObjRequest();
+                    objRequest.add("seller",bus_uuid);
+                    objRequest.add("money",money);
+                    objRequest.add("region_id",1);
+                    objRequest.add("pay_password",popWindow.getStrPassword());
+                    objRequest.add("pay_type",2);
+                    objRequest.add("scenetype",2);
+                    PhoneHandler phoneHandler = checkThread.getPhoneHandler();
+                    phoneHandler.setCallback(phoneHandler.new Callback2(){
+                        @Override
+                        public void getMessage(Message msg) {
+                            p.dismiss();
+                            super.getMessage(msg);
+                            JSONObject jObj = (JSONObject) msg.obj;
+                            int status = jObj.optInt("status");
+                            String message = jObj.optString("msg");
+                            if(status==200){
 //                            JSONObject dataObj = jObj.optJSONObject("data");
+                            } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
+                                Intent intent = new Intent(PayActivity.this, LoginActivity.class);
+                                sf.edit().putInt("uuid", -1000).apply();
+                                startActivity(intent);
+                                finish();
+                            } else if(status==404){
+                                Toast.makeText(PayActivity.this, message, Toast.LENGTH_SHORT).show();
+                            } else if(status==500){
+                                Toast.makeText(PayActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
-                checkThread.start();
-                p.show();
+                    });
+                    checkThread.start();
+                    p.show();
+                }
+
             }
         });
     }
@@ -118,12 +134,5 @@ public class PayActivity extends NetworkBaseActivity {
         }else if("支付方式：余额".equals(type)) {
             tvTpye.setText("支付方式：其他");
         }
-//        PopupWindow p=new PopupWindow(this);
-//        p.setContentView(getLayoutInflater().inflate(R.layout.pop_select_pay_type,null));
-//        p.setOutsideTouchable(true);
-//        p.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-//        p.setHeight(200);
-//        p.setWidth(200);
-//        p.showAsDropDown(view);
     }
 }

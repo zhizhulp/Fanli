@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.utils.LogUtils;
 
 import org.json.JSONException;
@@ -15,7 +16,7 @@ import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class PushResultActivity extends BaseActivity {
+public class PushResultActivity extends NetworkBaseActivity {
 
     private TextView tvPushMsg;
     private TextView tvSellerName;
@@ -24,6 +25,15 @@ public class PushResultActivity extends BaseActivity {
     private TextView tvMoney;
     private TextView tvTime;
     private TextView tvType;
+
+    private String order_number;//订单号
+    private int seller ;//商家id
+    private int customer;//顾客id
+    private int pay_type;//支付方式
+    private int region_id;//地区id
+    private String buy_time;//订单时间
+    private String money;//订单金额
+    private String pay_password;//订单密码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +52,17 @@ public class PushResultActivity extends BaseActivity {
             String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
             try {
                 JSONObject jObj=new JSONObject(extra);
-                String order_number = jObj.getString("order_number");
+                order_number = jObj.getString("order_number");
                 String seller_name = jObj.getString("seller_name");
-                int pay_type = jObj.getInt("pay_type");
-                String buy_time = jObj.getString("buy_time");
+                pay_type = jObj.getInt("pay_type");
+                buy_time = jObj.getString("buy_time");
                 int from_type = jObj.getInt("from_type");
-                int money = jObj.getInt("money");
-                int region_id = jObj.getInt("region_id");
-                String pay_password = jObj.getString("pay_password");
+                money = jObj.getString("money");
+                region_id = jObj.getInt("region_id");
+                pay_password = jObj.getString("pay_password");
                 String seller_address = jObj.getString("seller_address");
-                int customer = jObj.getInt("customer");
-                int seller = jObj.getInt("seller");
+                customer = jObj.getInt("customer");
+                seller = jObj.getInt("seller");
                 tvSellerName.setText(seller_name);
                 tvSellerAddress.setText(seller_address);
                 tvNo.setText("订单号码："+order_number);
@@ -65,7 +75,6 @@ public class PushResultActivity extends BaseActivity {
                 }else if(pay_type==2){
                     tvType.setText("付款方式：余额");
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

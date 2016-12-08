@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.fragments.BackMoneyFragment;
 import com.ascba.rebate.fragments.RecommendFragment;
 import com.ascba.rebate.utils.LogUtils;
@@ -29,13 +30,11 @@ public class RecommendActivity extends BaseActivity {
     private void switchFragment() {
         rf=new RecommendFragment();
         rf2=RecommendFragment.getInstance("赠送积分(分)");
-        rf3=new BackMoneyFragment();
         fm.beginTransaction()
                 .add(R.id.recommend_fragment,rf)
                 .add(R.id.recommend_fragment,rf2)
-                .add(R.id.recommend_fragment,rf3)
                 .commit();
-        fm.beginTransaction().show(rf).hide(rf2).hide(rf3).commit();
+        fm.beginTransaction().show(rf).hide(rf2).commit();
         sb = ((SwitchButton) findViewById(R.id.switch_action_bar));
         sb.setCallback(new SwitchButton.Callback() {
             @Override
@@ -47,7 +46,6 @@ public class RecommendActivity extends BaseActivity {
                 }
                 ft.show(rf);
                 ft.hide(rf2);
-                ft.hide(rf3);
                 ft.commit();
             }
 
@@ -57,14 +55,12 @@ public class RecommendActivity extends BaseActivity {
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 ft.show(rf2);
                 ft.hide(rf);
-                ft.hide(rf3);
                 ft.commit();
             }
             @Override
             public void onCenterClick() {
                 LogUtils.PrintLog("123","center is click");
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                ft.show(rf3);
                 ft.hide(rf);
                 ft.hide(rf2);
                 ft.commit();

@@ -16,6 +16,6 @@ public class CardProtocolActivity extends BaseActivity {
     }
     private void initViews() {
         webView = ((WebView) findViewById(R.id.webView));
-        webView.loadUrl("http://app.qlqwgw.com/service");
+        webView.loadUrl("http://home.qlqwgw.com/service");
     }
 }

@@ -1,5 +1,6 @@
 package com.ascba.rebate.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,11 +78,15 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 		// 如果字段的数据类型没写或写错默认的缺省类型就是text类型
 		// 可以通过android的sdk工具中sqlite3.exe模拟数据库的操作(内存空间的操作)
 		// 我们执行的sql语句是真是保存到db数据库文件中的
-		String sql = "create table if not exists city (city_id integer,city_name text,city_level integer,city_pid integer,city_initial text);";
-		//String sql2 = "create table if not exists words (_id integer primary key,word text, detail text);";
-		
-		db.execSQL(sql); //可以创建多张表
-		//db.execSQL(sql2);
+		String words=new String("create table if not exists city (city_id integer,city_name text,city_level integer,city_pid integer,city_initial text,city_cascade_id,city_cascade_name);");
+		try {
+			String sql=new String(words.getBytes(),"utf-8");
+			db.execSQL(sql); //可以创建多张表
+			//db.execSQL(sql2);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
 	}
 	/**
 	 * 对数据表的添加 (针对student表的操作)
@@ -90,10 +95,10 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 		//通过sql语句录入
 		if(db != null){
 			//怎么把student引入进来
-			String sql = "insert into city ('city_id','city_name','city_level','city_pid','city_initial') values (?,?,?,?,?);";
+			String sql = "insert into city ('city_id','city_name','city_level','city_pid','city_initial','city_cascade_id','city_cascade_name') values (?,?,?,?,?,?,?);";
 			//db.execSQL(sql);
 			//数据填写的数据的次序和?产生的先后次序必须要一一对应
-			Object[] obj = new Object[]{city.getCityId(),city.getCityName(),city.getCityLevel(),city.getCityPid(),city.getCityInitial()};
+			Object[] obj = new Object[]{city.getCityId(),city.getCityName(),city.getCityLevel(),city.getCityPid(),city.getCityInitial(),city.getCascade_id(),city.getCascade_name()};
 			/**
 			 * 第二个参数Object[]实际需要填写的值
 			 */
@@ -127,7 +132,9 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 				int cityLevel = c.getInt(c.getColumnIndex("city_level"));
 				int cityPid = c.getInt(c.getColumnIndex("city_pid"));
 				String cityInitial = c.getString(c.getColumnIndex("city_initial"));
-				City city = new City(cityId,cityName,cityLevel,cityPid,cityInitial);
+				String city_cascade_id = c.getString(c.getColumnIndex("city_cascade_id"));
+				String city_cascade_name = c.getString(c.getColumnIndex("city_cascade_name"));
+				City city = new City(cityId,cityName,cityLevel,cityPid,cityInitial,city_cascade_id,city_cascade_name);
 				list.add(city);
 			} while (c.moveToNext()); //获取数据后移动,移动到false就截数据了
 			c.close();
@@ -147,8 +154,8 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 			//添加表,删除表,删除数据等等都可以
 //			String sql = "drop table words";
 //			String sql3 = "drop database test";
-			String sql = "create table if not exists words (_id integer primary key autoincrement,word text, detail text);";
-			db.execSQL(sql);
+//			String sql = "create table if not exists words (_id integer primary key autoincrement,word text, detail text);";
+//			db.execSQL(sql);
 //			db.execSQL(sql2);
 		}
 	}

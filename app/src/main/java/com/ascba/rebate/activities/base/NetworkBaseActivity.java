@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -54,6 +56,11 @@ public class NetworkBaseActivity extends AppCompatActivity {
     }
 
     public void sendMsgToSevr(String baseUrl, int type) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int uuid = sf.getInt("uuid", -1000);
         String token = sf.getString("token", "");
         long expiring_time = sf.getLong("expiring_time", -2000);
@@ -63,8 +70,6 @@ public class NetworkBaseActivity extends AppCompatActivity {
         objRequest.add("uuid", uuid);
         objRequest.add("token", token);
         objRequest.add("expiring_time", expiring_time);
-//        LogUtils.PrintLog("123",baseUrl+"?"+"sign="+UrlEncodeUtils.createSign(baseUrl)
-//        +"&uuid="+uuid+"&token="+token+"&expiring_time="+expiring_time);
         PhoneHandler phoneHandler = new PhoneHandler(this);
         checkThread = new CheckThread(requestQueue, phoneHandler, objRequest);
     }

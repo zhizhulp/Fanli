@@ -2,57 +2,33 @@ package com.ascba.rebate.activities.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.beans.City;
 import com.ascba.rebate.beans.TabEntity;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.ExampleUtil;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.MySqliteOpenHelper;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
-import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.fragments.main.FirstFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.fragments.message.SecondFragment;
 import com.ascba.rebate.fragments.shop.ThirdFragment;
-import com.ascba.rebate.utils.ScreenDpiUtils;
-
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
-
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-
-import com.yolanda.nohttp.rest.Request;
 
 /**
  * 主界面
  */
-public class MainActivity extends NetworkBaseActivity {
+public class MainActivity extends BaseActivity {
     private CommonTabLayout mTabLayout_2;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "消息", "商城", "我"};
@@ -68,7 +44,6 @@ public class MainActivity extends NetworkBaseActivity {
     private ThirdFragment mThirdFragment;
     private FourthFragment mFourthFragment;
     private SharedPreferences sf;
-    private MySqliteOpenHelper db;
     private int[] mIconUnselectIds = {
             R.mipmap.tab_main, R.mipmap.tab_message,
             R.mipmap.tab_shop, R.mipmap.tab_me};
@@ -96,9 +71,6 @@ public class MainActivity extends NetworkBaseActivity {
         setContentView(R.layout.activity_main);
         findViews();
         init();
-        db=new MySqliteOpenHelper(this);
-        //getCityFromServer();
-
     }
 
     private void findViews() {
@@ -124,7 +96,7 @@ public class MainActivity extends NetworkBaseActivity {
             mFragments.add(mFourthFragment);
         }
         mTabLayout_2.setTabData(mTabEntities, this, R.id.fl_change, mFragments);
-        mTabLayout_2.setCurrentTab(0);
+        //mTabLayout_2.setCurrentTab(0);
     }
 
     private void init() {
@@ -150,7 +122,6 @@ public class MainActivity extends NetworkBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        db.closeDB();
     }
 
     @Override
@@ -158,19 +129,6 @@ public class MainActivity extends NetworkBaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void test() {
-        long start = System.currentTimeMillis();
-        db=new MySqliteOpenHelper(this);
-        List<City> cityList = db.getCity();
-        for (int i = 0; i < cityList.size(); i++) {
-            City city1 = cityList.get(i);
-            if(city1.getCityName().equals("北京市")){
-                break;
-            }
-        }
-        long end = System.currentTimeMillis();
-        LogUtils.PrintLog("789","查询时间为-->"+(end-start));
-    }
     private void setAlias(String alias) {
         if (TextUtils.isEmpty(alias)) {
             Toast.makeText(this, R.string.error_alias_empty, Toast.LENGTH_SHORT).show();
@@ -200,38 +158,5 @@ public class MainActivity extends NetworkBaseActivity {
             }
         }
     };
-    private void getCityFromServer() {
-        sendMsgToSevr("http://api.qlqwgw.com/v1/getRegion",0);
-        CheckThread checkThread = getCheckThread();
-        PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-        Request<JSONObject> objRequest = checkThread.getObjRequest();
-        objRequest.add("type","all");
-        phoneHandler.setCallback(phoneHandler.new Callback2(){
-            @Override
-            public void getMessage(Message msg) {
-                super.getMessage(msg);
-                JSONObject jObj = (JSONObject) msg.obj;
-                int status = jObj.optInt("status");
-                if(status==200){
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    JSONArray contentArray = dataObj.optJSONArray("content");
-                    if(contentArray!=null){
-                        for (int i = 0; i < contentArray.length(); i++) {
-                            JSONObject jsonObject = contentArray.optJSONObject(i);
-                            int id = jsonObject.optInt("id");
-                            String name = jsonObject.optString("name");
-                            int level = jsonObject.optInt("level");
-                            int pid = jsonObject.optInt("pid");
-                            String initial = jsonObject.optString("initial");
-                            City city=new City(id,name,level,pid,initial);
-                            db.insertIntoCity(city);
-                        }
-                        //test();
-                    }
-                }
-            }
-        });
-        checkThread.start();
-    }
 
 }

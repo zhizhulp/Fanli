@@ -1,6 +1,5 @@
 package com.ascba.rebate.activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,8 +24,10 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.BitmapBinary;
 import com.yolanda.nohttp.NoHttp;
@@ -74,7 +75,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         sexShow = ((TextView) findViewById(R.id.show_sex));
         tvAge = ((TextView) findViewById(R.id.personal_data_age));
         tvLocation = ((TextView) findViewById(R.id.personal_data_location));
-        sendMsgToSevr("http://api.qlqwgw.com/v1/userSet", 0);
+        sendMsgToSevr(UrlUtils.userSet, 0);
     }
 
     //进入修改昵称界面
@@ -171,7 +172,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         return BitmapFactory.decodeFile(picturePath, options);
     }
 
-    public Bitmap handleBitmap(Uri uri) {
+    public Bitmap handleCameraBitmap(Uri uri) {
         String path = uri.getPath();
         return handleBitmap(path);
     }
@@ -185,8 +186,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         }
         switch (requestCode) {
             case GO_CAMERA:
-                Uri uri = data.getData();
-                bitmap = handleBitmap(uri);
+                /*Uri uri = data.getData();
+                bitmap = handleCameraBitmap(uri);*/
+                Bundle extras = data.getExtras();
+                bitmap= (Bitmap) extras.get("data");
                 userIconView.setImageBitmap(bitmap);
                 break;
             case GO_ALBUM:
@@ -230,6 +233,11 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void sendMsgToSevr(String baseUrl, final int type) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int uuid = sf.getInt("uuid", -1000);
         String token = sf.getString("token", "");
         long expiring_time = sf.getLong("expiring_time", -2000);
@@ -262,12 +270,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             public void getMessage(Message msg) {
                 dialog.dismiss();
                 JSONObject jObj = (JSONObject) msg.obj;
-                LogUtils.PrintLog("123PersonalActivity", jObj.toString());
                 try {
                     int status = jObj.optInt("status");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
+                    String message = jObj.getString("msg");
                     if (status == 200) {
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        int update_status = dataObj.optInt("update_status");
                         if (type == 1) {
                             Toast.makeText(PersonalDataActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
                         } else {
@@ -300,17 +308,15 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                                         .apply();
                             }
                         }
-                    } else if (status == 5) {
-                        Toast.makeText(PersonalDataActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
-                    } else if (status == 3) {
+                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                         Intent intent = new Intent(PersonalDataActivity.this, LoginActivity.class);
                         sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         finish();
-                    } else if (status == 404) {
-                        Toast.makeText(PersonalDataActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(PersonalDataActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    } else if(status==404){
+                        Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){
+                        Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -326,6 +332,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     //上传个人资料
     public void saveData(View view) {
-        sendMsgToSevr("http://api.qlqwgw.com/v1/updateSet", 1);
+        sendMsgToSevr(UrlUtils.updateSet, 1);
     }
 }

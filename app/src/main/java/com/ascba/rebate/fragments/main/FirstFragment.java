@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
@@ -34,14 +35,18 @@ import com.ascba.rebate.activities.PayActivity;
 import com.ascba.rebate.activities.RecQRActivity;
 import com.ascba.rebate.activities.SweepActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.password_loss.PasswordLossWithCodeActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.MySqliteOpenHelper;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
+import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yolanda.nohttp.Headers;
 import com.yolanda.nohttp.Logger;
@@ -79,7 +84,7 @@ public class FirstFragment extends Fragment {
     private List<Business> mList;
     private TextView location_text;
     private ViewPager vp;
-    int msgWhat = 0;
+    private int msgWhat = 0;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -105,6 +110,11 @@ public class FirstFragment extends Fragment {
     private ProgressDialog pD;
     private DownloadQueue downloadQueue;
     private TextView tvAllScore;
+
+    private SuperSwipeRefreshLayout refreshLayout;
+    private ProgressBar progressBar;
+    private ImageView imageView;
+    private TextView textView;
 
     public static FirstFragment instance() {
         FirstFragment view = new FirstFragment();
@@ -147,10 +157,57 @@ public class FirstFragment extends Fragment {
         initRecBusiness(view);//初始化ListView
         initViewPager(view);//初始化viewpager
         initLocation(view);//地址显示
+        initRefreshLayout(view);//界面刷新
         goHotList(view);//进入热门推荐的页面
         goSweepActivity(view);//进入扫一扫的界面
         goRecommend(view);//进入推荐页面
-        sendMsgToSevr("http://api.qlqwgw.com/v1/index");
+        sendMsgToSevr(UrlUtils.index);
+    }
+
+    private void initRefreshLayout(View view) {
+        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
+        View child = LayoutInflater.from(getActivity())
+                .inflate(R.layout.layout_head, null);
+        progressBar = (ProgressBar) child.findViewById(R.id.pb_view);
+        textView = (TextView) child.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = (ImageView) child.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        refreshLayout.setHeaderView(child);
+        refreshLayout
+                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+
+                    @Override
+                    public void onRefresh() {
+
+                        sendMsgToSevr(UrlUtils.index);
+                        mList.clear();
+                        /*new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                refreshLayout.setRefreshing(false);
+                                progressBar.setVisibility(View.GONE);
+
+                            }
+                        }, 2000);*/
+                    }
+
+                    @Override
+                    public void onPullDistance(int distance) {
+                        //myAdapter.updateHeaderHeight(distance);
+                    }
+
+                    @Override
+                    public void onPullEnable(boolean enable) {
+                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setRotation(enable ? 180 : 0);
+                    }
+                });
+
     }
 
 
@@ -236,7 +293,6 @@ public class FirstFragment extends Fragment {
 
     /**
      * 商家列表初始化
-     *
      * @param view
      */
     private void initRecBusiness(View view) {
@@ -278,28 +334,20 @@ public class FirstFragment extends Fragment {
         iva.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivb = new ImageView(getContext());
-        ivb.setBackgroundResource(R.mipmap.banner2);
+        ivb.setBackgroundResource(R.mipmap.banner_01);
         ivb.setScaleType(ImageView.ScaleType.CENTER_CROP);
-/*
 
         ImageView ivc = new ImageView(getContext());
-        ivc.setBackgroundResource(R.mipmap.main_pager);
+        ivc.setBackgroundResource(R.mipmap.banner_02);
         ivc.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivd = new ImageView(getContext());
-        ivd.setBackgroundResource(R.mipmap.main_pager);
+        ivd.setBackgroundResource(R.mipmap.banner_03);
         ivd.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        ImageView ive = new ImageView(getContext());
-        ive.setBackgroundResource(R.mipmap.main_pager);
-        ive.setScaleType(ImageView.ScaleType.CENTER_CROP);
-*/
-
         imageList.add(iva);
         imageList.add(ivb);
-/*        imageList.add(ivc);
+        imageList.add(ivc);
         imageList.add(ivd);
-        imageList.add(ive);*/
     }
 
     //初始化商家列表
@@ -346,13 +394,25 @@ public class FirstFragment extends Fragment {
         public void destroyItem(ViewGroup container, int position, Object object) {
         }
     }
-
     private void sendMsgToSevr(String baseUrl) {
+        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+        if(!netAva){
+            refreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            textView.setText("正在刷新");
+            imageView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
         String version = getPackageVersion();
         int uuid = sf.getInt("uuid", -1000);
         String token = sf.getString("token", "");
         Long expiring = sf.getLong("expiring_time", -2000);
-        requestQueue = NoHttp.newRequestQueue();
+        if(requestQueue==null){
+            requestQueue = NoHttp.newRequestQueue();
+        }
         final ProgressDialog dialog = new ProgressDialog(getActivity(), R.style.dialog);
         dialog.setMessage("请稍后");
         Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl + "?", RequestMethod.POST);
@@ -365,15 +425,16 @@ public class FirstFragment extends Fragment {
         phoneHandler.setCallback(new PhoneHandler.Callback() {
             @Override
             public void getMessage(Message msg) {
+                refreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
                 JSONObject jObj = (JSONObject) msg.obj;
-                LogUtils.PrintLog("123FirstFragment", jObj.toString());
                 try {
                     int status = jObj.optInt("status");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
+                    String message = jObj.optString("msg");
                     if (status == 200) {
-
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        int update_status = dataObj.optInt("update_status");
                         if (update_status == 1) {
                             sf.edit()
                                     .putString("token", dataObj.getString("token"))
@@ -406,16 +467,15 @@ public class FirstFragment extends Fragment {
                             }
                             mAdapter.notifyDataSetChanged();
                         }
-                    } else if (status == 5) {
+                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                         sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         getActivity().finish();
-                    } else if (status == 3) {
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        getActivity().finish();
+                    } else if(status==404){
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

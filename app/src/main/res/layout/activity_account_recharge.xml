@@ -12,17 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
-        android:visibility="gone"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <ImageView
+            android:src="@mipmap/alipay"
             android:layout_centerVertical="true"
             android:id="@+id/recharge_card_icon"
-            android:background="@color/colorAccent"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
         <LinearLayout
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
@@ -35,15 +34,16 @@
                 android:textSize="@dimen/activity_text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="农业银行"/>
+                android:text="支付宝"/>
             <TextView
                 android:textSize="@dimen/activity_text_title"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="储蓄卡-尾号(7894)"/>
+                android:text="支付宝账户充值"/>
         </LinearLayout>
         <ImageView
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -51,7 +51,6 @@
             android:src="@mipmap/ic_go"/>
     </RelativeLayout>
     <View
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="7dp"
         android:background="@color/view_line"/>
@@ -90,13 +89,13 @@
     <View
         android:layout_marginTop="7dp"
         style="@style/viewStyleMargin"/>
-    <TextView
+    <!--<TextView
         android:layout_margin="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="改卡充值金额最大为300000元"/>
+        android:text="该卡充值金额最大为300000元"/>
     <View
-        style="@style/viewStyleMatch"/>
+        style="@style/viewStyleMatch"/>-->
     <Button
         android:onClick="goRechargeActivity"
         android:text="充值"

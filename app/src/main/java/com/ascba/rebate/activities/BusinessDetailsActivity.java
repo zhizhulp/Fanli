@@ -3,6 +3,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,14 +15,17 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 
 import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.baidu.mapapi.model.LatLng;
 
 import com.baidu.mapapi.utils.OpenClientUtil;
@@ -47,6 +51,8 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
     private TextView tvPhone;
     private TextView tvTime;
     private TextView tvRate;
+    private String seller_description;
+    private SharedPreferences sf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,7 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
     }
 
     private void initViews() {
+        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         imBusiPic = ((ImageView) findViewById(R.id.im_busi_pic));
         tvName = ((TextView) findViewById(R.id.tv_busi_name));
         tvType = ((TextView) findViewById(R.id.tv_busi_type));
@@ -64,6 +71,8 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
         tvPhone = ((TextView) findViewById(R.id.tv_busi_phone));
         tvTime = ((TextView) findViewById(R.id.tv_busi_time));
         //商家简介特殊处理
+
+
         tvRate = ((TextView) findViewById(R.id.tv_busi_rate));
     }
 
@@ -72,44 +81,57 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
         if(intent!=null){
             business_id = intent.getIntExtra("business_id",-1);
             if(business_id!=-1){
-                sendMsgToSevr("http://api.qlqwgw.com/v1/getBusinesses",0);
+                sendMsgToSevr(UrlUtils.getBusinesses,0);
                 CheckThread checkThread = getCheckThread();
-                Request<JSONObject> objRequest = checkThread.getObjRequest();
-                final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-                p.setMessage("请稍后");
-                objRequest.add("businesses_id",business_id);
-                PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-                phoneHandler.setCallback(phoneHandler.new Callback2(){
-                    @Override
-                    public void getMessage(Message msg) {
-                        p.dismiss();
-                        super.getMessage(msg);
-                        JSONObject jObj = (JSONObject) msg.obj;
-                        JSONObject dataObj = jObj.optJSONObject("data");
-                        int status = jObj.optInt("status");
-                        if(status==200){
-                            JSONObject seObj = dataObj.optJSONObject("sellerInfo");
-                            String seller_name = seObj.optString("seller_name");
-                            String seller_taglib = seObj.optString("seller_taglib");
-                            String seller_description = seObj.optString("seller_description");
-                            String seller_address = seObj.optString("seller_address");
-                            String seller_tel = seObj.optString("seller_tel");
-                            String seller_business_hours = seObj.optString("seller_business_hours");
-                            String base_url="http://api.qlqwgw.com";
-                            String seller_cover = seObj.optString("seller_cover");
-                            String seller_return_ratio = seObj.optString("seller_return_ratio");
-                            Picasso.with(BusinessDetailsActivity.this).load(base_url+seller_cover).into(imBusiPic);
-                            tvName.setText(seller_name);
-                            tvType.setText(seller_taglib);
-                            tvAddress.setText(seller_address);
-                            tvPhone.setText(seller_tel);
-                            tvTime.setText(seller_business_hours);
-                            tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
+                if(checkThread!=null){
+                    Request<JSONObject> objRequest = checkThread.getObjRequest();
+                    final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
+                    p.setMessage("请稍后");
+                    objRequest.add("businesses_id",business_id);
+                    PhoneHandler phoneHandler = checkThread.getPhoneHandler();
+                    phoneHandler.setCallback(phoneHandler.new Callback2(){
+                        @Override
+                        public void getMessage(Message msg) {
+                            p.dismiss();
+                            super.getMessage(msg);
+                            JSONObject jObj = (JSONObject) msg.obj;
+                            int status = jObj.optInt("status");
+                            String message = jObj.optString("msg");
+                            if(status==200){
+                                JSONObject dataObj = jObj.optJSONObject("data");
+                                JSONObject seObj = dataObj.optJSONObject("sellerInfo");
+                                String seller_name = seObj.optString("seller_name");
+                                String seller_taglib = seObj.optString("seller_taglib");
+                                seller_description = seObj.optString("seller_description");
+                                String seller_address = seObj.optString("seller_address");
+                                String seller_tel = seObj.optString("seller_tel");
+                                String seller_business_hours = seObj.optString("seller_business_hours");
+                                String base_url="http://api.qlqwgw.com";
+                                String seller_cover = seObj.optString("seller_cover");
+                                String seller_return_ratio = seObj.optString("seller_return_ratio");
+                                Picasso.with(BusinessDetailsActivity.this).load(base_url+seller_cover).into(imBusiPic);
+                                tvName.setText(seller_name);
+                                tvType.setText(seller_taglib);
+                                tvAddress.setText(seller_address);
+                                tvPhone.setText(seller_tel);
+                                tvTime.setText(seller_business_hours);
+                                tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
+                            } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
+                                Intent intent = new Intent(BusinessDetailsActivity.this, LoginActivity.class);
+                                sf.edit().putInt("uuid", -1000).apply();
+                                startActivity(intent);
+                                finish();
+                            } else if(status==404){
+                                Toast.makeText(BusinessDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+                            } else if(status==500){
+                                Toast.makeText(BusinessDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
-                checkThread.start();
-                p.show();
+                    });
+                    checkThread.start();
+                    p.show();
+                }
+
             }
         }
     }
@@ -202,5 +224,13 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 0.5f;
         getWindow().setAttributes(params);
+    }
+
+    public void goDescription(View view) {
+        if(!"".equals(seller_description)){
+            Intent intent=new Intent(this,ShowDescriptionActivity.class);
+            intent.putExtra("seller_description",seller_description);
+            startActivity(intent);
+        }
     }
 }

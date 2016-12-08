@@ -16,7 +16,6 @@ public class BusinessCenter2Activity extends NetworkBaseActivity {
     private TextView tvName;
     private TextView tvAddress;
     private TextView tvPhone;
-    private Object intentFromBefore;
     private Button btn;
 
     @Override
@@ -37,27 +36,32 @@ public class BusinessCenter2Activity extends NetworkBaseActivity {
 
     public void getIntentFromBefore() {
         Intent intent = getIntent();
-        if(intent!=null){
-            String name = intent.getStringExtra("name_01");
-            String corporate = intent.getStringExtra("corporate_01");
-            String address = intent.getStringExtra("address_01");
-            String tel = intent.getStringExtra("tel_01");
-            tvCompanyName.setText(name);
-            tvName.setText(corporate);
-            tvAddress.setText(address);
-            tvPhone.setText(tel);
-            btn.setText("审核中");
+        if(intent==null){
+            return;
         }
-        if(intent!=null){
-            String name = intent.getStringExtra("name");
-            String corporate = intent.getStringExtra("corporate");
-            String address = intent.getStringExtra("address");
-            String tel = intent.getStringExtra("tel");
-            tvCompanyName.setText(name);
-            tvName.setText(corporate);
-            tvAddress.setText(address);
-            tvPhone.setText(tel);
-            btn.setText("资料有误");
+        int type = intent.getIntExtra("type", -1);
+        if(type!=-1){
+            if(type==0){
+                String name = intent.getStringExtra("name_01");
+                String corporate = intent.getStringExtra("corporate_01");
+                String address = intent.getStringExtra("address_01");
+                String tel = intent.getStringExtra("tel_01");
+                tvCompanyName.setText(name);
+                tvName.setText(corporate);
+                tvAddress.setText(address);
+                tvPhone.setText(tel);
+                btn.setText("审核中");
+            }else{
+                String name = intent.getStringExtra("name");
+                String corporate = intent.getStringExtra("corporate");
+                String address = intent.getStringExtra("address");
+                String tel = intent.getStringExtra("tel");
+                tvCompanyName.setText(name);
+                tvName.setText(corporate);
+                tvAddress.setText(address);
+                tvPhone.setText(tel);
+                btn.setText("资料有误");
+            }
         }
 
     }

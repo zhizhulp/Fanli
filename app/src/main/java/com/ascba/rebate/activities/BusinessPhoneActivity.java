@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
 
-public class BusinessPhoneActivity extends AppCompatActivity {
+public class BusinessPhoneActivity extends BaseActivity {
     private EditTextWithCustomHint edPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

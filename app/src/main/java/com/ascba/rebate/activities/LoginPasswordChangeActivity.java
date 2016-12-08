@@ -14,7 +14,9 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -51,10 +53,15 @@ public class LoginPasswordChangeActivity extends BaseActivity {
 
     public void saveLoginPassword(View view) {
 
-        sendMsgToSevr("http://api.qlqwgw.com/v1/changePwd");
+        sendMsgToSevr(UrlUtils.changePwd);
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String oldString = edOldPassword.getText().toString();
         String newString = edNewPassword.getText().toString();
         String reNewString = edReNewPassword.getText().toString();
@@ -80,7 +87,6 @@ public class LoginPasswordChangeActivity extends BaseActivity {
         objRequest.add("uuid", uuid);
         objRequest.add("token", token);
         objRequest.add("expiring_time", expiring_time);
-
         objRequest.add("oldpassword", oldString);
         objRequest.add("password", newString);
         objRequest.add("repassword", reNewString);
@@ -90,13 +96,12 @@ public class LoginPasswordChangeActivity extends BaseActivity {
             public void getMessage(Message msg) {
                 dialog.dismiss();
                 JSONObject jObj = (JSONObject) msg.obj;
-                LogUtils.PrintLog("123LoginPasswordChangeActivity", jObj.toString());
                 try {
-                    int status = jObj.optInt("status");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
+                    int status = jObj.getInt("status");
+                    String message = jObj.optString("msg");
                     if (status == 200) {
-
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        int update_status = dataObj.optInt("update_status");
                         Toast.makeText(LoginPasswordChangeActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
                         if (update_status == 1) {
                             sf.edit()
@@ -104,21 +109,15 @@ public class LoginPasswordChangeActivity extends BaseActivity {
                                     .putLong("expiring_time", dataObj.optLong("expiring_time"))
                                     .apply();
                         }
-                    } else if (status == 5) {
-                        Toast.makeText(LoginPasswordChangeActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
+                    }  else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                         Intent intent = new Intent(LoginPasswordChangeActivity.this, LoginActivity.class);
                         sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         finish();
-                    } else if (status == 3) {
-                        Intent intent = new Intent(LoginPasswordChangeActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if (status == 404) {
-                        Toast.makeText(LoginPasswordChangeActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(LoginPasswordChangeActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    } else if(status==404){
+                        Toast.makeText(LoginPasswordChangeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){
+                        Toast.makeText(LoginPasswordChangeActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -13,11 +13,15 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
+import com.ascba.rebate.activities.register.RegisterAfterReceiveCodeActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.utils.EncryptHelper;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
@@ -35,7 +39,6 @@ public class LoginActivity extends BaseActivity {
     private EditText edPassword;
     private String loginPhone;
     private String loginPassword;
-    private boolean isFirstLogin = true;//是否是第一次成功登陆
     private PhoneHandler phoneHandler;
     private CheckThread checkThread;
     private RequestQueue requestQueue;
@@ -65,7 +68,10 @@ public class LoginActivity extends BaseActivity {
         if (loss_password != null) {
             Toast.makeText(this, "密码找回成功", Toast.LENGTH_SHORT).show();
             edPassword.setText("");
-            sf.edit().putString("login_password", loss_password).apply();
+            sf.edit()
+                    /*.putString("login_password", loss_password)*/
+                    .putString("login_password", "")
+                    .apply();
         }
     }
 
@@ -90,7 +96,7 @@ public class LoginActivity extends BaseActivity {
 
     //点击登录按钮
     public void goMain(View view) {
-        sendMsgToSevr("http://api.qlqwgw.com/v1/login");
+        sendMsgToSevr(UrlUtils.login);
     }
 
 
@@ -108,6 +114,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         loginPhone = edPhone.getText().toString();
         loginPassword = edPassword.getText().toString();
         if (loginPhone.equals("") || loginPassword.equals("")) {
@@ -130,25 +141,45 @@ public class LoginActivity extends BaseActivity {
                 LogUtils.PrintLog("123LoginActivity", jObj.toString());
                 try {
                     int status = jObj.getInt("status");
+                    String message = jObj.getString("msg");
                     if (status == 200) {//服务端返回成功
                         JSONObject dataObj = jObj.getJSONObject("data");
                         int uuid = dataObj.getInt("uuid");
                         String token = dataObj.getString("token");
                         Long exTime = dataObj.getLong("expiring_time");
+                        /*//加密密码
+                        String enPassword = EncryptHelper.rsaOpration(loginPassword, EncryptHelper.RSA_ENCRYPT);*/
                         sf.edit().putInt("uuid", uuid)
                                 .putString("token", token)
                                 .putLong("expiring_time", exTime)
                                 .putBoolean("first_login_success", false)
                                 .putString("login_phone", loginPhone)
-                                .putString("login_password", loginPassword)
+                                .putString("login_password", "")
                                 .apply();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
-                    } else if (status == 404) {
-                        Toast.makeText(LoginActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    } else if(status==-1){//用户不存在
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==1){//缺少sign参数
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==2){//非法请求，sign验证失败
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } /*else if(status==3){//跳转登录
+                        Intent intent=new Intent(LoginActivity.this, LoginActivity.class);
+                        intent.putExtra("uuid",-1000);
+                        startActivity(intent);
+                        finish();
+                    } */else if(status==4){//登陆后缺少uuid/token/expiring_time参数
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==5){//token验证失败
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } /*else if(status==6){//用户已存在
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } */else if(status==404){//失败
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){//数据异常，内部错误
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

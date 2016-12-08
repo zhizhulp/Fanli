@@ -1,8 +1,11 @@
 package com.ascba.rebate.activities.password_loss;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
@@ -13,8 +16,11 @@ import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.handlers.sms.SMSContentObserver;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -34,19 +40,40 @@ public class PasswordLossWithCodeActivity extends BaseActivity {
     private EditTextWithCustomHint edPassword;
     private EditTextWithCustomHint edRepassword;
     private String loss_phone;
+    /*@SuppressLint("HandlerLeak")
+    Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            if (msg.what == 1)
+            {
+                edCode.setText(msg.obj.toString());
+            }
+        }
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_loss_with_code);
         initViews();
-        getPhoneFromBefore();
+        getPhoneFromBefore();//获取上个界面传来的手机号码
     }
+    /*private void obServeSms() {
+        SMSContentObserver smsContentObserver = new SMSContentObserver(this, handler);
+
+        getContentResolver().registerContentObserver(
+                Uri.parse("content://sms/"), true, smsContentObserver);
+    }*/
 
     private void getPhoneFromBefore() {
-        loss_phone = getIntent().getStringExtra("loss_phone");
+        Intent intent = getIntent();
+        loss_phone = intent.getStringExtra("loss_phone");
+        String sms_code = intent.getStringExtra("sms_code");
         if(loss_phone!=null){
             tvLossPhone.setText(loss_phone);
+            edCode.setText(sms_code);
         }
     }
 
@@ -59,11 +86,16 @@ public class PasswordLossWithCodeActivity extends BaseActivity {
 
     public void goMain3(View view) {
 
-        sendMsgToSevr("http://api.qlqwgw.com/v1/getBackPwd");
+        sendMsgToSevr(UrlUtils.getBackPwd);
 
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String code = edCode.getText().toString();
         final String password = edPassword.getText().toString();
         String repassword = edRepassword.getText().toString();
@@ -105,15 +137,33 @@ public class PasswordLossWithCodeActivity extends BaseActivity {
                 LogUtils.PrintLog("123",jObj.toString());
                 try {
                     int status = jObj.getInt("status");
+                    String message = jObj.getString("msg");
                     if(status==200){//服务端返回成功
                         Intent intent=new Intent(PasswordLossWithCodeActivity.this, LoginActivity.class);
                         intent.putExtra("loss_password",password);
                         startActivity(intent);
                         finish();
-                    }else if(status==-1){
-                        Toast.makeText(PasswordLossWithCodeActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    }else if(status==404){
-                        Toast.makeText(PasswordLossWithCodeActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
+                    } else if(status==-1){//用户不存在
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==1){//缺少sign参数
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==2){//非法请求，sign验证失败
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==3){//跳转登录
+                        Intent intent=new Intent(PasswordLossWithCodeActivity.this, LoginActivity.class);
+                        intent.putExtra("uuid",-1000);
+                        startActivity(intent);
+                        finish();
+                    } else if(status==4){//登陆后缺少uuid/token/expiring_time参数
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==5){//token验证失败
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==6){//用户已存在
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==404){//失败
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){//数据异常，内部错误
+                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

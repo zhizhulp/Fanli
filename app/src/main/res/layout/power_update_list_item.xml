@@ -11,6 +11,7 @@
         android:layout_width="42dp"
         android:layout_height="42dp" />
     <LinearLayout
+        android:id="@+id/proxy_type"
         android:layout_centerVertical="true"
         android:layout_marginLeft="17dp"
         android:layout_toRightOf="@id/im_power_update_type"
@@ -32,7 +33,15 @@
             android:layout_height="wrap_content"
             android:text="免费"/>
     </LinearLayout>
+    <TextView
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/proxy_type"
+        android:text="复投次数：0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <RelativeLayout
+        android:id="@+id/proxy_open"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="17dp"
@@ -57,4 +66,5 @@
             android:layout_height="wrap_content"
             android:text="已开通"/>
     </RelativeLayout>
+
 </RelativeLayout>

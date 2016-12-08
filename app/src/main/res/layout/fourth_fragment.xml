@@ -1,690 +1,690 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ascba.rebate.view.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/four_superlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:scrollbars="none">
-
-    <LinearLayout
+    android:orientation="vertical">
+    <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--头部布局-->
-        <RelativeLayout
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="177dp">
-            <ImageView
-                android:id="@+id/imageView"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--头部布局-->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/me_head_bg" />
+                android:layout_height="177dp">
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/me_head_bg" />
 
-            <TextView
-                android:layout_marginLeft="15dp"
-                android:id="@+id/me_setting_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="设置"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+                <TextView
+                    android:gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/me_setting_text"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="设置"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/me_user_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="47.5dp"
-                android:src="@mipmap/me_user_img" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/me_user_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="47.5dp"
+                    android:src="@mipmap/me_user_img" />
 
-            <TextView
-                android:id="@+id/me_tv_nick_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/me_user_img"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:text="钱来钱往"
-                android:textColor="#fff"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/me_tv_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/me_user_img"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:textColor="#fff"
+                    android:textSize="15sp" />
 
+                <LinearLayout
+                    android:id="@+id/container_imgs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                </LinearLayout>
+            </RelativeLayout>
+            <!--账户余额title-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/me_tv_money"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="账户余额：0.0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/me_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="2.5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/setting_go" />
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv_go_get_cash"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/me_go"
+                    android:text="提现"
+                    android:textColor="@color/text_blue"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+            <View style="@style/viewStyleMatch" />
+            <!-- 第一个横向布局-->
             <LinearLayout
-                android:id="@+id/container_imgs"
+                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="15dp"
-                android:gravity="center"
+                android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
 
-               <!-- <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/me_recharge_mini" />
+                <LinearLayout
+                    android:id="@+id/me_pre_go_recharge"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="9dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/me_red_score_mini" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/me_recharge" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="9dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/me_business_center_mini" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="9dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/me_vip_mini" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="充值"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="9dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/me_recharge_mini" />
+                <View
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="9dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/me_cash_account_mini" />-->
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.01"
+                    android:background="@color/view_line" />
+
+                <LinearLayout
+                    android:id="@+id/me_go_card"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:src="@mipmap/me_card" />
+
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="银行卡"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/me_tv_banks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="0"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
-        <!--账户余额title-->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:background="@color/white">
+            <View
+                style="@style/viewStyleMatch"/>
+            <!-- 第二个横向布局-->
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/me_line_space"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/me_go_cash_account"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/me_cash_account" />
+
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="账单(现金)"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="明细"
+                            android:textColor="@color/text_blue"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.01"
+                    android:background="@color/view_line" />
+
+                <LinearLayout
+                    android:id="@+id/me_go_ticket"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/me_ticket" />
+
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="代金券"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/me_tv_ticket"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="0张"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                style="@style/viewStyleMatch"/>
 
             <TextView
-                android:id="@+id/me_tv_money"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="账户余额：0.0"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="我的积分"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/activity_text_normal" />
 
-            <ImageView
-                android:layout_centerVertical="true"
-                android:id="@+id/me_go"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="2.5dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/setting_go" />
+            <View style="@style/viewStyleMatch" />
+            <!-- 第三个横向布局-->
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/me_line_space"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/go_white_score_account"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/me_white_score" />
+
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="白积分"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/me_tv_white_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="9dp"
+                                android:text="账单"
+                                android:textColor="@color/text_blue"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.01"
+                    android:background="@color/view_line" />
+
+                <LinearLayout
+                    android:id="@+id/me_go_red_score"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/me_red_score" />
+
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="红积分"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="9dp"
+                                android:text="兑换"
+                                android:textColor="@color/text_blue"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View style="@style/viewStyleMatch" />
+            <!-- 会员中心-->
             <TextView
-                android:padding="5dp"
-                android:layout_centerVertical="true"
-                android:id="@+id/tv_go_get_cash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/me_go"
-                android:text="提现"
-                android:textColor="@color/text_blue"
-                android:textSize="13sp" />
-        </RelativeLayout>
-        <View style="@style/viewStyleMatch" />
-        <!-- 第一个横向布局-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/me_line_space"
-            android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="会员中心"
+                android:textColor="@color/black"
+                android:textSize="@dimen/activity_text_normal" />
+            <View style="@style/viewStyleMatch" />
 
             <LinearLayout
-                android:id="@+id/me_pre_go_recharge"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@mipmap/me_recharge" />
-
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
+                    android:id="@+id/me_go_vip"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="充值"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.01"
-                android:background="@color/view_line" />
-
-            <LinearLayout
-                android:id="@+id/me_go_card"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_marginTop="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/me_card" />
-
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="银行卡"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/me_tv_banks"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="0"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-        <View
-            style="@style/viewStyleMatch"/>
-        <!-- 第二个横向布局-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/me_line_space"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/me_go_cash_account"
-                android:layout_gravity="center_vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@mipmap/me_cash_account" />
-
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="账单(现金)"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="明细"
-                        android:textColor="@color/text_blue"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.01"
-                android:background="@color/view_line" />
-
-            <LinearLayout
-                android:id="@+id/me_go_ticket"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@mipmap/me_ticket" />
-
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="代金券"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/me_tv_ticket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="0张"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            style="@style/viewStyleMatch"/>
-
-        <TextView
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="14dp"
-            android:paddingTop="14dp"
-            android:text="我的积分"
-            android:textColor="@color/black"
-            android:textSize="@dimen/activity_text_normal" />
-
-        <View style="@style/viewStyleMatch" />
-        <!-- 第三个横向布局-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/me_line_space"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/go_white_score_account"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@mipmap/me_white_score" />
-
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="白积分"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/me_vip" />
                     <LinearLayout
+                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/me_tv_white_score"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="14sp" />
-
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="9dp"
-                            android:text="账单"
-                            android:textColor="@color/text_blue"
-                            android:textSize="13sp" />
+                            android:text="会员升级"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="立即升级"
+                            android:textSize="14sp"
+                            android:id="@+id/textView" />
                     </LinearLayout>
+                </LinearLayout>
 
+                <View
+
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.01"
+                    android:background="@color/view_line" />
+
+                <LinearLayout
+                    android:id="@+id/me_go_recommend"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/me_recommend" />
+
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的推荐"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="0/0(金额)"
+                            android:textSize="14sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <View
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.01"
-                android:background="@color/view_line" />
+                style="@style/viewStyleMatch"/>
 
             <LinearLayout
-                android:id="@+id/me_go_red_score"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:background="@color/white"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/me_line_space"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/me_go_business_center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:src="@mipmap/me_business_center" />
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="商户中心"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="尚未开通"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.01"
+                    android:background="@color/view_line" />
+                <LinearLayout
+                    android:id="@+id/me_go_proxy_center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:src="@mipmap/me_proxy" />
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="代理中心"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="0人"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <View style="@style/viewStyleMatch" />
+            <!-- 钱来钱往合作商-->
+            <TextView
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="钱来钱往合作商"
+                android:textColor="@color/black"
+                android:textSize="@dimen/activity_text_normal" />
+            <View style="@style/viewStyleMatch" />
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@mipmap/me_red_score" />
+                <LinearLayout
+                    android:id="@+id/qlqw_car"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:src="@mipmap/me_car" />
+                    <LinearLayout
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="汽车商城"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:text="尚未开通"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.01"
+                    android:background="@color/view_line" />
 
                 <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
+                    android:id="@+id/qlqw_house"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="红积分"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:src="@mipmap/me_house" />
 
                     <LinearLayout
+                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:orientation="horizontal">
+                        android:layout_marginLeft="17dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="未来房产"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:layout_marginTop="9dp"
+                            android:text="尚未开通"
                             android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="9dp"
-                            android:text="兑换"
-                            android:textColor="@color/text_blue"
-                            android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <View style="@style/viewStyleMatch" />
-        <!-- 会员中心-->
-        <TextView
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="14dp"
-            android:paddingTop="14dp"
-            android:text="会员中心"
-            android:textColor="@color/black"
-            android:textSize="@dimen/activity_text_normal" />
-        <View style="@style/viewStyleMatch" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/me_line_space"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/me_go_vip"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@mipmap/me_vip" />
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="会员升级"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="立即升级"
-                        android:textSize="14sp"
-                        android:id="@+id/textView" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.01"
-                android:background="@color/view_line" />
-
-            <LinearLayout
-                android:id="@+id/me_go_recommend"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@mipmap/me_recommend" />
-
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="我的推荐"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="0/0(金额)"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            style="@style/viewStyleMatch"/>
-
-        <LinearLayout
-            android:weightSum="2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/me_line_space"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/me_go_business_center"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/me_business_center" />
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="商户中心"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="尚未开通"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.01"
-                android:background="@color/view_line" />
-        </LinearLayout>
-        <View style="@style/viewStyleMatch" />
-        <!-- 钱来钱往合作商-->
-        <TextView
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="14dp"
-            android:paddingTop="14dp"
-            android:text="钱来钱往合作商"
-            android:textColor="@color/black"
-            android:textSize="@dimen/activity_text_normal" />
-        <View style="@style/viewStyleMatch" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/me_line_space"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_marginTop="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/me_car" />
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="汽车商城"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="尚未开通"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-
-                android:layout_width="0dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.01"
-                android:background="@color/view_line" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/me_house" />
-
-                <LinearLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="未来房产"
-                        android:textColor="#000"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="9dp"
-                        android:text="尚未开通"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+</com.ascba.rebate.view.SuperSwipeRefreshLayout>

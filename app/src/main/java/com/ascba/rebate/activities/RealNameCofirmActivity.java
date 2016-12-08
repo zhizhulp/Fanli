@@ -15,7 +15,9 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
@@ -45,10 +47,15 @@ public class RealNameCofirmActivity extends BaseActivity {
 
     //
     public void goConfirm(View view) {
-        sendMsgToSevr("http://api.qlqwgw.com/v1/findCardInfo");
+        sendMsgToSevr(UrlUtils.findCardInfo);
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if(!netAva){
+            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int uuid = sf.getInt("uuid", -1000);
         String token = sf.getString("token", "");
         long expiring_time = sf.getLong("expiring_time", -2000);
@@ -67,12 +74,12 @@ public class RealNameCofirmActivity extends BaseActivity {
             public void getMessage(Message msg) {
                 dialog.dismiss();
                 JSONObject jObj = (JSONObject) msg.obj;
-                LogUtils.PrintLog("123RealNameConfirmActivity", jObj.toString());
                 try {
                     int status = jObj.optInt("status");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
+                    String message = jObj.getString("msg");
                     if (status == 200) {
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        int update_status = dataObj.optInt("update_status");
                         JSONObject cardObj = dataObj.getJSONObject("cardIdInfo");
                         String card = cardObj.optString("cardid");
                         String sex = cardObj.optString("sex");
@@ -91,16 +98,15 @@ public class RealNameCofirmActivity extends BaseActivity {
                         intent.putExtra("location",location);
                         startActivity(intent);
                         finish();
-                    } else if (status == 5) {
-                        Toast.makeText(RealNameCofirmActivity.this, jObj.optString("msg"), Toast.LENGTH_SHORT).show();
-                    } else if (status == 3) {
+                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                         Intent intent = new Intent(RealNameCofirmActivity.this, LoginActivity.class);
+                        sf.edit().putInt("uuid", -1000).apply();
                         startActivity(intent);
                         finish();
-                    } else if (status == 404) {
-                        Toast.makeText(RealNameCofirmActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(RealNameCofirmActivity.this, "未知原因", Toast.LENGTH_SHORT).show();
+                    } else if(status==404){
+                        Toast.makeText(RealNameCofirmActivity.this, message, Toast.LENGTH_SHORT).show();
+                    } else if(status==500){
+                        Toast.makeText(RealNameCofirmActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -12,19 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
-        android:onClick="goSelectCity"
+        android:orientation="horizontal"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
-        <TextView
+        <!--<TextView
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:text="选择代理权区域"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />-->
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:background="@null"
+            android:maxLength="20"
+            android:id="@+id/ed_proxy_area"
+            android:hint="请输入代理区域"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <Button
+            android:onClick="checkCity"
+            android:layout_alignParentRight="true"
+            android:text="确认"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ImageView
+        <!--<ImageView
             android:layout_centerVertical="true"
             android:id="@+id/im_city_go"
             android:src="@mipmap/ic_go"
@@ -38,7 +51,14 @@
             android:layout_toLeftOf="@id/im_city_go"
             android:text="市县区"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
+        <!--<AutoCompleteTextView
+            android:completionThreshold="1"
+            android:hint="请输入代理地区"
+            android:id="@+id/city"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />-->
     </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
@@ -65,6 +85,37 @@
         android:background="@color/view_line"
         android:layout_width="match_parent"
         android:layout_height="7dp"/>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space"
+        android:orientation="horizontal">
+        <TextView
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:text="推荐人"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioGroup
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:text="有"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:layout_marginLeft="30dp"
+                android:text="无"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
+    </LinearLayout>
+    <View
+        style="@style/viewStyleMatch"/>
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
@@ -111,7 +162,7 @@
     <RadioButton
         android:layout_gravity="center_horizontal"
         android:textColor="@color/text_blue"
-        android:text="我已同意代理协议"
+        android:text="我已同意《代理协议》"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <RelativeLayout
@@ -147,6 +198,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
             <LinearLayout
+                android:onClick="leaveMsg"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"

@@ -2,15 +2,19 @@ package com.ascba.rebate.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.utils.UrlUtils;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yolanda.nohttp.rest.Request;
@@ -18,11 +22,12 @@ import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
 public class SweepActivity extends NetworkBaseActivity {
-
+    private SharedPreferences sf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sweep);
+        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         /**
          * 执行扫面Fragment的初始化操作
          */
@@ -46,30 +51,31 @@ public class SweepActivity extends NetworkBaseActivity {
             intent.putExtra("bus_uuid",result);
             startActivity(intent);
             finish();
-            sendMsgToSevr("http://api.qlqwgw.com/v1/checkMember",0);
+            sendMsgToSevr(UrlUtils.checkMember,0);
             CheckThread checkThread = getCheckThread();
-            Request<JSONObject> objRequest = checkThread.getObjRequest();
-            objRequest.add("seller",result);
-            objRequest.add("scenetype",2);
-            final ProgressDialog p=new ProgressDialog(SweepActivity.this,R.style.dialog);
-            p.setMessage("请稍后");
-            p.setCanceledOnTouchOutside(false);
-            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-            phoneHandler.setCallback(phoneHandler.new Callback2(){
-                @Override
-                public void getMessage(Message msg) {
-                    p.dismiss();
-                    super.getMessage(msg);
-                    JSONObject jObj = (JSONObject) msg.obj;
-                    int status = jObj.optInt("status");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-
-                    if(status==200){
-                        int uuid = dataObj.optInt("uuid");
-                        Intent intent1=new Intent(SweepActivity.this,PayActivity.class);
-                        intent1.putExtra("bus_uuid",uuid);
-                        startActivity(intent1);
-                        finish();
+            if(checkThread!=null){
+                Request<JSONObject> objRequest = checkThread.getObjRequest();
+                objRequest.add("seller",result);
+                objRequest.add("scenetype",2);
+                final ProgressDialog p=new ProgressDialog(SweepActivity.this,R.style.dialog);
+                p.setMessage("请稍后");
+                p.setCanceledOnTouchOutside(false);
+                PhoneHandler phoneHandler = checkThread.getPhoneHandler();
+                phoneHandler.setCallback(phoneHandler.new Callback2(){
+                    @Override
+                    public void getMessage(Message msg) {
+                        p.dismiss();
+                        super.getMessage(msg);
+                        JSONObject jObj = (JSONObject) msg.obj;
+                        int status = jObj.optInt("status");
+                        String message = jObj.optString("msg");
+                        if(status==200){
+                            JSONObject dataObj = jObj.optJSONObject("data");
+                            int uuid = dataObj.optInt("uuid");
+                            Intent intent1=new Intent(SweepActivity.this,PayActivity.class);
+                            intent1.putExtra("bus_uuid",uuid);
+                            startActivity(intent1);
+                            finish();
 //                        Intent resultIntent = new Intent();
 //                        Bundle bundle = new Bundle();
 //                        bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
@@ -77,11 +83,22 @@ public class SweepActivity extends NetworkBaseActivity {
 //                        resultIntent.putExtras(bundle);
 //                        setResult(RESULT_OK, resultIntent);
 //                        finish();
+                        } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
+                            Intent intent = new Intent(SweepActivity.this, LoginActivity.class);
+                            sf.edit().putInt("uuid", -1000).apply();
+                            startActivity(intent);
+                            finish();
+                        } else if(status==404){
+                            Toast.makeText(SweepActivity.this, message, Toast.LENGTH_SHORT).show();
+                        } else if(status==500){
+                            Toast.makeText(SweepActivity.this, message, Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
-            checkThread.start();
-            p.show();
+                });
+                checkThread.start();
+                p.show();
+            }
+
         }
 
         @Override

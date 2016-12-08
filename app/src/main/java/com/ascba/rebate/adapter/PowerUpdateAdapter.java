@@ -123,7 +123,7 @@ public class PowerUpdateAdapter extends BaseAdapter {
                 viewHolder.tvType.setText(proxy.getType());
                 viewHolder.tvMoney.setText(proxy.getMoney());
                 viewHolder.tvOpen.setText(proxy.isOpen()? "已开通":"暂未开通");
-                viewHolder.tvOpen.setTextColor(proxy.isOpen()? Color.GRAY : 0xff33b5e5 );
+                viewHolder.tvOpen.setTextColor(proxy.isOpen()? Color.GRAY : 0xff2e82ff );
                 viewHolder.tvOpen.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

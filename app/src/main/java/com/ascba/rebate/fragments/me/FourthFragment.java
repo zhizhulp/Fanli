@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +44,11 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
@@ -64,6 +69,8 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class FourthFragment extends Fragment implements View.OnClickListener{
 
+    private static final int REQUEST_PAY = 3;
+    private static final int REQUEST_CLOSE = 4;
     private TextView mSettingText;
     private View whiteScoreView;
     private View goRechargeView;
@@ -88,11 +95,14 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     private TextView tvTicket;
     private LinearLayout imgsContainer;
     private int merchant;
+    private View carView;
+    private View houseView;
 
-//    public static FourthFragment instance() {
-//        FourthFragment view = new FourthFragment();
-//        return view;
-//    }
+    private SuperSwipeRefreshLayout refreshLayout;
+    private ProgressBar progressBar;
+    private ImageView imageView;
+    private TextView textView;
+
 
     @Nullable
     @Override
@@ -113,7 +123,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         //初始化8个小图标parent
         imgsContainer = ((LinearLayout) view.findViewById(R.id.container_imgs));
         sf=getActivity().getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
-        sendMsgToSevr("http://api.qlqwgw.com/v1/user",0);
+        sendMsgToSevr(UrlUtils.user,0);
 
 
         //点击设置进入设置页面
@@ -122,7 +132,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(), SettingActivity.class);
-                startActivityForResult(intent,1);
+                startActivityForResult(intent,REQUEST_CLOSE);
             }
         });
         //点击用户头像进入个人中心
@@ -162,7 +172,12 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         //点击商户中心进入商户中心界面
         goProxyCenterView = view.findViewById(R.id.me_go_proxy_center);
         goProxyCenterView.setOnClickListener(this);
-
+        //点击汽车
+        carView = view.findViewById(R.id.qlqw_car);
+        carView.setOnClickListener(this);
+        //点击房产
+        houseView = view.findViewById(R.id.qlqw_house);
+        houseView.setOnClickListener(this);
 
     }
 
@@ -172,6 +187,53 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         tvMoney = ((TextView) view.findViewById(R.id.me_tv_money));
         tvBanks = ((TextView) view.findViewById(R.id.me_tv_banks));
         tvTicket = ((TextView) view.findViewById(R.id.me_tv_ticket));
+        initRefreshLayout(view);
+
+    }
+
+    private void initRefreshLayout(View view) {
+        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.four_superlayout));
+        View child = LayoutInflater.from(getActivity())
+                .inflate(R.layout.layout_head, null);
+        progressBar = (ProgressBar) child.findViewById(R.id.pb_view);
+        textView = (TextView) child.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = (ImageView) child.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        refreshLayout.setHeaderView(child);
+        refreshLayout
+                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+
+                    @Override
+                    public void onRefresh() {
+                        textView.setText("正在刷新");
+                        imageView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                        sendMsgToSevr(UrlUtils.user,0);
+                        /*new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.setRefreshing(false);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 2000);*/
+                    }
+
+                    @Override
+                    public void onPullDistance(int distance) {
+                        //myAdapter.updateHeaderHeight(distance);
+                    }
+
+                    @Override
+                    public void onPullEnable(boolean enable) {
+                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setRotation(enable ? 180 : 0);
+                    }
+                });
+
     }
 
     @Override
@@ -227,7 +289,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.me_pre_go_recharge:
                 Intent intent2=new Intent(getActivity(), AccountRechargeActivity.class);
-                startActivity(intent2);
+                startActivityForResult(intent2,REQUEST_PAY);
                 break;
             case R.id.me_go_red_score:
                 Intent intent3=new Intent(getActivity(), RedScoreActivity.class);
@@ -238,7 +300,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent4);
                 break;
             case R.id.me_go_business_center:
-                sendMsgToSevr("http://api.qlqwgw.com/v1/getCompany",1);
+                sendMsgToSevr(UrlUtils.getCompany,1);
                 break;
             case R.id.tv_go_get_cash:
                 Intent intent6=new Intent(getActivity(), CashGetActivity.class);
@@ -255,6 +317,12 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
             case R.id.me_go_proxy_center:
                 Toast.makeText(getActivity(), "稍后开放", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.qlqw_car:
+                Toast.makeText(getActivity(), "敬请期待", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.qlqw_house:
+                Toast.makeText(getActivity(), "敬请期待", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -262,19 +330,37 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data!=null){
-            getActivity().finish();
-            Intent intent=new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            switch (requestCode){
+                case REQUEST_PAY:
+                    sendMsgToSevr(UrlUtils.user,0);
+                    break;
+                case REQUEST_CLOSE:
+                    getActivity().finish();
+                    Intent intent=new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+
         }
     }
     private void sendMsgToSevr(String baseUrl, final int scene) {
+        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+        if(!netAva){
+            refreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "请打开网络", Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            textView.setText("正在刷新");
+            imageView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
         int uuid = sf.getInt("uuid",-1000 );
         String token = sf.getString("token", "");
         long expiring_time = sf.getLong("expiring_time", -2000);
         if(requestQueue==null){
             requestQueue= NoHttp.newRequestQueue();
         }
-
         final ProgressDialog dialog = new ProgressDialog(getActivity(), R.style.dialog);
         dialog.setMessage("请稍后");
         Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
@@ -282,23 +368,25 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         objRequest.add("uuid",uuid);
         objRequest.add("token",token);
         objRequest.add("expiring_time",expiring_time);
-        if(scene==1){
-            objRequest.add("company_stauts",merchant);
+        if(scene==1){//点击商户中心
+            objRequest.add("company_status",merchant);
         }
         phoneHandler=new PhoneHandler(getActivity());
         phoneHandler.setCallback(new PhoneHandler.Callback() {
 
-
             @Override
             public void getMessage(Message msg) {
+                refreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+                imgsContainer.removeAllViews();
                 dialog.dismiss();
                 JSONObject jObj= (JSONObject) msg.obj;
-                LogUtils.PrintLog("123FourthFragment",jObj.toString());
                 try {
                     int status = jObj.getInt("status");
+                    String message = jObj.getString("msg");
                     JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
                     if(status==200){
+                        int update_status = dataObj.optInt("update_status");
                         if(scene==0){
                             if(update_status==1){
                                 sf.edit()
@@ -321,7 +409,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                                 int isUpgraded = typeObj.getInt("isUpgraded");
                                 int id = typeObj.getInt("id");
                                 ImageView imageView=new ImageView(getActivity());
-                                int i1 = ScreenDpiUtils.dip2px(getActivity(), 18);
+                                int i1 = ScreenDpiUtils.dip2px(getActivity(), 14);
                                 LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(i1, i1);
                                 int dpLeft = ScreenDpiUtils.dip2px(getActivity(), 7);
                                 lp.leftMargin=dpLeft;
@@ -360,35 +448,40 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
 
 
                     } else if(status==404){
-                        JSONObject comObj = dataObj.optJSONObject("company");
-
-                        if(merchant==0){
-                            Intent intent=new Intent(getActivity(),BusinessCenterActivity.class);
-                            startActivity(intent);
-                        }else if(merchant==1){
-                            Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
-                            String name = comObj.optString("name");
-                            String corporate = comObj.optString("corporate");
-                            String address = comObj.optString("address");
-                            String tel = comObj.optString("tel");
-                            intent.putExtra("name_01",name);
-                            intent.putExtra("corporate_01",corporate);
-                            intent.putExtra("tel_01",tel);
-                            intent.putExtra("address_01",address);
-                            startActivity(intent);
-                        }else if(merchant==2){
-                            Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
-                            String name = comObj.optString("name");
-                            String corporate = comObj.optString("corporate");
-                            String address = comObj.optString("address");
-                            String tel = comObj.optString("tel");
-                            intent.putExtra("name",name);
-                            intent.putExtra("corporate",corporate);
-                            intent.putExtra("tel",tel);
-                            intent.putExtra("address",address);
-                            startActivity(intent);
+                        if(scene==1){
+                            JSONObject comObj = dataObj.optJSONObject("company");
+                            if(merchant==0){
+                                Intent intent=new Intent(getActivity(),BusinessCenterActivity.class);
+                                startActivity(intent);
+                            }else if(merchant==1){
+                                Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
+                                String name = comObj.optString("name");
+                                String corporate = comObj.optString("corporate");
+                                String address = comObj.optString("address");
+                                String tel = comObj.optString("tel");
+                                intent.putExtra("type",0);
+                                intent.putExtra("name_01",name);
+                                intent.putExtra("corporate_01",corporate);
+                                intent.putExtra("tel_01",tel);
+                                intent.putExtra("address_01",address);
+                                startActivity(intent);
+                            }else if(merchant==2){
+                                Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
+                                String name = comObj.optString("name");
+                                String corporate = comObj.optString("corporate");
+                                String address = comObj.optString("address");
+                                String tel = comObj.optString("tel");
+                                intent.putExtra("type",1);
+                                intent.putExtra("name",name);
+                                intent.putExtra("corporate",corporate);
+                                intent.putExtra("tel",tel);
+                                intent.putExtra("address",address);
+                                startActivity(intent);
+                            }
                         }
 
+                    }else if(status==4){
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                     } else if(status==5){
                         Intent intent=new Intent(getActivity(),LoginActivity.class);
                         sf.edit().putInt("uuid",-1000).apply();

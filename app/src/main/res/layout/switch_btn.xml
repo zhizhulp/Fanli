@@ -16,7 +16,7 @@
             android:id="@+id/recommend_title_back"
             android:scaleType="center"
             android:layout_centerVertical="true"
-            android:layout_width="36dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:src="@mipmap/money_bar_back"/>
         <RadioGroup
@@ -63,7 +63,7 @@
                 android:background="@drawable/recommend_title_status_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="返利"/>
+                android:text="赠返"/>
         </RadioGroup>
         <ImageView
             android:layout_alignParentRight="true"

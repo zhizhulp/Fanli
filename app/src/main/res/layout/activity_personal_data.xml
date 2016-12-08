@@ -37,8 +37,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/personal_user_img"
             android:layout_width="41dp"
-            android:layout_height="41dp"
-            android:src="@mipmap/me_user_img" />
+            android:layout_height="41dp"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
