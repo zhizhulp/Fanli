@@ -77,11 +77,11 @@ public class AllAccountActivity extends NetworkBaseActivity implements View.OnCl
 
             @Override
             public void onCenterClick() {
-                LogUtils.PrintLog("123", "center is click");
+                /*LogUtils.PrintLog("123", "center is click");
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
                 ft.hide(cash);
                 ft.hide(white);
-                ft.commit();
+                ft.commit();*/
             }
         });
     }

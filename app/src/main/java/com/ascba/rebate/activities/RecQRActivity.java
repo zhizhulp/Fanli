@@ -74,29 +74,15 @@ public class RecQRActivity extends NetworkBaseActivity {
                     super.getMessage(msg);
                     JSONObject jObj = (JSONObject) msg.obj;
                     int status = jObj.optInt("status");
-                    String message = jObj.optString("msg");
                     if(status==200){
                         JSONObject dataObj = jObj.optJSONObject("data");
                         JSONObject paObj = dataObj.optJSONObject("partook");
                         String p_id = paObj.optString("p_id");
                         String p_url = paObj.optString("p_url");
-                        String sf_url = sf.getString("p_url", "");
-                        if(sf_url.equals("")){
-                            sf.edit().putString("p_url",p_url).putString("p_id",p_id).apply();
-                            tvRecId.setText("推广ID:"+ p_id);
-                            tvRecNet.setText(p_url);
-                            Bitmap qrCode = createQRCode(p_url, 200, 200);
-                            imQR.setImageBitmap(qrCode);
-                        }
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(RecQRActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(RecQRActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(RecQRActivity.this, message, Toast.LENGTH_SHORT).show();
+                        tvRecId.setText("推广ID:"+ p_id);
+                        tvRecNet.setText(p_url);
+                        Bitmap qrCode = createQRCode(p_url, 200, 200);
+                        imQR.setImageBitmap(qrCode);
                     }
                 }
             });

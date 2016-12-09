@@ -4,7 +4,6 @@
     android:layout_height="60dp"
     android:minHeight="60dp">
     <ImageView
-        android:src="@mipmap/update_normal"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:id="@+id/im_power_update_type"
@@ -23,17 +22,16 @@
             android:textSize="@dimen/activity_text_normal"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="普通会员"/>
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_power_update_fee"
             android:layout_marginTop="7dp"
             android:textSize="@dimen/activity_text_normal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="免费"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView
+        android:visibility="gone"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@id/proxy_type"
@@ -54,8 +52,7 @@
             android:textSize="@dimen/activity_text_normal"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="查看特权"/>
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_power_update_open"
             android:layout_below="@id/see"
@@ -63,8 +60,7 @@
             android:layout_marginTop="7dp"
             android:textSize="@dimen/activity_text_normal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已开通"/>
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
 </RelativeLayout>

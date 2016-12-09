@@ -11,55 +11,52 @@
         app:textTitle="开通代理"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/proxy_city_search"
         android:orientation="horizontal"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
-        <!--<TextView
-            android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="选择代理权区域"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />-->
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:maxLines="1"
+            android:layout_weight="3"
+            android:textSize="15sp"
             android:background="@null"
-            android:maxLength="20"
             android:id="@+id/ed_proxy_area"
             android:hint="请输入代理区域"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent" />
         <Button
+            android:layout_weight="1"
+            android:layout_toRightOf="@id/ed_proxy_area"
+            android:id="@+id/check_btn"
             android:onClick="checkCity"
-            android:layout_alignParentRight="true"
-            android:text="确认"
-            android:layout_width="wrap_content"
+            android:text="搜索"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
-        <!--<ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/im_city_go"
-            android:src="@mipmap/ic_go"
-            android:layout_alignParentRight="true"
+    </LinearLayout>
+    <View
+        style="@style/viewStyleMatch"/>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space"
+        android:orientation="horizontal">
+        <TextView
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:text="代理名称"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_centerVertical="true"
-            android:id="@+id/city"
-            android:layout_marginRight="7dp"
-            android:layout_toLeftOf="@id/im_city_go"
-            android:text="市县区"
+            android:id="@+id/proxy_proxy_name"
+            android:layout_marginLeft="40dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />-->
-        <!--<AutoCompleteTextView
-            android:completionThreshold="1"
-            android:hint="请输入代理地区"
-            android:id="@+id/city"
-            android:layout_marginLeft="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />-->
-    </RelativeLayout>
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <View
         style="@style/viewStyleMatch"/>
     <LinearLayout
@@ -86,6 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="7dp"/>
     <LinearLayout
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -104,10 +102,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <RadioButton
+                android:id="@+id/rb_have"
                 android:text="有"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RadioButton
+                android:id="@+id/rb_no"
                 android:layout_marginLeft="30dp"
                 android:text="无"
                 android:layout_width="wrap_content"
@@ -160,6 +160,7 @@
     <View
         style="@style/viewStyleMatch"/>
     <RadioButton
+        android:id="@+id/rb_agree"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/text_blue"
         android:text="我已同意《代理协议》"
@@ -216,6 +217,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <TextView
+                android:onClick="goOpenProxy"
                 android:gravity="center"
                 android:background="@color/moneyBarColor"
                 android:textColor="@color/white"

@@ -83,15 +83,6 @@ public class SweepActivity extends NetworkBaseActivity {
 //                        resultIntent.putExtras(bundle);
 //                        setResult(RESULT_OK, resultIntent);
 //                        finish();
-                        } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                            Intent intent = new Intent(SweepActivity.this, LoginActivity.class);
-                            sf.edit().putInt("uuid", -1000).apply();
-                            startActivity(intent);
-                            finish();
-                        } else if(status==404){
-                            Toast.makeText(SweepActivity.this, message, Toast.LENGTH_SHORT).show();
-                        } else if(status==500){
-                            Toast.makeText(SweepActivity.this, message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

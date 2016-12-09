@@ -130,6 +130,7 @@ public class PowerUpdateAdapter extends BaseAdapter {
                         callback.clickOpen(position);
                     }
                 });
+                viewHolder.tv01.setText(proxy.getDesc());
                 viewHolder.tv01.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

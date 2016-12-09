@@ -151,6 +151,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <LinearLayout
+        android:visibility="gone"
         android:maxLines="1"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -160,7 +161,6 @@
 
         <TextView
             android:textColor="@color/black"
-
             android:layout_weight="1"
             android:textSize="15sp"
             android:layout_width="0dp"
@@ -180,6 +180,7 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <View
+        android:visibility="gone"
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"

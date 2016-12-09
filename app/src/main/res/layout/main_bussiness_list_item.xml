@@ -20,10 +20,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:id="@+id/tv_main_business_name"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_marginTop="19dp"
@@ -32,6 +34,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:maxLength="5"
                 android:textSize="13sp"
                 android:id="@+id/tv_main_business_category"
                 android:layout_width="wrap_content"

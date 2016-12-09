@@ -17,8 +17,7 @@
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"
         android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:background="@color/colorAccent"/>
+        android:layout_height="250dp" />
     <ImageView
         android:src="@mipmap/ic_up"
         android:layout_marginTop="28dp"

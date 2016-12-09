@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:text="公司名称"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="14sp"
             android:id="@+id/ed_company_name"
             android:maxLines="1"
             android:layout_marginLeft="30dp"
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:text="法人姓名"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="14sp"
             android:maxLines="1"
             android:id="@+id/ed_busi_law_man"
             android:layout_marginLeft="30dp"
@@ -100,6 +102,7 @@
             android:layout_height="wrap_content"
             android:text="公司电话"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="14sp"
             android:maxLines="1"
             android:id="@+id/ed_busi_phone"
             android:layout_marginLeft="30dp"

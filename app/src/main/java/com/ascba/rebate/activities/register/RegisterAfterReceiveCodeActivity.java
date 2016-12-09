@@ -148,7 +148,6 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
             public void getMessage(Message msg) {
                 dialog4.dismiss();
                 JSONObject jObj= (JSONObject) msg.obj;
-                LogUtils.PrintLog("123RegisterAfterReceiveCodeActivity",jObj.toString());
                 try {
                     int status = jObj.getInt("status");
                     String message = jObj.getString("msg");

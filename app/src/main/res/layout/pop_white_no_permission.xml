@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
+        android:scaleType="center"
         android:id="@+id/cry_close_icon"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_alignParentRight="true"
         android:src="@mipmap/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
     <ImageView
         android:id="@+id/cry_icon"
         android:layout_marginTop="15dp"

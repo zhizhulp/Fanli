@@ -56,7 +56,7 @@ public class CityList extends BaseActivity {
 
     View hotcityall;
 
-    String[] hotcity = new String[]{"北京", "上海", "广州", "深圳", "杭州", "南京", "天津", "武汉", "重庆"};
+    String[] hotcity = new String[]{"北京市", "上海市", "广州市", "深圳市", "杭州市", "南京市", "天津市", "武汉市", "重庆市"};
     WindowManager windowManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {

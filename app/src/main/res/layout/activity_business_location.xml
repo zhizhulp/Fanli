@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="地区"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="14sp"
             android:id="@+id/ed_city"
             android:maxLines="1"
             android:background="@null"
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:text="地址"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="14sp"
             android:id="@+id/ed_locate"
             android:maxLines="1"
             android:background="@null"

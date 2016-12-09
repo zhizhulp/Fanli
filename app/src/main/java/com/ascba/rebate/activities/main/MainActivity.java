@@ -7,11 +7,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import com.ascba.rebate.beans.TabEntity;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.MySqliteOpenHelper;
+import com.ascba.rebate.utils.NetUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.ascba.rebate.R;

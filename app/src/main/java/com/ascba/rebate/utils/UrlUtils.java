@@ -23,6 +23,7 @@ public class UrlUtils {
     public static final String updateSet=baseWebsite+"/"+webVersion+"/"+"updateSet";//修改个人资料
     public static final String findCardInfo=baseWebsite+"/"+webVersion+"/"+"findCardInfo";//身份证查询
     public static final String verifyCard=baseWebsite+"/"+webVersion+"/"+"verifyCard";//实名认证
+    public static final String checkCardId=baseWebsite+"/"+webVersion+"/"+"checkCardId";//检查实名认证
     public static final String changePwd=baseWebsite+"/"+webVersion+"/"+"changePwd";//密码修改
     //银行卡
     public static final String getBankList=baseWebsite+"/"+webVersion+"/"+"getBankList";//银行卡列表数据
@@ -45,6 +46,10 @@ public class UrlUtils {
     //代理
     public static final String upgradedList=baseWebsite+"/"+webVersion+"/"+"upgradedList";//特权升级列表
     public static final String getUpgraded=baseWebsite+"/"+webVersion+"/"+"getUpgraded";//代理开通数据
+    public static final String getJoinArea=baseWebsite+"/"+webVersion+"/"+"getJoinArea";//地区查询
+    public static final String backJoinArea=baseWebsite+"/"+webVersion+"/"+"backJoinArea";
+    public static final String memberUpgraded=baseWebsite+"/"+webVersion+"/"+"memberUpgraded";
+
     //推送
     public static final String checkMember=baseWebsite+"/"+webVersion+"/"+"checkMember";
     public static final String confirmOrder=baseWebsite+"/"+webVersion+"/"+"confirmOrder";

@@ -53,15 +53,16 @@
                 android:layout_height="wrap_content"
                 android:text="请输入积分"/>
             <com.ascba.rebate.view.EditTextWithCustomHint
+                android:gravity="right"
                 android:background="@null"
                 android:layout_centerVertical="true"
                 android:maxLines="1"
-                android:text="0"
+                android:text="0.00"
                 android:inputType="number"
                 android:layout_marginRight="15dp"
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/activity_text_normal"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <LinearLayout

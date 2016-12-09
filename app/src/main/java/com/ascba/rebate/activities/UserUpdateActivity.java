@@ -38,6 +38,7 @@ public class UserUpdateActivity extends NetworkBaseActivity implements AdapterVi
     private List<ProxyProtocol> pros=new ArrayList<>();
     private List<Proxy> mProxies=new ArrayList<>();
     private SharedPreferences sf;
+    private int isCardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +62,10 @@ public class UserUpdateActivity extends NetworkBaseActivity implements AdapterVi
                     super.getMessage(msg);
                     JSONObject jObj = (JSONObject) msg.obj;
                     int status = jObj.optInt("status");
-                    String message = jObj.optString("msg");
                     if(status==200){
                         JSONObject dataObj = jObj.optJSONObject("data");
                         JSONObject pJObj = dataObj.optJSONObject("pReferee");
+                        isCardId = dataObj.optInt("isCardId");
                         Iterator<String> keys = pJObj.keys();
                         while(keys.hasNext()){
                             String key = keys.next();
@@ -78,8 +79,10 @@ public class UserUpdateActivity extends NetworkBaseActivity implements AdapterVi
                                 String money = jsonObject.optString("money");
                                 String icon = jsonObject.optString("icon");
                                 String url = jsonObject.optString("url");
+                                String description = jsonObject.optString("description");
                                 int group = jsonObject.optInt("group");
-                                int sort = jsonObject.optInt("sort");
+                                int id = jsonObject.optInt("id");
+                                //int sort = jsonObject.optInt("sort");
                                 String baseurl="http://api.qlqwgw.com";
                                 int isUpgraded = jsonObject.optInt("isUpgraded");
                                 boolean open;
@@ -91,23 +94,16 @@ public class UserUpdateActivity extends NetworkBaseActivity implements AdapterVi
                                 }
                                 String finalUrl=baseurl+icon;
                                 Proxy proxy=new Proxy(finalUrl,name,money,open);
-                                mProxies.add(proxy);
-                                proxy.setGroup_id(sort);
+                                proxy.setDesc(description);
+                                proxy.setGroup_id(id);
+                                proxy.setGroup(group);
                                 proxies.add(proxy);
+                                mProxies.add(proxy);
                             }
                             UpdateTitle updateTitle=new UpdateTitle(key,proxies);
                             mList.add(updateTitle);
                         }
                         powerUpdateAdapter.notifyDataSetChanged();
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(UserUpdateActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(UserUpdateActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(UserUpdateActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -139,8 +135,17 @@ public class UserUpdateActivity extends NetworkBaseActivity implements AdapterVi
             public void clickOpen(int position) {
                 Proxy proxy = mProxies.get(position);
                 if(proxy.getIcon()!=null){
+                    if(isCardId==0){
+                        Toast.makeText(UserUpdateActivity.this, "请实名认证", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Intent intent=new Intent(UserUpdateActivity.this, OpenProxyActivity.class);
                     intent.putExtra("group_id",proxy.getGroup_id());
+                    intent.putExtra("group",proxy.getGroup());
+                    if(proxy.getGroup()==0){
+                        Toast.makeText(UserUpdateActivity.this, "普通会员无需开通", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     startActivity(intent);
                 }
             }

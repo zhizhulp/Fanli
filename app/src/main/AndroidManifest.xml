@@ -79,10 +79,7 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-
-        </activity>
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
@@ -441,9 +438,11 @@
             android:name=".activities.MessageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.ShowDescriptionActivity"
+        <activity
+            android:name=".activities.ShowDescriptionActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
+        <activity android:name=".activities.WhiteToActivity"></activity>
     </application>
 
 </manifest>

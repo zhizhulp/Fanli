@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="1594.21" />
+                    android:text="0.00" />
             </LinearLayout>
 
             <View
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="1594.21" />
+                    android:text="0.00" />
             </LinearLayout>
         </LinearLayout>
 
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="1594.21" />
+                        android:text="0.00" />
                 </LinearLayout>
 
                 <View
@@ -127,13 +127,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="1594.21" />
+                        android:text="0.00" />
                 </LinearLayout>
             </LinearLayout>
             <View style="@style/viewStyleMatch" />
         </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="暂无数据!"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <ListView
+        android:visibility="gone"
         android:scrollbars="none"
         android:id="@+id/wsaccount_list"
         android:layout_width="match_parent"

@@ -100,15 +100,6 @@ public class PayActivity extends NetworkBaseActivity {
                             String message = jObj.optString("msg");
                             if(status==200){
 //                            JSONObject dataObj = jObj.optJSONObject("data");
-                            } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                                Intent intent = new Intent(PayActivity.this, LoginActivity.class);
-                                sf.edit().putInt("uuid", -1000).apply();
-                                startActivity(intent);
-                                finish();
-                            } else if(status==404){
-                                Toast.makeText(PayActivity.this, message, Toast.LENGTH_SHORT).show();
-                            } else if(status==500){
-                                Toast.makeText(PayActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

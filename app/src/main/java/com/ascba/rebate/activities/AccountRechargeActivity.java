@@ -109,6 +109,10 @@ public class AccountRechargeActivity extends NetworkBaseActivity {
 
     private void requestForServer() {
         String money = edMoney.getText().toString();
+        if("".equals(money)){
+            Toast.makeText(this, "请输入金额", Toast.LENGTH_SHORT).show();
+            return;
+        }
         sendMsgToSevr(UrlUtils.payment,0);
         CheckThread checkThread = getCheckThread();
         if(checkThread!=null){
@@ -131,15 +135,6 @@ public class AccountRechargeActivity extends NetworkBaseActivity {
                         JSONObject dataObj = jObj.optJSONObject("data");
                         String payInfo = dataObj.optString("payInfo");
                         requestForAli(payInfo);//发起支付请求
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(AccountRechargeActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(AccountRechargeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(AccountRechargeActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }
             });

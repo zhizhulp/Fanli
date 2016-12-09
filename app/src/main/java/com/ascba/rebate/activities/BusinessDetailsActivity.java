@@ -116,15 +116,6 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
                                 tvPhone.setText(seller_tel);
                                 tvTime.setText(seller_business_hours);
                                 tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
-                            } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                                Intent intent = new Intent(BusinessDetailsActivity.this, LoginActivity.class);
-                                sf.edit().putInt("uuid", -1000).apply();
-                                startActivity(intent);
-                                finish();
-                            } else if(status==404){
-                                Toast.makeText(BusinessDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
-                            } else if(status==500){
-                                Toast.makeText(BusinessDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

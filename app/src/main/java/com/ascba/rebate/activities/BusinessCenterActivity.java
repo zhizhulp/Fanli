@@ -74,23 +74,15 @@ public class BusinessCenterActivity extends NetworkBaseActivity {
                     int status = jObj.optInt("status");
                     String message = jObj.optString("msg");
                     if(status==200){
+                        Toast.makeText(BusinessCenterActivity.this, "资料已经提交", Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(BusinessCenterActivity.this,BusinessCenter2Activity.class);
-                        intent.putExtra("company_name",companyName);
+                        /*intent.putExtra("company_name",companyName);
                         intent.putExtra("law_man",lawMan);
                         intent.putExtra("address",address);
                         intent.putExtra("phone",phone);
-                        intent.putExtra("licence","");
+                        intent.putExtra("licence","");*/
                         startActivity(intent);
                         finish();
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(BusinessCenterActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(BusinessCenterActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(BusinessCenterActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }
             });

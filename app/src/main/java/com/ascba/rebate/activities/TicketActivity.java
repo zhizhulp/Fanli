@@ -80,15 +80,6 @@ public class TicketActivity extends NetworkBaseActivity {
                             noTv.setVisibility(View.VISIBLE);
                             btnTicket.setText("兑换代金券");
                         }
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(TicketActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(TicketActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(TicketActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }
             });

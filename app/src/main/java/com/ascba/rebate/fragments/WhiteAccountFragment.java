@@ -52,7 +52,7 @@ public class WhiteAccountFragment extends Fragment {
 
     private void initList() {
         mList=new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
+        /*for (int i = 0; i < 21; i++) {
             if(i %3==0){
                 WhiteAccount whiteAccount=new WhiteAccount("昨天","21:14",11,"+456.12","登录注册-赠送");
                 mList.add(whiteAccount);
@@ -63,7 +63,7 @@ public class WhiteAccountFragment extends Fragment {
                 WhiteAccount whiteAccount=new WhiteAccount("3天之前","10:14",11,"+456.12","推荐会员-返利");
                 mList.add(whiteAccount);
             }
-        }
+        }*/
     }
 
 }

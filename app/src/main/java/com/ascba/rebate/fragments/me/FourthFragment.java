@@ -34,6 +34,7 @@ import com.ascba.rebate.activities.BusinessDataActivity;
 import com.ascba.rebate.activities.CardActivity;
 import com.ascba.rebate.activities.CashGetActivity;
 import com.ascba.rebate.activities.PersonalDataActivity;
+import com.ascba.rebate.activities.RealNameCofirmActivity;
 import com.ascba.rebate.activities.RecommendActivity;
 import com.ascba.rebate.activities.RedScoreActivity;
 import com.ascba.rebate.activities.SettingActivity;
@@ -97,6 +98,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     private int merchant;
     private View carView;
     private View houseView;
+    private String noOpen="近期开放，工程师努力升级中";
 
     private SuperSwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
@@ -212,13 +214,6 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         sendMsgToSevr(UrlUtils.user,0);
-                        /*new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshLayout.setRefreshing(false);
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }, 2000);*/
                     }
 
                     @Override
@@ -248,7 +243,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 if(true){
                     final PopupWindow pop=new PopupWindow(getActivity());
                     pop.setBackgroundDrawable(new ColorDrawable(0xE8E8E7));
-                    pop.setOutsideTouchable(false);
+                    pop.setFocusable(true);//聚焦
                     View view=getActivity().getLayoutInflater().inflate(R.layout.pop_white_no_permission,null);
                     view.findViewById(R.id.cry_close_icon).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -280,48 +275,53 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.me_go_card:
-                Intent intentCard=new Intent(getActivity(), CardActivity.class);
-                startActivity(intentCard);
+                sendMsgToSevr(UrlUtils.checkCardId,2);//2 检查是否实名
                 break;
             case R.id.me_go_cash_account:
-                Intent intentCash=new Intent(getActivity(), AllAccountActivity.class);
-                startActivity(intentCash);
+                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+                /*Intent intentCash=new Intent(getActivity(), AllAccountActivity.class);
+                startActivity(intentCash);*/
                 break;
             case R.id.me_pre_go_recharge:
                 Intent intent2=new Intent(getActivity(), AccountRechargeActivity.class);
                 startActivityForResult(intent2,REQUEST_PAY);
                 break;
             case R.id.me_go_red_score:
-                Intent intent3=new Intent(getActivity(), RedScoreActivity.class);
-                startActivity(intent3);
+                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+                /*Intent intent3=new Intent(getActivity(), RedScoreActivity.class);
+                startActivity(intent3);*/
                 break;
             case R.id.me_go_vip:
                 Intent intent4=new Intent(getActivity(), UserUpdateActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.me_go_business_center:
-                sendMsgToSevr(UrlUtils.getCompany,1);
+                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+//                sendMsgToSevr(UrlUtils.getCompany,1);
                 break;
             case R.id.tv_go_get_cash:
-                Intent intent6=new Intent(getActivity(), CashGetActivity.class);
-                startActivity(intent6);
+                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+                /*Intent intent6=new Intent(getActivity(), CashGetActivity.class);
+                startActivity(intent6);*/
                 break;
             case R.id.me_go_recommend:
-                Intent intent7=new Intent(getActivity(), RecommendActivity.class);
+                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+                return;
+                /*Intent intent7=new Intent(getActivity(), RecommendActivity.class);
                 startActivity(intent7);
-                break;
+                break;*/
             case R.id.me_go_ticket:
                 Intent intent8=new Intent(getActivity(), TicketActivity.class);
                 startActivity(intent8);
                 break;
             case R.id.me_go_proxy_center:
-                Toast.makeText(getActivity(), "稍后开放", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.qlqw_car:
-                Toast.makeText(getActivity(), "敬请期待", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "敬请期待！", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.qlqw_house:
-                Toast.makeText(getActivity(), "敬请期待", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "敬请期待！", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -415,7 +415,6 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                                 lp.leftMargin=dpLeft;
                                 imageView.setLayoutParams(lp);
                                 String baseUrl="http://api.qlqwgw.com";
-
                                 if(isUpgraded==1||id==1){
                                     String upgraded_icon = typeObj.getString("upgraded_icon");
                                     Picasso.with(getActivity()).load(baseUrl+upgraded_icon).into(imageView);
@@ -430,35 +429,28 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                             tvMoney.setText("账户余额："+money);
                             tvBanks.setText(banks+"");
                             tvTicket.setText(vouchers+"张");
-                        }else{
+                        }else if(scene==1){//点击商户中心
+                            JSONObject company = dataObj.getJSONObject("company");
                             if(merchant==3){
-                                JSONObject company = dataObj.getJSONObject("company");
-                                Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
                                 String name = company.optString("name");
                                 String corporate = company.optString("corporate");
                                 String address = company.optString("address");
                                 String tel = company.optString("tel");
+                                Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
                                 intent.putExtra("name",name);
                                 intent.putExtra("corporate",corporate);
                                 intent.putExtra("tel",tel);
                                 intent.putExtra("address",address);
                                 startActivity(intent);
-                            }
-                        }
-
-
-                    } else if(status==404){
-                        if(scene==1){
-                            JSONObject comObj = dataObj.optJSONObject("company");
-                            if(merchant==0){
+                            }else if(merchant==0){
                                 Intent intent=new Intent(getActivity(),BusinessCenterActivity.class);
                                 startActivity(intent);
                             }else if(merchant==1){
                                 Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
-                                String name = comObj.optString("name");
-                                String corporate = comObj.optString("corporate");
-                                String address = comObj.optString("address");
-                                String tel = comObj.optString("tel");
+                                String name = company.optString("name");
+                                String corporate = company.optString("corporate");
+                                String address = company.optString("address");
+                                String tel = company.optString("tel");
                                 intent.putExtra("type",0);
                                 intent.putExtra("name_01",name);
                                 intent.putExtra("corporate_01",corporate);
@@ -467,10 +459,10 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                                 startActivity(intent);
                             }else if(merchant==2){
                                 Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
-                                String name = comObj.optString("name");
-                                String corporate = comObj.optString("corporate");
-                                String address = comObj.optString("address");
-                                String tel = comObj.optString("tel");
+                                String name = company.optString("name");
+                                String corporate = company.optString("corporate");
+                                String address = company.optString("address");
+                                String tel = company.optString("tel");
                                 intent.putExtra("type",1);
                                 intent.putExtra("name",name);
                                 intent.putExtra("corporate",corporate);
@@ -478,9 +470,21 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                                 intent.putExtra("address",address);
                                 startActivity(intent);
                             }
+                        }else if(scene==2){
+                            int isCardId = dataObj.optInt("isCardId");
+                            if(isCardId==0){
+                                Toast.makeText(getActivity(), "请先实名认证", Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent(getActivity(), RealNameCofirmActivity.class);
+                                startActivity(intent);
+                            }else {
+                                Intent intent=new Intent(getActivity(),CardActivity.class);
+                                startActivity(intent);
+                            }
                         }
 
-                    }else if(status==4){
+                    } else if(status==404){
+
+                    }/* else if(status==4){
                         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                     } else if(status==5){
                         Intent intent=new Intent(getActivity(),LoginActivity.class);
@@ -492,7 +496,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                         sf.edit().putInt("uuid",-1000).apply();
                         startActivity(intent);
                         getActivity().finish();
-                    }
+                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

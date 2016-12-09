@@ -52,7 +52,7 @@ public class CitiesAdapter extends BaseAdapter {
             convertView= inflater.inflate(android.R.layout.simple_list_item_1,null);
         }
         City city = mList.get(position);
-        ((TextView) convertView).setText(city.getCityName());
+        ((TextView) convertView).setText(city.getCascade_name());
         return convertView;
     }
 

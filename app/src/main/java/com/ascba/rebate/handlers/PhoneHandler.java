@@ -7,14 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
-
-import com.ascba.rebate.activities.CardDataActivity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.utils.LogUtils;
-
 import org.json.JSONObject;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -62,16 +56,26 @@ public class PhoneHandler extends Handler {
         public void getMessage(Message msg){
             JSONObject jObj = (JSONObject) msg.obj;
                 int status = jObj.optInt("status");
+            String message = jObj.optString("msg");
             if (status == 200) {
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    int update_status = dataObj.optInt("update_status");
-                    if (update_status == 1) {
-                        sf.edit()
-                                .putString("token", dataObj.optString("token"))
-                                .putLong("expiring_time", dataObj.optLong("expiring_time"))
-                                .apply();
-                    }
+                JSONObject dataObj = jObj.optJSONObject("data");
+                int update_status = dataObj.optInt("update_status");
+                if (update_status == 1) {
+                    sf.edit()
+                            .putString("token", dataObj.optString("token"))
+                            .putLong("expiring_time", dataObj.optLong("expiring_time"))
+                            .apply();
                 }
+            } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
+                Intent intent = new Intent(context, LoginActivity.class);
+                sf.edit().putInt("uuid", -1000).apply();
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            } else if(status==404){
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            } else if(status==500){
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

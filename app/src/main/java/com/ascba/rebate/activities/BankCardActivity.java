@@ -94,15 +94,6 @@ public class BankCardActivity extends NetworkBaseActivity {
                         intent.putExtras(bundle);
                         startActivity(intent);
                         finish();
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(BankCardActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(BankCardActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(BankCardActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -127,6 +118,39 @@ public class BankCardActivity extends NetworkBaseActivity {
             tvName.setText(realname);
             tvCard.setText(bank_card);
             tvType.setText(type);
+        }
+    }
+    //发送验证码
+    public void sendMsg(View view) {
+        sendCode();
+    }
+
+    private void sendCode() {
+        sendMsgToSevr(UrlUtils.sendMsg,0);
+        CheckThread checkThread = getCheckThread();
+        if(checkThread!=null){
+            final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
+            p.setMessage("正在发送验证码");
+            Request<JSONObject> objRequest = checkThread.getObjRequest();
+            objRequest.add("mobile",edPhone.getText().toString());
+            objRequest.add("type",2);
+            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
+            phoneHandler.setCallback(phoneHandler.new Callback2(){
+                @Override
+                public void getMessage(Message msg) {
+                    p.dismiss();
+                    super.getMessage(msg);
+                    JSONObject jObj = (JSONObject) msg.obj;
+                    int status = jObj.optInt("status");
+                    if(status==200){
+                        JSONObject dataObj = jObj.optJSONObject("data");
+                        String sms_code = dataObj.optString("sms_code");
+                        edCode.setText(sms_code);
+                    }
+                }
+            });
+            checkThread.start();
+            p.show();
         }
     }
 }

@@ -10,8 +10,26 @@ public class Proxy {
     private String money;
     private boolean open;
     private int group_id;
+    private int group;
+    private String desc;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public Proxy() {
+    }
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
     }
 
     public int getGroup_id() {

@@ -8,9 +8,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
@@ -194,15 +192,6 @@ public class BusinessDataActivity extends NetworkBaseActivity {
                     int status = jObj.optInt("status");
                     String message = jObj.optString("msg");
                     if(status==200){
-                        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(BusinessDataActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
                         Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }
