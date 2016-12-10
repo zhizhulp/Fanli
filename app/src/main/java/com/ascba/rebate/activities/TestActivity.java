@@ -10,7 +10,4 @@ public class TestActivity extends NetworkBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
     }
-    void test(){
-        System.out.print("just a small test");
-    }
 }
