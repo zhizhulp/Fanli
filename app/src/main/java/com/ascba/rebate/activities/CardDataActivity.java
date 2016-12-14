@@ -11,9 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
@@ -27,7 +29,7 @@ import com.yolanda.nohttp.rest.RequestQueue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CardDataActivity extends BaseActivity {
+public class CardDataActivity extends Base2Activity implements Base2Activity.Callback {
     private TextView tvCard;
     private TextView tvSex;
     private TextView tvAge;
@@ -37,10 +39,7 @@ public class CardDataActivity extends BaseActivity {
     private String sex;
     private String age;
     private String location;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
-    private SharedPreferences sf;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class CardDataActivity extends BaseActivity {
     }
 
     private void initViews() {
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
+        dm=new DialogManager(this);
         tvCard = ((TextView) findViewById(R.id.card));
         tvSex = ((TextView) findViewById(R.id.sex));
         tvAge = ((TextView) findViewById(R.id.age));
@@ -75,29 +74,18 @@ public class CardDataActivity extends BaseActivity {
     }
 
     public void goRealNameConfirm(View view) {
-        sendMsgToSevr(UrlUtils.verifyCard);
+        requestVerifyCard(UrlUtils.verifyCard);
     }
 
-    private void sendMsgToSevr(String baseUrl) {
-        boolean netAva = NetUtils.isNetworkAvailable(this);
-        if(!netAva){
-            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+    private void requestVerifyCard(String url) {
+        String s = etName.getText().toString();
+        if("".equals(s)){
+            dm.buildAlertDialog("请输入姓名");
             return;
         }
-        int uuid = sf.getInt("uuid", -1000);
-        String token = sf.getString("token", "");
-        long expiring_time = sf.getLong("expiring_time", -2000);
-        requestQueue = NoHttp.newRequestQueue();
-        final ProgressDialog dialog = new ProgressDialog(this, R.style.dialog);
-        dialog.setMessage("请稍后");
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl + "?", RequestMethod.POST);
-        objRequest.add("sign", UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("uuid", uuid);
-        objRequest.add("token", token);
-        objRequest.add("expiring_time", expiring_time);
-
+        Request<JSONObject> objRequest = buildNetRequest(url, 0, true);
         objRequest.add("cardid", card);
-        objRequest.add("realname", etName.getText().toString());
+        objRequest.add("realname", s);
         if(sex.equals("男")){
             objRequest.add("sex", 1);
         }else if(sex.equals("女")){
@@ -107,42 +95,26 @@ public class CardDataActivity extends BaseActivity {
         }
         objRequest.add("age", age);
         objRequest.add("location", location);
-        phoneHandler = new PhoneHandler(this);
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
-            @Override
-            public void getMessage(Message msg) {
-                dialog.dismiss();
-                JSONObject jObj = (JSONObject) msg.obj;
-                try {
-                    int status = jObj.getInt("status");
-                    String message = jObj.optString("msg");
-                    if (status == 200) {
-                        JSONObject dataObj = jObj.optJSONObject("data");
-                        int update_status = dataObj.optInt("update_status");
-                        if (update_status == 1) {
-                            sf.edit()
-                                    .putString("token", dataObj.optString("token"))
-                                    .putLong("expiring_time", dataObj.optLong("expiring_time"))
-                                    .apply();
-                        }
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(CardDataActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(CardDataActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(CardDataActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        executeNetWork(objRequest,"请稍后");
+        setCallback(this);
+    }
 
-            }
-        });
-        checkThread = new CheckThread(requestQueue, phoneHandler, objRequest);
-        checkThread.start();
-        dialog.show();
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        Intent intent=new Intent(CardDataActivity.this,RealNameSuccessActivity.class);
+        intent.putExtra("realname",etName.getText().toString());
+        intent.putExtra("cardid",tvCard.getText().toString());
+        String sexString = tvSex.getText().toString();
+        int sex=2;
+        if("女".equals(sexString)){
+            sex=0;
+        }else if("男".equals(sexString)){
+            sex=1;
+        }
+        intent.putExtra("sex",sex);
+        intent.putExtra("age",tvAge.getText().toString());
+        intent.putExtra("location",tvLocation.getText().toString());
+        startActivity(intent);
+        finish();
     }
 }

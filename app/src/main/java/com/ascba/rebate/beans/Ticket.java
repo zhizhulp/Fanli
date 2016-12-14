@@ -7,17 +7,27 @@ package com.ascba.rebate.beans;
 public class Ticket {
     private int id;
     private int money;
-    private long time;
+    private String time;
     private String type;
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public Ticket() {
     }
 
-    public Ticket(int id, int money, long time,String type) {
+    public Ticket(int id, int money, String time,String type,int state) {
         this.id = id;
         this.money = money;
         this.time = time;
         this.type=type;
+        this.state=state;
     }
 
     public String getType() {
@@ -44,11 +54,11 @@ public class Ticket {
         this.money = money;
     }
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

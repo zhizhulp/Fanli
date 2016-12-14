@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
@@ -31,11 +32,14 @@ import com.yolanda.nohttp.rest.RequestQueue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 短信验证码已经发送
  */
 
-public class RegisterAfterReceiveCodeActivity extends BaseActivity {
+public class RegisterAfterReceiveCodeActivity extends Base2Activity implements Base2Activity.Callback {
 
     private TextView tvPhone;
     private EditText confirmCode;//验证码
@@ -47,9 +51,6 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
     private String password;
     private String rePassword;
     private String recommendMan;
-    private RequestQueue requestQueue;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
    /* @SuppressLint("HandlerLeak")
     Handler handler = new Handler()
     {
@@ -122,71 +123,28 @@ public class RegisterAfterReceiveCodeActivity extends BaseActivity {
             Toast.makeText(this, "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        sendMsgToSevr(UrlUtils.register);
+        requestRegister();
     }
 
-    private void sendMsgToSevr(String baseUrl) {
-        boolean netAva = NetUtils.isNetworkAvailable(this);
-        if(!netAva){
-            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        requestQueue= NoHttp.newRequestQueue();
-        final ProgressDialog dialog4 = new ProgressDialog(this,R.style.dialog);
-        dialog4.setMessage("注册中，请稍后");
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
-        objRequest.add("sign",UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("mobile",phone_number);
-        objRequest.add("captcha",code);
-        objRequest.add("password",password);
-        objRequest.add("repassword",rePassword);
-        objRequest.add("referee",recommendMan);//可选
-        phoneHandler=new PhoneHandler(this);
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
-            @Override
-            public void getMessage(Message msg) {
-                dialog4.dismiss();
-                JSONObject jObj= (JSONObject) msg.obj;
-                try {
-                    int status = jObj.getInt("status");
-                    String message = jObj.getString("msg");
-                    if(status==200){//服务端返回成功
-                        Intent intent=new Intent(RegisterAfterReceiveCodeActivity.this, LoginActivity.class);
-                        intent.putExtra("phone_number",phone_number);
-                        startActivity(intent);
-                        finish();
-                    } else if(status==-1){//用户不存在
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==1){//缺少sign参数
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==2){//非法请求，sign验证失败
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==3){//跳转登录
-                        Intent intent=new Intent(RegisterAfterReceiveCodeActivity.this, LoginActivity.class);
-                        intent.putExtra("uuid",-1000);
-                        startActivity(intent);
-                        finish();
-                    } else if(status==4){//登陆后缺少uuid/token/expiring_time参数
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==5){//token验证失败
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==6){//用户已存在
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==404){//失败
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){//数据异常，内部错误
-                        Toast.makeText(RegisterAfterReceiveCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-        checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
-        checkThread.start();
-        dialog4.show();
+    private void requestRegister() {
+        Request<JSONObject> request = buildNetRequest(UrlUtils.register, 0, false);
+        request.add("sign",UrlEncodeUtils.createSign(UrlUtils.register));
+        request.add("mobile",phone_number);
+        request.add("captcha",code);
+        request.add("password",password);
+        request.add("repassword",rePassword);
+        request.add("referee",recommendMan);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(RegisterAfterReceiveCodeActivity.this, LoginActivity.class);
+        intent.putExtra("phone_number",phone_number);
+        startActivity(intent);
+        finish();
+    }
+
 }

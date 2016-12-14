@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
@@ -31,7 +32,7 @@ import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
 
-public class PayActivity extends NetworkBaseActivity {
+public class PayActivity extends Base2Activity implements Base2Activity.Callback {
 
 
     private int bus_uuid;
@@ -76,37 +77,15 @@ public class PayActivity extends NetworkBaseActivity {
             public void inputFinish() {
                 popWindow.onDismiss();
                 String money = edMoney.getText().toString();
-                sendMsgToSevr(UrlUtils.confirmOrder,0);
-                CheckThread checkThread = getCheckThread();
-                if(checkThread!=null){
-                    final ProgressDialog p=new ProgressDialog(PayActivity.this,R.style.dialog);
-                    p.setCanceledOnTouchOutside(false);
-                    p.setMessage("请稍后");
-                    Request<JSONObject> objRequest = checkThread.getObjRequest();
-                    objRequest.add("seller",bus_uuid);
-                    objRequest.add("money",money);
-                    objRequest.add("region_id",1);
-                    objRequest.add("pay_password",popWindow.getStrPassword());
-                    objRequest.add("pay_type",2);
-                    objRequest.add("scenetype",2);
-                    PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-                    phoneHandler.setCallback(phoneHandler.new Callback2(){
-                        @Override
-                        public void getMessage(Message msg) {
-                            p.dismiss();
-                            super.getMessage(msg);
-                            JSONObject jObj = (JSONObject) msg.obj;
-                            int status = jObj.optInt("status");
-                            String message = jObj.optString("msg");
-                            if(status==200){
-//                            JSONObject dataObj = jObj.optJSONObject("data");
-                            }
-                        }
-                    });
-                    checkThread.start();
-                    p.show();
-                }
-
+                Request<JSONObject> objRequest = buildNetRequest(UrlUtils.confirmOrder, 0, true);
+                objRequest.add("seller",bus_uuid);
+                objRequest.add("money",money);
+                objRequest.add("region_id",1);
+                objRequest.add("pay_password",popWindow.getStrPassword());
+                objRequest.add("pay_type",2);
+                objRequest.add("scenetype",2);
+                executeNetWork(objRequest,"请稍后");
+                setCallback(PayActivity.this);
             }
         });
     }
@@ -125,5 +104,10 @@ public class PayActivity extends NetworkBaseActivity {
         }else if("支付方式：余额".equals(type)) {
             tvTpye.setText("支付方式：其他");
         }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+
     }
 }

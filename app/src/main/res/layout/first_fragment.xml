@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="扫一扫"/>
                 <LinearLayout
-                    android:layout_marginBottom="7dp"
+                    android:layout_marginBottom="11dp"
                     android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,14 +80,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/tv_red_score"
                             android:textColor="@color/white"
                             android:textSize="15sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"/>
                         <TextView
+                            android:layout_marginTop="5dp"
                             android:textColor="@color/white"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="昨日返还积分"/>
@@ -111,8 +113,10 @@
                             android:layout_height="wrap_content"
                             android:text="0"/>
                         <TextView
+                            android:layout_marginTop="5dp"
+
                             android:textColor="@color/white"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="赠送积分总额"/>
@@ -135,8 +139,9 @@
                             android:layout_height="wrap_content"
                             android:text="0.05%"/>
                         <TextView
+                            android:layout_marginTop="5dp"
                             android:textColor="@color/white"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="昨日赠送比率"/>

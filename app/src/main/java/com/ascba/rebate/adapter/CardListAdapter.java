@@ -105,9 +105,9 @@ public class CardListAdapter extends BaseAdapter {
             if (TVNumber == null) {
                 TVNumber = (TextView) root.findViewById(R.id.card_number);
             }
-            if (checkBox == null) {
+            /*if (checkBox == null) {
                 checkBox = (CheckBox) root.findViewById(R.id.cb);
-            }
+            }*/
             if (rightHolder == null) {
                 rightHolder= (ViewGroup)root.findViewById(R.id.right_holder);
             }

@@ -5,15 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Toast;
 
+import com.ascba.rebate.activities.base.Base2Activity;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.TabEntity;
 import com.ascba.rebate.utils.ExampleUtil;
-import com.ascba.rebate.utils.MySqliteOpenHelper;
-import com.ascba.rebate.utils.NetUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.ascba.rebate.R;
@@ -30,7 +28,7 @@ import cn.jpush.android.api.TagAliasCallback;
 /**
  * 主界面
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends Base2Activity {
     private CommonTabLayout mTabLayout_2;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "消息", "商城", "我"};
@@ -45,7 +43,6 @@ public class MainActivity extends BaseActivity {
     private SecondFragment mSecondFragment;
     private ThirdFragment mThirdFragment;
     private FourthFragment mFourthFragment;
-    private SharedPreferences sf;
     private int[] mIconUnselectIds = {
             R.mipmap.tab_main, R.mipmap.tab_message,
             R.mipmap.tab_shop, R.mipmap.tab_me};
@@ -72,7 +69,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-        init();
+        init();//设置极光推送用户标识
     }
 
     private void findViews() {
@@ -98,12 +95,11 @@ public class MainActivity extends BaseActivity {
             mFragments.add(mFourthFragment);
         }
         mTabLayout_2.setTabData(mTabEntities, this, R.id.fl_change, mFragments);
-        //mTabLayout_2.setCurrentTab(0);
+        mTabLayout_2.setCurrentTab(0);
     }
 
     private void init() {
-        sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
-        int uuid = sf.getInt("uuid", -1000);
+        int uuid = AppConfig.getInstance().getInt("uuid", -1000);
         if (uuid != -1000) {
             setAlias(uuid + "");
         }
@@ -132,14 +128,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setAlias(String alias) {
-        if (TextUtils.isEmpty(alias)) {
-            Toast.makeText(this, R.string.error_alias_empty, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!ExampleUtil.isValidTagAndAlias(alias)) {
-            Toast.makeText(this, R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
-            return;
-        }
         //调用JPush API设置Alias
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
     }

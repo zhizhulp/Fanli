@@ -127,16 +127,22 @@ public class PowerUpdateAdapter extends BaseAdapter {
                 viewHolder.tvOpen.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        callback.clickOpen(position);
+                        if(callback!=null){
+                            callback.clickOpen(position);
+                        }
+
                     }
                 });
-                viewHolder.tv01.setText(proxy.getDesc());
+                /*viewHolder.tv01.setText(proxy.getDesc());
                 viewHolder.tv01.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        callback.clickProtocol(position);
+                        if(callback!=null){
+                            callback.clickProtocol(position);
+                        }
+
                     }
-                });
+                });*/
                 break;
             case TYPE_TITLE:
                 if(convertView==null){
@@ -174,9 +180,9 @@ public class PowerUpdateAdapter extends BaseAdapter {
                     if(tvOpen==null){
                         tvOpen= (TextView) root.findViewById(R.id.tv_power_update_open);
                     }
-                    if(tv01==null){
+                    /*if(tv01==null){
                         tv01= (TextView) root.findViewById(R.id.see);
-                    }
+                    }*/
 
                     break;
                 case 1:

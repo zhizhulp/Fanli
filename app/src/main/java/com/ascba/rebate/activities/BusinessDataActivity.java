@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
@@ -18,7 +19,7 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class BusinessDataActivity extends NetworkBaseActivity {
+public class BusinessDataActivity extends Base2Activity implements Base2Activity.Callback {
     public static final int REQUEST_BUSINESS_NAME=0;
     public static final int REQUEST_BUSINESS_TAG=1;
     public static final int REQUEST_BUSINESS_LOCATION=2;
@@ -40,7 +41,6 @@ public class BusinessDataActivity extends NetworkBaseActivity {
         setContentView(R.layout.activity_business_data);
         initViews();
         getData();
-        //requestForServer();
     }
 
     private void getData() {
@@ -66,41 +66,6 @@ public class BusinessDataActivity extends NetworkBaseActivity {
         tvTime = ((TextView) findViewById(R.id.business_data_time));
         tvRate = ((TextView) findViewById(R.id.business_data_rate));
     }
-
-    /*private void requestForServer() {
-        sendMsgToSevr("http://api.qlqwgw.com/v1/getCompany",0);
-        CheckThread checkThread = getCheckThread();
-        Request<JSONObject> objRequest = checkThread.getObjRequest();
-        objRequest.add("company",3);
-        PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-        final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-        p.setMessage("请稍后");
-        phoneHandler.setCallback(phoneHandler.new Callback2(){
-            @Override
-            public void getMessage(Message msg) {
-                p.dismiss();
-                super.getMessage(msg);
-                JSONObject jObj = (JSONObject) msg.obj;
-                int status = jObj.optInt("status");
-                if(status==200){
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    JSONObject coObj = dataObj.optJSONObject("company");
-                    int id = coObj.optInt("id");
-                    String name = coObj.optString("name");
-                    String corporate = coObj.optString("corporate");
-                    String address = coObj.optString("address");
-                    String tel = coObj.optString("tel");
-                    String licence = coObj.optString("licence");
-                    tvName.setText(name);
-                    tvLocation.setText(address);
-                    tvPhone.setText(tel);
-                }
-            }
-        });
-        checkThread.start();
-        p.show();
-    }*/
-
     public void goBusinessName(View view) {
         Intent intent=new Intent(this,BusinessNameActivity.class);
         startActivityForResult(intent,REQUEST_BUSINESS_NAME);
@@ -176,36 +141,20 @@ public class BusinessDataActivity extends NetworkBaseActivity {
 
     //提交商家资料
     public void businessDataGo(View view) {
-        sendMsgToSevr(UrlUtils.setCompany,0);
-        CheckThread checkThread = getCheckThread();
-        if(checkThread!=null){
-            Request<JSONObject> objRequest = checkThread.getObjRequest();
-            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-            final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-            p.setMessage("请稍后");
-            phoneHandler.setCallback(phoneHandler.new Callback2(){
-                @Override
-                public void getMessage(Message msg) {
-                    p.dismiss();
-                    super.getMessage(msg);
-                    JSONObject jObj = (JSONObject) msg.obj;
-                    int status = jObj.optInt("status");
-                    String message = jObj.optString("msg");
-                    if(status==200){
-                        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            objRequest.add("seller_name",tvName.getText().toString());
-            objRequest.add("seller_taglib",tvType.getText().toString());
-            objRequest.add("seller_address",tvLocation.getText().toString());
-            objRequest.add("seller_tel",tvPhone.getText().toString());
-            objRequest.add("seller_business_hours",tvTime.getText().toString());
-            objRequest.add("seller_return_ratio",tvLocation.getText().toString());
-            objRequest.add("seller_description","12345654545645654");
-            checkThread.start();
-            p.show();
-        }
+        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.setCompany, 0, true);
+        objRequest.add("seller_name",tvName.getText().toString());
+        objRequest.add("seller_taglib",tvType.getText().toString());
+        objRequest.add("seller_address",tvLocation.getText().toString());
+        objRequest.add("seller_tel",tvPhone.getText().toString());
+        objRequest.add("seller_business_hours",tvTime.getText().toString());
+        objRequest.add("seller_return_ratio",tvLocation.getText().toString());
+        objRequest.add("seller_description","12345654545645654");
+        executeNetWork(objRequest,"请稍后");
+        setCallback(this);
+    }
 
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }

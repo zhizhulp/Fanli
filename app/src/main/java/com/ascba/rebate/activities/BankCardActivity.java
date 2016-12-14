@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -24,7 +25,10 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class BankCardActivity extends NetworkBaseActivity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class BankCardActivity extends Base2Activity implements Base2Activity.Callback {
 
     private TextView tvName;
     private TextView tvCard;
@@ -40,7 +44,7 @@ public class BankCardActivity extends NetworkBaseActivity {
     private String kefu;
     private String logo;
     private String info;
-    private SharedPreferences sf;
+    private int finalScene;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,6 @@ public class BankCardActivity extends NetworkBaseActivity {
     }
 
     private void initViews() {
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         tvName = ((TextView) findViewById(R.id.bank_card_name));
         tvCard = ((TextView) findViewById(R.id.bank_card_number));
         tvType = ((TextView) findViewById(R.id.bank_card_type));
@@ -60,47 +63,7 @@ public class BankCardActivity extends NetworkBaseActivity {
     }
 
     public void bankCardConfirm(View view) {
-        String phone = edPhone.getText().toString();
-        sendMsgToSevr(UrlUtils.verifyBankCard,0);
-        CheckThread checkThread = getCheckThread();
-        if(checkThread!=null){
-            Request<JSONObject> objRequest = checkThread.getObjRequest();
-            objRequest.add("mobile",phone);
-            objRequest.add("realname",realname);
-            objRequest.add("cardid",cardid);
-            objRequest.add("bankcard",bank_card);
-            objRequest.add("bank",bank);
-            objRequest.add("type",type);
-            objRequest.add("nature",nature);
-            objRequest.add("kefu",kefu);
-            objRequest.add("logo",logo);
-            objRequest.add("info",info);
-            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-            final ProgressDialog dialog = new ProgressDialog(phoneHandler.getContext(), R.style.dialog);
-            dialog.setMessage("请稍后");
-            phoneHandler.setCallback(phoneHandler.new Callback2(){
-                @Override
-                public void getMessage(Message msg) {
-                    super.getMessage(msg);
-                    dialog.dismiss();
-                    JSONObject jObj = (JSONObject) msg.obj;
-                    int status = jObj.optInt("status");
-                    String message = jObj.optString("msg");
-                    if(status==200){
-                        Intent intent=new Intent(BankCardActivity.this,CardActivity.class);
-                        Card card=new Card(bank,type,bank_card,false);
-                        Bundle bundle=new Bundle();
-                        bundle.putSerializable("card",card);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            });
-            checkThread.start();
-            dialog.show();
-        }
-
+        requestBankCardData(0);//银行卡实名认证
     }
 
     public void getIntentFromBefore() {
@@ -122,35 +85,49 @@ public class BankCardActivity extends NetworkBaseActivity {
     }
     //发送验证码
     public void sendMsg(View view) {
-        sendCode();
+        requestBankCardData(1);//发送验证码
     }
 
-    private void sendCode() {
-        sendMsgToSevr(UrlUtils.sendMsg,0);
-        CheckThread checkThread = getCheckThread();
-        if(checkThread!=null){
-            final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-            p.setMessage("正在发送验证码");
-            Request<JSONObject> objRequest = checkThread.getObjRequest();
-            objRequest.add("mobile",edPhone.getText().toString());
-            objRequest.add("type",2);
-            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-            phoneHandler.setCallback(phoneHandler.new Callback2(){
-                @Override
-                public void getMessage(Message msg) {
-                    p.dismiss();
-                    super.getMessage(msg);
-                    JSONObject jObj = (JSONObject) msg.obj;
-                    int status = jObj.optInt("status");
-                    if(status==200){
-                        JSONObject dataObj = jObj.optJSONObject("data");
-                        String sms_code = dataObj.optString("sms_code");
-                        edCode.setText(sms_code);
-                    }
-                }
-            });
-            checkThread.start();
-            p.show();
+
+    private void requestBankCardData(int scene){
+        String phone = edPhone.getText().toString();
+        finalScene=scene;
+        if(scene==0){//银行卡实名认证
+            Request<JSONObject> request = buildNetRequest(UrlUtils.verifyBankCard, 0, true);
+            request.add("mobile",phone);
+            request.add("realname",realname);
+            request.add("cardid",cardid);
+            request.add("bankcard",bank_card);
+            request.add("bank",bank);
+            request.add("type",type);
+            request.add("nature",nature);
+            request.add("kefu",kefu);
+            request.add("logo",logo);
+            request.add("info",info);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }else if(scene==1){//发送验证码
+            Request<JSONObject> request = buildNetRequest(UrlUtils.sendMsg, 0, true);
+            request.add("mobile",edPhone.getText().toString());
+            request.add("type",2);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        if(finalScene==0){
+            Intent intent=new Intent(BankCardActivity.this,CardActivity.class);
+            Card card=new Card(bank,type,bank_card,false);
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("card",card);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        }else if(finalScene==1){
+            String sms_code = dataObj.optString("sms_code");
+            edCode.setText(sms_code);
         }
     }
 }

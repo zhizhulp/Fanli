@@ -1,13 +1,17 @@
 package com.ascba.rebate.activities.base;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.test.mock.MockApplication;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
@@ -44,16 +48,31 @@ public class NetworkBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MyApplication) getApplication()).addActivity(this);
         sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
         setStatusBar();
+        //setStatusBarColor();
+    }
+    @TargetApi(19)
+    private void setStatusBar() {
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+    }
+    @TargetApi(21)
+    private void setStatusBarColor(){
+        Window window = getWindow();
+        //设置状态栏颜色
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.TRANSPARENT);
     }
 
-    private void setStatusBar() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ((MyApplication) getApplication()).removeActivity(this);
     }
+
 
     public void sendMsgToSevr(String baseUrl, int type) {
         boolean netAva = NetUtils.isNetworkAvailable(this);

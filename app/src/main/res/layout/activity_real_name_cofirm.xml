@@ -26,8 +26,8 @@
             android:text="身份证号"/>
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:maxLines="1"
             android:textSize="14sp"
-            android:inputType="number"
             app:hintSize="15dp"
             android:hint="请输入您的身份证号"
             android:layout_marginLeft="23dp"

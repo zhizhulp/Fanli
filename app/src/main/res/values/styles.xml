@@ -134,5 +134,16 @@
     <style name="rating_bar_style" parent="@style/Widget.AppCompat.RatingBar.Small">
         <item name="android:color">@color/moneyBarColor</item>
     </style>
+    <style name="AlertDialog" parent="@android:style/Theme.Holo.Dialog">
+        <!-- 这里设置背景为透明，为了隐藏边框 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- 这里是修改顶部标题背景颜色，具体颜色自己定，可以是图片 -->
+        <item name="android:topDark">@color/white</item>
+        <!-- 这里是修改内容区域背景颜色 -->
+        <item name="android:centerDark">@color/white</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
 </resources>

@@ -65,6 +65,7 @@
             android:layout_above="@id/business_details_go_where"
             style="@style/viewStyleMatch"/>
         <com.ascba.rebate.view.MoneyBar
+            app:barBg="@color/moneyBarColor"
             android:id="@+id/business_detail_mb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -11,6 +11,7 @@
     <color name="view_line">#e0dfdf</color>
     <color name="transText">#B3000000</color>
     <color name="moneyBarColor">#e50202</color>
+    <color name="touch_money_bar_color">#c40202</color>
     <color name="btn">#dc0404</color>
     <color name="text_blue">#2e82ff</color>
     <color name="color_background">#fff0efed</color>

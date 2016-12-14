@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * 注册消息处理
+ * 消息处理
  */
 
 public class PhoneHandler extends Handler {

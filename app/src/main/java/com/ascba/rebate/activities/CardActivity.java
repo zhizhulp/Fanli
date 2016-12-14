@@ -1,24 +1,14 @@
 package com.ascba.rebate.activities;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -28,24 +18,21 @@ import com.ascba.rebate.adapter.CardListAdapter;
 import com.ascba.rebate.beans.Card;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
-import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.deletelistview.ListViewCompat;
 import com.ascba.rebate.view.deletelistview.SlideView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,9 +199,13 @@ public class CardActivity extends BaseActivity implements AdapterView.OnItemClic
     public void getIntentFromAddCard() {
         Intent intent = getIntent();
         if(intent!=null){
-            Card card = (Card) intent.getSerializableExtra("card");
-            mList.add(card);
-            cardListAdapter.notifyDataSetChanged();
+            Serializable card1 = intent.getSerializableExtra("card");
+            if(card1!=null){
+                Card card = (Card) card1;
+                mList.add(card);
+                cardListAdapter.notifyDataSetChanged();
+            }
+
         }
     }
 

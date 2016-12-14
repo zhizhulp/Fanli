@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.OrderInfoUtil2_0;
@@ -32,10 +34,8 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public class AccountRechargeActivity extends NetworkBaseActivity {
-    /** 支付宝支付业务：入参app_id */
-    public static final String APPID = "2016091801917680";
-    private SharedPreferences sf;
+public class AccountRechargeActivity extends Base2Activity implements Base2Activity.Callback {
+    private DialogManager dm=new DialogManager(this);
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -60,7 +60,7 @@ public class AccountRechargeActivity extends NetworkBaseActivity {
                         finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Toast.makeText(AccountRechargeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog("支付失败");
                     }
                     break;
                 }
@@ -81,7 +81,6 @@ public class AccountRechargeActivity extends NetworkBaseActivity {
     }
 
     private void initViews() {
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.ed_recharge_money));
     }
 
@@ -109,37 +108,20 @@ public class AccountRechargeActivity extends NetworkBaseActivity {
 
     private void requestForServer() {
         String money = edMoney.getText().toString();
+
         if("".equals(money)){
-            Toast.makeText(this, "请输入金额", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请输入金额");
             return;
         }
-        sendMsgToSevr(UrlUtils.payment,0);
-        CheckThread checkThread = getCheckThread();
-        if(checkThread!=null){
-            final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-            p.setCanceledOnTouchOutside(false);
-            p.setMessage("请稍后");
-            Request<JSONObject> objRequest = checkThread.getObjRequest();
-            objRequest.add("price",money);
-            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-            phoneHandler.setCallback(phoneHandler.new Callback2(){
-                @Override
-                public void getMessage(Message msg) {
-                    p.dismiss();
-                    super.getMessage(msg);
-                    //服务器返回支付sign
-                    JSONObject jObj = (JSONObject) msg.obj;
-                    int status = jObj.optInt("status");
-                    String message = jObj.optString("msg");
-                    if(status==200){
-                        JSONObject dataObj = jObj.optJSONObject("data");
-                        String payInfo = dataObj.optString("payInfo");
-                        requestForAli(payInfo);//发起支付请求
-                    }
-                }
-            });
-            checkThread.start();
-            p.show();
-        }
+        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.payment, 0, true);
+        objRequest.add("price",money);
+        executeNetWork(objRequest,"请稍后");
+        setCallback(this);
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        String payInfo = dataObj.optString("payInfo");
+        requestForAli(payInfo);//发起支付请求
     }
 }

@@ -3,6 +3,7 @@ package com.ascba.rebate.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private boolean needComplete;
     private TextView completeText;
     private CallBack callBack;
+    private View bgView;
+    private int color;
 
     public MoneyBar(Context context){
         super(context);
@@ -57,13 +60,17 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         mImageView= (ImageView) findViewById(R.id.money_bar_back);
         tailIcon = ((ImageView) findViewById(R.id.money_bar_tail_icon));
         completeText = ((TextView) findViewById(R.id.money_bar_ok));
+        bgView = findViewById(R.id.money_bar_parent);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MoneyBar);
+        color = ta.getColor(R.styleable.MoneyBar_barBg,getResources().getColor(R.color.moneyBarColor));
         title = ta.getString(R.styleable.MoneyBar_textTitle);
         needBack = ta.getBoolean(R.styleable.MoneyBar_needBack, true);
         needTailIcon= ta.getBoolean(R.styleable.MoneyBar_needTailIcon,false);
         tailIconId = ta.getResourceId(R.styleable.MoneyBar_tailIcon,R.mipmap.ic_search);
         needComplete = ta.getBoolean(R.styleable.MoneyBar_needComplete,false);
+        //设置背景
+        bgView.setBackgroundDrawable(new ColorDrawable(color));
         //设置是否需要完成选项
         if(needComplete){
             completeText.setVisibility(VISIBLE);

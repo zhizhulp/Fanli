@@ -20,11 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tv_red_score_available"
             android:textSize="@dimen/activity_text_title"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="您可兑换红积分为 0"/>
+            android:text="您可兑换红积分为"/>
         <TextView
             android:textColor="@color/text_blue"
             android:layout_width="wrap_content"
@@ -52,18 +53,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请输入积分"/>
+            <TextView
+                android:layout_marginRight="15dp"
+                android:id="@+id/red_score_unit"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="x10000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <com.ascba.rebate.view.EditTextWithCustomHint
-                android:gravity="right"
+                android:layout_toLeftOf="@id/red_score_unit"
+                android:id="@+id/ed_red_score_default"
+                android:gravity="right|center_vertical"
                 android:background="@null"
                 android:layout_centerVertical="true"
                 android:maxLines="1"
-                android:text="0.00"
                 android:inputType="number"
                 android:layout_marginRight="15dp"
-                android:layout_alignParentRight="true"
+
                 android:textSize="@dimen/activity_text_normal"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </RelativeLayout>
         <LinearLayout
             android:layout_marginTop="23dp"
@@ -94,6 +104,7 @@
                         android:layout_height="wrap_content"
                         android:src="@mipmap/red_money_icon"/>
                     <TextView
+                        android:id="@+id/tv_red_score_max_money"
                         android:textColor="@color/black"
                         android:textSize="35sp"
                         android:layout_marginLeft="15dp"
@@ -135,6 +146,7 @@
                             android:layout_height="wrap_content"
                             android:src="@mipmap/red_ticket_icon"/>
                         <TextView
+                            android:id="@+id/tv_red_score_max_ticket"
                             android:textColor="@color/black"
                             android:textSize="35sp"
                             android:layout_marginLeft="15dp"

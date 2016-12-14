@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
-            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"
@@ -60,8 +59,6 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
-            android:textColor="@color/black"
-
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"
@@ -97,7 +94,6 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
-            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"
@@ -133,7 +129,6 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
-            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"

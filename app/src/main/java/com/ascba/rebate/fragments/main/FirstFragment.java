@@ -38,7 +38,9 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossWithCodeActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Business;
+import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.MySqliteOpenHelper;
@@ -69,15 +71,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 /**
  * 扫一扫主页
  */
-public class FirstFragment extends Fragment {
+public class FirstFragment extends BaseFragment {
 
-    private static final String PROGRESS_KEY = "progress";
     private ScrollViewWithListView recBusiness;
     private List<ImageView> imageList;
     private RecBusinessAdapter mAdapter;
@@ -101,12 +104,7 @@ public class FirstFragment extends Fragment {
     };
     private View goBusinessList;
     private ImageView goSweepActiviIcon;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
-    private SharedPreferences sf;
     private ImageView imGoRec;
-    private MySqliteOpenHelper db;
     private ProgressDialog pD;
     private DownloadQueue downloadQueue;
     private TextView tvAllScore;
@@ -115,16 +113,11 @@ public class FirstFragment extends Fragment {
     private ProgressBar progressBar;
     private ImageView imageView;
     private TextView textView;
-
-    public static FirstFragment instance() {
-        FirstFragment view = new FirstFragment();
-        return view;
-    }
+    private TextView tvRedScore;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        sf = getActivity().getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             View view = inflater.inflate(R.layout.first_fragment_status, null);
             return view;
@@ -154,6 +147,7 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvAllScore = ((TextView) view.findViewById(R.id.score_all));
+        tvRedScore = ((TextView) view.findViewById(R.id.tv_red_score));
         initRecBusiness(view);//初始化ListView
         initViewPager(view);//初始化viewpager
         initLocation(view);//地址显示
@@ -161,7 +155,63 @@ public class FirstFragment extends Fragment {
         goHotList(view);//进入热门推荐的页面
         goSweepActivity(view);//进入扫一扫的界面
         goRecommend(view);//进入推荐页面
-        sendMsgToSevr(UrlUtils.index);
+        //sendMsgToSevr(UrlUtils.index);//请求主页数据
+        requestMainData();
+    }
+
+    private void requestMainData() {
+        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+        if(!netAva){
+            refreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            DialogManager dm=new DialogManager(getActivity());
+            dm.buildAlertDialog("请打开网络！");
+            return;
+        }else{
+            textView.setText("正在刷新");
+            imageView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        String version = getPackageVersion();
+        Map<String,String> params=new HashMap<>();
+        params.put("version_code",version);
+        Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, params, true);
+        executeNetWork(request,"请稍候");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                refreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+                JSONObject rebate = dataObj.optJSONObject("rebate");
+                int white_score = rebate.optInt("white_score");
+                int red_score = rebate.optInt("red_score");
+                tvAllScore.setText(white_score+"");
+                tvRedScore.setText(red_score+"");
+                //app更新
+                JSONObject verObj = dataObj.optJSONObject("version");
+                int isUpdate = verObj.optInt("isUpdate");
+                if(isUpdate==1){
+                    String apk_url = verObj.optString("apk_url");
+                    downLoadApp(apk_url);
+                }
+                //商家列表
+                JSONArray optJSONArray = dataObj.optJSONArray("pushBusinessList");
+                if(optJSONArray!=null && optJSONArray.length()!=0){
+                    for (int i = 0; i < optJSONArray.length(); i++) {
+                        JSONObject busObj = optJSONArray.optJSONObject(i);
+                        String bus_icon = busObj.optString("seller_cover_logo");
+                        String base_url= "http://api.qlqwgw.com";
+                        String seller_taglib = busObj.optString("seller_taglib");
+                        String seller_name = busObj.optString("seller_name");
+                        int id = busObj.optInt("id");
+                        Business b=new Business(base_url + bus_icon,seller_name,seller_taglib,0,"0个评论","0m");
+                        b.setId(id);
+                        mList.add(b);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void initRefreshLayout(View view) {
@@ -181,18 +231,9 @@ public class FirstFragment extends Fragment {
 
                     @Override
                     public void onRefresh() {
-
-                        sendMsgToSevr(UrlUtils.index);
+                        requestMainData();
+                        //sendMsgToSevr(UrlUtils.index);
                         mList.clear();
-                        /*new Handler().postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                refreshLayout.setRefreshing(false);
-                                progressBar.setVisibility(View.GONE);
-
-                            }
-                        }, 2000);*/
                     }
 
                     @Override
@@ -329,22 +370,21 @@ public class FirstFragment extends Fragment {
     private void initImageList() {
         imageList = new ArrayList<>();
         imageList.clear();
-        ImageView iva = new ImageView(getContext());
+/*        ImageView iva = new ImageView(getContext());
         iva.setBackgroundResource(R.mipmap.main_pager);
-        iva.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        iva.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
 
         ImageView ivb = new ImageView(getContext());
-        ivb.setBackgroundResource(R.mipmap.banner_01);
+        ivb.setBackgroundResource(R.mipmap.banner01);
         ivb.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivc = new ImageView(getContext());
-        ivc.setBackgroundResource(R.mipmap.banner_02);
+        ivc.setBackgroundResource(R.mipmap.banner02);
         ivc.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ImageView ivd = new ImageView(getContext());
         ivd.setBackgroundResource(R.mipmap.banner_03);
         ivd.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageList.add(iva);
         imageList.add(ivb);
         imageList.add(ivc);
         imageList.add(ivd);
@@ -393,8 +433,7 @@ public class FirstFragment extends Fragment {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
         }
-    }
-    private void sendMsgToSevr(String baseUrl) {
+    }/*private void sendMsgToSevr(String baseUrl) {
         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
         if(!netAva){
             refreshLayout.setRefreshing(false);
@@ -443,7 +482,9 @@ public class FirstFragment extends Fragment {
                         }
                         JSONObject rebate = dataObj.getJSONObject("rebate");
                         int white_score = rebate.optInt("white_score");
+                        int red_score = rebate.optInt("red_score");
                         tvAllScore.setText(white_score+"");
+                        tvRedScore.setText(red_score+"");
                         //app更新
                         JSONObject verObj = dataObj.getJSONObject("version");
                         int isUpdate = verObj.getInt("isUpdate");
@@ -485,7 +526,8 @@ public class FirstFragment extends Fragment {
         checkThread = new CheckThread(requestQueue, phoneHandler, objRequest);
         checkThread.start();
         dialog.show();
-    }
+    }*/
+
 
     private String getPackageVersion() {
         PackageManager packageManager = getActivity().getPackageManager();
@@ -601,13 +643,9 @@ public class FirstFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(requestQueue!=null){
-            requestQueue.cancelAll();
-        }
         if(downloadQueue!=null){
             downloadQueue.cancelAll();
         }
-
 
     }
 }

@@ -9,6 +9,7 @@ import android.os.Message;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -21,7 +22,7 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class SweepActivity extends NetworkBaseActivity {
+public class SweepActivity extends Base2Activity implements Base2Activity.Callback {
     private SharedPreferences sf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,49 +48,11 @@ public class SweepActivity extends NetworkBaseActivity {
     CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
         @Override
         public void onAnalyzeSuccess(Bitmap mBitmap, final String result) {
-            Intent intent=new Intent(SweepActivity.this,PayActivity.class);
-            intent.putExtra("bus_uuid",result);
-            startActivity(intent);
-            finish();
-            sendMsgToSevr(UrlUtils.checkMember,0);
-            CheckThread checkThread = getCheckThread();
-            if(checkThread!=null){
-                Request<JSONObject> objRequest = checkThread.getObjRequest();
-                objRequest.add("seller",result);
-                objRequest.add("scenetype",2);
-                final ProgressDialog p=new ProgressDialog(SweepActivity.this,R.style.dialog);
-                p.setMessage("请稍后");
-                p.setCanceledOnTouchOutside(false);
-                PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-                phoneHandler.setCallback(phoneHandler.new Callback2(){
-                    @Override
-                    public void getMessage(Message msg) {
-                        p.dismiss();
-                        super.getMessage(msg);
-                        JSONObject jObj = (JSONObject) msg.obj;
-                        int status = jObj.optInt("status");
-                        String message = jObj.optString("msg");
-                        if(status==200){
-                            JSONObject dataObj = jObj.optJSONObject("data");
-                            int uuid = dataObj.optInt("uuid");
-                            Intent intent1=new Intent(SweepActivity.this,PayActivity.class);
-                            intent1.putExtra("bus_uuid",uuid);
-                            startActivity(intent1);
-                            finish();
-//                        Intent resultIntent = new Intent();
-//                        Bundle bundle = new Bundle();
-//                        bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
-//                        bundle.putString(CodeUtils.RESULT_STRING, result);
-//                        resultIntent.putExtras(bundle);
-//                        setResult(RESULT_OK, resultIntent);
-//                        finish();
-                        }
-                    }
-                });
-                checkThread.start();
-                p.show();
-            }
-
+            Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
+            objRequest.add("seller",result);
+            objRequest.add("scenetype",2);
+            executeNetWork(objRequest,"请稍后");
+            setCallback(SweepActivity.this);
         }
 
         @Override
@@ -103,4 +66,13 @@ public class SweepActivity extends NetworkBaseActivity {
             finish();
         }
     };
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        int uuid = dataObj.optInt("uuid");
+        Intent intent1=new Intent(SweepActivity.this,PayActivity.class);
+        intent1.putExtra("bus_uuid",uuid);
+        startActivity(intent1);
+        finish();
+    }
 }

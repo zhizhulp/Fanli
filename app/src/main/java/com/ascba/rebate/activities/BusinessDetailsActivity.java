@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
@@ -36,7 +37,7 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class BusinessDetailsActivity extends NetworkBaseActivity {
+public class BusinessDetailsActivity extends Base2Activity implements Base2Activity.Callback {
     // 天安门坐标
     double mLat1 = 39.915291;
     double mLon1 = 116.403857;
@@ -52,7 +53,6 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
     private TextView tvTime;
     private TextView tvRate;
     private String seller_description;
-    private SharedPreferences sf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,6 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
     }
 
     private void initViews() {
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         imBusiPic = ((ImageView) findViewById(R.id.im_busi_pic));
         tvName = ((TextView) findViewById(R.id.tv_busi_name));
         tvType = ((TextView) findViewById(R.id.tv_busi_type));
@@ -81,48 +80,10 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
         if(intent!=null){
             business_id = intent.getIntExtra("business_id",-1);
             if(business_id!=-1){
-                sendMsgToSevr(UrlUtils.getBusinesses,0);
-                CheckThread checkThread = getCheckThread();
-                if(checkThread!=null){
-                    Request<JSONObject> objRequest = checkThread.getObjRequest();
-                    final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-                    p.setMessage("请稍后");
-                    objRequest.add("businesses_id",business_id);
-                    PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-                    phoneHandler.setCallback(phoneHandler.new Callback2(){
-                        @Override
-                        public void getMessage(Message msg) {
-                            p.dismiss();
-                            super.getMessage(msg);
-                            JSONObject jObj = (JSONObject) msg.obj;
-                            int status = jObj.optInt("status");
-                            String message = jObj.optString("msg");
-                            if(status==200){
-                                JSONObject dataObj = jObj.optJSONObject("data");
-                                JSONObject seObj = dataObj.optJSONObject("sellerInfo");
-                                String seller_name = seObj.optString("seller_name");
-                                String seller_taglib = seObj.optString("seller_taglib");
-                                seller_description = seObj.optString("seller_description");
-                                String seller_address = seObj.optString("seller_address");
-                                String seller_tel = seObj.optString("seller_tel");
-                                String seller_business_hours = seObj.optString("seller_business_hours");
-                                String base_url="http://api.qlqwgw.com";
-                                String seller_cover = seObj.optString("seller_cover");
-                                String seller_return_ratio = seObj.optString("seller_return_ratio");
-                                Picasso.with(BusinessDetailsActivity.this).load(base_url+seller_cover).into(imBusiPic);
-                                tvName.setText(seller_name);
-                                tvType.setText(seller_taglib);
-                                tvAddress.setText(seller_address);
-                                tvPhone.setText(seller_tel);
-                                tvTime.setText(seller_business_hours);
-                                tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
-                            }
-                        }
-                    });
-                    checkThread.start();
-                    p.show();
-                }
-
+                Request<JSONObject> request = buildNetRequest(UrlUtils.getBusinesses, 0, true);
+                request.add("businesses_id",business_id);
+                executeNetWork(request,"请稍后");
+                setCallback(this);
             }
         }
     }
@@ -223,5 +184,26 @@ public class BusinessDetailsActivity extends NetworkBaseActivity {
             intent.putExtra("seller_description",seller_description);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        JSONObject seObj = dataObj.optJSONObject("sellerInfo");
+        String seller_name = seObj.optString("seller_name");
+        String seller_taglib = seObj.optString("seller_taglib");
+        seller_description = seObj.optString("seller_description");
+        String seller_address = seObj.optString("seller_address");
+        String seller_tel = seObj.optString("seller_tel");
+        String seller_business_hours = seObj.optString("seller_business_hours");
+        String base_url="http://api.qlqwgw.com";
+        String seller_cover = seObj.optString("seller_cover");
+        String seller_return_ratio = seObj.optString("seller_return_ratio");
+        Picasso.with(BusinessDetailsActivity.this).load(base_url+seller_cover).into(imBusiPic);
+        tvName.setText(seller_name);
+        tvType.setText(seller_taglib);
+        tvAddress.setText(seller_address);
+        tvPhone.setText(seller_tel);
+        tvTime.setText(seller_business_hours);
+        tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
     }
 }

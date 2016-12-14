@@ -1,16 +1,10 @@
 package com.ascba.rebate.fragments.me;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,11 +17,9 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.AccountActivity;
 import com.ascba.rebate.activities.AccountRechargeActivity;
-import com.ascba.rebate.activities.AllAccountActivity;
+import com.ascba.rebate.activities.AddCardActivity;
 import com.ascba.rebate.activities.BusinessCenter2Activity;
 import com.ascba.rebate.activities.BusinessCenterActivity;
 import com.ascba.rebate.activities.BusinessDataActivity;
@@ -35,40 +27,31 @@ import com.ascba.rebate.activities.CardActivity;
 import com.ascba.rebate.activities.CashGetActivity;
 import com.ascba.rebate.activities.PersonalDataActivity;
 import com.ascba.rebate.activities.RealNameCofirmActivity;
-import com.ascba.rebate.activities.RecommendActivity;
 import com.ascba.rebate.activities.RedScoreActivity;
 import com.ascba.rebate.activities.SettingActivity;
 import com.ascba.rebate.activities.TicketActivity;
 import com.ascba.rebate.activities.UserUpdateActivity;
 import com.ascba.rebate.activities.WSAccountActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.RequestQueue;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.util.HashMap;
+import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 /**
  *  我的中心
  */
-public class FourthFragment extends Fragment implements View.OnClickListener{
+public class FourthFragment extends BaseFragment implements View.OnClickListener,BaseFragment.Callback{
 
     private static final int REQUEST_PAY = 3;
     private static final int REQUEST_CLOSE = 4;
@@ -85,10 +68,6 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     private View goTicketView;
     private View goProxyCenterView;
     private CircleImageView goUserCenterView;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
-    private SharedPreferences sf;
     private TextView tvWhiteScore;
     private TextView tvNickName;
     private TextView tvMoney;
@@ -104,6 +83,8 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
     private ProgressBar progressBar;
     private ImageView imageView;
     private TextView textView;
+    private int finalScene;
+    private TextView tvRedScore;
 
 
     @Nullable
@@ -124,9 +105,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         initViews(view);
         //初始化8个小图标parent
         imgsContainer = ((LinearLayout) view.findViewById(R.id.container_imgs));
-        sf=getActivity().getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
-        sendMsgToSevr(UrlUtils.user,0);
-
+        requestMyData(0);//请求我的数据
 
         //点击设置进入设置页面
         mSettingText = ((TextView) view.findViewById(R.id.me_setting_text));
@@ -183,12 +162,48 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
 
     }
 
+    private void requestMyData(final int scene) {
+        finalScene=scene;
+        Map<String,String> params=new HashMap<>();
+        if(scene==0){
+            boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+            if(netAva){
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                Request<JSONObject> request = buildNetRequest(UrlUtils.user, 0, params, true);
+                executeNetWork(request,"请稍后");
+                setCallback(this);
+            }else {
+                DialogManager dm=new DialogManager(getActivity());
+                dm.buildAlertDialog("请打开网络！");
+                refreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+            }
+        }else if(scene==1){
+            params.put("company_status",merchant+"");
+            Request<JSONObject> request = buildNetRequest(UrlUtils.getCompany, 0, params, true);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }else if(scene==2){
+            Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, params, true);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }else if(scene==3){
+            Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, params, true);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }
+
+    }
+
     private void initViews(View view) {
         tvWhiteScore = ((TextView) view.findViewById(R.id.me_tv_white_score));
         tvNickName = ((TextView) view.findViewById(R.id.me_tv_nick_name));
         tvMoney = ((TextView) view.findViewById(R.id.me_tv_money));
         tvBanks = ((TextView) view.findViewById(R.id.me_tv_banks));
         tvTicket = ((TextView) view.findViewById(R.id.me_tv_ticket));
+        tvRedScore = ((TextView) view.findViewById(R.id.me_tv_red_score));
         initRefreshLayout(view);
 
     }
@@ -210,10 +225,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
 
                     @Override
                     public void onRefresh() {
-                        textView.setText("正在刷新");
-                        imageView.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.VISIBLE);
-                        sendMsgToSevr(UrlUtils.user,0);
+                        requestMyData(0);
                     }
 
                     @Override
@@ -230,10 +242,10 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 });
 
     }
-
     @Override
     public void onClick(View v) {
         int id= v.getId();
+        DialogManager dm=new DialogManager(getActivity());
         switch (id){
             case R.id.me_user_img:
                 Intent intentUser=new Intent(getActivity(), PersonalDataActivity.class);
@@ -241,44 +253,17 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.go_white_score_account:
                 if(true){
-                    final PopupWindow pop=new PopupWindow(getActivity());
-                    pop.setBackgroundDrawable(new ColorDrawable(0xE8E8E7));
-                    pop.setFocusable(true);//聚焦
-                    View view=getActivity().getLayoutInflater().inflate(R.layout.pop_white_no_permission,null);
-                    view.findViewById(R.id.cry_close_icon).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            pop.dismiss();
-                        }
-                    });
-                    pop.setContentView(view);
-                    pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
-                            params.alpha = 1.0f;
-                            getActivity().getWindow().setAttributes(params);
-                        }
-                    });
-                    DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
-                    int widthPixels = dm.widthPixels;
-                    pop.setWidth(widthPixels/2);
-                    pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                    pop.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.CENTER,0,0);
-                    //设置背景变暗
-                    WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
-                    params.alpha = 0.5f;
-                    getActivity().getWindow().setAttributes(params);
+                    dm.buildAlertDialog(noOpen);
                 }else{
                     Intent intent=new Intent(getActivity(), WSAccountActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.me_go_card:
-                sendMsgToSevr(UrlUtils.checkCardId,2);//2 检查是否实名
+                requestMyData(2);//检查是否实名
                 break;
             case R.id.me_go_cash_account:
-                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog(noOpen);
                 /*Intent intentCash=new Intent(getActivity(), AllAccountActivity.class);
                 startActivity(intentCash);*/
                 break;
@@ -287,25 +272,26 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 startActivityForResult(intent2,REQUEST_PAY);
                 break;
             case R.id.me_go_red_score:
-                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
-                /*Intent intent3=new Intent(getActivity(), RedScoreActivity.class);
-                startActivity(intent3);*/
+//                dm.buildAlertDialog(noOpen);
+                Intent intent3=new Intent(getActivity(), RedScoreActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.me_go_vip:
                 Intent intent4=new Intent(getActivity(), UserUpdateActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.me_go_business_center:
-                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
-//                sendMsgToSevr(UrlUtils.getCompany,1);
+                dm.buildAlertDialog(noOpen);
+                //requestMyData(1);
                 break;
             case R.id.tv_go_get_cash:
-                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+//                dm.buildAlertDialog(noOpen);
+                requestMyData(3);//检查是否实名
                 /*Intent intent6=new Intent(getActivity(), CashGetActivity.class);
                 startActivity(intent6);*/
                 break;
             case R.id.me_go_recommend:
-                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog(noOpen);
                 return;
                 /*Intent intent7=new Intent(getActivity(), RecommendActivity.class);
                 startActivity(intent7);
@@ -315,13 +301,13 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent8);
                 break;
             case R.id.me_go_proxy_center:
-                Toast.makeText(getActivity(), noOpen, Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog(noOpen);
                 break;
             case R.id.qlqw_car:
-                Toast.makeText(getActivity(), "敬请期待！", Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog("敬请期待！");
                 break;
             case R.id.qlqw_house:
-                Toast.makeText(getActivity(), "敬请期待！", Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog("敬请期待！");
                 break;
         }
     }
@@ -332,7 +318,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
         if(data!=null){
             switch (requestCode){
                 case REQUEST_PAY:
-                    sendMsgToSevr(UrlUtils.user,0);
+                    requestMyData(0);
                     break;
                 case REQUEST_CLOSE:
                     getActivity().finish();
@@ -343,168 +329,137 @@ public class FourthFragment extends Fragment implements View.OnClickListener{
 
         }
     }
-    private void sendMsgToSevr(String baseUrl, final int scene) {
-        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-        if(!netAva){
+    @Override
+    public void handle200Data(final JSONObject dataObj, String message) {
+        if(finalScene==0){//我的数据
             refreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "请打开网络", Toast.LENGTH_SHORT).show();
-            return;
-        }else{
-            textView.setText("正在刷新");
-            imageView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-        int uuid = sf.getInt("uuid",-1000 );
-        String token = sf.getString("token", "");
-        long expiring_time = sf.getLong("expiring_time", -2000);
-        if(requestQueue==null){
-            requestQueue= NoHttp.newRequestQueue();
-        }
-        final ProgressDialog dialog = new ProgressDialog(getActivity(), R.style.dialog);
-        dialog.setMessage("请稍后");
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
-        objRequest.add("sign", UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("uuid",uuid);
-        objRequest.add("token",token);
-        objRequest.add("expiring_time",expiring_time);
-        if(scene==1){//点击商户中心
-            objRequest.add("company_status",merchant);
-        }
-        phoneHandler=new PhoneHandler(getActivity());
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
+            imgsContainer.removeAllViews();
 
-            @Override
-            public void getMessage(Message msg) {
-                refreshLayout.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
-                imgsContainer.removeAllViews();
-                dialog.dismiss();
-                JSONObject jObj= (JSONObject) msg.obj;
-                try {
-                    int status = jObj.getInt("status");
-                    String message = jObj.getString("msg");
-                    JSONObject dataObj = jObj.optJSONObject("data");
-                    if(status==200){
-                        int update_status = dataObj.optInt("update_status");
-                        if(scene==0){
-                            if(update_status==1){
-                                sf.edit()
-                                        .putString("token",dataObj.getString("token"))
-                                        .putLong("expiring_time",dataObj.getLong("expiring_time"))
-                                        .apply();
-                            }
-                            JSONObject infoObj = dataObj.optJSONObject("myInfo");
-                            String avatar = infoObj.optString("avatar");//头像url地址
-                            int white_score = infoObj.optInt("white_score");//白积分
-                            String nickname = infoObj.optString("nickname");//用户昵称
-                            String money = infoObj.getString("money");//用户余额
-                            int banks = infoObj.getInt("banks");//银行卡数量
-                            int vouchers = infoObj.getInt("vouchers");//代金券数量
-                            merchant = infoObj.getInt("merchant");
-                            Picasso.with(getActivity()).load(avatar).into(goUserCenterView);
-                            JSONArray group_type = infoObj.getJSONArray("group_type");
-                            for (int i = 0; i < group_type.length(); i++) {
-                                JSONObject typeObj = group_type.getJSONObject(i);
-                                int isUpgraded = typeObj.getInt("isUpgraded");
-                                int id = typeObj.getInt("id");
-                                ImageView imageView=new ImageView(getActivity());
-                                int i1 = ScreenDpiUtils.dip2px(getActivity(), 14);
-                                LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(i1, i1);
-                                int dpLeft = ScreenDpiUtils.dip2px(getActivity(), 7);
-                                lp.leftMargin=dpLeft;
-                                imageView.setLayoutParams(lp);
-                                String baseUrl="http://api.qlqwgw.com";
-                                if(isUpgraded==1||id==1){
-                                    String upgraded_icon = typeObj.getString("upgraded_icon");
-                                    Picasso.with(getActivity()).load(baseUrl+upgraded_icon).into(imageView);
-                                }else{
-                                    String default_icon = typeObj.getString("default_icon");
-                                    Picasso.with(getActivity()).load(baseUrl+default_icon).into(imageView);
-                                }
-                                imgsContainer.addView(imageView);
-                            }
-                            tvWhiteScore.setText(white_score+"");
-                            tvNickName.setText(nickname);
-                            tvMoney.setText("账户余额："+money);
-                            tvBanks.setText(banks+"");
-                            tvTicket.setText(vouchers+"张");
-                        }else if(scene==1){//点击商户中心
-                            JSONObject company = dataObj.getJSONObject("company");
-                            if(merchant==3){
-                                String name = company.optString("name");
-                                String corporate = company.optString("corporate");
-                                String address = company.optString("address");
-                                String tel = company.optString("tel");
-                                Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
-                                intent.putExtra("name",name);
-                                intent.putExtra("corporate",corporate);
-                                intent.putExtra("tel",tel);
-                                intent.putExtra("address",address);
-                                startActivity(intent);
-                            }else if(merchant==0){
-                                Intent intent=new Intent(getActivity(),BusinessCenterActivity.class);
-                                startActivity(intent);
-                            }else if(merchant==1){
-                                Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
-                                String name = company.optString("name");
-                                String corporate = company.optString("corporate");
-                                String address = company.optString("address");
-                                String tel = company.optString("tel");
-                                intent.putExtra("type",0);
-                                intent.putExtra("name_01",name);
-                                intent.putExtra("corporate_01",corporate);
-                                intent.putExtra("tel_01",tel);
-                                intent.putExtra("address_01",address);
-                                startActivity(intent);
-                            }else if(merchant==2){
-                                Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
-                                String name = company.optString("name");
-                                String corporate = company.optString("corporate");
-                                String address = company.optString("address");
-                                String tel = company.optString("tel");
-                                intent.putExtra("type",1);
-                                intent.putExtra("name",name);
-                                intent.putExtra("corporate",corporate);
-                                intent.putExtra("tel",tel);
-                                intent.putExtra("address",address);
-                                startActivity(intent);
-                            }
-                        }else if(scene==2){
-                            int isCardId = dataObj.optInt("isCardId");
-                            if(isCardId==0){
-                                Toast.makeText(getActivity(), "请先实名认证", Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(getActivity(), RealNameCofirmActivity.class);
-                                startActivity(intent);
-                            }else {
-                                Intent intent=new Intent(getActivity(),CardActivity.class);
-                                startActivity(intent);
-                            }
-                        }
-
-                    } else if(status==404){
-
-                    }/* else if(status==4){
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                    } else if(status==5){
-                        Intent intent=new Intent(getActivity(),LoginActivity.class);
-                        sf.edit().putInt("uuid",-1000).apply();
-                        startActivity(intent);
-                        getActivity().finish();
-                    }else if(status==3){
-                        Intent intent=new Intent(getActivity(),LoginActivity.class);
-                        sf.edit().putInt("uuid",-1000).apply();
-                        startActivity(intent);
-                        getActivity().finish();
-                    }*/
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            JSONObject infoObj = dataObj.optJSONObject("myInfo");
+            String avatar = infoObj.optString("avatar");//头像url地址
+            int white_score = infoObj.optInt("white_score");//白积分
+            int red_score = infoObj.optInt("red_score");//红积分
+            String nickname = infoObj.optString("nickname");//用户昵称
+            String money = infoObj.optString("money");//用户余额
+            int banks = infoObj.optInt("banks");//银行卡数量
+            int vouchers = infoObj.optInt("vouchers");//代金券数量
+            merchant = infoObj.optInt("merchant");
+            Picasso.with(getActivity()).load(avatar).into(goUserCenterView);
+            JSONArray group_type = infoObj.optJSONArray("group_type");
+            for (int i = 0; i < group_type.length(); i++) {
+                JSONObject typeObj = group_type.optJSONObject(i);
+                int isUpgraded = typeObj.optInt("isUpgraded");
+                int id = typeObj.optInt("id");
+                ImageView imageView=new ImageView(getActivity());
+                int i1 = ScreenDpiUtils.dip2px(getActivity(), 14);
+                LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(i1, i1);
+                int dpLeft = ScreenDpiUtils.dip2px(getActivity(), 7);
+                lp.leftMargin=dpLeft;
+                imageView.setLayoutParams(lp);
+                String baseUrl="http://api.qlqwgw.com";
+                if(isUpgraded==1||id==1){
+                    String upgraded_icon = typeObj.optString("upgraded_icon");
+                    Picasso.with(getActivity()).load(baseUrl+upgraded_icon).into(imageView);
+                }else{
+                    String default_icon = typeObj.optString("default_icon");
+                    Picasso.with(getActivity()).load(baseUrl+default_icon).into(imageView);
                 }
-
+                imgsContainer.addView(imageView);
             }
-        });
-        checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
-        checkThread.start();
-        dialog.show();
+            tvWhiteScore.setText(white_score+"");
+            tvRedScore.setText(red_score+"");
+            tvNickName.setText(nickname);
+            tvMoney.setText("账户余额："+money);
+            tvBanks.setText(banks+"");
+            tvTicket.setText(vouchers+"张");
+        }else if(finalScene==1){//点击商户中心
+            JSONObject company = dataObj.optJSONObject("company");
+            if(merchant==3){
+                String name = company.optString("name");
+                String corporate = company.optString("corporate");
+                String address = company.optString("address");
+                String tel = company.optString("tel");
+                Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
+                intent.putExtra("name",name);
+                intent.putExtra("corporate",corporate);
+                intent.putExtra("tel",tel);
+                intent.putExtra("address",address);
+                startActivity(intent);
+            }else if(merchant==0){
+                Intent intent=new Intent(getActivity(),BusinessCenterActivity.class);
+                startActivity(intent);
+            }else if(merchant==1){
+                Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
+                String name = company.optString("name");
+                String corporate = company.optString("corporate");
+                String address = company.optString("address");
+                String tel = company.optString("tel");
+                intent.putExtra("type",0);
+                intent.putExtra("name_01",name);
+                intent.putExtra("corporate_01",corporate);
+                intent.putExtra("tel_01",tel);
+                intent.putExtra("address_01",address);
+                startActivity(intent);
+            }else if(merchant==2){
+                Intent intent=new Intent(getActivity(),BusinessCenter2Activity.class);
+                String name = company.optString("name");
+                String corporate = company.optString("corporate");
+                String address = company.optString("address");
+                String tel = company.optString("tel");
+                intent.putExtra("type",1);
+                intent.putExtra("name",name);
+                intent.putExtra("corporate",corporate);
+                intent.putExtra("tel",tel);
+                intent.putExtra("address",address);
+                startActivity(intent);
+            }
+        }else if(finalScene==2){//检查是否实名，点击银行卡前
+            int isCardId = dataObj.optInt("isCardId");
+            int isBankCard = dataObj.optInt("isBankCard");
+            if(isCardId==0){
+                final DialogManager dm=new DialogManager(getActivity());
+                dm.buildAlertDialog1("您还没有实名认证,点击确认去认证");
+                dm.setCallback(new DialogManager.Callback() {
+                    @Override
+                    public void handleSure() {
+                        dm.dismissDialog();
+                        Intent intent=new Intent(getActivity(), RealNameCofirmActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }else {
+                JSONObject cardObj = dataObj.optJSONObject("cardInfo");
+                if(isBankCard==0){
+                    Intent intent=new Intent(getActivity(),AddCardActivity.class);
+                    intent.putExtra("realname",cardObj.optString("realname"));
+                    startActivity(intent);
+                }else {
+                    Intent intent=new Intent(getActivity(),CardActivity.class);
+                    startActivity(intent);
+                }
+            }
+        }else if(finalScene==3){//检查是否实名，点击提现前
+            int isCardId = dataObj.optInt("isCardId");
+            int isBankCard = dataObj.optInt("isBankCard");
+            if(isCardId==0){
+                final DialogManager dm=new DialogManager(getActivity());
+                dm.buildAlertDialog1("您还没有实名认证,点击确认去认证");
+                dm.setCallback(new DialogManager.Callback() {
+                    @Override
+                    public void handleSure() {
+                        dm.dismissDialog();
+                        Intent intent=new Intent(getActivity(), RealNameCofirmActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }else {
+                JSONObject cardObj = dataObj.optJSONObject("cardInfo");
+                Intent intent=new Intent(getActivity(),CashGetActivity.class);
+                intent.putExtra("bank_card_number",isBankCard);
+                intent.putExtra("realname",cardObj.optString("realname"));
+                startActivity(intent);
+            }
+        }
     }
 }

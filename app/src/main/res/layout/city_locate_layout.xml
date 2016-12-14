@@ -13,7 +13,7 @@
                          style="@style/cityLocatingProgressStyle"/>
             <ImageView android:id="@+id/city_locate_success_img" android:visibility="gone"
                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                       android:src="@drawable/city_locate_success"/>
+                       android:src="@mipmap/city_locate_success"/>
             <TextView android:textSize="@dimen/city_list_text_size" android:textColor="@color/city_item_text_color"
                       android:ellipsize="end" android:id="@+id/city_locate_state" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:layout_marginLeft="5.0dip"
@@ -24,12 +24,22 @@
         <View android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip"
               android:layout_weight="1.0"/>
     </LinearLayout>
-    <LinearLayout android:gravity="center_vertical" android:id="@+id/city_locate_failed" android:visibility="gone"
-                  android:layout_width="fill_parent" android:layout_height="fill_parent">
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                   android:src="@drawable/city_locate_failed"/>
-        <TextView android:textSize="12.0sp" android:textColor="@color/city_item_text_color" android:ellipsize="end"
-                  android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_marginLeft="5.0dip" android:text="未能获取到您的位置，请轻轻动下手指选择城市" android:singleLine="true"/>
+    <LinearLayout android:gravity="center_vertical"
+        android:id="@+id/city_locate_failed"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/city_locate_failed"/>
+        <TextView
+            android:maxLines="1"
+            android:textSize="12.0sp"
+            android:textColor="@color/city_item_text_color"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5.0dip" />
     </LinearLayout>
 </RelativeLayout>

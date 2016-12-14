@@ -19,9 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
@@ -38,9 +40,12 @@ import com.yolanda.nohttp.rest.RequestQueue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonalDataActivity extends BaseActivity implements View.OnClickListener {
+public class PersonalDataActivity extends Base2Activity implements View.OnClickListener,Base2Activity.Callback {
     public static final int nickNameRequest = 0x06;
     public static final int sexRequest = 0x05;
     public static final int locationRequest = 0x04;
@@ -50,15 +55,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     private CircleImageView userIconView;
     private PopupWindow popupWindow;
     private TextView sexShow;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
-    private SharedPreferences sf;
     private TextView tvMobile;
     private TextView tvNickname;
     private TextView tvAge;
     private TextView tvLocation;
     private Bitmap bitmap;
+    private int finalScene;
+    private int isCardId;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +72,39 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initViews() {
-        sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
+        dm=new DialogManager(this);
         userIconView = ((CircleImageView) findViewById(R.id.head_icon));
         tvMobile = ((TextView) findViewById(R.id.personal_data_mobile));
         tvNickname = ((TextView) findViewById(R.id.personal_data_nickname));
         sexShow = ((TextView) findViewById(R.id.show_sex));
         tvAge = ((TextView) findViewById(R.id.personal_data_age));
         tvLocation = ((TextView) findViewById(R.id.personal_data_location));
-        sendMsgToSevr(UrlUtils.userSet, 0);
+        requestPData(0);
+    }
+
+    private void requestPData(int scene) {
+        finalScene=scene;
+        if(scene==0){
+            Request<JSONObject> request = buildNetRequest(UrlUtils.userSet, 0, true);
+            executeNetWork(request,"请稍候");
+            setCallback(this);
+        }else if(scene==1){
+            Request<JSONObject> request = buildNetRequest(UrlUtils.updateSet, 0, true);
+            request.add("avatar", new BitmapBinary(bitmap, "headicon"));
+            request.add("nickname", tvNickname.getText().toString());
+            String s = sexShow.getText().toString();
+            if (s.equals("男")) {
+                request.add("sex", 1);
+            } else if (s.equals("女")) {
+                request.add("sex", 0);
+            } else {
+                request.add("sex", 2);
+            }
+            request.add("age", tvAge.getText().toString());
+            request.add("location", tvLocation.getText().toString());
+            executeNetWork(request,"请稍候");
+            setCallback(this);
+        }
     }
 
     //进入修改昵称界面
@@ -86,22 +115,35 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     //进入修改性别的页面
     public void personalSexChange(View view) {
-        Intent intent = new Intent(this, SexChangeActivity.class);
-        CharSequence sex = sexShow.getText();
-        intent.putExtra("tag", sex);
-        startActivityForResult(intent, sexRequest);
+        if(isCardId==1){
+            dm.buildAlertDialog("实名后不可修改性别");
+        }else{
+            Intent intent = new Intent(this, SexChangeActivity.class);
+            CharSequence sex = sexShow.getText();
+            intent.putExtra("tag", sex);
+            startActivityForResult(intent, sexRequest);
+        }
+
     }
 
     //进入修改地址的页面
     public void personalLocationChange(View view) {
-        Intent intent = new Intent(this, LocationActivity.class);
-        startActivityForResult(intent, locationRequest);
+        if(isCardId==1){
+            dm.buildAlertDialog("实名后不可修改地址");
+        }else{
+            Intent intent = new Intent(this, LocationActivity.class);
+            startActivityForResult(intent, locationRequest);
+        }
     }
 
     //进入修改年龄的页面
     public void personalAgeChange(View view) {
-        Intent intent = new Intent(this, AgeChangeActivity.class);
-        startActivityForResult(intent, ageRequest);
+        if(isCardId==1){
+            dm.buildAlertDialog("实名后不可修改年龄");
+        }else{
+            Intent intent = new Intent(this, AgeChangeActivity.class);
+            startActivityForResult(intent, ageRequest);
+        }
     }
 
     //进入修改用户头像的页面
@@ -172,10 +214,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         return BitmapFactory.decodeFile(picturePath, options);
     }
 
-    public Bitmap handleCameraBitmap(Uri uri) {
-        String path = uri.getPath();
-        return handleBitmap(path);
-    }
 
     //处理返回数据
     @Override
@@ -186,8 +224,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         }
         switch (requestCode) {
             case GO_CAMERA:
-                /*Uri uri = data.getData();
-                bitmap = handleCameraBitmap(uri);*/
                 Bundle extras = data.getExtras();
                 bitmap= (Bitmap) extras.get("data");
                 userIconView.setImageBitmap(bitmap);
@@ -231,107 +267,39 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 break;
         }
     }
-
-    private void sendMsgToSevr(String baseUrl, final int type) {
-        boolean netAva = NetUtils.isNetworkAvailable(this);
-        if(!netAva){
-            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        int uuid = sf.getInt("uuid", -1000);
-        String token = sf.getString("token", "");
-        long expiring_time = sf.getLong("expiring_time", -2000);
-
-        requestQueue = NoHttp.newRequestQueue();
-        final ProgressDialog dialog = new ProgressDialog(this, R.style.dialog);
-        dialog.setMessage("请稍后");
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl + "?", RequestMethod.POST);
-        objRequest.add("sign", UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("uuid", uuid);
-        objRequest.add("token", token);
-        objRequest.add("expiring_time", expiring_time);
-        if (type == 1) {
-            objRequest.add("avatar", new BitmapBinary(bitmap, "headicon"));
-            objRequest.add("nickname", tvNickname.getText().toString());
-            String s = sexShow.getText().toString();
-            if (s.equals("男")) {
-                objRequest.add("sex", 1);
-            } else if (s.equals("女")) {
-                objRequest.add("sex", 0);
-            } else {
-                objRequest.add("sex", 2);
-            }
-            objRequest.add("age", tvAge.getText().toString());
-            objRequest.add("location", tvLocation.getText().toString());
-        }
-        phoneHandler = new PhoneHandler(this);
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
-            @Override
-            public void getMessage(Message msg) {
-                dialog.dismiss();
-                JSONObject jObj = (JSONObject) msg.obj;
-                try {
-                    int status = jObj.optInt("status");
-                    String message = jObj.getString("msg");
-                    if (status == 200) {
-                        JSONObject dataObj = jObj.optJSONObject("data");
-                        int update_status = dataObj.optInt("update_status");
-                        if (type == 1) {
-                            Toast.makeText(PersonalDataActivity.this, jObj.getString("msg"), Toast.LENGTH_SHORT).show();
-                        } else {
-                            JSONObject userInfo = dataObj.getJSONObject("userInfo");
-                            String avatar = userInfo.optString("avatar");
-                            String mobile = userInfo.optString("mobile");
-                            String nickname = userInfo.optString("nickname");
-                            int sex = userInfo.optInt("sex");
-                            int age = userInfo.optInt("age");
-                            String location = userInfo.optString("location");
-
-                            Picasso.with(PersonalDataActivity.this).load(avatar).into(userIconView);
-                            tvMobile.setText(mobile);
-                            tvNickname.setText(nickname);
-                            if (sex == 0) {
-                                sexShow.setText("女");
-                            } else if (sex == 1) {
-                                sexShow.setText("男");
-                            } else {
-                                sexShow.setText("保密");
-                            }
-                            tvAge.setText(age + "");
-                            if (location != null) {
-                                tvLocation.setText(location);
-                            }
-                            if (update_status == 1) {
-                                sf.edit()
-                                        .putString("token", dataObj.optString("token"))
-                                        .putLong("expiring_time", dataObj.optLong("expiring_time"))
-                                        .apply();
-                            }
-                        }
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(PersonalDataActivity.this, LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        finish();
-                    } else if(status==404){
-                        Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        checkThread = new CheckThread(requestQueue, phoneHandler, objRequest);
-        checkThread.start();
-        //登录中对话框
-        dialog.show();
-    }
-
     //上传个人资料
     public void saveData(View view) {
-        sendMsgToSevr(UrlUtils.updateSet, 1);
+        requestPData(1);
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        if(finalScene==0){
+            JSONObject userInfo = dataObj.optJSONObject("userInfo");
+            isCardId = dataObj.optInt("isCardId");
+            String avatar = userInfo.optString("avatar");
+            String mobile = userInfo.optString("mobile");
+            String nickname = userInfo.optString("nickname");
+            int sex = userInfo.optInt("sex");
+            int age = userInfo.optInt("age");
+            String location = userInfo.optString("location");
+            Picasso.with(PersonalDataActivity.this).load(avatar).into(userIconView);
+            tvMobile.setText(mobile);
+            tvNickname.setText(nickname);
+            if (sex == 0) {
+                sexShow.setText("女");
+            } else if (sex == 1) {
+                sexShow.setText("男");
+            } else {
+                sexShow.setText("保密");
+            }
+            tvAge.setText(age + "");
+            if (location != null) {
+                tvLocation.setText(location);
+            }
+        }else if(finalScene==1){//修改成功的提示
+            Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

@@ -40,7 +40,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:divider="#E8E8E7"
                 android:dividerHeight="10dp"
                 android:scrollbars="none" />
             <Button

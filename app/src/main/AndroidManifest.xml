@@ -79,10 +79,12 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activities.guide.GuideActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+        </activity>
         <activity
             android:name=".activities.base.BaseActivity"
             android:screenOrientation="portrait"
@@ -156,9 +158,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
+            android:launchMode="singleTask"
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+
+        </activity>
         <activity
             android:name=".activities.AccountRechargeActivity"
             android:screenOrientation="portrait"
@@ -235,7 +240,11 @@
             android:name=".activities.RecommendActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.TestActivity" />
+        <activity android:name=".activities.TestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
+
+        </activity>
         <activity
             android:name=".activities.CityList"
             android:screenOrientation="portrait"
@@ -442,7 +451,15 @@
             android:name=".activities.ShowDescriptionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.WhiteToActivity"></activity>
+        <activity android:name=".activities.WhiteToActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
+        <activity android:name=".activities.base.Base2Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
+        <activity android:name=".activities.RealNameSuccessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
     </application>
 
 </manifest>

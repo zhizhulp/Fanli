@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
@@ -23,9 +24,11 @@ import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.yolanda.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
-public class RecQRActivity extends NetworkBaseActivity {
+public class RecQRActivity extends Base2Activity implements Base2Activity.Callback {
     private MoneyBar shareBar;
     private TextView tvRecId;
     private TextView tvRecNet;
@@ -61,36 +64,9 @@ public class RecQRActivity extends NetworkBaseActivity {
     }
 
     private void requestFromServer() {
-        sendMsgToSevr(UrlUtils.partook,0);
-        CheckThread checkThread = getCheckThread();
-        if(checkThread!=null){
-            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-            final ProgressDialog p=new ProgressDialog(this,R.style.dialog);
-            p.setMessage("请稍后");
-            phoneHandler.setCallback(phoneHandler.new Callback2(){
-                @Override
-                public void getMessage(Message msg) {
-                    p.dismiss();
-                    super.getMessage(msg);
-                    JSONObject jObj = (JSONObject) msg.obj;
-                    int status = jObj.optInt("status");
-                    if(status==200){
-                        JSONObject dataObj = jObj.optJSONObject("data");
-                        JSONObject paObj = dataObj.optJSONObject("partook");
-                        String p_id = paObj.optString("p_id");
-                        String p_url = paObj.optString("p_url");
-                        tvRecId.setText("推广ID:"+ p_id);
-                        tvRecNet.setText(p_url);
-                        Bitmap qrCode = createQRCode(p_url, 200, 200);
-                        imQR.setImageBitmap(qrCode);
-                    }
-                }
-            });
-            checkThread.start();
-            p.show();
-        }
-
-
+        Request<JSONObject> request = buildNetRequest(UrlUtils.partook, 0, true);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
 
 
@@ -142,5 +118,16 @@ public class RecQRActivity extends NetworkBaseActivity {
             sdkVersion = 0;
         }
         return sdkVersion;
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        JSONObject paObj = dataObj.optJSONObject("partook");
+        String p_id = paObj.optString("p_id");
+        String p_url = paObj.optString("p_url");
+        tvRecId.setText("推广ID:"+ p_id);
+        tvRecNet.setText(p_url);
+        Bitmap qrCode = createQRCode(p_url, 200, 200);
+        imQR.setImageBitmap(qrCode);
     }
 }

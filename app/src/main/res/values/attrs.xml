@@ -6,6 +6,7 @@
         <attr name="tailIcon" format="reference|integer"/>
         <attr name="needTailIcon" format="boolean"/>
         <attr name="needComplete" format="boolean"/>
+        <attr name="barBg" format="color"/>
     </declare-styleable>
     <declare-styleable name="EditTextWithCustomHint">
         <attr name="hintSize" format="dimension"/>

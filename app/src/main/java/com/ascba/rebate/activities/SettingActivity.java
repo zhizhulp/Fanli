@@ -1,16 +1,25 @@
 package com.ascba.rebate.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
+import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.utils.UrlUtils;
+import com.yolanda.nohttp.rest.Request;
 
-public class SettingActivity extends BaseActivity {
+import org.json.JSONObject;
 
+public class SettingActivity extends Base2Activity implements Base2Activity.Callback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +32,18 @@ public class SettingActivity extends BaseActivity {
     }
     //进入  实名认证  界面
     public void settingRealNameConfirm(View view) {
-        Intent intent=new Intent(this,RealNameCofirmActivity.class);
-        startActivity(intent);
+        //判断是否实名成功
+        requestIsSuccess(UrlUtils.checkCardId);
+        /*Intent intent=new Intent(this,RealNameCofirmActivity.class);
+        startActivity(intent);*/
     }
+
+    private void requestIsSuccess(String url) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        executeNetWork(request,"请稍候");
+        setCallback(this);
+    }
+
 
     //进入  我的二维码  界面
     public void settingMyQRCode(View view) {
@@ -59,5 +77,28 @@ public class SettingActivity extends BaseActivity {
         Intent intent=new Intent(this, FourthFragment.class);
         setResult(2,intent);
         finish();
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+            int isCardId = dataObj.optInt("isCardId");
+            if(isCardId==0){
+                Intent intent=new Intent(SettingActivity.this,RealNameCofirmActivity.class);
+                startActivity(intent);
+            }else{
+                JSONObject cardData = dataObj.optJSONObject("cardInfo");
+                String realname = cardData.optString("realname");
+                String cardid = cardData.optString("cardid");
+                int sex = cardData.optInt("sex");
+                int age = cardData.optInt("age");
+                String location = cardData.optString("location");
+                Intent intent1=new Intent(SettingActivity.this,RealNameSuccessActivity.class);
+                intent1.putExtra("realname",realname);
+                intent1.putExtra("cardid",cardid);
+                intent1.putExtra("sex",sex);
+                intent1.putExtra("age",age);
+                intent1.putExtra("location",location);
+                startActivity(intent1);
+            }
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
@@ -30,12 +31,12 @@ import com.yolanda.nohttp.rest.RequestQueue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PasswordLossWithCodeActivity extends BaseActivity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class PasswordLossWithCodeActivity extends Base2Activity implements Base2Activity.Callback {
 
     private TextView tvLossPhone;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
     private EditTextWithCustomHint edCode;
     private EditTextWithCustomHint edPassword;
     private EditTextWithCustomHint edRepassword;
@@ -85,17 +86,10 @@ public class PasswordLossWithCodeActivity extends BaseActivity {
     }
 
     public void goMain3(View view) {
-
-        sendMsgToSevr(UrlUtils.getBackPwd);
-
+        requestPasswordLoss(UrlUtils.getBackPwd);
     }
 
-    private void sendMsgToSevr(String baseUrl) {
-        boolean netAva = NetUtils.isNetworkAvailable(this);
-        if(!netAva){
-            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void requestPasswordLoss(String url) {
         String code = edCode.getText().toString();
         final String password = edPassword.getText().toString();
         String repassword = edRepassword.getText().toString();
@@ -119,60 +113,22 @@ public class PasswordLossWithCodeActivity extends BaseActivity {
             Toast.makeText(this, "两次输入密码不匹配", Toast.LENGTH_SHORT).show();
             return;
         }
-        requestQueue= NoHttp.newRequestQueue();
-        final ProgressDialog dialog = new ProgressDialog(this,R.style.dialog);
-        dialog.setMessage("密码找回中");
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
-        objRequest.add("sign", UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("mobile",loss_phone);
-        objRequest.add("captcha",code);
-        objRequest.add("password",password);
-        objRequest.add("repassword",repassword);
-        phoneHandler=new PhoneHandler(this);
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
-            @Override
-            public void getMessage(Message msg) {
-                dialog.dismiss();
-                JSONObject jObj= (JSONObject) msg.obj;
-                LogUtils.PrintLog("123",jObj.toString());
-                try {
-                    int status = jObj.getInt("status");
-                    String message = jObj.getString("msg");
-                    if(status==200){//服务端返回成功
-                        Intent intent=new Intent(PasswordLossWithCodeActivity.this, LoginActivity.class);
-                        intent.putExtra("loss_password",password);
-                        startActivity(intent);
-                        finish();
-                    } else if(status==-1){//用户不存在
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==1){//缺少sign参数
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==2){//非法请求，sign验证失败
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==3){//跳转登录
-                        Intent intent=new Intent(PasswordLossWithCodeActivity.this, LoginActivity.class);
-                        intent.putExtra("uuid",-1000);
-                        startActivity(intent);
-                        finish();
-                    } else if(status==4){//登陆后缺少uuid/token/expiring_time参数
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==5){//token验证失败
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==6){//用户已存在
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==404){//失败
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){//数据异常，内部错误
-                        Toast.makeText(PasswordLossWithCodeActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
-        checkThread.start();
-        dialog.show();
+        Request<JSONObject> request = buildNetRequest(url, 0, false);
+        request.add("sign", UrlEncodeUtils.createSign(url));
+        request.add("mobile",loss_phone);
+        request.add("captcha",code);
+        request.add("password",password);
+        request.add("repassword",repassword);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(this,LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

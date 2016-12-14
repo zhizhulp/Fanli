@@ -83,16 +83,14 @@
         android:layout_width="match_parent"
         android:layout_height="7dp"/>
     <LinearLayout
-        android:visibility="gone"
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_space"
+        android:layout_height="32dp"
         android:orientation="horizontal">
         <TextView
             android:textSize="15sp"
-            android:textColor="@color/black"
             android:text="推荐人"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -102,11 +100,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <RadioButton
+                android:textColor="@color/textgray"
                 android:id="@+id/rb_have"
                 android:text="有"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RadioButton
+                android:textColor="@color/textgray"
                 android:id="@+id/rb_no"
                 android:layout_marginLeft="30dp"
                 android:text="无"
@@ -124,9 +124,7 @@
         android:layout_height="@dimen/line_space"
         android:orientation="horizontal">
         <TextView
-
             android:textSize="15sp"
-            android:textColor="@color/black"
             android:text="推荐人姓名"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -147,7 +145,6 @@
         android:orientation="horizontal">
         <TextView
             android:textSize="15sp"
-            android:textColor="@color/black"
             android:text="推荐人号码"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -159,13 +156,26 @@
     </LinearLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <RadioButton
-        android:id="@+id/rb_agree"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/text_blue"
-        android:text="我已同意《代理协议》"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rb_agree"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:onClick="goProxyProtocol"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/text_blue"
+            android:text="我已同意《代理协议》"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

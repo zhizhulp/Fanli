@@ -1,18 +1,4 @@
-/*
- * Copyright 2015 Yan Zhenjie
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.ascba.rebate.appconfig;
 
 import android.content.Context;
@@ -34,8 +20,7 @@ public class AppConfig {
 
 
     private AppConfig() {
-        preferences = MyApplication.getInstance().getSharedPreferences("progress_config", Context.MODE_PRIVATE);
-
+        preferences = MyApplication.getInstance().getSharedPreferences("first_login_success_name_password", Context.MODE_PRIVATE);
     }
 
     public static AppConfig getInstance() {
@@ -45,7 +30,7 @@ public class AppConfig {
     }
 
     public void putInt(String key, int value) {
-        preferences.edit().putInt(key, value).commit();
+        preferences.edit().putInt(key, value).apply();
     }
 
     public int getInt(String key, int defValue) {
@@ -53,7 +38,7 @@ public class AppConfig {
     }
 
     public void putString(String key, String value) {
-        preferences.edit().putString(key, value).commit();
+        preferences.edit().putString(key, value).apply();
     }
 
     public String getString(String key, String defValue) {
@@ -61,7 +46,7 @@ public class AppConfig {
     }
 
     public void putBoolean(String key, boolean value) {
-        preferences.edit().putBoolean(key, value).commit();
+        preferences.edit().putBoolean(key, value).apply();
     }
 
     public boolean getBoolean(String key, boolean defValue) {
@@ -69,7 +54,7 @@ public class AppConfig {
     }
 
     public void putLong(String key, long value) {
-        preferences.edit().putLong(key, value).commit();
+        preferences.edit().putLong(key, value).apply();
     }
 
     public long getLong(String key, long defValue) {
@@ -77,7 +62,7 @@ public class AppConfig {
     }
 
     public void putFloat(String key, float value) {
-        preferences.edit().putFloat(key, value).commit();
+        preferences.edit().putFloat(key, value).apply();
     }
 
     public float getFloat(String key, float defValue) {

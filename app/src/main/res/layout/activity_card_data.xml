@@ -11,117 +11,118 @@
         app:textTitle="信息确认"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:text="姓名"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:maxLines="1"
+            android:layout_centerVertical="true"
             android:background="@null"
             android:textSize="14sp"
             android:id="@+id/name"
-            android:layout_marginLeft="23dp"
+            android:layout_marginLeft="100dp"
             android:hint="请输入姓名"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+    </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <LinearLayout
-        android:gravity="center_vertical"
+    <RelativeLayout
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:text="银行卡"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="14sp"
             android:id="@+id/card"
-            android:layout_marginLeft="23dp"
+            android:layout_marginLeft="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <LinearLayout
-        android:gravity="center_vertical"
+    <RelativeLayout
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:text="性别"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="14sp"
             android:id="@+id/sex"
-            android:layout_marginLeft="23dp"
+            android:layout_marginLeft="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <LinearLayout
-        android:gravity="center_vertical"
+    <RelativeLayout
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:text="年龄"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="14sp"
             android:id="@+id/age"
-            android:layout_marginLeft="23dp"
+            android:layout_marginLeft="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <LinearLayout
-        android:gravity="center_vertical"
+    <RelativeLayout
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:text="户口所在地"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:layout_centerVertical="true"
             android:textSize="14sp"
             android:id="@+id/location"
-            android:layout_marginLeft="23dp"
+            android:layout_marginLeft="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
     <Button

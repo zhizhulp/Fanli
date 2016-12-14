@@ -1,7 +1,9 @@
 package com.ascba.rebate.application;
 
+import android.app.Activity;
 import android.app.Application;
 
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.baidu.mapapi.SDKInitializer;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.yolanda.nohttp.NoHttp;
@@ -10,15 +12,21 @@ import com.yolanda.nohttp.cache.DBCacheStore;
 import com.yolanda.nohttp.cookie.DBCookieStore;
 import com.yolanda.nohttp.rest.RequestQueue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.jpush.android.api.JPushInterface;
 
-/**
- * Created by zhy on 15/8/25.
- */
+
 public class MyApplication extends Application {
-    private static Application _instance;
     private static RequestQueue requestQueue;
-    public static RequestQueue getHttpQueue(){
+    private static MyApplication app;
+    private List<Activity> activities=new ArrayList<>();
+
+    public static MyApplication getInstance(){
+        return app;
+    }
+    public static RequestQueue getRequestQueue(){
         return requestQueue;
     }
 
@@ -26,14 +34,13 @@ public class MyApplication extends Application {
     public void onCreate()
     {
         super.onCreate();
-        _instance = this;
-        NoHttp.initialize(this);
-        // 如果你需要自定义配置：
+        app=this;
+        //NoHttp.initialize(this);
         NoHttp.initialize(this, new NoHttp.Config()
                 // 设置全局连接超时时间，单位毫秒，默认10s。
-                .setConnectTimeout(30 * 1000)
+//                .setConnectTimeout(30 * 1000)
                 // 设置全局服务器响应超时时间，单位毫秒，默认10s。
-                .setReadTimeout(30 * 1000)
+//                .setReadTimeout(30 * 1000)
                 // 配置缓存，默认保存数据库DBCacheStore，保存到SD卡使用DiskCacheStore。
                 .setCacheStore(
                         new DBCacheStore(this).setEnable(true) // 如果不使用缓存，设置false禁用。
@@ -45,36 +52,44 @@ public class MyApplication extends Application {
                 // 配置网络层，默认使用URLConnection，如果想用OkHttp：OkHttpNetworkExecutor。
                 .setNetworkExecutor(new URLConnectionNetworkExecutor())
         );
-        if(requestQueue==null){
-            requestQueue=NoHttp.newRequestQueue();
+        requestQueue=NoHttp.newRequestQueue();
+        SDKInitializer.initialize(this);//百度地图
+        ZXingLibrary.initDisplayOpinion(this);//Zxing二维码
+        JPushInterface.init(this);//极光推送
+    }
+    // 添加Activity到容器中
+    public void addActivity(Activity activity) {
+        if (activities.size() > 0) {
+            if(!activities.contains(activity)){
+                activities.add(activity);
+            }
+        }else{
+            activities.add(activity);
         }
-        SDKInitializer.initialize(this);
-        ZXingLibrary.initDisplayOpinion(this);
-        JPushInterface.init(this);
 
-//        ClearableCookieJar cookieJar1 = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplicationContext()));
-//        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
-//
-////        CookieJarImpl cookieJar1 = new CookieJarImpl(new MemoryCookieStore());
-//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-//                .readTimeout(10000L, TimeUnit.MILLISECONDS)
-//                .addInterceptor(new LoggerInterceptor("TAG"))
-//                .cookieJar(cookieJar1)
-//                .hostnameVerifier(new HostnameVerifier()
-//                {
-//                    @Override
-//                    public boolean verify(String hostname, SSLSession session)
-//                    {
-//                        return true;
-//                    }
-//                })
-//                .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-//                .build();
-//        OkHttpUtils.initClient(okHttpClient);
     }
-    public static Application getInstance() {
-        return _instance;
+    // 从容器中移除Activity
+    public void removeActivity(Activity activity) {
+        if (activities.size() > 0) {
+            if(activities.contains(activity)){
+                activities.remove(activity);
+            }
+        }
+
     }
 
+    // 遍历所有Activity并finish
+    public void exit() {
+        if (activities.size() > 0) {
+            for (Activity activity : activities) {
+                if(activity instanceof LoginActivity){
+
+                }else{
+                    activity.finish();
+                }
+
+            }
+        }
+        //System.exit(0);
+    }
 }

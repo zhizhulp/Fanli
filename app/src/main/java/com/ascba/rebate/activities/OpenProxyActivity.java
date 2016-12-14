@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.CitiesAdapter;
 import com.ascba.rebate.beans.City;
@@ -50,22 +51,19 @@ import java.util.List;
 public class OpenProxyActivity extends NetworkBaseActivity implements AdapterView.OnItemClickListener{
     private static final int REQUEST_CITY = 1;
     private static final int REQUEST_MESSAGE = 2;
-    //private AutoCompleteTextView tvCity;
     private int group_id;
+    private int group;
     private TextView tvMoney;
     private TextView tvName;
     private TextView tvPhone;
-    //private List<City> cities=new ArrayList<>();
     private List<City> cacheList=new ArrayList<>();
-    //private CitiesAdapter adapter;
     private CitiesAdapter cAdapter;
-    private MySqliteOpenHelper db;
     private EditTextWithCustomHint edCity;
     private ListPopupWindow pList;
     private ProgressDialog p;
-    private SharedPreferences sf;
     private int finalGroupId;
     private int finalGroup;
+    private String url="";
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -83,15 +81,15 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
             }
         }
     };
-    private int group;
-//    private RadioButton rbHave;
-//    private RadioButton rbNo;
+
     private Button checkBtn;
     private TextView tvProxyName;
     private String finalCascadeId;
     private int finalCityId;
     private RadioButton rbAgree;
     private View searchView;
+    private RadioButton rbHave;
+    private RadioButton rbNo;
 
 
     @Override
@@ -101,8 +99,6 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
         initViews();
         getData();
         RequestForSevver();
-        //getCityFromServer();
-        //getList();
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -112,6 +108,7 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
             City city = cacheList.get(position);
             String cascade_name = city.getCascade_name();
             int cityLevel = city.getCityLevel();
+
             finalCityId = city.getCityId();
             finalCascadeId = city.getCascade_id();
             edCity.setText(cascade_name);
@@ -172,14 +169,12 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
         }
     }
     private void initViews() {
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
-        //tvCity = ((AutoCompleteTextView) findViewById(R.id.city));
+        rbHave = ((RadioButton) findViewById(R.id.rb_have));
+        rbNo = ((RadioButton) findViewById(R.id.rb_no));
         tvMoney = ((TextView) findViewById(R.id.proxy_money));
         tvName = ((TextView) findViewById(R.id.proxy_name));
         tvPhone = ((TextView) findViewById(R.id.proxy_phone));
         edCity = ((EditTextWithCustomHint) findViewById(R.id.ed_proxy_area));
-//        rbHave = ((RadioButton) findViewById(R.id.rb_have));
-//        rbNo = ((RadioButton) findViewById(R.id.rb_no));
         checkBtn = ((Button) findViewById(R.id.check_btn));
         tvProxyName = ((TextView) findViewById(R.id.proxy_proxy_name));
         rbAgree = ((RadioButton) findViewById(R.id.rb_agree));
@@ -335,15 +330,20 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
                         int id= upObj.optInt("id");//自身id
                         int group= upObj.optInt("group");//所在用户id
                         String integral = upObj.optString("integral");//推荐人所获得积分
-                        String price = upObj.optString("money");
+                        String price = upObj.optString("money");//代理价格
                         String name = upObj.optString("name");//代理名称
                         String realname = upObj.optString("realname");//推荐人
                         String mobile = upObj.optString("mobile");//推荐人手机号码
                         int isReferee = upObj.optInt("isReferee");//0 无推荐人 1 有推荐人
+                        url = upObj.optString("url");//代理协议网址
                         if(isReferee==0){
-//                            rbNo.setChecked(true);
+                            rbNo.setChecked(true);
+                            rbNo.setEnabled(false);
+                            rbHave.setEnabled(false);
                         }else{
-//                            rbHave.setChecked(true);
+                            rbHave.setChecked(true);
+                            rbNo.setEnabled(false);
+                            rbHave.setEnabled(false);
                             tvName.setText(realname);
                             tvPhone.setText(mobile);
                         }
@@ -360,9 +360,6 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (db != null) {
-            db.closeDB();
-        }
     }
     //留言
     public void leaveMsg(View view) {
@@ -418,8 +415,13 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
                 }
                 objRequest.add("realname",tvName.getText().toString());
                 objRequest.add("mobile",tvPhone.getText().toString());
-                objRequest.add("group",finalGroup);
-                objRequest.add("group_id",finalGroupId);
+                if(group==1){
+                    objRequest.add("group",group);
+                    objRequest.add("group_id",group_id);
+                }else{
+                    objRequest.add("group",finalGroup);
+                    objRequest.add("group_id",finalGroupId);
+                }
                 PhoneHandler phoneHandler = checkThread.getPhoneHandler();
                 phoneHandler.setCallback(phoneHandler.new Callback2(){
                     @Override
@@ -441,5 +443,13 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
             Toast.makeText(this, "请同意代理协议", Toast.LENGTH_SHORT).show();
         }
 
+    }
+    //查看协议
+    public void goProxyProtocol(View view) {
+        if(!"".equals(url)){
+            Intent intent=new Intent(this, WebViewBaseActivity.class);
+            intent.putExtra("url",url);
+            startActivity(intent);
+        }
     }
 }

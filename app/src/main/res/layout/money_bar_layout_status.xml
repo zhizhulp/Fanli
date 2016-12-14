@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/money_bar_parent"
     android:orientation="vertical"
     android:background="@color/moneyBarColor"
     android:layout_width="match_parent"
@@ -11,10 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
         <ImageView
+            android:paddingLeft="15dp"
+            android:paddingRight="55dp"
+            android:layout_centerVertical="true"
             android:id="@+id/money_bar_back"
             android:scaleType="center"
-            android:layout_centerVertical="true"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@mipmap/money_bar_back"/>
         <TextView

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.test.mock.MockApplication;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.MoneyBar;
 
@@ -28,10 +30,17 @@ public class WebViewBaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view_base);
+        ((MyApplication) getApplication()).addActivity(this);
         setStatusBar();
         initViews();
         getMsgFromBefore();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();//
+        ((MyApplication) getApplication()).removeActivity(this);
     }
 
     private void getMsgFromBefore() {

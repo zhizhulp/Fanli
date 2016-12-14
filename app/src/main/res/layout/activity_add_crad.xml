@@ -14,54 +14,56 @@
     <View
         android:layout_marginTop="20dp"
         style="@style/viewStyleMatch"/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
         <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/hold_car_man"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="持卡人"/>
-        <com.ascba.rebate.view.EditTextWithCustomHint
-            android:inputType="text"
-            android:background="@null"
+        <TextView
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:id="@+id/ed_add_card_name"
             android:maxLines="1"
             android:textSize="14sp"
-            android:hint="请输入持卡人姓名"
-            android:layout_marginLeft="26dp"
+            android:layout_marginLeft="70dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+    </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_height="46dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
         <TextView
+            android:id="@+id/card_number_id"
+            android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="卡号"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:layout_centerVertical="true"
             android:inputType="number"
             android:background="@null"
             android:id="@+id/ed_add_card_number"
             android:maxLines="1"
             android:textSize="14sp"
             android:hint="请输入卡号"
-            android:layout_marginLeft="26dp"
+            android:layout_marginLeft="70dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+    </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
     <Button

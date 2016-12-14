@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.Base2Activity;
 import com.ascba.rebate.activities.base.NetworkBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
@@ -22,15 +23,13 @@ import com.yolanda.nohttp.rest.RequestQueue;
 
 import org.json.JSONObject;
 
-public class BusinessCenterActivity extends NetworkBaseActivity {
+public class BusinessCenterActivity extends Base2Activity implements Base2Activity.Callback {
 
     private EditTextWithCustomHint edCompanyName;
     private EditTextWithCustomHint edLawMan;
     private TextView tvAddress;
     private EditTextWithCustomHint edPhone;
     private static final int REQUEST_LOCATION=0;
-    private SharedPreferences sf;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +38,6 @@ public class BusinessCenterActivity extends NetworkBaseActivity {
     }
 
     private void initViews() {
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         edCompanyName = ((EditTextWithCustomHint) findViewById(R.id.ed_company_name));
         edLawMan = ((EditTextWithCustomHint) findViewById(R.id.ed_busi_law_man));
         tvAddress = ((TextView) findViewById(R.id.tv_busi_address));
@@ -53,44 +51,13 @@ public class BusinessCenterActivity extends NetworkBaseActivity {
         final String address = tvAddress.getText().toString();
         final String phone = edPhone.getText().toString();
 
-        sendMsgToSevr(UrlUtils.addCompany,0);
-        CheckThread checkThread = getCheckThread();
-        if(checkThread!=null){
-            final ProgressDialog p=new ProgressDialog(this);
-            p.setMessage("请稍后");
-            Request<JSONObject> objRequest = checkThread.getObjRequest();
-            objRequest.add("name",companyName);
-            objRequest.add("corporate",lawMan);
-            objRequest.add("address",address);
-            objRequest.add("tel",phone);
-            objRequest.add("licence","");
-            PhoneHandler phoneHandler = checkThread.getPhoneHandler();
-            phoneHandler.setCallback(phoneHandler.new Callback2(){
-                @Override
-                public void getMessage(Message msg) {
-                    p.dismiss();
-                    super.getMessage(msg);
-                    JSONObject jObj = (JSONObject) msg.obj;
-                    int status = jObj.optInt("status");
-                    String message = jObj.optString("msg");
-                    if(status==200){
-                        Toast.makeText(BusinessCenterActivity.this, "资料已经提交", Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(BusinessCenterActivity.this,BusinessCenter2Activity.class);
-                        /*intent.putExtra("company_name",companyName);
-                        intent.putExtra("law_man",lawMan);
-                        intent.putExtra("address",address);
-                        intent.putExtra("phone",phone);
-                        intent.putExtra("licence","");*/
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            });
-            checkThread.start();
-            p.show();
-        }
-
-
+        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.addCompany, 0, true);
+        objRequest.add("name",companyName);
+        objRequest.add("corporate",lawMan);
+        objRequest.add("address",address);
+        objRequest.add("tel",phone);
+        objRequest.add("licence","");
+        executeNetWork(objRequest,"请稍后");
     }
 
     public void goSelectLocation(View view) {
@@ -112,5 +79,18 @@ public class BusinessCenterActivity extends NetworkBaseActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        Toast.makeText(BusinessCenterActivity.this, "资料已经提交", Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(BusinessCenterActivity.this,BusinessCenter2Activity.class);
+                        /*intent.putExtra("company_name",companyName);
+                        intent.putExtra("law_man",lawMan);
+                        intent.putExtra("address",address);
+                        intent.putExtra("phone",phone);
+                        intent.putExtra("licence","");*/
+        startActivity(intent);
+        finish();
     }
 }
