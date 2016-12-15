@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.WhiteAccountAdapter;
 import com.ascba.rebate.beans.WhiteAccount;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountActivity extends BaseActivity {
+public class AccountActivity extends BaseNetWorkActivity {
     private ListView cashAccountListView;
     private WhiteAccountAdapter adapter;
     private List<WhiteAccount> mList;

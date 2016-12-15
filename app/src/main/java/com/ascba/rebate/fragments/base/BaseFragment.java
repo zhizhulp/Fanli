@@ -153,7 +153,7 @@ public class BaseFragment extends Fragment {
             }
             //请求失败的信息
             String message = response.getException().getMessage();
-            Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请求失败");
         }
 
         @Override

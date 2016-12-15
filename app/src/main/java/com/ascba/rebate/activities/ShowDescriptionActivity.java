@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class ShowDescriptionActivity extends BaseActivity {
+public class ShowDescriptionActivity extends BaseNetWorkActivity {
 
     private TextView tvDes;
 

@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class CashGetActivity extends BaseActivity implements View.OnClickListener {
+public class CashGetActivity extends BaseNetWorkActivity implements View.OnClickListener {
 
     private View cardView;
     private View noCardView;

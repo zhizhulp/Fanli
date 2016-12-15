@@ -1,13 +1,16 @@
 package com.ascba.rebate.beans;
 
+import java.util.Comparator;
+
 /**
  * Created by Administrator on 2016/11/27.
  */
 
-public class Ticket {
+public class Ticket implements Comparable<Ticket>{
     private int id;
     private int money;
-    private String time;
+    private long startTime;
+    private long endTime;
     private String type;
     private int state;
 
@@ -22,12 +25,29 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(int id, int money, String time,String type,int state) {
+    public Ticket(int id, int money, String type,int state,long startTime,long endTime) {
         this.id = id;
         this.money = money;
-        this.time = time;
         this.type=type;
         this.state=state;
+        this.startTime=startTime;
+        this.endTime=endTime;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 
     public String getType() {
@@ -53,12 +73,10 @@ public class Ticket {
     public void setMoney(int money) {
         this.money = money;
     }
+    //1代表之前，0代表之后
+    @Override
+    public int compareTo(Ticket o) {
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+        return getState()-o.getState();
     }
 }

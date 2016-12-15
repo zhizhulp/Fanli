@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.BackMoneyFragment;
 import com.ascba.rebate.fragments.RecommendFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SwitchButton;
 
-public class RecommendActivity extends BaseActivity {
+public class RecommendActivity extends BaseNetWorkActivity {
 
     private SwitchButton sb;
     private RecommendFragment rf;

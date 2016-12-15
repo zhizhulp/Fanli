@@ -1,28 +1,17 @@
 package com.ascba.rebate.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.PowerUpdateAdapter;
 import com.ascba.rebate.beans.Proxy;
-import com.ascba.rebate.beans.ProxyProtocol;
 import com.ascba.rebate.beans.UpdateTitle;
-import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONArray;
@@ -32,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class UserUpdateActivity extends Base2Activity implements AdapterView.OnItemClickListener,Base2Activity.Callback {
+public class UserUpdateActivity extends BaseNetWorkActivity implements AdapterView.OnItemClickListener,BaseNetWorkActivity.Callback {
 
     private ListView updateListView;
     private List<UpdateTitle> mList;

@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class AgeChangeActivity extends BaseActivity {
+public class AgeChangeActivity extends BaseNetWorkActivity {
 
     private EditText edAge;
 

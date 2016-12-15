@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
@@ -17,14 +17,11 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 登录页面
  */
 
-public class LoginActivity extends Base2Activity {
+public class LoginActivity extends BaseNetWorkActivity {
     private EditText edPhone;
     private EditText edPassword;
     private String loginPhone;

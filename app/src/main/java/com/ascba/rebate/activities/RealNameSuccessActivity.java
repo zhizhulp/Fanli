@@ -1,14 +1,13 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class RealNameSuccessActivity extends BaseActivity {
+public class RealNameSuccessActivity extends BaseNetWorkActivity {
 
     private TextView tvName;
     private TextView tvAge;

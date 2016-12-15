@@ -1,13 +1,10 @@
 package com.ascba.rebate.activities;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +12,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.ascba.rebate.R;
-
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
-
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.baidu.mapapi.model.LatLng;
-
 import com.baidu.mapapi.utils.OpenClientUtil;
 import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
 import com.baidu.mapapi.utils.route.RouteParaOption;
@@ -37,7 +25,7 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class BusinessDetailsActivity extends Base2Activity implements Base2Activity.Callback {
+public class BusinessDetailsActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     // 天安门坐标
     double mLat1 = 39.915291;
     double mLon1 = 116.403857;

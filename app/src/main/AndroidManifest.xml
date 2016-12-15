@@ -380,10 +380,7 @@
             android:name=".activities.BankCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.base.NetworkBaseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+
         <activity
             android:name=".activities.AllAccountActivity"
             android:screenOrientation="portrait"
@@ -454,7 +451,7 @@
         <activity android:name=".activities.WhiteToActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"/>
-        <activity android:name=".activities.base.Base2Activity"
+        <activity android:name=".activities.base.BaseNetWorkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"/>
         <activity android:name=".activities.RealNameSuccessActivity"

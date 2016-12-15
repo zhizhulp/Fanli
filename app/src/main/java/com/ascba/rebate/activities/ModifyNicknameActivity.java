@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class ModifyNicknameActivity extends BaseActivity {
+public class ModifyNicknameActivity extends BaseNetWorkActivity {
 
     private EditText edNickName;
 

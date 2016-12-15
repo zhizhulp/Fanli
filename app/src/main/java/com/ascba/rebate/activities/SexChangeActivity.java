@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class SexChangeActivity extends BaseActivity implements View.OnClickListener {
+public class SexChangeActivity extends BaseNetWorkActivity implements View.OnClickListener {
 
     private View manParent;
     private View womanParent;

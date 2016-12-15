@@ -1,25 +1,19 @@
 package com.ascba.rebate.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class SettingActivity extends Base2Activity implements Base2Activity.Callback {
+public class SettingActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

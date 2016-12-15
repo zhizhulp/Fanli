@@ -7,18 +7,11 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
-import java.util.Hashtable;
-
-public class QRCodeActivity extends BaseActivity {
+public class QRCodeActivity extends BaseNetWorkActivity {
 
 
     private ImageView qrImg;

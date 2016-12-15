@@ -1,14 +1,11 @@
 package com.ascba.rebate.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
@@ -19,33 +16,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
+
 import com.ascba.rebate.utils.UrlUtils;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.BitmapBinary;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.RequestQueue;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonalDataActivity extends Base2Activity implements View.OnClickListener,Base2Activity.Callback {
+public class PersonalDataActivity extends BaseNetWorkActivity implements View.OnClickListener,BaseNetWorkActivity.Callback {
     public static final int nickNameRequest = 0x06;
     public static final int sexRequest = 0x05;
     public static final int locationRequest = 0x04;

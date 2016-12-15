@@ -6,9 +6,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class EmployeeRateActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class EmployeeRateActivity extends BaseNetWorkActivity implements RadioGroup.OnCheckedChangeListener {
 
     private RadioGroup rgRate;
     private RadioButton rbRate1;

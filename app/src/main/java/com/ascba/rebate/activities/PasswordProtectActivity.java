@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class PasswordProtectActivity extends BaseActivity {
+public class PasswordProtectActivity extends BaseNetWorkActivity {
     public static final int answerToPassPro=0x02;
     private int type;
 

@@ -3,9 +3,9 @@ package com.ascba.rebate.activities;
 import android.os.Bundle;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class PayPasswordChangeActivity extends BaseActivity {
+public class PayPasswordChangeActivity extends BaseNetWorkActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,5 @@
 package com.ascba.rebate.activities.base;
 import android.annotation.TargetApi;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -17,7 +15,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((MyApplication) getApplication()).addActivity(this);
         setStatusBar();
-        //setStatusBarColor();
     }
 
     @Override

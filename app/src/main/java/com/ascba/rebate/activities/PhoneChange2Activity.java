@@ -3,9 +3,9 @@ package com.ascba.rebate.activities;
 import android.os.Bundle;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class PhoneChange2Activity extends BaseActivity {
+public class PhoneChange2Activity extends BaseNetWorkActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

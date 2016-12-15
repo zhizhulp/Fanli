@@ -13,7 +13,7 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.cityList.CityModel;
 import com.ascba.rebate.view.cityList.ContactsHelper;
@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author gugalor
  */
-public class CityList extends BaseActivity {
+public class CityList extends BaseNetWorkActivity {
     private BaseAdapter adapter;
     private ListView mCityLit;
     private TextView overlay, citysearch;

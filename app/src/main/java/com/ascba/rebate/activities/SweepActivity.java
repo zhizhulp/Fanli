@@ -1,34 +1,21 @@
 package com.ascba.rebate.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Message;
-import android.widget.Toast;
-
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yolanda.nohttp.rest.Request;
-
 import org.json.JSONObject;
 
-public class SweepActivity extends Base2Activity implements Base2Activity.Callback {
-    private SharedPreferences sf;
+public class SweepActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sweep);
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         /**
          * 执行扫面Fragment的初始化操作
          */

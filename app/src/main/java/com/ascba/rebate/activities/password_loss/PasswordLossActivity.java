@@ -12,6 +12,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
@@ -31,6 +32,7 @@ public class PasswordLossActivity extends BaseActivity {
     private RequestQueue requestQueue;
     private EditText edLossNumber;
     private String phone;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class PasswordLossActivity extends BaseActivity {
     }
 
     private void initViews() {
+        dm=new DialogManager(this);
         edLossNumber = ((EditText) findViewById(R.id.loss_phone_number_ed));
     }
 
@@ -52,7 +55,7 @@ public class PasswordLossActivity extends BaseActivity {
     private void sendMsgToSevr(String baseUrl) {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
-            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请打开网络");
             return;
         }
         requestQueue= NoHttp.newRequestQueue();
@@ -82,10 +85,11 @@ public class PasswordLossActivity extends BaseActivity {
                         startActivity(intent);
                         finish();
                     } else if(status==-1){//用户不存在
-                        Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==1){//缺少sign参数
-                        Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==2){//非法请求，sign验证失败
+                        dm.buildAlertDialog(message);
                         Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
                     } else if(status==3){//跳转登录
                         Intent intent=new Intent(PasswordLossActivity.this, LoginActivity.class);
@@ -93,15 +97,15 @@ public class PasswordLossActivity extends BaseActivity {
                         startActivity(intent);
                         finish();
                     } else if(status==4){//登陆后缺少uuid/token/expiring_time参数
-                        Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==5){//token验证失败
-                        Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==6){//用户已存在
-                        Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==404){//失败
-                        Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==500){//数据异常，内部错误
-                        Toast.makeText(PasswordLossActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

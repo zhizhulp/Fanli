@@ -54,7 +54,6 @@ public class TicketAdapter extends BaseAdapter {
         Ticket ticket = mList.get(position);
 
         viewHolder.tvType.setText(ticket.getType());
-        viewHolder.tvTime.setText(ticket.getTime()+"");
         viewHolder.tvMoney.setText(ticket.getMoney()+"");
         return convertView;
     }

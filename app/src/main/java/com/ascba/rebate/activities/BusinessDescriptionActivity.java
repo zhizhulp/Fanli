@@ -1,17 +1,15 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
 
-public class BusinessDescriptionActivity extends BaseActivity {
+public class BusinessDescriptionActivity extends BaseNetWorkActivity {
 
     private EditTextWithCustomHint tvDesc;
     private MoneyBar mbDesc;

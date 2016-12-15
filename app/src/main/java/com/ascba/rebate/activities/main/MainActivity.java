@@ -1,21 +1,18 @@
 package com.ascba.rebate.activities.main;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.ascba.rebate.activities.base.Base2Activity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.TabEntity;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.fragments.main.FirstFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.fragments.message.SecondFragment;
@@ -28,7 +25,7 @@ import cn.jpush.android.api.TagAliasCallback;
 /**
  * 主界面
  */
-public class MainActivity extends Base2Activity {
+public class MainActivity extends BaseNetWorkActivity {
     private CommonTabLayout mTabLayout_2;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "消息", "商城", "我"};

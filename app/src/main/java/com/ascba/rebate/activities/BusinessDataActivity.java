@@ -1,25 +1,19 @@
 package com.ascba.rebate.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class BusinessDataActivity extends Base2Activity implements Base2Activity.Callback {
+public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     public static final int REQUEST_BUSINESS_NAME=0;
     public static final int REQUEST_BUSINESS_TAG=1;
     public static final int REQUEST_BUSINESS_LOCATION=2;

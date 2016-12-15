@@ -13,8 +13,8 @@ import com.ascba.rebate.activities.RegisterProtocolActivity;
 import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -38,6 +38,7 @@ public class RegisterInputNumberActivity extends BaseActivity {
     private PhoneHandler phoneHandler;
     private CheckThread checkThread;
     private RequestQueue requestQueue;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class RegisterInputNumberActivity extends BaseActivity {
     }
 
     private void initViews() {
-
+        dm=new DialogManager(this);
     }
 
     //进入注册的下一个界面
@@ -56,11 +57,11 @@ public class RegisterInputNumberActivity extends BaseActivity {
         phoneNumber = ((EditText) findViewById(R.id.ed_input_number));
         phone=phoneNumber.getText().toString();
         if(phone.equals("")){
-            Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请输入手机号码");
             return;
         }
         if(!RegexUtils.isMobileExact(phone)){
-            Toast.makeText(this, "请输入正确的11位手机号码", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请输入正确的11位手机号码");
             return;
         }
 
@@ -71,7 +72,7 @@ public class RegisterInputNumberActivity extends BaseActivity {
     private void sendMsgToSevr(String baseUrl) {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
-            Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请打开网络");
             return;
         }
         requestQueue= NoHttp.newRequestQueue();
@@ -99,26 +100,26 @@ public class RegisterInputNumberActivity extends BaseActivity {
                         startActivity(intent);
                         finish();
                     }else if(status==-1){//用户不存在
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==1){//缺少sign参数
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==2){//非法请求，sign验证失败
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==3){//跳转登录
                         Intent intent=new Intent(RegisterInputNumberActivity.this, LoginActivity.class);
                         intent.putExtra("uuid",-1000);
                         startActivity(intent);
                         finish();
                     } else if(status==4){//登陆后缺少uuid/token/expiring_time参数
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==5){//token验证失败
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==6){//用户已存在
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==404){//失败
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     } else if(status==500){//数据异常，内部错误
-                        Toast.makeText(RegisterInputNumberActivity.this, message, Toast.LENGTH_SHORT).show();
+                        dm.buildAlertDialog(message);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

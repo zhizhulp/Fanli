@@ -1,45 +1,27 @@
 package com.ascba.rebate.activities.register;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.handlers.sms.SMSContentObserver;
-import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.RequestQueue;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 短信验证码已经发送
  */
 
-public class RegisterAfterReceiveCodeActivity extends Base2Activity implements Base2Activity.Callback {
+public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
     private TextView tvPhone;
     private EditText confirmCode;//验证码

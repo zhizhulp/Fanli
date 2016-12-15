@@ -1,13 +1,12 @@
 package com.ascba.rebate.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class RegisterProtocolActivity extends BaseActivity {
+public class RegisterProtocolActivity extends BaseNetWorkActivity {
 
     private WebView webView;
 

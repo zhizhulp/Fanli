@@ -56,4 +56,5 @@ public class UrlUtils {
     public static final String addTransaction=baseWebsite+"/"+webVersion+"/"+"addTransaction";
     //红积分
     public static final String getRedScore=baseWebsite+"/"+webVersion+"/"+"getRedScore";
+    public static final String redIntegration=baseWebsite+"/"+webVersion+"/"+"redIntegration";//兑换红积分
 }

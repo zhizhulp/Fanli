@@ -1,30 +1,20 @@
 package com.ascba.rebate.activities;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.OrderInfoUtil2_0;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.pay.PayResult;
@@ -34,7 +24,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public class AccountRechargeActivity extends Base2Activity implements Base2Activity.Callback {
+public class AccountRechargeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     private DialogManager dm=new DialogManager(this);
 
     @SuppressLint("HandlerLeak")

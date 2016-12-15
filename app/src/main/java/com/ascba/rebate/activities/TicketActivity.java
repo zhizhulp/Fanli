@@ -1,23 +1,13 @@
 package com.ascba.rebate.activities;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.adapter.TicketAdapter;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.TicketAdapter2;
 import com.ascba.rebate.beans.Ticket;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.yolanda.nohttp.rest.Request;
@@ -26,9 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class TicketActivity extends Base2Activity implements Base2Activity.Callback {
+public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
     private ScrollViewWithListView ticketListView;
     private TicketAdapter2 ticketAdapter;
@@ -85,6 +76,7 @@ public class TicketActivity extends Base2Activity implements Base2Activity.Callb
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+
         JSONArray list = dataObj.optJSONArray("voucher_list");
         if(list!=null && list.length()!=0){
             noIv.setVisibility(View.GONE);
@@ -94,11 +86,13 @@ public class TicketActivity extends Base2Activity implements Base2Activity.Callb
                 int id = jsonObject.optInt("id");
                 String type = jsonObject.optString("type");
                 int virtual_money = jsonObject.optInt("virtual_money");
-                String expiring_time = jsonObject.optString("expiring_time");//???????????????
-                int state = jsonObject.optInt("state");
-                Ticket ticket=new Ticket(id,virtual_money,expiring_time,type,state);
+                Long expiring_time = jsonObject.optLong("expiring_time");
+                Long create_time = jsonObject.optLong("create_time");
+                int state = jsonObject.optInt("expiring_status");
+                Ticket ticket=new Ticket(id,virtual_money,type,state,create_time,expiring_time);
                 mList.add(ticket);
             }
+            Collections.sort(mList);
             ticketAdapter.notifyDataSetChanged();
             btnTicket.setText("前往商城");
         }else{

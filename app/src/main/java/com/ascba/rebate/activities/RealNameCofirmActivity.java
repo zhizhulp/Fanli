@@ -6,13 +6,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
-public class RealNameCofirmActivity extends Base2Activity implements Base2Activity.Callback {
+public class RealNameCofirmActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
     private EditText edId;
     private DialogManager dm;

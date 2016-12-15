@@ -2,7 +2,6 @@ package com.ascba.rebate.activities.base;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -20,13 +19,11 @@ import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
 import org.json.JSONObject;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * 网络界面的基类
  */
-public class Base2Activity extends AppCompatActivity {
+public class BaseNetWorkActivity extends AppCompatActivity {
     private DialogManager dm;
     private Callback callback;
 
@@ -139,14 +136,14 @@ public class Base2Activity extends AppCompatActivity {
                     callback.handle200Data(dataObj,message);
                 }
             } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                Intent intent = new Intent(Base2Activity.this,LoginActivity.class);
+                Intent intent = new Intent(BaseNetWorkActivity.this,LoginActivity.class);
                 AppConfig.getInstance().putInt("uuid",-1000);
                 startActivity(intent);
                 ((MyApplication) getApplication()).exit();
             } else if(status==404){
-                Toast.makeText(Base2Activity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(BaseNetWorkActivity.this, message, Toast.LENGTH_SHORT).show();
             } else if(status==500){
-                Toast.makeText(Base2Activity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(BaseNetWorkActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -158,6 +155,7 @@ public class Base2Activity extends AppCompatActivity {
             //请求失败的信息
             String message = response.getException().getMessage();
             dm.buildAlertDialog("请求失败");
+
         }
 
         @Override

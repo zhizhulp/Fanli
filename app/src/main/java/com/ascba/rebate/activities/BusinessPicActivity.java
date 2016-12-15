@@ -1,14 +1,13 @@
 package com.ascba.rebate.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.BusPicGVAdapter;
 
-public class BusinessPicActivity extends BaseActivity {
+public class BusinessPicActivity extends BaseNetWorkActivity {
 
     private GridView busPicGridView;
     private BusPicGVAdapter busPicGVAdapter;

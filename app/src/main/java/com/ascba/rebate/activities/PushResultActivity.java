@@ -1,22 +1,19 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class PushResultActivity extends NetworkBaseActivity {
+public class PushResultActivity extends BaseNetWorkActivity {
 
     private TextView tvPushMsg;
     private TextView tvSellerName;

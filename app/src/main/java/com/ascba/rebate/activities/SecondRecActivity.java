@@ -1,18 +1,17 @@
 package com.ascba.rebate.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.RecAdapter;
 import com.ascba.rebate.beans.FirstRec;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SecondRecActivity extends NetworkBaseActivity {
+public class SecondRecActivity extends BaseNetWorkActivity {
     private ListView secondRecListView;
     private RecAdapter recAdapter;
     private List<FirstRec> mList;

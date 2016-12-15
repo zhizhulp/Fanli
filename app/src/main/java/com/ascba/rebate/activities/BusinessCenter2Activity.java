@@ -1,16 +1,15 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class BusinessCenter2Activity extends NetworkBaseActivity {
+public class BusinessCenter2Activity extends BaseNetWorkActivity {
 
     private TextView tvCompanyName;
     private TextView tvName;

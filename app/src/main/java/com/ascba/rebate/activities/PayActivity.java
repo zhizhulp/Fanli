@@ -1,38 +1,27 @@
 package com.ascba.rebate.activities;
 
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import android.os.Message;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.Base2Activity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.OnPasswordInputFinish;
-import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
 import com.yolanda.nohttp.rest.Request;
-
 import org.json.JSONObject;
 
 
-public class PayActivity extends Base2Activity implements Base2Activity.Callback {
+public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
 
     private int bus_uuid;

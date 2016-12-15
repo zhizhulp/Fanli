@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 
-public class CardProtocolActivity extends BaseActivity {
+public class CardProtocolActivity extends BaseNetWorkActivity {
     private WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

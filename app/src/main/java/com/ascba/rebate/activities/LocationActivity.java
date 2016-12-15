@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.beans.AddressDtailsEntity;
 import com.ascba.rebate.beans.AddressModel;
 import com.ascba.rebate.utils.JsonUtil;
@@ -14,7 +14,7 @@ import com.ascba.rebate.utils.Utils;
 import com.ascba.rebate.view.ChooseAddressWheel;
 import com.ascba.rebate.view.listener.OnAddressChangeListener;
 
-public class LocationActivity extends BaseActivity implements OnAddressChangeListener {
+public class LocationActivity extends BaseNetWorkActivity implements OnAddressChangeListener {
     private ChooseAddressWheel chooseAddressWheel = null;
     private TextView tvLocation;
 

@@ -2,22 +2,15 @@ package com.ascba.rebate.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ProviderInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
@@ -26,29 +19,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.CitiesAdapter;
 import com.ascba.rebate.beans.City;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.MySqliteOpenHelper;
-import com.ascba.rebate.utils.NetUtils;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
-import com.ascba.rebate.view.cityList.Text;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpenProxyActivity extends NetworkBaseActivity implements AdapterView.OnItemClickListener{
+public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterView.OnItemClickListener,BaseNetWorkActivity.Callback{
     private static final int REQUEST_CITY = 1;
     private static final int REQUEST_MESSAGE = 2;
     private int group_id;
@@ -64,24 +49,6 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
     private int finalGroupId;
     private int finalGroup;
     private String url="";
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            p.dismiss();
-            if(msg.what==1){
-                if(cacheList.size()!=0){
-                    cacheList.clear();
-                }
-                for (int i = 0; i < 10; i++) {
-                    City city=new City(i,"测试"+i,0,i,"A"+i,(3475+i)+"","cas"+i);
-                    cacheList.add(city);
-                }
-                initListPopupWindow();
-            }
-        }
-    };
-
     private Button checkBtn;
     private TextView tvProxyName;
     private String finalCascadeId;
@@ -90,6 +57,9 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
     private View searchView;
     private RadioButton rbHave;
     private RadioButton rbNo;
+    private int finalScene;
+    private int cityLevel;
+    private DialogManager dm;
 
 
     @Override
@@ -98,8 +68,55 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
         setContentView(R.layout.activity_open_proxy);
         initViews();
         getData();
-        RequestForSevver();
+        netRequest(0);
     }
+
+    private void netRequest(int scene) {
+        finalScene=scene;
+        if(scene==0){
+            Request<JSONObject> request = buildNetRequest(UrlUtils.getUpgraded, 0, true);
+            request.add("group_id",group_id);
+            request.add("group",group);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }else if(scene==1){
+            Request<JSONObject> request = buildNetRequest(UrlUtils.backJoinArea, 0, true);
+            request.add("level",cityLevel);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }else if(scene==2){
+            String s = edCity.getText().toString();
+            if("".equals(s)){
+                return;
+            }
+            Request<JSONObject> request = buildNetRequest(UrlUtils.getJoinArea, 0, true);
+            request.add("region_name", s);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }else if(scene==3){
+            Request<JSONObject> objRequest = buildNetRequest(UrlUtils.memberUpgraded, 0, true);
+            objRequest.add("region_id",finalCityId+","+finalCascadeId);
+            objRequest.add("price",tvMoney.getText().toString());
+            String s = tvName.getText().toString();
+            if("".equals(s)){
+                objRequest.add("isReferee",0);
+            }else{
+                objRequest.add("isReferee",1);
+            }
+            objRequest.add("realname",tvName.getText().toString());
+            objRequest.add("mobile",tvPhone.getText().toString());
+            if(group==1){
+                objRequest.add("group",group);
+                objRequest.add("group_id",group_id);
+            }else{
+                objRequest.add("group",finalGroup);
+                objRequest.add("group_id",finalGroupId);
+            }
+            executeNetWork(objRequest,"请稍后");
+            setCallback(this);
+        }
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -107,17 +124,16 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
         if(cacheList.size()!=0){
             City city = cacheList.get(position);
             String cascade_name = city.getCascade_name();
-            int cityLevel = city.getCityLevel();
-
+            cityLevel = city.getCityLevel();
             finalCityId = city.getCityId();
             finalCascadeId = city.getCascade_id();
             edCity.setText(cascade_name);
-            requestProxyInfo(cityLevel);//获取用户选择的代理信息
+            netRequest(1);
         }
 
     }
 
-    private void requestProxyInfo(int cityLevel) {
+    /*private void requestProxyInfo(int cityLevel) {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
             Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
@@ -157,7 +173,7 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
             p.show();
         }
     }
-
+*/
     private void getData() {
         Intent intent = getIntent();
         if(intent!=null){
@@ -169,6 +185,7 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
         }
     }
     private void initViews() {
+        dm=new DialogManager(this);
         rbHave = ((RadioButton) findViewById(R.id.rb_have));
         rbNo = ((RadioButton) findViewById(R.id.rb_no));
         tvMoney = ((TextView) findViewById(R.id.proxy_money));
@@ -183,14 +200,10 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
 
 
     public void checkCity(View view) {
-        String s = edCity.getText().toString();
-        if("".equals(s)){
-            return;
-        }
-        getCityListFromServer(s);
+        netRequest(2);
     }
 
-    private void getCityListFromServer(String s) {
+    /*private void getCityListFromServer(String s) {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
             Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
@@ -236,7 +249,7 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
         });
         checkThread.start();
         p.show();
-    }
+    }*/
     //返回的城市列表
     private void initListPopupWindow() {
         if (pList == null) {
@@ -301,7 +314,7 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
         });
 
     }
-    private void RequestForSevver() {
+    /*private void RequestForSevver() {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
             Toast.makeText(this, "请打开网络", Toast.LENGTH_SHORT).show();
@@ -356,7 +369,7 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
             p.show();
         }
 
-    }
+    }*/
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -388,10 +401,10 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
     }
     //确认开通
     public void goOpenProxy(View view) {
-        requestOpen();
+        netRequest(3);
     }
 
-    private void requestOpen() {
+    /*private void requestOpen() {
         boolean checked = rbAgree.isChecked();
         if(checked){
             boolean netAva = NetUtils.isNetworkAvailable(this);
@@ -443,13 +456,70 @@ public class OpenProxyActivity extends NetworkBaseActivity implements AdapterVie
             Toast.makeText(this, "请同意代理协议", Toast.LENGTH_SHORT).show();
         }
 
-    }
+    }*/
     //查看协议
     public void goProxyProtocol(View view) {
         if(!"".equals(url)){
             Intent intent=new Intent(this, WebViewBaseActivity.class);
             intent.putExtra("url",url);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        if(finalScene==0){
+            JSONObject upObj = dataObj.optJSONObject("getUpgraded");
+            int id= upObj.optInt("id");//自身id
+            int group= upObj.optInt("group");//所在用户id
+            String integral = upObj.optString("integral");//推荐人所获得积分
+            String price = upObj.optString("money");//代理价格
+            String name = upObj.optString("name");//代理名称
+            String realname = upObj.optString("realname");//推荐人
+            String mobile = upObj.optString("mobile");//推荐人手机号码
+            int isReferee = upObj.optInt("isReferee");//0 无推荐人 1 有推荐人
+            url = upObj.optString("url");//代理协议网址
+            if(isReferee==0){
+                rbNo.setChecked(true);
+                rbNo.setEnabled(false);
+                rbHave.setEnabled(false);
+            }else{
+                rbHave.setChecked(true);
+                rbNo.setEnabled(false);
+                rbHave.setEnabled(false);
+                tvName.setText(realname);
+                tvPhone.setText(mobile);
+            }
+            tvMoney.setText(price);
+            tvProxyName.setText(name);
+        }else if(finalScene==1){
+            JSONObject bObj = dataObj.optJSONObject("backJoinArea");
+            if(bObj!=null){
+                finalGroupId = bObj.optInt("id");
+                String name = bObj.optString("name");
+                String money = bObj.optString("money");
+                finalGroup = bObj.optInt("group");
+                tvMoney.setText(money);
+                tvProxyName.setText(name);
+            }
+        }else if(finalScene==2){
+            dm.buildAlertDialog(message);
+            JSONArray getRegion = dataObj.optJSONArray("getRegion");
+            if(getRegion!=null && getRegion.length()!=0){
+                cacheList.clear();
+                for (int i = 0; i < getRegion.length(); i++) {
+                    JSONObject rObj = getRegion.optJSONObject(i);
+                    int id = rObj.optInt("id");
+                    String cascade_id = rObj.optString("cascade_id");
+                    String cascade_name = rObj.optString("cascade_name");
+                    int level = rObj.optInt("level");
+                    City city=new City(level,cascade_name,cascade_id,id);
+                    cacheList.add(city);
+                }
+                initListPopupWindow();
+            }
+        }else if(finalScene==3){
+            dm.buildAlertDialog(message);
         }
     }
 }

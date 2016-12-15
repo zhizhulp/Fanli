@@ -1,25 +1,18 @@
 package com.ascba.rebate.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.NetworkBaseActivity;
-import com.ascba.rebate.activities.main.APSTSViewPager;
-import com.ascba.rebate.fragments.BackMoneyFragment;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.CashAccountFragment;
-import com.ascba.rebate.fragments.RecommendFragment;
 import com.ascba.rebate.fragments.WhiteAccountFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SwitchButton;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
-import com.lhh.apst.library.Margins;
 
-public class AllAccountActivity extends NetworkBaseActivity implements View.OnClickListener {
+public class AllAccountActivity extends BaseNetWorkActivity implements View.OnClickListener {
 
     private AdvancedPagerSlidingTabStrip tabsContainer;
     //private APSTSViewPager vp;

@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.beans.ConfigAreaDTO;
 import com.ascba.rebate.beans.ConfigsDTO;
@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotActivity extends BaseActivity {
+public class HotActivity extends BaseNetWorkActivity {
 
     private ExpandPopTabView expandTabView;
     private List<KeyValueBean> mParentLists = new ArrayList<>();
