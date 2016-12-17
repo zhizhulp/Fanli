@@ -15,7 +15,6 @@ public class RecommendActivity extends BaseNetWorkActivity {
     private SwitchButton sb;
     private RecommendFragment rf;
     private RecommendFragment rf2;
-    private BackMoneyFragment rf3;
     private FragmentManager fm;
 
     @Override
@@ -27,8 +26,8 @@ public class RecommendActivity extends BaseNetWorkActivity {
     }
 
     private void switchFragment() {
-        rf=new RecommendFragment();
-        rf2=RecommendFragment.getInstance("赠送积分(分)");
+        rf=RecommendFragment.getInstance("历史累计兑现券(元)");
+        rf2=RecommendFragment.getInstance("历史累计积分(分)");
         fm.beginTransaction()
                 .add(R.id.recommend_fragment,rf)
                 .add(R.id.recommend_fragment,rf2)

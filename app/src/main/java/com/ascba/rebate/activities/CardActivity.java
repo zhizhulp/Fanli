@@ -1,21 +1,23 @@
 package com.ascba.rebate.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.CardListAdapter;
 import com.ascba.rebate.beans.Card;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.ascba.rebate.view.deletelistview.ListViewCompat;
-import com.ascba.rebate.view.deletelistview.SlideView;
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,10 +26,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardActivity extends BaseNetWorkActivity implements AdapterView.OnItemClickListener,BaseNetWorkActivity.Callback {
+public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,SwipeMenuListView.OnMenuItemClickListener {
 
     private MoneyBar CardMB;
-    private ListViewCompat cardListView;
+    private SwipeMenuListView cardListView;
     private CardListAdapter cardListAdapter;
     private List<Card> mList;
     private int positionL;
@@ -48,9 +50,24 @@ public class CardActivity extends BaseNetWorkActivity implements AdapterView.OnI
         initMoneyBar();
         initListView();
     }
+    private SwipeMenuCreator creator = new SwipeMenuCreator() {
+        @Override
+        public void create(SwipeMenu menu) {
+
+            SwipeMenuItem deleteItem = new SwipeMenuItem(
+                    getApplicationContext());
+            deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
+            deleteItem.setTitle("删除");
+            deleteItem.setWidth(ScreenDpiUtils.dip2px(CardActivity.this,110));
+            deleteItem.setIcon(R.mipmap.bank_card_delete);
+            menu.addMenuItem(deleteItem);
+        }
+    };
 
     private void initListView() {
-        cardListView = ((ListViewCompat) findViewById(R.id.card_list));
+        cardListView = ((SwipeMenuListView) findViewById(R.id.card_list));
+        cardListView.setMenuCreator(creator);
+        cardListView.setOnMenuItemClickListener(this);
         mList=new ArrayList<>();
 //        for (int i = 0; i < 3; i++) {
 //            if(i%3==0){
@@ -67,7 +84,6 @@ public class CardActivity extends BaseNetWorkActivity implements AdapterView.OnI
 //        }
         cardListAdapter = new CardListAdapter(mList,this);
         cardListView.setAdapter(cardListAdapter);
-        cardListView.setOnItemClickListener(this);
         netRequest(0);
     }
 
@@ -106,7 +122,7 @@ public class CardActivity extends BaseNetWorkActivity implements AdapterView.OnI
     }
 
     private void deleteSuccess() {
-        mList.remove(cardListView.getPosition());
+        mList.remove(positionL);
         cardListAdapter.notifyDataSetChanged();
     }
 
@@ -123,35 +139,6 @@ public class CardActivity extends BaseNetWorkActivity implements AdapterView.OnI
         }
     }
 
-    @Override
-    public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-        CardListAdapter.ViewHolder v = (CardListAdapter.ViewHolder) ((SlideView) view).getTag();
-        v.rightHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CardActivity.this);
-                builder.setTitle("提示").setIcon(R.drawable.ic_launcher).setMessage("确定删此条目？")
-                        .setNegativeButton("取消", null);
-                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        positionL=cardListView.getPosition();
-                        netRequest(1);
-
-                    }
-                });
-                builder.show();
-            }
-        });
-        /*SlideView slideView =  mList.get(position).slideView;
-        if(slideView.ismIsMoveClick()){//如果是滑动中触发的点击事件，不做处理
-            return;
-        }
-        if (slideView.close() && slideView.getScrollX() == 0) {
-            if (cardListAdapter.mLastSlideViewWithStatusOn == null || cardListAdapter.mLastSlideViewWithStatusOn.getScrollX() == 0) {
-                //此处添加item的点击事件
-            }
-        }*/
-    }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
@@ -178,5 +165,23 @@ public class CardActivity extends BaseNetWorkActivity implements AdapterView.OnI
             deleteSuccess();
             dm.buildAlertDialog(message);
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+        switch (index){
+            case 0:
+                dm.buildAlertDialog1("确定要删除银行卡吗？");
+                dm.setCallback(new DialogManager.Callback() {
+                    @Override
+                    public void handleSure() {
+                        dm.dismissDialog();
+                        positionL=position;
+                        netRequest(1);
+                    }
+                });
+                break;
+        }
+        return false;
     }
 }

@@ -10,9 +10,13 @@
         app:textTitle="商城"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <ImageView
+    <WebView
+        android:id="@+id/shop_web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <!--<ImageView
         android:scaleType="center"
         android:src="@mipmap/shop_no_open"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" />-->
 </LinearLayout>

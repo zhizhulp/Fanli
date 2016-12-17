@@ -58,8 +58,9 @@
             android:background="@null"
             android:id="@+id/ed_add_card_number"
             android:maxLines="1"
+            app:hintSize="14sp"
             android:textSize="14sp"
-            android:hint="请输入卡号"
+            android:hint="请输入持卡人银行卡号码"
             android:layout_marginLeft="70dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -77,7 +78,7 @@
         android:textColor="@color/text_blue"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="使用前请阅读服务协议?"
+        android:text="@string/bank_card_protocol"
         android:layout_width="match_parent"
         android:layout_height="30dp" />
 </LinearLayout>

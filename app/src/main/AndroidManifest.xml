@@ -173,10 +173,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.RedScoreActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.AccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -193,7 +189,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.WSAccountActivity"
+            android:name=".activities.WSExchangeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
@@ -201,9 +197,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
+            android:launchMode="singleTask"
             android:name=".activities.UserUpdateActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+        </activity>
         <activity
             android:name=".activities.PayPasswordChangeActivity"
             android:screenOrientation="portrait"
@@ -433,10 +431,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.CardProtocolActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.OpenProxyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -448,7 +442,7 @@
             android:name=".activities.ShowDescriptionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.WhiteToActivity"
+        <activity android:name=".activities.WhiteScoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"/>
         <activity android:name=".activities.base.BaseNetWorkActivity"
@@ -457,6 +451,9 @@
         <activity android:name=".activities.RealNameSuccessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
+        <activity android:name=".activities.RedScoreUpdateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
     </application>
 
 </manifest>

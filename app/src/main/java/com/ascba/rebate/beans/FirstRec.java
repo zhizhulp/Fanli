@@ -5,11 +5,37 @@ package com.ascba.rebate.beans;
  */
 
 public class FirstRec {
+    private int id;
+    private String groupName;
     private String name;
     private int typeIcon;
     private String recNum;
     private String money;
     private String time;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public FirstRec(int id, String name, String groupName, String money, String time) {
+        this.id = id;
+        this.name = name;
+        this.groupName = groupName;
+        this.money = money;
+        this.time = time;
+    }
 
     public FirstRec() {
     }

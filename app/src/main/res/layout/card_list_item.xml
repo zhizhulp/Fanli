@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/rechage_bg"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
     android:layout_width="match_parent"
     android:minHeight="91dp"
     android:layout_height="91dp">
-    <LinearLayout
-        android:padding="15dp"
-        android:id="@+id/card_position"
-        android:background="@drawable/rechage_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/card_name"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="中国农业银行"/>
-        <TextView
-            android:textSize="12sp"
-            android:id="@+id/card_type"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="储蓄卡"/>
-
-    </LinearLayout>
-    <LinearLayout
+    <TextView
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/card_name"
+        android:textSize="14sp"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    </LinearLayout>
+        android:text="中国农业银行"/>
     <TextView
-        android:padding="15dp"
+        android:layout_marginLeft="12dp"
+        android:layout_below="@id/card_name"
+        android:textSize="12sp"
+        android:id="@+id/card_type"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="储蓄卡"/>
+    <ImageView
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/bank_card_icon"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_below="@id/card_type"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="4dp"
         android:id="@+id/card_number"
         android:textSize="19sp"
         android:textColor="@color/white"
         android:text="**** **** **** 9564"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

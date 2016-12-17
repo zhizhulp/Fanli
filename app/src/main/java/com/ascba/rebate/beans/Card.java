@@ -1,7 +1,5 @@
 package com.ascba.rebate.beans;
 
-import com.ascba.rebate.view.deletelistview.SlideView;
-
 import java.io.Serializable;
 
 /**
@@ -15,7 +13,6 @@ public class Card implements Serializable {
     private boolean isSelect=false;
     private int id;
     private String logo;
-    public SlideView slideView;
 
     public int getId() {
         return id;

@@ -16,6 +16,11 @@ public class City {
     public City() {
     }
 
+    public City(int cityId, String cascade_name) {
+        this.cityId = cityId;
+        this.cascade_name = cascade_name;
+    }
+
     public City(int cityLevel, String cascade_name, String cascade_id, int cityId) {
         this.cityLevel = cityLevel;
         this.cascade_name = cascade_name;

@@ -3,6 +3,7 @@ package com.ascba.rebate.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -119,6 +120,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     }
     public void setTextTitle(String title){
         this.title=title;
+        mTextView.setText(title);
         invalidate();
     }
 }

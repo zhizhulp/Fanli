@@ -15,7 +15,7 @@
         android:id="@+id/when_no_card"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:orientation="horizontal">
         <TextView
             android:text="您还没有银行卡，"
@@ -35,11 +35,11 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <ImageView
+            android:src="@mipmap/busi_bank_card"
             android:layout_centerVertical="true"
             android:id="@+id/recharge_card_icon"
-            android:background="@color/colorAccent"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
@@ -52,7 +52,7 @@
                 android:textSize="@dimen/activity_text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="农业银行"/>
+                android:text="招商银行"/>
             <TextView
                 android:textSize="@dimen/activity_text_title"
                 android:layout_marginTop="8dp"
@@ -104,6 +104,7 @@
             android:layout_height="match_parent"
             android:text="¥"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/money"
             android:inputType="numberDecimal"
             android:hint="请输入提现金额"
             android:background="@null"
@@ -138,10 +139,12 @@
         style="@style/viewStyleMatch"/>
 
     <Button
+        android:onClick="goGetCash"
         android:text="提现"
         android:layout_marginTop="29dp"
         style="@style/btnNormal"/>
     <TextView
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"

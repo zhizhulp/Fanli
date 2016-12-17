@@ -51,29 +51,29 @@ public class RecAdapter extends BaseAdapter {
         }
         viewHolder= (ViewHolder) convertView.getTag();
         FirstRec firstRec = mList.get(position);
-        viewHolder.tvName.setText(firstRec.getName());
-        viewHolder.tvNum.setText(firstRec.getRecNum());
-        viewHolder.tvMoney.setText(firstRec.getMoney());
+        viewHolder.tvName.setText("推荐-"+firstRec.getName()+"("+ firstRec.getGroupName()+")");
+        //viewHolder.tvNum.setText(firstRec.getRecNum());
+        viewHolder.tvMoney.setText("+"+firstRec.getMoney()+"元兑现券");
         viewHolder.tvTime.setText(firstRec.getTime());
-        viewHolder.imType.setImageResource(firstRec.getTypeIcon());
+        //viewHolder.imType.setImageResource(firstRec.getTypeIcon());
         return convertView;
     }
     private class ViewHolder{
         TextView tvName;
-        ImageView imType;
-        TextView tvNum;
+        //ImageView imType;
+        //TextView tvNum;
         TextView tvMoney;
         TextView tvTime;
         public ViewHolder(View root){
             if(tvName==null){
                 tvName= (TextView) root.findViewById(R.id.first_rec_name);
             }
-            if(imType==null){
+            /*if(imType==null){
                 imType= (ImageView) root.findViewById(R.id.first_rec_type);
-            }
-            if(tvNum==null){
+            }*/
+            /*if(tvNum==null){
                 tvNum= (TextView) root.findViewById(R.id.first_rec_num);
-            }
+            }*/
             if(tvMoney==null){
                 tvMoney= (TextView) root.findViewById(R.id.first_rec_money);
             }

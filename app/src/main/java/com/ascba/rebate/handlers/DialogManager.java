@@ -63,14 +63,13 @@ public class DialogManager {
     }
     //创建提示对话框1
     public DialogManager buildAlertDialog1(String message) {
-
         dialog=new Dialog(context,R.style.AlertDialog);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view_with_2_button, null);
         TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
         tvMsg.setText(message);
         dialog.setContentView(alertView);
         dialog.show();
-        TextView btSure = (TextView) alertView.findViewById(R.id.tv_alert_sure);//确定按钮
+        TextView btSure = (TextView) alertView.findViewById(R.id.tv_alert_cancel);//确定按钮
         btSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +78,7 @@ public class DialogManager {
                 }
             }
         });
-        TextView btCancel = (TextView) alertView.findViewById(R.id.tv_alert_cancel);//取消按钮
+        TextView btCancel = (TextView) alertView.findViewById(R.id.tv_alert_sure);//取消按钮
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

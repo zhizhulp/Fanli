@@ -1,71 +1,46 @@
 package com.ascba.rebate.fragments;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.FirstRecActivity;
-import com.ascba.rebate.activities.PersonalDataActivity;
 import com.ascba.rebate.activities.SecondRecActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.main.APSTSViewPager;
-import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
-import com.ascba.rebate.activities.password_loss.PasswordLossWithCodeActivity;
 import com.ascba.rebate.adapter.RecAdapter;
 import com.ascba.rebate.beans.FirstRec;
-import com.ascba.rebate.handlers.CheckThread;
-import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.lhh.apst.library.CustomPagerSlidingTabStrip;
-import com.lhh.apst.library.ViewHolder;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.rest.JsonObjectRequest;
-import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.RequestQueue;
-import com.yolanda.nohttp.rest.Response;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecommendFragment extends Fragment implements View.OnClickListener {
+public class RecommendFragment extends BaseFragment implements View.OnClickListener,BaseFragment.Callback {
 
     private ListView recommendListView;
     private RecAdapter recAdapter;
     private List<FirstRec> mList;
     private TextView tvTitle;
     private String title;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
-    private SharedPreferences sf;
+    private TextView tvAll;
+    private TextView tvNoView;
+    private TextView tvFirNum;
+    private TextView tvSecNum;
 
     public RecommendFragment() {
 
@@ -86,7 +61,6 @@ public class RecommendFragment extends Fragment implements View.OnClickListener 
         if(b!=null){
             title=b.getString("title");
         }
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_recommend, container, false);
     }
 
@@ -97,79 +71,21 @@ public class RecommendFragment extends Fragment implements View.OnClickListener 
     }
 
     private void initViews(View view) {
-        sf=getActivity().getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
+        tvNoView = ((TextView) view.findViewById(R.id.no_view));
+        tvFirNum = ((TextView) view.findViewById(R.id.first_rec_num));
+        tvSecNum = ((TextView) view.findViewById(R.id.first_sec_num));
         initTitle(view);
         initListView(view);
         initFirstRec(view);
         initSecondRec(view);
-        requestForServer(UrlUtils.getReferee);//获取推荐列表
+        requestRecList();
+        //requestForServer(UrlUtils.getReferee);//获取推荐列表
     }
 
-    private void requestForServer(String baseUrl) {
-        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-        if(!netAva){
-            Toast.makeText(getActivity(), "请打开网络", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        int uuid = sf.getInt("uuid", -1000);
-        String token = sf.getString("token", "");
-        long expiring_time = sf.getLong("expiring_time", -2000);
-        requestQueue= NoHttp.newRequestQueue();
-        final ProgressDialog dialog = new ProgressDialog(getActivity(),R.style.dialog);
-        dialog.setMessage("请稍后");
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl, RequestMethod.POST);
-        objRequest.add("sign", UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("uuid", uuid);
-        objRequest.add("token", token);
-        objRequest.add("expiring_time", expiring_time);
-        phoneHandler=new PhoneHandler(getActivity());
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
-            @Override
-            public void getMessage(Message msg) {
-                dialog.dismiss();
-                JSONObject jObj= (JSONObject) msg.obj;
-                try {
-                    int status = jObj.getInt("status");
-                    String message = jObj.getString("msg");
-                    if(status==200){
-                        JSONObject dataObj = jObj.getJSONObject("data");
-                        JSONObject rebateObj = dataObj.getJSONObject("rebate");
-                        if(rebateObj!=null){
-                            JSONArray pArray = rebateObj.getJSONArray("pReferee");
-                            if(pArray!=null && pArray.length()!=0){
-                                for (int i = 0; i < pArray.length(); i++) {
-                                    JSONObject jsonObject = pArray.getJSONObject(i);
-                                    int userCount = jsonObject.getInt("userCount");
-                                    String nickname = jsonObject.getString("nickname");
-                                    String avatar = jsonObject.getString("avatar");
-                                    int score = jsonObject.getInt("score");
-                                    int create_time = jsonObject.getInt("create_time");
-                                    String remark = jsonObject.getString("remark");
-                                    FirstRec firstRec=new FirstRec(nickname,R.mipmap.me_user_img,userCount+"",score+"",create_time+"");
-                                    mList.add(firstRec);
-                                }
-                            }
-                            recAdapter.notifyDataSetChanged();
-                        }
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        getActivity().finish();
-                    } else if(status==404){
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
-        checkThread.start();
-        dialog.show();
+    private void requestRecList() {
+        Request<JSONObject> request = buildNetRequest(UrlUtils.getCashingMoney, 0, true);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
 
     private void initTitle(View view) {
@@ -191,6 +107,7 @@ public class RecommendFragment extends Fragment implements View.OnClickListener 
 
     private void initListView(View view) {
         recommendListView = ((ListView) view.findViewById(R.id.recommend_list));
+        tvAll = ((TextView) view.findViewById(R.id.tv_rec_all_money));
         initData();
         recAdapter = new RecAdapter(mList,getActivity());
         recommendListView.setAdapter(recAdapter);
@@ -199,7 +116,7 @@ public class RecommendFragment extends Fragment implements View.OnClickListener 
     private void initData() {
         mList=new ArrayList<>();
         /*for (int i = 0; i < 20; i++) {
-            FirstRec firstRec=new FirstRec("钱来钱往(金钻会员)",R.mipmap.me_user_img,"推荐5人","获得1000积分","2016.12.31");
+            FirstRec firstRec=new FirstRec("推荐-王朋(VIP)",R.mipmap.me_user_img,"推荐5人","+1000元兑现券","2016.12.31");
             mList.add(firstRec);
         }*/
 
@@ -217,5 +134,36 @@ public class RecommendFragment extends Fragment implements View.OnClickListener 
                 startActivity(intent2);
                 break;
         }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        JSONObject recObj = dataObj.optJSONObject("getCashingMoney");
+        String cashing_money = recObj.optString("cashing_money");
+        int p_referee_count = recObj.optInt("p_referee_count");
+        int pp_referee_count = recObj.optInt("pp_referee_count");
+        tvAll.setText(cashing_money);
+        tvFirNum.setText(p_referee_count+"人");
+        tvSecNum.setText(pp_referee_count+"人");
+        JSONArray list = recObj.optJSONArray("p_member_list");
+        if(list==null || list.length()==0){
+            tvNoView.setVisibility(View.VISIBLE);
+        }else{
+            tvNoView.setVisibility(View.GONE);
+            for (int i = 0; i < list.length(); i++) {
+                JSONObject memObj = list.optJSONObject(i);
+                int member_id = memObj.optInt("member_id");
+                String realname = memObj.optString("realname");
+                String group_name = memObj.optString("group_name");
+                String cashing_money1 = memObj.optString("cashing_money");
+                long create_time = memObj.optLong("create_time");
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");
+                String time = sdf.format(new Date(create_time * 1000));
+                FirstRec firstRec=new FirstRec(member_id,realname,group_name,cashing_money1,time);
+                mList.add(firstRec);
+            }
+            recAdapter.notifyDataSetChanged();
+        }
+
     }
 }

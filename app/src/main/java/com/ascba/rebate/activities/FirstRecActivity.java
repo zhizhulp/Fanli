@@ -34,9 +34,9 @@ public class FirstRecActivity extends BaseNetWorkActivity {
 
     private void initData() {
         mList=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        /*for (int i = 0; i < 20; i++) {
             FirstRec firstRec=new FirstRec("钱来钱往(金钻会员)",R.mipmap.me_user_img,"推荐5人","获得1000积分","2016.12.31");
             mList.add(firstRec);
-        }
+        }*/
     }
 }

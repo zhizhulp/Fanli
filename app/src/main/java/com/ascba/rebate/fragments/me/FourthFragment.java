@@ -1,22 +1,17 @@
 package com.ascba.rebate.fragments.me;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.AccountRechargeActivity;
 import com.ascba.rebate.activities.AddCardActivity;
@@ -27,11 +22,13 @@ import com.ascba.rebate.activities.CardActivity;
 import com.ascba.rebate.activities.CashGetActivity;
 import com.ascba.rebate.activities.PersonalDataActivity;
 import com.ascba.rebate.activities.RealNameCofirmActivity;
-import com.ascba.rebate.activities.RedScoreActivity;
+import com.ascba.rebate.activities.RecommendActivity;
+import com.ascba.rebate.activities.RedScoreUpdateActivity;
 import com.ascba.rebate.activities.SettingActivity;
 import com.ascba.rebate.activities.TicketActivity;
 import com.ascba.rebate.activities.UserUpdateActivity;
-import com.ascba.rebate.activities.WSAccountActivity;
+import com.ascba.rebate.activities.WSExchangeActivity;
+import com.ascba.rebate.activities.WhiteScoreActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
@@ -85,6 +82,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     private TextView textView;
     private int finalScene;
     private TextView tvRedScore;
+    private TextView tvRecNum;
 
 
     @Nullable
@@ -131,7 +129,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
         //点击现金账单进入现金账单界面
         goCashAcView = view.findViewById(R.id.me_go_cash_account);
         goCashAcView.setOnClickListener(this);
-        //点击现金账单进入现金账单界面
+        //点击代金券进入代金券界面
         goTicketView = view.findViewById(R.id.me_go_ticket);
         goTicketView.setOnClickListener(this);
         //点击白积分进入白积分账单详情
@@ -164,33 +162,32 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
 
     private void requestMyData(final int scene) {
         finalScene=scene;
-        Map<String,String> params=new HashMap<>();
         if(scene==0){
             boolean netAva = NetUtils.isNetworkAvailable(getActivity());
             if(netAva){
-                textView.setText("正在刷新");
+                /*textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                Request<JSONObject> request = buildNetRequest(UrlUtils.user, 0, params, true);
+                progressBar.setVisibility(View.VISIBLE);*/
+                Request<JSONObject> request = buildNetRequest(UrlUtils.user, 0, true);
                 executeNetWork(request,"请稍后");
                 setCallback(this);
             }else {
                 DialogManager dm=new DialogManager(getActivity());
                 dm.buildAlertDialog("请打开网络！");
                 refreshLayout.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             }
         }else if(scene==1){
-            params.put("company_status",merchant+"");
-            Request<JSONObject> request = buildNetRequest(UrlUtils.getCompany, 0, params, true);
+            Request<JSONObject> request = buildNetRequest(UrlUtils.getCompany, 0, true);
+            request.add("company_status",merchant+"");
             executeNetWork(request,"请稍后");
             setCallback(this);
         }else if(scene==2){
-            Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, params, true);
+            Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, true);
             executeNetWork(request,"请稍后");
             setCallback(this);
         }else if(scene==3){
-            Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, params, true);
+            Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, true);
             executeNetWork(request,"请稍后");
             setCallback(this);
         }
@@ -204,13 +201,14 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
         tvBanks = ((TextView) view.findViewById(R.id.me_tv_banks));
         tvTicket = ((TextView) view.findViewById(R.id.me_tv_ticket));
         tvRedScore = ((TextView) view.findViewById(R.id.me_tv_red_score));
+        tvRecNum = ((TextView) view.findViewById(R.id.rec_num));
         initRefreshLayout(view);
 
     }
 
     private void initRefreshLayout(View view) {
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.four_superlayout));
-        View child = LayoutInflater.from(getActivity())
+        /*View child = LayoutInflater.from(getActivity())
                 .inflate(R.layout.layout_head, null);
         progressBar = (ProgressBar) child.findViewById(R.id.pb_view);
         textView = (TextView) child.findViewById(R.id.text_view);
@@ -219,7 +217,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageResource(R.drawable.down_arrow);
         progressBar.setVisibility(View.GONE);
-        refreshLayout.setHeaderView(child);
+        refreshLayout.setHeaderView(child);*/
         refreshLayout
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
@@ -235,9 +233,9 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onPullEnable(boolean enable) {
-                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+                        /*textView.setText(enable ? "松开刷新" : "下拉刷新");
                         imageView.setVisibility(View.VISIBLE);
-                        imageView.setRotation(enable ? 180 : 0);
+                        imageView.setRotation(enable ? 180 : 0);*/
                     }
                 });
 
@@ -253,10 +251,11 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.go_white_score_account:
                 if(true){
-                    dm.buildAlertDialog(noOpen);
-                }else{
-                    Intent intent=new Intent(getActivity(), WSAccountActivity.class);
+                    Intent intent=new Intent(getActivity(), WhiteScoreActivity.class);
                     startActivity(intent);
+                }else{
+                    dm.buildAlertDialog(noOpen);
+
                 }
                 break;
             case R.id.me_go_card:
@@ -273,7 +272,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.me_go_red_score:
 //                dm.buildAlertDialog(noOpen);
-                Intent intent3=new Intent(getActivity(), RedScoreActivity.class);
+                Intent intent3=new Intent(getActivity(), RedScoreUpdateActivity.class);
                 startActivity(intent3);
                 break;
             case R.id.me_go_vip:
@@ -291,11 +290,11 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent6);*/
                 break;
             case R.id.me_go_recommend:
-                dm.buildAlertDialog(noOpen);
-                return;
-                /*Intent intent7=new Intent(getActivity(), RecommendActivity.class);
+                /*dm.buildAlertDialog(noOpen);
+                return;*/
+                Intent intent7=new Intent(getActivity(), RecommendActivity.class);
                 startActivity(intent7);
-                break;*/
+                break;
             case R.id.me_go_ticket:
                 Intent intent8=new Intent(getActivity(), TicketActivity.class);
                 startActivity(intent8);
@@ -333,7 +332,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     public void handle200Data(final JSONObject dataObj, String message) {
         if(finalScene==0){//我的数据
             refreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
+//            progressBar.setVisibility(View.GONE);
             imgsContainer.removeAllViews();
 
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
@@ -344,6 +343,8 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
             String money = infoObj.optString("money");//用户余额
             int banks = infoObj.optInt("banks");//银行卡数量
             int vouchers = infoObj.optInt("vouchers");//代金券数量
+            int referee_num = infoObj.optInt("referee_num");//推荐人数量
+
             merchant = infoObj.optInt("merchant");
             Picasso.with(getActivity()).load(avatar).into(goUserCenterView);
             JSONArray group_type = infoObj.optJSONArray("group_type");
@@ -373,6 +374,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
             tvMoney.setText("账户余额："+money);
             tvBanks.setText(banks+"");
             tvTicket.setText(vouchers+"张");
+            tvRecNum.setText(referee_num+"人");
         }else if(finalScene==1){//点击商户中心
             JSONObject company = dataObj.optJSONObject("company");
             if(merchant==3){
@@ -419,7 +421,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
             int isBankCard = dataObj.optInt("isBankCard");
             if(isCardId==0){
                 final DialogManager dm=new DialogManager(getActivity());
-                dm.buildAlertDialog1("您还没有实名认证,点击确认去认证");
+                dm.buildAlertDialog1("暂未实名认证，是否立即实名认证？");
                 dm.setCallback(new DialogManager.Callback() {
                     @Override
                     public void handleSure() {
@@ -444,7 +446,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
             int isBankCard = dataObj.optInt("isBankCard");
             if(isCardId==0){
                 final DialogManager dm=new DialogManager(getActivity());
-                dm.buildAlertDialog1("您还没有实名认证,点击确认去认证");
+                dm.buildAlertDialog1("暂未实名认证，是否立即实名认证？");
                 dm.setCallback(new DialogManager.Callback() {
                     @Override
                     public void handleSure() {

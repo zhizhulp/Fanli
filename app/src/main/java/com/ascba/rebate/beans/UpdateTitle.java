@@ -1,18 +1,35 @@
 package com.ascba.rebate.beans;
 
+import com.ascba.rebate.activities.UserUpdateActivity;
+
 import java.util.List;
 
 /**
  * 代理界面 title+list
  */
 
-public class UpdateTitle {
+public class UpdateTitle implements Comparable<UpdateTitle> {
+    private int groupId;
     private String title;
     private List<Proxy> mList;
     public UpdateTitle() {
     }
 
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
     public UpdateTitle(String title, List<Proxy> mList) {
+        this.title = title;
+        this.mList = mList;
+    }
+
+    public UpdateTitle(int groupId, String title, List<Proxy> mList) {
+        this.groupId = groupId;
         this.title = title;
         this.mList = mList;
     }
@@ -52,4 +69,8 @@ public class UpdateTitle {
         }
     }
 
+    @Override
+    public int compareTo(UpdateTitle o) {
+        return getGroupId()-o.getGroupId();
+    }
 }

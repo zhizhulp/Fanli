@@ -13,10 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
+            android:paddingLeft="15dp"
+            android:paddingRight="55dp"
             android:id="@+id/recommend_title_back"
             android:scaleType="center"
             android:layout_centerVertical="true"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@mipmap/money_bar_back"/>
         <RadioGroup

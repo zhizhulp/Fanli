@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:minHeight="87dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:minHeight="87dp"
     android:layout_height="87dp">
     <ImageView
         android:scaleType="fitCenter"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:id="@+id/iv_main_business_logo"
-        android:layout_width="85dp"
+        android:layout_width="67dp"
         android:layout_height="67dp" />
     <LinearLayout
         android:layout_marginLeft="10dp"

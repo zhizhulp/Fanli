@@ -10,7 +10,7 @@
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/card_money_bar"
         app:needTailIcon="true"
-        app:tailIcon="@mipmap/ic_input_add"
+        app:tailIcon="@mipmap/bank_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="银行卡"/>
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <com.ascba.rebate.view.deletelistview.ListViewCompat
+                <com.baoyz.swipemenulistview.SwipeMenuListView
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="15dp"

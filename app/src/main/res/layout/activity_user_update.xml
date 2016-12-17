@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_user_update"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.UserUpdateActivity">
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="会员升级"/>
-    <ListView
-        android:scrollbars="none"
-        android:id="@+id/update_list"
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:layout_below="@id/mb"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/refresh_layout">
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.ascba.rebate.view.ScrollViewWithListView
+                android:scrollbars="none"
+                android:id="@+id/update_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </ScrollView>
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+</RelativeLayout>

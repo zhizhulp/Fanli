@@ -82,11 +82,10 @@ public class BaseFragment extends Fragment {
      * 建立网络请求
      * @param url 请求网址
      * @param method 请求方式 0 post 1 get
-     * @param params 请求参数
      * @param defaultParam 是否有默认请求参数
      * @return
      */
-    public Request<JSONObject> buildNetRequest(String url, int method, Map<String, String> params, boolean defaultParam) {
+    public Request<JSONObject> buildNetRequest(String url, int method, boolean defaultParam) {
         Request<JSONObject> jsonRequest = NoHttp.createJsonObjectRequest(url, method == 0 ? RequestMethod.POST : RequestMethod.GET);
         if(defaultParam){
             int uuid = AppConfig.getInstance().getInt("uuid", -1000);
@@ -96,14 +95,6 @@ public class BaseFragment extends Fragment {
             jsonRequest.add("uuid", uuid);
             jsonRequest.add("token", token);
             jsonRequest.add("expiring_time", expiring_time);
-        }
-        if (null != params) {
-            Iterator<Map.Entry<String, String>> iterator = params.entrySet()
-                    .iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<String, String> param = iterator.next();
-                jsonRequest.add(param.getKey(), param.getValue());
-            }
         }
         return jsonRequest;
     }
@@ -140,9 +131,9 @@ public class BaseFragment extends Fragment {
                 startActivity(intent);
                 ((MyApplication) getActivity().getApplication()).exit();
             } else if(status==404){
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog(message);
             } else if(status==500){
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog(message);
             }
         }
 

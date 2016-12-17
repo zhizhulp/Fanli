@@ -155,7 +155,6 @@ public class FirstFragment extends BaseFragment {
         goHotList(view);//进入热门推荐的页面
         goSweepActivity(view);//进入扫一扫的界面
         goRecommend(view);//进入推荐页面
-        //sendMsgToSevr(UrlUtils.index);//请求主页数据
         requestMainData();
     }
 
@@ -163,25 +162,24 @@ public class FirstFragment extends BaseFragment {
         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
         if(!netAva){
             refreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
+//            progressBar.setVisibility(View.GONE);
             DialogManager dm=new DialogManager(getActivity());
             dm.buildAlertDialog("请打开网络！");
             return;
         }else{
-            textView.setText("正在刷新");
+           /* textView.setText("正在刷新");
             imageView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);*/
         }
         String version = getPackageVersion();
-        Map<String,String> params=new HashMap<>();
-        params.put("version_code",version);
-        Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, params, true);
+        Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, true);
+        request.add("version_code",version);
         executeNetWork(request,"请稍候");
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
                 refreshLayout.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
                 JSONObject rebate = dataObj.optJSONObject("rebate");
                 int white_score = rebate.optInt("white_score");
                 int red_score = rebate.optInt("red_score");
@@ -216,7 +214,7 @@ public class FirstFragment extends BaseFragment {
 
     private void initRefreshLayout(View view) {
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
-        View child = LayoutInflater.from(getActivity())
+       /* View child = LayoutInflater.from(getActivity())
                 .inflate(R.layout.layout_head, null);
         progressBar = (ProgressBar) child.findViewById(R.id.pb_view);
         textView = (TextView) child.findViewById(R.id.text_view);
@@ -225,7 +223,7 @@ public class FirstFragment extends BaseFragment {
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageResource(R.drawable.down_arrow);
         progressBar.setVisibility(View.GONE);
-        refreshLayout.setHeaderView(child);
+        refreshLayout.setHeaderView(child);*/
         refreshLayout
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
@@ -243,9 +241,9 @@ public class FirstFragment extends BaseFragment {
 
                     @Override
                     public void onPullEnable(boolean enable) {
-                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+                        /*textView.setText(enable ? "松开刷新" : "下拉刷新");
                         imageView.setVisibility(View.VISIBLE);
-                        imageView.setRotation(enable ? 180 : 0);
+                        imageView.setRotation(enable ? 180 : 0);*/
                     }
                 });
 
@@ -433,101 +431,7 @@ public class FirstFragment extends BaseFragment {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
         }
-    }/*private void sendMsgToSevr(String baseUrl) {
-        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-        if(!netAva){
-            refreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "请打开网络", Toast.LENGTH_SHORT).show();
-            return;
-        }else{
-            textView.setText("正在刷新");
-            imageView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-        String version = getPackageVersion();
-        int uuid = sf.getInt("uuid", -1000);
-        String token = sf.getString("token", "");
-        Long expiring = sf.getLong("expiring_time", -2000);
-        if(requestQueue==null){
-            requestQueue = NoHttp.newRequestQueue();
-        }
-        final ProgressDialog dialog = new ProgressDialog(getActivity(), R.style.dialog);
-        dialog.setMessage("请稍后");
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl + "?", RequestMethod.POST);
-        objRequest.add("sign", UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("uuid", uuid);
-        objRequest.add("token", token);
-        objRequest.add("expiring_time", expiring);
-        objRequest.add("version_code", version);
-        phoneHandler = new PhoneHandler(getActivity());
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
-            @Override
-            public void getMessage(Message msg) {
-                refreshLayout.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
-                dialog.dismiss();
-                JSONObject jObj = (JSONObject) msg.obj;
-                try {
-                    int status = jObj.optInt("status");
-                    String message = jObj.optString("msg");
-                    if (status == 200) {
-                        JSONObject dataObj = jObj.optJSONObject("data");
-                        int update_status = dataObj.optInt("update_status");
-                        if (update_status == 1) {
-                            sf.edit()
-                                    .putString("token", dataObj.getString("token"))
-                                    .putLong("expiring_time", dataObj.getLong("expiring_time"))
-                                    .apply();
-                        }
-                        JSONObject rebate = dataObj.getJSONObject("rebate");
-                        int white_score = rebate.optInt("white_score");
-                        int red_score = rebate.optInt("red_score");
-                        tvAllScore.setText(white_score+"");
-                        tvRedScore.setText(red_score+"");
-                        //app更新
-                        JSONObject verObj = dataObj.getJSONObject("version");
-                        int isUpdate = verObj.getInt("isUpdate");
-                        if(isUpdate==1){
-                            String apk_url = verObj.getString("apk_url");
-                            downLoadApp(apk_url);
-                        }
-                        //商家列表
-                        JSONArray optJSONArray = dataObj.optJSONArray("pushBusinessList");
-                        if(optJSONArray!=null && optJSONArray.length()!=0){
-                            for (int i = 0; i < optJSONArray.length(); i++) {
-                                JSONObject busObj = optJSONArray.optJSONObject(i);
-                                String bus_icon = busObj.optString("seller_cover_logo");
-                                String base_url= "http://api.qlqwgw.com";
-                                String seller_taglib = busObj.optString("seller_taglib");
-                                String seller_name = busObj.optString("seller_name");
-                                int id = busObj.optInt("id");
-                                Business b=new Business(base_url + bus_icon,seller_name,seller_taglib,0,"0个评论","0m");
-                                b.setId(id);
-                                mList.add(b);
-                            }
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                        sf.edit().putInt("uuid", -1000).apply();
-                        startActivity(intent);
-                        getActivity().finish();
-                    } else if(status==404){
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                    } else if(status==500){
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        checkThread = new CheckThread(requestQueue, phoneHandler, objRequest);
-        checkThread.start();
-        dialog.show();
-    }*/
-
+    }
 
     private String getPackageVersion() {
         PackageManager packageManager = getActivity().getPackageManager();

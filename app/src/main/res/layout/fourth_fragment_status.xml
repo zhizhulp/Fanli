@@ -127,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="17dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="13dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -498,11 +498,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="会员推荐"
+                            android:text="推荐奖励"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/rec_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="9dp"

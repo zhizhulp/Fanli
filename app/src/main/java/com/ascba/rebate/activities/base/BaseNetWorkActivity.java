@@ -141,9 +141,9 @@ public class BaseNetWorkActivity extends AppCompatActivity {
                 startActivity(intent);
                 ((MyApplication) getApplication()).exit();
             } else if(status==404){
-                Toast.makeText(BaseNetWorkActivity.this, message, Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog(message);
             } else if(status==500){
-                Toast.makeText(BaseNetWorkActivity.this, message, Toast.LENGTH_SHORT).show();
+                dm.buildAlertDialog(message);
             }
         }
 

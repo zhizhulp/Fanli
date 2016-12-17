@@ -10,14 +10,14 @@
     <color name="textnormal">#adadad</color>
     <color name="view_line">#e0dfdf</color>
     <color name="transText">#B3000000</color>
-    <color name="moneyBarColor">#e50202</color>
+    <color name="moneyBarColor">#e52020</color>
     <color name="touch_money_bar_color">#c40202</color>
     <color name="btn">#dc0404</color>
     <color name="text_blue">#2e82ff</color>
     <color name="color_background">#fff0efed</color>
     <color name="hui">#ff7e7e7e</color>
     <color name="group_top">#fffdfdfd</color>
-
+    <color name="text_deep_gray">#c0c0c0</color>
     <color name="line_gray">#ffd7d7d7</color>
     <color name="deep_gray">#ff333333</color>
     <color name="orange">#ffff8200</color>

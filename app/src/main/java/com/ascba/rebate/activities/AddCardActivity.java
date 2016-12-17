@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yolanda.nohttp.rest.Request;
@@ -17,6 +19,7 @@ public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkA
 
     private TextView tvName;
     private EditTextWithCustomHint edCardNumber;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +49,13 @@ public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkA
     }
 
     private void requestBankCard(String url) {
+        if(dm==null){
+            dm=new DialogManager(this);
+        }
         String name = tvName.getText().toString();
         String cardNumber = edCardNumber.getText().toString();
         if(name.equals("")||cardNumber.equals("")){
-            Toast.makeText(this, "请输入姓名或卡号", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请输入卡号");
             return;
         }
         Request<JSONObject> objRequest = buildNetRequest(url, 0, true);
@@ -59,7 +65,9 @@ public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkA
     }
 
     public void goCardProtocol(View view) {
-        Intent intent=new Intent(this,CardProtocolActivity.class);
+        Intent intent=new Intent(this,WebViewBaseActivity.class);
+        intent.putExtra("url","http://home.qlqwgw.com/service");
+        intent.putExtra("name","银行卡服务协议");
         startActivity(intent);
     }
 

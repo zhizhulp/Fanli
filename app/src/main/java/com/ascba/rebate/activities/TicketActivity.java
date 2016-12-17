@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,View.OnClickListener {
 
     private ScrollViewWithListView ticketListView;
     private TicketAdapter2 ticketAdapter;
@@ -48,6 +49,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
         noIv = findViewById(R.id.no_ticket_icon);
         noTv = findViewById(R.id.no_ticket_text);
         btnTicket = ((Button) findViewById(R.id.ticket_btn));
+        btnTicket.setOnClickListener(this);
     }
 
     private void initListView() {
@@ -76,7 +78,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-
+        int is_shop = dataObj.optInt("is_shop");
         JSONArray list = dataObj.optJSONArray("voucher_list");
         if(list!=null && list.length()!=0){
             noIv.setVisibility(View.GONE);
@@ -95,10 +97,22 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
             Collections.sort(mList);
             ticketAdapter.notifyDataSetChanged();
             btnTicket.setText("前往商城");
+            if(is_shop==0){
+                //btnTicket.setBackgroundColor(0xffc0c0c0);
+                btnTicket.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+                btnTicket.setEnabled(false);
+            }
         }else{
             noIv.setVisibility(View.VISIBLE);
             noTv.setVisibility(View.VISIBLE);
             btnTicket.setText("兑换代金券");
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(this,RedScoreUpdateActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

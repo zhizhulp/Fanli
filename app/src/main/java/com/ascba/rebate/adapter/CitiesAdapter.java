@@ -1,6 +1,8 @@
 package com.ascba.rebate.adapter;
 
 import android.content.Context;
+import android.support.annotation.Dimension;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.ascba.rebate.R;
 import com.ascba.rebate.beans.City;
 
 import java.util.ArrayList;
@@ -53,6 +56,8 @@ public class CitiesAdapter extends BaseAdapter {
         }
         City city = mList.get(position);
         ((TextView) convertView).setText(city.getCascade_name());
+        //((TextView) convertView).setTextColor(context.getResources().getColor(R.color.black));
+        ((TextView) convertView).setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
         return convertView;
     }
 

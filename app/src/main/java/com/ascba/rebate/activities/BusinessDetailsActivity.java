@@ -41,6 +41,7 @@ public class BusinessDetailsActivity extends BaseNetWorkActivity implements Base
     private TextView tvTime;
     private TextView tvRate;
     private String seller_description;
+    private String seller_tel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +182,7 @@ public class BusinessDetailsActivity extends BaseNetWorkActivity implements Base
         String seller_taglib = seObj.optString("seller_taglib");
         seller_description = seObj.optString("seller_description");
         String seller_address = seObj.optString("seller_address");
-        String seller_tel = seObj.optString("seller_tel");
+        seller_tel = seObj.optString("seller_tel");
         String seller_business_hours = seObj.optString("seller_business_hours");
         String base_url="http://api.qlqwgw.com";
         String seller_cover = seObj.optString("seller_cover");
@@ -193,5 +194,9 @@ public class BusinessDetailsActivity extends BaseNetWorkActivity implements Base
         tvPhone.setText(seller_tel);
         tvTime.setText(seller_business_hours);
         tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
+    }
+
+    public void back(View view) {
+        finish();
     }
 }

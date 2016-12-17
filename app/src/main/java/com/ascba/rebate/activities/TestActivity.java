@@ -12,7 +12,5 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy,MM,dd");
-        String format = sdf.format(new Date(1481707683));
     }
 }

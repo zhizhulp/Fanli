@@ -10,11 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <TextView
+            android:id="@+id/tv_rec_all_money"
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:textSize="23sp"
             android:textColor="@color/white"
-            android:text="486284"
+            android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -32,7 +33,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
-            android:background="@color/moneyBarColor"
+            android:background="#e83737"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
@@ -49,10 +50,11 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/first_rec_num"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20人"/>
+                        android:text="0人"/>
                     <TextView
                         android:layout_marginTop="3dp"
                         android:textColor="@color/white"
@@ -80,10 +82,11 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/first_sec_num"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20人"/>
+                        android:text="0人"/>
                     <TextView
                         android:layout_marginTop="3dp"
                         android:textColor="@color/white"
@@ -93,11 +96,18 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
+        <TextView
+            android:id="@+id/no_view"
+            android:gravity="center"
+            android:text="暂无数据！"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         <ListView
             android:scrollbars="none"
             android:id="@+id/recommend_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 

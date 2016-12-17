@@ -32,6 +32,9 @@ public class UrlUtils {
     public static final String delBanks=baseWebsite+"/"+webVersion+"/"+"delBanks";//删除银行卡???????????????????
     //代金券
     public static final String getVoucherList=baseWebsite+"/"+webVersion+"/"+"getVoucherList";//代金券
+    //兑现券列表
+    public static final String getCashingList=baseWebsite+"/"+webVersion+"/"+"getCashingList";
+
     //商户申请
     public static final String addCompany=baseWebsite+"/"+webVersion+"/"+"addCompany";//公司设置(商户申请前要进行提交公司信息)
     public static final String getCompany=baseWebsite+"/"+webVersion+"/"+"getCompany";//获取商户申请状态（0,1,2,3）
@@ -43,6 +46,8 @@ public class UrlUtils {
     public static final String partook=baseWebsite+"/"+webVersion+"/"+"partook";//二维码生成
 
     public static final String getReferee=baseWebsite+"/"+webVersion+"/"+"getReferee";//推荐?????????
+    public static final String getCashingMoney=baseWebsite+"/"+webVersion+"/"+"getCashingMoney";//推荐列表
+
     //代理
     public static final String upgradedList=baseWebsite+"/"+webVersion+"/"+"upgradedList";//特权升级列表
     public static final String getUpgraded=baseWebsite+"/"+webVersion+"/"+"getUpgraded";//代理开通数据？？？？？？？？
@@ -57,4 +62,8 @@ public class UrlUtils {
     //红积分
     public static final String getRedScore=baseWebsite+"/"+webVersion+"/"+"getRedScore";
     public static final String redIntegration=baseWebsite+"/"+webVersion+"/"+"redIntegration";//兑换红积分
+
+    public static final String getCashingInfo=baseWebsite+"/"+webVersion+"/"+"getCashingInfo";
+    public static final String cashingMoney=baseWebsite+"/"+webVersion+"/"+"cashingMoney";
+
 }

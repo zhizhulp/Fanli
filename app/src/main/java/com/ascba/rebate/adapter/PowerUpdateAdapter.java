@@ -158,7 +158,7 @@ public class PowerUpdateAdapter extends BaseAdapter {
         }
         return convertView;
     }
-    class ViewHolder{
+    private class ViewHolder{
         ImageView imTypeIcon;
         TextView tvType;
         TextView tvMoney;
