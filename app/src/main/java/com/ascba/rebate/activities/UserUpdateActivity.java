@@ -107,7 +107,7 @@ public class UserUpdateActivity extends BaseNetWorkActivity implements
             intent.putExtra("group_id",proxy.getGroup_id());
             intent.putExtra("group",proxy.getGroup());
             if(proxy.getGroup()==0){
-                dm.buildAlertDialog("普通会员无需开通");
+                dm.buildAlertDialog("您已经开通普通会员");
                 return;
             }
             startActivity(intent);
@@ -149,8 +149,7 @@ public class UserUpdateActivity extends BaseNetWorkActivity implements
                 }else{
                     open=false;
                 }
-                String baseurl="http://api.qlqwgw.com";
-                String finalUrl=baseurl+icon;
+                String finalUrl=UrlUtils.baseWebsite+icon;
                 Proxy proxy=new Proxy(finalUrl,name,money,open);
                 proxy.setDesc(description);
                 proxy.setGroup_id(id);

@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rate_8"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
@@ -26,6 +27,7 @@
             android:layout_height="@dimen/line_space"
             android:text="8%"/>
         <View
+            android:visibility="gone"
             style="@style/viewStyleMatch"/>
         <RadioButton
             android:id="@+id/rate_16"
@@ -39,6 +41,7 @@
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rate_24"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
@@ -48,6 +51,7 @@
             android:layout_height="@dimen/line_space"
             android:text="24%"/>
         <View
+            android:visibility="gone"
             style="@style/viewStyleMatch"/>
     </RadioGroup>
 </LinearLayout>

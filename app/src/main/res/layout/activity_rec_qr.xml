@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_rec_qr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.RecQRActivity">
     <com.ascba.rebate.view.MoneyBar
+        app:textTitle="推广码"
         android:id="@+id/mb_rec_qr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

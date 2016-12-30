@@ -20,7 +20,7 @@
         android:layout_marginTop="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:hint="请输入联系电话"
+        android:hint="请输入联系电话(不含特殊符号)"
         android:background="@color/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space" />

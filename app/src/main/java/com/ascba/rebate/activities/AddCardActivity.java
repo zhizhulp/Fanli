@@ -55,7 +55,7 @@ public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkA
         String name = tvName.getText().toString();
         String cardNumber = edCardNumber.getText().toString();
         if(name.equals("")||cardNumber.equals("")){
-            dm.buildAlertDialog("请输入卡号");
+            dm.buildAlertDialog("请输入持卡人银行卡号码");
             return;
         }
         Request<JSONObject> objRequest = buildNetRequest(url, 0, true);
@@ -66,7 +66,7 @@ public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkA
 
     public void goCardProtocol(View view) {
         Intent intent=new Intent(this,WebViewBaseActivity.class);
-        intent.putExtra("url","http://home.qlqwgw.com/service");
+        intent.putExtra("url",UrlUtils.service);
         intent.putExtra("name","银行卡服务协议");
         startActivity(intent);
     }

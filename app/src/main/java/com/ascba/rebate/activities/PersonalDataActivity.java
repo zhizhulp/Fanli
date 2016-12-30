@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
@@ -21,19 +22,26 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 
 import com.ascba.rebate.utils.UrlUtils;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.BitmapBinary;
+import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
+import java.io.File;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.os.Environment.DIRECTORY_DCIM;
 
 public class PersonalDataActivity extends BaseNetWorkActivity implements View.OnClickListener,BaseNetWorkActivity.Callback {
     public static final int nickNameRequest = 0x06;
     public static final int sexRequest = 0x05;
     public static final int locationRequest = 0x04;
     public static final int ageRequest = 0x03;
-    public static final int GO_CAMERA = 0x01;
+    private static final int GO_CAMERA = 0x01;
     private static final int GO_ALBUM = 0x02;
     private CircleImageView userIconView;
     private PopupWindow popupWindow;
@@ -42,10 +50,11 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     private TextView tvNickname;
     private TextView tvAge;
     private TextView tvLocation;
-    private Bitmap bitmap;
     private int finalScene;
     private int isCardId;
     private DialogManager dm;
+    private String picturePath;
+    private File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +82,12 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             setCallback(this);
         }else if(scene==1){
             Request<JSONObject> request = buildNetRequest(UrlUtils.updateSet, 0, true);
-            request.add("avatar", new BitmapBinary(bitmap, "headicon"));
+            if(picturePath!=null){
+                file=new File(picturePath);
+                request.add("avatar", new FileBinary(file));
+            }else {
+                request.add("avatar", "");
+            }
             request.add("nickname", tvNickname.getText().toString());
             String s = sexShow.getText().toString();
             if (s.equals("男")) {
@@ -106,9 +120,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             intent.putExtra("tag", sex);
             startActivityForResult(intent, sexRequest);
         }
-
     }
-
     //进入修改地址的页面
     public void personalLocationChange(View view) {
         if(isCardId==1){
@@ -171,11 +183,13 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             case R.id.head_icon_select_camera:
                 popupWindow.dismiss();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                getDiskCacheDir();//创建文件
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(intent, GO_CAMERA);
                 break;
             case R.id.head_icon_select_album:
                 popupWindow.dismiss();
-                Intent intent2 = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent2, GO_ALBUM);
                 break;
             case R.id.head_icon_select_cancel:
@@ -187,7 +201,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     public Bitmap handleBitmap(String picturePath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
+        BitmapFactory.decodeFile(picturePath, options);
         int scale = (int) (options.outWidth / (float) 300);
         if (scale <= 0)
             scale = 1;
@@ -202,25 +216,27 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            return;
-        }
         switch (requestCode) {
             case GO_CAMERA:
-                Bundle extras = data.getExtras();
-                bitmap= (Bitmap) extras.get("data");
-                userIconView.setImageBitmap(bitmap);
+                if(file != null && file.exists()){
+                    picturePath=file.getPath();
+                    Bitmap bitmap=handleBitmap(picturePath);
+                    userIconView.setImageBitmap(bitmap);
+                }
                 break;
             case GO_ALBUM:
+                if(data==null){
+                    return;
+                }
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
+                picturePath = cursor.getString(columnIndex);
                 cursor.close();
-                bitmap = handleBitmap(picturePath);
+                Bitmap bitmap = handleBitmap(picturePath);
                 userIconView.setImageBitmap(bitmap);
                 break;
             case sexRequest:
@@ -266,7 +282,8 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             int sex = userInfo.optInt("sex");
             int age = userInfo.optInt("age");
             String location = userInfo.optString("location");
-            Picasso.with(PersonalDataActivity.this).load(avatar).into(userIconView);
+            Picasso.with(PersonalDataActivity.this).load(UrlUtils.baseWebsite+avatar).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(userIconView);
             tvMobile.setText(mobile);
             tvNickname.setText(nickname);
             if (sex == 0) {
@@ -284,5 +301,18 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
         }
 
+    }
+    public void getDiskCacheDir() {
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            File dst = new File(Environment.getExternalStorageDirectory(), "com.ascba.rebate");
+
+            if (!dst.exists()) {
+                dst.mkdirs();
+            }
+
+            file = new File(dst, "com" + System.currentTimeMillis() + ".png");
+        } else {
+            file = getFilesDir();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.FirstRecActivity;
 import com.ascba.rebate.activities.SecondRecActivity;
@@ -38,7 +38,7 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
     private TextView tvTitle;
     private String title;
     private TextView tvAll;
-    private TextView tvNoView;
+    private View tvNoView;
     private TextView tvFirNum;
     private TextView tvSecNum;
 
@@ -71,19 +71,18 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initViews(View view) {
-        tvNoView = ((TextView) view.findViewById(R.id.no_view));
+        tvNoView = view.findViewById(R.id.no_view);
         tvFirNum = ((TextView) view.findViewById(R.id.first_rec_num));
         tvSecNum = ((TextView) view.findViewById(R.id.first_sec_num));
         initTitle(view);
         initListView(view);
         initFirstRec(view);
         initSecondRec(view);
-        requestRecList();
-        //requestForServer(UrlUtils.getReferee);//获取推荐列表
+        requestRecList();//获取推荐列表
     }
 
     private void requestRecList() {
-        Request<JSONObject> request = buildNetRequest(UrlUtils.getCashingMoney, 0, true);
+        Request<JSONObject> request = buildNetRequest(UrlUtils.getMyReferee, 0, true);
         executeNetWork(request,"请稍后");
         setCallback(this);
     }
@@ -136,15 +135,18 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         JSONObject recObj = dataObj.optJSONObject("getCashingMoney");
         String cashing_money = recObj.optString("cashing_money");
-        int p_referee_count = recObj.optInt("p_referee_count");
+        int p_referee_count = recObj.optInt("p_referee_count");//一级人数
         int pp_referee_count = recObj.optInt("pp_referee_count");
+        int p_referee = recObj.optInt("p_referee");//一级笔数
+        int pp_referee = recObj.optInt("pp_referee");
         tvAll.setText(cashing_money);
-        tvFirNum.setText(p_referee_count+"人");
-        tvSecNum.setText(pp_referee_count+"人");
+        tvFirNum.setText(p_referee_count+"笔奖励/"+p_referee+"人");
+        tvSecNum.setText(pp_referee_count+"笔奖励/"+pp_referee+"人");
         JSONArray list = recObj.optJSONArray("p_member_list");
         if(list==null || list.length()==0){
             tvNoView.setVisibility(View.VISIBLE);
@@ -153,8 +155,8 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
             for (int i = 0; i < list.length(); i++) {
                 JSONObject memObj = list.optJSONObject(i);
                 int member_id = memObj.optInt("member_id");
-                String realname = memObj.optString("realname");
-                String group_name = memObj.optString("group_name");
+                String realname = memObj.optString("m_realname");
+                String group_name = memObj.optString("m_group_name");
                 String cashing_money1 = memObj.optString("cashing_money");
                 long create_time = memObj.optLong("create_time");
                 SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");

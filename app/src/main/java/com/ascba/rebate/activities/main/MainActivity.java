@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.TabEntity;
+import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -40,6 +42,7 @@ public class MainActivity extends BaseNetWorkActivity {
     private SecondFragment mSecondFragment;
     private ThirdFragment mThirdFragment;
     private FourthFragment mFourthFragment;
+    private DialogManager2 dm;
     private int[] mIconUnselectIds = {
             R.mipmap.tab_main, R.mipmap.tab_message,
             R.mipmap.tab_shop, R.mipmap.tab_me};
@@ -61,15 +64,25 @@ public class MainActivity extends BaseNetWorkActivity {
             }
         }
     };
+
+    public DialogManager2 getDm() {
+        return dm;
+    }
+
+    public void setDm(DialogManager2 dm) {
+        this.dm = dm;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-        init();//设置极光推送用户标识
+
     }
 
     private void findViews() {
+        dm=new DialogManager2(this);
         mTabLayout_2= (CommonTabLayout) findViewById(R.id.tabs);
 
         for (int i = 0; i < mTitles.length; i++) {
@@ -93,6 +106,7 @@ public class MainActivity extends BaseNetWorkActivity {
         }
         mTabLayout_2.setTabData(mTabEntities, this, R.id.fl_change, mFragments);
         mTabLayout_2.setCurrentTab(0);
+        init();//设置极光推送用户标识
     }
 
     private void init() {
@@ -112,11 +126,6 @@ public class MainActivity extends BaseNetWorkActivity {
     protected void onPause() {
         isForeground = false;
         super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override

@@ -12,7 +12,7 @@
     <TextView
         android:gravity="center"
         android:textSize="16sp"
-        android:text="暂无数据！"
+        android:text="@string/no_data_txt"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <ListView

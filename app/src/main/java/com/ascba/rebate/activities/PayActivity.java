@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.OnPasswordInputFinish;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
@@ -25,10 +26,11 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
 
 
     private int bus_uuid;
+    private int pay_type=1;//默认为其他支付方式
     private EditTextWithCustomHint edMoney;
     private PayPopWindow popWindow;
     private TextView tvTpye;
-    private SharedPreferences sf;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     }
 
     private void initViews() {
-        sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
+        dm=new DialogManager(this);
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.sweep_money));
         tvTpye = ((TextView) findViewById(R.id.tv_pay_type));
     }
@@ -48,7 +50,6 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     //获取支付方式，选择支付界面
     public void goPayPassword(View view) {
         initPop();
-
     }
 
     private void initPop() {
@@ -71,7 +72,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
                 objRequest.add("money",money);
                 objRequest.add("region_id",1);
                 objRequest.add("pay_password",popWindow.getStrPassword());
-                objRequest.add("pay_type",2);
+                objRequest.add("pay_type",pay_type);
                 objRequest.add("scenetype",2);
                 executeNetWork(objRequest,"请稍后");
                 setCallback(PayActivity.this);
@@ -90,13 +91,17 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
         String type = tvTpye.getText().toString();
         if("支付方式：其他".equals(type)){
             tvTpye.setText("支付方式：余额");
+            pay_type=2;
         }else if("支付方式：余额".equals(type)) {
             tvTpye.setText("支付方式：其他");
+            pay_type=1;
         }
     }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        //校验成功
+        dm.buildAlertDialog(message);
 
     }
 }

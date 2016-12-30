@@ -8,6 +8,8 @@
     android:layout_height="match_parent"
     tools:context="com.ascba.rebate.activities.PersonalDataActivity">
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
+        app:needComplete="true"
         app:textTitle="所在地"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -46,16 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
-    <Button
-        android:onClick="saveLocation"
-        android:textColor="@color/white"
-        android:text="提交"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/register_btn_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

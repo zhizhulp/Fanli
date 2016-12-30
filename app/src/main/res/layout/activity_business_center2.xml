@@ -119,7 +119,6 @@
                 android:text="营业执照"/>
             <RelativeLayout
                 android:orientation="vertical"
-                android:background="@drawable/add_picture_all_wide_bg"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="18dp"

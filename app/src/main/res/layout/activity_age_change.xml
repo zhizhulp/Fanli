@@ -8,6 +8,8 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.AgeChangeActivity">
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
+        app:needComplete="true"
         app:textTitle="修改年龄"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -33,10 +35,4 @@
     </LinearLayout>
     <View
         style="@style/viewStyleMatch"/>
-    <Button
-        android:onClick="saveAge"
-        android:textSize="@dimen/activity_text_normal"
-        android:text="保存"
-        android:layout_marginTop="29dp"
-        style="@style/btnNormal"/>
 </LinearLayout>

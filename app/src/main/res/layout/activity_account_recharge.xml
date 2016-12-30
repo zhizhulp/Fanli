@@ -101,5 +101,10 @@
         android:text="充值"
         android:layout_marginTop="29dp"
        style="@style/btnNormal"/>
+    <!--<Button
+        android:onClick="goWXSweepPay"
+        android:text="微信充值"
+        android:layout_marginTop="29dp"
+        style="@style/btnNormal"/>-->
 
 </LinearLayout>

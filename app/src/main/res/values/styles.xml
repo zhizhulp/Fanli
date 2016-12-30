@@ -145,6 +145,10 @@
         <item name="android:centerDark">@color/white</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+    <style name="AutoCompleteStyle" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:popupBackground">@drawable/search_list_bg</item>
+        <item name="android:dropDownVerticalOffset">0dip</item>
+    </style>
 
 
 </resources>

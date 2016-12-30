@@ -56,9 +56,9 @@ public class SweepActivity extends BaseNetWorkActivity implements BaseNetWorkAct
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        int uuid = dataObj.optInt("uuid");
+        JSONObject infoObj = dataObj.optJSONObject("info");
         Intent intent1=new Intent(SweepActivity.this,PayActivity.class);
-        intent1.putExtra("bus_uuid",uuid);
+        intent1.putExtra("bus_uuid",infoObj.optInt("seller"));
         startActivity(intent1);
         finish();
     }

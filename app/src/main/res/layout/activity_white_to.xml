@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#f2f2f2"
     tools:context="com.ascba.rebate.activities.WhiteScoreActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="我的兑现券"
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:visibility="gone"
                 android:textColor="@color/text_deep_gray"
                 android:layout_marginTop="15dp"
                 android:text="加入百万计划了解更多..."
@@ -46,17 +48,19 @@
         </LinearLayout>
 
         <Button
+            android:visibility="gone"
             android:layout_marginBottom="15dp"
             android:text="了解百万计划"
             android:layout_alignParentBottom="true"
-            style="@style/btnNormal" />
+            style="@style/btnNormal"
+            android:background="@drawable/ticket_no_shop_bg"/>
     </RelativeLayout>
     <com.ascba.rebate.view.ScrollViewWithListView
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:id="@+id/cash_ticket_list"
-        android:divider="#f2f2f2"
+        android:divider="@color/ticket_activity_bg"
         android:dividerHeight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

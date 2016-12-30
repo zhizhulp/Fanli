@@ -43,11 +43,11 @@ public class MyApplication extends Application {
 //                .setReadTimeout(30 * 1000)
                 // 配置缓存，默认保存数据库DBCacheStore，保存到SD卡使用DiskCacheStore。
                 .setCacheStore(
-                        new DBCacheStore(this).setEnable(true) // 如果不使用缓存，设置false禁用。
+                        new DBCacheStore(this).setEnable(false) // 如果不使用缓存，设置false禁用。
                 )
                 // 配置Cookie，默认保存数据库DBCookieStore，开发者可以自己实现。
                 .setCookieStore(
-                        new DBCookieStore(this).setEnable(false) // 如果不维护cookie，设置false禁用。
+                        new DBCookieStore(this).setEnable(true) // 如果不维护cookie，设置false禁用。
                 )
                 // 配置网络层，默认使用URLConnection，如果想用OkHttp：OkHttpNetworkExecutor。
                 .setNetworkExecutor(new URLConnectionNetworkExecutor())

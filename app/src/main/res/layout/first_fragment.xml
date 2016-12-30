@@ -45,7 +45,7 @@
                     android:scaleType="center"
                     android:src="@mipmap/rec"
                     android:id="@+id/recommend_main"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_alignParentRight="true"
                     android:layout_width="40dp"

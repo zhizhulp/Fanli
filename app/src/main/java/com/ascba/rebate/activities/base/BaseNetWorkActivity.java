@@ -7,17 +7,23 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -26,10 +32,11 @@ import org.json.JSONObject;
 public class BaseNetWorkActivity extends AppCompatActivity {
     private DialogManager dm;
     private Callback callback;
+    private int count;
 
 
     public interface Callback{
-        void handle200Data(JSONObject dataObj,String message);
+        void handle200Data(JSONObject dataObj,String message) throws JSONException;
     }
 
     public Callback getCallback() {
@@ -44,8 +51,8 @@ public class BaseNetWorkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApplication) getApplication()).addActivity(this);
-        setStatusBar();
-        //setStatusBarColor();
+        //setStatusBar();
+        StatusBarUtil.setColor(this, 0xffe52020);
     }
 
     @Override
@@ -61,14 +68,6 @@ public class BaseNetWorkActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
     }
-    @TargetApi(21)
-    private void setStatusBarColor(){
-        Window window = getWindow();
-        //设置状态栏颜色
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.TRANSPARENT);
-    }
-
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest,String message) {
         if(dm==null){
@@ -114,11 +113,15 @@ public class BaseNetWorkActivity extends AppCompatActivity {
 
         @Override
         public void onStart(int what) {
+            LogUtils.PrintLog("123","onStart"+count);
+            count++;
 
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
+            LogUtils.PrintLog("123","onSucceed"+count);
+            count++;
             if(dm!=null){
                 dm.dismissDialog();
             }
@@ -133,7 +136,11 @@ public class BaseNetWorkActivity extends AppCompatActivity {
                     AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
                 }
                 if(callback!=null){//对于200额外的处理
-                    callback.handle200Data(dataObj,message);
+                    try {
+                        callback.handle200Data(dataObj,message);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                 Intent intent = new Intent(BaseNetWorkActivity.this,LoginActivity.class);
@@ -149,6 +156,8 @@ public class BaseNetWorkActivity extends AppCompatActivity {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
+            LogUtils.PrintLog("123","onFailed"+count);
+            count++;
             if(dm!=null){
                 dm.dismissDialog();
             }
@@ -160,7 +169,8 @@ public class BaseNetWorkActivity extends AppCompatActivity {
 
         @Override
         public void onFinish(int what) {
-
+            LogUtils.PrintLog("123","onFinish"+count);
+            count++;
         }
     }
 }

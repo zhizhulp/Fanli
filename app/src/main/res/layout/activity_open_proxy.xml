@@ -8,6 +8,8 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.OpenProxyActivity">
     <com.ascba.rebate.view.MoneyBar
+        app:needComplete="true"
+        android:id="@+id/mb_open_proxy"
         app:textTitle="开通代理"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -24,7 +26,7 @@
             android:textSize="15sp"
             android:background="@null"
             android:id="@+id/ed_proxy_area"
-            android:hint="请输入代理区域"
+            android:hint="请输入代理区域 举例:罗田"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
         <TextView
@@ -163,26 +165,29 @@
         style="@style/viewStyleMatch"/>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:id="@+id/click_protocol"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="45dp">
         <CheckBox
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:gravity="center"
             android:button="@drawable/proxy_agree_cb_bg"
             android:id="@+id/rb_agree"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
         <TextView
             android:onClick="goProxyProtocol"
             android:gravity="center"
-            android:layout_marginLeft="5dp"
             android:textColor="@color/text_blue"
             android:text="我已同意《代理协议》"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -10,7 +10,7 @@
     <color name="textnormal">#adadad</color>
     <color name="view_line">#e0dfdf</color>
     <color name="transText">#B3000000</color>
-    <color name="moneyBarColor">#e52020</color>
+    <color name="moneyBarColor">#ffe52020</color>
     <color name="touch_money_bar_color">#c40202</color>
     <color name="btn">#dc0404</color>
     <color name="text_blue">#2e82ff</color>
@@ -450,4 +450,6 @@
     <color name="coffee">#472a00</color>
     <!-- 黄色 -->
     <color name="huase">#fffbe8</color>
+    <color name="white2cash_color" >#ff6f6f</color>
+    <color name="ticket_activity_bg">#f2f2f2</color>
 </resources>

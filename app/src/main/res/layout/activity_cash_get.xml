@@ -8,6 +8,8 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.AccountRechargeActivity">
     <com.ascba.rebate.view.MoneyBar
+        app:needComplete="true"
+        android:id="@+id/mb"
         app:textTitle="提现"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -48,17 +50,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_bank_name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/activity_text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="招商银行"/>
+                android:text="银行"/>
             <TextView
+                android:id="@+id/tv_bank_number"
                 android:textSize="@dimen/activity_text_title"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="储蓄卡-尾号(7894)"/>
+                android:text="卡-尾号"/>
         </LinearLayout>
         <ImageView
             android:layout_centerVertical="true"
@@ -85,6 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_sevice_fee"
             android:layout_marginLeft="7dp"
             android:text="(免收服务费)"
             android:layout_width="wrap_content"
@@ -120,18 +125,21 @@
     <RelativeLayout
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/line_space">
         <TextView
+            android:id="@+id/tv_left_money"
             android:layout_margin="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="账户余额 ¥ 0.00"/>
         <TextView
+            android:onClick="getAll"
+            android:gravity="center"
             android:textColor="@color/text_blue"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="全部提现"/>
     </RelativeLayout>
 
@@ -146,9 +154,9 @@
     <TextView
         android:visibility="gone"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当天24小时内到账"/>
+        android:text="温馨提示:当天24小时内到账"/>
 
 </LinearLayout>

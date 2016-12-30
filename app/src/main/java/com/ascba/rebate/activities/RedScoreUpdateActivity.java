@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -113,5 +114,12 @@ public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseN
         StringBuffer sb=new StringBuffer();
         sb.append("今日兑换比例 ").append(intA/value).append(":").append(intB/value);
         return sb.toString();
+    }
+    //去账单列表
+    public void goAcc(View view) {
+        Intent intent=new Intent(this,AllAccountActivity.class);
+        intent.putExtra("order",2);
+        startActivity(intent);
+        finish();
     }
 }

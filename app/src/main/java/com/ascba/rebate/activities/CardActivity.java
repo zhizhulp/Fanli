@@ -1,7 +1,6 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,7 @@ import com.ascba.rebate.beans.Card;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.MoneyBar;
+import com.ascba.rebate.view.SwipeMenuListView2;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -28,8 +27,7 @@ import java.util.List;
 
 public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,SwipeMenuListView.OnMenuItemClickListener {
 
-    private MoneyBar CardMB;
-    private SwipeMenuListView cardListView;
+    private SwipeMenuListView2 cardListView;
     private CardListAdapter cardListAdapter;
     private List<Card> mList;
     private int positionL;
@@ -47,7 +45,6 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
     private void findView() {
         dm=new DialogManager(this);
         noCardVeiw = findViewById(R.id.no_card_view);
-        initMoneyBar();
         initListView();
     }
     private SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -57,7 +54,6 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
             SwipeMenuItem deleteItem = new SwipeMenuItem(
                     getApplicationContext());
             deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
-            deleteItem.setTitle("删除");
             deleteItem.setWidth(ScreenDpiUtils.dip2px(CardActivity.this,110));
             deleteItem.setIcon(R.mipmap.bank_card_delete);
             menu.addMenuItem(deleteItem);
@@ -65,23 +61,10 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
     };
 
     private void initListView() {
-        cardListView = ((SwipeMenuListView) findViewById(R.id.card_list));
+        cardListView = ((SwipeMenuListView2) findViewById(R.id.card_list));
         cardListView.setMenuCreator(creator);
         cardListView.setOnMenuItemClickListener(this);
         mList=new ArrayList<>();
-//        for (int i = 0; i < 3; i++) {
-//            if(i%3==0){
-//                Card card=new Card("中国农业银行","储蓄卡","**** **** **** 1234",false);
-//                mList.add(card);
-//            }else if(i%3==1){
-//                Card card=new Card("中国招商银行","信用卡","**** **** **** 3659",false);
-//                mList.add(card);
-//            }else{
-//                Card card=new Card("中国人民银行","储蓄卡","**** **** **** 4568",false);
-//                mList.add(card);
-//            }
-//
-//        }
         cardListAdapter = new CardListAdapter(mList,this);
         cardListView.setAdapter(cardListAdapter);
         netRequest(0);
@@ -102,43 +85,18 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
             executeNetWork(request,"请稍后");
             setCallback(this);
 
+        }else if(finalScene==2){
+            Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, true);
+            executeNetWork(request,"请稍后");
+            setCallback(this);
         }
     }
 
-    private void initMoneyBar() {
-        CardMB = ((MoneyBar) findViewById(R.id.card_money_bar));
-        CardMB.setCallBack(new MoneyBar.CallBack() {
-            @Override
-            public void clickImage(View im) {
-                Intent intent=new Intent(CardActivity.this,AddCardActivity.class);
-                startActivityForResult(intent,1);
-            }
-
-            @Override
-            public void clickComplete(View tv) {
-
-            }
-        });
-    }
 
     private void deleteSuccess() {
         mList.remove(positionL);
         cardListAdapter.notifyDataSetChanged();
     }
-
-    public void getIntentFromAddCard() {
-        Intent intent = getIntent();
-        if(intent!=null){
-            Serializable card1 = intent.getSerializableExtra("card");
-            if(card1!=null){
-                Card card = (Card) card1;
-                mList.add(card);
-                cardListAdapter.notifyDataSetChanged();
-            }
-
-        }
-    }
-
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
@@ -146,14 +104,15 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
             JSONArray bank_list = dataObj.optJSONArray("bank_list");
             if(bank_list!=null && bank_list.length()!=0){
                 noCardVeiw.setVisibility(View.GONE);
+                mList.clear();
                 for (int i = 0; i < bank_list.length(); i++) {
                     JSONObject jsonObject = bank_list.optJSONObject(i);
                     int id = jsonObject.optInt("id");
                     String bank = jsonObject.optString("bank");
                     String bank_card = jsonObject.optString("bank_card");
                     String type = jsonObject.optString("type");
-                    String bank_logo = jsonObject.optString("bank_logo");
-                    Card card=new Card(bank,type,bank_card,false);
+                    //String bank_logo = jsonObject.optString("bank_logo");
+                    Card card=new Card(bank,type,bank_card);
                     card.setId(id);
                     mList.add(card);
                 }
@@ -164,6 +123,15 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
         }else if(finalScene==1){
             deleteSuccess();
             dm.buildAlertDialog(message);
+        }else if(finalScene==2){
+            int isCardId = dataObj.optInt("isCardId");
+            if(isCardId==1){
+                JSONObject cardObj = dataObj.optJSONObject("cardInfo");
+                String realname = cardObj.optString("realname");
+                Intent intent=new Intent(CardActivity.this,AddCardActivity.class);
+                intent.putExtra("realname",realname);
+                startActivity(intent);
+            }
         }
     }
 
@@ -183,5 +151,15 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
                 break;
         }
         return false;
+    }
+    //添加银行卡
+    public void goAddCard(View view) {
+        netRequest(2);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        netRequest(0);
     }
 }

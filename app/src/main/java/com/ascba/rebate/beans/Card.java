@@ -10,9 +10,17 @@ public class Card implements Serializable {
     private String name;
     private String type;
     private String number;
-    private boolean isSelect=false;
+    private int isDefault;
     private int id;
     private String logo;
+
+    public int getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(int isDefault) {
+        this.isDefault = isDefault;
+    }
 
     public int getId() {
         return id;
@@ -30,22 +38,23 @@ public class Card implements Serializable {
         this.logo = logo;
     }
 
-    public boolean isSelect() {
-        return isSelect;
-    }
 
-    public void setSelect(boolean select) {
-        isSelect = select;
-    }
 
     public Card() {
     }
 
-    public Card(String name, String type, String number,boolean isSelect) {
+    public Card(String name, String type, String number) {
         this.name = name;
         this.type = type;
         this.number = number;
-        this.isSelect=isSelect;
+    }
+
+    public Card(int id, String name, String type, String number, int isDefault) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.number = number;
+        this.isDefault = isDefault;
     }
 
     public String getName() {

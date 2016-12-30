@@ -86,7 +86,6 @@ public class LoginActivity extends BaseNetWorkActivity {
     public void goForgetPassword(View view) {
         Intent intent = new Intent(this, PasswordLossActivity.class);
         startActivity(intent);
-        finish();
     }
 
     //进入注册页面

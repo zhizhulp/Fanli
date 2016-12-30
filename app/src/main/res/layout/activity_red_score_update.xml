@@ -127,12 +127,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:onClick="goAcc"
+            android:gravity="center"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textColor="@color/text_blue"
             android:text="历史兑换记录"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
     </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
@@ -140,6 +142,6 @@
     <Button
         android:onClick="redChange"
         android:layout_marginTop="23dp"
-        android:text="兑现"
+        android:text="兑换"
         style="@style/btnNormal" />
 </LinearLayout>

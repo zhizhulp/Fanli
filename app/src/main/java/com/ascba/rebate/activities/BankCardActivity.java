@@ -104,10 +104,10 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
     public void handle200Data(JSONObject dataObj, String message) {
         if(finalScene==0){
             Intent intent=new Intent(BankCardActivity.this,CardActivity.class);
-            Card card=new Card(bank,type,bank_card,false);
+/*            Card card=new Card(bank,type,bank_card);
             Bundle bundle=new Bundle();
             bundle.putSerializable("card",card);
-            intent.putExtras(bundle);
+            intent.putExtras(bundle);*/
             startActivity(intent);
             finish();
         }else if(finalScene==1){

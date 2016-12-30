@@ -1,29 +1,18 @@
 package com.ascba.rebate.activities.register;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.RegisterProtocolActivity;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.handlers.CheckThread;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.PhoneHandler;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.RequestQueue;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,13 +20,10 @@ import org.json.JSONObject;
  * 注册-输入手机号
  */
 
-public class RegisterInputNumberActivity extends BaseActivity {
+public class RegisterInputNumberActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
     private EditText phoneNumber;
     private String phone;
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
     private DialogManager dm;
 
     @Override
@@ -70,6 +56,13 @@ public class RegisterInputNumberActivity extends BaseActivity {
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        Request<JSONObject> request = buildNetRequest(baseUrl, 0, false);
+        request.add("sign",UrlEncodeUtils.createSign(baseUrl));
+        request.add("mobile",phone);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
+    }
+    /*private void sendMsgToSevr(String baseUrl) {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
             dm.buildAlertDialog("请打开网络");
@@ -129,10 +122,20 @@ public class RegisterInputNumberActivity extends BaseActivity {
         checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
         checkThread.start();
         dialog4.show();
-    }
+    }*/
     //服务协议
     public void goServerProtocol(View view) {
         Intent intent=new Intent(this,RegisterProtocolActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+        String sms_code = dataObj.getString("sms_code");
+        Intent intent=new Intent(RegisterInputNumberActivity.this, RegisterAfterReceiveCodeActivity.class);
+        intent.putExtra("phone_number",phone);
+        intent.putExtra("sms_code",sms_code);
+        startActivity(intent);
+        finish();
     }
 }

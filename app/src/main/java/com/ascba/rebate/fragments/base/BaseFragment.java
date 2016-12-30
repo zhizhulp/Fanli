@@ -1,33 +1,35 @@
 package com.ascba.rebate.fragments.base;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.error.NetworkError;
 import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
 import org.json.JSONObject;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BaseFragment extends Fragment {
-    private DialogManager dm;
+    private DialogManager2 dm;
     private Callback callback;
 
     public interface Callback{
@@ -55,20 +57,39 @@ public class BaseFragment extends Fragment {
     }
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
-        if(dm==null){
+        /*if(dm==null){
             dm=new DialogManager(getActivity());
+        }*/
+        FragmentActivity activity = getActivity();
+        if(activity instanceof MainActivity){
+            dm = ((MainActivity) activity).getDm();
+        }else {
+            if(dm==null){
+                dm=new DialogManager2(getActivity());
+            }
         }
         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
         if(!netAva){
-            dm.buildAlertDialog("请打开网络！");
-            return;
+            if(activity instanceof MainActivity){
+                if(dm.getDialogList().size()!=0){
+                    return;
+                }else {
+                    dm.buildAlertDialog("请打开网络！");
+                    return;
+                }
+            }else {
+                dm.buildAlertDialog("请打开网络！");
+                return;
+            }
+
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, new NetResponseListener());
-        dm.buildWaitDialog(message).showDialog();
+        dm.buildWaitDialog(message);
     }
 
     //取消执行网络请求
     public void cancelNetWork() {
+
         MyApplication.getRequestQueue().cancelAll();
     }
 
@@ -142,11 +163,14 @@ public class BaseFragment extends Fragment {
             if(dm!=null){
                 dm.dismissDialog();
             }
-            //请求失败的信息
-            String message = response.getException().getMessage();
-            dm.buildAlertDialog("请求失败");
+            Exception exc = response.getException();
+            String msg=exc.getMessage();
+            if(exc instanceof NetworkError){
+                //dm.buildAlertDialog("请打开网络！");
+            }else {
+                dm.buildAlertDialog("请求失败");
+            }
         }
-
         @Override
         public void onFinish(int what) {
 

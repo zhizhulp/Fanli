@@ -5,6 +5,7 @@ import android.webkit.WebView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.utils.UrlUtils;
 
 public class RegisterProtocolActivity extends BaseNetWorkActivity {
 
@@ -19,6 +20,6 @@ public class RegisterProtocolActivity extends BaseNetWorkActivity {
 
     private void initViews() {
         webView = ((WebView) findViewById(R.id.webView));
-        webView.loadUrl("http://home.qlqwgw.com/regAgree");
+        webView.loadUrl(UrlUtils.regAgree);
     }
 }

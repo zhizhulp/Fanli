@@ -26,22 +26,21 @@
 
                 <TextView
                     android:gravity="center"
-                    android:layout_marginLeft="15dp"
                     android:id="@+id/me_setting_text"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="25dp"
                     android:text="设置"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:layout_marginLeft="5dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/me_user_img"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="72.5dp"
-                    android:src="@mipmap/me_user_img" />
+                    android:layout_marginTop="72.5dp" />
 
                 <TextView
                     android:id="@+id/me_tv_nick_name"
@@ -110,6 +109,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
                     android:id="@+id/me_pre_go_recharge"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -144,10 +144,12 @@
                     android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.01"
+                    android:layout_weight="0.005"
                     android:background="@color/view_line" />
 
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_card"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -194,6 +196,8 @@
                 android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_cash_account"
                     android:layout_gravity="center_vertical"
                     android:layout_width="0dp"
@@ -235,10 +239,12 @@
                     android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.01"
+                    android:layout_weight="0.005"
                     android:background="@color/view_line" />
 
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_ticket"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -299,6 +305,8 @@
                 android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/go_white_score_account"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -341,6 +349,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:maxLines="1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="9dp"
@@ -356,10 +365,12 @@
                     android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.01"
+                    android:layout_weight="0.005"
                     android:background="@color/view_line" />
 
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_red_score"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -432,6 +443,8 @@
                 android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_vip"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -471,10 +484,12 @@
                     android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.01"
+                    android:layout_weight="0.005"
                     android:background="@color/view_line" />
 
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_recommend"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -498,7 +513,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="推荐奖励"
+                            android:text="推荐奖励/人数"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -507,7 +522,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="9dp"
-                            android:text="0人"
+                            android:text="0笔/0人"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -523,6 +538,8 @@
                 android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_business_center"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -547,6 +564,7 @@
                             android:textColor="#000"
                             android:textSize="15sp" />
                         <TextView
+                            android:id="@+id/tv_busi_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="9dp"
@@ -558,9 +576,11 @@
                     android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.01"
+                    android:layout_weight="0.005"
                     android:background="@color/view_line" />
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/me_go_proxy_center"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -612,6 +632,8 @@
                 android:layout_height="@dimen/me_line_space"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
+
                     android:id="@+id/qlqw_car"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -649,10 +671,11 @@
                     android:layout_width="0dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="0.01"
+                    android:layout_weight="0.005"
                     android:background="@color/view_line" />
 
                 <LinearLayout
+                    android:background="@drawable/go_where_bg"
                     android:id="@+id/qlqw_house"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

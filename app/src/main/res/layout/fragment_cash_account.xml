@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_wsaccount"
     android:layout_width="match_parent"
@@ -17,41 +16,20 @@
             android:gravity="center"
             android:orientation="horizontal">
             <LinearLayout
+                android:id="@+id/acc_employee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="全部"
-                    android:textColor="@color/black" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:text="0.00" />
-            </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="0.01"
-                android:background="@color/view_line" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
+                    android:id="@+id/tv_employee_string"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="佣金(推广)"
                     android:textColor="@color/black" />
                 <TextView
+                    android:id="@+id/tv_employee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -65,17 +43,47 @@
                 android:layout_weight="0.01"
                 android:background="@color/view_line" />
             <LinearLayout
+                android:id="@+id/acc_cash_get"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tv_cash_get_string"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="提现"
                     android:textColor="@color/black" />
                 <TextView
+                    android:id="@+id/tv_cash_get"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="0.00" />
+            </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.01"
+                android:background="@color/view_line" />
+            <LinearLayout
+                android:id="@+id/acc_exchange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_exchange_string"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="返利(兑换)"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:id="@+id/tv_exchange"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -93,41 +101,47 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:id="@+id/acc_recharge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="返利(兑换)"
-                        android:textColor="@color/black" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="0.00" />
-                </LinearLayout>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="0.01"
-                    android:background="@color/view_line" />
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
+                        android:id="@+id/tv_recharge_string"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="充值"
                         android:textColor="@color/black" />
                     <TextView
+                        android:id="@+id/tv_recharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="0.00" />
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="0.01"
+                    android:background="@color/view_line" />
+                <LinearLayout
+                    android:id="@+id/acc_cost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_cost_string"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="消费"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/tv_cost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -146,31 +160,26 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="消费"
-                        android:textColor="@color/black" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="0.00" />
                 </LinearLayout>
             </LinearLayout>
             <View style="@style/viewStyleMatch" />
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:visibility="gone"
         android:textSize="16sp"
         android:gravity="center"
         android:text="暂无数据!"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <ListView
+    <FrameLayout
+        android:id="@+id/fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+   <!-- <ListView
         android:visibility="gone"
         android:scrollbars="none"
         android:id="@+id/cash_account_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"/>-->
 </LinearLayout>

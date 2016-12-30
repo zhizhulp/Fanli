@@ -27,13 +27,17 @@ import com.ascba.rebate.beans.City;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
+import com.ascba.rebate.view.MoneyBar;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterView.OnItemClickListener,BaseNetWorkActivity.Callback{
+public class OpenProxyActivity extends BaseNetWorkActivity implements
+        AdapterView.OnItemClickListener,BaseNetWorkActivity.Callback,
+        MoneyBar.CallBack
+{
     private static final int REQUEST_CITY = 1;
     private static final int REQUEST_MESSAGE = 2;
     private int group_id;
@@ -48,6 +52,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
     private int finalGroupId;
     private int finalGroup;
     private String url="";
+    private String group_url;
     private TextView tvProxyName;
     private int finalCityId;
     private CheckBox rbAgree;
@@ -60,6 +65,9 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
     private int referee_id;//推荐人id
     private PopupWindow popCities;
     private ListView listView;
+    private MoneyBar mb;
+
+    private View agreeProtocol;
 
 
     @Override
@@ -139,6 +147,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
             group = intent.getIntExtra("group",-3000);
             if( group==1){
                 searchView.setVisibility(View.GONE);
+                agreeProtocol.setVisibility(View.GONE);
             }
         }
     }
@@ -153,6 +162,10 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
         tvProxyName = ((TextView) findViewById(R.id.proxy_proxy_name));
         rbAgree = ((CheckBox) findViewById(R.id.rb_agree));
         searchView = findViewById(R.id.proxy_city_search);
+        agreeProtocol = findViewById(R.id.click_protocol);
+        mb = ((MoneyBar) findViewById(R.id.mb_open_proxy));
+        mb.setCallBack(this);
+        mb.setTailTitle("特权说明");
     }
 
 
@@ -279,7 +292,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
             dm.buildAlertDialog("请输入代理区域");
             return;
         }
-        if(!rbAgree.isChecked()){
+        if(!rbAgree.isChecked()&&group!=1){
             dm.buildAlertDialog("请同意代理协议");
             return;
         }
@@ -311,8 +324,8 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
             String name = upObj.optString("name");//代理名称
             String price = upObj.optString("money");//代理价格
             int group= upObj.optInt("group");//所在用户id
-            url = upObj.optString("url");//代理协议网址
-
+            group_url = upObj.optString("group_url");//组说明
+            url=upObj.optString("url");//代理协议
             String realname = upObj.optString("realname");//推荐人
             String mobile = upObj.optString("mobile");//推荐人手机号码
             int isReferee = upObj.optInt("isReferee");//0 无推荐人 1 有推荐人
@@ -337,7 +350,8 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
                 String name = bObj.optString("name");
                 String money = bObj.optString("money");
                 finalGroup = bObj.optInt("group");
-                url=bObj.optString("url");
+                url=bObj.optString("url");//代理协议
+                group_url = bObj.optString("group_url");//组说明
                 finalGroupId=bObj.optInt("group_id");
                 tvMoney.setText(money);
                 tvProxyName.setText(name);
@@ -364,5 +378,18 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements AdapterVie
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public void clickImage(View im) {
+
+    }
+
+    @Override
+    public void clickComplete(View tv) {
+        Intent intent=new Intent(this, WebViewBaseActivity.class);
+        intent.putExtra("url",group_url);
+        intent.putExtra("name","特权说明");
+        startActivity(intent);
     }
 }

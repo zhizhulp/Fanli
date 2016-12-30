@@ -1,72 +1,167 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
+import com.ascba.rebate.view.SelectIconManager;
+import com.squareup.picasso.Picasso;
+import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
+import java.io.File;
+
+/**
+ * 商户中心 商户资料提交页面
+ */
 public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
-    private EditTextWithCustomHint edCompanyName;
-    private EditTextWithCustomHint edLawMan;
-    private TextView tvAddress;
-    private EditTextWithCustomHint edPhone;
-    private static final int REQUEST_LOCATION=0;
+    private TextView tvName;
+    private TextView tvOperName;
+    private TextView tvRegMon;
+    private TextView tvStatus;
+    private TextView tvScope;
+    private DialogManager dm;
+    private Button btnCommit;
+    private SelectIconManager smWorkPic;
+    private SelectIconManager smAuthPic;
+    private File fileWork;
+    private File fileAuth;
+    private static final int GO_CAMERA_WORK = 0x01;
+    private static final int GO_ALBUM_WORK = 0x02;
+    private static final int GO_CAMERA_AUTH = 0x03;
+    private static final int GO_ALBUM_AUTH = 0x04;
+    private TextView edAuthName;
+    private View workPicView;
+    private View authPicView;
+    private int finalType;
+    private View authView;
+    private String chartered;
+    private String warrant;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_center);
         initViews();
+        getDataFromIntent();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            int type = intent.getIntExtra("type", -1);
+            finalType=type;
+            String name = intent.getStringExtra("name");
+            String oper_name = intent.getStringExtra("oper_name");
+            String regist_capi = intent.getStringExtra("regist_capi");
+            String company_status = intent.getStringExtra("company_status");
+            String scope = intent.getStringExtra("scope");
+            int is_oper_name = intent.getIntExtra("is_oper_name", -1);// 0:与法人信息一致，1：与法人信息不一致
+            chartered = intent.getStringExtra("chartered");//营业执照图片链接
+            if(is_oper_name==0){
+                authView.setVisibility(View.GONE);
+            }else if(is_oper_name==1){
+                authView.setVisibility(View.VISIBLE);
+                String clientele_name = intent.getStringExtra("clientele_name");
+                warrant = intent.getStringExtra("warrant");//授权书图片链接
+                edAuthName.setText(clientele_name);
+            }
+            tvName.setText(name);
+            tvOperName.setText(oper_name);
+            tvRegMon.setText(regist_capi);
+            tvStatus.setText(company_status);
+            tvScope.setText(scope);
+            if(type==-1){//用户填写的资料
+                btnCommit.setText("提交");
+                btnCommit.setEnabled(true);
+            }else if(type==0){//审核中的资料
+                btnCommit.setText("已提交，等待客服审核中");
+                btnCommit.setEnabled(false);
+                btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+/*                workPicView.setEnabled(false);
+                authPicView.setEnabled(false);*/
+            }else if(type==1){//资料有误的资料
+                btnCommit.setText("资料有误,点击重新审核");
+                btnCommit.setEnabled(true);
+            }
+        }
     }
 
     private void initViews() {
-        edCompanyName = ((EditTextWithCustomHint) findViewById(R.id.ed_company_name));
-        edLawMan = ((EditTextWithCustomHint) findViewById(R.id.ed_busi_law_man));
-        tvAddress = ((TextView) findViewById(R.id.tv_busi_address));
-        edPhone = ((EditTextWithCustomHint) findViewById(R.id.ed_busi_phone));
+        dm=new DialogManager(this);
+        tvName = ((TextView) findViewById(R.id.tv_name));
+        tvOperName = ((TextView) findViewById(R.id.tv_oper_name));
+        tvRegMon = ((TextView) findViewById(R.id.tv_regist_capi));
+        tvStatus = ((TextView) findViewById(R.id.tv_company_status));
+        tvScope= ((TextView) findViewById(R.id.tv_scope));
+        btnCommit = ((Button) findViewById(R.id.btn_commit));
+        edAuthName = ((TextView) findViewById(R.id.ed_auth_name));
+        workPicView = findViewById(R.id.work_pic_container);
+        authPicView = findViewById(R.id.auth_pic_container);
+        authView = findViewById(R.id.auth_view);
     }
 
-    //商户申请成功之后进入商户详情
-    public void go_business_center(View view) {
-        final String companyName = edCompanyName.getText().toString();
-        final String lawMan = edLawMan.getText().toString();
-        final String address = tvAddress.getText().toString();
-        final String phone = edPhone.getText().toString();
-
-        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.addCompany, 0, true);
-        objRequest.add("name",companyName);
-        objRequest.add("corporate",lawMan);
-        objRequest.add("address",address);
-        objRequest.add("tel",phone);
-        objRequest.add("licence","");
-        executeNetWork(objRequest,"请稍后");
-    }
-
-    public void goSelectLocation(View view) {
-        Intent intent=new Intent(this,BusinessLocationActivity.class);
-        startActivityForResult(intent,REQUEST_LOCATION);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case REQUEST_LOCATION:
-                if(data==null){
+        switch (requestCode) {
+            case GO_CAMERA_WORK:
+
+                break;
+            case GO_ALBUM_WORK:
+                if (data == null) {
                     return;
                 }
-                String location = data.getStringExtra("location");
-                if(location!=null || !location.equals("")){
-                    tvAddress.setText(location);
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    fileWork = new File(picturePath);
+
+                }
+                break;
+            case GO_CAMERA_AUTH:
+
+                break;
+            case GO_ALBUM_AUTH:
+                if (data == null) {
+                    return;
+                }
+                Uri selectedImage2 = data.getData();
+                String[] filePathColumn2 = {MediaStore.Images.Media.DATA};
+                Cursor cursor2 = getContentResolver().query(selectedImage2,
+                        filePathColumn2, null, null, null);
+                if (cursor2 != null) {
+                    cursor2.moveToFirst();
+                    int columnIndex = cursor2.getColumnIndex(filePathColumn2[0]);
+                    String picturePath = cursor2.getString(columnIndex);
+                    cursor2.close();
+                    fileAuth = new File(picturePath);
+
                 }
                 break;
         }
@@ -74,14 +169,132 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        Toast.makeText(BusinessCenterActivity.this, "资料已经提交", Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(BusinessCenterActivity.this,BusinessCenter2Activity.class);
-                        /*intent.putExtra("company_name",companyName);
-                        intent.putExtra("law_man",lawMan);
-                        intent.putExtra("address",address);
-                        intent.putExtra("phone",phone);
-                        intent.putExtra("licence","");*/
-        startActivity(intent);
-        finish();
+        dm.buildAlertDialog2(message);
+        dm.setCallback(new DialogManager.Callback() {
+            @Override
+            public void handleSure() {
+                dm.dismissDialog();
+                setResult(RESULT_OK,getIntent());
+                finish();
+            }
+        });
+        btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+        btnCommit.setText("已提交，等待客服审核中");
+        workPicView.setEnabled(false);
+        authPicView.setEnabled(false);
+        btnCommit.setEnabled(false);
+    }
+    //提交商家资料
+    public void goCommit(View view) {
+        if(finalType==-1){//提交商家资料
+            Request<JSONObject> request = buildNetRequest(UrlUtils.addCompany, 0, true);
+            request.add("company_name",tvName.getText().toString());
+            if(fileWork==null){
+                dm.buildAlertDialog("请上传营业执照");
+                return;
+            }
+            if(authView.getVisibility()==View.VISIBLE && fileAuth==null){
+                dm.buildAlertDialog("请上传授权书");
+                return;
+            }
+            request.add("chartered",new FileBinary(fileWork));//营业执照
+            if(fileAuth==null){
+                request.add("warrant","");
+            }else {
+                request.add("warrant",new FileBinary(fileAuth));//授权书
+            }
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }else if(finalType==1){//资料有误
+            Request<JSONObject> request = buildNetRequest(UrlUtils.resubmitCompany, 0, true);
+            request.add("company_name",tvName.getText().toString());
+            if(fileWork==null){
+                dm.buildAlertDialog("请上传营业执照");
+                return;
+            }
+            if(authView.getVisibility()==View.VISIBLE && fileAuth==null){
+                dm.buildAlertDialog("请上传授权书");
+                return;
+            }
+            request.add("chartered",new FileBinary(fileWork));//营业执照
+            if(fileAuth==null){
+                request.add("warrant","");
+            }else {
+                request.add("warrant",new FileBinary(fileAuth));//授权书
+            }
+            executeNetWork(request,"请稍后");
+            setCallback(this);
+        }
+
+    }
+    //选择营业执照
+    public void uploadWorkPic(View view) {
+        if(finalType==-1||finalType==1){
+            smWorkPic=new SelectIconManager(this);
+            smWorkPic.setCallback(new SelectIconManager.Callback() {
+                @Override
+                public void clickCamera() {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    fileWork=getDiskCacheDir();//创建文件
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileWork));
+                    startActivityForResult(intent, GO_CAMERA_WORK);
+                }
+
+                @Override
+                public void clickAlbum() {
+                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent2, GO_ALBUM_WORK);
+                }
+            });
+        }else if(finalType==0){//审核中，展示图片
+            Intent intent=new Intent(this,ShowPicActivity.class);
+            if(chartered!=null){
+                intent.putExtra("image",chartered);
+                startActivity(intent);
+            }
+
+        }
+    }
+    //选择授权书
+    public void uploadAuthPic(View view) {
+        if(finalType==-1||finalType==1){
+            smAuthPic=new SelectIconManager(this);
+            smAuthPic.setCallback(new SelectIconManager.Callback() {
+                @Override
+                public void clickCamera() {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    fileAuth=getDiskCacheDir();//创建文件
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileAuth));
+                    startActivityForResult(intent, GO_CAMERA_AUTH);
+                }
+                @Override
+                public void clickAlbum() {
+                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent2, GO_ALBUM_AUTH);
+                }
+            });
+        }else if(finalType==0){//审核中，展示图片
+            Intent intent=new Intent(this,ShowPicActivity.class);
+            if(warrant!=null){
+                intent.putExtra("image",warrant);
+                startActivity(intent);
+            }
+        }
+
+    }
+    private File getDiskCacheDir() {
+        File file;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            File dst = new File(Environment.getExternalStorageDirectory(), "com.ascba.rebate");
+
+            if (!dst.exists()) {
+                dst.mkdirs();
+            }
+
+            file = new File(dst, "com" + System.currentTimeMillis() + ".png");
+        } else {
+            file = getFilesDir();
+        }
+        return file;
     }
 }

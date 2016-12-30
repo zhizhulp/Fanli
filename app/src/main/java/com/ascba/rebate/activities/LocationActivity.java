@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.beans.AddressDtailsEntity;
@@ -12,11 +11,13 @@ import com.ascba.rebate.beans.AddressModel;
 import com.ascba.rebate.utils.JsonUtil;
 import com.ascba.rebate.utils.Utils;
 import com.ascba.rebate.view.ChooseAddressWheel;
+import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.listener.OnAddressChangeListener;
 
-public class LocationActivity extends BaseNetWorkActivity implements OnAddressChangeListener {
+public class LocationActivity extends BaseNetWorkActivity implements OnAddressChangeListener,MoneyBar.CallBack {
     private ChooseAddressWheel chooseAddressWheel = null;
     private TextView tvLocation;
+    private MoneyBar mb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class LocationActivity extends BaseNetWorkActivity implements OnAddressCh
     }
     public void init(){
         tvLocation = ((TextView) findViewById(R.id.location_tv));
+        mb = ((MoneyBar) findViewById(R.id.mb));
+        mb.setCallBack(this);
         initWheel();
         initData();
     }
@@ -56,7 +59,14 @@ public class LocationActivity extends BaseNetWorkActivity implements OnAddressCh
         tvLocation.setText(province+ city +  district);
     }
 
-    public void saveLocation(View view) {
+
+    @Override
+    public void clickImage(View im) {
+
+    }
+
+    @Override
+    public void clickComplete(View tv) {
         Intent intent = getIntent();
         intent.putExtra("location",tvLocation.getText().toString());
         setResult(RESULT_OK,intent);

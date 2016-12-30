@@ -12,6 +12,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.LogUtils;
@@ -52,7 +56,9 @@ public class CityList extends BaseNetWorkActivity {
     private TextView city_locate_state;
     private ProgressBar city_locating_progress;
     private ImageView city_locate_success_img;
-    private LocationClient locationClient = null;
+    //private LocationClient locationClient = null;
+    private AMapLocationClient locationClient = null;
+    private AMapLocationClientOption locationOption = new AMapLocationClientOption();
 
     View hotcityall;
 
@@ -113,8 +119,9 @@ public class CityList extends BaseNetWorkActivity {
                 finish();
             }
         });
-        loadLocation();
 
+        initLocation();//高德地图
+        //loadLocation();//百度地图定位
 
         DBManager dbManager = new DBManager(this);
         dbManager.openDateBase();
@@ -162,9 +169,9 @@ public class CityList extends BaseNetWorkActivity {
     }
 
     /**
-     * 获取位置
+     * 百度地图获取位置
      */
-    public void loadLocation() {
+    /*public void loadLocation() {
 
         city_locate_failed.setVisibility(View.GONE);
         city_locate_state.setVisibility(View.VISIBLE);
@@ -184,12 +191,12 @@ public class CityList extends BaseNetWorkActivity {
 
         locationClient.start();
         locationClient.requestLocation();
-    }
+    }*/
 
     /**
      * 监听函数，又新位置的时候，格式化成字符串，输出到屏幕中
      */
-    private class LocationListenner implements BDLocationListener {
+  /*  private class LocationListenner implements BDLocationListener {
         public void onReceiveLocation(BDLocation location) {
             city_locating_progress.setVisibility(View.GONE);
 
@@ -197,7 +204,6 @@ public class CityList extends BaseNetWorkActivity {
 
                 if (location.getCity() != null
                         && !location.getCity().equals("")) {
-                    LogUtils.PrintLog("123",location.getAddrStr());
                     locationClient.stop();
                     city_locate_failed.setVisibility(View.GONE);
                     city_locate_state.setVisibility(View.VISIBLE);
@@ -211,12 +217,11 @@ public class CityList extends BaseNetWorkActivity {
                 }
             } else {
                 // 定位失败
-                LogUtils.PrintLog("123","定位失败");
                 city_locating_state.setVisibility(View.GONE);
                 city_locate_failed.setVisibility(View.VISIBLE);
             }
         }
-    }
+    }*/
 
     /**
      * @return
@@ -238,11 +243,6 @@ public class CityList extends BaseNetWorkActivity {
         return names;
     }
 
-    /**
-     * б 1/4
-     *
-     * @author
-     */
     class CityListOnItemClick implements OnItemClickListener {
 
         @Override
@@ -357,7 +357,6 @@ public class CityList extends BaseNetWorkActivity {
 
     }
 
-    // ’
     private void initOverlay() {
         LayoutInflater inflater = LayoutInflater.from(this);
         overlay = (TextView) inflater.inflate(R.layout.overlay, null);
@@ -376,6 +375,7 @@ public class CityList extends BaseNetWorkActivity {
     protected void onDestroy() {
         windowManager.removeView(overlay);
         super.onDestroy();
+        destroyLocation();
     }
     private class LetterListViewListener implements
             MyLetterListView.OnTouchingLetterChangedListener {
@@ -388,14 +388,12 @@ public class CityList extends BaseNetWorkActivity {
                 overlay.setText(sections[position]);
                 overlay.setVisibility(View.VISIBLE);
                 handler.removeCallbacks(overlayThread);
-                // Уoverlay
                 handler.postDelayed(overlayThread, 1500);
             }
         }
 
     }
 
-    // overlay
     private class OverlayThread implements Runnable {
 
         @Override
@@ -404,5 +402,101 @@ public class CityList extends BaseNetWorkActivity {
         }
 
     }
+    /**
+     * 初始化并开始定位
+     *
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
+    private void initLocation(){
+        //初始化client
+        locationClient = new AMapLocationClient(this.getApplicationContext());
+        //设置定位参数
+        locationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        locationClient.setLocationListener(locationListener);
+        locationClient.startLocation();
+        city_locate_failed.setVisibility(View.GONE);
+        city_locate_state.setVisibility(View.VISIBLE);
+        city_locating_progress.setVisibility(View.VISIBLE);
+        city_locate_success_img.setVisibility(View.GONE);
+        city_locate_state.setText(getString(R.string.locating));
+
+    }
+
+    /**
+     * 默认的定位参数
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
+    private AMapLocationClientOption getDefaultOption(){
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
+        mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        return mOption;
+    }
+
+    /**
+     * 定位监听
+     */
+    AMapLocationListener locationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation loc) {
+            if (null != loc) {
+                stopLocation();
+                city_locate_failed.setVisibility(View.GONE);
+                city_locate_state.setVisibility(View.VISIBLE);
+                city_locating_progress.setVisibility(View.GONE);
+                city_locate_success_img.setVisibility(View.VISIBLE);
+
+                city_locate_state.setText(loc.getCity());//设置城市
+            } else {
+                //tvResult.setText("定位失败，loc is null");
+                city_locating_state.setVisibility(View.GONE);
+                city_locate_failed.setVisibility(View.VISIBLE);
+                stopLocation();
+            }
+        }
+    };
+
+    /**
+     * 停止定位
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
+    private void stopLocation(){
+        // 停止定位
+        locationClient.stopLocation();
+    }
+    /**
+     * 销毁定位
+     *
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
+    private void destroyLocation(){
+        if (null != locationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
+    }
+
 
 }

@@ -9,8 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.CheckThread;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.PhoneHandler;
@@ -26,10 +25,7 @@ import com.yolanda.nohttp.rest.RequestQueue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PasswordLossActivity extends BaseActivity {
-    private PhoneHandler phoneHandler;
-    private CheckThread checkThread;
-    private RequestQueue requestQueue;
+public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     private EditText edLossNumber;
     private String phone;
     private DialogManager dm;
@@ -49,15 +45,38 @@ public class PasswordLossActivity extends BaseActivity {
     //找回密码的下一个界面
     public void goCodePassword(View view) {
         phone = edLossNumber.getText().toString();
+        if(phone.equals("")){
+            dm.buildAlertDialog("请输入您的手机号码");
+            return;
+        }
         sendMsgToSevr(UrlUtils.sendMsg);
     }
 
     private void sendMsgToSevr(String baseUrl) {
+        Request<JSONObject> request = buildNetRequest(baseUrl, 0, false);
+        request.add("sign", UrlEncodeUtils.createSign(baseUrl));
+        request.add("mobile",phone);
+        request.add("type",1);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+        String sms_code = dataObj.getString("sms_code");
+        Intent intent=new Intent(PasswordLossActivity.this, PasswordLossWithCodeActivity.class);
+        intent.putExtra("loss_phone",phone);
+        intent.putExtra("sms_code",sms_code);
+        startActivity(intent);
+        finish();
+    }
+    /*private void sendMsgToSevr(String baseUrl) {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
             dm.buildAlertDialog("请打开网络");
             return;
         }
+
         requestQueue= NoHttp.newRequestQueue();
         final ProgressDialog dialog = new ProgressDialog(this,R.style.dialog);
         dialog.setMessage("正在发送验证码");
@@ -116,5 +135,5 @@ public class PasswordLossActivity extends BaseActivity {
         checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
         checkThread.start();
         dialog.show();
-    }
+    }*/
 }

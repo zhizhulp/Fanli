@@ -66,6 +66,9 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="4E8pe2i48Sb3pQvSXRpWvvnDV0GwLFxu" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="11d31c62f7f344c66c4f0fc80a15c4ce" />
 
         <activity
             android:name=".activities.splash.SplashActivity"
@@ -82,13 +85,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activities.guide.GuideActivity"
-            android:screenOrientation="portrait" >
-
-        </activity>
-        <activity
-            android:name=".activities.base.BaseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.register.RegisterInputNumberActivity"
             android:screenOrientation="portrait"
@@ -158,22 +155,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:launchMode="singleTask"
             android:name=".activities.login.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
-
-        </activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.AccountRechargeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.CashGetActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.AccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
@@ -197,11 +188,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:launchMode="singleTask"
             android:name=".activities.UserUpdateActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
-        </activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.PayPasswordChangeActivity"
             android:screenOrientation="portrait"
@@ -232,17 +222,17 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.CardActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.RecommendActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.TestActivity"
+        <activity
+            android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.CityList"
             android:screenOrientation="portrait"
@@ -378,7 +368,6 @@
             android:name=".activities.BankCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.AllAccountActivity"
             android:screenOrientation="portrait"
@@ -411,10 +400,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.PoiSearchDemo"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.RecQRActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -442,16 +427,50 @@
             android:name=".activities.ShowDescriptionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.WhiteScoreActivity"
+        <activity
+            android:name=".activities.WhiteScoreActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
-        <activity android:name=".activities.base.BaseNetWorkActivity"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.base.BaseNetWorkActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
-        <activity android:name=".activities.RealNameSuccessActivity"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RealNameSuccessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RedScoreUpdateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RechargeResultActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.GaoDeSearch"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BCInputNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.BCProcessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity
+            android:name=".activities.ShowPicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.TradeResultActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
-        <activity android:name=".activities.RedScoreUpdateActivity"
+        <activity android:name=".activities.base.BaseNetWork2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"/>
     </application>

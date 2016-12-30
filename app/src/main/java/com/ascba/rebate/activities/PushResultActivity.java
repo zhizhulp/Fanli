@@ -7,13 +7,15 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.utils.UrlUtils;
+import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class PushResultActivity extends BaseNetWorkActivity {
+public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
     private TextView tvPushMsg;
     private TextView tvSellerName;
@@ -88,10 +90,26 @@ public class PushResultActivity extends BaseNetWorkActivity {
     }
     //商家确认订单
     public void confirmOrder(View view) {
-
+        Request<JSONObject> request = buildNetRequest(UrlUtils.addTransaction, 0, true);
+        request.add("order_number",order_number);
+        request.add("seller",seller);
+        request.add("customer",customer);
+//      request.add("region_id",);
+        request.add("money",money);
+        request.add("pay_password",pay_password);
+        request.add("pay_type",pay_type);
+        request.add("scenetype",2);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
     //商家取消订单
     public void cancelOrder(View view) {
+        finish();
+    }
 
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+        Intent intent=new Intent(this,TradeResultActivity.class);
+        startActivity(intent);
     }
 }

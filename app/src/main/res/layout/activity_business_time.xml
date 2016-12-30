@@ -13,16 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="营业时间"/>
-    <TextView
-        android:id="@+id/tv_time"
-        android:gravity="center_vertical"
-        android:layout_marginTop="15dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:hint="请输入营业时间"
-        android:background="@color/view_line"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_space" />
     <LinearLayout
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
@@ -52,7 +42,7 @@
             <TextView
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/black"
-                android:text="结束时间"
+                android:text="打烊时间"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TimePicker
@@ -61,9 +51,4 @@
                 android:id="@+id/timePicker2" />
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:onClick="timeComplete"
-        android:text="完成"
-        android:layout_marginTop="15dp"
-        style="@style/btnNormal"/>
 </LinearLayout>

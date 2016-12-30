@@ -2,14 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/moneyBarColor"
-    android:layout_height="73dp">
-    <View
-        android:id="@+id/topview"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:background="@color/moneyBarColor"/>
+    android:layout_height="48dp">
     <RelativeLayout
-        android:layout_below="@id/topview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView

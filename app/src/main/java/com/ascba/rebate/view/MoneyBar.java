@@ -52,11 +52,11 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
 
     //初始化
     private void initView(Context context,AttributeSet attrs){
-        if(Build.VERSION.SDK_INT >=19){
+        /*if(Build.VERSION.SDK_INT >=19){
             LayoutInflater.from(context).inflate(R.layout.money_bar_layout_status, this,true);
-        }else{
+        }else{*/
             LayoutInflater.from(context).inflate(R.layout.money_bar_layout_no_status, this,true);
-        }
+//        }
         mTextView= (TextView) findViewById(R.id.money_bar_title);
         mImageView= (ImageView) findViewById(R.id.money_bar_back);
         tailIcon = ((ImageView) findViewById(R.id.money_bar_tail_icon));
@@ -121,6 +121,10 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     public void setTextTitle(String title){
         this.title=title;
         mTextView.setText(title);
+        invalidate();
+    }
+    public void setTailTitle(String tailText){
+        completeText.setText(tailText);
         invalidate();
     }
 }

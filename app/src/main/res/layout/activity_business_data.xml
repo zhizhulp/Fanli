@@ -51,6 +51,66 @@
             <View
                 style="@style/viewStyleMatch"/>
             <RelativeLayout
+                android:onClick="goBusinessLogo"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_space">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/activity_text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商家Logo"/>
+                <ImageView
+                    android:id="@+id/busi_go_icon_01"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_go"/>
+                <ImageView
+                    android:id="@+id/im_busi_logo_mini"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/busi_go_icon_01"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+            </RelativeLayout>
+            <View
+                style="@style/viewStyleMatch"/>
+            <RelativeLayout
+                android:onClick="goBusinessPic"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_space">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/activity_text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商家形象"/>
+                <ImageView
+                    android:id="@+id/busi_go_icon"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_go"/>
+                <ImageView
+                    android:id="@+id/im_busi_logo"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/busi_go_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+            </RelativeLayout>
+            <View
+                style="@style/viewStyleMatch"/>
+            <RelativeLayout
                 android:onClick="goBusinessTag"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
@@ -87,6 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_space">
                 <TextView
+                    android:id="@+id/tv_location_string"
                     android:layout_centerVertical="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/activity_text_normal"
@@ -101,10 +162,14 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_go"/>
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/business_data_location"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_toLeftOf="@id/business_address_go"
+                    android:layout_toRightOf="@id/tv_location_string"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
@@ -213,28 +278,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="商家详情"/>
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_go"/>
-            </RelativeLayout>
-            <View
-                style="@style/viewStyleMatch"/>
-            <RelativeLayout
-                android:onClick="goBusinessPic"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_space">
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/activity_text_normal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商家照片"/>
                 <ImageView
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"

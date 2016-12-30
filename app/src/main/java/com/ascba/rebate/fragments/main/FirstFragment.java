@@ -1,5 +1,6 @@
 package com.ascba.rebate.fragments.main;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -108,25 +109,20 @@ public class FirstFragment extends BaseFragment {
     private ProgressDialog pD;
     private DownloadQueue downloadQueue;
     private TextView tvAllScore;
-
     private SuperSwipeRefreshLayout refreshLayout;
-    private ProgressBar progressBar;
-    private ImageView imageView;
-    private TextView textView;
     private TextView tvRedScore;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            View view = inflater.inflate(R.layout.first_fragment_status, null);
-            return view;
-        } else {
-            View view = inflater.inflate(R.layout.first_fragment, null);
-            return view;
-        }
-    }
 
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return inflater.inflate(R.layout.first_fragment_status, null);
+        } else {*/
+            return inflater.inflate(R.layout.first_fragment, null);
+//        }
+    }
 
     @Override
     public void onResume() {
@@ -144,6 +140,16 @@ public class FirstFragment extends BaseFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(downloadQueue!=null){
+            downloadQueue.cancelAll();
+        }
+    }
+
+
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvAllScore = ((TextView) view.findViewById(R.id.score_all));
@@ -159,7 +165,7 @@ public class FirstFragment extends BaseFragment {
     }
 
     private void requestMainData() {
-        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+/*        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
         if(!netAva){
             refreshLayout.setRefreshing(false);
 //            progressBar.setVisibility(View.GONE);
@@ -167,10 +173,10 @@ public class FirstFragment extends BaseFragment {
             dm.buildAlertDialog("请打开网络！");
             return;
         }else{
-           /* textView.setText("正在刷新");
+           *//* textView.setText("正在刷新");
             imageView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);*/
-        }
+            progressBar.setVisibility(View.VISIBLE);*//*
+        }*/
         String version = getPackageVersion();
         Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, true);
         request.add("version_code",version);
@@ -324,10 +330,7 @@ public class FirstFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+
 
 
     /**
@@ -544,12 +547,5 @@ public class FirstFragment extends BaseFragment {
         return cachePath;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(downloadQueue!=null){
-            downloadQueue.cancelAll();
-        }
 
-    }
 }

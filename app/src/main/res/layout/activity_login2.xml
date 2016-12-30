@@ -27,7 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintSize="@dimen/activity_text_normal"
-            android:hint="请输入您的手机号"/>
+            android:hint="请输入您的手机号"
+            android:textSize="18sp"
+            android:singleLine="false" />
     </LinearLayout>
     <ImageView
         android:layout_marginTop="2dp"
@@ -61,7 +63,8 @@
         android:textSize="@dimen/activity_text_title"
         android:text="登录"
         android:layout_marginTop="40dp"
-        style="@style/btnNormal" />
+        style="@style/btnNormal"
+        android:elevation="0dp" />
     <Button
         android:onClick="goRegister"
         android:textColor="@color/btn"

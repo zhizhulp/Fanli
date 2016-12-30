@@ -6,15 +6,15 @@ import android.support.v4.app.FragmentManager;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.BackMoneyFragment;
+import com.ascba.rebate.fragments.RecScoreFragment;
 import com.ascba.rebate.fragments.RecommendFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SwitchButton;
 
 public class RecommendActivity extends BaseNetWorkActivity {
-
     private SwitchButton sb;
     private RecommendFragment rf;
-    private RecommendFragment rf2;
+    private RecScoreFragment rf2;
     private FragmentManager fm;
 
     @Override
@@ -23,11 +23,12 @@ public class RecommendActivity extends BaseNetWorkActivity {
         setContentView(R.layout.activity_recommend);
         fm = getSupportFragmentManager();
         switchFragment();
+
     }
 
     private void switchFragment() {
         rf=RecommendFragment.getInstance("历史累计兑现券(元)");
-        rf2=RecommendFragment.getInstance("历史累计积分(分)");
+        rf2=RecScoreFragment.getInstance("历史累计积分(分)");
         fm.beginTransaction()
                 .add(R.id.recommend_fragment,rf)
                 .add(R.id.recommend_fragment,rf2)
@@ -39,9 +40,6 @@ public class RecommendActivity extends BaseNetWorkActivity {
             public void onLeftClick() {
                 LogUtils.PrintLog("123","left is click");
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                if(!rf.isVisible()){
-
-                }
                 ft.show(rf);
                 ft.hide(rf2);
                 ft.commit();

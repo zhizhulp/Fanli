@@ -24,7 +24,9 @@ public class WSExchangeActivity extends BaseNetWorkActivity implements BaseNetWo
     private int cashingId;
     private int cashing_score;
     private String cashing_money;
-    private Button btnEx;
+    private Button btnGo;
+    private TextView tvMoney;
+    private TextView tvMax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +52,39 @@ public class WSExchangeActivity extends BaseNetWorkActivity implements BaseNetWo
             Request<JSONObject> request = buildNetRequest(UrlUtils.getCashingInfo, 0, true);
             request.add("cashing_id",cashingId);
             executeNetWork(request,"请稍后");
+            setCallback(this);
         }else if(finalScene==2){
-            Request<JSONObject> request = buildNetRequest(UrlUtils.getCashingInfo, 0, true);
+            Request<JSONObject> request = buildNetRequest(UrlUtils.cashingMoney, 0, true);
             request.add("cashing_id",cashingId);
-            request.add("cashing_score",cashing_score);
-            request.add("money",cashing_money);
+            //request.add("cashing_score",cashing_score);
+            request.add("client_money",cashing_money);
             executeNetWork(request,"请稍后");
+            setCallback(this);
         }
 
     }
 
     private void initViews() {
         dm=new DialogManager(this);
-        noView = findViewById(R.id.no_card_view);
+        noView = findViewById(R.id.when_no_card);
         tvTips = ((TextView) findViewById(R.id.tv_tips));
         tvTotal = ((TextView) findViewById(R.id.tv_total));
         tvTicketScore = (TextView)findViewById(R.id.tv_ticket_score);
+        btnGo = ((Button) findViewById(R.id.btn_go));
+        tvMoney = ((TextView) findViewById(R.id.tv_money));
+        tvMax = ((TextView) findViewById(R.id.tv_max_money));
     }
 
     public void go(View view) {
-        btnEx = ((Button) view);
-        dm.buildAlertDialog("暂时不能兑换喔");
+        dm.buildAlertDialog1("您确定要兑换吗？");
+        dm.setCallback(new DialogManager.Callback() {
+            @Override
+            public void handleSure() {
+                dm.dismissDialog();
+                requestNetwork(2);
+            }
+        });
+
     }
 
     @Override
@@ -79,22 +93,23 @@ public class WSExchangeActivity extends BaseNetWorkActivity implements BaseNetWo
             int tip_status = dataObj.optInt("tip_status");
             JSONObject cashObj = dataObj.optJSONObject("cashing_info");
             int id = cashObj.optInt("id");//索引ID
+            int white_score = cashObj.optInt("white_score");//白积分总额
             cashing_money = cashObj.optString("cashing_money");//兑换金额
-            int p_referee = cashObj.optInt("p_referee");
-            int pp_referee = cashObj.optInt("pp_referee");
             cashing_score = cashObj.optInt("cashing_score");//兑换最大积分
             if(tip_status==1){
                 String cashing_info_tip = dataObj.optString("cashing_info_tip");
                 noView.setVisibility(View.VISIBLE);
                 tvTips.setText(cashing_info_tip);
-                btnEx.setEnabled(false);
-                btnEx.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+                btnGo.setEnabled(false);
+                btnGo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
             }else{
-                btnEx.setEnabled(true);
+                btnGo.setEnabled(true);
                 noView.setVisibility(View.GONE);
             }
-            tvTotal.setText(cashing_money);
+            tvTotal.setText(white_score+"");
             tvTicketScore.setText(cashing_score+"");
+            tvMoney.setText(cashing_money);
+            tvMax.setText("本次兑换最大额度为"+cashing_money+"元");
         }else if(finalScene==2){
             dm.buildAlertDialog(message);
         }

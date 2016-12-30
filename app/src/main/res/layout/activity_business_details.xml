@@ -15,6 +15,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:background="@drawable/go_where_bg"
             android:layout_width="0dp"
             android:layout_height="47dp"
             android:layout_weight="1"
@@ -38,10 +39,11 @@
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.01"
+            android:layout_weight="0.007"
             android:background="@color/view_line" />
 
         <LinearLayout
+            android:background="@drawable/go_where_bg"
             android:layout_width="0dp"
             android:layout_height="47dp"
             android:layout_weight="1"
