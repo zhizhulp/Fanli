@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.jaeger.library.StatusBarUtil;
 
 public class ShowDescriptionActivity extends BaseNetWorkActivity {
 
@@ -15,6 +16,7 @@ public class ShowDescriptionActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_description);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();//获取商家详情
     }

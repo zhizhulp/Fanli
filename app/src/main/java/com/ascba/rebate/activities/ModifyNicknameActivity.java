@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 
 public class ModifyNicknameActivity extends BaseNetWorkActivity implements MoneyBar.CallBack {
 
@@ -18,6 +19,7 @@ public class ModifyNicknameActivity extends BaseNetWorkActivity implements Money
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_nickname);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 

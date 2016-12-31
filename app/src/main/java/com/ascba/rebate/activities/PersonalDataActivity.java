@@ -22,6 +22,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -60,6 +61,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_data);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 
@@ -240,6 +242,9 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 userIconView.setImageBitmap(bitmap);
                 break;
             case sexRequest:
+                if(data==null){
+                    return;
+                }
                 switch (resultCode) {
                     case SexChangeActivity.SELECT_MAN:
                         sexShow.setText("男");
@@ -253,14 +258,23 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 }
                 break;
             case nickNameRequest:
+                if(data==null){
+                    return;
+                }
                 String nickname = data.getStringExtra("nickname");
                 tvNickname.setText(nickname);
                 break;
             case ageRequest:
+                if(data==null){
+                    return;
+                }
                 String age = data.getStringExtra("age");
                 tvAge.setText(age);
                 break;
             case locationRequest:
+                if(data==null){
+                    return;
+                }
                 String location = data.getStringExtra("location");
                 tvLocation.setText(location);
                 break;

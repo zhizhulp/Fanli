@@ -25,7 +25,7 @@
             android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="8%"/>
+            android:text="8.0%"/>
         <View
             android:visibility="gone"
             style="@style/viewStyleMatch"/>
@@ -37,7 +37,7 @@
             android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="16%"/>
+            android:text="16.0%"/>
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
@@ -49,7 +49,7 @@
             android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_space"
-            android:text="24%"/>
+            android:text="24.0%"/>
         <View
             android:visibility="gone"
             style="@style/viewStyleMatch"/>

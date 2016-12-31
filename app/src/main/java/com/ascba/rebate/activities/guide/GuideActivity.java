@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.ascba.rebate.R;
@@ -34,6 +35,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
 
     // 记录当前选中位置
     private int currentIndex;
+    private Button btnEnter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,13 @@ public class GuideActivity extends Activity implements View.OnClickListener {
 
             if (i == pics.length - 1) {
                 startImg = (ImageView) view.findViewById(R.id.guide03_start);
+                btnEnter = ((Button) view.findViewById(R.id.btn_enter));
+                btnEnter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        enterMainActivity();
+                    }
+                });
                 startImg.setTag("enter");
                 startImg.setOnClickListener(this);
             }

@@ -10,6 +10,7 @@ import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -31,6 +32,7 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_to);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestNetWork();
     }

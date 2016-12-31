@@ -11,6 +11,7 @@ import com.ascba.rebate.adapter.TicketAdapter2;
 import com.ascba.rebate.beans.Ticket;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestServer(UrlUtils.getVoucherList);
     }

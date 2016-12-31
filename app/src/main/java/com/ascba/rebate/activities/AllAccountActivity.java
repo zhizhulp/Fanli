@@ -10,6 +10,7 @@ import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.CashAccountFragment;
 import com.ascba.rebate.fragments.WhiteAccountFragment;
 import com.ascba.rebate.view.SwitchButton;
+import com.jaeger.library.StatusBarUtil;
 
 public class AllAccountActivity extends BaseNetWorkActivity implements View.OnClickListener {
 
@@ -22,6 +23,7 @@ public class AllAccountActivity extends BaseNetWorkActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_account);
+        StatusBarUtil.setColor(this, 0xffe52020);
         getDataFromIntent();
     }
     //红积分兑换成功，点击历史记录，查看账单

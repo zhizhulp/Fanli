@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.ascba.rebate.activities.base.BaseNetWork2Activity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.TabEntity;
@@ -19,6 +20,8 @@ import com.ascba.rebate.fragments.main.FirstFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.fragments.message.SecondFragment;
 import com.ascba.rebate.fragments.shop.ThirdFragment;
+import com.jaeger.library.StatusBarUtil;
+
 import java.util.ArrayList;
 import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
@@ -77,8 +80,8 @@ public class MainActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarUtil.setColor(this, 0xffe52020);
         findViews();
-
     }
 
     private void findViews() {

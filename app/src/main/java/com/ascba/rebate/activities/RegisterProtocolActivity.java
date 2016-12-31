@@ -6,6 +6,7 @@ import android.webkit.WebView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 
 public class RegisterProtocolActivity extends BaseNetWorkActivity {
 
@@ -15,6 +16,7 @@ public class RegisterProtocolActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_protocol);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 

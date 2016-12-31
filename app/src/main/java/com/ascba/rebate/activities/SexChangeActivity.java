@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.jaeger.library.StatusBarUtil;
 
 public class SexChangeActivity extends BaseNetWorkActivity implements View.OnClickListener {
 
@@ -24,6 +25,7 @@ public class SexChangeActivity extends BaseNetWorkActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sex_change);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         handleIntent();
         clickEvent();

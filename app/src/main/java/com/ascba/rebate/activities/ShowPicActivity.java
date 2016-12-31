@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.Picasso;
 
 public class ShowPicActivity extends BaseNetWorkActivity {
@@ -16,6 +17,7 @@ public class ShowPicActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pic);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
 

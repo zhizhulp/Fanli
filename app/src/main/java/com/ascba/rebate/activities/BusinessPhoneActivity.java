@@ -8,6 +8,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 
 public class BusinessPhoneActivity extends BaseNetWorkActivity {
     private EditTextWithCustomHint edPhone;
@@ -15,7 +16,19 @@ public class BusinessPhoneActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_phone);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
+        getDataFromIntent();
+    }
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            String seller_tel = intent.getStringExtra("seller_tel");
+            if(seller_tel!=null){
+                edPhone.setText(seller_tel);
+                edPhone.setSelection(seller_tel.length());
+            }
+        }
     }
 
     private void initViews() {

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.jaeger.library.StatusBarUtil;
 
 public class RechargeResultActivity extends BaseNetWorkActivity{
 
@@ -17,6 +18,7 @@ public class RechargeResultActivity extends BaseNetWorkActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }

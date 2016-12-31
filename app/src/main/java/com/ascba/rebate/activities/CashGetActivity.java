@@ -22,6 +22,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -56,6 +57,7 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_get);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }

@@ -28,6 +28,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -74,6 +75,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_proxy);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getData();
         netRequest(0);//

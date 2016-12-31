@@ -18,6 +18,7 @@ import com.ascba.rebate.handlers.OnPasswordInputFinish;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
@@ -36,6 +37,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getIntentFromBefore();
 

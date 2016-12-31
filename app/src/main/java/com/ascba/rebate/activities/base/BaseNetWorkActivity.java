@@ -52,7 +52,6 @@ public class BaseNetWorkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((MyApplication) getApplication()).addActivity(this);
         //setStatusBar();
-        StatusBarUtil.setColor(this, 0xffe52020);
     }
 
     @Override

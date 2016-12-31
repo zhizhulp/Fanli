@@ -16,6 +16,7 @@ import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yolanda.nohttp.rest.Request;
 
@@ -32,6 +33,7 @@ public class RecQRActivity extends BaseNetWorkActivity implements BaseNetWorkAct
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec_qr);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         createQR();
         requestFromServer();

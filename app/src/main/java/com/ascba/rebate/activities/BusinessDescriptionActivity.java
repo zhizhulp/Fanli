@@ -19,6 +19,19 @@ public class BusinessDescriptionActivity extends BaseNetWorkActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_description);
         initViews();
+        getDataFromIntent();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            String desc = intent.getStringExtra("desc");
+            if(desc!=null){
+                tvDesc.setText(desc);
+                tvDesc.setSelection(desc.length());
+            }
+
+        }
     }
 
     private void initViews() {

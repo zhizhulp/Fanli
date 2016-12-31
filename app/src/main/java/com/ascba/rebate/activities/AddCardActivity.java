@@ -12,6 +12,7 @@ import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
@@ -25,6 +26,7 @@ public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_crad);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }

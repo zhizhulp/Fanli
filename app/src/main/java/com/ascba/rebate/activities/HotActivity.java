@@ -15,6 +15,7 @@ import com.ascba.rebate.beans.ConfigAreaDTO;
 import com.ascba.rebate.beans.ConfigsDTO;
 import com.ascba.rebate.beans.ConfigsMessageDTO;
 import com.ascba.rebate.fragments.main.RecBusinessAdapter;
+import com.jaeger.library.StatusBarUtil;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
@@ -41,6 +42,7 @@ public class HotActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hot);
+        StatusBarUtil.setColor(this, 0xffe52020);
         listView = ((ListView) findViewById(R.id.hot_list));
         initData();
         recBusinessAdapter = new RecBusinessAdapter(mList,this);

@@ -14,6 +14,7 @@ import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
@@ -31,6 +32,7 @@ public class LoginActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         autoLogin();
         backFirstPhone();//传回注册成功的手机账号

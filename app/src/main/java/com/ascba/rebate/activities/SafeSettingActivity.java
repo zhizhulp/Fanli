@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.jaeger.library.StatusBarUtil;
 
 public class SafeSettingActivity extends BaseNetWorkActivity {
 
@@ -13,6 +14,7 @@ public class SafeSettingActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_safe_setting);
+        StatusBarUtil.setColor(this, 0xffe52020);
     }
     //修改手机号码
     public void safeSettingPhoneChange(View view) {

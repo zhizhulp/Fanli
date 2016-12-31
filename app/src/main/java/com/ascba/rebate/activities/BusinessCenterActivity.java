@@ -19,6 +19,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.SelectIconManager;
+import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.rest.Request;
@@ -60,6 +61,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_center);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }

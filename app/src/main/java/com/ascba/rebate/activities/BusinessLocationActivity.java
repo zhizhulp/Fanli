@@ -8,6 +8,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 
 public class BusinessLocationActivity extends BaseNetWorkActivity {
     private EditTextWithCustomHint edLocate;
@@ -17,6 +18,7 @@ public class BusinessLocationActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_location);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 

@@ -8,6 +8,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
@@ -24,6 +25,7 @@ public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_red_score_update);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestRedScore();
     }

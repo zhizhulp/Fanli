@@ -10,6 +10,7 @@ import com.ascba.rebate.fragments.RecScoreFragment;
 import com.ascba.rebate.fragments.RecommendFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SwitchButton;
+import com.jaeger.library.StatusBarUtil;
 
 public class RecommendActivity extends BaseNetWorkActivity {
     private SwitchButton sb;
@@ -21,6 +22,7 @@ public class RecommendActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
+        StatusBarUtil.setColor(this, 0xffe52020);
         fm = getSupportFragmentManager();
         switchFragment();
 

@@ -19,6 +19,7 @@ import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.pay.PayResult;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -70,6 +71,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_recharge);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 

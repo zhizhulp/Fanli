@@ -31,6 +31,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.OpenClientUtil;
 import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
 import com.baidu.mapapi.utils.route.RouteParaOption;
+import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 

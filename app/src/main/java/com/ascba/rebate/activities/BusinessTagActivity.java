@@ -30,6 +30,45 @@ public class BusinessTagActivity extends BaseNetWorkActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_tag);
         initViews();
+        getDataFromIntent();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            String seller_taglib = intent.getStringExtra("seller_taglib");
+            if(seller_taglib!=null){
+                edType.setText(seller_taglib);
+                if(seller_taglib.equals(rbEat.getText().toString())){
+                    rg.check(R.id.rb_eat);
+                    //rbEat.setSelected(true);
+                }else if(seller_taglib.equals(rbPlay.getText().toString())){
+                    rg.check(R.id.rb_eat);
+                    //rbPlay.setSelected(true);
+                }else if(seller_taglib.equals(rbRest.getText().toString())){
+                    rg.check(R.id.rb_rest);
+                    //rbRest.setSelected(true);
+                }else if(seller_taglib.equals(rbCloth.getText().toString())){
+                    rg.check(R.id.rb_cloth);
+                    //rbCloth.setSelected(true);
+                }else if(seller_taglib.equals(rbHouse.getText().toString())){
+                    rg.check(R.id.rb_house);
+                    //rbHouse.setSelected(true);
+                }else if(seller_taglib.equals(rbMedi.getText().toString())){
+                    rg.check(R.id.rb_medicine);
+                    //rbMedi.setSelected(true);
+                }else if(seller_taglib.equals(rbToy.getText().toString())){
+                    rg.check(R.id.rb_toy);
+                    //rbToy.setSelected(true);
+                }else if(seller_taglib.equals(rbSoftEat.getText().toString())){
+                    rg.check(R.id.rb_soft_eat);
+                    //rbSoftEat.setSelected(true);
+                }else if(seller_taglib.equals(rbOffice.getText().toString())){
+                    rg.check(R.id.rb_office);
+                    //rbOffice.setSelected(true);
+                }
+            }
+        }
     }
 
     private void initViews() {

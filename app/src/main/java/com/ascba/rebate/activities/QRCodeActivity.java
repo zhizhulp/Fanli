@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 public class QRCodeActivity extends BaseNetWorkActivity {
@@ -21,6 +22,7 @@ public class QRCodeActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
+        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 

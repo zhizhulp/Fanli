@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yolanda.nohttp.rest.Request;
@@ -16,6 +17,7 @@ public class SweepActivity extends BaseNetWorkActivity implements BaseNetWorkAct
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sweep);
+        StatusBarUtil.setColor(this, 0xffe52020);
         /**
          * 执行扫面Fragment的初始化操作
          */

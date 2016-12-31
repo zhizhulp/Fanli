@@ -9,6 +9,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ public class SettingActivity extends BaseNetWorkActivity implements BaseNetWorkA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        StatusBarUtil.setColor(this, 0xffe52020);
     }
     //进入  个人资料  界面
     public void settingPersonalDataClick(View view) {
