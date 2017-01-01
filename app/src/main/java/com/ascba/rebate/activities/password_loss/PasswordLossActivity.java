@@ -17,6 +17,7 @@ import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
@@ -34,6 +35,7 @@ public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_loss);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 
@@ -68,6 +70,10 @@ public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNet
         intent.putExtra("loss_phone",phone);
         intent.putExtra("sms_code",sms_code);
         startActivity(intent);
+        finish();
+    }
+
+    public void goBack(View view) {
         finish();
     }
     /*private void sendMsgToSevr(String baseUrl) {

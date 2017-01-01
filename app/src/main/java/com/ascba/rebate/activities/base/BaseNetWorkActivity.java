@@ -150,6 +150,8 @@ public class BaseNetWorkActivity extends AppCompatActivity {
                 dm.buildAlertDialog(message);
             } else if(status==500){
                 dm.buildAlertDialog(message);
+            } else if(status==6){
+                dm.buildAlertDialog(message);
             }
         }
 

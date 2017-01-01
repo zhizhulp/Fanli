@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.SupportMapFragment;
@@ -68,18 +71,35 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
     private SearchBar sb;
     private MyAutoCompleteTextView keyWorldsView;
     private List<SearchBean> suggest=new ArrayList<>();
+    private double lon;
+    private double lat;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaode_poisearch);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor),0);
+        StatusBarUtil.setColor(this, 0xffe52020);
         dm = new DialogManager(this);
         initSearchBar();
         initKeywords();//初始化AutoCompleteTextView
         initMaps(savedInstanceState);//初始化地图
-        loadLocation();//获取当前位置信息
+        getDataFromIntent();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            lon = intent.getDoubleExtra("lon",0);
+            lat = intent.getDoubleExtra("lat",0);
+            if(lon!=0 &&lat!=0){
+                MarkerOptions markerOption = new MarkerOptions();
+                markerOption.position(new LatLng(lat,lon));
+                aMap.clear();
+                aMap.addMarker(markerOption);
+            }
+
+        }
     }
 
     private void initSearchBar() {
@@ -113,9 +133,6 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
         keyWorldsView.setOnItemClickListener(this);
     }
 
-    private void loadLocation() {
-
-    }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

@@ -126,6 +126,7 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
+        android:id="@+id/no_view_01"
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -143,8 +144,10 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
+        android:id="@+id/no_view_02"
         style="@style/viewStyleMatch"/>
     <RelativeLayout
+        android:id="@+id/no_view_03"
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -162,6 +165,7 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
+        android:id="@+id/no_view_04"
         style="@style/viewStyleMatch"/>
 
     <LinearLayout

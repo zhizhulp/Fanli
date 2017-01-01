@@ -67,8 +67,11 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
     private PopupWindow popCities;
     private ListView listView;
     private MoneyBar mb;
-
     private View agreeProtocol;
+    private View noView01;
+    private View noView02;
+    private View noView03;
+    private View noView04;
 
 
     @Override
@@ -168,6 +171,10 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         mb = ((MoneyBar) findViewById(R.id.mb_open_proxy));
         mb.setCallBack(this);
         mb.setTailTitle("特权说明");
+        noView01 = findViewById(R.id.no_view_01);
+        noView02 = findViewById(R.id.no_view_02);
+        noView03 = findViewById(R.id.no_view_03);
+        noView04 = findViewById(R.id.no_view_04);
     }
 
 
@@ -336,12 +343,20 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
                 rbNo.setChecked(true);
                 rbNo.setEnabled(false);
                 rbHave.setEnabled(false);
+                noView01.setVisibility(View.GONE);
+                noView02.setVisibility(View.GONE);
+                noView03.setVisibility(View.GONE);
+                noView04.setVisibility(View.GONE);
             }else{
                 rbHave.setChecked(true);
                 rbNo.setEnabled(false);
                 rbHave.setEnabled(false);
                 tvName.setText(realname);
                 tvPhone.setText(mobile);
+                noView01.setVisibility(View.VISIBLE);
+                noView02.setVisibility(View.VISIBLE);
+                noView03.setVisibility(View.VISIBLE);
+                noView04.setVisibility(View.VISIBLE);
             }
             tvMoney.setText(price);
             tvProxyName.setText(name);

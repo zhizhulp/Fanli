@@ -32,7 +32,7 @@ public class LoginActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
-        StatusBarUtil.setColor(this, 0xffe52020);
+//        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         autoLogin();
         backFirstPhone();//传回注册成功的手机账号

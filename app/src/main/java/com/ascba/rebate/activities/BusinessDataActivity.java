@@ -46,6 +46,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     private String seller_name;
     private String seller_taglib;
     private String seller_tel;
+    private String seller_business_hours;
 
     private double longitude;
     private double latitude;
@@ -58,6 +59,8 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     private File file;
     private File fileLogo;
     private ImageView imBusLogo;
+    private double lon;
+    private double lat;
 
 
     @Override
@@ -77,8 +80,16 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
             String seller_image = intent.getStringExtra("seller_image");
             seller_taglib = intent.getStringExtra("seller_taglib");
             String seller_address = intent.getStringExtra("seller_address");
+            String seller_lon = intent.getStringExtra("seller_lon");
+            String seller_lat = intent.getStringExtra("seller_lat");
+            if(seller_lon!=null){
+                lon = Double.parseDouble(seller_lon);
+            }
+            if(seller_lat!=null){
+                lat = Double.parseDouble(seller_lat);
+            }
             seller_tel = intent.getStringExtra("seller_tel");
-            String seller_business_hours = intent.getStringExtra("seller_business_hours");
+            seller_business_hours = intent.getStringExtra("seller_business_hours");
             String seller_return_ratio = intent.getStringExtra("seller_return_ratio");
             desc = intent.getStringExtra("seller_description");
             tvName.setText(seller_name);
@@ -125,6 +136,8 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     public void goBusinessLocation(View view) {
         //商家地理位置，此处接入高德地图
         Intent intent=new Intent(this,GaoDeSearch.class);
+        intent.putExtra("lon",lon);
+        intent.putExtra("lat",lat);
         startActivityForResult(intent,REQUEST_BUSINESS_LOCATION);
 
     }
@@ -139,8 +152,8 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
 
     public void goBusinessTime(View view) {
         Intent intent=new Intent(this,BusinessTimeActivity.class);
-        if(seller_name!=null){
-            intent.putExtra("seller_name",seller_name);
+        if(seller_business_hours!=null){
+            intent.putExtra("seller_business_hours",seller_business_hours);
         }
         startActivityForResult(intent,REQUEST_BUSINESS_TIME);
     }

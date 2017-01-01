@@ -57,6 +57,8 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = new AMapLocationClientOption();
     private DialogManager dm;
+    private double lon;
+    private double lat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,6 +221,14 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         String seller_taglib = seObj.optString("seller_taglib");
         seller_description = seObj.optString("seller_description");
         String seller_address = seObj.optString("seller_address");
+        String seller_lon = seObj.optString("seller_lon");
+        String seller_lat = seObj.optString("seller_lat");
+        /*if(seller_lon!=null){
+            lon = Double.parseDouble(seller_lon);
+        }
+        if(seller_lat!=null){
+            lat = Double.parseDouble(seller_lat);
+        }*/
         seller_tel = seObj.optString("seller_tel");
         String seller_business_hours = seObj.optString("seller_business_hours");
         String seller_cover = seObj.optString("seller_cover");

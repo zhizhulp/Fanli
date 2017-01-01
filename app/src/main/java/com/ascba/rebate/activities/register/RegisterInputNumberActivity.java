@@ -12,6 +12,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,7 @@ public class RegisterInputNumberActivity extends BaseNetWorkActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_input_number);
+//        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 
@@ -136,6 +138,10 @@ public class RegisterInputNumberActivity extends BaseNetWorkActivity implements 
         intent.putExtra("phone_number",phone);
         intent.putExtra("sms_code",sms_code);
         startActivity(intent);
+        finish();
+    }
+
+    public void goBack(View view) {
         finish();
     }
 }
