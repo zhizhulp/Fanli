@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.fragments.BackMoneyFragment;
 import com.ascba.rebate.fragments.RecScoreFragment;
 import com.ascba.rebate.fragments.RecommendFragment;
 import com.ascba.rebate.utils.LogUtils;

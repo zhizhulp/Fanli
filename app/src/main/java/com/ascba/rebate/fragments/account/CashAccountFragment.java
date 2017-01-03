@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.account;
 
 
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.beans.CashAccountType;
+import com.ascba.rebate.fragments.BaseAccListFragment;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;

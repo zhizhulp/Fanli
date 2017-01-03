@@ -83,4 +83,5 @@ public class UrlUtils {
     public static final String resubmitCompany=baseWebsite+"/"+webVersion+"/"+"resubmitCompany";//资料有误重复提交
 
 
+    public static final String getMyPReferee=baseWebsite+"/"+webVersion+"/"+"getMyPReferee";//二级推荐
 }
