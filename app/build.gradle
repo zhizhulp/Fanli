@@ -25,6 +25,9 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    defaultConfig {
+        multiDexEnabled true
+    }
 
 }
 
@@ -34,9 +37,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':android-expandpoptab-library')
-    compile files('libs/baidumapapi_base_v4_1_1.jar')
-    compile files('libs/baidumapapi_util_v4_1_1.jar')
-    compile files('libs/locSDK_6.13.jar')
     compile files('libs/jpush-android-2.2.0.jar')
     compile files('libs/alipaySdk-20161009.jar')
     compile files('libs/AMap_Location_V3.2.0_20161205.jar')

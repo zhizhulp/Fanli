@@ -113,5 +113,6 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
     public void handle200Data(JSONObject dataObj, String message) throws JSONException {
         Intent intent=new Intent(this,TradeResultActivity.class);
         startActivity(intent);
+        finish();
     }
 }

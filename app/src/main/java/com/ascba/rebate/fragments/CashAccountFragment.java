@@ -30,8 +30,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class CashAccountFragment extends BaseFragment implements BaseFragment.Callback,View.OnClickListener {
-/*    private ListView cashAccountListView;
-    private WhiteAccountAdapter adapter;*/
+
     private ArrayList<CashAccount> mList;
     private View empView;
     private View cashGetView;
@@ -46,10 +45,17 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
     private FragmentManager fm;
     private List<Fragment> fragments;
     private int position=-1;
+    private TextView tvEmployeeStr;
+    private TextView tvCashGetStr;
+    private TextView tvExchangeStr;
+    private TextView tvRechargeStr;
+    private TextView tvCostStr;
+    private List<TextView> listTop=new ArrayList<>();
+    private List<TextView> listBottom=new ArrayList<>();
 
 
     public CashAccountFragment() {
-        // Required empty public constructor
+
     }
     public static CashAccountFragment getInstance(int position){
         CashAccountFragment fragment=new CashAccountFragment();
@@ -68,7 +74,7 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_cash_account, container, false);
     }
 
@@ -103,6 +109,22 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
         tvExchange = (TextView)  view.findViewById(R.id.tv_exchange);
         tvRecharge = (TextView)  view.findViewById(R.id.tv_recharge);
         tvCost = (TextView)  view.findViewById(R.id.tv_cost);
+        listBottom.add(tvEmployee);
+        listBottom.add(tvCashGet);
+        listBottom.add(tvExchange);
+        listBottom.add(tvRecharge);
+        listBottom.add(tvCost);
+        tvEmployeeStr = ((TextView) view.findViewById(R.id.tv_employee_string));
+        tvCashGetStr = ((TextView) view.findViewById(R.id.tv_cash_get_string));
+        tvExchangeStr = ((TextView) view.findViewById(R.id.tv_exchange_string));
+        tvRechargeStr = ((TextView) view.findViewById(R.id.tv_recharge_string));
+        tvCostStr = ((TextView) view.findViewById(R.id.tv_cost_string));
+        listTop.add(tvEmployeeStr);
+        listTop.add(tvCashGetStr);
+        listTop.add(tvExchangeStr);
+        listTop.add(tvRechargeStr);
+        listTop.add(tvCostStr);
+
     }
 
     private void initFragments() {
@@ -117,8 +139,12 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
                 Fragment f = fragments.get(i);
                 if(i==position){
                     ft.show(f);
+                    listBottom.get(i).setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    listTop.get(i).setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }else{
                     ft.hide(f);
+                    listBottom.get(i).setTextColor(getResources().getColor(R.color.black));
+                    listTop.get(i).setTextColor(getResources().getColor(R.color.black));
                 }
             }
             ft.commit();
@@ -179,11 +205,11 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
                 SimpleDateFormat sdf=new SimpleDateFormat("MM.dd/HH:mm");
                 String format = sdf.format(new Date(create_time * 1000));
                 String[] split = format.split("/");
-                String ratio_money = chaObj.optString("ratio_money");
+                String virtual_score = chaObj.optString("virtual_score");
                 String day=split[0];
                 String time=split[1];
                 String remark = chaObj.optString("remark");
-                CashAccount ca=new CashAccount(day,time,ratio_money,remark,CashAccountType.EXCHANGE);
+                CashAccount ca=new CashAccount(day,time,virtual_score,remark,CashAccountType.EXCHANGE);
                 mList.add(ca);
             }
         }

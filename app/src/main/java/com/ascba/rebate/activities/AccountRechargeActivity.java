@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -22,6 +23,7 @@ import com.ascba.rebate.view.pay.PayResult;
 import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -47,9 +49,19 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(AccountRechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = getIntent();
+                        /*Intent intent = getIntent();
                         setResult(RESULT_OK, intent);
-                        finish();
+                        finish();*/
+                        try {
+                            JSONObject jObj=new JSONObject(resultInfo);
+                            JSONObject trObj = jObj.optJSONObject("alipay_trade_app_pay_response");
+                            String total_amount = trObj.optString("total_amount");
+                            Intent intent=new Intent(AccountRechargeActivity.this,RechaSuccActivity.class);
+                            intent.putExtra("money",total_amount+"元");
+                            startActivityForResult(intent, FourthFragment.REQUEST_PAY);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         dm.buildAlertDialog("支付失败");
@@ -118,6 +130,17 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     public void handle200Data(JSONObject dataObj, String message) {
         String payInfo = dataObj.optString("payInfo");
         requestForAli(payInfo);//发起支付请求
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+           case FourthFragment.REQUEST_PAY:
+               Intent intent = getIntent();
+               setResult(RESULT_OK,intent);
+               finish();
+        }
     }
 }
 

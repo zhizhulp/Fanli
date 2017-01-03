@@ -247,7 +247,7 @@
                     android:textSize="@dimen/activity_text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="赠返比例"/>
+                    android:text="佣金比例"/>
                 <ImageView
                     android:layout_centerVertical="true"
                     android:id="@+id/business_rate_go"

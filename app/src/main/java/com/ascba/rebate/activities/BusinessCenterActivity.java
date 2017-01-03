@@ -55,6 +55,8 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
     private View authView;
     private String chartered;
     private String warrant;
+    private ImageView imWorkIcon;
+    private ImageView imAuthIcon;
 
 
     @Override
@@ -78,12 +80,18 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
             String scope = intent.getStringExtra("scope");
             int is_oper_name = intent.getIntExtra("is_oper_name", -1);// 0:与法人信息一致，1：与法人信息不一致
             chartered = intent.getStringExtra("chartered");//营业执照图片链接
+            if(chartered!=null){
+                Picasso.with(this).load(UrlUtils.baseWebsite+chartered).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
+            }
             if(is_oper_name==0){
                 authView.setVisibility(View.GONE);
             }else if(is_oper_name==1){
                 authView.setVisibility(View.VISIBLE);
                 String clientele_name = intent.getStringExtra("clientele_name");
                 warrant = intent.getStringExtra("warrant");//授权书图片链接
+                if(warrant!=null){
+                    Picasso.with(this).load(UrlUtils.baseWebsite+warrant).placeholder(R.mipmap.bc_icon).into(imAuthIcon);
+                }
                 edAuthName.setText(clientele_name);
             }
             tvName.setText(name);
@@ -98,8 +106,6 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                 btnCommit.setText("已提交，等待客服审核中");
                 btnCommit.setEnabled(false);
                 btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
-/*                workPicView.setEnabled(false);
-                authPicView.setEnabled(false);*/
             }else if(type==1){//资料有误的资料
                 btnCommit.setText("资料有误,点击重新审核");
                 btnCommit.setEnabled(true);
@@ -119,6 +125,8 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
         workPicView = findViewById(R.id.work_pic_container);
         authPicView = findViewById(R.id.auth_pic_container);
         authView = findViewById(R.id.auth_view);
+        imWorkIcon = ((ImageView) findViewById(R.id.busi_work_icon));
+        imAuthIcon = ((ImageView) findViewById(R.id.busi_auth_icon));
     }
 
 
@@ -127,7 +135,10 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GO_CAMERA_WORK:
-
+                if(fileWork!=null&&fileWork.exists()){
+                    Bitmap bitmap = handleBitmap(fileWork);
+                    imWorkIcon.setImageBitmap(bitmap);
+                }
                 break;
             case GO_ALBUM_WORK:
                 if (data == null) {
@@ -143,11 +154,15 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
                     fileWork = new File(picturePath);
-
+                    Bitmap bitmap = handleBitmap(fileWork);
+                    imWorkIcon.setImageBitmap(bitmap);
                 }
                 break;
             case GO_CAMERA_AUTH:
-
+                if(fileAuth!=null&&fileAuth.exists()){
+                    Bitmap bitmap = handleBitmap(fileAuth);
+                    imAuthIcon.setImageBitmap(bitmap);
+                }
                 break;
             case GO_ALBUM_AUTH:
                 if (data == null) {
@@ -163,7 +178,8 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                     String picturePath = cursor2.getString(columnIndex);
                     cursor2.close();
                     fileAuth = new File(picturePath);
-
+                    Bitmap bitmap = handleBitmap(fileAuth);
+                    imAuthIcon.setImageBitmap(bitmap);
                 }
                 break;
         }
@@ -298,5 +314,17 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
             file = getFilesDir();
         }
         return file;
+    }
+    public Bitmap handleBitmap(File file) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getPath(), options);
+        int scale = (int) (options.outWidth / (float) 300);
+        if (scale <= 0)
+            scale = 1;
+        options.inSampleSize = scale;
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 }

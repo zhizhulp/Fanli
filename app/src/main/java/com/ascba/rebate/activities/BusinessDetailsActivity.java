@@ -1,10 +1,7 @@
 package com.ascba.rebate.activities;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ProviderInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,15 +20,9 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMapUtils;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork2Activity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.OpenClientUtil;
-import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
-import com.baidu.mapapi.utils.route.RouteParaOption;
-import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 
@@ -110,7 +101,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
             intent.setAction(Intent.ACTION_VIEW);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             //将功能Scheme以URI的方式传入
-            Uri uri = Uri.parse("androidamap://route?sourceApplication=qlqw&slat="+mLat1+"&slon="+mLon1+"&sname=当前位置&dlat="+mLat2+"&dlon="+mLon2+"&dname=商家位置&dev=0&t=4");
+            Uri uri = Uri.parse("androidamap://route?sourceApplication=qlqw&slat="+mLat1+"&slon="+mLon1+"&sname=当前位置&dlat="+lat+"&dlon="+lon+"&dname=商家位置&dev=0&t=4");
             intent.setData(uri);
             startActivity(intent);
         }else {
@@ -119,48 +110,6 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
 
     }
 
-    /**
-     * 提示未安装百度地图app或app版本过低
-     */
-    public void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("您尚未安装百度地图app或app版本过低，点击确认安装？");
-        builder.setTitle("提示");
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                OpenClientUtil.getLatestBaiduMapApp(BusinessDetailsActivity.this);
-            }
-        });
-
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
-
-    /**
-     * 启动百度地图公交路线规划
-     */
-    public void startRoutePlanTransit() {
-        LatLng ptStart = new LatLng(mLat1, mLon1);
-        LatLng ptEnd = new LatLng(mLat2, mLon2);
-
-        RouteParaOption para = new RouteParaOption()
-        .startPoint(ptStart).endPoint(ptEnd).busStrategyType(RouteParaOption.EBusStrategyType.bus_recommend_way);
-
-        try {
-            BaiduMapRoutePlan.openBaiduMapTransitRoute(para, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showDialog();
-        }
-
-    }
     //用户点击了 联系他
     public void goPhone(View view) {
         final PopupWindow p=new PopupWindow(this);
@@ -223,17 +172,18 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         String seller_address = seObj.optString("seller_address");
         String seller_lon = seObj.optString("seller_lon");
         String seller_lat = seObj.optString("seller_lat");
-        /*if(seller_lon!=null){
+        if(seller_lon!=null && ! "".equals(seller_lon) && !"null".equals(seller_lon)){
             lon = Double.parseDouble(seller_lon);
         }
-        if(seller_lat!=null){
+        if(seller_lat!=null && ! "".equals(seller_lat) && !"null".equals(seller_lat)){
             lat = Double.parseDouble(seller_lat);
-        }*/
+        }
         seller_tel = seObj.optString("seller_tel");
         String seller_business_hours = seObj.optString("seller_business_hours");
-        String seller_cover = seObj.optString("seller_cover");
+        //String seller_cover = seObj.optString("seller_cover");
         String seller_return_ratio = seObj.optString("seller_return_ratio");
-        Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_cover).into(imBusiPic);
+        String seller_image = seObj.optString("seller_image");
+        Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_image).into(imBusiPic);
         tvName.setText(seller_name);
         tvType.setText(seller_taglib);
         tvAddress.setText(seller_address);

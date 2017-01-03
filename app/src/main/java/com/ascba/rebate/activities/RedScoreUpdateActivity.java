@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.jaeger.library.StatusBarUtil;
@@ -66,7 +67,8 @@ public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseN
             tvTicket.setText(""+subscription_ratio_score);
             tvTodayRate.setText(getMaxDivide_ab(rateMoney, rateScore));
         }else if(finalScene==2){
-            dm.buildAlertDialog(message);
+            Intent intent=new Intent(this,RedScSuccActivity.class);
+            startActivityForResult(intent,FourthFragment.REQUEST_RED);
         }
 
     }
@@ -123,5 +125,16 @@ public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseN
         intent.putExtra("order",2);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case FourthFragment.REQUEST_RED:
+                setResult(RESULT_OK,getIntent());
+                finish();
+                break;
+        }
     }
 }

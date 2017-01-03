@@ -57,6 +57,7 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
         if(loss_phone!=null){
             tvLossPhone.setText(loss_phone);
             edCode.setText(sms_code);
+            edCode.setSelection(sms_code.length());
         }
     }
 

@@ -9,6 +9,7 @@ import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ public class BCInputNameActivity extends BaseNetWorkActivity implements  BaseNet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bcinput_name);
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initviews();
     }
 

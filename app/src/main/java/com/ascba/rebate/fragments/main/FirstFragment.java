@@ -116,12 +116,7 @@ public class FirstFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return inflater.inflate(R.layout.first_fragment_status, null);
-        } else {*/
-            return inflater.inflate(R.layout.first_fragment, null);
-//        }
+        return inflater.inflate(R.layout.first_fragment, null);
     }
 
     @Override
@@ -165,18 +160,7 @@ public class FirstFragment extends BaseFragment {
     }
 
     private void requestMainData() {
-/*        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-        if(!netAva){
-            refreshLayout.setRefreshing(false);
-//            progressBar.setVisibility(View.GONE);
-            DialogManager dm=new DialogManager(getActivity());
-            dm.buildAlertDialog("请打开网络！");
-            return;
-        }else{
-           *//* textView.setText("正在刷新");
-            imageView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);*//*
-        }*/
+
         String version = getPackageVersion();
         Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, true);
         request.add("version_code",version);
@@ -185,7 +169,6 @@ public class FirstFragment extends BaseFragment {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
                 refreshLayout.setRefreshing(false);
-//                progressBar.setVisibility(View.GONE);
                 JSONObject rebate = dataObj.optJSONObject("rebate");
                 int white_score = rebate.optInt("white_score");
                 int red_score = rebate.optInt("red_score");
@@ -220,36 +203,23 @@ public class FirstFragment extends BaseFragment {
 
     private void initRefreshLayout(View view) {
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
-       /* View child = LayoutInflater.from(getActivity())
-                .inflate(R.layout.layout_head, null);
-        progressBar = (ProgressBar) child.findViewById(R.id.pb_view);
-        textView = (TextView) child.findViewById(R.id.text_view);
-        textView.setText("下拉刷新");
-        imageView = (ImageView) child.findViewById(R.id.image_view);
-        imageView.setVisibility(View.VISIBLE);
-        imageView.setImageResource(R.drawable.down_arrow);
-        progressBar.setVisibility(View.GONE);
-        refreshLayout.setHeaderView(child);*/
         refreshLayout
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
                     @Override
                     public void onRefresh() {
                         requestMainData();
-                        //sendMsgToSevr(UrlUtils.index);
                         mList.clear();
                     }
 
                     @Override
                     public void onPullDistance(int distance) {
-                        //myAdapter.updateHeaderHeight(distance);
+
                     }
 
                     @Override
                     public void onPullEnable(boolean enable) {
-                        /*textView.setText(enable ? "松开刷新" : "下拉刷新");
-                        imageView.setVisibility(View.VISIBLE);
-                        imageView.setRotation(enable ? 180 : 0);*/
+
                     }
                 });
 
@@ -371,9 +341,7 @@ public class FirstFragment extends BaseFragment {
     private void initImageList() {
         imageList = new ArrayList<>();
         imageList.clear();
-/*        ImageView iva = new ImageView(getContext());
-        iva.setBackgroundResource(R.mipmap.main_pager);
-        iva.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
+
 
         ImageView ivb = new ImageView(getContext());
         ivb.setBackgroundResource(R.mipmap.banner01);
@@ -427,7 +395,6 @@ public class FirstFragment extends BaseFragment {
                 parent.removeView(view);
             }
             container.addView(view);
-            //add listeners here if necessary
             return view;
         }
 
@@ -442,8 +409,7 @@ public class FirstFragment extends BaseFragment {
         PackageInfo packInfo = null;
         try {
             packInfo = packageManager.getPackageInfo(getActivity().getPackageName(),0);
-            String versionName = packInfo.versionName;
-            return versionName;
+            return packInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

@@ -27,6 +27,7 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
     private List<WhiteTicket> mList;
     private WhiteTicketAdapter wta;
     private View noView;
+    public static final int REQUEST_EXCHANGE=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +55,21 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
 
                 Intent intent = new Intent(WhiteScoreActivity.this, WSExchangeActivity.class);
                 intent.putExtra("cashing_id", mList.get(position).getId());
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_EXCHANGE);
             }
         });
         listView.setAdapter(wta);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_EXCHANGE:
+                setResult(REQUEST_EXCHANGE,getIntent());
+                finish();
+                break;
+        }
     }
 
     private void initData() {
@@ -70,6 +82,7 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
         if (is_cashing_list == 0) {//无券
             noView.setVisibility(View.VISIBLE);
         } else {//有券
+            mList.clear();
             noView.setVisibility(View.GONE);
             JSONArray list = dataObj.optJSONArray("cashing_list");
             for (int i = 0; i < list.length(); i++) {

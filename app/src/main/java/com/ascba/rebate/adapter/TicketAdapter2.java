@@ -57,18 +57,21 @@ public class TicketAdapter2 extends BaseAdapter {
         viewHolder= (ViewHolder) convertView.getTag();
         Ticket ticket = mList.get(position);
         int state = ticket.getState();
-        if(state==0){//没过期
+        if(state==0){//快过期
             viewHolder.bg.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_bg_about));
             viewHolder.imFront.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_front_normal));
             viewHolder.imSymbol.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_money_symbol_normal));
-        }else if(state==1){//过期
+            viewHolder.tvMoney.setTextColor(0xfffe6f6f);
+        }else if(state==1){//正常
             viewHolder.bg.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_bg_normal));
             viewHolder.imFront.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_front_normal));
             viewHolder.imSymbol.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_money_symbol_normal));
-        }else if(state==2){//快过期
+            viewHolder.tvMoney.setTextColor(0xfffe6f6f);
+        }else if(state==2){//过期
             viewHolder.bg.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_bg_over));
             viewHolder.imFront.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_front_over));
             viewHolder.imSymbol.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_money_symbol_over));
+            viewHolder.tvMoney.setTextColor(0xffc2c2c2);
         }
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");
         String startTimeString = sdf.format(new Date(ticket.getStartTime()*1000));

@@ -18,6 +18,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 
 public class WebViewBaseActivity extends AppCompatActivity {
     private String url;
@@ -31,7 +32,7 @@ public class WebViewBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view_base);
         ((MyApplication) getApplication()).addActivity(this);
-        setStatusBar();
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
         getMsgFromBefore();
 

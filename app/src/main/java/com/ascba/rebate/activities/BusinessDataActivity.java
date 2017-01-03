@@ -82,10 +82,10 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
             String seller_address = intent.getStringExtra("seller_address");
             String seller_lon = intent.getStringExtra("seller_lon");
             String seller_lat = intent.getStringExtra("seller_lat");
-            if(seller_lon!=null){
+            if(seller_lon!=null&&!"".equals(seller_lon)){
                 lon = Double.parseDouble(seller_lon);
             }
-            if(seller_lat!=null){
+            if(seller_lat!=null&&!"".equals(seller_lat)){
                 lat = Double.parseDouble(seller_lat);
             }
             seller_tel = intent.getStringExtra("seller_tel");
@@ -224,7 +224,9 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 }
                 break;
             case GO_ALBUM_PIC:
-
+                if(data==null){
+                    return;
+                }
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 Cursor cursor = getContentResolver().query(selectedImage,
@@ -244,6 +246,9 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 }
                 break;
             case GO_ALBUM_LOGO:
+                if(data==null){
+                    return;
+                }
                 Uri selectedImage2 = data.getData();
                 String[] filePathColumn2 = {MediaStore.Images.Media.DATA};
                 Cursor cursor2 = getContentResolver().query(selectedImage2,

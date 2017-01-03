@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +110,12 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             setCallback(this);
         }else if(scene==3){//确认开通
             Request<JSONObject> objRequest = buildNetRequest(UrlUtils.memberUpgraded, 0, true);
+            if(finalRegionId==0 && group!=1){
+                netRequest(2);
+                return;
+            }
             objRequest.add("region_id",finalRegionId);
+            objRequest.add("region_name",edCity.getText().toString());
             objRequest.add("price",tvMoney.getText().toString());
             String s = tvName.getText().toString();
             if("".equals(s)){
@@ -119,7 +125,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             }
             objRequest.add("realname",tvName.getText().toString());
             objRequest.add("mobile",tvPhone.getText().toString());
-            if(group==1){
+            if(group==1){//VIP组
                 objRequest.add("group",group);
                 objRequest.add("group_id",group_id);
             }else{
@@ -149,7 +155,9 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         Intent intent = getIntent();
         if(intent!=null){
             group_id = intent.getIntExtra("group_id",-3000);
+            finalGroupId=group_id;
             group = intent.getIntExtra("group",-3000);
+            finalGroup=group;
             if( group==1){
                 searchView.setVisibility(View.GONE);
                 agreeProtocol.setVisibility(View.GONE);
@@ -182,23 +190,6 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         netRequest(2);
     }
 
-    //返回的城市列表
-    private void initListPopupWindow() {
-        if (pList == null) {
-            pList = new ListPopupWindow(OpenProxyActivity.this);
-            pList.setAnchorView(searchView);
-            pList.setOnItemClickListener(this);
-            pList.setHeight(ListPopupWindow.MATCH_PARENT);
-            pList.setWidth(ListPopupWindow.MATCH_PARENT);
-        }
-        if (cAdapter == null && cacheList.size() != 0) {
-            cAdapter = new CitiesAdapter(cacheList, this);
-            pList.setAdapter(cAdapter);
-        } else {
-            cAdapter.notifyDataSetChanged();
-        }
-        pList.show();
-    }
     private void initListPopupWindow2() {
         if (popCities == null) {
             popCities=new PopupWindow(this);
@@ -297,6 +288,18 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
     }
     //确认开通
     public void goOpenProxy(View view) {
+        if(finalRegionId==0 && group!=1){
+            dm.buildAlertDialog2("请选择地区");
+            dm.setCallback(new DialogManager.Callback() {
+                @Override
+                public void handleSure() {
+                    dm.dismissDialog();
+                    netRequest(2);
+
+                }
+            });
+            return;
+        }
         if(group!=1 && "".equals(edCity.getText().toString())){
             dm.buildAlertDialog("请输入代理区域");
             return;
@@ -309,9 +312,11 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         dm.setCallback(new DialogManager.Callback() {
             @Override
             public void handleSure() {
+                dm.dismissDialog();
                 netRequest(3);
             }
         });
+
 
     }
 

@@ -12,12 +12,14 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/im_front"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/white_ticket_bg_front" />
 
         <TextView
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -59,7 +61,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="2"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -81,6 +83,7 @@
                 android:textSize="11sp" />
 
             <TextView
+                android:ellipsize="end"
                 android:id="@+id/tv_left_time"
                 android:maxLines="1"
                 android:layout_width="wrap_content"

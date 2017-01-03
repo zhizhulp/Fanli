@@ -31,7 +31,7 @@ public class RealNameSuccessActivity extends BaseNetWorkActivity {
             String realname = intent.getStringExtra("realname");
             String cardid = intent.getStringExtra("cardid");
             int sex = intent.getIntExtra("sex", 2);
-            int age = intent.getIntExtra("age", 25);
+            int age = intent.getIntExtra("age", 18);
             String location = intent.getStringExtra("location");
             tvName.setText("姓名："+realname);
             tvAge.setText("年龄："+age);

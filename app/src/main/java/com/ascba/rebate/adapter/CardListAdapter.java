@@ -53,8 +53,20 @@ public class CardListAdapter extends BaseAdapter {
         final Card card = mList.get(position);
         viewHolder.TVName.setText(card.getName());
         viewHolder.TVType.setText(card.getType());
-        viewHolder.TVNumber.setText(card.getNumber());
+        viewHolder.TVNumber.setText(getTail4(card.getNumber()));
         return convertView;
+    }
+    private String getTail4(String num){
+        StringBuilder sb=new StringBuilder();
+        sb.append("");
+        if(num!=null){
+            int length = num.length();
+            for (int i = 0; i < length-4; i++) {
+                sb.append("*");
+            }
+            sb.append(num.substring(length-4,length));
+        }
+        return sb.toString();
     }
 
 

@@ -31,7 +31,7 @@ public class BusinessTimeActivity extends Activity {
         Intent intent = getIntent();
         if(intent!=null){
             String seller_business_hours = intent.getStringExtra("seller_business_hours");
-            if(seller_business_hours!=null){
+            if(seller_business_hours!=null&& !"".equals(seller_business_hours)){
                 String[] split = seller_business_hours.split("~");
                 String start = split[0];
                 String end = split[1];

@@ -11,12 +11,10 @@
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/ticket_front_bg_id"
-            android:src="@mipmap/ticket_front_normal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
         <FrameLayout
             android:id="@+id/ticket_bg_id"
-            android:background="@mipmap/ticket_bg_normal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -27,16 +25,13 @@
                     android:id="@+id/ticket_money_symbol_id"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="40dp"
-                    android:src="@mipmap/ticket_money_symbol_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/ticket_money"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="26dp"
-                    android:textColor="#fe6f6f"
                     android:textSize="35sp"
-                    android:text="50"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -54,7 +49,6 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginRight="9dp"
                 android:layout_gravity="bottom|right"
-                android:text="有效期  2016.01.04-2018.01.01"
                 android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

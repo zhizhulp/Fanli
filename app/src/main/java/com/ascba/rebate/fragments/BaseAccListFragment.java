@@ -114,11 +114,4 @@ public class BaseAccListFragment extends BaseFragment {
         cashAccountListView.setAdapter(adapter);
     }
 
-    private void initData() {
-
-        /*for (int i = 0; i < 10; i++) {
-            CashAccount ca=new CashAccount("12.16","12.30","3000","老家消费",CashAccountType.EMPLOYEE);
-            selectList.add(ca);
-        }*/
-    }
 }

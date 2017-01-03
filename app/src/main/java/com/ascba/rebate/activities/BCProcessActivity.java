@@ -12,6 +12,7 @@ import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
+import com.jaeger.library.StatusBarUtil;
 
 /**
  * 商户中心，入驻流程
@@ -25,6 +26,7 @@ public class BCProcessActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bcprocess);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
 

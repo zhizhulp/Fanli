@@ -9,7 +9,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
@@ -19,6 +21,7 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
 import com.jaeger.library.StatusBarUtil;
+import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
@@ -32,6 +35,8 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     private PayPopWindow popWindow;
     private TextView tvTpye;
     private DialogManager dm;
+    private String avatar;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
         dm=new DialogManager(this);
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.sweep_money));
         tvTpye = ((TextView) findViewById(R.id.tv_pay_type));
+        imageView = ((ImageView) findViewById(R.id.imageView));
     }
 
     //获取支付方式，选择支付界面
@@ -86,6 +92,11 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
         Intent intent = getIntent();
         if(intent!=null){
             bus_uuid = intent.getIntExtra("bus_uuid",-200);
+            avatar = intent.getStringExtra("avatar");
+            if(avatar!=null){
+                Picasso.with(this).load(UrlUtils.baseWebsite+avatar).placeholder(R.mipmap.me_user_img).into(imageView);
+
+            }
         }
     }
     //选择支付方式
@@ -103,7 +114,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         //校验成功
-        dm.buildAlertDialog(message);
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

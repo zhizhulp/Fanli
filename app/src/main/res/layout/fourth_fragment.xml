@@ -69,6 +69,8 @@
                 android:background="@color/white">
 
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/me_tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -582,6 +584,8 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:id="@+id/tv_busi_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

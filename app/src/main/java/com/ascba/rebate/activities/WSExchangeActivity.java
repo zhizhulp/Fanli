@@ -113,8 +113,21 @@ public class WSExchangeActivity extends BaseNetWorkActivity implements BaseNetWo
             tvMoney.setText(cashing_money);
             tvMax.setText("本次兑换最大额度为"+cashing_money+"元");
         }else if(finalScene==2){
-            dm.buildAlertDialog(message);
+//            dm.buildAlertDialog(message);
+            Intent intent=new Intent(this,WSSuccActivity.class);
+            intent.putExtra("money",cashing_money);
+            startActivityForResult(intent,WhiteScoreActivity.REQUEST_EXCHANGE);
         }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case WhiteScoreActivity.REQUEST_EXCHANGE:
+                setResult(RESULT_OK,getIntent());
+                finish();
+                break;
+        }
     }
 }

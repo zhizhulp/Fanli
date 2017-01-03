@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.ascba.rebate.activities.login.LoginActivity;
-import com.baidu.mapapi.SDKInitializer;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.URLConnectionNetworkExecutor;
@@ -53,7 +52,7 @@ public class MyApplication extends Application {
                 .setNetworkExecutor(new URLConnectionNetworkExecutor())
         );
         requestQueue=NoHttp.newRequestQueue();
-        SDKInitializer.initialize(this);//百度地图
+
         ZXingLibrary.initDisplayOpinion(this);//Zxing二维码
         JPushInterface.init(this);//极光推送
     }

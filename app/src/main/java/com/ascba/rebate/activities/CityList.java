@@ -26,10 +26,6 @@ import com.ascba.rebate.view.cityList.HotCityGridAdapter;
 import com.ascba.rebate.view.cityList.MyLetterListView;
 import com.ascba.rebate.view.cityList.Setting;
 import com.ascba.rebate.view.cityList.searchactivity;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;

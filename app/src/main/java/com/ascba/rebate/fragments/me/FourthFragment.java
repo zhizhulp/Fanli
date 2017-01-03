@@ -3,7 +3,6 @@ package com.ascba.rebate.fragments.me;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,18 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.AccountRechargeActivity;
 import com.ascba.rebate.activities.AddCardActivity;
 import com.ascba.rebate.activities.AllAccountActivity;
 import com.ascba.rebate.activities.BCProcessActivity;
-import com.ascba.rebate.activities.BusinessCenter2Activity;
 import com.ascba.rebate.activities.BusinessCenterActivity;
 import com.ascba.rebate.activities.BusinessDataActivity;
-import com.ascba.rebate.activities.BusinessDetailsActivity;
 import com.ascba.rebate.activities.CardActivity;
 import com.ascba.rebate.activities.CashGetActivity;
 import com.ascba.rebate.activities.PersonalDataActivity;
@@ -36,15 +31,12 @@ import com.ascba.rebate.activities.WhiteScoreActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestHandler;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -58,9 +50,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class FourthFragment extends BaseFragment implements View.OnClickListener, BaseFragment.Callback {
 
-    private static final int REQUEST_PAY = 3;
+    public static final int REQUEST_PAY = 3;
     private static final int REQUEST_CLOSE = 4;
     public static final int REQUEST_APPLY = 5;
+    public static final int REQUEST_CASH_GET = 6;
+    public static final int REQUEST_RED = 7;
     private CircleImageView goUserCenterView;
     private TextView tvWhiteScore;
     private TextView tvNickName;
@@ -68,11 +62,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     private TextView tvBanks;
     private TextView tvTicket;
     private LinearLayout imgsContainer;
-
     private SuperSwipeRefreshLayout refreshLayout;
-    private ProgressBar progressBar;
-    private ImageView imageView;
-    private TextView textView;
     private int finalScene;
     private TextView tvRedScore;
     private TextView tvRecNum;
@@ -81,11 +71,8 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            return inflater.inflate(R.layout.fourth_fragment_status, null);
-        }else{*/
+
         return inflater.inflate(R.layout.fourth_fragment, null);
-//        }
     }
 
     @Override
@@ -154,11 +141,9 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     private void requestMyData(final int scene) {
         finalScene = scene;
         if (scene == 0) {
-
             Request<JSONObject> request = buildNetRequest(UrlUtils.user, 0, true);
             executeNetWork(request, "请稍后");
             setCallback(this);
-
         } else if (scene == 1) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.getCompany, 0, true);
             executeNetWork(request, "请稍后");
@@ -221,7 +206,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.go_white_score_account:
                 Intent intent = new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,WhiteScoreActivity.REQUEST_EXCHANGE);
                 break;
             case R.id.me_go_card:
                 requestMyData(2);//检查是否实名
@@ -236,17 +221,14 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.me_go_red_score:
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
-                startActivity(intent3);
+                startActivityForResult(intent3, REQUEST_RED);
                 break;
             case R.id.me_go_vip:
                 Intent intent4 = new Intent(getActivity(), UserUpdateActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.me_go_business_center:
-//                dm.buildAlertDialog(noOpen);
                 requestMyData(1);
-                /*Intent intent5=new Intent(getActivity(), BusinessDataActivity.class);
-                startActivity(intent5);*/
                 break;
             case R.id.tv_go_get_cash:
                 requestMyData(3);//检查是否实名
@@ -288,6 +270,16 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                     break;
                 case REQUEST_APPLY:
                     requestMyData(0);
+                    break;
+                case REQUEST_CASH_GET:
+                    requestMyData(0);
+                    break;
+                case WhiteScoreActivity.REQUEST_EXCHANGE:
+                    requestMyData(0);
+                    break;
+                case REQUEST_RED:
+                    requestMyData(0);
+                    break;
             }
 
         }
@@ -298,7 +290,6 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     public void handle200Data(final JSONObject dataObj, String message) {
         if (finalScene == 0) {//我的数据
             refreshLayout.setRefreshing(false);
-//            progressBar.setVisibility(View.GONE);
             imgsContainer.removeAllViews();
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
             String avatar = infoObj.optString("avatar");//头像url地址
@@ -475,7 +466,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CASH_GET);
             }
         }
     }

@@ -18,6 +18,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.BankAdapter;
 import com.ascba.rebate.beans.Card;
+import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -242,7 +243,9 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
                 mList.add(card);
             }
         } else if (finalScene == 3) {
-            dm.buildAlertDialog(message);
+//            dm.buildAlertDialog(message);
+            Intent intent=new Intent(this,CashGetSuccActivity.class);
+            startActivityForResult(intent, FourthFragment.REQUEST_CASH_GET);
         }
     }
 
@@ -266,5 +269,16 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
         intent.putExtra("order",1);
         startActivity(intent);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case FourthFragment.REQUEST_CASH_GET:
+                setResult(RESULT_OK,getIntent());
+                finish();
+                break;
+        }
     }
 }

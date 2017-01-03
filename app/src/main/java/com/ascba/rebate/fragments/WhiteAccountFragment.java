@@ -16,9 +16,7 @@ import com.ascba.rebate.beans.CashAccount;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class WhiteAccountFragment extends Fragment {
 
     private ListView mWSAccountList;
@@ -33,7 +31,6 @@ public class WhiteAccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_white_account, container, false);
     }
 
