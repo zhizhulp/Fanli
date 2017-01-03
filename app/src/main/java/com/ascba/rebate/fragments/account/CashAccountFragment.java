@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.beans.CashAccountType;
-import com.ascba.rebate.fragments.BaseAccListFragment;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
@@ -45,7 +44,7 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
     private TextView tvCost;
     private FragmentManager fm;
     private List<Fragment> fragments;
-    private int position=-1;
+    private int position=0;
     private TextView tvEmployeeStr;
     private TextView tvCashGetStr;
     private TextView tvExchangeStr;
@@ -264,11 +263,7 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
                 .add(R.id.fragment_layout,f3)
                 .add(R.id.fragment_layout,f4)
                 .commit();
-        if(position==-1){
-            showFragment(0);//默认显示第一个
-        }else{
-            showFragment(position);
-        }
+        showFragment(position);
 
     }
 

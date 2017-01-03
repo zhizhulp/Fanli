@@ -15,11 +15,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_space"
+            android:layout_height="@dimen/acc_line_space"
             android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/click_give"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -27,12 +28,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_give_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="赠送"
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tv_give_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -48,6 +51,7 @@
                 android:background="@color/view_line" />
 
             <LinearLayout
+                android:id="@+id/click_back"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -55,12 +59,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_back_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="返利"
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tv_back_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -77,11 +83,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/line_space"
+                android:layout_height="@dimen/acc_line_space"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/click_consume"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -89,12 +96,14 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_consume_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="消费"
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/tv_consume_bottom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -110,6 +119,7 @@
                     android:background="@color/view_line" />
 
                 <LinearLayout
+                    android:id="@+id/click_change"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -117,12 +127,14 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_change_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="兑换"
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/tv_change_bottom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -133,15 +145,15 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:visibility="gone"
         android:textSize="16sp"
         android:gravity="center"
         android:text="暂无数据!"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <ListView
-        android:visibility="gone"
-        android:scrollbars="none"
-        android:id="@+id/wsaccount_list"
+    <FrameLayout
+        android:id="@+id/fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 </LinearLayout>

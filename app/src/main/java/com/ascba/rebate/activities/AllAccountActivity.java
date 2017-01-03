@@ -31,12 +31,8 @@ public class AllAccountActivity extends BaseNetWorkActivity implements View.OnCl
         initViews();
         Intent intent = getIntent();
         if(intent!=null){
-            int order = intent.getIntExtra("order", -1);
-            if(order==-1){
-                switchFragment(-1);
-            }else {
-                switchFragment(order);
-            }
+            int order = intent.getIntExtra("order", 0);
+            switchFragment(order);
         }
 
 
@@ -49,7 +45,7 @@ public class AllAccountActivity extends BaseNetWorkActivity implements View.OnCl
     }
     private void switchFragment(int position) {
         cash = CashAccountFragment.getInstance(position);
-        white = new WhiteAccountFragment();
+        white = WhiteAccountFragment.getInstance(position);
         fm.beginTransaction()
                 .add(R.id.recommend_fragment, cash)
                 .commit();
