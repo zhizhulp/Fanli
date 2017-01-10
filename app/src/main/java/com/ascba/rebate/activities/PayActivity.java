@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
@@ -36,7 +38,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     private TextView tvTpye;
     private DialogManager dm;
     private String avatar;
-    private ImageView imageView;
+    private CircleImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
         dm=new DialogManager(this);
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.sweep_money));
         tvTpye = ((TextView) findViewById(R.id.tv_pay_type));
-        imageView = ((ImageView) findViewById(R.id.imageView));
+        imageView = ((CircleImageView) findViewById(R.id.imageView));
     }
 
     //获取支付方式，选择支付界面
@@ -61,6 +63,11 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     }
 
     private void initPop() {
+        final String money = edMoney.getText().toString();
+        if("".equals(money)){
+            dm.buildAlertDialog("请输入支付金额");
+            return;
+        }
         View view = getWindow().peekDecorView();
         if (view != null) {
             InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -74,7 +81,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
             @Override
             public void inputFinish() {
                 popWindow.onDismiss();
-                String money = edMoney.getText().toString();
+
                 Request<JSONObject> objRequest = buildNetRequest(UrlUtils.confirmOrder, 0, true);
                 objRequest.add("seller",bus_uuid);
                 objRequest.add("money",money);
@@ -95,7 +102,6 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
             avatar = intent.getStringExtra("avatar");
             if(avatar!=null){
                 Picasso.with(this).load(UrlUtils.baseWebsite+avatar).placeholder(R.mipmap.me_user_img).into(imageView);
-
             }
         }
     }

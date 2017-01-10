@@ -1,7 +1,6 @@
 package com.ascba.rebate.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -322,7 +321,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         if(!"".equals(rate)){
             String substring = rate.substring(0, rate.length()-1);
             double i = Double.parseDouble(substring);
-            objRequest.add("seller_return_ratio",(i/100)+"");
+            objRequest.add("seller_return_ratio",i+"");
         }
         objRequest.add("seller_description",desc);
         if(file!=null){

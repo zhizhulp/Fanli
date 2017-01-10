@@ -73,6 +73,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
     private View noView02;
     private View noView03;
     private View noView04;
+    private TextView tvProxyNameStr;
 
 
     @Override
@@ -183,6 +184,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         noView02 = findViewById(R.id.no_view_02);
         noView03 = findViewById(R.id.no_view_03);
         noView04 = findViewById(R.id.no_view_04);
+        tvProxyNameStr = ((TextView) findViewById(R.id.tv_proxy_name));
     }
 
 
@@ -336,6 +338,9 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             JSONObject upObj = dataObj.optJSONObject("getUpgraded");
             int id= upObj.optInt("id");//自身id
             String name = upObj.optString("name");//代理名称
+            if(name!=null){
+                tvProxyNameStr.setText("我同意《"+name+"协议》");
+            }
             String price = upObj.optString("money");//代理价格
             int group= upObj.optInt("group");//所在用户id
             group_url = upObj.optString("group_url");//组说明
@@ -370,6 +375,9 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             if(bObj!=null){
                 finalRegionId = bObj.optInt("id");
                 String name = bObj.optString("name");
+                if(name!=null){
+                    tvProxyNameStr.setText("我同意《"+name+"协议》");
+                }
                 String money = bObj.optString("money");
                 finalGroup = bObj.optInt("group");
                 url=bObj.optString("url");//代理协议

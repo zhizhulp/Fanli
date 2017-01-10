@@ -42,7 +42,7 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
             //send the Registration Id to your server...
                         
-        } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
+        }/* else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
         	Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
         	//processCustomMessage(context, bundle);
 			//自定义通知栏
@@ -52,7 +52,7 @@ public class MyReceiver extends BroadcastReceiver {
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
         	
-        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+        }*/ else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 			//打开自定义的Activity
 			Intent i = new Intent(context, PushResultActivity.class);
@@ -60,7 +60,7 @@ public class MyReceiver extends BroadcastReceiver {
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
 			context.startActivity(i);
 
-        } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
+        } /*else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
         	
@@ -69,10 +69,10 @@ public class MyReceiver extends BroadcastReceiver {
         	Log.w(TAG, "[MyReceiver]" + intent.getAction() +" connected state change to "+connected);
         } else {
         	Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
-        }
+        }*/
 	}
 
-	private void createNotification(Bundle bundle,Context context) {
+	/*private void createNotification(Bundle bundle,Context context) {
 		//需要获取推送中的title和content
 		String title = bundle.getString(JPushInterface.EXTRA_TITLE);
 		String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
@@ -101,7 +101,7 @@ public class MyReceiver extends BroadcastReceiver {
 				Context.NOTIFICATION_SERVICE);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		manager.notify(100, notification);
-	}
+	}*/
 
 
 	// 打印所有的 intent extra 数据

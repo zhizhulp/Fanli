@@ -23,6 +23,8 @@ import com.ascba.rebate.activities.base.BaseNetWork2Activity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 
@@ -50,6 +52,8 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     private DialogManager dm;
     private double lon;
     private double lat;
+    private String seller_name;
+    private String seller_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +100,18 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     }
 
     private void startGaodeSearch() {
+        /*if(lat==0||lon==0){
+            dm.buildAlertDialog("当前商家还没有设置位置");
+            return;
+        }*/
         if(getAppIn()){
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
-            //将功能Scheme以URI的方式传入
-            Uri uri = Uri.parse("androidamap://route?sourceApplication=qlqw&slat="+mLat1+"&slon="+mLon1+"&sname=当前位置&dlat="+lat+"&dlon="+lon+"&dname=商家位置&dev=0&t=4");
+            //将功能Scheme以URI的方式传 androidamap://viewGeo?sourceApplication=softname&addr=大恒科技大厦
+            //Uri uri = Uri.parse("androidamap://route?sourceApplication=qlqw&slat="+mLat1+"&slon="+mLon1+"&sname=当前位置&dlat="+lat+"&dlon="+lon+"&dname="+seller_address+"&dev=0&t=2");
+            //Uri uri = Uri.parse("androidamap://viewMap?sourceApplication=qlqw&poiname="+seller_name+"&lat="+lat+"&lon="+lon+"&dev=0");
+            Uri uri = Uri.parse("androidamap://viewGeo?sourceApplication=softname&addr="+seller_address);
             intent.setData(uri);
             startActivity(intent);
         }else {
@@ -166,10 +176,10 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         JSONObject seObj = dataObj.optJSONObject("sellerInfo");
-        String seller_name = seObj.optString("seller_name");
+        seller_name = seObj.optString("seller_name");
         String seller_taglib = seObj.optString("seller_taglib");
         seller_description = seObj.optString("seller_description");
-        String seller_address = seObj.optString("seller_address");
+        seller_address = seObj.optString("seller_address");
         String seller_lon = seObj.optString("seller_lon");
         String seller_lat = seObj.optString("seller_lat");
         if(seller_lon!=null && ! "".equals(seller_lon) && !"null".equals(seller_lon)){
@@ -180,10 +190,10 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         }
         seller_tel = seObj.optString("seller_tel");
         String seller_business_hours = seObj.optString("seller_business_hours");
-        //String seller_cover = seObj.optString("seller_cover");
         String seller_return_ratio = seObj.optString("seller_return_ratio");
         String seller_image = seObj.optString("seller_image");
-        Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_image).into(imBusiPic);
+        Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE).into(imBusiPic);
         tvName.setText(seller_name);
         tvType.setText(seller_taglib);
         tvAddress.setText(seller_address);
@@ -244,7 +254,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
         mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
         mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
-        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setInterval(10000);//可选，设置定位间隔。默认为2秒
         mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
         mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
         mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用

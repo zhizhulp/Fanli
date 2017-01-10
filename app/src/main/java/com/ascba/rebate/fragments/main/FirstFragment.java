@@ -111,6 +111,7 @@ public class FirstFragment extends BaseFragment {
     private TextView tvAllScore;
     private SuperSwipeRefreshLayout refreshLayout;
     private TextView tvRedScore;
+    private DialogManager dm;
 
 
     @Nullable
@@ -147,6 +148,7 @@ public class FirstFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dm=new DialogManager(getActivity());
         tvAllScore = ((TextView) view.findViewById(R.id.score_all));
         tvRedScore = ((TextView) view.findViewById(R.id.tv_red_score));
         initRecBusiness(view);//初始化ListView
@@ -187,11 +189,10 @@ public class FirstFragment extends BaseFragment {
                     for (int i = 0; i < optJSONArray.length(); i++) {
                         JSONObject busObj = optJSONArray.optJSONObject(i);
                         String bus_icon = busObj.optString("seller_cover_logo");
-                        String base_url= "http://api.qlqwgw.com";
                         String seller_taglib = busObj.optString("seller_taglib");
                         String seller_name = busObj.optString("seller_name");
                         int id = busObj.optInt("id");
-                        Business b=new Business(base_url + bus_icon,seller_name,seller_taglib,0,"0个评论","0m");
+                        Business b=new Business(UrlUtils.baseWebsite + bus_icon,seller_name,seller_taglib,0,"0个评论","0m");
                         b.setId(id);
                         mList.add(b);
                     }
@@ -208,6 +209,12 @@ public class FirstFragment extends BaseFragment {
 
                     @Override
                     public void onRefresh() {
+                        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+                        if(!netAva){
+                            dm.buildAlertDialog("请打开网络！");
+                            refreshLayout.setRefreshing(false);
+                            return;
+                        }
                         requestMainData();
                         mList.clear();
                     }

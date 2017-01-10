@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Business;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -54,7 +56,8 @@ public class RecBusinessAdapter extends BaseAdapter {
         }
         viewHolder= ((ViewHolder) convertView.getTag());
         Business business = mList.get(position);
-        Picasso.with(mContext).load(business.getLogo()).into(viewHolder.mLogo);
+        Picasso.with(mContext).load(business.getLogo()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE).into(viewHolder.mLogo);
         viewHolder.bName.setText(business.getbName());
         viewHolder.bCategory.setText(business.getbCategory());
         //viewHolder.bCategoryIcon.setImageResource(business.getbCategoryIcon());

@@ -12,6 +12,7 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
+import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
@@ -40,6 +41,7 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_loss_with_code);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getPhoneFromBefore();//获取上个界面传来的手机号码
     }

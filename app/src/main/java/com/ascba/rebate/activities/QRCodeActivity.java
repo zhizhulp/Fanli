@@ -31,7 +31,7 @@ public class QRCodeActivity extends BaseNetWorkActivity {
         sf=getSharedPreferences("first_login_success_name_password",MODE_PRIVATE);
         int uuid = sf.getInt("uuid",-1000);
         if(uuid!=-1000){
-            qrImg.setImageBitmap(createQRCode(uuid+"",250,250));
+            qrImg.setImageBitmap(createQRCode(uuid+"",220,220));
         }
     }
 

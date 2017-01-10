@@ -31,6 +31,7 @@ import com.ascba.rebate.activities.WhiteScoreActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -67,6 +68,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     private TextView tvRedScore;
     private TextView tvRecNum;
     private TextView tvBusiStatus;
+    private DialogManager dm;
 
     @Nullable
     @Override
@@ -161,6 +163,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initViews(View view) {
+        dm=new DialogManager(getActivity());
         tvWhiteScore = ((TextView) view.findViewById(R.id.me_tv_white_score));
         tvNickName = ((TextView) view.findViewById(R.id.me_tv_nick_name));
         tvMoney = ((TextView) view.findViewById(R.id.me_tv_money));
@@ -178,6 +181,12 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
         refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
+                boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+                if(!netAva){
+                    dm.buildAlertDialog("请打开网络！");
+                    refreshLayout.setRefreshing(false);
+                    return;
+                }
                 requestMyData(0);
             }
 

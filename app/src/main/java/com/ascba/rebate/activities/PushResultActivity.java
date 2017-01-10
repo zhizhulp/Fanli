@@ -8,15 +8,18 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MoneyBar;
 import com.jaeger.library.StatusBarUtil;
+import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,MoneyBar.CallBack {
 
     private TextView tvPushMsg;
     private TextView tvSellerName;
@@ -34,6 +37,8 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
     private String buy_time;//订单时间
     private String money;//订单金额
     private String pay_password;//订单密码
+    private CircleImageView imageView;
+    private MoneyBar mb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,8 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
             try {
                 JSONObject jObj=new JSONObject(extra);
                 order_number = jObj.getString("order_number");
-                String seller_name = jObj.getString("seller_name");
+                String seller_name = jObj.getString("customer_nickname");
+                String customer_avatar = jObj.getString("customer_avatar");
                 pay_type = jObj.getInt("pay_type");
                 buy_time = jObj.getString("buy_time");
                 int from_type = jObj.getInt("from_type");
@@ -64,6 +70,9 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
                 String seller_address = jObj.getString("seller_address");
                 customer = jObj.getInt("customer");
                 seller = jObj.getInt("seller");
+                if(customer_avatar!=null){
+                    Picasso.with(this).load(UrlUtils.baseWebsite+customer_avatar).placeholder(R.mipmap.me_user_img).into(imageView);
+                }
                 tvSellerName.setText(seller_name);
                 tvSellerAddress.setText(seller_address);
                 tvNo.setText("订单号码："+order_number);
@@ -83,6 +92,10 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
     }
 
     private void initViews() {
+        mb=((MoneyBar) findViewById(R.id.mb));
+        mb.setTailTitle("取消");
+        mb.setCallBack(this);
+        imageView = ((CircleImageView) findViewById(R.id.usericon));
         tvSellerName = ((TextView) findViewById(R.id.tv_seller_name));
         tvSellerAddress = ((TextView) findViewById(R.id.tv_seller_address));
         tvNo = ((TextView) findViewById(R.id.tv_trade_no));
@@ -104,15 +117,22 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
         executeNetWork(request,"请稍后");
         setCallback(this);
     }
-    //商家取消订单
-    public void cancelOrder(View view) {
-        finish();
-    }
+
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) throws JSONException {
         Intent intent=new Intent(this,TradeResultActivity.class);
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void clickImage(View im) {
+
+    }
+
+    @Override
+    public void clickComplete(View tv) {
         finish();
     }
 }

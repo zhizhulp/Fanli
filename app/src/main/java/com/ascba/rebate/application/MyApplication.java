@@ -52,7 +52,6 @@ public class MyApplication extends Application {
                 .setNetworkExecutor(new URLConnectionNetworkExecutor())
         );
         requestQueue=NoHttp.newRequestQueue();
-
         ZXingLibrary.initDisplayOpinion(this);//Zxing二维码
         JPushInterface.init(this);//极光推送
     }

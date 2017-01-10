@@ -57,9 +57,7 @@ public class BaseFragment extends Fragment {
     }
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
-        /*if(dm==null){
-            dm=new DialogManager(getActivity());
-        }*/
+
         FragmentActivity activity = getActivity();
         if(activity instanceof MainActivity){
             dm = ((MainActivity) activity).getDm();

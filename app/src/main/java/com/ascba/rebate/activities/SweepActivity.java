@@ -61,7 +61,7 @@ public class SweepActivity extends BaseNetWorkActivity implements BaseNetWorkAct
         JSONObject infoObj = dataObj.optJSONObject("info");
         Intent intent1=new Intent(SweepActivity.this,PayActivity.class);
         intent1.putExtra("bus_uuid",infoObj.optInt("seller"));
-        intent1.putExtra("avatar",infoObj.optInt("avatar"));
+        intent1.putExtra("avatar",infoObj.optString("seller_avatar"));
         startActivity(intent1);
         finish();
     }
