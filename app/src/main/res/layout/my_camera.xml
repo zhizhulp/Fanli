@@ -18,7 +18,7 @@
         app:inner_margintop="150dp"
         app:inner_corner_length="30dp"
         app:inner_corner_width="5dp"
-        app:inner_scan_speed="10"
+        app:inner_scan_speed="15"
         app:inner_scan_iscircle="false" />
     <!--<com.uuzuche.lib_zxing.view.ViewfinderView-->
         <!--android:id="@+id/viewfinder_view"-->

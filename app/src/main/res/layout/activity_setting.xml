@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_me"/>
         <TextView
+            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"
@@ -59,6 +60,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_real_name"/>
         <TextView
+            android:textColor="@color/black"
+
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"
@@ -80,6 +83,8 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/setting_my_qr"
         android:onClick="settingMyQRCode"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -92,13 +97,15 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_qr_code"/>
         <TextView
+            android:textColor="@color/black"
+
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_04"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的二维码"/>
+            android:text="商家二维码"/>
         <ImageView
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -109,6 +116,8 @@
             android:src="@mipmap/setting_go"/>
     </RelativeLayout>
     <View
+        android:visibility="gone"
+        android:id="@+id/setting_my_qr_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
@@ -202,6 +211,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_safe"/>
         <TextView
+            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:layout_marginLeft="15dp"

@@ -184,10 +184,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
         <TextView
+            android:id="@+id/tv_proxy_name"
             android:onClick="goProxyProtocol"
             android:gravity="center"
             android:textColor="@color/text_blue"
-            android:text="我已同意《代理协议》"
+            android:text="我同意《代理协议》"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
     </LinearLayout>

@@ -63,9 +63,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="4E8pe2i48Sb3pQvSXRpWvvnDV0GwLFxu" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="11d31c62f7f344c66c4f0fc80a15c4ce" />
@@ -293,10 +291,20 @@
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <service
+        <!--<service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
             android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>-->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:process=":mult">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />

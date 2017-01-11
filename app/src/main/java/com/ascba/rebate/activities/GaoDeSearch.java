@@ -203,8 +203,8 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
                     poiResult = result;
                     // 取得搜索到的poiitems有多少页
                     List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
-                    List<SuggestionCity> suggestionCities = poiResult
-                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
+                    /*List<SuggestionCity> suggestionCities = poiResult
+                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息*/
                     if (poiItems != null && poiItems.size() > 0) {
                         PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);
                         poiOverlay.removeFromMap();
@@ -298,12 +298,12 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 String addressName = result.getRegeocodeAddress().getFormatAddress();
-
                 LatLonPoint point = result.getRegeocodeQuery().getPoint();
                 Intent intent = getIntent();
                 intent.putExtra("longitude", point.getLongitude());//经度 0-180度
                 intent.putExtra("latitude", point.getLatitude());//纬度 0-90度
                 intent.putExtra("location", addressName);
+                intent.putExtra("street",result.getRegeocodeAddress().getTownship());//把街道传回去
                 setResult(RESULT_OK, intent);
                 finish();
             } else {
@@ -373,8 +373,4 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
         mapView.onDestroy();
     }
 
-    public void goGode(View view) {
-       Intent intent=new Intent(this,TestActivity.class);
-        startActivity(intent);
-    }
 }

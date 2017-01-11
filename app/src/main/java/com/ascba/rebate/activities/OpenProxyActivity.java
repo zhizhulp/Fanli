@@ -83,7 +83,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getData();
-        netRequest(0);//
+        netRequest(0);
     }
 
     private void netRequest(int scene) {
@@ -160,8 +160,11 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             group = intent.getIntExtra("group",-3000);
             finalGroup=group;
             if( group==1){
+                mb.setTextTitle("开通会员");
                 searchView.setVisibility(View.GONE);
                 agreeProtocol.setVisibility(View.GONE);
+            }else {
+                mb.setTextTitle("开通会员");
             }
         }
     }
@@ -296,7 +299,12 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
                 @Override
                 public void handleSure() {
                     dm.dismissDialog();
-                    netRequest(2);
+                    if(!"".equals(edCity.getText().toString())){
+                        netRequest(2);
+                    }else {
+                        return;
+                    }
+
 
                 }
             });
@@ -339,7 +347,11 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             int id= upObj.optInt("id");//自身id
             String name = upObj.optString("name");//代理名称
             if(name!=null){
-                tvProxyNameStr.setText("我同意《"+name+"协议》");
+                if(finalGroup==3){
+                    tvProxyNameStr.setText("我同意《"+name+"协议》");
+                }else {
+                    tvProxyNameStr.setText("我同意《"+name+"权协议》");
+                }
             }
             String price = upObj.optString("money");//代理价格
             int group= upObj.optInt("group");//所在用户id
@@ -376,7 +388,11 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
                 finalRegionId = bObj.optInt("id");
                 String name = bObj.optString("name");
                 if(name!=null){
-                    tvProxyNameStr.setText("我同意《"+name+"协议》");
+                    if(finalGroup==3){
+                        tvProxyNameStr.setText("我同意《"+name+"协议》");
+                    }else {
+                        tvProxyNameStr.setText("我同意《"+name+"权协议》");
+                    }
                 }
                 String money = bObj.optString("money");
                 finalGroup = bObj.optInt("group");

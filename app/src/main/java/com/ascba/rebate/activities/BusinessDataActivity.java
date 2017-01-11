@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
 import com.jaeger.library.StatusBarUtil;
@@ -60,6 +61,8 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     private ImageView imBusLogo;
     private double lon;
     private double lat;
+    private DialogManager dm;
+    private String street;
 
 
     @Override
@@ -107,6 +110,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     private void initViews() {
+        dm=new DialogManager(this);
         tvName = ((TextView) findViewById(R.id.business_data_name));
         tvType = ((TextView) findViewById(R.id.business_data_type));
         tvLocation = ((TextView) findViewById(R.id.business_data_location));
@@ -279,6 +283,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 longitude = data.getDoubleExtra("longitude",116.397726);//经度 0-180度
                 latitude = data.getDoubleExtra("latitude",39.903767);//纬度 0-90度
                 tvLocation.setText(data.getStringExtra("location"));
+                street = data.getStringExtra("street");
                 break;
             case REQUEST_BUSINESS_PHONE:
                 if(data==null){
@@ -315,13 +320,14 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         objRequest.add("seller_address",tvLocation.getText().toString());
         objRequest.add("seller_lon",longitude);
         objRequest.add("seller_lat",latitude);
+        objRequest.add("region_name",street);
         objRequest.add("seller_tel",tvPhone.getText().toString());
         objRequest.add("seller_business_hours",tvTime.getText().toString());
         String rate = tvRate.getText().toString();
         if(!"".equals(rate)){
             String substring = rate.substring(0, rate.length()-1);
             double i = Double.parseDouble(substring);
-            objRequest.add("seller_return_ratio",i+"");
+            objRequest.add("seller_return_ratio",i/100+"");
         }
         objRequest.add("seller_description",desc);
         if(file!=null){
@@ -340,8 +346,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-
-        Toast.makeText(BusinessDataActivity.this, message, Toast.LENGTH_SHORT).show();
+        dm.buildAlertDialog(message);
     }
     public File getDiskCacheDir() {
         File file=null;

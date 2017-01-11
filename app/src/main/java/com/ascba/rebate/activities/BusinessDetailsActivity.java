@@ -199,7 +199,11 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         tvAddress.setText(seller_address);
         tvPhone.setText(seller_tel);
         tvTime.setText(seller_business_hours);
-        tvRate.setText("返佣比例 "+seller_return_ratio+"%" );
+        if(seller_return_ratio!=null&& !"".equals(seller_return_ratio)){
+            double s=Double.parseDouble(seller_return_ratio);
+            tvRate.setText("返佣比例 "+(s*100)+"%" );
+        }
+
     }
 
     public void back(View view) {

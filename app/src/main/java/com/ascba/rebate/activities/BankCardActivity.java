@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.beans.Card;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.jaeger.library.StatusBarUtil;
@@ -19,6 +20,7 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
     private TextView tvName;
     private TextView tvCard;
     private TextView tvType;
+    private TextView tvTypeType;
     private EditTextWithCustomHint edPhone;
     private EditTextWithCustomHint edCode;
     private String realname;
@@ -31,6 +33,7 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
     private String logo;
     private String info;
     private int finalScene;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +45,11 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
     }
 
     private void initViews() {
+        dm=new DialogManager(this);
         tvName = ((TextView) findViewById(R.id.bank_card_name));
         tvCard = ((TextView) findViewById(R.id.bank_card_number));
         tvType = ((TextView) findViewById(R.id.bank_card_type));
+        tvTypeType= ((TextView) findViewById(R.id.bank_card_type_type));
         edPhone = ((EditTextWithCustomHint) findViewById(R.id.ed_bank_card_phone));
         edCode = ((EditTextWithCustomHint) findViewById(R.id.ed_bank_card_code));
     }
@@ -67,7 +72,8 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
             info = intent.getStringExtra("info");
             tvName.setText(realname);
             tvCard.setText(bank_card);
-            tvType.setText(type);
+            tvType.setText(bank);
+            tvTypeType.setText(type);
         }
     }
     //发送验证码
@@ -91,6 +97,7 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
             request.add("kefu",kefu);
             request.add("logo",logo);
             request.add("info",info);
+            request.add("captcha",edCode.getText().toString());
             executeNetWork(request,"请稍后");
             setCallback(this);
         }else if(scene==1){//发送验证码
@@ -106,15 +113,13 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
     public void handle200Data(JSONObject dataObj, String message) {
         if(finalScene==0){
             Intent intent=new Intent(BankCardActivity.this,CardActivity.class);
-/*            Card card=new Card(bank,type,bank_card);
-            Bundle bundle=new Bundle();
-            bundle.putSerializable("card",card);
-            intent.putExtras(bundle);*/
             startActivity(intent);
             finish();
         }else if(finalScene==1){
-            String sms_code = dataObj.optString("sms_code");
+            dm.buildAlertDialog(message);
+            /*String sms_code = dataObj.optString("sms_code");
             edCode.setText(sms_code);
+            edCode.setSelection(sms_code.length());*/
         }
     }
 }

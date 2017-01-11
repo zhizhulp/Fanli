@@ -64,67 +64,7 @@ public class RegisterInputNumberActivity extends BaseNetWorkActivity implements 
         executeNetWork(request,"请稍后");
         setCallback(this);
     }
-    /*private void sendMsgToSevr(String baseUrl) {
-        boolean netAva = NetUtils.isNetworkAvailable(this);
-        if(!netAva){
-            dm.buildAlertDialog("请打开网络");
-            return;
-        }
-        requestQueue= NoHttp.newRequestQueue();
-        final ProgressDialog dialog4 = new ProgressDialog(this,R.style.dialog);
-        dialog4.setMessage("正在发送验证码");
-        dialog4.setCanceledOnTouchOutside(false);//点击外部不消失
-        Request<JSONObject> objRequest = NoHttp.createJsonObjectRequest(baseUrl+"?", RequestMethod.POST);
-        objRequest.add("sign",UrlEncodeUtils.createSign(baseUrl));
-        objRequest.add("mobile",phone);
-        phoneHandler=new PhoneHandler(this);
-        phoneHandler.setCallback(new PhoneHandler.Callback() {
-            @Override
-            public void getMessage(Message msg) {
-                dialog4.dismiss();
-                JSONObject jObj= (JSONObject) msg.obj;
-                try {
-                    int status = jObj.getInt("status");
-                    String message = jObj.getString("msg");
-                    if(status==200){//服务端返回成功
-                        JSONObject dataObj = jObj.getJSONObject("data");
-                        String sms_code = dataObj.getString("sms_code");
-                        Intent intent=new Intent(RegisterInputNumberActivity.this, RegisterAfterReceiveCodeActivity.class);
-                        intent.putExtra("phone_number",phone);
-                        intent.putExtra("sms_code",sms_code);
-                        startActivity(intent);
-                        finish();
-                    }else if(status==-1){//用户不存在
-                        dm.buildAlertDialog(message);
-                    } else if(status==1){//缺少sign参数
-                        dm.buildAlertDialog(message);
-                    } else if(status==2){//非法请求，sign验证失败
-                        dm.buildAlertDialog(message);
-                    } else if(status==3){//跳转登录
-                        Intent intent=new Intent(RegisterInputNumberActivity.this, LoginActivity.class);
-                        intent.putExtra("uuid",-1000);
-                        startActivity(intent);
-                        finish();
-                    } else if(status==4){//登陆后缺少uuid/token/expiring_time参数
-                        dm.buildAlertDialog(message);
-                    } else if(status==5){//token验证失败
-                        dm.buildAlertDialog(message);
-                    } else if(status==6){//用户已存在
-                        dm.buildAlertDialog(message);
-                    } else if(status==404){//失败
-                        dm.buildAlertDialog(message);
-                    } else if(status==500){//数据异常，内部错误
-                        dm.buildAlertDialog(message);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        checkThread=new CheckThread(requestQueue,phoneHandler,objRequest);
-        checkThread.start();
-        dialog4.show();
-    }*/
+
     //服务协议
     public void goServerProtocol(View view) {
         Intent intent=new Intent(this,RegisterProtocolActivity.class);
