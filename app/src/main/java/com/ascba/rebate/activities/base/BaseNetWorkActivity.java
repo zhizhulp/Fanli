@@ -114,7 +114,6 @@ public class BaseNetWorkActivity extends AppCompatActivity {
         public void onStart(int what) {
             LogUtils.PrintLog("123","onStart"+count);
             count++;
-
         }
 
         @Override

@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_business_details"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.activities.BusinessDetailsActivity">
-
-    <fragment
-        android:id="@+id/map"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <com.ascba.rebate.view.SearchBar
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.amap.api.maps.SupportMapFragment" />
-</RelativeLayout>
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+       <!-- <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+        <fragment
+            class="com.amap.api.maps.SupportMapFragment"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:textColor="@color/black"
+            android:layout_gravity="right"
+            android:onClick="initMyLocation"
+            android:background="@drawable/locate_btn_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用当前位置"/>
+    </FrameLayout>
+
+
+</LinearLayout>

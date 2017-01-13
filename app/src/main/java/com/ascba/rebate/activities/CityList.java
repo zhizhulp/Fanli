@@ -55,7 +55,6 @@ public class CityList extends BaseNetWorkActivity {
     private ImageView city_locate_success_img;
     //private LocationClient locationClient = null;
     private AMapLocationClient locationClient = null;
-    private AMapLocationClientOption locationOption = new AMapLocationClientOption();
 
     View hotcityall;
 
@@ -492,7 +491,6 @@ public class CityList extends BaseNetWorkActivity {
              */
             locationClient.onDestroy();
             locationClient = null;
-            locationOption = null;
         }
     }
 

@@ -37,6 +37,7 @@ import com.ascba.rebate.activities.RecQRActivity;
 import com.ascba.rebate.activities.SweepActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossWithCodeActivity;
+import com.ascba.rebate.activities.splash.SplashActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseFragment;
@@ -46,6 +47,7 @@ import com.ascba.rebate.handlers.PhoneHandler;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.MySqliteOpenHelper;
 import com.ascba.rebate.utils.NetUtils;
+import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
@@ -472,6 +474,7 @@ public class FirstFragment extends BaseFragment {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
                 getActivity().startActivity(i);
+                SharedPreferencesUtil.putBoolean(getActivity(), SharedPreferencesUtil.FIRST_OPEN, true);
             }
         }
 

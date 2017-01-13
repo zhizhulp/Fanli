@@ -155,7 +155,6 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <LinearLayout
-        android:visibility="gone"
         android:maxLines="1"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -169,22 +168,22 @@
             android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="推荐人"
+            android:text="推荐码"
             android:id="@+id/textView3" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="15sp"
             android:id="@+id/confirm_recommend_man"
             app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
-            android:hint="请输入您的推荐人"
+            android:hint="请输入您的推荐码"
             android:background="@null"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <View
-        android:visibility="gone"
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"

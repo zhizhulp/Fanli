@@ -164,7 +164,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
                 searchView.setVisibility(View.GONE);
                 agreeProtocol.setVisibility(View.GONE);
             }else {
-                mb.setTextTitle("开通会员");
+                mb.setTextTitle("开通代理");
             }
         }
     }

@@ -96,7 +96,13 @@ public class CardDataActivity extends BaseNetWorkActivity implements BaseNetWork
             sex=1;
         }
         intent.putExtra("sex",sex);
-        intent.putExtra("age",tvAge.getText().toString());
+        String s = tvAge.getText().toString();
+        if(!"".equals(s)){
+            intent.putExtra("age",Integer.parseInt(s));
+        }else {
+            dm.buildAlertDialog("没有年龄参数");
+            return;
+        }
         intent.putExtra("location",tvLocation.getText().toString());
         startActivity(intent);
         finish();

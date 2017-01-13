@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
@@ -33,6 +34,7 @@ public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implem
     private String password;
     private String rePassword;
     private String recommendMan;
+    private DialogManager dm;
    /* @SuppressLint("HandlerLeak")
     Handler handler = new Handler()
     {
@@ -74,6 +76,7 @@ public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implem
     }*/
 
     private void initViews() {
+        dm=new DialogManager(this);
         confirmCode= (EditText) findViewById(R.id.confirm_code);
         confirmPassword= (EditText) findViewById(R.id.confirm_password);
         confirmRePassword= (EditText) findViewById(R.id.confirm_repassword);
@@ -87,23 +90,27 @@ public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implem
         rePassword = confirmRePassword.getText().toString();
         recommendMan=confirmRecommendMan.getText().toString();
         if("".equals(code)){
-            Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请输入验证码");
             return;
         }
         if("".equals(password)){
-            Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请输入密码");
             return;
         }
         if(password.length()< 6||password.length()>16){
-            Toast.makeText(this, "密码必须为6位以上16位以下", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("密码必须为6位以上16位以下");
             return;
         }
         if("".equals(rePassword)){
-            Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("请输入确认密码");
             return;
         }
         if(!password.equals(rePassword)){
-            Toast.makeText(this, "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
+            dm.buildAlertDialog("两次输入的密码不一致");
+            return;
+        }
+        if("".equals(recommendMan)){
+            dm.buildAlertDialog("请向推荐人索取推荐码（可选）");
             return;
         }
         requestRegister();

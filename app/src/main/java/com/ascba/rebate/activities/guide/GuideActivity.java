@@ -28,7 +28,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
 
     // 引导页图片资源
     private static final int[] pics = { R.layout.guide_view1,
-            R.layout.guide_view2, R.layout.guide_view3};
+            R.layout.guide_view2, R.layout.guide_view3,R.layout.guide_view4,R.layout.guide_view5};
 
     // 底部小点图片
     private ImageView[] dots;
@@ -49,7 +49,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
             View view = LayoutInflater.from(this).inflate(pics[i], null);
 
             if (i == pics.length - 1) {
-                startImg = (ImageView) view.findViewById(R.id.guide03_start);
+                startImg = (ImageView) view.findViewById(R.id.guide05_start);
                 btnEnter = ((Button) view.findViewById(R.id.btn_enter));
                 btnEnter.setOnClickListener(new View.OnClickListener() {
                     @Override

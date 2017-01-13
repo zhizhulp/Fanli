@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.AMap;
@@ -24,15 +25,18 @@ import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.geocoder.BusinessArea;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.geocoder.RegeocodeRoad;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.InputtipsQuery;
 import com.amap.api.services.help.Tip;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.amap.api.services.road.Crossroad;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.SearchAdapter;
@@ -303,7 +307,23 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
                 intent.putExtra("longitude", point.getLongitude());//经度 0-180度
                 intent.putExtra("latitude", point.getLatitude());//纬度 0-90度
                 intent.putExtra("location", addressName);
-                intent.putExtra("street",result.getRegeocodeAddress().getTownship());//把街道传回去
+                String province = result.getRegeocodeAddress().getProvince();
+                String city = result.getRegeocodeAddress().getCity();
+                String district = result.getRegeocodeAddress().getDistrict();
+                String street = result.getRegeocodeAddress().getTownship();//大红门街道
+                /*String street1 = result.getRegeocodeAddress().getStreetNumber().getStreet();//光彩路
+                List<BusinessArea> businessAreas = result.getRegeocodeAddress().getBusinessAreas();
+                List<Crossroad> crossroads = result.getRegeocodeAddress().getCrossroads();
+                List<RegeocodeRoad> roads = result.getRegeocodeAddress().getRoads();*/
+                if(street.contains("街道")){
+                    String[] strS= street.split("街道");
+                    street=strS[0];
+                }
+                if("".equals(city)){
+                    intent.putExtra("street",province+"-"+province+"-"+district+"-"+street);//把街道传回去
+                }else {
+                    intent.putExtra("street",province+"-"+city+"-"+district+"-"+street);//把街道传回去
+                }
                 setResult(RESULT_OK, intent);
                 finish();
             } else {
@@ -322,7 +342,7 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
      * 响应逆地理编码
      */
     public void getAddress(final LatLonPoint latLonPoint) {
-        dm.buildAlertDialog("请稍后");
+        dm.buildWaitDialog("请稍后");
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
                 GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
         geocoderSearch.getFromLocationAsyn(query);// 设置异步逆地理编码请求

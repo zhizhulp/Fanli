@@ -35,8 +35,20 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="1.0dip"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:src="@drawable/dot_selector" />
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:padding="1.0dip"
+            android:src="@drawable/dot_selector" />
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:padding="1.0dip"
             android:src="@drawable/dot_selector" />
         <ImageView
             android:layout_width="10dp"

@@ -48,7 +48,6 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     private String seller_description;
     private String seller_tel;
     private AMapLocationClient locationClient = null;
-    private AMapLocationClientOption locationOption = new AMapLocationClientOption();
     private DialogManager dm;
     private double lon;
     private double lat;
@@ -257,6 +256,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         AMapLocationClientOption mOption = new AMapLocationClientOption();
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
         mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        /*mOption.setOnceLocation(true);//只定位一次*/
         mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
         mOption.setInterval(10000);//可选，设置定位间隔。默认为2秒
         mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
@@ -274,13 +274,13 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     AMapLocationListener locationListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation loc) {
+            stopLocation();
             if (null != loc) {
                 stopLocation();
                 mLat1 = loc.getLatitude();
                 mLon1 = loc.getLongitude();
                 startGaodeSearch();
             } else {
-                stopLocation();
                 dm.buildAlertDialog("定位失败，请稍后再试");
             }
         }
@@ -311,7 +311,12 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
              */
             locationClient.onDestroy();
             locationClient = null;
-            locationOption = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyLocation();
     }
 }
