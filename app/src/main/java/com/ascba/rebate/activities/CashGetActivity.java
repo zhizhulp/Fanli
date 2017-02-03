@@ -79,7 +79,6 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
         tvSeviFee = ((TextView) findViewById(R.id.tv_sevice_fee));
         tvBankName = ((TextView) findViewById(R.id.tv_bank_name));
         tvBankNum = ((TextView) findViewById(R.id.tv_bank_number));
-
         requestHasCard(2);
     }
 
@@ -250,7 +249,7 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
     }
 
     private String getTail4Num(String bank_card) {
-        return bank_card.substring(bank_card.length() - 5, bank_card.length() - 1);
+        return bank_card.substring(bank_card.length() - 4, bank_card.length() );
     }
 
     public void getAll(View view) {
