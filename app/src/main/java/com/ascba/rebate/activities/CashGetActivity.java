@@ -243,7 +243,6 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
                 mList.add(card);
             }
         } else if (finalScene == 3) {
-//            dm.buildAlertDialog(message);
             Intent intent=new Intent(this,CashGetSuccActivity.class);
             startActivityForResult(intent, FourthFragment.REQUEST_CASH_GET);
         }
