@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.rebate.activities.FirstRecActivity">
+    tools:context="com.ascba.rebate.activities.me_page.recmmennd_child.FirstRecActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="一级推荐"
         android:layout_width="match_parent"

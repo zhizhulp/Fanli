@@ -5,8 +5,7 @@
     android:id="@+id/activity_recharge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.ascba.rebate.activities.RechargeResultActivity">
+    android:orientation="vertical">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="充值结果"
         android:layout_width="match_parent"

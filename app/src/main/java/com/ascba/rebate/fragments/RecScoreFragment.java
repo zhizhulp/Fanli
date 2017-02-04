@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.FirstRecActivity;
-import com.ascba.rebate.activities.SecondRecActivity;
+import com.ascba.rebate.activities.me_page.recmmennd_child.FirstRecActivity;
+import com.ascba.rebate.activities.me_page.recmmennd_child.SecondRecActivity;
 import com.ascba.rebate.adapter.RecAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseFragment;

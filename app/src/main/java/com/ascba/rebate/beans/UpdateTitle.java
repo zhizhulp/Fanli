@@ -1,7 +1,5 @@
 package com.ascba.rebate.beans;
 
-import com.ascba.rebate.activities.UserUpdateActivity;
-
 import java.util.List;
 
 /**

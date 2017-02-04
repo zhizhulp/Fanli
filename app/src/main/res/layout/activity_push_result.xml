@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.activities.PushResultActivity">
+    tools:context="com.ascba.rebate.activities.main_page.sweep.PushResultActivity">
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/mb"
         app:needComplete="true"

@@ -4,7 +4,7 @@
     android:id="@+id/activity_business_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.activities.BusinessDetailsActivity">
+    tools:context="com.ascba.rebate.activities.main_page.BusinessDetailsActivity">
 
     <LinearLayout
         android:id="@+id/business_details_go_where"
