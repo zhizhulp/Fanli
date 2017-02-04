@@ -52,7 +52,7 @@ public class BankAdapter extends BaseAdapter {
     }
     private String getTail4Num(String bank_card) {
 
-        return  bank_card.substring(bank_card.length()-5,bank_card.length()-1);
+        return  bank_card.substring(bank_card.length()-4,bank_card.length());
 
     }
 }

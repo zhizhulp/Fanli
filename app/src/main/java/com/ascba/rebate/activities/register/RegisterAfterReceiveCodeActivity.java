@@ -109,10 +109,10 @@ public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implem
             dm.buildAlertDialog("两次输入的密码不一致");
             return;
         }
-        if("".equals(recommendMan)){
+        /*if("".equals(recommendMan)){
             dm.buildAlertDialog("请向推荐人索取推荐码（可选）");
             return;
-        }
+        }*/
         requestRegister();
     }
 

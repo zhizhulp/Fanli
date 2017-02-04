@@ -35,12 +35,12 @@
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="80dp">
-        <ImageView
+        <!--<ImageView
             android:src="@mipmap/busi_bank_card"
             android:layout_centerVertical="true"
             android:id="@+id/recharge_card_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
         <ImageView
             android:id="@+id/cash_get_go"
             android:layout_centerVertical="true"
@@ -50,10 +50,8 @@
             android:src="@mipmap/ic_go"/>
         <LinearLayout
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_toRightOf="@id/recharge_card_icon"
             android:layout_toLeftOf="@id/cash_get_go"
+            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
