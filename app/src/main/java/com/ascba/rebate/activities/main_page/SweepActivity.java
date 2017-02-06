@@ -10,6 +10,7 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 

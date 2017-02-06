@@ -1,5 +1,4 @@
 package com.ascba.rebate.fragments.base;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +12,8 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yolanda.nohttp.NoHttp;
@@ -123,7 +122,6 @@ public class BaseFragment extends Fragment {
 
         @Override
         public void onStart(int what) {
-
         }
 
         @Override
@@ -162,7 +160,7 @@ public class BaseFragment extends Fragment {
                 dm.dismissDialog();
             }
             Exception exc = response.getException();
-            String msg=exc.getMessage();
+            //String msg=exc.getMessage();
             if(exc instanceof NetworkError){
                 //dm.buildAlertDialog("请打开网络！");
             }else {
@@ -171,7 +169,9 @@ public class BaseFragment extends Fragment {
         }
         @Override
         public void onFinish(int what) {
-
+            if(dm!=null){
+                dm.dismissDialog();
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 
 public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
     private TextView tvMoney;
@@ -17,6 +18,7 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wssucc);
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
     }

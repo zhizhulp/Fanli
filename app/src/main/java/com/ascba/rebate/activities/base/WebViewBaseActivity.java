@@ -83,12 +83,6 @@ public class WebViewBaseActivity extends AppCompatActivity {
 
     }
 
-    private void setStatusBar() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

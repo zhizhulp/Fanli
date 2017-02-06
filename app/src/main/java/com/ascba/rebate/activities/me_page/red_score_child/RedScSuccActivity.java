@@ -9,6 +9,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.view.MoneyBar;
+import com.jaeger.library.StatusBarUtil;
 
 public class RedScSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
     private MoneyBar mb;
@@ -16,6 +17,7 @@ public class RedScSuccActivity extends AppCompatActivity implements MoneyBar.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_red_sc_succ);
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
     private void initViews() {

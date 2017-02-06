@@ -38,8 +38,7 @@ import java.util.List;
 
 public class OpenProxyActivity extends BaseNetWorkActivity implements
         AdapterView.OnItemClickListener,BaseNetWorkActivity.Callback,
-        MoneyBar.CallBack
-{
+        MoneyBar.CallBack {
     private static final int REQUEST_CITY = 1;
     private static final int REQUEST_MESSAGE = 2;
     private int group_id;

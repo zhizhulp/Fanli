@@ -51,7 +51,6 @@ public class BaseNetWorkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApplication) getApplication()).addActivity(this);
-        //setStatusBar();
     }
 
     @Override
@@ -61,12 +60,6 @@ public class BaseNetWorkActivity extends AppCompatActivity {
         cancelNetWork();//取消所有网络请求
     }
 
-    @TargetApi(19)
-    private void setStatusBar() {
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-    }
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest,String message) {
         if(dm==null){
@@ -112,13 +105,11 @@ public class BaseNetWorkActivity extends AppCompatActivity {
 
         @Override
         public void onStart(int what) {
-            LogUtils.PrintLog("123","onStart"+count);
             count++;
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            LogUtils.PrintLog("123","onSucceed"+count);
             count++;
             if(dm!=null){
                 dm.dismissDialog();
@@ -156,21 +147,20 @@ public class BaseNetWorkActivity extends AppCompatActivity {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            LogUtils.PrintLog("123","onFailed"+count);
-            count++;
             if(dm!=null){
                 dm.dismissDialog();
             }
             //请求失败的信息
-            String message = response.getException().getMessage();
+            //String message = response.getException().getMessage();
             dm.buildAlertDialog("请求失败");
 
         }
 
         @Override
         public void onFinish(int what) {
-            LogUtils.PrintLog("123","onFinish"+count);
-            count++;
+            if(dm!=null){
+                dm.dismissDialog();
+            }
         }
     }
 }
