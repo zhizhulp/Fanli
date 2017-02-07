@@ -279,10 +279,10 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         }
         switch (requestCode){
             case REQUEST_CITY:
-                String location = data.getStringExtra("location");
+                /*String location = data.getStringExtra("location");
                 if(location!=null && !"".equals(location)){
                     //tvCity.setText(location);
-                }
+                }*/
                 break;
             case REQUEST_MESSAGE:
                 String msg=data.getStringExtra("message");
@@ -356,6 +356,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             int group= upObj.optInt("group");//所在用户id
             group_url = upObj.optString("group_url");//组说明
             url=upObj.optString("url");//代理协议
+            String placeholder = upObj.optString("placeholder");//搜索hint
             String realname = upObj.optString("realname");//推荐人
             String mobile = upObj.optString("mobile");//推荐人手机号码
             int isReferee = upObj.optInt("isReferee");//0 无推荐人 1 有推荐人
@@ -381,6 +382,9 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             }
             tvMoney.setText(price);
             tvProxyName.setText(name);
+            if(placeholder!=null&&!"".equals(placeholder)){
+                edCity.setHint(placeholder);
+            }
         }else if(finalScene==1){//选定地区，刷新数据
             JSONObject bObj = dataObj.optJSONObject("backJoinArea");
             if(bObj!=null){

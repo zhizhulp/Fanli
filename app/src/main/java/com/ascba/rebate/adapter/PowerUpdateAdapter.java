@@ -27,19 +27,6 @@ public class PowerUpdateAdapter extends BaseAdapter {
     private static final int LIST_TYPE_ACCOUNT=2;
     private static final int TYPE_TITLE=0;
     private static final int TYPE_CONTENT=1;
-    private Callback callback;
-    public interface Callback{
-        void clickProtocol(int position);
-        void clickOpen(int position);
-    }
-
-    public Callback getCallback() {
-        return callback;
-    }
-
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
 
     public PowerUpdateAdapter(List<UpdateTitle> mList, Context context) {
         this.mList = mList;
@@ -124,25 +111,7 @@ public class PowerUpdateAdapter extends BaseAdapter {
                 viewHolder.tvMoney.setText(proxy.getMoney());
                 viewHolder.tvOpen.setText(proxy.isOpen()? "已开通":"暂未开通");
                 viewHolder.tvOpen.setTextColor(proxy.isOpen()? Color.GRAY : 0xff2e82ff );
-                viewHolder.tvOpen.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(callback!=null){
-                            callback.clickOpen(position);
-                        }
-
-                    }
-                });
-                /*viewHolder.tv01.setText(proxy.getDesc());
-                viewHolder.tv01.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(callback!=null){
-                            callback.clickProtocol(position);
-                        }
-
-                    }
-                });*/
+                viewHolder.tv01.setText(proxy.getOpen_region_name());
                 break;
             case TYPE_TITLE:
                 if(convertView==null){
@@ -180,9 +149,9 @@ public class PowerUpdateAdapter extends BaseAdapter {
                     if(tvOpen==null){
                         tvOpen= (TextView) root.findViewById(R.id.tv_power_update_open);
                     }
-                    /*if(tv01==null){
-                        tv01= (TextView) root.findViewById(R.id.see);
-                    }*/
+                    if(tv01==null){
+                        tv01= (TextView) root.findViewById(R.id.tv_power_update_region);
+                    }
 
                     break;
                 case 1:

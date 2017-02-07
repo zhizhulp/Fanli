@@ -15,14 +15,11 @@ import com.ascba.rebate.beans.SearchBean;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2016/12/26 0026.
- */
+
 
 public class SearchAdapter extends BaseAdapter implements Filterable {
     private ArrayFilter mFilter;
     private List<SearchBean> mList;
-    private Context context;
     private LayoutInflater inflater;
     private ArrayList<SearchBean> mUnfilteredData;
 

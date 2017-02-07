@@ -26,7 +26,6 @@
             android:textSize="15sp"
             android:background="@null"
             android:id="@+id/ed_proxy_area"
-            android:hint="请输入代理区域 举例:罗田"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
         <TextView

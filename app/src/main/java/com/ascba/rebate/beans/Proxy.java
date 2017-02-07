@@ -1,8 +1,6 @@
 package com.ascba.rebate.beans;
 
-/**
- * Created by Administrator on 2016/11/28.
- */
+
 
 public class Proxy {
     private String icon;
@@ -12,6 +10,15 @@ public class Proxy {
     private int group_id;
     private int group;
     private String desc;
+    private String open_region_name;
+
+    public String getOpen_region_name() {
+        return open_region_name;
+    }
+
+    public void setOpen_region_name(String open_region_name) {
+        this.open_region_name = open_region_name;
+    }
 
     public String getDesc() {
         return desc;

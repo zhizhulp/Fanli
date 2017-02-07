@@ -30,41 +30,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <TextView
-        android:paddingBottom="8dp"
-        android:gravity="bottom"
-        android:text="暂未开通"
-        android:id="@+id/tv_power_update_open"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+    <LinearLayout
+        android:layout_centerVertical="true"
+        android:gravity="right|center_vertical"
         android:layout_marginRight="15dp"
-        android:textSize="@dimen/activity_text_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-    <!--<RelativeLayout
-        android:id="@+id/proxy_open"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="17dp"
+        android:layout_toRightOf="@id/proxy_type"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        &lt;!&ndash;<TextView
-            android:layout_alignParentRight="true"
-            android:id="@+id/see"
-            android:textSize="@dimen/activity_text_normal"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />&ndash;&gt;
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
             android:text="暂未开通"
             android:id="@+id/tv_power_update_open"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="7dp"
             android:textSize="@dimen/activity_text_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </RelativeLayout>-->
+        <TextView
+            android:id="@+id/tv_power_update_region"
+            android:textColor="@color/black"
+            android:layout_marginTop="7dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="哈哈哈哈"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </RelativeLayout>

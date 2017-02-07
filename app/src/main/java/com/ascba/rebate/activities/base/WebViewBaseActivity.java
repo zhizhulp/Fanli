@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.base;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +26,6 @@ public class WebViewBaseActivity extends AppCompatActivity {
     private WebView webView;
     private MoneyBar mb;
     private String name;
-    private ProgressDialog p;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +34,6 @@ public class WebViewBaseActivity extends AppCompatActivity {
         StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
         getMsgFromBefore();
-
     }
 
     @Override

@@ -106,6 +106,7 @@ public class UserUpdateActivity extends BaseNetWorkActivity implements
                     String money = jsonObject.optString("money");
                     String icon = jsonObject.optString("icon");
                     String description = jsonObject.optString("description");
+                    String member_agency_name = jsonObject.optString("member_agency_name");
                     int group = jsonObject.optInt("group");
                     int id = jsonObject.optInt("id");
                     groupId=group;
@@ -121,6 +122,7 @@ public class UserUpdateActivity extends BaseNetWorkActivity implements
                     proxy.setDesc(description);
                     proxy.setGroup_id(id);
                     proxy.setGroup(group);
+                    proxy.setOpen_region_name(member_agency_name);
                     proxies.add(proxy);
                 }
                 UpdateTitle updateTitle=new UpdateTitle(groupId,key,proxies);

@@ -418,7 +418,6 @@ public class FirstFragment extends BaseFragment {
 
         @Override
         public void onDownloadError(int what, Exception exception) {
-            Logger.e(exception);
 
             if (exception instanceof ServerError) {
                 Toast.makeText(getActivity(), "后台错误", Toast.LENGTH_SHORT).show();

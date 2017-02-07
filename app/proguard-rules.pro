@@ -20,9 +20,7 @@
 -keepattributes *JavascriptInterface*
 
 -optimizationpasses 5          # 指定代码的压缩级别
--dontusemixedcaseclassnames   # 是否使用大小写混合
--dontpreverify           # 混淆时是否做预校验
--verbose                # 混淆时是否记录日志
+-verbose
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
 
 -keep public class * extends android.app.Activity      # 保持哪些类不被混淆
@@ -57,7 +55,7 @@
 #忽略警告
 -ignorewarning
 #支付宝混淆
--libraryjars libs/alipaySDK-20150602.jar
+#-libraryjars libs/alipaySDK-20161009.jar
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
@@ -85,3 +83,7 @@
 -keep class cn.jpush.** { *; }
 -dontwarn cn.jiguang.**
 -keep class cn.jiguang.** { *; }
+
+-keep class rx.**{*;}
+
+

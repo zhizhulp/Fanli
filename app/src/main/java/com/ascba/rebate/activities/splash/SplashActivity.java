@@ -1,16 +1,11 @@
 package com.ascba.rebate.activities.splash;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import com.ascba.rebate.activities.guide.GuideActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
@@ -24,14 +19,6 @@ import rx.functions.Action1;
  * 启动页
  */
 public class SplashActivity extends Activity {
-
-    private ImageView mIVEntry;
-
-    private static final int ANIM_TIME = 2000;
-
-    private static final float SCALE_END = 1.15F;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +29,6 @@ public class SplashActivity extends Activity {
     }
 
     private void startMainActivity() {
-        mIVEntry = ((ImageView) findViewById(R.id.iv_entry));
-
         Observable.timer(2000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
@@ -58,36 +43,10 @@ public class SplashActivity extends Activity {
                             startActivity(new Intent(SplashActivity.this, MainActivity.class));
                             SplashActivity.this.finish();
                         }
-//                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//                        SplashActivity.this.finish();
+
                     }
                 });
     }
-
-    private void startAnim() {
-
-        ObjectAnimator animatorX = ObjectAnimator.ofFloat(mIVEntry, "scaleX", 1f, SCALE_END);
-        ObjectAnimator animatorY = ObjectAnimator.ofFloat(mIVEntry, "scaleY", 1f, SCALE_END);
-
-        AnimatorSet set = new AnimatorSet();
-        set.setDuration(ANIM_TIME).play(animatorX).with(animatorY);
-        set.start();
-
-        set.addListener(new AnimatorListenerAdapter() {
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                boolean isFirstOpen = SharedPreferencesUtil.getBoolean(SplashActivity.this, SharedPreferencesUtil.FIRST_OPEN, true);
-                if (isFirstOpen) {
-                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-                } else {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                }
-                SplashActivity.this.finish();
-            }
-        });
-    }
-
     /**
      * 屏蔽物理返回按钮
      *
