@@ -25,20 +25,17 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.activities.main_page.HotActivity;
-import com.ascba.rebate.activities.main_page.sweep.PayActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
-import com.ascba.rebate.activities.main_page.SweepActivity;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yolanda.nohttp.Headers;
-import com.yolanda.nohttp.Logger;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.download.DownloadListener;
 import com.yolanda.nohttp.download.DownloadQueue;
@@ -229,7 +226,7 @@ public class FirstFragment extends BaseFragment {
         goSweepActiviIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getActivity(), SweepActivity.class), 0);
+                startActivityForResult(new Intent(getActivity(), CaptureActivity.class), 0);
             }
         });
     }
@@ -272,7 +269,7 @@ public class FirstFragment extends BaseFragment {
                 location_text.setText(data.getStringExtra("city") + data.getIntExtra("id", -1));
                 break;
             case -1:
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                /*if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String uuid = bundle.getString(CodeUtils.RESULT_STRING);
                     Toast.makeText(getActivity(), "解析结果:" + uuid, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getActivity(), PayActivity.class);
@@ -280,7 +277,7 @@ public class FirstFragment extends BaseFragment {
                     startActivity(intent);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
-                }
+                }*/
                 break;
             default:
                 break;

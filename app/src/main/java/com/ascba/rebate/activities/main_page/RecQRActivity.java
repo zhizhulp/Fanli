@@ -13,11 +13,11 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.utils.QrUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.jaeger.library.StatusBarUtil;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -84,7 +84,8 @@ public class RecQRActivity extends BaseNetWorkActivity implements BaseNetWorkAct
     public Bitmap createQRCode(String content,int width,int height){
         int dpWidth = ScreenDpiUtils.dip2px(this, width);
         int dpHeight = ScreenDpiUtils.dip2px(this, height);
-        return CodeUtils.createImage(content, dpWidth, dpHeight, BitmapFactory.decodeResource(getResources(), R.mipmap.logo));
+
+        return QrUtils.createImage(content, dpWidth, dpHeight, BitmapFactory.decodeResource(getResources(), R.mipmap.logo));
     }
 
     public void copyText(View view) {

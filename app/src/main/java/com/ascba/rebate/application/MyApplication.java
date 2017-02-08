@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.ascba.rebate.activities.login.LoginActivity;
-import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.URLConnectionNetworkExecutor;
 import com.yolanda.nohttp.cache.DBCacheStore;
@@ -52,7 +51,6 @@ public class MyApplication extends Application {
                 .setNetworkExecutor(new URLConnectionNetworkExecutor())
         );
         requestQueue=NoHttp.newRequestQueue();
-        ZXingLibrary.initDisplayOpinion(this);//Zxing二维码
         JPushInterface.init(this);//极光推送
     }
     // 添加Activity到容器中

@@ -189,8 +189,8 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 1) {
-            int isBankCard = dataObj.optInt("isBankCard");
-            int isCardId = dataObj.optInt("isCardId");
+            int isBankCard = dataObj.optInt("isBankCard");//银行卡数量
+            int isCardId = dataObj.optInt("isCardId");//是否实名认证
             if (isBankCard == 0) {
                 if (isCardId == 0) {
                     dm.buildAlertDialog1("您还没有实名认证，是否立即实名？");
@@ -218,7 +218,15 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
                 }
 
             } else {
-                requestHasCard(3);
+                dm.buildAlertDialog2("确定提现吗？");
+                dm.setCallback(new DialogManager.Callback() {
+                    @Override
+                    public void handleSure() {
+                        dm.dismissDialog();
+                        requestHasCard(3);
+                    }
+                });
+
             }
         } else if (finalScene == 2) {
             JSONObject moneyObj = dataObj.optJSONObject("getTillsMoney");

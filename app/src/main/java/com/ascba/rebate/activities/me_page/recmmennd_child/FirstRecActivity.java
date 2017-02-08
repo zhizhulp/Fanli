@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.me_page.recmmennd_child;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class FirstRecActivity extends BaseNetWorkActivity implements BaseNetWork
     private ListView firstRecListView;
     private RecAdapter recAdapter;
     private List<FirstRec> mList;
-    private TextView tvNoView;
+    private View tvNoView;
 
 
     @Override
@@ -49,7 +50,7 @@ public class FirstRecActivity extends BaseNetWorkActivity implements BaseNetWork
         initData();
         recAdapter = new RecAdapter(mList,this);
         firstRecListView.setAdapter(recAdapter);
-        tvNoView = ((TextView) findViewById(R.id.tv_no_view));
+        tvNoView = findViewById(R.id.tv_no_view);
     }
 
     private void initData() {

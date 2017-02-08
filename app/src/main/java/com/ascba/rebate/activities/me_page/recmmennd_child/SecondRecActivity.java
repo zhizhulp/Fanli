@@ -26,7 +26,7 @@ public class SecondRecActivity extends BaseNetWorkActivity implements BaseNetWor
     private ListView secondRecListView;
     private RecAdapter recAdapter;
     private List<FirstRec> mList;
-    private TextView tvNoView;
+    private View tvNoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class SecondRecActivity extends BaseNetWorkActivity implements BaseNetWor
         initData();
         recAdapter = new RecAdapter(mList,this);
         secondRecListView.setAdapter(recAdapter);
-        tvNoView = ((TextView) findViewById(R.id.tv_no_view));
+        tvNoView =  findViewById(R.id.tv_no_view);
     }
 
     private void initData() {

@@ -33,6 +33,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    testCompile 'junit:junit:4.12'
     compile project(':android-expandpoptab-library')
     compile files('libs/alipaySdk-20161009.jar')
     compile files('libs/AMap_Location_V3.2.0_20161205.jar')
@@ -51,11 +52,10 @@ dependencies {
     compile 'homhomlin.lib:apsts:1.4.0'
     compile 'com.yolanda.nohttp:nohttp:1.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'cn.yipianfengye.android:zxing-library:2.1'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'
     compile 'com.baoyz.swipemenulistview:library:1.3.0'
-    testCompile 'junit:junit:4.12'
     compile files('libs/Android_Map3D_SDK_V4.1.3_20161208.jar')
     compile files('libs/jcore-android_v1.0.0.jar')
     compile files('libs/jpush-android_v3.0.0.jar')
+    compile files('libs/core-3.3.0.jar')
 }

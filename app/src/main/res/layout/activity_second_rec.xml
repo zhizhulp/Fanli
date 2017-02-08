@@ -9,13 +9,24 @@
         app:textTitle="二级推荐"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <TextView
+    <LinearLayout
         android:id="@+id/tv_no_view"
         android:gravity="center"
-        android:textSize="16sp"
-        android:text="@string/no_data_txt"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <TextView
+            android:text="@string/no_data_txt"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:text="@string/tips_rec"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <ListView
         android:id="@+id/second_rec_list"
         android:scrollbars="none"
