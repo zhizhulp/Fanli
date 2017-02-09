@@ -16,6 +16,13 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
+        /*//有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+        //有关详细信息, 请使用 -Xlint:unchecked 重新编译。
+        gradle.projectsEvaluated {
+            tasks.withType(JavaCompile) {
+                options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+            }
+        }*/
     }
 }
 
