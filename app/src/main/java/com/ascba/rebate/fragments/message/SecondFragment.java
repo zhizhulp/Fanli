@@ -14,9 +14,7 @@ import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SwitchButton;
 
 
-/**
- * Created by linhonghong on 2015/8/11.
- */
+
 public class SecondFragment extends Fragment {
 
 

@@ -176,6 +176,13 @@ public class FirstFragment extends BaseFragment {
                     mAdapter.notifyDataSetChanged();
                 }
             }
+
+            @Override
+            public void handleReqFailed() {
+                if(refreshLayout.isRefreshing()){
+                    refreshLayout.setRefreshing(false);
+                }
+            }
         });
     }
 

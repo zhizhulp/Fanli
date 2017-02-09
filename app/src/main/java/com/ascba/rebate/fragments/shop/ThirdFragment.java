@@ -15,9 +15,7 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 
-/**
- * Created by linhonghong on 2015/8/11.
- */
+
 public class ThirdFragment  extends Fragment {
 
 

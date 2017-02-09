@@ -32,7 +32,8 @@ public class BaseFragment extends Fragment {
     private Callback callback;
 
     public interface Callback{
-        void handle200Data(JSONObject dataObj, String message);
+        void handle200Data(JSONObject dataObj, String message);//数据请求成功
+        void handleReqFailed();//请求服务器失败
     }
 
     public Callback getCallback() {
@@ -78,7 +79,6 @@ public class BaseFragment extends Fragment {
                 dm.buildAlertDialog("请打开网络！");
                 return;
             }
-
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, new NetResponseListener());
         dm.buildWaitDialog(message);
@@ -164,6 +164,9 @@ public class BaseFragment extends Fragment {
             if(exc instanceof NetworkError){
                 //dm.buildAlertDialog("请打开网络！");
             }else {
+                if(callback!=null){
+                    callback.handleReqFailed();
+                }
                 dm.buildAlertDialog("请求失败");
             }
         }
