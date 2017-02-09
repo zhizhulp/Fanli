@@ -12,22 +12,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.AccountRechargeActivity;
-import com.ascba.rebate.activities.AddCardActivity;
-import com.ascba.rebate.activities.AllAccountActivity;
-import com.ascba.rebate.activities.BCProcessActivity;
-import com.ascba.rebate.activities.BusinessCenterActivity;
-import com.ascba.rebate.activities.BusinessDataActivity;
-import com.ascba.rebate.activities.CardActivity;
-import com.ascba.rebate.activities.CashGetActivity;
-import com.ascba.rebate.activities.PersonalDataActivity;
-import com.ascba.rebate.activities.RealNameCofirmActivity;
-import com.ascba.rebate.activities.RecommendActivity;
-import com.ascba.rebate.activities.RedScoreUpdateActivity;
-import com.ascba.rebate.activities.SettingActivity;
-import com.ascba.rebate.activities.TicketActivity;
-import com.ascba.rebate.activities.UserUpdateActivity;
-import com.ascba.rebate.activities.WhiteScoreActivity;
+import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
+import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
+import com.ascba.rebate.activities.me_page.AllAccountActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
+import com.ascba.rebate.activities.me_page.CardActivity;
+import com.ascba.rebate.activities.me_page.CashGetActivity;
+import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
+import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
+import com.ascba.rebate.activities.me_page.RecommendActivity;
+import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
+import com.ascba.rebate.activities.me_page.settings.SettingActivity;
+import com.ascba.rebate.activities.me_page.TicketActivity;
+import com.ascba.rebate.activities.me_page.UserUpdateActivity;
+import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
@@ -348,7 +348,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
             tvRedScore.setText(red_score + "");
             tvNickName.setText(nickname);
             tvMoney.setText("账户余额：" + money);
-            tvBanks.setText(banks + "");
+            tvBanks.setText(banks + "张");
             tvTicket.setText(vouchers + "张");
             tvRecNum.setText(referee_bonuses + "笔/" + referee_num + "人");
         } else if (finalScene == 1) {//点击商户中心
@@ -477,6 +477,13 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 intent.putExtra("realname", cardObj.optString("realname"));
                 startActivityForResult(intent,REQUEST_CASH_GET);
             }
+        }
+    }
+
+    @Override
+    public void handleReqFailed() {
+        if(refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
         }
     }
 }
