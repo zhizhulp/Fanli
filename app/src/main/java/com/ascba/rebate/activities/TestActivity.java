@@ -7,9 +7,7 @@ import com.jaeger.library.StatusBarUtil;
 
 
 
-/**
- * 演示poi搜索功能
- */
+
 public class TestActivity extends AppCompatActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {

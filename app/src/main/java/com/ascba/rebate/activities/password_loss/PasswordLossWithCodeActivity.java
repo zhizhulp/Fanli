@@ -55,11 +55,11 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
     private void getPhoneFromBefore() {
         Intent intent = getIntent();
         loss_phone = intent.getStringExtra("loss_phone");
-        String sms_code = intent.getStringExtra("sms_code");
+        /*String sms_code = intent.getStringExtra("sms_code");*/
         if(loss_phone!=null){
             tvLossPhone.setText(loss_phone);
-            edCode.setText(sms_code);
-            edCode.setSelection(sms_code.length());
+            /*edCode.setText(sms_code);
+            edCode.setSelection(sms_code.length());*/
         }
     }
 

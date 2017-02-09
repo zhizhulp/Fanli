@@ -60,10 +60,10 @@ public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implem
         Intent intent = getIntent();
         if(intent!=null){
             phone_number =intent.getStringExtra("phone_number");
-            String sms_code = intent.getStringExtra("sms_code");
+           /* String sms_code = intent.getStringExtra("sms_code");*/
             tvPhone.setText("+86 "+phone_number);
-            confirmCode.setText(sms_code);
-            confirmCode.setSelection(sms_code.length());
+            /*confirmCode.setText(sms_code);
+            confirmCode.setSelection(sms_code.length());*/
         }
 
     }

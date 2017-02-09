@@ -71,10 +71,10 @@ public class RegisterInputNumberActivity extends BaseNetWorkActivity implements 
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) throws JSONException {
-        String sms_code = dataObj.getString("sms_code");
+        /*String sms_code = dataObj.getString("sms_code");*/
         Intent intent=new Intent(RegisterInputNumberActivity.this, RegisterAfterReceiveCodeActivity.class);
         intent.putExtra("phone_number",phone);
-        intent.putExtra("sms_code",sms_code);
+        /*intent.putExtra("sms_code",sms_code);*/
         startActivity(intent);
         finish();
     }
