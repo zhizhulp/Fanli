@@ -168,4 +168,8 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
         }
 
     }
+    @Override
+    public void handleReqFailed() {
+
+    }
 }

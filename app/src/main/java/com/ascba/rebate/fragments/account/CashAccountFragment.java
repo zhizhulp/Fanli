@@ -287,4 +287,8 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
                 break;
         }
     }
+    @Override
+    public void handleReqFailed() {
+
+    }
 }

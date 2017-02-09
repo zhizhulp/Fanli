@@ -169,6 +169,9 @@ public class RecScoreFragment extends BaseFragment implements View.OnClickListen
             }
             recAdapter.notifyDataSetChanged();
         }
+    }
+    @Override
+    public void handleReqFailed() {
 
     }
 }
