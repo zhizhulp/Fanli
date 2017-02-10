@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.adapter.TicketAdapter2;
+import com.ascba.rebate.adapter.TicketAdapter;
 import com.ascba.rebate.beans.Ticket;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
@@ -24,7 +24,7 @@ import java.util.List;
 public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,View.OnClickListener {
 
     private ScrollViewWithListView ticketListView;
-    private TicketAdapter2 ticketAdapter;
+    private TicketAdapter ticketAdapter;
     private List<Ticket> mList;
     private View noIv;
     private View noTv;
@@ -57,7 +57,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
     private void initListView() {
         ticketListView = ((ScrollViewWithListView) findViewById(R.id.ticket_list));
         initData();
-        ticketAdapter = new TicketAdapter2(mList,this);
+        ticketAdapter = new TicketAdapter(mList,this);
         ticketListView.setAdapter(ticketAdapter);
     }
 
