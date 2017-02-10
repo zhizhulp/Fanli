@@ -3,6 +3,7 @@ package com.ascba.rebate.activities.me_page;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
-    private ScrollViewWithListView listView;
+    private ListView listView;
     private List<WhiteTicket> mList;
     private WhiteTicketAdapter wta;
     private View noView;
@@ -47,7 +48,7 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
 
     private void initViews() {
         noView = findViewById(R.id.no_ticket_view);
-        listView = ((ScrollViewWithListView) findViewById(R.id.cash_ticket_list));
+        listView = ((ListView) findViewById(R.id.cash_ticket_list));
         initData();
         wta = new WhiteTicketAdapter(mList, this);
         wta.setCallback(new WhiteTicketAdapter.Callback() {

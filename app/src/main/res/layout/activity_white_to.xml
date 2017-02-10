@@ -55,10 +55,9 @@
             style="@style/btnNormal"
             android:background="@drawable/ticket_no_shop_bg"/>
     </RelativeLayout>
-    <com.ascba.rebate.view.ScrollViewWithListView
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+    <ListView
+        android:scrollbars="none"
+        android:layout_margin="15dp"
         android:id="@+id/cash_ticket_list"
         android:divider="@color/ticket_activity_bg"
         android:dividerHeight="10dp"
