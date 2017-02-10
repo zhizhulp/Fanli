@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.me_page.business_center_child.child;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -51,12 +53,14 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.SearchAdapter;
 import com.ascba.rebate.adapter.SearchResultAdapter;
 import com.ascba.rebate.beans.SearchBean;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SearchBar;
 import com.ascba.rebate.view.SegmentedGroup;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * 演示poi搜索功能
  */
@@ -73,7 +77,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
-    private String[] items = {"住宅区", "学校", "楼宇", "商场" };
+    private String[] items = {"住宅区", "学校", "楼宇", "商场"};
     private Marker locationMarker;
     private ProgressDialog progDialog = null;
     private GeocodeSearch geocoderSearch;
@@ -91,12 +95,13 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     private boolean isfirstinput = true;
     private PoiItem firstItem;
     private SearchBar sb;
+    private boolean isFinal = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaode_poisearch_update);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
 
         init(savedInstanceState);
 
@@ -105,6 +110,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         resultData = new ArrayList<>();
 
     }
+
     /**
      * 初始化
      */
@@ -125,7 +131,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
                 if (!isItemClickAction && !isInputKeySearch) {
-                    geoAddress();
+                    geoAddress(searchLatlonPoint);
                     startJumpAnimation();
                 }
                 searchLatlonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
@@ -157,24 +163,24 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 searchType = items[0];
                 switch (checkedId) {
-                    case R.id.radio0 :
+                    case R.id.radio0:
                         searchType = items[0];
                         break;
-                    case R.id.radio1 :
+                    case R.id.radio1:
                         searchType = items[1];
                         break;
-                    case R.id.radio2 :
+                    case R.id.radio2:
                         searchType = items[2];
                         break;
-                    case R.id.radio3 :
+                    case R.id.radio3:
                         searchType = items[3];
                         break;
                 }
-                geoAddress();
+                geoAddress(searchLatlonPoint);
             }
         });
         sb = ((SearchBar) findViewById(R.id.search_bar));
-        searchText= sb.getTvSearch();
+        searchText = sb.getTvSearch();
         /*searchText = (AutoCompleteTextView) findViewById(R.id.keyWord);*/
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -219,7 +225,6 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
 
         hideSoftKey(searchText);
     }
-
 
 
     /**
@@ -268,7 +273,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        if(null != mlocationClient){
+        if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
     }
@@ -295,8 +300,8 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                 searchText.setText("");
 
             } else {
-                String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
-                Log.e("AmapErr",errText);
+                String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
+                Log.e("AmapErr", errText);
             }
         }
     }
@@ -342,11 +347,11 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     /**
      * 响应逆地理编码
      */
-    public void geoAddress() {
+    public void geoAddress(LatLonPoint latLonPoint) {
 //        Log.i("MY", "geoAddress"+ searchLatlonPoint.toString());
         showDialog();
         searchText.setText("");
-        RegeocodeQuery query = new RegeocodeQuery(searchLatlonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
         geocoderSearch.getFromLocationAsyn(query);
     }
 
@@ -375,9 +380,33 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
-                String address = result.getRegeocodeAddress().getProvince() + result.getRegeocodeAddress().getCity() + result.getRegeocodeAddress().getDistrict() + result.getRegeocodeAddress().getTownship();
-                firstItem = new PoiItem("regeo", searchLatlonPoint, address, address);
-                doSearchQuery();
+                if (!isFinal) {
+                    String address = result.getRegeocodeAddress().getProvince() + result.getRegeocodeAddress().getCity() + result.getRegeocodeAddress().getDistrict() + result.getRegeocodeAddress().getTownship();
+                    firstItem = new PoiItem("regeo", searchLatlonPoint, address, address);
+                    doSearchQuery();
+                } else {
+                    LatLonPoint point = result.getRegeocodeQuery().getPoint();
+                    Intent intent = getIntent();
+                    intent.putExtra("longitude",point.getLongitude() );//经度 0-180度
+                    intent.putExtra("latitude", point.getLatitude());//纬度 0-90度
+                    intent.putExtra("location", result.getRegeocodeAddress().getFormatAddress());
+                    String province = result.getRegeocodeAddress().getProvince();
+                    String city = result.getRegeocodeAddress().getCity();
+                    String district = result.getRegeocodeAddress().getDistrict();
+                    String street = result.getRegeocodeAddress().getTownship();//大红门街道
+                    if (street.contains("街道")) {
+                        String[] strS = street.split("街道");
+                        street = strS[0];
+                    }
+                    if ("".equals(city)) {
+                        intent.putExtra("street", province + "-" + province + "-" + district + "-" + street);//把街道传回去
+                    } else {
+                        intent.putExtra("street", province + "-" + city + "-" + district + "-" + street);//把街道传回去
+                    }
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    isFinal=false;
+                }
             }
         } else {
             Toast.makeText(this, "error code is " + rCode, Toast.LENGTH_SHORT).show();
@@ -391,7 +420,8 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
 
     /**
      * POI搜索结果回调
-     * @param poiResult 搜索结果
+     *
+     * @param poiResult  搜索结果
      * @param resultCode 错误码
      */
     @Override
@@ -414,6 +444,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
 
     /**
      * 更新列表中的item
+     *
      * @param poiItems
      */
     private void updateListview(List<PoiItem> poiItems) {
@@ -441,16 +472,12 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                  */
                 PoiItem poiItem = (PoiItem) searchResultAdapter.getItem(position);
                 LatLng curLatlng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
-
                 isItemClickAction = true;
-
                 aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 16f));
-
                 searchResultAdapter.setSelectedPosition(position);
                 searchResultAdapter.notifyDataSetChanged();
-
-
-
+                geoAddress(poiItem.getLatLonPoint());
+                isFinal=true;
             }
         }
     };
@@ -473,10 +500,10 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         LatLng latLng = aMap.getCameraPosition().target;
         Point screenPosition = aMap.getProjection().toScreenLocation(latLng);
         locationMarker = aMap.addMarker(new MarkerOptions()
-                .anchor(0.5f,0.5f)
+                .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.purple_pin)));
         //设置Marker在屏幕上,不跟随地图移动
-        locationMarker.setPositionByPixels(screenPosition.x,screenPosition.y);
+        locationMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
 
     }
 
@@ -485,11 +512,11 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
      */
     public void startJumpAnimation() {
 
-        if (locationMarker != null ) {
+        if (locationMarker != null) {
             //根据屏幕距离计算需要移动的目标点
             final LatLng latLng = locationMarker.getPosition();
-            Point point =  aMap.getProjection().toScreenLocation(latLng);
-            point.y -= dip2px(this,125);
+            Point point = aMap.getProjection().toScreenLocation(latLng);
+            point.y -= dip2px(this, 125);
             LatLng target = aMap.getProjection()
                     .fromScreenLocation(point);
             //使用TranslateAnimation,填写一个需要移动的目标点
@@ -498,10 +525,10 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                 @Override
                 public float getInterpolation(float input) {
                     // 模拟重加速度的interpolator
-                    if(input <= 0.5) {
+                    if (input <= 0.5) {
                         return (float) (0.5f - 2 * (0.5 - input) * (0.5 - input));
                     } else {
-                        return (float) (0.5f - Math.sqrt((input - 0.5f)*(1.5f - input)));
+                        return (float) (0.5f - Math.sqrt((input - 0.5f) * (1.5f - input)));
                     }
                 }
             });
@@ -513,7 +540,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
             locationMarker.startAnimation();
 
         } else {
-            Log.e("ama","screenMarker is null");
+            Log.e("ama", "screenMarker is null");
         }
     }
 
@@ -529,18 +556,10 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         public void onGetInputtips(List<Tip> list, int rCode) {
             if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
                 autoTips = list;
-                /*List<String> listString = new ArrayList<String>();
+
+                List<SearchBean> suggest = new ArrayList<>();
                 for (int i = 0; i < list.size(); i++) {
-                    listString.add(list.get(i).getName());
-                }
-                ArrayAdapter<String> aAdapter = new ArrayAdapter<String>(
-                        getApplicationContext(),
-                        R.layout.route_inputs, listString);
-                searchText.setAdapter(aAdapter);
-                aAdapter.notifyDataSetChanged();*/
-                List<SearchBean> suggest=new ArrayList<>();
-                for (int i = 0; i < list.size(); i++) {
-                    SearchBean searchBean=new SearchBean(list.get(i).getName(),list.get(i).getAddress());
+                    SearchBean searchBean = new SearchBean(list.get(i).getName(), list.get(i).getAddress());
                     suggest.add(searchBean);
                 }
                 SearchAdapter aAdapter = new SearchAdapter(suggest, GaoDeSearchUpdate.this);
@@ -551,13 +570,19 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                     searchText.showDropDown();
                 }
             } else {
-                Toast.makeText(GaoDeSearchUpdate.this, "erroCode " + rCode , Toast.LENGTH_SHORT).show();
+                Toast.makeText(GaoDeSearchUpdate.this, "erroCode " + rCode, Toast.LENGTH_SHORT).show();
             }
         }
     };
 
     private boolean isInputKeySearch;
     private String inputSearchKey;
+
+    /**
+     * 点击下拉结果中的某一条tip
+     *
+     * @param result 搜索tip
+     */
     private void searchPoi(Tip result) {
         isInputKeySearch = true;
         inputSearchKey = result.getName();//getAddress(); // + result.getRegeocodeAddress().getCity() + result.getRegeocodeAddress().getDistrict() + result.getRegeocodeAddress().getTownship();
@@ -577,7 +602,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
 
     private void hideSoftKey(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

@@ -84,7 +84,11 @@
         <activity
             android:name=".activities.splash.SplashActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.main.MainActivity"
@@ -494,11 +498,7 @@
         <activity android:name=".activities.me_page.business_center_child.child.GaoDeSearchUpdate"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
