@@ -138,7 +138,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
 
     public void goBusinessLocation(View view) {
         //商家地理位置，此处接入高德地图
-        Intent intent=new Intent(this,GaoDeSearch.class);
+        Intent intent=new Intent(this,GaoDeSearchUpdate.class);
         intent.putExtra("lon",lon);
         intent.putExtra("lat",lat);
         startActivityForResult(intent,REQUEST_BUSINESS_LOCATION);

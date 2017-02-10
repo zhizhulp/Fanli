@@ -331,11 +331,6 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
     }
     //searchbar回调
     @Override
-    public void onItemSelect(AdapterView<?> adapterView, View view, int i, long l) {
-
-    }
-    //searchbar回调
-    @Override
     public void onSearchClick(View v) {
         doSearchQuery(keyWorldsView.getText().toString());
     }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,10 +12,10 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 
 /**
- * Created by Administrator on 2016/12/24 0024.
+ * search actionbar
  */
 
-public class SearchBar extends LinearLayout implements View.OnClickListener,AdapterView.OnItemClickListener{
+public class SearchBar extends LinearLayout implements View.OnClickListener{
     private ImageView imBack;
     private MyAutoCompleteTextView tvSearch;
     private TextView tvSearchString;
@@ -26,9 +25,6 @@ public class SearchBar extends LinearLayout implements View.OnClickListener,Adap
         return tvSearch;
     }
 
-    public void setTvSearch(MyAutoCompleteTextView tvSearch) {
-        this.tvSearch = tvSearch;
-    }
 
     public Callback getCallback() {
         return callback;
@@ -38,16 +34,9 @@ public class SearchBar extends LinearLayout implements View.OnClickListener,Adap
         this.callback = callback;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(callback!=null){
-            callback.onItemSelect(adapterView,view,i,l);
-        }
-    }
 
     public interface Callback{
-        public void onItemSelect(AdapterView<?> adapterView, View view, int i, long l);
-        public void onSearchClick(View v);
+        void onSearchClick(View v);
     }
     public SearchBar(Context context) {
         super(context);
@@ -67,7 +56,6 @@ public class SearchBar extends LinearLayout implements View.OnClickListener,Adap
         LayoutInflater.from(context).inflate(R.layout.search_bar_layout, this,true);
         imBack = ((ImageView) findViewById(R.id.search_bar_back));
         tvSearch = ((MyAutoCompleteTextView) findViewById(R.id.tv_search_bar));
-        tvSearch.setOnItemClickListener(this);
         tvSearchString=((TextView) findViewById(R.id.tv_search_bar_search));
         imBack.setOnClickListener(this);
         tvSearchString.setOnClickListener(this);
