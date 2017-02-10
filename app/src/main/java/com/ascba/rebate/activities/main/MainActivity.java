@@ -31,16 +31,15 @@ import cn.jpush.android.api.TagAliasCallback;
  * 主界面
  */
 public class MainActivity extends BaseNetWorkActivity {
-    private CommonTabLayout mTabLayout_2;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "消息", "商城", "我"};
-    private ArrayList<Fragment> mFragments = new ArrayList<>();
-    public static boolean isForeground = false;
+    /*public static boolean isForeground = false;*/
     public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
     private FirstFragment mFirstFragment;
     private SecondFragment mSecondFragment;
     private ThirdFragment mThirdFragment;
@@ -86,7 +85,7 @@ public class MainActivity extends BaseNetWorkActivity {
 
     private void findViews() {
         dm=new DialogManager2(this);
-        mTabLayout_2= (CommonTabLayout) findViewById(R.id.tabs);
+        CommonTabLayout mTabLayout_2 = (CommonTabLayout) findViewById(R.id.tabs);
 
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
@@ -121,13 +120,13 @@ public class MainActivity extends BaseNetWorkActivity {
 
     @Override
     protected void onResume() {
-        isForeground = true;
+        /*isForeground = true;*/
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        isForeground = false;
+        /*isForeground = false;*/
         super.onPause();
     }
 

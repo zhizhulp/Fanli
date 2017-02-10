@@ -220,7 +220,7 @@ public class GaoDeSearch extends AppCompatActivity implements TextWatcher
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         SearchBean searchBean = suggest.get(i);
         keyWorldsView.setText(searchBean.getName());
-        keyWorldsView.setSelection(searchBean.getName().length());
+        keyWorldsView.setSelection(keyWorldsView.getText().length());
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(keyWorldsView.getWindowToken(), 0);
         doSearchQuery(keyWorldsView.getText().toString());

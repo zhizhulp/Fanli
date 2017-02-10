@@ -133,7 +133,7 @@ public class MyReceiver extends BroadcastReceiver {
 	}
 	
 	//send msg to MainActivity
-	private void processCustomMessage(Context context, Bundle bundle) {
+	/*private void processCustomMessage(Context context, Bundle bundle) {
 		if (MainActivity.isForeground) {
 			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -152,7 +152,7 @@ public class MyReceiver extends BroadcastReceiver {
 			}
 			context.sendBroadcast(msgIntent);
 		}
-	}
+	}*/
 
 	public static boolean isEmpty(String s) {
 		if (null == s)
