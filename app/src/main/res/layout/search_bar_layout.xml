@@ -45,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent" />
         <View
+            android:visibility="gone"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="0.02"
@@ -52,6 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_search_bar_search"
             android:textSize="15sp"
             android:layout_weight="1.3"

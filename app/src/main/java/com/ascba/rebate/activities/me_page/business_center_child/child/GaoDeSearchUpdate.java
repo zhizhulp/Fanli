@@ -25,6 +25,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
@@ -53,6 +54,8 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.SearchAdapter;
 import com.ascba.rebate.adapter.SearchResultAdapter;
 import com.ascba.rebate.beans.SearchBean;
+import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SearchBar;
 import com.ascba.rebate.view.SegmentedGroup;
@@ -79,12 +82,13 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     private AMapLocationClientOption mLocationOption;
     private String[] items = {"住宅区", "学校", "楼宇", "商场"};
     private Marker locationMarker;
-    private ProgressDialog progDialog = null;
     private GeocodeSearch geocoderSearch;
     private int currentPage = 0;// 当前页面，从0开始计数
     private PoiSearch.Query query;// Poi查询条件类
     private PoiSearch poiSearch;
     private List<PoiItem> poiItems;// poi数据
+    private PoiItem finalPoiItem;//用户的最终选择
+    private int finalPosition = 0;//listview 最终位置
     private String searchType = items[0];
     private String searchKey = "";
     private LatLonPoint searchLatlonPoint;
@@ -96,13 +100,14 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     private PoiItem firstItem;
     private SearchBar sb;
     private boolean isFinal = false;
+    private DialogManager2 dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaode_poisearch_update);
         StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
-
+        dm = new DialogManager2(this);
         init(savedInstanceState);
 
         initView();
@@ -125,16 +130,17 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-
+                String s="";
             }
 
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
-                if (!isItemClickAction && !isInputKeySearch) {
+                searchLatlonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
+//                if (!isItemClickAction && !isInputKeySearch) {
                     geoAddress(searchLatlonPoint);
                     startJumpAnimation();
-                }
-                searchLatlonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
+//                }
+
                 isInputKeySearch = false;
                 isItemClickAction = false;
             }
@@ -181,7 +187,6 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         });
         sb = ((SearchBar) findViewById(R.id.search_bar));
         searchText = sb.getTvSearch();
-        /*searchText = (AutoCompleteTextView) findViewById(R.id.keyWord);*/
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -192,9 +197,9 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String newText = s.toString().trim();
                 if (newText.length() > 0) {
-                    InputtipsQuery inputquery = new InputtipsQuery(newText, "北京");
+                    InputtipsQuery inputquery = new InputtipsQuery(newText, "");//第二个参数表示提示城市范围如，北京
                     Inputtips inputTips = new Inputtips(GaoDeSearchUpdate.this, inputquery);
-                    inputquery.setCityLimit(true);
+                    inputquery.setCityLimit(false);
                     inputTips.setInputtipsListener(inputtipsListener);
                     inputTips.requestInputtipsAsyn();
                 }
@@ -214,6 +219,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                     Tip tip = autoTips.get(position);
                     searchText.setText(tip.getName());
                     searchText.setSelection(searchText.getText().length());
+                    hideSoftKey(searchText);
                     searchPoi(tip);
                 }
             }
@@ -221,8 +227,6 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
 
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
-        progDialog = new ProgressDialog(this);
-
         hideSoftKey(searchText);
     }
 
@@ -232,8 +236,9 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
      */
     private void setUpMap() {
         aMap.getUiSettings().setZoomControlsEnabled(false);
+        aMap.getUiSettings().setLogoPosition(AMapOptions.LOGO_POSITION_BOTTOM_RIGHT);
+        /* aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示*/
         aMap.setLocationSource(this);// 设置定位监听
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
     }
@@ -283,11 +288,9 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
      */
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-//        Log.i("MY", "onLocationChanged");
         if (mListener != null && amapLocation != null) {
-            if (amapLocation != null
-                    && amapLocation.getErrorCode() == 0) {
-                mListener.onLocationChanged(amapLocation);
+            if (amapLocation.getErrorCode() == 0) {
+                /*mListener.onLocationChanged(amapLocation);*/ //显示小蓝点
 
                 LatLng curLatlng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
 
@@ -348,8 +351,19 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
      * 响应逆地理编码
      */
     public void geoAddress(LatLonPoint latLonPoint) {
-//        Log.i("MY", "geoAddress"+ searchLatlonPoint.toString());
-        showDialog();
+        dm.buildWaitDialog("请稍后");
+        searchText.setText("");
+        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+        geocoderSearch.getFromLocationAsyn(query);
+    }
+
+    /**
+     * 响应逆地理编码(最终选择)
+     */
+    public void geoAddress(PoiItem poiItem) {
+        dm.buildWaitDialog("请稍后");
+        finalPoiItem = poiItem;
+        LatLonPoint latLonPoint = poiItem.getLatLonPoint();
         searchText.setText("");
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
         geocoderSearch.getFromLocationAsyn(query);
@@ -359,7 +373,6 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
      * 开始进行poi搜索
      */
     protected void doSearchQuery() {
-//        Log.i("MY", "doSearchQuery");
         currentPage = 0;
         query = new PoiSearch.Query(searchKey, searchType, "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setCityLimit(true);
@@ -376,20 +389,22 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
 
     @Override
     public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
-        dismissDialog();
+        dm.dismissDialog();
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 if (!isFinal) {
-                    String address = result.getRegeocodeAddress().getProvince() + result.getRegeocodeAddress().getCity() + result.getRegeocodeAddress().getDistrict() + result.getRegeocodeAddress().getTownship();
-                    firstItem = new PoiItem("regeo", searchLatlonPoint, address, address);
+                    String formatAddress = result.getRegeocodeAddress().getFormatAddress();
+                   /* String building = result.getRegeocodeAddress().getBuilding();
+                    String address = result.getRegeocodeAddress().getProvince() + result.getRegeocodeAddress().getCity() + result.getRegeocodeAddress().getDistrict() + result.getRegeocodeAddress().getTownship();*/
+                    firstItem = new PoiItem("regeo", searchLatlonPoint, "[当前位置]", formatAddress);
                     doSearchQuery();
                 } else {
                     LatLonPoint point = result.getRegeocodeQuery().getPoint();
                     Intent intent = getIntent();
-                    intent.putExtra("longitude",point.getLongitude() );//经度 0-180度
+                    intent.putExtra("longitude", point.getLongitude());//经度 0-180度
                     intent.putExtra("latitude", point.getLatitude());//纬度 0-90度
-                    intent.putExtra("location", result.getRegeocodeAddress().getFormatAddress());
+                    intent.putExtra("location", finalPosition==0 ? finalPoiItem.getSnippet() :finalPoiItem.getCityName() + finalPoiItem.getAdName() + finalPoiItem.getSnippet() /*result.getRegeocodeAddress().getFormatAddress()*/);
                     String province = result.getRegeocodeAddress().getProvince();
                     String city = result.getRegeocodeAddress().getCity();
                     String district = result.getRegeocodeAddress().getDistrict();
@@ -405,7 +420,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                     }
                     setResult(RESULT_OK, intent);
                     finish();
-                    isFinal=false;
+                    isFinal = false;
                 }
             }
         } else {
@@ -432,13 +447,18 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                     poiItems = poiResult.getPois();
                     if (poiItems != null && poiItems.size() > 0) {
                         updateListview(poiItems);
-                    } else {
+                    }/* else {
                         Toast.makeText(this, "无搜索结果", Toast.LENGTH_SHORT).show();
+                    }*/
+                    if(poiItems==null || poiItems.size()==0){
+                        updateListview(poiItems);
                     }
                 }
             } else {
                 Toast.makeText(this, "无搜索结果", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(this, "搜索失败", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -451,8 +471,9 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         resultData.clear();
         searchResultAdapter.setSelectedPosition(0);
         resultData.add(firstItem);
-        resultData.addAll(poiItems);
-
+        if(poiItems!=null &&poiItems.size()!=0){
+            resultData.addAll(poiItems);
+        }
         searchResultAdapter.setData(resultData);
         searchResultAdapter.notifyDataSetChanged();
     }
@@ -466,35 +487,23 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position != searchResultAdapter.getSelectedPosition()) {
-                /**
-                 * 最终选取的点
-                 */
-                PoiItem poiItem = (PoiItem) searchResultAdapter.getItem(position);
-                LatLng curLatlng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
-                isItemClickAction = true;
-                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 16f));
-                searchResultAdapter.setSelectedPosition(position);
-                searchResultAdapter.notifyDataSetChanged();
-                geoAddress(poiItem.getLatLonPoint());
-                isFinal=true;
-            }
+            //if (position != searchResultAdapter.getSelectedPosition()) {
+            /**
+             * 最终选取的点
+             */
+            PoiItem poiItem = (PoiItem) searchResultAdapter.getItem(position);
+            LatLng curLatlng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
+            isItemClickAction = true;
+            aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 16f));
+            searchResultAdapter.setSelectedPosition(position);
+            searchResultAdapter.notifyDataSetChanged();
+            geoAddress(poiItem);
+            isFinal = true;
+            finalPosition = position;
+            //}
         }
     };
 
-    public void showDialog() {
-        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progDialog.setIndeterminate(false);
-        progDialog.setCancelable(true);
-        progDialog.setMessage("正在加载...");
-        progDialog.show();
-    }
-
-    public void dismissDialog() {
-        if (progDialog != null) {
-            progDialog.dismiss();
-        }
-    }
 
     private void addMarkerInScreenCenter(LatLng locationLatLng) {
         LatLng latLng = aMap.getCameraPosition().target;
@@ -556,10 +565,10 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         public void onGetInputtips(List<Tip> list, int rCode) {
             if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
                 autoTips = list;
-
                 List<SearchBean> suggest = new ArrayList<>();
                 for (int i = 0; i < list.size(); i++) {
-                    SearchBean searchBean = new SearchBean(list.get(i).getName(), list.get(i).getAddress());
+                    Tip tip = list.get(i);
+                    SearchBean searchBean = new SearchBean(tip.getName(),tip.getDistrict()+ tip.getAddress());
                     suggest.add(searchBean);
                 }
                 SearchAdapter aAdapter = new SearchAdapter(suggest, GaoDeSearchUpdate.this);
@@ -593,11 +602,12 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
         resultData.clear();
 
         searchResultAdapter.setSelectedPosition(0);
+        if(searchLatlonPoint!=null) {
+            aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(searchLatlonPoint.getLatitude(), searchLatlonPoint.getLongitude()), 16f));
+            hideSoftKey(searchText);
+            doSearchQuery();
+        }//搜索梁庄2个字会有问题
 
-        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(searchLatlonPoint.getLatitude(), searchLatlonPoint.getLongitude()), 16f));
-
-        hideSoftKey(searchText);
-        doSearchQuery();
     }
 
     private void hideSoftKey(View view) {

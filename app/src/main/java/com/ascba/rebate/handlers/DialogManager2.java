@@ -102,11 +102,7 @@ public class DialogManager2 {
         });
         return this;
     }
-    //显示对话框
-    public void showDialog(){
-        if(dialogList.size()!=0) {
-        }
-    }
+
     //隐藏对话框
     public void dismissDialog(){
         if(dialogList.size()!=0) {

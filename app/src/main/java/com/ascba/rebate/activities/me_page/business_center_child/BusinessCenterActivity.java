@@ -19,6 +19,8 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
 import com.jaeger.library.StatusBarUtil;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.rest.Request;
@@ -80,7 +82,8 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
             int is_oper_name = intent.getIntExtra("is_oper_name", -1);// 0:与法人信息一致，1：与法人信息不一致
             chartered = intent.getStringExtra("chartered");//营业执照图片链接
             if(chartered!=null){
-                Picasso.with(this).load(UrlUtils.baseWebsite+chartered).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
+                Picasso.with(this).load(UrlUtils.baseWebsite+chartered).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
             }
             if(is_oper_name==0){
                 authView.setVisibility(View.GONE);
@@ -89,7 +92,8 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                 String clientele_name = intent.getStringExtra("clientele_name");
                 warrant = intent.getStringExtra("warrant");//授权书图片链接
                 if(warrant!=null){
-                    Picasso.with(this).load(UrlUtils.baseWebsite+warrant).placeholder(R.mipmap.bc_icon).into(imAuthIcon);
+                    Picasso.with(this).load(UrlUtils.baseWebsite+warrant).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.bc_icon).into(imAuthIcon);
                 }
                 edAuthName.setText(clientele_name);
             }

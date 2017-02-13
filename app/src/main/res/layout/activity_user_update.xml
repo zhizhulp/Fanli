@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <com.ascba.rebate.view.ScrollViewWithListView
+                android:divider="@color/view_line"
+                android:dividerHeight="0.5dp"
                 android:scrollbars="none"
                 android:id="@+id/update_list"
                 android:layout_width="match_parent"

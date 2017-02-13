@@ -98,10 +98,10 @@ public class SearchResultAdapter extends BaseAdapter {
             PoiItem poiItem = data.get(position);
 
             textTitle.setText(poiItem.getTitle());
-            textSubTitle.setText(poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet());
-
+      /*      textSubTitle.setText(*//*poiItem.getCityName() + poiItem.getAdName() + *//*poiItem.getSnippet());*/
+            textSubTitle.setText(position == 0 ?poiItem.getSnippet():poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet());
             imageCheck.setVisibility(position == selectedPosition ? View.VISIBLE : View.INVISIBLE);
-            textSubTitle.setVisibility((position == 0 && poiItem.getPoiId().equals("regeo")) ? View.GONE : View.VISIBLE);
+            /*textSubTitle.setVisibility((position == 0 && poiItem.getPoiId().equals("regeo")) ? View.GONE : View.VISIBLE);*/
         }
     }
 }

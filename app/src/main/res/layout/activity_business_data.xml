@@ -162,7 +162,8 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_go"/>
                 <TextView
-                    android:maxLines="1"
+                    android:gravity="right"
+                    android:maxLines="2"
                     android:ellipsize="end"
                     android:id="@+id/business_data_location"
                     android:layout_centerVertical="true"
