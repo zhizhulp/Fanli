@@ -1,13 +1,19 @@
 package com.ascba.rebate.activities.me_page.settings.child;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +63,10 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     private DialogManager dm;
     private String picturePath;
     private File file;
+    private String[] permissions=new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +156,37 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
 
     //进入修改用户头像的页面
     public void userIconClick(View view) {
+        //检查权限
+        checkPermission();
+
+    }
+
+    private void checkPermission() {
+        if(Build.VERSION.SDK_INT>=23){
+            if(ContextCompat.checkSelfPermission(this,permissions[0])!= PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,permissions,1);
+            }else{
+                showPop();
+            }
+        }else {
+            showPop();
+        }
+    }
+    //申请权限的回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)
+                &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            //用户同意使用read
+            showPop();
+        }else{
+            //用户不同意，自行处理即可
+            Toast.makeText(this, "无法使用此功能，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void showPop() {
         popupWindow = new PopupWindow(this);
         View popView = getLayoutInflater().inflate(R.layout.personal_select_icon_pop, null);
         View camera = popView.findViewById(R.id.head_icon_select_camera);

@@ -55,7 +55,7 @@ public class DialogManager2 {
         dialog.show();
         return this;
     }
-    //创建提示对话框1
+    //创建提示对话框
     public DialogManager2 buildAlertDialog(String message) {
         final Dialog dialog=new Dialog(context,R.style.AlertDialog);
         dialogList.add(dialog);

@@ -1,17 +1,24 @@
 package com.ascba.rebate.activities.me_page.business_center_child;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
@@ -58,6 +65,11 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
     private String warrant;
     private ImageView imWorkIcon;
     private ImageView imAuthIcon;
+    private String[] permissions=new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+    private int type;
 
 
     @Override
@@ -251,6 +263,61 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
     //选择营业执照
     public void uploadWorkPic(View view) {
         if(finalType==-1||finalType==1){
+            type=0;
+            checkPermission();
+
+
+        }else if(finalType==0){//审核中，展示图片
+            Intent intent=new Intent(this,ShowPicActivity.class);
+            if(chartered!=null){
+                intent.putExtra("image",chartered);
+                startActivity(intent);
+            }
+
+        }
+    }
+    //选择授权书
+    public void uploadAuthPic(View view) {
+        if(finalType==-1||finalType==1){
+            type=1;
+            checkPermission();
+
+
+        }else if(finalType==0){//审核中，展示图片
+            Intent intent=new Intent(this,ShowPicActivity.class);
+            if(warrant!=null){
+                intent.putExtra("image",warrant);
+                startActivity(intent);
+            }
+        }
+
+    }
+    private void checkPermission() {
+        if(Build.VERSION.SDK_INT>=23){
+            if(ContextCompat.checkSelfPermission(this,permissions[0])!= PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,permissions,1);
+            }else{
+                showPop(type);
+            }
+        }else {
+            showPop(type);
+        }
+    }
+    //申请权限的回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)
+                &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            //用户同意使用read
+            showPop(type);
+        }else{
+            //用户不同意，自行处理即可
+            Toast.makeText(this, "无法使用此功能，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    private void showPop(int type) {
+        if(type==0){//显示营业执照
             smWorkPic=new SelectIconManager(this);
             smWorkPic.setCallback(new SelectIconManager.Callback() {
                 @Override
@@ -267,18 +334,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                     startActivityForResult(intent2, GO_ALBUM_WORK);
                 }
             });
-        }else if(finalType==0){//审核中，展示图片
-            Intent intent=new Intent(this,ShowPicActivity.class);
-            if(chartered!=null){
-                intent.putExtra("image",chartered);
-                startActivity(intent);
-            }
-
-        }
-    }
-    //选择授权书
-    public void uploadAuthPic(View view) {
-        if(finalType==-1||finalType==1){
+        }else if(type==1){//显示授权书
             smAuthPic=new SelectIconManager(this);
             smAuthPic.setCallback(new SelectIconManager.Callback() {
                 @Override
@@ -294,14 +350,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                     startActivityForResult(intent2, GO_ALBUM_AUTH);
                 }
             });
-        }else if(finalType==0){//审核中，展示图片
-            Intent intent=new Intent(this,ShowPicActivity.class);
-            if(warrant!=null){
-                intent.putExtra("image",warrant);
-                startActivity(intent);
-            }
         }
-
     }
     private File getDiskCacheDir() {
         File file;

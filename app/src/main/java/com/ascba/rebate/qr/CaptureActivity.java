@@ -21,8 +21,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetWork3Activity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.main_page.sweep.PayActivity;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
@@ -36,9 +38,7 @@ import com.yolanda.nohttp.rest.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CaptureActivity extends BaseNetWorkActivity implements Callback,BaseNetWorkActivity.Callback {
-	public static final String QR_RESULT = "RESULT";
-
+public class CaptureActivity extends BaseNetWork3Activity implements Callback,BaseNetWork3Activity.Callback {
 	private CaptureActivityHandler handler;
 	private ViewfinderView viewfinderView;
 	private SurfaceView surfaceView;
@@ -282,5 +282,21 @@ public class CaptureActivity extends BaseNetWorkActivity implements Callback,Bas
 		intent1.putExtra("avatar",infoObj.optString("seller_avatar"));
 		startActivity(intent1);
 		finish();
+	}
+
+	@Override
+	public void handle404(String message) {
+		final DialogManager dm = getDm();
+		if(dm!=null){
+			dm.buildAlertDialog2(message);
+			dm.setCallback(new DialogManager.Callback() {
+				@Override
+				public void handleSure() {
+					dm.dismissDialog();
+					restartPreviewAfterDelay(0L);
+				}
+			});
+		}
+
 	}
 }

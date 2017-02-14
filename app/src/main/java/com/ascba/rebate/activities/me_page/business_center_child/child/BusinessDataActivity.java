@@ -1,16 +1,23 @@
 package com.ascba.rebate.activities.me_page.business_center_child.child;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
@@ -63,6 +70,11 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     private double lat;
     private DialogManager dm;
     private String street;
+    private String[] permissions=new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+    private int type;
 
 
     @Override
@@ -178,41 +190,77 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
     //商家店招
     public void goBusinessPic(View view) {
-        sm=new SelectIconManager(this);
-        sm.setCallback(new SelectIconManager.Callback() {
-            @Override
-            public void clickCamera() {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                file=getDiskCacheDir();//创建文件
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(intent, GO_CAMERA_PIC);
-            }
+        type=0;
+        checkPermission();
 
-            @Override
-            public void clickAlbum() {
-                Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent2, GO_ALBUM_PIC);
-            }
-        });
     }
     //商家logo
     public void goBusinessLogo(View view) {
-        sm=new SelectIconManager(this);
-        sm.setCallback(new SelectIconManager.Callback() {
-            @Override
-            public void clickCamera() {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                fileLogo=getDiskCacheDir();//创建文件
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileLogo));
-                startActivityForResult(intent, GO_CAMERA_LOGO);
-            }
+        type=1;
+        checkPermission();
 
-            @Override
-            public void clickAlbum() {
-                Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent2, GO_ALBUM_LOGO);
+    }
+    private void checkPermission() {
+        if(Build.VERSION.SDK_INT>=23){
+            if(ContextCompat.checkSelfPermission(this,permissions[0])!= PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,permissions,1);
+            }else{
+                showPop(type);
             }
-        });
+        }else {
+            showPop(type);
+        }
+    }
+    //申请权限的回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)
+                &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            //用户同意使用read
+            showPop(type);
+        }else{
+            //用户不同意，自行处理即可
+            Toast.makeText(this, "无法使用此功能，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void showPop(int type) {
+        if(type==0){//显示店招pop
+            sm=new SelectIconManager(this);
+            sm.setCallback(new SelectIconManager.Callback() {
+                @Override
+                public void clickCamera() {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    file=getDiskCacheDir();//创建文件
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                    startActivityForResult(intent, GO_CAMERA_PIC);
+                }
+
+                @Override
+                public void clickAlbum() {
+                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent2, GO_ALBUM_PIC);
+                }
+            });
+        }else if(type==1){//显示logo_pop
+            sm=new SelectIconManager(this);
+            sm.setCallback(new SelectIconManager.Callback() {
+                @Override
+                public void clickCamera() {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    fileLogo=getDiskCacheDir();//创建文件
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileLogo));
+                    startActivityForResult(intent, GO_CAMERA_LOGO);
+                }
+
+                @Override
+                public void clickAlbum() {
+                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent2, GO_ALBUM_LOGO);
+                }
+            });
+        }
     }
 
     @Override
