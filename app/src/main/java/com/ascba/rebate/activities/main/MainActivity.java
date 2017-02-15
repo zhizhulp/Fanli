@@ -23,6 +23,7 @@ import com.ascba.rebate.fragments.main.FirstFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.fragments.message.SecondFragment;
 import com.ascba.rebate.fragments.shop.ThirdFragment;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
