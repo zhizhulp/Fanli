@@ -126,7 +126,7 @@ public class MainActivity extends BaseNetWorkActivity {
 
         }
     }
-
+    //调用JPush API设置Tag
     private void setTag(boolean appDebug) {
         Set<String> tagSet = new LinkedHashSet<String>();
         if(appDebug){
@@ -134,8 +134,7 @@ public class MainActivity extends BaseNetWorkActivity {
         }else {
             tagSet.add("release");
         }
-        tagSet.add(getPackageVersionCode()+"");//把版本号传给服务器
-        //调用JPush API设置Tag
+       /* tagSet.add(getPackageVersionCode()+"");//把版本号传给服务器*/
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
     }
 
