@@ -51,6 +51,7 @@ public class MyApplication extends Application {
                 .setNetworkExecutor(new URLConnectionNetworkExecutor())
         );
         requestQueue=NoHttp.newRequestQueue();
+        JPushInterface.setDebugMode(false);//release版改为false
         JPushInterface.init(this);//极光推送
     }
     // 添加Activity到容器中

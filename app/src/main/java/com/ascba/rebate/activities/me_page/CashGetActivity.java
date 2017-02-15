@@ -218,7 +218,8 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
                 }
 
             } else {
-                dm.buildAlertDialog2("确定提现吗？");
+                dm.buildAlertDialog1("确定提现吗？");
+                /*dm.buildAlertDialog2("确定提现吗？");*/
                 dm.setCallback(new DialogManager.Callback() {
                     @Override
                     public void handleSure() {

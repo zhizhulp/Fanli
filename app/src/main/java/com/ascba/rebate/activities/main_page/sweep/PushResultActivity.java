@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import cn.jpush.android.api.JPushInterface;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,MoneyBar.CallBack {
+public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback, MoneyBar.CallBack {
 
     private TextView tvPushMsg;
     private TextView tvSellerName;
@@ -30,7 +30,7 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
     private TextView tvType;
 
     private String order_number;//订单号
-    private int seller ;//商家id
+    private int seller;//商家id
     private int customer;//顾客id
     private int pay_type;//支付方式
     private int region_id;//地区id
@@ -57,7 +57,7 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
             String content = bundle.getString(JPushInterface.EXTRA_ALERT);
             String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
             try {
-                JSONObject jObj=new JSONObject(extra);
+                JSONObject jObj = new JSONObject(extra);
                 order_number = jObj.getString("order_number");
                 String seller_name = jObj.getString("customer_nickname");
                 String customer_avatar = jObj.getString("customer_avatar");
@@ -70,21 +70,22 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
                 String seller_address = jObj.getString("seller_address");
                 customer = jObj.getInt("customer");
                 seller = jObj.getInt("seller");
-                if(customer_avatar!=null){
-                    Picasso.with(this).load(UrlUtils.baseWebsite+customer_avatar).placeholder(R.mipmap.me_user_img).into(imageView);
+                if (customer_avatar != null) {
+                    Picasso.with(this).load(UrlUtils.baseWebsite + customer_avatar).placeholder(R.mipmap.me_user_img).into(imageView);
                 }
                 tvSellerName.setText(seller_name);
                 tvSellerAddress.setText(seller_address);
-                tvNo.setText("订单号码："+order_number);
-                tvMoney.setText("付款金额："+money);
-                tvTime.setText("购买时间："+buy_time);
-                if(pay_type==0){
+                tvNo.setText("订单号码：" + order_number);
+                tvMoney.setText("付款金额：" + money);
+                tvTime.setText("购买时间：" + buy_time);
+                if (pay_type == 0) {
                     tvType.setText("付款方式：未知方式");
-                }else if(pay_type==1){
+                } else if (pay_type == 1) {
                     tvType.setText("付款方式：现金");
-                }else if(pay_type==2){
+                } else if (pay_type == 2) {
                     tvType.setText("付款方式：余额");
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -92,7 +93,7 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
     }
 
     private void initViews() {
-        mb=((MoneyBar) findViewById(R.id.mb));
+        mb = ((MoneyBar) findViewById(R.id.mb));
         mb.setTailTitle("取消");
         mb.setCallBack(this);
         imageView = ((CircleImageView) findViewById(R.id.usericon));
@@ -103,25 +104,26 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
         tvTime = ((TextView) findViewById(R.id.tv_trade_time));
         tvType = ((TextView) findViewById(R.id.tv_trade_type));
     }
+
     //商家确认订单
     public void confirmOrder(View view) {
         Request<JSONObject> request = buildNetRequest(UrlUtils.addTransaction, 0, true);
-        request.add("order_number",order_number);
-        request.add("seller",seller);
-        request.add("customer",customer);
+        request.add("order_number", order_number);
+        request.add("seller", seller);
+        request.add("customer", customer);
 //      request.add("region_id",);
-        request.add("money",money);
-        request.add("pay_password",pay_password);
-        request.add("pay_type",pay_type);
-        request.add("scenetype",2);
-        executeNetWork(request,"请稍后");
+        request.add("money", money);
+        request.add("pay_password", pay_password);
+        request.add("pay_type", pay_type);
+        request.add("scenetype", 2);
+        executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) throws JSONException {
-        Intent intent=new Intent(this,TradeResultActivity.class);
+        Intent intent = new Intent(this, TradeResultActivity.class);
         startActivity(intent);
         finish();
     }

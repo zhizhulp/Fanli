@@ -48,11 +48,22 @@ public class MyReceiver extends BroadcastReceiver {
         	
         }*/ else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-			//打开自定义的Activity
-			Intent i = new Intent(context, PushResultActivity.class);
-			i.putExtras(bundle);
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-			context.startActivity(i);
+			String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+			try {
+				JSONObject jObj = new JSONObject(extra);
+				String from_msg_type = jObj.getString("from_msg_type");
+				if("notify".equals(from_msg_type)){
+					//打开自定义的Activity
+					Intent i = new Intent(context, PushResultActivity.class);
+					i.putExtras(bundle);
+					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+					context.startActivity(i);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+
 
         } /*else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));

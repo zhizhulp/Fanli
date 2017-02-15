@@ -1,6 +1,8 @@
 package com.ascba.rebate.activities.main;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import com.ascba.rebate.beans.TabEntity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
+import com.ascba.rebate.utils.LogUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.ascba.rebate.R;
@@ -23,6 +26,7 @@ import com.ascba.rebate.fragments.shop.ThirdFragment;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -33,10 +37,6 @@ import cn.jpush.android.api.TagAliasCallback;
 public class MainActivity extends BaseNetWorkActivity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "消息", "商城", "我"};
-    /*public static boolean isForeground = false;*/
-    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
-    public static final String KEY_MESSAGE = "message";
-    public static final String KEY_EXTRAS = "extras";
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
@@ -60,6 +60,7 @@ public class MainActivity extends BaseNetWorkActivity {
                     JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
                     break;
                 case MSG_SET_TAGS:
+                    JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
                     break;
                 default:
                     break;
@@ -115,18 +116,36 @@ public class MainActivity extends BaseNetWorkActivity {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
         if (uuid != -1000) {
             setAlias(uuid + "");
+            boolean appDebug = LogUtils.isAppDebug(this);
+            setTag(appDebug);
+            if(appDebug){
+                LogUtils.PrintLog("123","debug");
+            }else {
+                LogUtils.PrintLog("123","release");
+            }
+
         }
+    }
+
+    private void setTag(boolean appDebug) {
+        Set<String> tagSet = new LinkedHashSet<String>();
+        if(appDebug){
+            tagSet.add("debug");
+        }else {
+            tagSet.add("release");
+        }
+        tagSet.add(getPackageVersionCode()+"");//把版本号传给服务器
+        //调用JPush API设置Tag
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
     }
 
     @Override
     protected void onResume() {
-        /*isForeground = true;*/
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        /*isForeground = false;*/
         super.onPause();
     }
 
@@ -143,9 +162,10 @@ public class MainActivity extends BaseNetWorkActivity {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
-                case 0:
+                case 0://成功
+                    LogUtils.PrintLog("123","alias设置成功");
                     break;
-                case 6002:
+                case 6002://失败，重试
                     if (ExampleUtil.isConnected(getApplicationContext())) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
                     } else {
@@ -156,5 +176,40 @@ public class MainActivity extends BaseNetWorkActivity {
             }
         }
     };
+    private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
+
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            switch (code) {
+                case 0:
+                    LogUtils.PrintLog("123","tag设置成功:");
+                    break;
+
+                case 6002:
+
+                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
+                    } else {
+                        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                default:
+            }
+        }
+
+    };
+    private int getPackageVersionCode() {
+        PackageManager packageManager = getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(getPackageName(),0);
+            return packInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }

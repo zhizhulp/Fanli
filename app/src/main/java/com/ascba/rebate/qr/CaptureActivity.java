@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -29,6 +31,7 @@ import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
 import com.ascba.rebate.qr.view.ViewfinderView;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -177,6 +180,8 @@ public class CaptureActivity extends BaseNetWork3Activity implements Callback,Ba
 		Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
 		objRequest.add("seller",rawResult.getText());
 		objRequest.add("scenetype",2);
+/*		objRequest.add("version_code",getPackageVersionCode());
+		objRequest.add("is_test", LogUtils.isAppDebug(this) ? "debug" : "release");*/
 		executeNetWork(objRequest,"请稍后");
 		setCallback(this);
 		/*AlertDialog.Builder builder = new AlertDialog.Builder(this);

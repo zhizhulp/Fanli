@@ -129,7 +129,6 @@ public class EncodeUtils {
     /**
      * Base64URL安全编码
      * <p>将Base64中的URL非法字符�?,/=转为其他字符, 见RFC3548</p>
-     *
      * @param input 要Base64URL安全编码的字符串
      * @return Base64URL安全编码后的字符串
      */
@@ -184,7 +183,6 @@ public class EncodeUtils {
 
     /**
      * Html解码
-     *
      * @param input 待解码的字符串
      * @return Html解码后的字符串
      */

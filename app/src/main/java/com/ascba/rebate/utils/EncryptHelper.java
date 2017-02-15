@@ -15,9 +15,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by axing on 16/6/22.
- */
+
 public class EncryptHelper {
 
     public static final int DES_ENCRYPT = 1;
