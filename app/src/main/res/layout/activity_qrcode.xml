@@ -6,30 +6,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@mipmap/my_qr_bg"
     tools:context="com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity">
     <com.ascba.rebate.view.MoneyBar
+        app:barBg="@color/transparent"
         app:textTitle="我的二维码"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_marginLeft="78dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="78dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:scaleType="fitCenter"
+            android:background="@mipmap/my_qr_head_bg"
+            android:src="@mipmap/my_qr_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView4" />
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:textColor="@color/black"
+                android:text="business_name"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="11dp"
+                android:text="city_district"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/qrcode"
-        android:layout_marginTop="48dp"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop"
-        android:layout_width="220dp"
-        android:layout_height="220dp" />
-    <ImageView
-        android:src="@mipmap/ic_up"
-        android:layout_marginTop="28dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="78dp"
+        android:layout_marginTop="19dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:layout_marginLeft="125dp"
+        android:text="扫一扫，向我付款"
+        android:layout_marginTop="32dp"
+        android:textSize="14sp"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:textSize="22sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="28dp"
+        android:id="@+id/tv_save_to_album"
+        android:layout_marginLeft="125dp"
+        android:text="保存图片到我相册"
+        android:layout_marginTop="25dp"
+        android:textSize="14sp"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="扫一扫上面的二维码"/>
-
+        android:layout_height="wrap_content" />
 </LinearLayout>

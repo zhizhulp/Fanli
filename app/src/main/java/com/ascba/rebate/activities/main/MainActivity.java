@@ -199,17 +199,5 @@ public class MainActivity extends BaseNetWorkActivity {
         }
 
     };
-    private int getPackageVersionCode() {
-        PackageManager packageManager = getPackageManager();
-        // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = null;
-        try {
-            packInfo = packageManager.getPackageInfo(getPackageName(),0);
-            return packInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
 }

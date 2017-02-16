@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -57,21 +58,20 @@ import java.util.List;
 /**
  * 扫一扫主页
  */
-public class FirstFragment extends BaseFragment {
+public class FirstFragment extends BaseFragment implements ViewPager.OnTouchListener {
 
-    private ScrollViewWithListView recBusiness;
     private List<ImageView> imageList;
     private RecBusinessAdapter mAdapter;
     private List<Business> mList;
     private TextView location_text;
     private ViewPager vp;
-    private int msgWhat = 0;
+    private static final int VIEWPAGER_NORMAL=0;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case 0:
+                case VIEWPAGER_NORMAL:
                     vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
-                    handler.sendEmptyMessageDelayed(msgWhat, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+                    handler.sendEmptyMessageDelayed(VIEWPAGER_NORMAL, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
                     break;
                 case 1:
                     pD.setProgress(msg.arg1);
@@ -80,9 +80,6 @@ public class FirstFragment extends BaseFragment {
 
         }
     };
-    private View goBusinessList;
-    private ImageView goSweepActiviIcon;
-    private ImageView imGoRec;
     private ProgressDialog pD;
     private DownloadQueue downloadQueue;
     private TextView tvAllScore;
@@ -100,14 +97,14 @@ public class FirstFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        handler.sendEmptyMessageDelayed(msgWhat, 2500);
+        handler.sendEmptyMessageDelayed(VIEWPAGER_NORMAL, 2500);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (handler.hasMessages(msgWhat)) {
-            handler.removeMessages(msgWhat);
+        if (handler.hasMessages(VIEWPAGER_NORMAL)) {
+            handler.removeMessages(VIEWPAGER_NORMAL);
         }
 
     }
@@ -218,7 +215,7 @@ public class FirstFragment extends BaseFragment {
 
 
     private void goRecommend(View view) {
-        imGoRec = ((ImageView) view.findViewById(R.id.recommend_main));
+        ImageView imGoRec = ((ImageView) view.findViewById(R.id.recommend_main));
         imGoRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,7 +226,7 @@ public class FirstFragment extends BaseFragment {
     }
 
     private void goSweepActivity(View view) {
-        goSweepActiviIcon = ((ImageView) view.findViewById(R.id.main_sweep_icon));
+        ImageView goSweepActiviIcon = ((ImageView) view.findViewById(R.id.main_sweep_icon));
         goSweepActiviIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,7 +236,7 @@ public class FirstFragment extends BaseFragment {
     }
 
     private void goHotList(View view) {
-        goBusinessList = view.findViewById(R.id.main_business_go_more);
+        View goBusinessList = view.findViewById(R.id.main_business_go_more);
         goBusinessList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,10 +293,9 @@ public class FirstFragment extends BaseFragment {
 
     /**
      * 商家列表初始化
-     * @param view
      */
     private void initRecBusiness(View view) {
-        recBusiness = (ScrollViewWithListView) view.findViewById(R.id.main_business_list);
+        ScrollViewWithListView recBusiness = (ScrollViewWithListView) view.findViewById(R.id.main_business_list);
         recBusiness.setFocusable(false);//解决直接滑动到listview以上部分的问题
         initList();
         mAdapter = new RecBusinessAdapter(mList, getContext());
@@ -324,6 +320,7 @@ public class FirstFragment extends BaseFragment {
         initImageList();
         vp.setAdapter(new MyAdapter());
         vp.setCurrentItem(1000 * 5);//当前页是第5000页
+        vp.setOnTouchListener(this);//检测用户手势
     }
 
     /**
@@ -353,6 +350,22 @@ public class FirstFragment extends BaseFragment {
     //初始化商家列表
     private void initList() {
         mList = new ArrayList<>();
+    }
+
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                if(handler.hasMessages(VIEWPAGER_NORMAL)){
+                    handler.removeMessages(VIEWPAGER_NORMAL);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                handler.sendEmptyMessage(VIEWPAGER_NORMAL);
+                break;
+        }
+        return false;
     }
 
     public class MyAdapter extends PagerAdapter {
@@ -397,7 +410,7 @@ public class FirstFragment extends BaseFragment {
     private String getPackageVersion() {
         PackageManager packageManager = getActivity().getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = null;
+        PackageInfo packInfo ;
         try {
             packInfo = packageManager.getPackageInfo(getActivity().getPackageName(),0);
             return packInfo.versionName;
@@ -428,13 +441,13 @@ public class FirstFragment extends BaseFragment {
             } else if (exception instanceof NetworkError) {
                 Toast.makeText(getActivity(), "网络有问题", Toast.LENGTH_SHORT).show();
             } else if (exception instanceof StorageReadWriteError) {
-
+                Toast.makeText(getActivity(), "无读写权限", Toast.LENGTH_SHORT).show();
             } else if (exception instanceof StorageSpaceNotEnoughError) {
                 Toast.makeText(getActivity(), "没有足够空间", Toast.LENGTH_SHORT).show();
             } else if (exception instanceof TimeoutError) {
                 Toast.makeText(getActivity(), "请求超时", Toast.LENGTH_SHORT).show();
             } else if (exception instanceof UnKnownHostError) {
-
+                Toast.makeText(getActivity(), "未知主机", Toast.LENGTH_SHORT).show();
             } else if (exception instanceof URLError) {
                 Toast.makeText(getActivity(), "网址错误", Toast.LENGTH_SHORT).show();
             } else {
@@ -494,7 +507,7 @@ public class FirstFragment extends BaseFragment {
 
 
     public String getDiskCacheDir(Context context) {
-        String cachePath = null;
+        String cachePath ;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
             cachePath = context.getExternalCacheDir().getPath();
