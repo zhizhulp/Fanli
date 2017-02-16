@@ -12,9 +12,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,13 +77,14 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private int type;
+    private Button btnCommit;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_data);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
     }
@@ -118,6 +121,19 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 tvRate.setText((v*100)+"%");
             }
 
+            String tip=intent.getStringExtra("seller_enable_tip");
+            int btnEnable=intent.getIntExtra("seller_enable_time",0);
+            btnCommit.setText(tip);
+            if(btnEnable==0){//可以提交
+                btnCommit.setEnabled(true);
+            }else if(btnEnable==1) {//等待审核
+                btnCommit.setEnabled(false);
+                btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+            }else if(btnEnable==2) {//距离修改时间
+                btnCommit.setEnabled(false);
+                btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+            }
+
         }
     }
 
@@ -131,6 +147,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         tvRate = ((TextView) findViewById(R.id.business_data_rate));
         imBusPic = ((ImageView) findViewById(R.id.im_busi_logo));
         imBusLogo = ((ImageView) findViewById(R.id.im_busi_logo_mini));
+        btnCommit = ((Button) findViewById(R.id.btn_commit));
     }
     public void goBusinessName(View view) {
         Intent intent=new Intent(this,BusinessNameActivity.class);
@@ -397,7 +414,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         dm.buildAlertDialog(message);
     }
     public File getDiskCacheDir() {
-        File file=null;
+        File file;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             File dst = new File(Environment.getExternalStorageDirectory(), "com.ascba.rebate");
             if (!dst.exists()) {

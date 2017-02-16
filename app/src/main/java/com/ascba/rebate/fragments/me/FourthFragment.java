@@ -353,6 +353,8 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
             tvRecNum.setText(referee_bonuses + "笔/" + referee_num + "人");
         } else if (finalScene == 1) {//点击商户中心
             JSONObject company = dataObj.optJSONObject("company");
+            int seller_enable_time = dataObj.optInt("seller_enable_time");
+            String seller_enable_tip = dataObj.optString("seller_enable_tip");
             int merchant = company.optInt("status");
             if (merchant == 3) {//申请成功
                 String seller_name = company.optString("seller_name");
@@ -378,6 +380,8 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 intent.putExtra("seller_business_hours", seller_business_hours);
                 intent.putExtra("seller_return_ratio", seller_return_ratio);
                 intent.putExtra("seller_description", seller_description);
+                intent.putExtra("seller_enable_time", seller_enable_time);
+                intent.putExtra("seller_enable_tip", seller_enable_tip);
                 startActivity(intent);
             } else if (merchant == 0) {//填写申请资料
                 Intent intent = new Intent(getActivity(), BCProcessActivity.class);

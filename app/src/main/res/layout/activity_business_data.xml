@@ -290,6 +290,7 @@
                 style="@style/viewStyleMatch"/>
 
             <Button
+                android:id="@+id/btn_commit"
                 android:onClick="businessDataGo"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
