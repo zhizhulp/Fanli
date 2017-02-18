@@ -479,6 +479,18 @@
             android:theme="@style/AppStyle">
 
         </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wxc0690c2be47a7d66"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

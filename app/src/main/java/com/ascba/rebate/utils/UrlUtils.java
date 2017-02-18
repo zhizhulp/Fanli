@@ -37,7 +37,7 @@ public class UrlUtils {
     //商户申请
     public static final String addCompany=baseWebsite+"/"+webVersion+"/"+"addCompany";//提交商家的公司审核资料
     public static final String getCompany=baseWebsite+"/"+webVersion+"/"+"getCompany";//获取商户申请状态（0,1,2,3）
-    public static final String setCompany=baseWebsite+"/"+webVersion+"/"+"setCompany";//设置商家信息(旧)
+    //public static final String setCompany=baseWebsite+"/"+webVersion+"/"+"setCompany";//设置商家信息(旧)
     public static final String setTenants=baseWebsite+"/"+webVersion+"/"+"setTenants";//设置商家信息
     public static final String getBusinesses=baseWebsite+"/"+webVersion+"/"+"getBusinesses";//获取商家详情
 
@@ -45,7 +45,7 @@ public class UrlUtils {
 
     public static final String partook=baseWebsite+"/"+webVersion+"/"+"partook";//二维码生成
 
-    public static final String getCashingMoney=baseWebsite+"/"+webVersion+"/"+"getCashingMoney";//推荐列表
+    //public static final String getCashingMoney=baseWebsite+"/"+webVersion+"/"+"getCashingMoney";//推荐列表
     public static final String getMyReferee=baseWebsite+"/"+webVersion+"/"+"getMyReferee";//推荐列表
 
     //代理
@@ -74,14 +74,12 @@ public class UrlUtils {
     public static final String explain=baseWebsiteChange+"/"+"explain";//商家入驻流程
     public static final String shop=baseWebsiteChange+"/"+"shop";//商城
 
-    //微信扫码支付
-    public static final String WXSweepPay="http://shuaka.qingyutec.com/PhonePospInterface/WXGalleryPayServlet";
-    public static final String WXSweepPaySever="http://api.qlqwgw.com/api/wxpay/pay.html";
 
-    public static final String getCompanyInfo=baseWebsite+"/"+webVersion+"/"+"getCompanyInfo";
+    //public static final String getCompanyInfo=baseWebsite+"/"+webVersion+"/"+"getCompanyInfo";
     public static final String findCompany=baseWebsite+"/"+webVersion+"/"+"findCompany";//获取公司信息
     public static final String resubmitCompany=baseWebsite+"/"+webVersion+"/"+"resubmitCompany";//资料有误重复提交
 
 
     public static final String getMyPReferee=baseWebsite+"/"+webVersion+"/"+"getMyPReferee";//二级推荐
+    public static final String wxpay="http://api.qlqwgw.com"+"/"+webVersion+"/"+"wxpay";//微信支付
 }

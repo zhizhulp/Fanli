@@ -36,6 +36,7 @@ import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
 
 public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     public static final int REQUEST_BUSINESS_NAME=0;
@@ -78,6 +79,8 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     };
     private int type;
     private Button btnCommit;
+    private int btnEnable;
+    private static final String noMdf="暂时不可修改！";
 
 
     @Override
@@ -122,7 +125,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
             }
 
             String tip=intent.getStringExtra("seller_enable_tip");
-            int btnEnable=intent.getIntExtra("seller_enable_time",0);
+            btnEnable=intent.getIntExtra("seller_enable_time",0);
             btnCommit.setText(tip);
             if(btnEnable==0){//可以提交
                 btnCommit.setEnabled(true);
@@ -150,71 +153,116 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         btnCommit = ((Button) findViewById(R.id.btn_commit));
     }
     public void goBusinessName(View view) {
-        Intent intent=new Intent(this,BusinessNameActivity.class);
-        if(seller_name!=null){
-            intent.putExtra("seller_name",seller_name);
+        if(btnEnable==0){
+            Intent intent=new Intent(this,BusinessNameActivity.class);
+            if(seller_name!=null){
+                intent.putExtra("seller_name",seller_name);
+            }
+            startActivityForResult(intent,REQUEST_BUSINESS_NAME);
+        }else{
+            dm.buildAlertDialog(noMdf);
         }
-        startActivityForResult(intent,REQUEST_BUSINESS_NAME);
+
     }
 
     public void goBusinessTag(View view) {
-        Intent intent=new Intent(this,BusinessTagActivity.class);
-        if(seller_taglib!=null){
-            intent.putExtra("seller_taglib",seller_taglib);
+        if(btnEnable==0){
+
+            Intent intent=new Intent(this,BusinessTagActivity.class);
+            if(seller_taglib!=null){
+                intent.putExtra("seller_taglib",seller_taglib);
+            }
+            startActivityForResult(intent,REQUEST_BUSINESS_TAG);
+        }else {
+            dm.buildAlertDialog(noMdf);
         }
-        startActivityForResult(intent,REQUEST_BUSINESS_TAG);
     }
 
     public void goBusinessLocation(View view) {
-        //商家地理位置，此处接入高德地图
-        Intent intent=new Intent(this,GaoDeSearchUpdate.class);
-        intent.putExtra("lon",lon);
-        intent.putExtra("lat",lat);
-        startActivityForResult(intent,REQUEST_BUSINESS_LOCATION);
+        if(btnEnable==0){
+            //商家地理位置，此处接入高德地图
+            Intent intent=new Intent(this,GaoDeSearchUpdate.class);
+            intent.putExtra("lon",lon);
+            intent.putExtra("lat",lat);
+            startActivityForResult(intent,REQUEST_BUSINESS_LOCATION);
+        }else {
+            dm.buildAlertDialog(noMdf);
+        }
+
 
     }
 
     public void goBusinessPhone(View view) {
-        Intent intent=new Intent(this,BusinessPhoneActivity.class);
-        if(seller_tel!=null){
-            intent.putExtra("seller_tel",seller_tel);
+        if(btnEnable==0){
+            Intent intent=new Intent(this,BusinessPhoneActivity.class);
+            if(seller_tel!=null){
+                intent.putExtra("seller_tel",seller_tel);
+            }
+            startActivityForResult(intent,REQUEST_BUSINESS_PHONE);
+        }else {
+            dm.buildAlertDialog(noMdf);
         }
-        startActivityForResult(intent,REQUEST_BUSINESS_PHONE);
+
     }
 
     public void goBusinessTime(View view) {
-        Intent intent=new Intent(this,BusinessTimeActivity.class);
-        if(seller_business_hours!=null){
-            intent.putExtra("seller_business_hours",seller_business_hours);
+        if(btnEnable==0){
+            Intent intent=new Intent(this,BusinessTimeActivity.class);
+            if(seller_business_hours!=null){
+                intent.putExtra("seller_business_hours",seller_business_hours);
+            }
+            startActivityForResult(intent,REQUEST_BUSINESS_TIME);
+        }else {
+            dm.buildAlertDialog(noMdf);
         }
-        startActivityForResult(intent,REQUEST_BUSINESS_TIME);
+
     }
 
     public void goBusinessRate(View view) {
-        Intent intent=new Intent(this,EmployeeRateActivity.class);
-        if(!tvRate.getText().toString().equals("")){
-            intent.putExtra("seller_return_ratio",tvRate.getText().toString());
+        if(btnEnable==0){
+            Intent intent=new Intent(this,EmployeeRateActivity.class);
+            if(!tvRate.getText().toString().equals("")){
+                intent.putExtra("seller_return_ratio",tvRate.getText().toString());
+            }
+            startActivityForResult(intent,REQUEST_BUSINESS_RATE);
+        }else {
+            dm.buildAlertDialog(noMdf);
         }
-        startActivityForResult(intent,REQUEST_BUSINESS_RATE);
+
     }
 
     public void goBusinessDetail(View view) {
-        Intent intent=new Intent(this,BusinessDescriptionActivity.class);
-        if(desc!=null){
-            intent.putExtra("desc",desc);
+        if(btnEnable==0){
+            Intent intent=new Intent(this,BusinessDescriptionActivity.class);
+            if(desc!=null){
+                intent.putExtra("desc",desc);
+            }
+            startActivityForResult(intent,REQUEST_BUSINESS_DESC);
+        }else {
+            dm.buildAlertDialog(noMdf);
         }
-        startActivityForResult(intent,REQUEST_BUSINESS_DESC);
+
     }
     //商家店招
     public void goBusinessPic(View view) {
-        type=0;
-        checkPermission();
+        if(btnEnable==0){
+            type=0;
+            checkPermission();
+
+        }else {
+            dm.buildAlertDialog(noMdf);
+        }
 
     }
     //商家logo
     public void goBusinessLogo(View view) {
-        type=1;
-        checkPermission();
+        if(btnEnable==0){
+            type=1;
+            checkPermission();
+        }else {
+            dm.buildAlertDialog(noMdf);
+        }
+
 
     }
     private void checkPermission() {

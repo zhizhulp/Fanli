@@ -85,5 +85,15 @@
 -keep class cn.jiguang.** { *; }
 
 -keep class rx.**{*;}
+#微信支付混淆
+-keep class com.tencent.mm.opensdk.** {
+   *;
+}
+-keep class com.tencent.wxop.** {
+   *;
+}
+-keep class com.tencent.mm.sdk.** {
+   *;
+}
 
 

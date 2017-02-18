@@ -1,94 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_account_recharge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.me_page.AccountRechargeActivity">
+
     <com.ascba.rebate.view.MoneyBar
-        app:textTitle="充值"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:textTitle="充值" />
     <RelativeLayout
+        android:id="@+id/wx_click"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="46dp">
         <ImageView
-            android:src="@mipmap/alipay"
             android:layout_centerVertical="true"
-            android:id="@+id/recharge_card_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-        <LinearLayout
+            android:id="@+id/wx_icon"
+            android:src="@mipmap/wx_pay"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+        <TextView
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/recharge_card_icon"
+            android:layout_marginLeft="9dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@id/wx_icon"
+            android:text="微信支付"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:textColor="@color/black"
-                android:textSize="@dimen/activity_text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="支付宝"/>
-            <TextView
-                android:textSize="@dimen/activity_text_title"
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="支付宝账户充值"/>
-        </LinearLayout>
+            android:layout_height="wrap_content" />
         <ImageView
-            android:visibility="gone"
+            android:id="@+id/wxpay_circle"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_go"/>
+            android:background="@mipmap/unselect"/>
     </RelativeLayout>
+    <View
+        style="@style/viewStyleMargin"/>
+    <RelativeLayout
+        android:id="@+id/ali_click"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/alipay_icon"
+            android:src="@mipmap/alipay"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@id/alipay_icon"
+            android:text="支付宝支付"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/alipay_circle"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/unselect"/>
+    </RelativeLayout>
+
+
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="7dp"
-        android:background="@color/view_line"/>
+        android:background="@color/view_line" />
+
     <TextView
-        android:textColor="@color/black"
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="充值金额"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="7dp"
+        android:text="充值金额"
+        android:textColor="@color/black" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
+
         <TextView
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="¥"/>
+            android:text="¥"
+            android:textColor="@color/black" />
+
         <com.ascba.rebate.view.EditTextWithCustomHint
             android:id="@+id/ed_recharge_money"
-            android:inputType="numberDecimal"
-            app:hintSize="15sp"
-            android:hint="请输入充值金额"
-            android:background="@null"
-            android:textColor="@color/black"
-            android:layout_marginLeft="7dp"
-            android:textSize="37sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:background="@null"
+            android:hint="请输入充值金额"
+            android:inputType="numberDecimal"
+            android:textColor="@color/black"
+            android:textSize="37sp"
+            app:hintSize="15sp" />
     </LinearLayout>
+
     <View
-        android:layout_marginTop="7dp"
-        style="@style/viewStyleMargin"/>
+        style="@style/viewStyleMargin"
+        android:layout_marginTop="7dp" />
     <!--<TextView
         android:layout_margin="15dp"
         android:layout_width="wrap_content"
@@ -97,10 +126,10 @@
     <View
         style="@style/viewStyleMatch"/>-->
     <Button
-        android:onClick="goRechargeActivity"
-        android:text="充值"
+        style="@style/btnNormal"
         android:layout_marginTop="29dp"
-       style="@style/btnNormal"/>
+        android:onClick="goRechargeActivity"
+        android:text="充值" />
     <!--<Button
         android:onClick="goWXSweepPay"
         android:text="微信充值"
