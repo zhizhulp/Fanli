@@ -3,9 +3,11 @@ package com.ascba.rebate.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.utils.IDsUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -53,5 +55,12 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		}else if(errCode==-2){//用户取消
 			tvResult.setText("取消支付");
 		}
+	}
+
+	//进入查看账单页面
+	public void goAcc(View view) {
+		Intent intent=new Intent(this,AllAccountActivity.class);
+		intent.putExtra("order",3);
+		startActivity(intent);
 	}
 }

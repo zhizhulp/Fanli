@@ -90,7 +90,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_recharge);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
 
@@ -177,7 +177,6 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
             req.prepayId = wxpay.getString("prepayid");
             req.timeStamp = wxpay.getInt("timestamp")+"";
             req.sign = wxpay.getString("sign");
-                /*req.extData = "app data"; // optional*/
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
             api.sendReq(req);
         } catch (JSONException e) {
