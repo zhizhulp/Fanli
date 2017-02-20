@@ -30,7 +30,7 @@ public class SettingActivity extends BaseNetWorkActivity implements BaseNetWorkA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         finalScene=2;
         requestIsSuccess(UrlUtils.checkCardId);
