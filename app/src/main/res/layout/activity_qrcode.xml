@@ -13,7 +13,7 @@
         app:textTitle="我的二维码"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_marginLeft="78dp"
         android:layout_marginTop="70dp"
         android:layout_marginRight="78dp"
@@ -45,19 +45,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <ImageView
         android:id="@+id/qrcode"
         android:layout_marginLeft="78dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="98dp"
         android:layout_width="200dp"
         android:layout_height="200dp" />
 
     <TextView
-        android:layout_marginLeft="125dp"
         android:text="扫一扫，向我付款"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="70dp"
         android:textSize="14sp"
         android:textColor="@color/black"
         android:layout_width="wrap_content"
