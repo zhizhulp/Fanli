@@ -14,5 +14,6 @@ public class TestActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         StatusBarUtil.setColor(this, 0xffe52020);
+        //test
     }
 }
