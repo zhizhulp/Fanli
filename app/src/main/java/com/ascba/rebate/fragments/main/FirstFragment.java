@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
@@ -52,6 +54,7 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,24 +63,32 @@ import java.util.List;
  */
 public class FirstFragment extends BaseFragment implements ViewPager.OnTouchListener {
 
+    private float pointDownX, pointUpX;
     private List<ImageView> imageList;
     private RecBusinessAdapter mAdapter;
     private List<Business> mList;
     private TextView location_text;
     private ViewPager vp;
-    private static final int VIEWPAGER_NORMAL=0;
+    private static final int VIEWPAGER_LEFT = 0;
+    private static final int VIEWPAGER_RIGNT = 2;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case VIEWPAGER_NORMAL:
+                case VIEWPAGER_RIGNT:
+                    Log.d("FirstFragment", "VIEWPAGER_RIGNT");
                     vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
-                    handler.sendEmptyMessageDelayed(VIEWPAGER_NORMAL, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+                    handler.sendEmptyMessageDelayed(VIEWPAGER_RIGNT, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
                     break;
                 case 1:
                     pD.setProgress(msg.arg1);
                     break;
+                case VIEWPAGER_LEFT:
+                    Log.d("FirstFragment", "VIEWPAGER_LEFT");
+                    vp.setCurrentItem(vp.getCurrentItem() - 1);//收到消息，指向下一个页面
+                    handler.sendEmptyMessageDelayed(VIEWPAGER_RIGNT, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+                    break;
             }
-
+            pointDownX = pointUpX = 0;
         }
     };
     private ProgressDialog pD;
@@ -97,14 +108,14 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     @Override
     public void onResume() {
         super.onResume();
-        handler.sendEmptyMessageDelayed(VIEWPAGER_NORMAL, 2500);
+        handler.sendEmptyMessageDelayed(VIEWPAGER_RIGNT, 2500);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (handler.hasMessages(VIEWPAGER_NORMAL)) {
-            handler.removeMessages(VIEWPAGER_NORMAL);
+        if (handler.hasMessages(VIEWPAGER_RIGNT)) {
+            handler.removeMessages(VIEWPAGER_RIGNT);
         }
 
     }
@@ -112,17 +123,16 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(downloadQueue!=null){
+        if (downloadQueue != null) {
             downloadQueue.cancelAll();
         }
     }
 
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dm=new DialogManager(getActivity());
+        dm = new DialogManager(getActivity());
         tvAllScore = ((TextView) view.findViewById(R.id.score_all));
         tvRedScore = ((TextView) view.findViewById(R.id.tv_red_score));
         initRecBusiness(view);//初始化ListView
@@ -139,8 +149,8 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
         String version = getPackageVersion();
         Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, true);
-        request.add("version_code",version);
-        executeNetWork(request,"请稍候");
+        request.add("version_code", version);
+        executeNetWork(request, "请稍候");
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
@@ -148,25 +158,25 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                 JSONObject rebate = dataObj.optJSONObject("rebate");
                 int white_score = rebate.optInt("white_score");
                 int red_score = rebate.optInt("red_score");
-                tvAllScore.setText(white_score+"");
-                tvRedScore.setText(red_score+"");
+                tvAllScore.setText(white_score + "");
+                tvRedScore.setText(red_score + "");
                 //app更新
                 JSONObject verObj = dataObj.optJSONObject("version");
                 int isUpdate = verObj.optInt("isUpdate");
-                if(isUpdate==1){
+                if (isUpdate == 1) {
                     String apk_url = verObj.optString("apk_url");
                     downLoadApp(apk_url);
                 }
                 //商家列表
                 JSONArray optJSONArray = dataObj.optJSONArray("pushBusinessList");
-                if(optJSONArray!=null && optJSONArray.length()!=0){
+                if (optJSONArray != null && optJSONArray.length() != 0) {
                     for (int i = 0; i < optJSONArray.length(); i++) {
                         JSONObject busObj = optJSONArray.optJSONObject(i);
                         String bus_icon = busObj.optString("seller_cover_logo");
                         String seller_taglib = busObj.optString("seller_taglib");
                         String seller_name = busObj.optString("seller_name");
                         int id = busObj.optInt("id");
-                        Business b=new Business(UrlUtils.baseWebsite + bus_icon,seller_name,seller_taglib,0,"0个评论","0m");
+                        Business b = new Business(UrlUtils.baseWebsite + bus_icon, seller_name, seller_taglib, 0, "0个评论", "0m");
                         b.setId(id);
                         mList.add(b);
                     }
@@ -176,7 +186,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
             @Override
             public void handleReqFailed() {
-                if(refreshLayout.isRefreshing()){
+                if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }
             }
@@ -191,7 +201,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                     @Override
                     public void onRefresh() {
                         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-                        if(!netAva){
+                        if (!netAva) {
                             dm.buildAlertDialog("请打开网络！");
                             refreshLayout.setRefreshing(false);
                             return;
@@ -289,8 +299,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     }
 
 
-
-
     /**
      * 商家列表初始化
      */
@@ -305,7 +313,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
                 Business business = mList.get(position);
-                intent.putExtra("business_id",business.getId());
+                intent.putExtra("business_id", business.getId());
                 startActivity(intent);
             }
         });
@@ -321,6 +329,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         vp.setAdapter(new MyAdapter());
         vp.setCurrentItem(1000 * 5);//当前页是第5000页
         vp.setOnTouchListener(this);//检测用户手势
+
     }
 
     /**
@@ -355,14 +364,32 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (motionEvent.getAction()){
+
+        ViewParent parent = view.getParent();
+
+        switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(handler.hasMessages(VIEWPAGER_NORMAL)){
-                    handler.removeMessages(VIEWPAGER_NORMAL);
-                }
+                pointDownX = motionEvent.getX();
                 break;
             case MotionEvent.ACTION_UP:
-                handler.sendEmptyMessage(VIEWPAGER_NORMAL);
+                if (pointDownX > pointUpX) {
+                    if (!handler.hasMessages(VIEWPAGER_RIGNT)) {
+                        handler.removeMessages(VIEWPAGER_LEFT);
+                        handler.sendEmptyMessage(VIEWPAGER_RIGNT);
+                    }
+                } else {
+                    if (!handler.hasMessages(VIEWPAGER_LEFT)) {
+                        handler.removeMessages(VIEWPAGER_RIGNT);
+                        handler.sendEmptyMessage(VIEWPAGER_LEFT);
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                refreshLayout.setEnabled(false);
+                pointUpX = motionEvent.getX();
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                refreshLayout.setEnabled(true);
                 break;
         }
         return false;
@@ -410,9 +437,9 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private String getPackageVersion() {
         PackageManager packageManager = getActivity().getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo ;
+        PackageInfo packInfo;
         try {
-            packInfo = packageManager.getPackageInfo(getActivity().getPackageName(),0);
+            packInfo = packageManager.getPackageInfo(getActivity().getPackageName(), 0);
             return packInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -464,7 +491,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         public void onFinish(int what, String filePath) {
             pD.setMessage("下载成功");
             pD.dismiss();
-            if(filePath!=null){
+            if (filePath != null) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
                 getActivity().startActivity(i);
@@ -486,7 +513,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
         pD.setButton(DialogInterface.BUTTON_POSITIVE, "下载", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which){
+            public void onClick(DialogInterface dialog, int which) {
                 pD.show();
                 downloadQueue = NoHttp.newDownloadQueue(2);
                 DownloadRequest downloadRequest = NoHttp.createDownloadRequest(url, getDiskCacheDir(getActivity()), true);
@@ -507,7 +534,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
 
     public String getDiskCacheDir(Context context) {
-        String cachePath ;
+        String cachePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
             cachePath = context.getExternalCacheDir().getPath();
