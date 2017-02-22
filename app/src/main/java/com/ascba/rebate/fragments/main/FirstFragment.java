@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -75,7 +74,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case VIEWPAGER_RIGNT:
-                    Log.d("FirstFragment", "VIEWPAGER_RIGNT");
+                    pointDownX = pointUpX = 0;
                     vp.setCurrentItem(vp.getCurrentItem() + 1);//收到消息，指向下一个页面
                     handler.sendEmptyMessageDelayed(VIEWPAGER_RIGNT, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
                     break;
@@ -83,12 +82,12 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                     pD.setProgress(msg.arg1);
                     break;
                 case VIEWPAGER_LEFT:
-                    Log.d("FirstFragment", "VIEWPAGER_LEFT");
+                    pointDownX = pointUpX = 0;
                     vp.setCurrentItem(vp.getCurrentItem() - 1);//收到消息，指向下一个页面
                     handler.sendEmptyMessageDelayed(VIEWPAGER_RIGNT, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
                     break;
             }
-            pointDownX = pointUpX = 0;
+
         }
     };
     private ProgressDialog pD;
