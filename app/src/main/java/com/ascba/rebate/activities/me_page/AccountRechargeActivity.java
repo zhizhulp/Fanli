@@ -67,6 +67,10 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    } else if(TextUtils.equals(resultStatus, "6002")) {
+                        dm.buildAlertDialog("网络有问题");
+                    }  else if(TextUtils.equals(resultStatus, "6001")) {
+                        dm.buildAlertDialog("您已经取消支付");
                     } else {
                         dm.buildAlertDialog("支付失败");
                     }
@@ -157,6 +161,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        edMoney.setText("");
         if (select == 1) {
             String payInfo = dataObj.optString("payInfo");
             requestForAli(payInfo);//发起支付宝支付请求
@@ -217,6 +222,21 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
                 select = 1;
                 break;
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int res_code = intent.getIntExtra("res_code", -1);
+        if(res_code==0){//支付成功
+            setResult(RESULT_OK,intent);
+            finish();
+        }else if(res_code==-1){//出现错误
+            dm.buildAlertDialog("支付失败");
+        }else {//支付取消
+            dm.buildAlertDialog("您已经取消支付");
+        }
+
     }
 }
 

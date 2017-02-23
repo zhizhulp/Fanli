@@ -81,5 +81,5 @@ public class UrlUtils {
 
 
     public static final String getMyPReferee=baseWebsite+"/"+webVersion+"/"+"getMyPReferee";//二级推荐
-    public static final String wxpay="http://api.qlqwgw.com"+"/"+webVersion+"/"+"wxpay";//微信支付
+    public static final String wxpay=baseWebsite+"/"+webVersion+"/"+"wxpay";//微信支付
 }

@@ -122,10 +122,12 @@ public class BaseFragment extends Fragment {
 
         @Override
         public void onStart(int what) {
+            LogUtils.PrintLog("234","onStart");
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
+            LogUtils.PrintLog("234","onSucceed");
             if(dm!=null){
                 dm.dismissDialog();
             }
@@ -156,6 +158,8 @@ public class BaseFragment extends Fragment {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
+            LogUtils.PrintLog("234","onFailed");
+
             if(dm!=null){
                 dm.dismissDialog();
             }
@@ -172,6 +176,7 @@ public class BaseFragment extends Fragment {
         }
         @Override
         public void onFinish(int what) {
+            LogUtils.PrintLog("234","onFinish");
             if(dm!=null){
                 dm.dismissDialog();
             }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <com.ascba.rebate.view.MoneyBar
+        app:needComplete="true"
         android:id="@+id/mb"
         app:textTitle="充值结果"
         android:layout_width="match_parent"

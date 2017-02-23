@@ -31,6 +31,7 @@ import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
