@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.utils.IDsUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -21,6 +22,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     private IWXAPI api;
 	private TextView tvResult;
+	private TextView tvMoney;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
 
 		tvResult = ((TextView) findViewById(R.id.pay_result));
+		tvMoney = ((TextView) findViewById(R.id.tv_money));
 		api = WXAPIFactory.createWXAPI(this, IDsUtils.WX_PAY_APP_ID);
         api.handleIntent(getIntent(), this);
     }
@@ -50,6 +53,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		int errCode = resp.errCode;
 		if(errCode==0){//成功
 			tvResult.setText("支付成功");
+			tvMoney.setText(AppConfig.getInstance().getString("wx_pay_money","0.00元"));
 		}else if(errCode==-1){//错误
 			tvResult.setText("出现错误");
 		}else if(errCode==-2){//用户取消

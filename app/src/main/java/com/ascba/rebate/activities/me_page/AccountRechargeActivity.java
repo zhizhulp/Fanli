@@ -16,6 +16,7 @@ import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.IDsUtils;
@@ -144,6 +145,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
             executeNetWork(objRequest, "请稍后");
             setCallback(this);
         } else if (select == 0) {
+            AppConfig.getInstance().putString("wx_pay_money",money);
             Request<JSONObject> objRequest = buildNetRequest(UrlUtils.wxpay, 0, true);
             Double v = Double.parseDouble(money);
             objRequest.add("total_fee", (int)(v*100));
