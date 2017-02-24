@@ -5,8 +5,8 @@ package com.ascba.rebate.utils;
  */
 
 public class UrlUtils {
-    public static final String baseWebsite="http://api.qlqwshop.com";
-    public static final String baseWebsiteChange="http://home.qlqwshop.com";
+    public static final String baseWebsite="http://api.qlqwp2p.com";
+    public static final String baseWebsiteChange="http://home.qlqwp2p.com";
     public static final String webVersion="v1";
     public static final String webVersionChange="v2";
     //基本操作
