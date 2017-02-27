@@ -4,14 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.ascba.rebate.view.SuperSwipeRefreshLayout
-        android:id="@+id/swipe"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <WebView
-            android:id="@+id/shop_web"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+    <TextView
+        android:text="商城"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

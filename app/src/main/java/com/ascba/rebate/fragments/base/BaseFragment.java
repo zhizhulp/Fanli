@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -51,9 +50,7 @@ public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
+        return new TextView(getActivity());
     }
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
@@ -164,9 +161,8 @@ public class BaseFragment extends Fragment {
                 dm.dismissDialog();
             }
             Exception exc = response.getException();
-            //String msg=exc.getMessage();
             if(exc instanceof NetworkError){
-                //dm.buildAlertDialog("请打开网络！");
+
             }else {
                 if(callback!=null){
                     callback.handleReqFailed();

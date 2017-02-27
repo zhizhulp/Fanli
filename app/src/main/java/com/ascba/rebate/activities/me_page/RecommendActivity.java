@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.fragments.RecScoreFragment;
-import com.ascba.rebate.fragments.RecommendFragment;
+import com.ascba.rebate.fragments.recommend.RecScoreFragment;
+import com.ascba.rebate.fragments.recommend.RecommendFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SwitchButton;
 import com.jaeger.library.StatusBarUtil;

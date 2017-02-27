@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.recommend;
 
 
 import android.annotation.SuppressLint;

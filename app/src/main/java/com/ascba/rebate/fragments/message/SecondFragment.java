@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.fragments.RecommendFragment;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SwitchButton;
 
 

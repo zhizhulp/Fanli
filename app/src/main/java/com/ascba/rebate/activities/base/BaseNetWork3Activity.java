@@ -151,8 +151,6 @@ public class BaseNetWork3Activity extends AppCompatActivity {
         public void onFailed(int what, Response<JSONObject> response) {
             if(dm!=null){
                 dm.dismissDialog();
-                //请求失败的信息
-                //String message = response.getException().getMessage();
                 dm.buildAlertDialog("请求失败");
             }
         }
