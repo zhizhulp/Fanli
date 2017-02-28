@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_type_cloth"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ascba.rebate.activities.clothes.TypeClothActivity">
+    <com.ascba.rebate.view.ShopABar
+        app:abar_icon="@mipmap/abar_search"
+        app:abar_title="服装配饰"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_clothes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+
+</LinearLayout>

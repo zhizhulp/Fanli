@@ -11,4 +11,8 @@
     <declare-styleable name="EditTextWithCustomHint">
         <attr name="hintSize" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="ShopABar">
+        <attr name="abar_title" format="string|reference"/>
+        <attr name="abar_icon" format="integer|reference"/>
+    </declare-styleable>
 </resources>

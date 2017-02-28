@@ -39,6 +39,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="AppStyle" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="AppStyleShop" parent="@android:style/Theme.Holo.Light.NoActionBar"/>
     <style name="MyDialog" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@drawable/common_alert_bg</item>
