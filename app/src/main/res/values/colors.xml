@@ -452,4 +452,6 @@
     <color name="huase">#fffbe8</color>
     <color name="white2cash_color" >#ff6f6f</color>
     <color name="ticket_activity_bg">#f2f2f2</color>
+    <color name="lighter_gray">#f1f1f1</color>
+
 </resources>

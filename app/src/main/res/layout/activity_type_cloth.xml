@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context="com.ascba.rebate.activities.clothes.TypeClothActivity">
     <com.ascba.rebate.view.ShopABar
+        android:id="@+id/sab"
         app:abar_icon="@mipmap/abar_search"
         app:abar_title="服装配饰"
         android:layout_width="match_parent"
