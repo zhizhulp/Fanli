@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="14dp">
+
+
+        <TextView
+            android:id="@+id/goods_details_simple_desc_type_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/goods_details_simple_desc_type_goods1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/goods_details_simple_desc_type_store"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/goods_details_simple_desc_type_goods2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goods_details_simple_desc_type_store"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="22dp"
+            android:src="@mipmap/goods_share" />
+
+        <TextView
+            android:id="@+id/goods_details_simple_desc_price_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goods_details_simple_desc_type_goods2"
+            android:layout_marginTop="18dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/goods_details_simple_desc_price_old"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goods_details_simple_desc_type_goods2"
+            android:layout_marginLeft="31dp"
+            android:layout_marginTop="22dp"
+            android:layout_toRightOf="@id/goods_details_simple_desc_price_new"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</RelativeLayout>

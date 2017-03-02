@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/activity_goods_details_shopping_in"
+        layout="@layout/activity_goods_details_shopping" />
+
+    <com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout
+        android:id="@+id/activity_goods_details_pl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/activity_goods_details_shopping_in"
+        app:ptr_duration_to_close="150"
+        app:ptr_keep_header_when_refresh="false">
+
+        <com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView
+            android:id="@+id/activity_goods_details_pv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/activity_goods_details_recylerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/lighter_gray"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="22dp"
+                        android:paddingTop="22dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="4dp"
+                            android:src="@mipmap/on_pull" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:background="@android:color/transparent"
+                            android:text="上拉查看图文详情"
+                            android:textColor="@color/shop_normal_text_color"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView>
+
+            <com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="这是更多详情界面"
+                        android:textColor="#0000ff" />
+                </LinearLayout>
+            </com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView>
+        </com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView>
+
+    </com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout>
+
+</RelativeLayout>

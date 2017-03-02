@@ -455,4 +455,6 @@
     <color name="lighter_gray">#f1f1f1</color>
     <color name="shop_normal_text_color">#333</color>
 
+    <color name="colorGraySemitransparent">#77000000</color>
+
 </resources>

@@ -255,6 +255,11 @@
             android:name=".activities.me_page.bank_card_child.AddCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+
+        <activity
+            android:name=".activities.GoodsDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"

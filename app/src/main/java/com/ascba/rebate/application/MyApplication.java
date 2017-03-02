@@ -1,7 +1,9 @@
 package com.ascba.rebate.application;
 
 import android.app.Activity;
-import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.utils.IDsUtils;
@@ -19,7 +21,7 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
     private static RequestQueue requestQueue;
     private static MyApplication app;
     private List<Activity> activities=new ArrayList<>();
@@ -29,6 +31,13 @@ public class MyApplication extends Application {
     }
     public static RequestQueue getRequestQueue(){
         return requestQueue;
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Override

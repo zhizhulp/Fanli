@@ -151,5 +151,13 @@
         <item name="android:dropDownVerticalOffset">0dip</item>
     </style>
 
+    <style name="DropDown" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowBackground">@color/colorGraySemitransparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowEnterAnimation">@anim/dropdown_in</item>
+        <item name="android:windowExitAnimation">@anim/dropdown_out</item>
+    </style>
+
 
 </resources>

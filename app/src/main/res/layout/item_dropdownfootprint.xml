@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <RelativeLayout
+        android:id="@+id/item_view_width"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/item_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="商品"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/item_img"
+            android:layout_marginTop="4dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@id/item_num" />
+        <TextView
+            android:id="@+id/item_des"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/item_img"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:text="Teenie Weenie小熊春季女装竖纹条纹衬.."
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/item_des"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/holo_red_dark"
+            android:text="￥398"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>
