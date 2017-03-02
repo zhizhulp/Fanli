@@ -18,6 +18,7 @@ public class ShopBaseItem implements MultiItemEntity {
 
     private String url;//网络图片
     private String title;//标题
+    private int color;//背景色
 
     private String saled;//商品已出售
 
@@ -57,13 +58,29 @@ public class ShopBaseItem implements MultiItemEntity {
      * @param itemType 数据类型
      * @param spanSize 比重
      * @param resLat 对应的布局id
-     * @param resId 本地图片资源
+     * @param url 网络图片
      * @param desc 描述
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,int resId, String desc){
+    public ShopBaseItem(int itemType,int spanSize,int resLat,String url, String desc){
         this(itemType,spanSize,resLat);
-        this.resId=resId;
+        this.url=url;
         this.desc=desc;
+    }
+
+    /**
+     * 标题
+     * @param itemType 数据类型
+     * @param spanSize 比重
+     * @param resLat 对应的布局id
+     * @param url 网络图片
+     * @param title 标题
+     * @param color 字体颜色
+     */
+    public ShopBaseItem(int itemType,int spanSize,int resLat,String url, String title,int color){
+        this(itemType,spanSize,resLat);
+        this.url=url;
+        this.title=title;
+        this.color=color;
     }
     /**
      * 图片+文字 实体类
@@ -85,11 +102,13 @@ public class ShopBaseItem implements MultiItemEntity {
      * @param url 网络图片地址
      * @param title 标题
      * @param desc 描述
+     * @param color 背景色
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,String url,String title,String desc){
+    public ShopBaseItem(int itemType,int spanSize,int resLat,String url,String title,String desc,int color){
         this(itemType,spanSize,resLat,url);
         this.title=title;
         this.desc=desc;
+        this.color=color;
     }
     /**
      * 商品 实体类
@@ -186,5 +205,17 @@ public class ShopBaseItem implements MultiItemEntity {
 
     public void setSaled(String saled) {
         this.saled = saled;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void setLineWidth(float lineWidth) {
+        this.lineWidth = lineWidth;
     }
 }

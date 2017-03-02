@@ -60,7 +60,13 @@
 
         <activity
             android:name=".activities.splash.SplashActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
@@ -489,15 +495,11 @@
                 <data android:scheme="wxc0690c2be47a7d66" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.clothes.TypeClothActivity"
+        <activity
+            android:name=".activities.clothes.TypeClothActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyleShop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppStyleShop"></activity>
+        <activity android:name=".activities.supermaket.TypeMarketActivity"></activity>
     </application>
 
 </manifest>

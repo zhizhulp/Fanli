@@ -18,7 +18,7 @@
         android:background="@color/white"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:textColor="@color/black"
+        android:textColor="@color/shop_normal_text_color"
         android:id="@+id/item_type9_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,6 +51,4 @@
             android:gravity="right|center_vertical"
             android:textSize="10sp" />
     </LinearLayout>
-    <!--<include layout="@layout/shop_line" />-->
-
 </LinearLayout>

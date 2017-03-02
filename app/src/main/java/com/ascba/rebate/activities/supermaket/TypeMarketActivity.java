@@ -1,38 +1,29 @@
-package com.ascba.rebate.fragments.shop;
+package com.ascba.rebate.activities.supermaket;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.clothes.TypeClothActivity;
-import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
+import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.SimpleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 商城
- */
+public class TypeMarketActivity extends BaseNetWork4Activity implements
+        SuperSwipeRefreshLayout.OnPullRefreshListener,ShopABar.Callback{
 
-public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
@@ -44,27 +35,24 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
             super.handleMessage(msg);
         }
     };
+    private ShopABar sab;
     private List<String> navUrls;//导航栏图片链接
     private List<String> navStr;//导航栏文字
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.third_fragment, null);
-    }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initViews(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_type_maket);
+        initViews();
     }
 
-    private void initViews(View view) {
-        rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
-        refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
+    private void initViews() {
+        rv = ((RecyclerView) findViewById(R.id.list_market));
+        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
         initData();
-        adapter=new ShopTypeRVAdapter(data,getActivity());
-        final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
+        adapter=new ShopTypeRVAdapter(data,this);
+        final GridLayoutManager manager = new GridLayoutManager(this, TypeWeight.TYPE_SPAN_SIZE_MAX);
         rv.setLayoutManager(manager);
         adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
@@ -73,18 +61,9 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
             }
         });
         rv.setAdapter(adapter);
-        rv.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if(position==1){
-                    Intent intent=new Intent(getContext(), TypeClothActivity.class);
-                    startActivity(intent);
-                }else if(position==2){
-                    Intent intent=new Intent(getContext(), TypeMarketActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
+
+        sab = ((ShopABar) findViewById(R.id.sab));
+        sab.setCallback(this);
     }
 
     private void initData() {
@@ -98,34 +77,27 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
             data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
                     navUrls.get(i),navStr.get(i)));
         }
-        //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,0.5f));
         //广告图(一张)
         data.add(new ShopBaseItem(ShopItemType.TYPE_IMG,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_img,
                 "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301174703033_640.jpg"));
-        //头条
-        data.add(new ShopBaseItem(ShopItemType.TYPE_HOT,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_hot,
-                "新手返福利，专享188元大礼包"));
-        //限量抢购
-
-        //今日更新
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "今日更新","上新抢先看",0xffffeeee));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "一元购物","一元购电视",0xfffffdee));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "每日十件","不将就 要好用",0xffecf9fe));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "代金券购","购券赢好礼",0xfffff9ee));
         //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,9.0f));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,10));
         //标题栏
         data.add(new ShopBaseItem(ShopItemType.TYPE_TITLE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_title,
                 "http://image18-c.poco.cn/mypoco/myphoto/20170302/10/18505011120170302105506050_640.jpg",
                 "精品推荐",0xff000000));
         //横线
         data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,0.5f));
-        //商品
+        //商品1
+        data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS_STYLE2,TypeWeight.TYPE_SPAN_SIZE_20,R.layout.shop_goods_style2,"http://image18-c.poco.cn/mypoco/myphoto/20170302/14/18505011120170302145124095_640.jpg?495x418_130",
+                "拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡萄酒","￥ 498.00","￥ 698.00"));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS_STYLE2,TypeWeight.TYPE_SPAN_SIZE_20,R.layout.shop_goods_style2,"http://image18-c.poco.cn/mypoco/myphoto/20170302/14/18505011120170302145124095_640.jpg?495x418_130",
+                "拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡萄酒","￥ 498.00","￥ 698.00"));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS_STYLE2,TypeWeight.TYPE_SPAN_SIZE_20,R.layout.shop_goods_style2,"http://image18-c.poco.cn/mypoco/myphoto/20170302/14/18505011120170302145124095_640.jpg?495x418_130",
+                "拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡萄酒","￥ 498.00","￥ 698.00"));
+        //横线
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,10));
+        //商品2
         for (int i = 0; i < 8; i++) {
             data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS,TypeWeight.TYPE_SPAN_SIZE_30,R.layout.shop_goods
                     ,"http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg","拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡","￥ 498.00","已售4件"));
@@ -168,4 +140,18 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
 
     }
 
+    @Override
+    public void back(View v) {
+        finish();
+    }
+
+    @Override
+    public void clkMsg(View v) {
+
+    }
+
+    @Override
+    public void clkOther(View v) {
+
+    }
 }

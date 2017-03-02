@@ -34,6 +34,8 @@ public class TypeClothActivity extends BaseNetWork4Activity implements SuperSwip
         }
     };
     private ShopABar sab;
+    private List<String> navUrls;//导航栏图片链接
+    private List<String> navStr;//导航栏文字
 
 
     @Override
@@ -64,34 +66,46 @@ public class TypeClothActivity extends BaseNetWork4Activity implements SuperSwip
     }
     private void initData() {
         data=new ArrayList<>();
-        urls=new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            urls.add("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161128072_640.jpg");
-        }
         //viewPager
+        intPagerData();
         data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_pager,urls));
+
         //导航栏
-        data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
-                R.mipmap.cloth_man,"男装"));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
-                R.mipmap.cloth_woman,"女装"));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
-                R.mipmap.cloth_with,"配饰"));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
-                R.mipmap.cloth_brand,"品牌"));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
-                R.mipmap.cloth_all,"全部"));
+        initNavData();
+        for (int i = 0; i < navUrls.size(); i++) {
+            data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
+                    navUrls.get(i),navStr.get(i)));
+        }
+
         //横线
         data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,7));
         //标题栏
         data.add(new ShopBaseItem(ShopItemType.TYPE_TITLE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_title,
-                R.mipmap.cloth_great,"精品推荐"));
+                "http://image18-c.poco.cn/mypoco/myphoto/20170302/10/18505011120170302105506050_640.jpg",
+                "精品推荐",0xff000000));
         //横线
         data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,0.5f));
         //商品
         for (int i = 0; i < 8; i++) {
             data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS,TypeWeight.TYPE_SPAN_SIZE_30,R.layout.shop_goods
             ,"http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg","拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡","￥ 498.00","已售4件"));
+        }
+    }
+
+    private void initNavData() {
+        navUrls=new ArrayList<>();
+        navStr=new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            navUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170302/09/18505011120170302094130032_640.jpg");
+            navStr.add("导航"+i);
+        }
+
+    }
+
+    private void intPagerData() {
+        urls=new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            urls.add("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161128072_640.jpg");
         }
     }
 

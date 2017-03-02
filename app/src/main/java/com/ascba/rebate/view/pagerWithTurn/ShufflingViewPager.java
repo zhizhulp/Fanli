@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.utils.ScreenDpiUtils;
 
 import java.util.List;
 
@@ -109,7 +110,7 @@ public class ShufflingViewPager extends RelativeLayout {
             } else {
                 mImageView[i].setBackgroundResource(R.mipmap.hui_indicator);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(20, 0, 0, 0);
+                layoutParams.setMargins(ScreenDpiUtils.dip2px(context,5), 0, 0, 0);
                 mImageView[i].setLayoutParams(layoutParams);
             }
             indicator.addView(mImageView[i]);

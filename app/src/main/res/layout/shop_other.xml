@@ -2,18 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_type6_ll"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="105dp"
     android:background="#ffeeee"
     android:gravity="center_horizontal"
-    android:paddingBottom="10dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/item_type6_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="10dp"
+        android:textColor="@color/shop_normal_text_color"
+        android:layout_marginTop="5dp"
         android:textSize="13sp" />
 
     <TextView
@@ -26,8 +25,8 @@
 
     <ImageView
         android:id="@+id/item_type6_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="6dp"
-        android:scaleType="centerInside" />
+        android:scaleType="center" />
 </LinearLayout>
