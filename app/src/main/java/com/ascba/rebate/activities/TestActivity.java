@@ -21,5 +21,6 @@ public class TestActivity extends AppCompatActivity{
         Log.d("TestActivity", "test");
         //lp修改
         String s="HelloMan";
+        String s1="";
     }
 }
