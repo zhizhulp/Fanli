@@ -6,7 +6,7 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <com.muzi.commoditydetails.dropDownMultiPager.MultiViewPager
+    <com.ascba.rebate.view.dropDownMultiPager.MultiViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

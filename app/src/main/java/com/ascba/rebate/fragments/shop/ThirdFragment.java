@@ -12,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import android.util.Log;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
-import com.ascba.rebate.activities.milk.TypeMilkActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
@@ -77,6 +77,7 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.d(TAG, "position:" + position);
                 if(position==1){
                     Intent intent=new Intent(getContext(), TypeClothActivity.class);
                     startActivity(intent);
@@ -85,6 +86,9 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
                     startActivity(intent);
                 }else if(position==3){
                     Intent intent=new Intent(getContext(), TypeMilkActivity.class);
+                    startActivity(intent);
+                }else if(position==16){
+                    Intent intent=new Intent(getContext(), GoodsDetailsActivity.class);
                     startActivity(intent);
                 }
             }
