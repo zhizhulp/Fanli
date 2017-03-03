@@ -22,5 +22,6 @@ public class TestActivity extends AppCompatActivity{
         //lp修改
         String s="HelloMan";
         System.out.print("lipeng");
+        String s1="";
     }
 }
