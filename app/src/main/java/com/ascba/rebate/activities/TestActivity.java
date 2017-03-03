@@ -15,7 +15,8 @@ public class TestActivity extends AppCompatActivity{
         setContentView(R.layout.activity_test);
         StatusBarUtil.setColor(this, 0xffe52020);
         //test
-
+        //lipeng
+        Log.d("TestActivity", "test");
         //lp修改
         String s="HelloMan";
     }
