@@ -8,12 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
@@ -23,7 +24,6 @@ import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.SimpleClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,11 +76,15 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.d(TAG, "position:" + position);
                 if(position==1){
                     Intent intent=new Intent(getContext(), TypeClothActivity.class);
                     startActivity(intent);
                 }else if(position==2){
                     Intent intent=new Intent(getContext(), TypeMarketActivity.class);
+                    startActivity(intent);
+                }else if(position==16){
+                    Intent intent=new Intent(getContext(), GoodsDetailsActivity.class);
                     startActivity(intent);
                 }
             }
