@@ -70,7 +70,7 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
@@ -503,8 +503,13 @@
         <activity
             android:name=".activities.clothes.TypeClothActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyleShop"></activity>
-        <activity android:name=".activities.supermaket.TypeMarketActivity"></activity>
+            android:theme="@style/AppStyle"/>
+        <activity android:name=".activities.supermaket.TypeMarketActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
+        <activity android:name=".activities.milk.TypeMilkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
     </application>
 
 </manifest>

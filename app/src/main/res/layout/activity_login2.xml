@@ -8,10 +8,17 @@
     android:orientation="vertical"
     android:background="@mipmap/login_bg"
     tools:context="com.ascba.rebate.activities.login.LoginActivity">
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp"
+        android:src="@mipmap/login_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -20,6 +27,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/login_name"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="#949494"
             android:id="@+id/login_phone_ed"
             android:inputType="phone"
             android:layout_marginLeft="20dp"
@@ -28,16 +36,20 @@
             android:layout_height="wrap_content"
             app:hintSize="@dimen/activity_text_normal"
             android:hint="请输入您的手机号"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:singleLine="false" />
     </LinearLayout>
-    <ImageView
-        android:layout_marginTop="2dp"
-        style="@style/viewStyleMargin"/>
+    <View
+        android:background="#d5d5d5"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginTop="9dp" />
     <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -46,6 +58,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/login_password"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="15sp"
+            android:textColorHint="#949494"
             android:id="@+id/login_password_ed"
             android:inputType="textWebPassword"
             android:layout_marginLeft="20dp"
@@ -55,32 +69,48 @@
             app:hintSize="@dimen/activity_text_normal"
             android:hint="请输入您的密码"/>
     </LinearLayout>
-    <ImageView
-        android:layout_marginTop="2dp"
-        style="@style/viewStyleMargin"/>
-    <Button
-        android:onClick="goMain"
-        android:textSize="@dimen/activity_text_title"
-        android:text="登录"
-        android:layout_marginTop="40dp"
-        style="@style/btnNormal"
-        android:elevation="0dp" />
-    <Button
-        android:onClick="goRegister"
-        android:textColor="@color/btn"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/btn_style2"
-        android:textSize="@dimen/activity_text_title"
-        android:text="注册"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+    <View
+        android:background="#d5d5d5"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:onClick="goForgetPassword"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center"
-        android:text="忘记密码?"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="0.3dp"
+        android:layout_marginTop="9dp" />
+    <Button
+        android:textColor="#cc0505"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:onClick="goMain"
+        android:textSize="17sp"
+        android:text="登 录"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/register_btn_bg_new" />
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="12.5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#cecece"
+            android:textSize="14sp"
+            android:onClick="goRegister"
+            android:text="注册"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="157dp"
+            android:textColor="#cecece"
+            android:textSize="14sp"
+            android:onClick="goForgetPassword"
+            android:layout_gravity="center"
+            android:text="忘记密码?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </LinearLayout>

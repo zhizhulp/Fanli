@@ -38,7 +38,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    <style name="AppStyle" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="AppStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">#ff000000</item>
+    </style>
     <style name="AppStyleShop" parent="@android:style/Theme.Holo.Light.NoActionBar"/>
     <style name="MyDialog" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>

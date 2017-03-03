@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
+import com.ascba.rebate.activities.milk.TypeMilkActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
@@ -81,6 +82,9 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
                     startActivity(intent);
                 }else if(position==2){
                     Intent intent=new Intent(getContext(), TypeMarketActivity.class);
+                    startActivity(intent);
+                }else if(position==3){
+                    Intent intent=new Intent(getContext(), TypeMilkActivity.class);
                     startActivity(intent);
                 }
             }

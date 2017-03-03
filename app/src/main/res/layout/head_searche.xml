@@ -52,6 +52,8 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:background="@drawable/shop_action_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
