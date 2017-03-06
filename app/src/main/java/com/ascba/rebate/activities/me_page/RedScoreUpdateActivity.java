@@ -61,12 +61,12 @@ public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseN
             //最终获得最大积分
             int subscription_ratio_score = redObj.optInt("subscription_ratio_score");
 
-            Double rateMoney = redObj.optDouble("ratio_money");
-            Double rateScore = redObj.optDouble("ratio_score");
+            int rateMoney = redObj.optInt("ratio_money");
+            int rateScore = redObj.optInt("ratio_score");
             tvMax.setText(""+ convertible_red_score);
             tvCash.setText(""+subscription_ratio_money);
             tvTicket.setText(""+subscription_ratio_score);
-            tvTodayRate.setText(getMaxDivide_ab(rateMoney, rateScore));
+            tvTodayRate.setText("当前兑换比例："+rateMoney+":"+rateScore);
         }else if(finalScene==2){
             Intent intent=new Intent(this,RedScSuccActivity.class);
             startActivityForResult(intent,FourthFragment.REQUEST_RED);

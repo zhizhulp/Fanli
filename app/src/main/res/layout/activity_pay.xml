@@ -45,8 +45,9 @@
                     android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支付方式：其他"/>
+                    android:text="支付方式：线下支付"/>
                 <ImageView
+                    android:visibility="gone"
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:layout_width="10dp"
