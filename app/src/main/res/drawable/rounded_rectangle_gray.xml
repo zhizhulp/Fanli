@@ -8,5 +8,5 @@
         android:bottomRightRadius="20dp"/><!-- 设置圆角半径 -->
     <!-- 填充 -->
     <solid
-        android:color="@android:color/darker_gray"/><!-- 填充的颜色 -->
+        android:color="@color/inner_divider"/><!-- 填充的颜色 -->
 </shape>

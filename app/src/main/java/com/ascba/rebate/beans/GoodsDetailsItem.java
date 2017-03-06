@@ -62,12 +62,20 @@ public class GoodsDetailsItem implements MultiItemEntity {
      */
     public static final int TYPE_GOODS_FLOW = 7;
 
+    /**
+     * 宝贝评价示例
+     */
+    public static final int TYPE_GOODS_EVALUATE_FIRST = 8;
 
-    public static final int TYPE_SPAN_SIZE_DEFAULT = 1;
+    /**
+     * 店铺
+     */
+    public static final int TYPE_GOODS_SHOP = 9;
 
     private int itemType;
 
-    private int spanSize = TYPE_SPAN_SIZE_DEFAULT;
+    private int spanSize = TypeWeight.TYPE_SPAN_SIZE_MAX;
+
     private int resLat;//布局ID
     private List<String> pagerUrls;//viewPager数据源
     private String store_type;//店铺类型-自营店
@@ -81,11 +89,18 @@ public class GoodsDetailsItem implements MultiItemEntity {
     private String store_name;//商店名称
     private int goods_all;//全部宝贝数量
     private int goods_recomm;//达人推荐数量
-    private float ev_desc;//描述相符
-    private float ev_service;//服务态度
-    private float ev_delivery;//发货速度
+    private double ev_desc;//描述相符
+    private double ev_service;//服务态度
+    private double ev_delivery;//发货速度
     private String[] strings;//售货服务
     private String content;
+    private String username;//买家昵称
+    private String time;//购买时间
+    private String evDesc;//评价内容
+    private String chooseDesc;//购买规格
+
+    private String imgUrl;//商品首页图
+    private String goodsUrl;//商品URL
 
     @Override
     public int getItemType() {
@@ -182,6 +197,74 @@ public class GoodsDetailsItem implements MultiItemEntity {
         this.ev_good = ev_good;
     }
 
+    /**
+     * 买家评价示例
+     * @param itemType
+     * @param resLat
+     * @param username 买家昵称
+     * @param time 时间
+     * @param evDesc    评价内容
+     * @param chooseDesc 购买规格
+     * @param pagerUrls 图片地址
+     */
+    public GoodsDetailsItem(int itemType, int resLat, String username, String time, String evDesc, String chooseDesc,List<String> pagerUrls) {
+        this.itemType = itemType;
+        this.resLat = resLat;
+        this.username = username;
+        this.time = time;
+        this.evDesc = evDesc;
+        this.chooseDesc = chooseDesc;
+        this.pagerUrls=pagerUrls;
+    }
+
+    /**
+     *店铺
+     * @param itemType
+     * @param resLat
+     * @param pagerUrls 图片地址
+     * @param goods_logo 店铺名称logo
+     * @param store_name    店铺名称
+     * @param goods_all 全部商品
+     * @param goods_recomm 达人推荐
+     * @param ev_desc 描述相符
+     * @param ev_service 服务态度
+     * @param ev_delivery 发货速度
+     */
+    public GoodsDetailsItem(int itemType, int resLat, List<String> pagerUrls, String goods_logo, String store_name, int goods_all, int goods_recomm, double ev_desc, double ev_service, double ev_delivery) {
+        this.itemType = itemType;
+        this.resLat = resLat;
+        this.pagerUrls = pagerUrls;
+        this.goods_logo = goods_logo;
+        this.store_name = store_name;
+        this.goods_all = goods_all;
+        this.goods_recomm = goods_recomm;
+        this.ev_desc = ev_desc;
+        this.ev_service = ev_service;
+        this.ev_delivery = ev_delivery;
+    }
+
+    /**
+     * 足迹/首页数据
+     * @param imgUrl 首页展示图片地址
+     * @param goods_desc 商品名称
+     * @param price_new 价格
+     * @param goodsUrl 商品地址
+     */
+    public GoodsDetailsItem( String imgUrl, String goods_desc, String price_new, String goodsUrl) {
+        this.imgUrl = imgUrl;
+        this.goods_desc = goods_desc;
+        this.price_new = price_new;
+        this.goodsUrl = goodsUrl;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public String getGoodsUrl() {
+        return goodsUrl;
+    }
+
     public String getContent() {
         return content;
     }
@@ -198,144 +281,105 @@ public class GoodsDetailsItem implements MultiItemEntity {
         this.strings = strings;
     }
 
-    public void setItemType(int itemType) {
-        this.itemType = itemType;
-    }
 
     public int getSpanSize() {
         return spanSize;
     }
 
-    public void setSpanSize(int spanSize) {
-        this.spanSize = spanSize;
-    }
 
     public int getResLat() {
         return resLat;
     }
 
-    public void setResLat(int resLat) {
-        this.resLat = resLat;
-    }
 
     public List<String> getPagerUrls() {
         return pagerUrls;
     }
 
-    public void setPagerUrls(List<String> pagerUrls) {
-        this.pagerUrls = pagerUrls;
-    }
 
     public String getStore_type() {
         return store_type;
     }
 
-    public void setStore_type(String store_type) {
-        this.store_type = store_type;
-    }
 
     public String getGoods_title() {
         return goods_title;
     }
 
-    public void setGoods_title(String goods_title) {
-        this.goods_title = goods_title;
-    }
 
     public String getGoods_desc() {
         return goods_desc;
     }
 
-    public void setGoods_desc(String goods_desc) {
-        this.goods_desc = goods_desc;
-    }
 
     public String getPrice_new() {
         return price_new;
     }
 
-    public void setPrice_new(String price_new) {
-        this.price_new = price_new;
-    }
 
     public String getPrice_old() {
         return price_old;
     }
 
-    public void setPrice_old(String price_old) {
-        this.price_old = price_old;
-    }
 
     public int getEv_all() {
         return ev_all;
     }
 
-    public void setEv_all(int ev_all) {
-        this.ev_all = ev_all;
-    }
 
     public double getEv_good() {
         return ev_good;
     }
 
-    public void setEv_good(float ev_good) {
-        this.ev_good = ev_good;
+
+
+    public String getStore_name() {
+        return store_name;
+    }
+
+
+    public int getGoods_all() {
+        return goods_all;
+    }
+
+
+    public int getGoods_recomm() {
+        return goods_recomm;
+    }
+
+
+    public double getEv_desc() {
+        return ev_desc;
+    }
+
+
+    public double getEv_service() {
+        return ev_service;
+    }
+
+
+    public double getEv_delivery() {
+        return ev_delivery;
     }
 
     public String getGoods_logo() {
         return goods_logo;
     }
 
-    public void setGoods_logo(String goods_logo) {
-        this.goods_logo = goods_logo;
+    public String getUsername() {
+        return username;
     }
 
-    public String getStore_name() {
-        return store_name;
+    public String getTime() {
+        return time;
     }
 
-    public void setStore_name(String store_name) {
-        this.store_name = store_name;
+    public String getEvDesc() {
+        return evDesc;
     }
 
-    public int getGoods_all() {
-        return goods_all;
-    }
-
-    public void setGoods_all(int goods_all) {
-        this.goods_all = goods_all;
-    }
-
-    public int getGoods_recomm() {
-        return goods_recomm;
-    }
-
-    public void setGoods_recomm(int goods_recomm) {
-        this.goods_recomm = goods_recomm;
-    }
-
-    public float getEv_desc() {
-        return ev_desc;
-    }
-
-    public void setEv_desc(float ev_desc) {
-        this.ev_desc = ev_desc;
-    }
-
-    public float getEv_service() {
-        return ev_service;
-    }
-
-    public void setEv_service(float ev_service) {
-        this.ev_service = ev_service;
-    }
-
-    public float getEv_delivery() {
-        return ev_delivery;
-    }
-
-    public void setEv_delivery(float ev_delivery) {
-        this.ev_delivery = ev_delivery;
+    public String getChooseDesc() {
+        return chooseDesc;
     }
 
     @Override

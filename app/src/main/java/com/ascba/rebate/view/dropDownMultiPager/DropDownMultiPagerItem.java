@@ -8,38 +8,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.beans.GoodsFootprint;
+import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 
-/**
- * Created by YaphetZhao
- * on 2016/12/12.
- */
-
 @SuppressLint("ViewConstructor")
 public class DropDownMultiPagerItem extends LinearLayout {
-    public DropDownMultiPagerItem(Context context, int num, List<GoodsFootprint> beanList) {
+    public DropDownMultiPagerItem(Context context, int num, List<GoodsDetailsItem> beanList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.item_dropdownfootprint, this);
 
         //当前位置
-        TextView textNum = (TextView) findViewById(R.id.item_num);
-        textNum.setText("我的足迹（" + (num + 1) + "/" + beanList.size() + ")");
+        TextView textNum = (TextView) findViewById(R.id.item_dropdownfootprint_num);
+        textNum.setText("我的足迹(" + (num + 1) + "/" + beanList.size() + ")");
 
         //描述
-        TextView textDes = (TextView) findViewById(R.id.item_des);
-        textDes.setText(beanList.get(num).getName());
+        TextView textDes = (TextView) findViewById(R.id.item_dropdownfootprint_desc);
+        textDes.setText(beanList.get(num).getGoods_desc());
 
         //价格
-        TextView textPrice = (TextView) findViewById(R.id.item_price);
-        textPrice.setText(beanList.get(num).getPrice());
+        TextView textPrice = (TextView) findViewById(R.id.item_dropdownfootprint_price);
+        textPrice.setText(beanList.get(num).getPrice_new());
 
         //图文
-        ImageView img = (ImageView) findViewById(R.id.item_img);
-        Glide.with(context).load(beanList.get(num).getImg()).into(img);
+        ImageView img = (ImageView) findViewById(R.id.item_dropdownfootprint_img);
+        Glide.with(context).load(beanList.get(num).getImgUrl()).into(img);
 
     }
 

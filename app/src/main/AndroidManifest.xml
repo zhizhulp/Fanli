@@ -503,13 +503,20 @@
         <activity
             android:name=".activities.clothes.TypeClothActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
-        <activity android:name=".activities.supermaket.TypeMarketActivity"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.supermaket.TypeMarketActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
-        <activity android:name=".activities.milk.TypeMilkActivity"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.milk.TypeMilkActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
+            android:theme="@style/AppStyle" />
+
+        <activity
+            android:name=".activities.IntegralValueActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTranslucentTheme" />
     </application>
 
 </manifest>
