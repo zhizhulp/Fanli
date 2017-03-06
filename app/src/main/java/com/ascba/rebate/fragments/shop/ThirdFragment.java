@@ -16,6 +16,7 @@ import android.util.Log;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
+import com.ascba.rebate.activities.milk.TypeMilkActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
