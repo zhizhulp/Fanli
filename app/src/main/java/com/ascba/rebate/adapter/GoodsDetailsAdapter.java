@@ -1,6 +1,7 @@
 package com.ascba.rebate.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -82,7 +83,10 @@ public class GoodsDetailsAdapter extends BaseMultiItemQuickAdapter<GoodsDetailsI
                 helper.setText(R.id.goods_details_simple_desc_type_goods1, item.getGoods_title());
                 helper.setText(R.id.goods_details_simple_desc_type_goods2, item.getGoods_desc());
                 helper.setText(R.id.goods_details_simple_desc_price_new, item.getPrice_new());
-                helper.setText(R.id.goods_details_simple_desc_price_old, item.getPrice_old());
+
+                TextView priceOld= helper.getView(R.id.goods_details_simple_desc_price_old);
+                priceOld.setText(item.getPrice_old());
+                priceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 break;
 
             case GoodsDetailsItem.TYPE_GOODS_SALES_SERVICE:
@@ -128,10 +132,77 @@ public class GoodsDetailsAdapter extends BaseMultiItemQuickAdapter<GoodsDetailsI
                  * @param ev_good 好评率
                  */
                 helper.setText(R.id.goods_details_evaluate_text2, "(" + item.getEv_all() + ")");
-                helper.setText(R.id.goods_details_evaluate_text2, item.getEv_good() + "%");
+                helper.setText(R.id.goods_details_evaluate_text3, item.getEv_good() + "%");
                 break;
             case GoodsDetailsItem.TYPE_GOODS_FLOW:
+                /**
+                 * 宝贝评价流布局
+                 */
                 InitFlowLayout(helper, item.getStrings());
+                break;
+
+            case GoodsDetailsItem.TYPE_GOODS_EVALUATE_FIRST:
+                /**
+                 * 买家评价示例
+                 * @param itemType
+                 * @param resLat
+                 * @param username 买家昵称
+                 * @param time 时间
+                 * @param evDesc    评价内容
+                 * @param chooseDesc 购买规格
+                 */
+                helper.setText(R.id.goods_details_ev_first_username, item.getUsername());
+                helper.setText(R.id.goods_details_ev_first_time, item.getTime());
+                helper.setText(R.id.goods_details_ev_first_desc, item.getEvDesc());
+                helper.setText(R.id.goods_details_ev_first_choose, item.getChooseDesc());
+                ImageView img1 = helper.getView(R.id.goods_details_ev_first_img1);
+                ImageView img2 = helper.getView(R.id.goods_details_ev_first_img2);
+                Glide.with(context).load(item.getPagerUrls().get(0)).into(img1);
+                Glide.with(context).load(item.getPagerUrls().get(1)).into(img2);
+
+                break;
+            case GoodsDetailsItem.TYPE_GOODS_SHOP:
+                /**
+                 *店铺
+                 * @param itemType
+                 * @param resLat
+                 * @param pagerUrls 图片地址
+                 * @param goods_logo 店铺名称logo
+                 * @param store_name    店铺名称
+                 * @param goods_all 全部商品
+                 * @param goods_recomm 达人推荐
+                 * @param ev_desc 描述相符
+                 * @param ev_service 服务态度
+                 * @param ev_delivery 发货速度
+                 */
+                ImageView logo = helper.getView(R.id.goods_details_shop_img_logo);
+                Glide.with(context).load(item.getGoods_logo()).into(logo);
+
+                ImageView imageView1 = helper.getView(R.id.goods_details_shop_img1);
+                Glide.with(context).load(item.getPagerUrls().get(0)).into(imageView1);
+
+                ImageView imageView2 = helper.getView(R.id.goods_details_shop_img2);
+                Glide.with(context).load(item.getPagerUrls().get(1)).into(imageView2);
+
+                ImageView imageView3 = helper.getView(R.id.goods_details_shop_img3);
+                Glide.with(context).load(item.getPagerUrls().get(2)).into(imageView3);
+
+                helper.setText(R.id.goods_details_shop_text_name, item.getStore_name());
+                helper.setText(R.id.goods_details_shop_text_all, String.valueOf(item.getGoods_all()));
+                helper.setText(R.id.goods_details_shop_img_recomm, String.valueOf(item.getGoods_recomm()));
+                helper.setText(R.id.goods_details_shop_text_desc, String.valueOf(item.getEv_desc()));
+                helper.setText(R.id.goods_details_shop_img_service, String.valueOf(item.getEv_service()));
+                helper.setText(R.id.goods_details_shop_text_speed, String.valueOf(item.getEv_delivery()));
+
+                TextView goods1=helper.getView(R.id.goods_details_shop_img1_price_old);
+                goods1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+                TextView goods2=helper.getView(R.id.goods_details_shop_img2_price_old);
+                goods2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+                TextView goods3=helper.getView(R.id.goods_details_shop_img3_price_old);
+                goods3.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
                 break;
         }
     }

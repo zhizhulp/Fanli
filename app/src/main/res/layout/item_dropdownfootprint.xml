@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <RelativeLayout
-        android:id="@+id/item_view_width"
-        android:layout_width="200dp"
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal">
+        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="9dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardElevation="6dp">
 
-        <TextView
-            android:id="@+id/item_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:text="商品"
-            android:textSize="15sp" />
+        <RelativeLayout
+            android:id="@+id/item_view_width"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
 
-        <ImageView
-            android:id="@+id/item_img"
-            android:layout_marginTop="4dp"
-            android:layout_centerHorizontal="true"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_below="@id/item_num" />
-        <TextView
-            android:id="@+id/item_des"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/item_img"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:text="Teenie Weenie小熊春季女装竖纹条纹衬.."
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/item_dropdownfootprint_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/item_price"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/item_des"
-            android:layout_marginTop="8dp"
-            android:textSize="18sp"
-            android:textColor="@android:color/holo_red_dark"
-            android:text="￥398"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/item_dropdownfootprint_img"
+                android:layout_width="124.5dp"
+                android:layout_height="159dp"
+                android:layout_below="@id/item_dropdownfootprint_num"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/item_dropdownfootprint_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_dropdownfootprint_img"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxEms="7"
+                android:maxLines="2"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="12sp" />
 
+            <TextView
+                android:id="@+id/item_dropdownfootprint_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_dropdownfootprint_desc"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="11dp"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

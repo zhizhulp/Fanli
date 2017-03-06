@@ -13,7 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.beans.GoodsFootprint;
+import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.ascba.rebate.view.dropDownMultiPager.transformer.ZoomPageTransformer;
 
 import java.util.ArrayList;
@@ -28,10 +28,10 @@ public class DropDownMultiPagerView extends Dialog {
 
     private Context context;
     private MultiViewPager pager;
-    private List<GoodsFootprint> beanList;
+    private List<GoodsDetailsItem> beanList;
     private OnDropDownMultiPagerViewItemClick onDropDownMultiPagerViewItemClick;
 
-    public DropDownMultiPagerView(Context context, List<GoodsFootprint> beanList) {
+    public DropDownMultiPagerView(Context context, List<GoodsDetailsItem> beanList) {
         super(context, R.style.DropDown);
         this.context = context;
         this.beanList = beanList;
@@ -56,7 +56,7 @@ public class DropDownMultiPagerView extends Dialog {
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         lp.width = dm.widthPixels;
-        lp.height = dip2px(context, 290);
+        lp.height = dip2px(context, 310);
         dialogWindow.setAttributes(lp);
         dialogWindow.setGravity(Gravity.TOP);
         dialogWindow.setWindowAnimations(R.style.DropDown);
