@@ -66,7 +66,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
             dm.buildAlertDialog("请输入支付金额");
             return;
         }
-        View view = getWindow().peekDecorView();
+        /*View view = getWindow().peekDecorView();
         if (view != null) {
             InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -80,17 +80,18 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
             public void inputFinish() {
                 popWindow.onDismiss();
 
-                Request<JSONObject> objRequest = buildNetRequest(UrlUtils.confirmOrder, 0, true);
-                objRequest.add("seller",bus_uuid);
-                objRequest.add("money",money);
-                objRequest.add("region_id",1);
-                objRequest.add("pay_password",popWindow.getStrPassword());
-                objRequest.add("pay_type",pay_type);
-                objRequest.add("scenetype",2);
-                executeNetWork(objRequest,"请稍后");
-                setCallback(PayActivity.this);
+
             }
-        });
+        });*/
+        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.confirmOrder, 0, true);
+        objRequest.add("seller",bus_uuid);
+        objRequest.add("money",money);
+        objRequest.add("region_id",1);
+        objRequest.add("pay_password",/*popWindow.getStrPassword()*/"");
+        objRequest.add("pay_type",pay_type);
+        objRequest.add("scenetype",2);
+        executeNetWork(objRequest,"请稍后");
+        setCallback(PayActivity.this);
     }
 
     public void getIntentFromBefore() {
@@ -105,14 +106,14 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     }
     //选择支付方式
     public void clickSelectPayType(View view) {
-        String type = tvTpye.getText().toString();
+        /*String type = tvTpye.getText().toString();
         if("支付方式：其他".equals(type)){
             tvTpye.setText("支付方式：余额");
             pay_type=2;
         }else if("支付方式：余额".equals(type)) {
             tvTpye.setText("支付方式：其他");
             pay_type=1;
-        }
+        }*/
     }
 
     @Override
