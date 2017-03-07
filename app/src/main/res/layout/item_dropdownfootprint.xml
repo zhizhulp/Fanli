@@ -60,7 +60,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="11dp"
-                android:textColor="@android:color/holo_red_dark"
+                android:textColor="@color/shop_red_text_color"
                 android:textSize="18sp" />
 
         </RelativeLayout>

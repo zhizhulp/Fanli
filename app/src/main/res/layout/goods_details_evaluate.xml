@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goods_details_evaluate_rl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="15dp"
@@ -40,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="18dp"
         android:layout_toLeftOf="@id/goods_details_evaluate_img"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/shop_red_text_color"
         android:textSize="14sp" />
     <TextView
         android:id="@+id/activity_cd_item8_text4"

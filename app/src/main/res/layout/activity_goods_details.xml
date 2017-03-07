@@ -29,39 +29,53 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/activity_goods_details_recylerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                    <!--viewpager-->
+                    <include layout="@layout/goods_details_viewpager" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/lighter_gray"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:paddingBottom="22dp"
-                        android:paddingTop="22dp">
+                    <!--商品简单介绍-->
+                    <include layout="@layout/goods_details_simple_desc" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="4dp"
-                            android:src="@mipmap/on_pull" />
+                    <!--4小时发货、7天包退-->
+                    <include layout="@layout/goods_details_sales_service" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:background="@android:color/transparent"
-                            android:text="上拉查看图文详情"
-                            android:textColor="@color/shop_normal_text_color"
-                            android:textSize="14sp" />
-                    </LinearLayout>
+                    <!--分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide" />
+
+                    <!--增值：购买送积分-->
+                    <include layout="@layout/goods_details_appreciation" />
+
+                    <!--宽分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide" />
+
+                    <!--规格选择-->
+                    <include layout="@layout/goods_details_choose" />
+
+                    <!--宽分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide" />
+
+                    <!--宝贝评价、好评率-->
+                    <include layout="@layout/goods_details_evaluate" />
+
+                    <!--分割线-->
+                    <include layout="@layout/goods_details_cuttingline" />
+
+                    <!--宝贝评价流布局-->
+                    <include layout="@layout/goods_details_flow" />
+
+                    <!--买家评价示例-->
+                    <include layout="@layout/goods_details_evaluate_first" />
+
+                    <!--宽分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide" />
+
+                    <!--店铺-->
+                    <include layout="@layout/goods_details_shop" />
+
+                    <!--上滑查看图文详情-->
+                    <include layout="@layout/goods_details_check" />
 
                 </LinearLayout>
 

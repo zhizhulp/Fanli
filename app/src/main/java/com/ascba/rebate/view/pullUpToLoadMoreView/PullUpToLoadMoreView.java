@@ -61,21 +61,31 @@ public class PullUpToLoadMoreView extends ViewGroup {
                     @Override
                     public void onScrollToBottom() {
                         topScrollViewIsBottom = true;
+                        onCurrPosition.currPosition(currPosition, topScrollViewIsTop);
                     }
 
                     @Override
                     public void onScrollToTop() {
                         topScrollViewIsTop = true;
+                        onCurrPosition.currPosition(currPosition, topScrollViewIsTop);
                     }
 
                     @Override
                     public void onScroll(int scrollY) {
-                        topScrollViewIsTop = false;
+                        topScrollViewIsBottom = false;
+                        onCurrPosition.currPosition(currPosition, topScrollViewIsTop);
                     }
 
                     @Override
                     public void notBottom() {
                         topScrollViewIsBottom = false;
+                        onCurrPosition.currPosition(currPosition, topScrollViewIsTop);
+                    }
+
+                    @Override
+                    public void noTop() {
+                        topScrollViewIsTop = false;
+                        onCurrPosition.currPosition(currPosition, topScrollViewIsTop);
                     }
 
                 });
@@ -102,6 +112,11 @@ public class PullUpToLoadMoreView extends ViewGroup {
 
                     @Override
                     public void notBottom() {
+
+                    }
+
+                    @Override
+                    public void noTop() {
 
                     }
                 });

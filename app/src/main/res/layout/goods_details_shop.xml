@@ -30,14 +30,18 @@
 
     </LinearLayout>
 
-    <ImageView
+    <TextView
         android:id="@+id/goods_details_shop_img_enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:paddingTop="16dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/enter_shop" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/red_bg"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="进店逛逛"
+        android:textColor="@color/shop_red_text_color"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:id="@+id/goods_details_shop_l2"
@@ -58,7 +62,7 @@
                 android:id="@+id/goods_details_shop_text_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_red_dark"
+                android:textColor="@color/shop_red_text_color"
                 android:textSize="18sp" />
 
             <TextView
@@ -82,7 +86,7 @@
                 android:id="@+id/goods_details_shop_img_recomm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_red_dark"
+                android:textColor="@color/shop_red_text_color"
                 android:textSize="18sp" />
 
             <TextView
@@ -124,12 +128,16 @@
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="12sp" />
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11.5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/desc_h" />
+                    android:background="@drawable/red_bg"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:text="高"
+                    android:textColor="@color/shop_red_text_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -155,12 +163,16 @@
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="12sp" />
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11.5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/desc_h" />
+                    android:background="@drawable/red_bg"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:text="高"
+                    android:textColor="@color/shop_red_text_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -187,12 +199,16 @@
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="12sp" />
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11.5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/desc_h" />
+                    android:background="@drawable/red_bg"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:text="高"
+                    android:textColor="@color/shop_red_text_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -232,7 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥499"
-                    android:textColor="@android:color/holo_red_dark"
+                    android:textColor="@color/shop_red_text_color"
                     android:textSize="14dp" />
 
                 <TextView
@@ -241,6 +257,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
                     android:text="￥799.9"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="12dp" />
             </LinearLayout>
         </LinearLayout>
@@ -257,8 +274,7 @@
                 android:id="@+id/goods_details_shop_img2"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:scaleType="centerCrop"
-                />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -271,7 +287,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥499"
-                    android:textColor="@android:color/holo_red_dark"
+                    android:textColor="@color/shop_red_text_color"
                     android:textSize="14dp" />
 
                 <TextView
@@ -280,6 +296,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
                     android:text="￥799.9"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="12dp" />
             </LinearLayout>
         </LinearLayout>
@@ -309,7 +326,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥499"
-                    android:textColor="@android:color/holo_red_dark"
+                    android:textColor="@color/shop_red_text_color"
                     android:textSize="14dp" />
 
                 <TextView
@@ -318,6 +335,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
                     android:text="￥799.9"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="12dp" />
             </LinearLayout>
         </LinearLayout>
