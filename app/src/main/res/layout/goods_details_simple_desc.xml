@@ -15,7 +15,7 @@
             android:id="@+id/goods_details_simple_desc_type_store"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@color/shop_red_text_color"
             android:textSize="15sp" />
 
         <TextView
@@ -43,12 +43,12 @@
             android:src="@mipmap/goods_share" />
 
         <TextView
-            android:id="@+id/goods_details_simple_desc_price_new"
+            android:id="@+id/goods_details_simple_desc_price_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/goods_details_simple_desc_type_goods2"
             android:layout_marginTop="18dp"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@color/shop_red_text_color"
             android:textSize="18sp" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_below="@id/goods_details_simple_desc_type_goods2"
             android:layout_marginLeft="31dp"
             android:layout_marginTop="22dp"
-            android:layout_toRightOf="@id/goods_details_simple_desc_price_new"
+            android:layout_toRightOf="@id/goods_details_simple_desc_price_now"
             android:textColor="@android:color/darker_gray"
             android:textSize="15sp" />
     </RelativeLayout>

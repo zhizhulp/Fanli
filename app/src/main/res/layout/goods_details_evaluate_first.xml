@@ -70,10 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/red_edge_b"
+        android:background="@drawable/red_bg"
         android:gravity="center"
         android:text="查看全部评价"
+        android:textSize="15sp"
+        android:padding="8dp"
         android:layout_marginBottom="15dp"
-        android:textColor="@android:color/holo_red_dark" />
+        android:textColor="@color/shop_red_text_color" />
 
 </LinearLayout>

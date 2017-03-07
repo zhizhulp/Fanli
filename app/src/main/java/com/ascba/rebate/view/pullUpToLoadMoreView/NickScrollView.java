@@ -43,8 +43,10 @@ public class NickScrollView extends ScrollView {
                         mScrollListener.notBottom();
                     }
 
-                    if(scrollY == 0){
+                    if (scrollY <= 0) {
                         mScrollListener.onScrollToTop();
+                    }else {
+                        mScrollListener.noTop();
                     }
 
                 }
@@ -62,5 +64,6 @@ public class NickScrollView extends ScrollView {
         void onScrollToTop();
         void onScroll(int scrollY);
         void notBottom();
+        void noTop();
     }
 }
