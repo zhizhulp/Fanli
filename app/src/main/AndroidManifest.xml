@@ -255,7 +255,6 @@
             android:name=".activities.me_page.bank_card_child.AddCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.GoodsDetailsActivity"
             android:screenOrientation="portrait"
@@ -512,11 +511,11 @@
             android:name=".activities.milk.TypeMilkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.IntegralValueActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
+        <activity android:name=".activities.shop_personal_center.ShopPCActivity"></activity>
     </application>
 
 </manifest>

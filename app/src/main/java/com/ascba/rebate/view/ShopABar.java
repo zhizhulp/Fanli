@@ -49,6 +49,29 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
         imMsg.setOnClickListener(this);
         imOther.setOnClickListener(this);
     }
+    //设置返回图标是否显示
+    public void setBackEnable(boolean enable){
+        if(enable){
+            imBack.setVisibility(VISIBLE);
+        }else {
+            imBack.setVisibility(GONE);
+        }
+
+    }
+    //设置搜索图标是否显示
+    public void setImageOtherEnable(boolean enable){
+        if(enable){
+            imOther.setVisibility(VISIBLE);
+        }else {
+            imOther.setVisibility(GONE);
+        }
+    }
+    //设置标题
+    public void setTitle(String title){
+        tvTitle.setText(title);
+    }
+
+
 
     @Override
     public void onClick(View v) {

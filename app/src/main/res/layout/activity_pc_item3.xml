@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingTop="8dp"
+    android:paddingBottom="13dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/activity_pc_item3_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/pc_daifahuo" />
+
+    <TextView
+        android:id="@+id/activity_pc_item3_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_pc_item3_img"
+        android:gravity="center"
+        android:layout_marginTop="9dp"
+        android:textSize="10sp"
+        android:text="代发货" />
+
+    <TextView
+        android:id="@+id/activity_pc_item3_text_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-8dp"
+        android:layout_toRightOf="@+id/activity_pc_item3_img"
+        android:background="@drawable/notify_text"
+        android:text="2"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="10dp" />
+</RelativeLayout>
