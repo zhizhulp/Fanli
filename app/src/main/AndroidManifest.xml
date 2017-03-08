@@ -515,7 +515,6 @@
             android:name=".activities.IntegralValueActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleTranslucentTheme" />
-        <activity android:name=".activities.shop_personal_center.ShopPCActivity"></activity>
     </application>
 
 </manifest>

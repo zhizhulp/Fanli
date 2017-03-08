@@ -16,7 +16,6 @@ import com.ascba.rebate.R;
 
 /**
  * 自定义组件：购买数量，带减少增加按钮
- * Created by hiwhitley on 2016/7/4.
  */
 public class AmountView extends LinearLayout implements View.OnClickListener, TextWatcher {
 
@@ -46,7 +45,7 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
         etAmount.addTextChangedListener(this);
 
         TypedArray obtainStyledAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.AmountView);
-        int btnWidth = obtainStyledAttributes.getDimensionPixelSize(R.styleable.AmountView_btnWidth, LayoutParams.WRAP_CONTENT);
+        int btnWidth = obtainStyledAttributes.getDimensionPixelSize(R.styleable.AmountView_btnWidth, 10);
         int tvWidth = obtainStyledAttributes.getDimensionPixelSize(R.styleable.AmountView_tvWidth, 80);
         int tvTextSize = obtainStyledAttributes.getDimensionPixelSize(R.styleable.AmountView_tvTextSize, 0);
         int btnTextSize = obtainStyledAttributes.getDimensionPixelSize(R.styleable.AmountView_btnTextSize, 0);
@@ -69,6 +68,11 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
 
     public void setOnAmountChangeListener(OnAmountChangeListener onAmountChangeListener) {
         this.mListener = onAmountChangeListener;
+    }
+
+    //修改数量
+    public void setAmount(String text){
+        etAmount.setText(text);
     }
 
     public void setGoods_storage(int goods_storage) {

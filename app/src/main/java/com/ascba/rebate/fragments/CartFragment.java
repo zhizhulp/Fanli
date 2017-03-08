@@ -7,16 +7,21 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.adapter.CartAdapter;
+import com.ascba.rebate.beans.CartGoods;
+import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 购物车
@@ -25,7 +30,6 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
 
 
     private ShopABar sab;
-    private ArrayList goodsList=new ArrayList();
     private SuperSwipeRefreshLayout refreshLayout;
     private Handler handler=new Handler(){
         @Override
@@ -34,6 +38,8 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         }
     };
     private RecyclerView rv;
+    private List<CartGoods> data=new ArrayList<>();
+    private CartAdapter adapter;
 
     public CartFragment() {
     }
@@ -65,10 +71,42 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         rv = ((RecyclerView) view.findViewById(R.id.cart_goods_list));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         initData();
+        adapter = new CartAdapter(R.layout.cart_list_item,R.layout.cart_list_title,data,getActivity());
+        rv.setAdapter(adapter);
     }
 
     private void initData() {
-
+        for (int i = 0; i < 4; i++) {
+            if(i==0){
+                data.add(new CartGoods(true,"RCC男装"+i));
+                for (int j = 0; j < 3; j++) {
+                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
+                    data.add(new CartGoods(goods));
+                }
+            }else if(i==1){
+                data.add(new CartGoods(true,"RCC男装"+i));
+                for (int j = 0; j < 4; j++) {
+                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
+                    data.add(new CartGoods(goods));
+                }
+            }else if(i==2){
+                data.add(new CartGoods(true,"RCC男装"+i));
+                for (int j = 0; j < 1; j++) {
+                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
+                    data.add(new CartGoods(goods));
+                }
+            }else {
+                data.add(new CartGoods(true,"RCC男装"+i));
+                for (int j = 0; j < 2; j++) {
+                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
+                    data.add(new CartGoods(goods));
+                }
+            }
+        }
     }
 
     @Override
