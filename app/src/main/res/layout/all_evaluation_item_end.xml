@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/lighter_gray"
+    android:gravity="center_horizontal"
+    android:paddingBottom="20dp"
+    android:paddingTop="10dp"
+    android:text="已经到底啦！只能帮你到这里了！">
+
+</TextView>

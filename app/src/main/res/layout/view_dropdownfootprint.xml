@@ -6,6 +6,17 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/view_dropdownfootprint_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="15sp" />
+
+
     <com.ascba.rebate.view.dropDownMultiPager.MultiViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"

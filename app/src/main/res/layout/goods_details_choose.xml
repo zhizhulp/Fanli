@@ -3,6 +3,7 @@
     android:id="@+id/goods_details_choose_rl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <TextView

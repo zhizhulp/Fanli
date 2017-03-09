@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/all_evaluation_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.ascba.rebate.view.ShopABar
+            android:id="@+id/all_evaluation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"></com.ascba.rebate.view.ShopABar>
+
+        <include layout="@layout/goods_details_cuttingline" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:id="@+id/all_evaluation_text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="宝贝评价"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/all_evaluation_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/all_evaluation_text1"
+                android:text="(126)"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/all_evaluation_probability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:text="94.7%"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/all_evaluation_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@id/all_evaluation_probability"
+                android:text="好评率:"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <include layout="@layout/goods_details_cuttingline" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/all_evaluation_bottom"
+        layout="@layout/activity_goods_details_shopping" />
+
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/all_evaluation_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/all_evaluation_bottom"
+        android:layout_below="@id/all_evaluation_ll">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/all_evaluation_recylerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+
+</RelativeLayout>

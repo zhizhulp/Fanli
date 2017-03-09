@@ -4,4 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="7dp"
+    android:background="@color/white"
     zhy:max_select="-1"></com.zhy.view.flowlayout.TagFlowLayout>

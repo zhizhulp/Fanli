@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.GoodsDetailsItem;
@@ -28,6 +30,7 @@ public class DropDownMultiPagerView extends Dialog {
 
     private Context context;
     private MultiViewPager pager;
+    private TextView textView;
     private List<GoodsDetailsItem> beanList;
     private OnDropDownMultiPagerViewItemClick onDropDownMultiPagerViewItemClick;
 
@@ -64,11 +67,31 @@ public class DropDownMultiPagerView extends Dialog {
         pager = (MultiViewPager) view.findViewById(R.id.pager);
         pager.setPageTransformer(true, new ZoomPageTransformer());
 
+        textView = (TextView) view.findViewById(R.id.view_dropdownfootprint_text);
+
         List<View> list = new ArrayList<>();
         for (int i = 0; i < beanList.size(); i++) {
             DropDownMultiPagerItem item = new DropDownMultiPagerItem(context, i, beanList);
             list.add(item);
         }
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int arg0) {
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                textView.setText("我的足迹(" + (pager.getCurrentItem() + 1) + "/" + beanList.size() + ")");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+
+            }
+        });
 
         DropDownMultiPagerAdapter adapter = new DropDownMultiPagerAdapter(list);
 

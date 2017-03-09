@@ -48,8 +48,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
 
     private Context context;
 
-    private List<GoodsDetailsItem> data;
-
     //viewpager
     private int currentItem;
     private List<View> viewList = new ArrayList<>();
@@ -261,7 +259,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
         evFirstBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, AllEvaluationActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -314,7 +313,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
         goods3PriceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         //进店看看
-        TextView shopEnter= (TextView) findViewById(R.id.goods_details_shop_img_enter);
+        TextView shopEnter = (TextView) findViewById(R.id.goods_details_shop_img_enter);
         shopEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

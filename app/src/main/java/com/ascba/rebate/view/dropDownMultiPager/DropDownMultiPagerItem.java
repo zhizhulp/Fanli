@@ -20,10 +20,6 @@ public class DropDownMultiPagerItem extends LinearLayout {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.item_dropdownfootprint, this);
 
-        //当前位置
-        TextView textNum = (TextView) findViewById(R.id.item_dropdownfootprint_num);
-        textNum.setText("我的足迹(" + (num + 1) + "/" + beanList.size() + ")");
-
         //描述
         TextView textDes = (TextView) findViewById(R.id.item_dropdownfootprint_desc);
         textDes.setText(beanList.get(num).getGoods_desc());

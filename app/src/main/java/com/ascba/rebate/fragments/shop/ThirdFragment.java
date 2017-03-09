@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
 import com.ascba.rebate.activities.milk.TypeMilkActivity;
@@ -89,6 +90,9 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
                     startActivity(intent);
                 }else if(position==16){
                     Intent intent=new Intent(getContext(), GoodsDetailsActivity.class);
+                    startActivity(intent);
+                }else if(position==17){
+                    Intent intent=new Intent(getContext(), BeginnerGuideActivity.class);
                     startActivity(intent);
                 }
             }

@@ -66,6 +66,16 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
             imOther.setVisibility(GONE);
         }
     }
+
+
+    public void setMsgEnable(boolean enable){
+        if(enable){
+            imMsg.setVisibility(VISIBLE);
+        }else {
+            imMsg.setVisibility(GONE);
+        }
+    }
+
     //设置标题
     public void setTitle(String title){
         tvTitle.setText(title);
