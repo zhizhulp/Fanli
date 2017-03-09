@@ -37,7 +37,6 @@
     <uses-permission android:name="com.ascba.rebate.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- Optional for location -->
@@ -55,7 +54,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="11d31c62f7f344c66c4f0fc80a15c4ce" />
@@ -284,7 +282,8 @@
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <!--<service
+        <!--
+        <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
             android:exported="false">
@@ -294,7 +293,8 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>-->
+        </service>
+        -->
         <service
             android:name="cn.jpush.android.service.PushService"
             android:process=":mult">
@@ -469,29 +469,45 @@
             android:name=".activities.me_page.white_score_child.WSSuccActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.me_page.red_score_child.RedScSuccActivity"
+        <activity
+            android:name=".activities.me_page.red_score_child.RedScSuccActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".qr.CaptureActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
-        <activity android:name=".activities.me_page.business_center_child.child.GaoDeSearchUpdate"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
         <activity
+            android:name=".qr.CaptureActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.me_page.business_center_child.child.GaoDeSearchUpdate"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
+        <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wxc0690c2be47a7d66"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wxc0690c2be47a7d66" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
+        <!-- 文件共享 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.ascba.rebate.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

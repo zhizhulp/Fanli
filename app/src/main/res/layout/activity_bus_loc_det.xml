@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_business_phone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.me_page.business_center_child.child.BusinessPhoneActivity">
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
+        app:needComplete="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textTitle="详细地址"/>
+    <com.ascba.rebate.view.EditTextWithCustomHint
+        android:id="@+id/ed_bus_det_loc"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:hint="举例：北京市丰台区光彩路建邦华府2楼钱来钱往"
+        android:background="@color/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space" />
+</LinearLayout>

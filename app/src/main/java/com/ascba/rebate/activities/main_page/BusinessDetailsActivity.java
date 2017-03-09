@@ -22,6 +22,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork2Activity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -99,10 +100,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     }
 
     private void startGaodeSearch() {
-        /*if(lat==0||lon==0){
-            dm.buildAlertDialog("当前商家还没有设置位置");
-            return;
-        }*/
+
         if(getAppIn()){
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
@@ -179,30 +177,39 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         String seller_taglib = seObj.optString("seller_taglib");
         seller_description = seObj.optString("seller_description");
         seller_address = seObj.optString("seller_address");
+        String seller_localhost = seObj.optString("seller_localhost");
         String seller_lon = seObj.optString("seller_lon");
         String seller_lat = seObj.optString("seller_lat");
-        if(seller_lon!=null && ! "".equals(seller_lon) && !"null".equals(seller_lon)){
+        if(!StringUtils.isEmpty(seller_lon)){
             lon = Double.parseDouble(seller_lon);
         }
-        if(seller_lat!=null && ! "".equals(seller_lat) && !"null".equals(seller_lat)){
+        if(!StringUtils.isEmpty(seller_lat)){
             lat = Double.parseDouble(seller_lat);
         }
         seller_tel = seObj.optString("seller_tel");
         String seller_business_hours = seObj.optString("seller_business_hours");
         String seller_return_ratio = seObj.optString("seller_return_ratio");
+        String seller_return_ratio_tip = seObj.optString("seller_return_ratio_tip");
         String seller_image = seObj.optString("seller_image");
         Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .networkPolicy(NetworkPolicy.NO_CACHE).into(imBusiPic);
         tvName.setText(seller_name);
         tvType.setText(seller_taglib);
-        tvAddress.setText(seller_address);
+        tvAddress.setText(StringUtils.isEmpty(seller_localhost)? seller_address:seller_localhost);
         tvPhone.setText(seller_tel);
         tvTime.setText(seller_business_hours);
-        if(seller_return_ratio!=null&& !"".equals(seller_return_ratio)){
-            double s=Double.parseDouble(seller_return_ratio);
-            tvRate.setText("返佣比例 "+(s*100)+"%" );
-        }
+        tvRate.setText(handleStr(seller_return_ratio_tip) );
 
+
+    }
+
+    private String handleStr(String str) {
+        String[] split = str.split("\\.");
+        String type = split[0];
+        String rate = split[1];
+        String user = split[2];
+        String bus = split[3];
+        return "消费增值赠返"+user+"%";
     }
 
     public void back(View view) {
@@ -221,20 +228,11 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
             e.printStackTrace();
         }
         // 本手机没有安装高德地图app
-        if (packageInfo != null) {
-            return true;
-        }
         // 本手机成功安装有高德地图app
-        else {
-            return false;
-        }
+        return packageInfo != null;
     }
     /**
      * 初始化并开始定位
-     *
-     * @since 2.8.0
-     * @author hongming.wang
-     *
      */
     private void initLocation(){
         //初始化client
@@ -248,9 +246,6 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
 
     /**
      * 默认的定位参数
-     * @since 2.8.0
-     * @author hongming.wang
-     *
      */
     private AMapLocationClientOption getDefaultOption(){
         AMapLocationClientOption mOption = new AMapLocationClientOption();
@@ -288,9 +283,6 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
 
     /**
      * 停止定位
-     * @since 2.8.0
-     * @author hongming.wang
-     *
      */
     private void stopLocation(){
         // 停止定位
@@ -298,9 +290,6 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     }
     /**
      * 销毁定位
-     *
-     * @since 2.8.0
-     * @author hongming.wang
      *
      */
     private void destroyLocation(){

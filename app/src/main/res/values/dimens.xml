@@ -157,5 +157,5 @@
     <dimen name="text_size_16">14.0sp</dimen>
 
     <dimen name="title_bar_button_size">40.0dip</dimen>
-    <dimen name="acc_line_space" >57dp</dimen>
+    <dimen name="acc_line_space">57dp</dimen>
 </resources>

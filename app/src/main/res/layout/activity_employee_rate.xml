@@ -17,17 +17,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <RadioButton
-            android:visibility="gone"
             android:id="@+id/rate_8"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
             android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_space"
-            android:text="8.0%"/>
+            android:layout_height="@dimen/line_space" />
         <View
-            android:visibility="gone"
             style="@style/viewStyleMatch"/>
         <RadioButton
             android:id="@+id/rate_16"
@@ -36,22 +33,18 @@
             android:button="@null"
             android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_space"
-            android:text="16.0%"/>
+            android:layout_height="@dimen/line_space" />
         <View
             style="@style/viewStyleMatch"/>
         <RadioButton
-            android:visibility="gone"
             android:id="@+id/rate_24"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:button="@null"
             android:drawableRight="@drawable/employee_rate_selector"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_space"
-            android:text="24.0%"/>
+            android:layout_height="@dimen/line_space" />
         <View
-            android:visibility="gone"
             style="@style/viewStyleMatch"/>
     </RadioGroup>
 </LinearLayout>
