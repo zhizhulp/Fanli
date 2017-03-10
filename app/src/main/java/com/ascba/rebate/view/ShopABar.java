@@ -105,9 +105,8 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
     }
     //改变图标状态
     public void setImMsgSta(int resId){
-        imOther.setImageResource(resId);
+        imMsg.setImageResource(resId);
     }
-
 
 
     public Callback getCallback() {
