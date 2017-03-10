@@ -1,20 +1,15 @@
 package com.ascba.rebate.activities.main_page.sweep;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.OnPasswordInputFinish;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;

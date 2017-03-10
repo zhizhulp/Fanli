@@ -153,7 +153,7 @@
                     android:textSize="@dimen/activity_text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商家地址"/>
+                    android:text="商家位置"/>
                 <ImageView
                     android:layout_centerVertical="true"
                     android:id="@+id/business_address_go"
@@ -171,6 +171,42 @@
                     android:layout_marginRight="8dp"
                     android:layout_toLeftOf="@id/business_address_go"
                     android:layout_toRightOf="@id/tv_location_string"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                style="@style/viewStyleMatch"/>
+            <RelativeLayout
+                android:onClick="goBusinessLocationDetails"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_space">
+                <TextView
+                    android:id="@+id/tv_location_details"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/activity_text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详细地址"/>
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/business_details_address_go"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_go"/>
+                <TextView
+                    android:gravity="right"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:id="@+id/business_data_location_details"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/business_details_address_go"
+                    android:layout_toRightOf="@id/tv_location_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>

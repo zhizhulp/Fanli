@@ -8,6 +8,8 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.jaeger.library.StatusBarUtil;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 public class ShowPicActivity extends BaseNetWorkActivity {
@@ -17,7 +19,7 @@ public class ShowPicActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pic);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
 
@@ -32,7 +34,8 @@ public class ShowPicActivity extends BaseNetWorkActivity {
         if(intent!=null){
             String image = intent.getStringExtra("image");
             if(image!=null){
-                Picasso.with(this).load(UrlUtils.baseWebsite+image).placeholder(R.mipmap.busi_apply_show_pic_holder).into(imageView);
+                Picasso.with(this).load(UrlUtils.baseWebsite+image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.busi_apply_show_pic_holder).into(imageView);
 
             }
         }

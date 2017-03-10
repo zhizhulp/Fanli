@@ -22,8 +22,8 @@ public class StringUtils {
      * @param s 待校验字符串
      * @return {@code true}: 空<br> {@code false}: 不为空
      */
-    public static boolean isEmpty(CharSequence s) {
-        return s == null || s.length() == 0;
+    public static boolean isEmpty(String s) {
+        return s == null || s.length() == 0 || "".equals(s)||"null".equals(s);
     }
 
     /**
