@@ -525,6 +525,11 @@
             android:name=".activities.AllEvaluationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+
+        <activity
+            android:name=".activities.GoodsListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>

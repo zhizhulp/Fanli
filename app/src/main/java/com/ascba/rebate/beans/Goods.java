@@ -1,7 +1,5 @@
 package com.ascba.rebate.beans;
 
-import java.util.List;
-
 /**
  * 购物车商品实体类
  */
@@ -12,6 +10,10 @@ public class Goods {
     private String goodsStandard;//商品规格
     private String goodsPrice;//商品价格
     private String userQuy;//用户选择数量
+    private String goodsSelled;//商品已售数量
+
+    public Goods() {
+    }
 
     public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String userQuy) {
         this.imgUrl = imgUrl;
@@ -60,4 +62,11 @@ public class Goods {
         this.userQuy = userQuy;
     }
 
+    public String getGoodsSelled() {
+        return goodsSelled;
+    }
+
+    public void setGoodsSelled(String goodsSelled) {
+        this.goodsSelled = goodsSelled;
+    }
 }
