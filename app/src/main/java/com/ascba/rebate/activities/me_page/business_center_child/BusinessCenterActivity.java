@@ -34,7 +34,10 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 商户中心 商户资料提交页面
@@ -152,6 +155,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
             case GO_CAMERA_WORK:
                 if(fileWork!=null&&fileWork.exists()){
                     Bitmap bitmap = handleBitmap(fileWork);
+                    saveBitmapFile(bitmap,fileWork);
                     imWorkIcon.setImageBitmap(bitmap);
                 }
                 break;
@@ -170,12 +174,14 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                     cursor.close();
                     fileWork = new File(picturePath);
                     Bitmap bitmap = handleBitmap(fileWork);
+                    saveBitmapFile(bitmap,fileWork);
                     imWorkIcon.setImageBitmap(bitmap);
                 }
                 break;
             case GO_CAMERA_AUTH:
                 if(fileAuth!=null&&fileAuth.exists()){
                     Bitmap bitmap = handleBitmap(fileAuth);
+                    saveBitmapFile(bitmap,fileAuth);
                     imAuthIcon.setImageBitmap(bitmap);
                 }
                 break;
@@ -194,6 +200,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                     cursor2.close();
                     fileAuth = new File(picturePath);
                     Bitmap bitmap = handleBitmap(fileAuth);
+                    saveBitmapFile(bitmap,fileAuth);
                     imAuthIcon.setImageBitmap(bitmap);
                 }
                 break;
@@ -255,7 +262,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
             }else {
                 request.add("warrant",new FileBinary(fileAuth));//授权书
             }
-            executeNetWork(request,"请稍后");
+            executeNetWork(request,"上传中，请稍后...");
             setCallback(this);
         }
 
@@ -378,5 +385,15 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
         options.inJustDecodeBounds = false;
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+    }
+    public void saveBitmapFile(Bitmap bitmap,File file){
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

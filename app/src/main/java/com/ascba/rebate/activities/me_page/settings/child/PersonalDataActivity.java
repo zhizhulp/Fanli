@@ -40,7 +40,10 @@ import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -67,6 +70,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +101,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             Request<JSONObject> request = buildNetRequest(UrlUtils.updateSet, 0, true);
             if(picturePath!=null){
                 file=new File(picturePath);
+                saveBitmapFile(bitmap,file);
                 request.add("avatar", new FileBinary(file));
             }else {
                 request.add("avatar", "");
@@ -264,7 +269,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             case GO_CAMERA:
                 if(file != null && file.exists()){
                     picturePath=file.getPath();
-                    Bitmap bitmap=handleBitmap(picturePath);
+                    bitmap=handleBitmap(picturePath);
                     userIconView.setImageBitmap(bitmap);
                 }
                 break;
@@ -280,7 +285,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 picturePath = cursor.getString(columnIndex);
                 cursor.close();
-                Bitmap bitmap = handleBitmap(picturePath);
+                bitmap = handleBitmap(picturePath);
                 userIconView.setImageBitmap(bitmap);
                 break;
             case sexRequest:
@@ -369,6 +374,16 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             file = new File(dst, "com" + System.currentTimeMillis() + ".png");
         } else {
             file = getFilesDir();
+        }
+    }
+    public void saveBitmapFile(Bitmap bitmap,File file){
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

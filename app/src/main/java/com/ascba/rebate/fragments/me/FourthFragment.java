@@ -363,11 +363,13 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 String seller_image = company.optString("seller_image");
                 String seller_taglib = company.optString("seller_taglib");
                 String seller_address = company.optString("seller_address");
+                String seller_localhost = company.optString("seller_localhost");
                 String seller_lon = company.optString("seller_lon");
                 String seller_lat = company.optString("seller_lat");
                 String seller_tel = company.optString("seller_tel");
                 String seller_business_hours = company.optString("seller_business_hours");
                 String seller_return_ratio = company.optString("seller_return_ratio");
+                String seller_return_ratio_tip = company.optString("seller_return_ratio_tip");
                 String seller_description = company.optString("seller_description");
                 Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
                 intent.putExtra("seller_name", seller_name);
@@ -375,11 +377,13 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 intent.putExtra("seller_image", seller_image);
                 intent.putExtra("seller_taglib", seller_taglib);
                 intent.putExtra("seller_address", seller_address);
+                intent.putExtra("seller_localhost", seller_localhost);
                 intent.putExtra("seller_lon", seller_lon);
                 intent.putExtra("seller_lat", seller_lat);
                 intent.putExtra("seller_tel", seller_tel);
                 intent.putExtra("seller_business_hours", seller_business_hours);
                 intent.putExtra("seller_return_ratio", seller_return_ratio);
+                intent.putExtra("seller_return_ratio_tip", seller_return_ratio_tip);
                 intent.putExtra("seller_description", seller_description);
                 intent.putExtra("seller_enable_time", seller_enable_time);
                 intent.putExtra("seller_enable_tip", seller_enable_tip);

@@ -65,7 +65,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="bottom|center_horizontal"
-            android:paddingBottom="5dp"
+            android:paddingBottom="3dp"
             android:text="商城"
             android:textColor="@color/moneyBarColor"
             android:textSize="11sp" />
