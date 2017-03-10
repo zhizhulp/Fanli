@@ -111,19 +111,19 @@ public class EmployeeRateActivity extends BaseNetWork3Activity implements BaseNe
         String s1 = rates.optString("1");
         String s2 = rates.optString("2");
         String s3 = rates.optString("3");
-        String[] split1 = s1.split("\\.");
+        String[] split1 = s1.split("-");
         String type1 = split1[0];
         String rate1 = split1[1];
         String user1 = split1[2];
         String bus1 = split1[3];
 
-        String[] split2 = s2.split("\\.");
+        String[] split2 = s2.split("-");
         String type2 = split2[0];
         String rate2 = split2[1];
         String user2 = split2[2];
         String bus2 = split2[3];
 
-        String[] split3 = s3.split("\\.");
+        String[] split3 = s3.split("-");
         String type3 = split3[0];
         String rate3 = split3[1];
         String user3 = split3[2];

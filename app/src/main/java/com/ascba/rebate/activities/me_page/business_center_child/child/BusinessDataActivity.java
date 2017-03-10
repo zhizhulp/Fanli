@@ -1,6 +1,8 @@
 package com.ascba.rebate.activities.me_page.business_center_child.child;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -28,6 +30,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
+import com.baidu.mapapi.utils.OpenClientUtil;
 import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -37,7 +40,10 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
@@ -147,7 +153,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     private String getHandleStr(String str) {
-        String[] split1 = str.split("\\.");
+        String[] split1 = str.split("-");
         String type = split1[0];
         String rate = split1[1];
         String user = split1[2];
@@ -363,6 +369,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
             case GO_CAMERA_PIC:
                 if(file != null && file.exists()){
                     Bitmap bitmap=handleBitmap(file);
+                    saveBitmapFile(bitmap,file);
                     imBusPic.setImageBitmap(bitmap);
                 }
                 break;
@@ -374,17 +381,20 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String picturePath = cursor.getString(columnIndex);
                 file=new File(picturePath);
                 cursor.close();
                 Bitmap bitmap = handleBitmap(file);
+                saveBitmapFile(bitmap,file);
                 imBusPic.setImageBitmap(bitmap);
                 break;
             case GO_CAMERA_LOGO:
                 if(fileLogo != null && fileLogo.exists()){
                     Bitmap bitmap2=handleBitmap(fileLogo);
+                    saveBitmapFile(bitmap2,fileLogo);
                     imBusLogo.setImageBitmap(bitmap2);
                 }
                 break;
@@ -396,12 +406,14 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 String[] filePathColumn2 = {MediaStore.Images.Media.DATA};
                 Cursor cursor2 = getContentResolver().query(selectedImage2,
                         filePathColumn2, null, null, null);
+                assert cursor2 != null;
                 cursor2.moveToFirst();
                 int columnIndex2 = cursor2.getColumnIndex(filePathColumn2[0]);
                 String picturePath2 = cursor2.getString(columnIndex2);
                 fileLogo=new File(picturePath2);
                 cursor2.close();
                 Bitmap bitmap2 = handleBitmap(fileLogo);
+                saveBitmapFile(bitmap2,fileLogo);
                 imBusLogo.setImageBitmap(bitmap2);
                 break;
             case REQUEST_BUSINESS_NAME:
@@ -474,9 +486,9 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         if(!"".equals(rate)){
             if(backRate!=null){
                 objRequest.add("seller_return_ratio",backRate);
-            }else {
+            }/*else {
                 dm.buildAlertDialog("请选择佣金比例");
-            }
+            }*/
         }
         objRequest.add("seller_localhost",tvLocDet.getText().toString());
         objRequest.add("seller_description",desc);
@@ -526,5 +538,15 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 
+    public void saveBitmapFile(Bitmap bitmap,File file){
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

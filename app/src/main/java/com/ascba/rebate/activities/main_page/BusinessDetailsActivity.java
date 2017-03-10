@@ -1,4 +1,6 @@
 package com.ascba.rebate.activities.main_page;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -20,16 +22,20 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMapUtils;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork2Activity;
+import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.baidu.mapapi.utils.OpenClientUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
+
+import java.io.File;
 
 public class BusinessDetailsActivity extends BaseNetWork2Activity implements BaseNetWork2Activity.Callback {
     // 起点位置
@@ -94,26 +100,29 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     }
 
     public void goBaiduNavi(View view) {
-        //startRoutePlanTransit();
         initLocation();
 
     }
 
     private void startGaodeSearch() {
+        if(isInstallByread("com.baidu.BaiduMap")){
+            Intent baidu = new Intent();
+            baidu.setData(Uri.parse("baidumap://map/geocoder?src=openApiDemo&address="+seller_address));
+            startActivity(baidu);
+        }else {
+            showDialog();
+        }
 
-        if(getAppIn()){
+        /*if(getAppIn()){
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
-            //将功能Scheme以URI的方式传 androidamap://viewGeo?sourceApplication=softname&addr=大恒科技大厦
-            //Uri uri = Uri.parse("androidamap://route?sourceApplication=qlqw&slat="+mLat1+"&slon="+mLon1+"&sname=当前位置&dlat="+lat+"&dlon="+lon+"&dname="+seller_address+"&dev=0&t=2");
-            //Uri uri = Uri.parse("androidamap://viewMap?sourceApplication=qlqw&poiname="+seller_name+"&lat="+lat+"&lon="+lon+"&dev=0");
             Uri uri = Uri.parse("androidamap://viewGeo?sourceApplication=softname&addr="+seller_address);
             intent.setData(uri);
             startActivity(intent);
         }else {
             AMapUtils.getLatestAMapApp(getApplicationContext());
-        }
+        }*/
 
     }
 
@@ -204,7 +213,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     }
 
     private String handleStr(String str) {
-        String[] split = str.split("\\.");
+        String[] split = str.split("-");
         String type = split[0];
         String rate = split[1];
         String user = split[2];
@@ -228,7 +237,6 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
             e.printStackTrace();
         }
         // 本手机没有安装高德地图app
-        // 本手机成功安装有高德地图app
         return packageInfo != null;
     }
     /**
@@ -308,4 +316,39 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         super.onDestroy();
         destroyLocation();
     }
+
+    /**
+     * 提示未安装百度地图app或app版本过低
+     */
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("您尚未安装百度地图app或app版本过低，点击确认安装？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                OpenClientUtil.getLatestBaiduMapApp(BusinessDetailsActivity.this);
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+
+    }
+    /**
+     * 判断是否安装目标应用
+     * @param packageName 目标应用安装后的包名
+     * @return 是否已安装目标应用
+     */
+    private boolean isInstallByread(String packageName) {
+        return new File("/data/data/" + packageName).exists();
+    }
+
 }

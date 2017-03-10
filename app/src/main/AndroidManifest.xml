@@ -55,6 +55,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="4E8pe2i48Sb3pQvSXRpWvvnDV0GwLFxu" />
+        <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="11d31c62f7f344c66c4f0fc80a15c4ce" />
 
