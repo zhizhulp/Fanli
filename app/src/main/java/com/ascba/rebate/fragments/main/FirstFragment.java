@@ -279,18 +279,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         }
         switch (resultCode) {
             case 2:
-                location_text.setText(data.getStringExtra("city") + data.getIntExtra("id", -1));
-                break;
-            case -1:
-                /*if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String uuid = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(getActivity(), "解析结果:" + uuid, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getActivity(), PayActivity.class);
-                    intent.putExtra("result", uuid);
-                    startActivity(intent);
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
-                }*/
+                location_text.setText(data.getStringExtra("city"));
                 break;
             default:
                 break;

@@ -13,6 +13,7 @@ import com.ascba.rebate.utils.Utils;
 import com.ascba.rebate.view.ChooseAddressWheel;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.listener.OnAddressChangeListener;
+import com.jaeger.library.StatusBarUtil;
 
 public class LocationActivity extends BaseNetWorkActivity implements OnAddressChangeListener,MoneyBar.CallBack {
     private ChooseAddressWheel chooseAddressWheel = null;
@@ -23,6 +24,7 @@ public class LocationActivity extends BaseNetWorkActivity implements OnAddressCh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         init();
     }
     //城市选择
