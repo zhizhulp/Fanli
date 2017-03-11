@@ -50,6 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/cart_tv_cost_total_count"
             android:layout_weight="230"
             android:gravity="center"
             android:background="@color/moneyBarColor"
