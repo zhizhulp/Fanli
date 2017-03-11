@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="25dp">
+
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/homepage_recylerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/homepage_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp">
+
+        <ImageView
+            android:id="@+id/homepage_img_user"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="12dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/search_icon" />
+
+        <ImageView
+            android:id="@+id/homepage_img_add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/search_icon" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/homepage_pager"
+    android:layout_width="match_parent"
+    android:layout_height="145dp"></com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager>
