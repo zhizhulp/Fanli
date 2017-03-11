@@ -8,25 +8,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
+
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.fragments.CartFragment;
+import com.ascba.rebate.fragments.HomePageFragment;
 import com.ascba.rebate.fragments.ShopMeFragment;
-import com.ascba.rebate.fragments.TypeFragment;
-import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.utils.ExampleUtil;
-import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.view.AppTabs;
-import com.ascba.rebate.R;
 import com.ascba.rebate.fragments.main.FirstFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.fragments.message.SecondFragment;
 import com.ascba.rebate.fragments.shop.ThirdFragment;
-import com.jaeger.library.StatusBarUtil;
+import com.ascba.rebate.handlers.DialogManager2;
+import com.ascba.rebate.utils.ExampleUtil;
+import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.view.AppTabs;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
@@ -81,7 +83,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
 
     private void initFragments() {
         Fragment mFirstFragment = new FirstFragment();
-        Fragment mTypeFragment = new TypeFragment();
+        Fragment mTypeFragment = new HomePageFragment();
         Fragment mShopFragment = new ThirdFragment();
         Fragment mCartFragment = new CartFragment();
         Fragment mSettingFragment = new ShopMeFragment();
@@ -241,7 +243,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                 if(type==0){
                     for (int i = 0; i < fgts.size(); i++) {
                         Fragment fragment = fgts.get(i);
-                        if(fragment instanceof TypeFragment){
+                        if(fragment instanceof HomePageFragment){
                             ft.show(fragment);
                         }else {
                             ft.hide(fragment);
