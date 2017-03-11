@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
@@ -35,13 +36,13 @@ import java.util.List;
  * 商城
  */
 
-public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class ThirdFragment extends Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data;
     private List<String> urls;//viewPager数据源
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -49,6 +50,8 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
     };
     private List<String> navUrls;//导航栏图片链接
     private List<String> navStr;//导航栏文字
+    private RelativeLayout searchHead;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
         initData();
-        adapter=new ShopTypeRVAdapter(data,getActivity());
+        adapter = new ShopTypeRVAdapter(data, getActivity());
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
         rv.setLayoutManager(manager);
         adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
@@ -80,23 +83,23 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.d(TAG, "position:" + position);
-                if(position==1){
-                    Intent intent=new Intent(getContext(), TypeClothActivity.class);
+                if (position == 1) {
+                    Intent intent = new Intent(getContext(), TypeClothActivity.class);
                     startActivity(intent);
-                }else if(position==2){
-                    Intent intent=new Intent(getContext(), TypeMarketActivity.class);
+                } else if (position == 2) {
+                    Intent intent = new Intent(getContext(), TypeMarketActivity.class);
                     startActivity(intent);
-                }else if(position==3){
-                    Intent intent=new Intent(getContext(), TypeMilkActivity.class);
+                } else if (position == 3) {
+                    Intent intent = new Intent(getContext(), TypeMilkActivity.class);
                     startActivity(intent);
-                }else if(position==16){
-                    Intent intent=new Intent(getContext(), GoodsDetailsActivity.class);
+                } else if (position == 16) {
+                    Intent intent = new Intent(getContext(), GoodsDetailsActivity.class);
                     startActivity(intent);
-                }else if(position==17){
-                    Intent intent=new Intent(getContext(), BeginnerGuideActivity.class);
+                } else if (position == 17) {
+                    Intent intent = new Intent(getContext(), BeginnerGuideActivity.class);
                     startActivity(intent);
-                }else if(position==18){
-                    Intent intent=new Intent(getContext(), GoodsListActivity.class);
+                } else if (position == 18) {
+                    Intent intent = new Intent(getContext(), GoodsListActivity.class);
                     startActivity(intent);
                 }
             }
@@ -104,62 +107,63 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
     }
 
     private void initData() {
-        data=new ArrayList<>();
+        data = new ArrayList<>();
         //viewPager
         intPagerData();
-        data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_pager,urls));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager, urls));
         //导航栏
         initNavData();
         for (int i = 0; i < navUrls.size(); i++) {
-            data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION,TypeWeight.TYPE_SPAN_SIZE_12,R.layout.shop_navigation,
-                    navUrls.get(i),navStr.get(i)));
+            data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
+                    navUrls.get(i), navStr.get(i)));
         }
         //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,0.5f));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
         //广告图(一张)
-        data.add(new ShopBaseItem(ShopItemType.TYPE_IMG,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_img,
+        data.add(new ShopBaseItem(ShopItemType.TYPE_IMG, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_img,
                 "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301174703033_640.jpg"));
         //头条
-        data.add(new ShopBaseItem(ShopItemType.TYPE_HOT,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_hot,
+        data.add(new ShopBaseItem(ShopItemType.TYPE_HOT, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_hot,
                 "新手返福利，专享188元大礼包"));
         //限量抢购
 
         //今日更新
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "今日更新","上新抢先看",0xffffeeee));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "一元购物","一元购电视",0xfffffdee));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "每日十件","不将就 要好用",0xffecf9fe));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER,TypeWeight.TYPE_SPAN_SIZE_15,R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "代金券购","购券赢好礼",0xfffff9ee));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+                "今日更新", "上新抢先看", 0xffffeeee));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+                "一元购物", "一元购电视", 0xfffffdee));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+                "每日十件", "不将就 要好用", 0xffecf9fe));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+                "代金券购", "购券赢好礼", 0xfffff9ee));
         //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,9.0f));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 9.0f));
         //标题栏
-        data.add(new ShopBaseItem(ShopItemType.TYPE_TITLE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_title,
+        data.add(new ShopBaseItem(ShopItemType.TYPE_TITLE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_title,
                 "http://image18-c.poco.cn/mypoco/myphoto/20170302/10/18505011120170302105506050_640.jpg",
-                "精品推荐",0xff000000));
+                "精品推荐", 0xff000000));
         //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_line,0.5f));
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
         //商品
         for (int i = 0; i < 8; i++) {
-            data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS,TypeWeight.TYPE_SPAN_SIZE_30,R.layout.shop_goods
-                    ,"http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg","拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡","￥ 498.00","已售4件"));
+            data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
+                    , "http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg", "拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡", "￥ 498.00", "已售4件"));
         }
     }
 
     private void intPagerData() {
-        urls=new ArrayList<>();
+        urls = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             urls.add("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161128072_640.jpg");
         }
     }
+
     private void initNavData() {
-        navUrls=new ArrayList<>();
-        navStr=new ArrayList<>();
+        navUrls = new ArrayList<>();
+        navStr = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             navUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170302/09/18505011120170302094130032_640.jpg");
-            navStr.add("导航"+i);
+            navStr.add("导航" + i);
         }
 
     }
@@ -171,7 +175,7 @@ public class ThirdFragment  extends Fragment implements SuperSwipeRefreshLayout.
             public void run() {
                 refreshLat.setRefreshing(false);
             }
-        },1000);
+        }, 1000);
     }
 
     @Override
