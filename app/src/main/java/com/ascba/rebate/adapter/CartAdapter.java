@@ -30,7 +30,6 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
     private CheckBox cbTotal;
     private Context context;
     private Callback callback;
-    private boolean clickSelf;
     private List<CartGoods> data;
     private Handler handler = new Handler() {
         @Override
@@ -67,7 +66,25 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         this.data = data;
         this.cbTotal=cb;
         //全局全选
-        cbTotal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cbTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(data.size()==0){
+                    return;
+                }
+                for (int i = 0; i < data.size(); i++) {
+                    CartGoods cg = data.get(i);
+                    cg.setCheck(cbTotal.isChecked());
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+        /*cbTotal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
@@ -92,7 +109,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                     }
                 });
             }
-        });
+        });*/
     }
 
     @Override
@@ -135,9 +152,13 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         }
                     }
                     if(isAll){
-                        if(item.isCheck() && !cbTotal.isChecked()){
+                        if(isChecked && !cbTotal.isChecked()){
                             cbTotal.setChecked(true);
-                        }else if(!item.isCheck() && cbTotal.isChecked()){
+                        }else if(!isChecked && cbTotal.isChecked()){
+                            cbTotal.setChecked(false);
+                        }
+                    }else {
+                        if(!isChecked && cbTotal.isChecked()){
                             cbTotal.setChecked(false);
                         }
                     }
@@ -185,7 +206,6 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSelf=true;
                 if (callback != null) {
                     callback.childCheck(buttonView, isChecked, item);
                     item.setCheck(isChecked);
