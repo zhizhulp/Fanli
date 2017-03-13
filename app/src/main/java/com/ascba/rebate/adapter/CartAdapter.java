@@ -84,32 +84,6 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                 });
             }
         });
-        /*cbTotal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    for (int i = 0; i < data.size(); i++) {
-                        CartGoods cg = data.get(i);
-                        cg.setCheck(true);
-                    }
-                }else {
-                    if(clickSelf){
-                        for (int i = 0; i < data.size(); i++) {
-                            CartGoods cg = data.get(i);
-                            cg.setCheck(false);
-                        }
-                    }
-                }
-
-                clickSelf=false;
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-            }
-        });*/
     }
 
     @Override
