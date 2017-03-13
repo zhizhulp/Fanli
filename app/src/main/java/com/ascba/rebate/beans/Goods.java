@@ -5,6 +5,7 @@ package com.ascba.rebate.beans;
  */
 
 public class Goods {
+    private int titleId;//父id
     private String imgUrl;//缩略图链接
     private String goodsTitle;//商品标题
     private String goodsStandard;//商品规格
@@ -15,13 +16,23 @@ public class Goods {
     public Goods() {
     }
 
-    public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String userQuy) {
+    public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String userQuy,int titleId) {
         this.imgUrl = imgUrl;
         this.goodsTitle = goodsTitle;
         this.goodsStandard = goodsStandard;
         this.goodsPrice = goodsPrice;
         this.userQuy = userQuy;
+        this.titleId=titleId;
     }
+
+    public int getTitle() {
+        return titleId;
+    }
+
+    public void setTitle(int title) {
+        this.titleId = title;
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }

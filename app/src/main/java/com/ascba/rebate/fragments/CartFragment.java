@@ -1,24 +1,36 @@
 package com.ascba.rebate.fragments;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.CartAdapter;
+import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +43,19 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
 
     private ShopABar sab;
     private SuperSwipeRefreshLayout refreshLayout;
+    private RecyclerView rv;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
         }
     };
-    private RecyclerView rv;
-    private List<CartGoods> data=new ArrayList<>();
+    private List<CartGoods> data = new ArrayList<>();
     private CartAdapter adapter;
+    public static final String LOG_TAG = "CartFragment";
+    private CheckBox cbTotal;
+    private TextView tvCost;
+    private TextView tvCostNum;
 
     public CartFragment() {
     }
@@ -66,44 +82,168 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         //初始化刷新控件
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLayout.setOnPullRefreshListener(this);
-
         //初始化recyclerView
         rv = ((RecyclerView) view.findViewById(R.id.cart_goods_list));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         initData();
-        adapter = new CartAdapter(R.layout.cart_list_item,R.layout.cart_list_title,data,getActivity());
+        cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
+        adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(),cbTotal);
+
         rv.setAdapter(adapter);
+        rv.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemChildClick(adapter, view, position);
+                int id = view.getId();
+                if(id==R.id.edit_standard){
+                    showDialog();
+                }
+            }
+        });
+
+        //总计
+        tvCost = ((TextView) view.findViewById(R.id.cart_tv_cost_total));
+        tvCostNum = ((TextView) view.findViewById(R.id.cart_tv_cost_total_count));
+    }
+
+    private void showDialog() {
+        final Dialog dialog=new Dialog(getActivity(),R.style.AlertDialog);
+        dialog.setContentView(R.layout.layout_by_shop);
+        //关闭对话框
+        dialog.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //规格列表
+        RecyclerView rvRule = (RecyclerView) dialog.findViewById(R.id.goods_profile_list);
+        List<GoodsAttr> gas=new ArrayList<>();
+        initAttrsData(gas);
+        ProfileAdapter adapter=new ProfileAdapter(R.layout.goods_attrs_layout,gas);
+        rvRule.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //添加尾部试图
+        View view1=getActivity().getLayoutInflater().inflate(R.layout.num_btn_layout, null);
+        adapter.addFooterView(view1,0);
+        rvRule.setAdapter(adapter);
+
+        //显示对话框
+        dialog.show();
+        Window window = dialog.getWindow();
+        if(window!=null){
+            window.setWindowAnimations(R.style.goods_profile_anim);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            Display d = window.getWindowManager().getDefaultDisplay();
+            wlp.width = d.getWidth();
+            wlp.gravity=Gravity.BOTTOM;
+            window.setAttributes(wlp);
+        }
+    }
+
+    private void initAttrsData(List<GoodsAttr> gas) {
+        for (int i = 0; i < 5; i++) {
+            if(i==0){
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    if(j==2){
+                        strs.add(ga.new Attrs("红色/白色",2));
+                    }else {
+                        strs.add(ga.new Attrs("红色/白色",0));
+                    }
+                }
+                ga.setTitle("颜色分类");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if(i==1){
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 15; j++) {
+                    if(j==10){
+                        strs.add(ga.new Attrs((40+j+0.5)+"",2));
+                    }else {
+                        strs.add(ga.new Attrs((40+j+0.5)+"",0));
+                    }
+
+                }
+                ga.setTitle("鞋码");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if(i==2){
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    strs.add(ga.new Attrs("方形"+i,0));
+                }
+                ga.setTitle("其他分类");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if(i==3){
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 15; j++) {
+                    if(j==10){
+                        strs.add(ga.new Attrs((40+j+0.5)+"",2));
+                    }else {
+                        strs.add(ga.new Attrs((40+j+0.5)+"",0));
+                    }
+
+                }
+                ga.setTitle("鞋码");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if(i==4){
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    strs.add(ga.new Attrs("方形"+i,0));
+                }
+                ga.setTitle("其他分类");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+        }
     }
 
     private void initData() {
         for (int i = 0; i < 4; i++) {
-            if(i==0){
-                data.add(new CartGoods(true,"RCC男装"+i));
+            if (i == 0) {
+                data.add(new CartGoods(true, "RCC男装" + i, i, false));
                 for (int j = 0; j < 3; j++) {
-                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
-                    data.add(new CartGoods(goods));
+                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", "2", i);
+                    data.add(new CartGoods(goods, i, false));
                 }
-            }else if(i==1){
-                data.add(new CartGoods(true,"RCC男装"+i));
+            } else if (i == 1) {
+                data.add(new CartGoods(true, "RCC男装" + i, i, false));
                 for (int j = 0; j < 4; j++) {
-                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
-                    data.add(new CartGoods(goods));
+                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", "2", i);
+                    data.add(new CartGoods(goods, i, false));
                 }
-            }else if(i==2){
-                data.add(new CartGoods(true,"RCC男装"+i));
+            } else if (i == 2) {
+                data.add(new CartGoods(true, "RCC男装" + i, i, false));
                 for (int j = 0; j < 1; j++) {
-                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
-                    data.add(new CartGoods(goods));
+                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", "2", i);
+                    data.add(new CartGoods(goods, i, false));
                 }
-            }else {
-                data.add(new CartGoods(true,"RCC男装"+i));
+            } else {
+                data.add(new CartGoods(true, "RCC男装" + i, i, false));
                 for (int j = 0; j < 2; j++) {
-                    Goods goods=new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1","颜色:贪色;尺码:S","￥ 368.00","2");
-                    data.add(new CartGoods(goods));
+                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
+                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", "2", i);
+                    data.add(new CartGoods(goods, i, false));
                 }
             }
         }
@@ -116,7 +256,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
             public void run() {
                 refreshLayout.setRefreshing(false);
             }
-        },1000);
+        }, 1000);
     }
 
     @Override
