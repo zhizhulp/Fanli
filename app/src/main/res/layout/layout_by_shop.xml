@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/white">
+
+            <Button
+                android:id="@+id/btn_buy_input_message"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/by_good_button"
+                android:text="完成"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/goods_profile_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/btn_buy_input_message"
+                android:layout_marginTop="110dp"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_shop_photo"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:padding="1dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/logo" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/iv_shop_photo"
+            android:paddingLeft="15.5dp">
+
+            <ImageView
+                android:scaleType="center"
+                android:id="@+id/iv_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/close" />
+
+            <TextView
+                android:id="@+id/tv_shop_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="￥ 455"
+                android:textColor="#f00"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_shop_price"
+                android:layout_marginTop="12dp"
+                android:maxLines="1"
+                android:text="库存5双 "
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_marginTop="11dp"
+                android:layout_below="@id/tv_shop_name"
+                android:text="选择 尺码 颜色分类"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

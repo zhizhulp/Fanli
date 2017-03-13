@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
+                android:id="@+id/edit_standard"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:gravity="center_vertical"

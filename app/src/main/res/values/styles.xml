@@ -148,6 +148,10 @@
         <item name="android:centerDark">@color/white</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+    <style name="fullScreenDialog" parent="@style/AlertDialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
     <style name="AutoCompleteStyle" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:popupBackground">@drawable/search_list_bg</item>
         <item name="android:dropDownVerticalOffset">0dip</item>
@@ -177,5 +181,12 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="goods_profile_anim" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
+        <!-- 进入时的动画 -->
+        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
+        <!-- 退出时的动画 -->
     </style>
 </resources>

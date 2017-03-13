@@ -158,6 +158,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         helper.setText(R.id.cart_goods_title, goods.getGoodsTitle());
         helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
         helper.setText(R.id.cart_price, goods.getGoodsPrice());
+        helper.addOnClickListener(R.id.edit_standard);
         NumberButton nb = helper.getView(R.id.number_button);
         nb.setBuyMax(5)
                 .setInventory(6)
