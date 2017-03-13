@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.view.WindowManager;
 
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.utils.IDsUtils;
@@ -112,5 +113,12 @@ public class MyApplication extends MultiDexApplication {
             }
         }
         //System.exit(0);
+    }
+
+    private WindowManager.LayoutParams wmParams=new WindowManager.LayoutParams();
+
+
+    public WindowManager.LayoutParams getMywmParams(){
+        return wmParams;
     }
 }

@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -20,6 +18,9 @@ import com.ascba.rebate.adapter.GoodsListAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.warmtel.expandtab.ExpandPopTabView;
+import com.warmtel.expandtab.KeyValueBean;
+import com.warmtel.expandtab.PopOneListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 public class GoodsListActivity extends BaseNetWork4Activity {
 
     private ShopABar shopABar;
-    private Spinner spinner;
+    private ExpandPopTabView expandPopTabView;
     private RadioGroup radioGroup;
     private RadioButton button1, button2;
     private RecyclerView recyclerView;
@@ -44,6 +45,7 @@ public class GoodsListActivity extends BaseNetWork4Activity {
     private SuperSwipeRefreshLayout superSwipeRefreshLayout;
     private Handler handler = new Handler();
     Context context;
+    private List<KeyValueBean> keyValueBeen = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,26 +147,26 @@ public class GoodsListActivity extends BaseNetWork4Activity {
     }
 
     private void InitSpinner() {
-        spinner = (Spinner) findViewById(R.id.activity_goods_list_spinner);
-        // 建立数据源
-        final String[] mItems = new String[]{"默认", "价格", "好评"};
-        // 建立Adapter并且绑定数据源
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mItems);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //绑定 Adapter到控件
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int pos, long id) {
+        expandPopTabView = (ExpandPopTabView) findViewById(R.id.activity_goods_list_spinner);
 
-                Toast.makeText(context, mItems[pos], Toast.LENGTH_SHORT).show();
-            }
+            keyValueBeen.add(new KeyValueBean("A","默认"));
+            keyValueBeen.add(new KeyValueBean("B","上新时间"));
+            keyValueBeen.add(new KeyValueBean("C","价格从低到高"));
+            keyValueBeen.add(new KeyValueBean("D","价格从高到低"));
 
+        addItem(expandPopTabView, keyValueBeen, "", "默认");
+    }
+
+    public void addItem(ExpandPopTabView expandTabView, List<KeyValueBean> lists, String defaultSelect, String defaultShowText) {
+        PopOneListView popOneListView = new PopOneListView(this);
+        popOneListView.setDefaultSelectByValue(defaultSelect);
+        popOneListView.setCallBackAndData(lists, expandTabView, new PopOneListView.OnSelectListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void getValue(String key, String value) {
+                Log.e("tag", "key :" + key + " ,value :" + value);
             }
         });
+        expandTabView.addItemToExpandTab(defaultShowText, popOneListView);
     }
 
     private void InitRadio() {

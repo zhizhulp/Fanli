@@ -1,9 +1,14 @@
 package com.ascba.rebate.fragments;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +24,7 @@ import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.view.FloatButton;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -47,6 +53,8 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
 
     private int mDistanceY = 0;
 
+    private FloatButton floatButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_homepage, container, false);
@@ -57,6 +65,7 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
+
     }
 
     private void initView(View view) {
@@ -306,5 +315,68 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
 
     }
+
+    /**
+     * 初始化悬浮按钮
+     */
+    private void initFloatButton() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            askForPermission();
+        } else {
+            floatButton = new FloatButton(getActivity().getApplicationContext());
+            floatButton.showView();
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initFloatButton();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        floatButton.removeView();
+    }
+
+    /**
+     * 请求用户给予悬浮窗的权限
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    public void askForPermission() {
+        if (!Settings.canDrawOverlays(getActivity())) {
+            Toast.makeText(getActivity(), "当前无权限，请授权！", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getActivity().getPackageName()));
+            startActivityForResult(intent, 1);
+        } else {
+            floatButton = new FloatButton(getActivity().getApplicationContext());
+            floatButton.showView();
+        }
+    }
+
+    /**
+     * 用户返回
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (!Settings.canDrawOverlays(getActivity())) {
+                Toast.makeText(getActivity(), "权限授予失败，无法开启悬浮窗", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "权限授予成功！", Toast.LENGTH_SHORT).show();
+                //启动悬浮窗
+                floatButton = new FloatButton(getActivity().getApplicationContext());
+                floatButton.showView();
+            }
+
+        }
+    }
+
 
 }
