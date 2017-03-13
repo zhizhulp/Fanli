@@ -28,11 +28,13 @@
                 android:textSize="@dimen/sp_16" />
 
             <android.support.v7.widget.RecyclerView
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
                 android:id="@+id/goods_profile_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/btn_buy_input_message"
-                android:layout_marginTop="110dp"/>
+                android:layout_marginTop="100dp"/>
 
         </RelativeLayout>
 

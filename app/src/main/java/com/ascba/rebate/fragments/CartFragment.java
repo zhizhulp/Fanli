@@ -88,6 +88,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         initData();
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
         adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(),cbTotal);
+
         rv.setAdapter(adapter);
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -104,6 +105,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
                 }
             }
         });
+
         //总计
         tvCost = ((TextView) view.findViewById(R.id.cart_tv_cost_total));
         tvCostNum = ((TextView) view.findViewById(R.id.cart_tv_cost_total_count));
@@ -125,6 +127,9 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         initAttrsData(gas);
         ProfileAdapter adapter=new ProfileAdapter(R.layout.goods_attrs_layout,gas);
         rvRule.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //添加尾部试图
+        View view1=getActivity().getLayoutInflater().inflate(R.layout.num_btn_layout, null);
+        adapter.addFooterView(view1,0);
         rvRule.setAdapter(adapter);
 
         //显示对话框
@@ -142,29 +147,69 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     }
 
     private void initAttrsData(List<GoodsAttr> gas) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             if(i==0){
-                List<String> strs=new ArrayList<>();
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add("白色/红色");
+                    if(j==2){
+                        strs.add(ga.new Attrs("红色/白色",2));
+                    }else {
+                        strs.add(ga.new Attrs("红色/白色",0));
+                    }
                 }
-                GoodsAttr ga=new GoodsAttr("颜色分类",strs);
+                ga.setTitle("颜色分类");
+                ga.setStrs(strs);
                 gas.add(ga);
             }
             if(i==1){
-                List<String> strs=new ArrayList<>();
-                for (int j = 0; j < 20; j++) {
-                    strs.add(40+j+"");
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 15; j++) {
+                    if(j==10){
+                        strs.add(ga.new Attrs((40+j+0.5)+"",2));
+                    }else {
+                        strs.add(ga.new Attrs((40+j+0.5)+"",0));
+                    }
+
                 }
-                GoodsAttr ga=new GoodsAttr("鞋码",strs);
+                ga.setTitle("鞋码");
+                ga.setStrs(strs);
                 gas.add(ga);
             }
             if(i==2){
-                List<String> strs=new ArrayList<>();
-                for (int j = 0; j < 4; j++) {
-                    strs.add("方形"+i);
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    strs.add(ga.new Attrs("方形"+i,0));
                 }
-                GoodsAttr ga=new GoodsAttr("其他",strs);
+                ga.setTitle("其他分类");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if(i==3){
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 15; j++) {
+                    if(j==10){
+                        strs.add(ga.new Attrs((40+j+0.5)+"",2));
+                    }else {
+                        strs.add(ga.new Attrs((40+j+0.5)+"",0));
+                    }
+
+                }
+                ga.setTitle("鞋码");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if(i==4){
+                List<GoodsAttr.Attrs> strs=new ArrayList<>();
+                GoodsAttr ga=new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    strs.add(ga.new Attrs("方形"+i,0));
+                }
+                ga.setTitle("其他分类");
+                ga.setStrs(strs);
                 gas.add(ga);
             }
         }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginLeft="17dp"
+    android:layout_marginRight="17dp"
+    android:layout_width="match_parent"
+    android:minHeight="58dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_centerVertical="true"
+        android:text="购买数量"
+        android:textColor="@color/shop_normal_text_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <com.ascba.rebate.view.cart_btn.NumberButton
+        android:id="@+id/num_btn"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <!--<LinearLayout
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:scaleType="center"
+            android:src="@mipmap/cart_btn_jian"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:text="1"
+            android:inputType="number"
+            android:background="@null"
+            android:maxLines="1"
+            android:layout_width="35dp"
+            android:layout_height="30dp" />
+    </LinearLayout>-->
+</RelativeLayout>
