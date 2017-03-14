@@ -218,7 +218,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         String rate = split[1];
         String user = split[2];
         String bus = split[3];
-        return "消费增值赠返"+user+"%";
+        return "消费赠返"+user+"%";
     }
 
     public void back(View view) {

@@ -277,8 +277,7 @@
                     android:id="@+id/tv_busi_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:text="返佣比例 100%" />
+                    android:layout_marginLeft="14dp" />
 
             </LinearLayout>
             <View

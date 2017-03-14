@@ -10,6 +10,7 @@ public class WhiteTicket {
     private int status;
     private String time;
     private String leftTime;
+    private int test;
 
 
     public WhiteTicket(String money, int id) {
@@ -67,5 +68,13 @@ public class WhiteTicket {
 
     public void setMoney(String money) {
         this.money = money;
+    }
+
+    public int getTest() {
+        return test;
+    }
+
+    public void setTest(int test) {
+        this.test = test;
     }
 }

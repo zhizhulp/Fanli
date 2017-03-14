@@ -219,6 +219,9 @@ public class CityList extends BaseNetWorkActivity {
         }
     }*/
 
+    /**
+     * @return
+     */
     private ArrayList<CityModel> getCityNames() {
         ArrayList<CityModel> names = new ArrayList<CityModel>();
         Cursor cursor = database.rawQuery(
@@ -395,7 +398,13 @@ public class CityList extends BaseNetWorkActivity {
         }
 
     }
-
+    /**
+     * 初始化并开始定位
+     *
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
     private void initLocation(){
         //初始化client
         locationClient = new AMapLocationClient(this.getApplicationContext());
@@ -412,7 +421,12 @@ public class CityList extends BaseNetWorkActivity {
 
     }
 
-
+    /**
+     * 默认的定位参数
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
     private AMapLocationClientOption getDefaultOption(){
         AMapLocationClientOption mOption = new AMapLocationClientOption();
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
@@ -428,6 +442,9 @@ public class CityList extends BaseNetWorkActivity {
         return mOption;
     }
 
+    /**
+     * 定位监听
+     */
     AMapLocationListener locationListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation loc) {
@@ -448,11 +465,23 @@ public class CityList extends BaseNetWorkActivity {
         }
     };
 
+    /**
+     * 停止定位
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
     private void stopLocation(){
         // 停止定位
         locationClient.stopLocation();
     }
-
+    /**
+     * 销毁定位
+     *
+     * @since 2.8.0
+     * @author hongming.wang
+     *
+     */
     private void destroyLocation(){
         if (null != locationClient) {
             /**
