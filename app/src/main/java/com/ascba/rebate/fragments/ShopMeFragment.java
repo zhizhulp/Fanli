@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseFragment;
@@ -29,7 +31,7 @@ import java.util.List;
 public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
     private RecyclerView pc_RecyclerView;
     private SuperSwipeRefreshLayout refreshLat;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -54,7 +56,7 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
 
     private void InitRecylerView(View view) {
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
-        PCMultipleItemAdapter pcMultipleItemAdapter = new PCMultipleItemAdapter(getData(),getActivity());
+        PCMultipleItemAdapter pcMultipleItemAdapter = new PCMultipleItemAdapter(getData(), getActivity());
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
         pc_RecyclerView.setLayoutManager(manager);
         pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
@@ -70,6 +72,13 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Toast.makeText(getActivity(), "position:" + Integer.toString(position), Toast.LENGTH_SHORT).show();
+                switch (position) {
+                    case 17:
+                        //收货地址管理
+                        Intent intent = new Intent(getActivity(), ReceiveAddressActivity.class);
+                        startActivity(intent);
+                        break;
+                }
             }
 
         });
@@ -133,7 +142,7 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
 
         //设置
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_shezhi,"设置",R.mipmap.pc_qianjin, ""));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_shezhi, "设置", R.mipmap.pc_qianjin, ""));
         //分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
         //粗分割线
@@ -149,7 +158,7 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
             public void run() {
                 refreshLat.setRefreshing(false);
             }
-        },1000);
+        }, 1000);
     }
 
     @Override

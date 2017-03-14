@@ -28,7 +28,7 @@
             android:layout_height="20dp"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/search_icon" />
+            android:src="@mipmap/icon_scan_black" />
 
         <ImageView
             android:id="@+id/homepage_img_add"
@@ -37,7 +37,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/search_icon" />
+            android:src="@mipmap/icon_add_black" />
     </RelativeLayout>
 
 </RelativeLayout>
