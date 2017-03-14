@@ -15,15 +15,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lighter_gray"
+        android:background="@color/white"
         android:orientation="horizontal">
 
-        <Spinner
+        <com.warmtel.expandtab.ExpandPopTabView
             android:id="@+id/activity_goods_list_spinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"></Spinner>
+            android:gravity="center"/>
 
         <View
             android:layout_width="0.5dp"

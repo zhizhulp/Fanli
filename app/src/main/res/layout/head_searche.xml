@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/head_search_rr"
     android:layout_width="match_parent"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:background="@mipmap/yinying"
     android:layout_height="48dp">
 
     <LinearLayout

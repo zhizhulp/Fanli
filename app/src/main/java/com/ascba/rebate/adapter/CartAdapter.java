@@ -29,7 +29,6 @@ import java.util.List;
 public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHolder> {
     private CheckBox cbTotal;
     private Context context;
-    private Callback callback;
     private List<CartGoods> data;
     private Handler handler = new Handler() {
         @Override
@@ -37,21 +36,6 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
             super.handleMessage(msg);
         }
     };
-
-    public Callback getCallback() {
-        return callback;
-    }
-
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
-
-    public interface Callback {
-        void titleCheck(CompoundButton buttonView, boolean isChecked, CartGoods item);
-
-        void childCheck(CompoundButton buttonView, boolean isChecked, CartGoods item);
-    }
-
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -89,65 +73,60 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
     @Override
     protected void convertHead(BaseViewHolder helper, final CartGoods item) {
         helper.setText(R.id.cart_cb_title, item.header);
-        CheckBox cb = helper.getView(R.id.cart_cb_title);
-        cb.setOnCheckedChangeListener(null);
+        final CheckBox cb = helper.getView(R.id.cart_cb_title);
         cb.setChecked(item.isCheck());
-        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (callback != null) {
-                    callback.titleCheck(buttonView, isChecked, item);
-                    item.setCheck(isChecked);
-                    //监听子view
-                    for (int i = 0; i < data.size(); i++) {
-                        CartGoods cg = data.get(i);
-                        if (cg.getId() == item.getId() && !cg.isHeader) {
-                            cg.setCheck(isChecked);
-                        }
-
-                    }
-                    List<CartGoods> gl=new ArrayList<>();
-                    //监听总的checkBox
-                    for (int i = 0; i < data.size(); i++) {
-                        if(data.get(i).isHeader){
-                            gl.add(data.get(i));
-                        }
-                    }
-                    boolean isAll=false;
-                    for (int i = 0; i <gl.size() ; i++) {
-                        if(i==gl.size()-1){
-                            break;
-                        }
-                        if(gl.get(i).isCheck()==gl.get(i+1).isCheck()){
-                            isAll=true;
-                        }else {
-                            isAll=false;
-                            break;
-                        }
-                    }
-                    if(isAll){
-                        if(isChecked && !cbTotal.isChecked()){
-                            cbTotal.setChecked(true);
-                        }else if(!isChecked && cbTotal.isChecked()){
-                            cbTotal.setChecked(false);
-                        }
-                    }else {
-                        if(!isChecked && cbTotal.isChecked()){
-                            cbTotal.setChecked(false);
-                        }
+            public void onClick(View v) {
+                item.setCheck(cb.isChecked());
+                //监听子view
+                for (int i = 0; i < data.size(); i++) {
+                    CartGoods cg = data.get(i);
+                    if (cg.getId() == item.getId() && !cg.isHeader) {
+                        cg.setCheck(cb.isChecked());
                     }
 
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyDataSetChanged();
-                        }
-                    });
                 }
+                List<CartGoods> gl=new ArrayList<>();
+                //监听总的checkBox
+                for (int i = 0; i < data.size(); i++) {
+                    if(data.get(i).isHeader){
+                        gl.add(data.get(i));
+                    }
+                }
+                boolean isAll=false;
+                for (int i = 0; i <gl.size() ; i++) {
+                    if(i==gl.size()-1){
+                        break;
+                    }
+                    if(gl.get(i).isCheck()==gl.get(i+1).isCheck()){
+                        isAll=true;
+                    }else {
+                        isAll=false;
+                        break;
+                    }
+                }
+                if(isAll){
+                    if(cb.isChecked() && !cbTotal.isChecked()){
+                        cbTotal.setChecked(true);
+                    }else if(!cb.isChecked() && cbTotal.isChecked()){
+                        cbTotal.setChecked(false);
+                    }
+                }else {
+                    if(!cb.isChecked() && cbTotal.isChecked()){
+                        cbTotal.setChecked(false);
+                    }
+                }
+
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
             }
         });
-
     }
 
     @Override
@@ -176,14 +155,12 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                 });
 
         final CheckBox cb = helper.getView(R.id.cb_cart_child);
-        cb.setOnCheckedChangeListener(null);
         cb.setChecked(item.isCheck());
-        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (callback != null) {
-                    callback.childCheck(buttonView, isChecked, item);
-                    item.setCheck(isChecked);
+            public void onClick(View v) {
+
+                    item.setCheck(cb.isChecked());
                     List<CartGoods> gL = new ArrayList<>();
                     CartGoods head = null;
                     for (int i = 0; i < data.size(); i++) {
@@ -212,9 +189,9 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         LogUtils.PrintLog(CartFragment.LOG_TAG, "IS aLL?  " + isAll);
                         if (isAll) {
                             if (head != null) {
-                                if (isChecked && !head.isCheck()) {
+                                if (cb.isChecked() && !head.isCheck()) {
                                     head.setCheck(true);
-                                } else if (!isChecked && head.isCheck()) {
+                                } else if (!cb.isChecked() && head.isCheck()) {
                                     head.setCheck(false);
                                 }
 
@@ -247,9 +224,9 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         }
                     }
                     if(isAll){
-                        if(isChecked && !cbTotal.isChecked()){
+                        if(cb.isChecked() && !cbTotal.isChecked()){
                             cbTotal.setChecked(true);
-                        }else if(!isChecked && cbTotal.isChecked()){
+                        }else if(!cb.isChecked() && cbTotal.isChecked()){
                             cbTotal.setChecked(false);
                         }
                     }else {
@@ -264,7 +241,6 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         }
                     });
                 }
-            }
         });
     }
 

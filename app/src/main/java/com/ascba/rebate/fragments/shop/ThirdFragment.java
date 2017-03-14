@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments.shop;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -50,7 +51,8 @@ public class ThirdFragment extends Fragment implements SuperSwipeRefreshLayout.O
     };
     private List<String> navUrls;//导航栏图片链接
     private List<String> navStr;//导航栏文字
-    private RelativeLayout searchHead;
+    private RelativeLayout searchHead;//搜索头
+    private int mDistanceY=0;//下拉刷新滑动距离
 
     @Nullable
     @Override
@@ -65,6 +67,7 @@ public class ThirdFragment extends Fragment implements SuperSwipeRefreshLayout.O
     }
 
     private void initViews(View view) {
+        searchHead= (RelativeLayout) view.findViewById(R.id.head_search_rr);
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
@@ -101,6 +104,29 @@ public class ThirdFragment extends Fragment implements SuperSwipeRefreshLayout.O
                 } else if (position == 18) {
                     Intent intent = new Intent(getContext(), GoodsListActivity.class);
                     startActivity(intent);
+                }
+            }
+        });
+
+        /**
+         * 滑动标题栏渐变
+         */
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //滑动的距离
+                mDistanceY += dy;
+                //toolbar的高度
+                int toolbarHeight = searchHead.getBottom();
+
+                //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
+                if (mDistanceY <= toolbarHeight) {
+                    float scale = (float) mDistanceY / toolbarHeight;
+                    float alpha = scale * 255;
+                    searchHead.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+                } else {
+                    //将标题栏的颜色设置为完全不透明状态
+                    searchHead.setBackgroundResource(R.color.white);
                 }
             }
         });
@@ -180,7 +206,12 @@ public class ThirdFragment extends Fragment implements SuperSwipeRefreshLayout.O
 
     @Override
     public void onPullDistance(int distance) {
-
+        //隐藏搜索栏
+        if (distance > 0) {
+            searchHead.setVisibility(View.GONE);
+        } else {
+            searchHead.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
