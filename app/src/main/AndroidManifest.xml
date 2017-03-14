@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.ascba.rebate">
 
     <permission
@@ -47,6 +46,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".application.MyApplication"
@@ -54,8 +54,9 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup">
+        android:theme="@style/AppTheme">
+
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="4E8pe2i48Sb3pQvSXRpWvvnDV0GwLFxu" />
@@ -76,7 +77,7 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
@@ -227,7 +228,9 @@
         <activity
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+
+        </activity>
         <activity
             android:name=".activities.main_page.CityList"
             android:screenOrientation="portrait"
@@ -259,6 +262,10 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.me_page.bank_card_child.AddCardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.GoodsDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <!-- Rich push 核心功能 since 2.0.6 -->
@@ -486,7 +493,7 @@
         <activity
             android:name=".activities.me_page.business_center_child.child.GaoDeSearchUpdate"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -504,6 +511,37 @@
         <activity android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
+        <activity
+            android:name=".activities.supermaket.TypeMarketActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.milk.TypeMilkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.IntegralValueActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTranslucentTheme" />
+
+        <activity
+            android:name=".activities.BeginnerGuideActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+
+        <activity
+            android:name=".activities.AllEvaluationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.GoodsListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.ReceiveAddressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+    </application>
         <!-- 文件共享 -->
         <provider
             android:name="android.support.v4.content.FileProvider"

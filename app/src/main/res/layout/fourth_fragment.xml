@@ -201,7 +201,6 @@
 
                 <LinearLayout
                     android:id="@+id/me_go_cash_account"
-
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
@@ -457,7 +456,6 @@
 
                 <LinearLayout
                     android:id="@+id/me_go_vip"
-
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
