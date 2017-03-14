@@ -138,7 +138,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
                 searchLatlonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
 //                if (!isItemClickAction && !isInputKeySearch) {
                     geoAddress(searchLatlonPoint);
-                    startJumpAnimation();
+                    //startJumpAnimation();
 //                }
 
                 isInputKeySearch = false;
