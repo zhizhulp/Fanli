@@ -541,7 +541,6 @@
             android:name=".activities.ReceiveAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-    </application>
         <!-- 文件共享 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -552,6 +551,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
-    </application>
 
+    </application>
 </manifest>
