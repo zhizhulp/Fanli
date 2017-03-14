@@ -4,6 +4,7 @@
     android:layout_height="95dp"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
+    android:descendantFocusability="blocksDescendants"
     android:minHeight="95dp"
     android:orientation="horizontal">
 
@@ -12,18 +13,18 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:scaleType="centerCrop"
             android:id="@+id/im_front"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
             android:src="@mipmap/white_ticket_bg_front" />
 
         <TextView
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="1"
+            android:gravity="center"
             android:lineSpacingExtra="5dp"
             android:text="兑现券"
             android:textColor="@color/white" />
@@ -48,11 +49,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/white_ticket_bg_exchange" />
+
             <TextView
-                android:layout_marginTop="10dp"
                 android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="90000"
                 android:textColor="#ff6f6f"
                 android:textSize="17sp" />
@@ -67,28 +69,28 @@
             android:orientation="vertical">
 
             <TextView
-                android:maxLines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:text="本券为一次性使用券"
                 android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_create_time"
-                android:maxLines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:maxLines="1"
                 android:text="获得日期："
                 android:textSize="11sp" />
 
             <TextView
-                android:ellipsize="end"
                 android:id="@+id/tv_left_time"
-                android:maxLines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="距使用时间："
                 android:textSize="11sp" />
         </LinearLayout>
@@ -98,18 +100,20 @@
         android:id="@+id/click_to_exchange"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
-            android:scaleType="centerCrop"
             android:id="@+id/im_tail"
-            android:src="@mipmap/white_ticket_bg_tail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/white_ticket_bg_tail" />
+
         <TextView
-            android:background="@drawable/white_ticket_9_over"
             android:id="@+id/tv_cha_at_once"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@drawable/white_ticket_9_over"
             android:text="立即兑现"
             android:textColor="@color/white2cash_color"
             android:textSize="12sp" />

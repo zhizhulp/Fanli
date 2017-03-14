@@ -10,6 +10,7 @@ import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.jaeger.library.StatusBarUtil;
@@ -30,6 +31,7 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
     private WhiteTicketAdapter wta;
     private View noView;
     public static final int REQUEST_EXCHANGE=1;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
     }
 
     private void initViews() {
+        dm=new DialogManager(this);
         noView = findViewById(R.id.no_ticket_view);
         listView = ((ListView) findViewById(R.id.cash_ticket_list));
         initData();
@@ -54,9 +57,13 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
         wta.setCallback(new WhiteTicketAdapter.Callback() {
             @Override
             public void onExchangeClick(int position) {
-
+                WhiteTicket wt = mList.get(position);
+                if(wt.getTest()==1){
+                    dm.buildAlertDialog("推荐用户为体验账户升级，兑现券暂未激活！");
+                    return;
+                }
                 Intent intent = new Intent(WhiteScoreActivity.this, WSExchangeActivity.class);
-                intent.putExtra("cashing_id", mList.get(position).getId());
+                intent.putExtra("cashing_id", wt.getId());
                 startActivityForResult(intent,REQUEST_EXCHANGE);
             }
         });
@@ -94,9 +101,11 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
                 long create_time = cashObj.optLong("create_time");//获取时间(s)
                 long thaw_time = cashObj.optLong("thaw_time");//解冻剩余时间（s）
                 int is_thaw = cashObj.optInt("is_thaw");//是否解冻
+                int is_test = cashObj.optInt("is_test");//是否体验
                 WhiteTicket wt = new WhiteTicket(cashing_money, id, is_thaw,
                         formatTime(new SimpleDateFormat("yyyy.MM.dd"), create_time),
                         formatTime(thaw_time));
+                wt.setTest(is_test);
                 mList.add(wt);
             }
             wta.notifyDataSetChanged();

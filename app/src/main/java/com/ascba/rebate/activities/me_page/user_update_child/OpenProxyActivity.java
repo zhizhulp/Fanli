@@ -279,10 +279,7 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
         }
         switch (requestCode){
             case REQUEST_CITY:
-                /*String location = data.getStringExtra("location");
-                if(location!=null && !"".equals(location)){
-                    //tvCity.setText(location);
-                }*/
+
                 break;
             case REQUEST_MESSAGE:
                 String msg=data.getStringExtra("message");
