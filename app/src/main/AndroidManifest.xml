@@ -543,6 +543,10 @@
             android:name=".activities.ReceiveAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.AddAdressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>
