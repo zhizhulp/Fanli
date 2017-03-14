@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,11 +64,15 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
             }
         });
 
+        /**
+         * 新增收货地址
+         */
         addBtn = (LinearLayout) findViewById(R.id.activity_receive_address_btn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, AddAdressActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -127,9 +132,9 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
 
             CheckBox checkBox = helper.getView(R.id.item_receive_address_check);
             checkBox.setChecked(item.isSelect());
-            if(item.isSelect()){
+            if (item.isSelect()) {
                 checkBox.setEnabled(false);
-            }else {
+            } else {
                 checkBox.setEnabled(true);
             }
             helper.addOnClickListener(R.id.item_receive_address_check);

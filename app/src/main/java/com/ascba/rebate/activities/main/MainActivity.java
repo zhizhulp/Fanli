@@ -66,6 +66,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CALL_PHONE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_CONTACTS
     };
 
     public DialogManager2 getDm() {
