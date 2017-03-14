@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -69,7 +70,6 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
     private ImageView imWorkIcon;
     private ImageView imAuthIcon;
     private String[] permissions=new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private int type;
@@ -313,7 +313,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
     //申请权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
             //用户同意使用read
             showPop(type);
@@ -331,8 +331,15 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                 public void clickCamera() {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileWork=getDiskCacheDir();//创建文件
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileWork));
-                    startActivityForResult(intent, GO_CAMERA_WORK);
+                    if(Build.VERSION.SDK_INT>23){//处理7.0的情况
+                        Uri uri = FileProvider.getUriForFile(BusinessCenterActivity.this, "com.ascba.rebate.provider", fileWork);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent, GO_CAMERA_WORK);
+                    }else {
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileWork));
+                        startActivityForResult(intent, GO_CAMERA_WORK);
+                    }
+
                 }
 
                 @Override
@@ -348,8 +355,16 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
                 public void clickCamera() {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileAuth=getDiskCacheDir();//创建文件
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileAuth));
-                    startActivityForResult(intent, GO_CAMERA_AUTH);
+                    if(Build.VERSION.SDK_INT>23){//处理7.0的情况
+                        Uri uri = FileProvider.getUriForFile(BusinessCenterActivity.this, "com.ascba.rebate.provider", fileAuth);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent, GO_CAMERA_AUTH);
+                    }else {
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileAuth));
+                        startActivityForResult(intent, GO_CAMERA_AUTH);
+                    }
+
+
                 }
                 @Override
                 public void clickAlbum() {

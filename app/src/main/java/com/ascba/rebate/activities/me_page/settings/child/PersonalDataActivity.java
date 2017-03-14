@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -67,7 +69,6 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     private String picturePath;
     private File file;
     private String[] permissions=new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private Bitmap bitmap;
@@ -180,7 +181,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     //申请权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
             //用户同意使用read
             showPop();
@@ -233,8 +234,14 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 popupWindow.dismiss();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 getDiskCacheDir();//创建文件
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(intent, GO_CAMERA);
+                if(Build.VERSION.SDK_INT>23){//处理7.0的情况
+                    Uri uri = FileProvider.getUriForFile(this, "com.ascba.rebate.provider", file);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                    startActivityForResult(intent, GO_CAMERA);
+                }else {
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                    startActivityForResult(intent, GO_CAMERA);
+                }
                 break;
             case R.id.head_icon_select_album:
                 popupWindow.dismiss();
@@ -281,6 +288,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 picturePath = cursor.getString(columnIndex);
