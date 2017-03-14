@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -78,7 +79,6 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     private DialogManager dm;
     private String street;
     private String[] permissions=new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private int type;
@@ -308,7 +308,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     //申请权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
             //用户同意使用read
             showPop(type);
@@ -327,8 +327,14 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 public void clickCamera() {
                      Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     file=getDiskCacheDir();//创建文件
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                    startActivityForResult(intent, GO_CAMERA_PIC);
+                    if(Build.VERSION.SDK_INT>23){//处理7.0的情况
+                        Uri uri = FileProvider.getUriForFile(BusinessDataActivity.this, "com.ascba.rebate.provider", file);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent, GO_CAMERA_PIC);
+                    }else {
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                        startActivityForResult(intent, GO_CAMERA_PIC);
+                    }
                 }
                 @Override
                 public void clickAlbum() {
@@ -343,8 +349,14 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
                 public void clickCamera() {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileLogo=getDiskCacheDir();//创建文件
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileLogo));
-                    startActivityForResult(intent, GO_CAMERA_LOGO);
+                    if(Build.VERSION.SDK_INT>23){//处理7.0的情况
+                        Uri uri = FileProvider.getUriForFile(BusinessDataActivity.this, "com.ascba.rebate.provider", fileLogo);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent, GO_CAMERA_LOGO);
+                    }else {
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileLogo));
+                        startActivityForResult(intent, GO_CAMERA_LOGO);
+                    }
                 }
 
                 @Override
