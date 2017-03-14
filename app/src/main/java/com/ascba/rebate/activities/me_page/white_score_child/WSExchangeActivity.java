@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetWork3Activity;
 import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
@@ -16,7 +16,7 @@ import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class WSExchangeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback{
+public class WSExchangeActivity extends BaseNetWork3Activity implements BaseNetWork3Activity.Callback{
     private DialogManager dm;
     private View noView;
     private TextView tvTips;
@@ -114,11 +114,17 @@ public class WSExchangeActivity extends BaseNetWorkActivity implements BaseNetWo
             tvMoney.setText(cashing_money);
             tvMax.setText("本次兑换最大额度为"+cashing_money+"元");
         }else if(finalScene==2){
-//            dm.buildAlertDialog(message);
             Intent intent=new Intent(this,WSSuccActivity.class);
             intent.putExtra("money",cashing_money);
             startActivityForResult(intent, WhiteScoreActivity.REQUEST_EXCHANGE);
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+        dm.buildAlertDialog(message);
+        btnGo.setEnabled(false);
+        btnGo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
     }
 
     @Override
