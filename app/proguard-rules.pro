@@ -13,7 +13,7 @@
 # and specify the fully qualified class name to the JavaScript interface
 # class:
 # webview的混淆(如果用到js的话)
--keepclassmembers class com.ascba.rebate.fragments.shop.ThirdFragment {
+-keepclassmembers class com.ascba.rebate.fragments.shop.ShopMainFragment {
    public *;
 }
 -keepattributes *Annotation*

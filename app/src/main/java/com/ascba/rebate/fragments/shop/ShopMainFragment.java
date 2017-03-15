@@ -37,7 +37,7 @@ import java.util.List;
  * 商城
  */
 
-public class ThirdFragment extends Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;

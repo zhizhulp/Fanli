@@ -11,7 +11,7 @@ import com.ascba.rebate.fragments.TypeFragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.ascba.rebate.R;
-import com.ascba.rebate.fragments.shop.ThirdFragment;
+import com.ascba.rebate.fragments.shop.ShopMainFragment;
 import java.util.ArrayList;
 /**
  * 主界面
@@ -20,7 +20,7 @@ public class ShopActivity extends BaseNetWorkActivity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "分类", "购物车", "我"};
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private ThirdFragment mFirstFragment;
+    private ShopMainFragment mFirstFragment;
     private TypeFragment mSecondFragment;
     private CartFragment mThirdFragment;
     private ShopMeFragment mFourthFragment;
@@ -45,7 +45,7 @@ public class ShopActivity extends BaseNetWorkActivity {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
         if (mFirstFragment == null) {
-            mFirstFragment = new ThirdFragment();
+            mFirstFragment = new ShopMainFragment();
             mFragments.add(mFirstFragment);
         }
         if (mSecondFragment == null) {
