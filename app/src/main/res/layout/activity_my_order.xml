@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.ascba.rebate.view.ShopABar
+        android:id="@+id/activity_order_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:abar_title="我的订单"></com.ascba.rebate.view.ShopABar>
+
+    <include layout="@layout/goods_details_cuttingline" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/activity_order_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="#DD0E0E"
+        app:tabSelectedTextColor="#DD0E0E"
+        app:tabTextColor="@color/shop_normal_text_color" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_order_vp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

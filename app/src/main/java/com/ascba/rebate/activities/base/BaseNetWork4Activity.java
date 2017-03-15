@@ -1,6 +1,5 @@
 package com.ascba.rebate.activities.base;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +22,7 @@ import org.json.JSONObject;
 /**
  * 网络界面的基类
  */
-public class BaseNetWork4Activity extends Activity {
+public class BaseNetWork4Activity extends AppCompatActivity {
     private DialogManager dm;
     private Callback callback;
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/abar_im_back"
@@ -26,10 +25,10 @@
     <TextView
         android:id="@+id/abar_btn"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:paddingLeft="10dp"
-        android:text="14sp"
+        android:textSize="14sp"
         android:paddingRight="12dp" />
 </RelativeLayout>

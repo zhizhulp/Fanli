@@ -25,8 +25,8 @@
 
     <TextView
         android:id="@+id/activity_pc_item3_text_notify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_marginLeft="-8dp"
         android:layout_toRightOf="@+id/activity_pc_item3_img"
         android:background="@drawable/notify_text"

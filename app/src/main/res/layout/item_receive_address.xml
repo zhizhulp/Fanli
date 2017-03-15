@@ -66,31 +66,25 @@
         <CheckBox
             android:id="@+id/item_receive_address_check"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="14dp"
-            android:button="@drawable/check_address" />
-
-        <TextView
-            android:id="@+id/item_receive_address_set"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/item_receive_address_check"
             android:text="设为默认地址"
             android:textColor="#848484"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:paddingLeft="5dp"
+            android:button="@drawable/check_address" />
 
         <TextView
             android:id="@+id/item_receive_address_del"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="14dp"
             android:drawableLeft="@mipmap/icon_delete_black"
             android:drawablePadding="5dp"
+            android:gravity="center"
             android:text="删除"
             android:textColor="#848484"
             android:textSize="14sp" />
@@ -98,12 +92,13 @@
         <TextView
             android:id="@+id/item_receive_address_edit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginRight="24dp"
             android:layout_toLeftOf="@id/item_receive_address_del"
             android:drawableLeft="@mipmap/icon_edit_black"
             android:drawablePadding="5dp"
+            android:gravity="center"
             android:text="编辑"
             android:textColor="#848484"
             android:textSize="14sp" />

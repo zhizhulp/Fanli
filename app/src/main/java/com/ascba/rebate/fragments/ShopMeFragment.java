@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
@@ -73,6 +74,11 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Toast.makeText(getActivity(), "position:" + Integer.toString(position), Toast.LENGTH_SHORT).show();
                 switch (position) {
+                    case 1:
+                        //全部订单
+                        Intent order = new Intent(getActivity(), MyOrderActivity.class);
+                        startActivity(order);
+                        break;
                     case 17:
                         //收货地址管理
                         Intent intent = new Intent(getActivity(), ReceiveAddressActivity.class);

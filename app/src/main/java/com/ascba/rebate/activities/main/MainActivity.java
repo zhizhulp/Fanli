@@ -2,7 +2,6 @@ package com.ascba.rebate.activities.main;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,25 +14,28 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Toast;
+
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.fragments.CartFragment;
 import com.ascba.rebate.fragments.HomePageFragment;
 import com.ascba.rebate.fragments.ShopMeFragment;
-import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.utils.ExampleUtil;
-import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.view.AppTabs;
-import com.ascba.rebate.R;
 import com.ascba.rebate.fragments.main.FirstFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.fragments.message.SecondFragment;
 import com.ascba.rebate.fragments.shop.ThirdFragment;
+import com.ascba.rebate.handlers.DialogManager2;
+import com.ascba.rebate.utils.ExampleUtil;
+import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.view.AppTabs;
 import com.jaeger.library.StatusBarUtil;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
