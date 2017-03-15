@@ -228,7 +228,7 @@
         <activity
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
+            android:theme="@style/AppStyle">
 
         </activity>
         <activity
@@ -508,7 +508,8 @@
                 <data android:scheme="wxc0690c2be47a7d66" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
+        <activity
+            android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
         <activity
@@ -565,10 +566,15 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity android:name=".activities.FilterActivity"></activity>
+
+        <activity
+            android:name=".activities.BusinessShopActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>

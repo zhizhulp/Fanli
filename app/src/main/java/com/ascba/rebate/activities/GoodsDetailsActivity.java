@@ -317,7 +317,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
         shopEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(context,BusinessShopActivity.class);
+                startActivity(intent);
             }
         });
     }

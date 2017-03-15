@@ -56,8 +56,8 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
         }else {
             imBack.setVisibility(GONE);
         }
-
     }
+
     //设置搜索图标是否显示
     public void setImageOtherEnable(boolean enable){
         if(enable){
@@ -65,6 +65,10 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
         }else {
             imOther.setVisibility(GONE);
         }
+    }
+
+    public void setImageOther(int drawable){
+        imOther.setImageResource(drawable);
     }
 
 

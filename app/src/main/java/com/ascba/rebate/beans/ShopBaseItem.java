@@ -1,6 +1,7 @@
 package com.ascba.rebate.beans;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 /**
@@ -22,110 +23,135 @@ public class ShopBaseItem implements MultiItemEntity {
 
     private String saled;//商品已出售
 
-    private ShopBaseItem(int itemType,int spanSize,int resLat) {
+    private ShopBaseItem(int itemType, int spanSize, int resLat) {
         this.itemType = itemType;
-        this.spanSize=spanSize;
-        this.resLat=resLat;
+        this.spanSize = spanSize;
+        this.resLat = resLat;
     }
 
     /**
      * viewPager实体类
-     * @param itemType 数据类型
-     * @param spanSize 比重
-     * @param resLat  对应的布局id
+     *
+     * @param itemType  数据类型
+     * @param spanSize  比重
+     * @param resLat    对应的布局id
      * @param pagerUrls viewPager网络图片集合
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,List<String> pagerUrls){
-        this(itemType,spanSize,resLat);
-        this.pagerUrls=pagerUrls;
+    public ShopBaseItem(int itemType, int spanSize, int resLat, List<String> pagerUrls) {
+        this(itemType, spanSize, resLat);
+        this.pagerUrls = pagerUrls;
 
     }
 
     /**
      * 横线 实体类
+     *
      * @param itemType  数据类型
      * @param spanSize  比重
-     * @param resLat  对应的布局id
-     * @param lineWidth  线的粗细
+     * @param resLat    对应的布局id
+     * @param lineWidth 线的粗细
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,float lineWidth){
-        this(itemType,spanSize,resLat);
-        this.lineWidth=lineWidth;
+    public ShopBaseItem(int itemType, int spanSize, int resLat, float lineWidth) {
+        this(itemType, spanSize, resLat);
+        this.lineWidth = lineWidth;
     }
 
     /**
      * 商品分类导航实体类
+     *
      * @param itemType 数据类型
      * @param spanSize 比重
-     * @param resLat 对应的布局id
-     * @param url 网络图片
-     * @param desc 描述
+     * @param resLat   对应的布局id
+     * @param url      网络图片
+     * @param desc     描述
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,String url, String desc){
-        this(itemType,spanSize,resLat);
-        this.url=url;
-        this.desc=desc;
+    public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String desc) {
+        this(itemType, spanSize, resLat);
+        this.url = url;
+        this.desc = desc;
     }
 
     /**
      * 标题
+     *
      * @param itemType 数据类型
      * @param spanSize 比重
-     * @param resLat 对应的布局id
-     * @param url 网络图片
-     * @param title 标题
-     * @param color 字体颜色
+     * @param resLat   对应的布局id
+     * @param url      网络图片
+     * @param title    标题
+     * @param color    字体颜色
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,String url, String title,int color){
-        this(itemType,spanSize,resLat);
-        this.url=url;
-        this.title=title;
-        this.color=color;
+    public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String title, int color) {
+        this(itemType, spanSize, resLat);
+        this.url = url;
+        this.title = title;
+        this.color = color;
     }
+
     /**
      * 图片+文字 实体类
+     *
      * @param itemType 数据类型
      * @param spanSize 比重
-     * @param resLat 对应的布局id
-     * @param url 网络图片地址
+     * @param resLat   对应的布局id
+     * @param url      网络图片地址
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,String url){
-        this(itemType,spanSize,resLat);
-        this.url=url;
+    public ShopBaseItem(int itemType, int spanSize, int resLat, String url) {
+        this(itemType, spanSize, resLat);
+        this.url = url;
     }
 
     /**
      * 首页（今日更新）
+     *
      * @param itemType 数据类型
      * @param spanSize 比重
-     * @param resLat 对应的布局id
-     * @param url 网络图片地址
-     * @param title 标题
-     * @param desc 描述
-     * @param color 背景色
+     * @param resLat   对应的布局id
+     * @param url      网络图片地址
+     * @param title    标题
+     * @param desc     描述
+     * @param color    背景色
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,String url,String title,String desc,int color){
-        this(itemType,spanSize,resLat,url);
-        this.title=title;
-        this.desc=desc;
-        this.color=color;
+    public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String title, String desc, int color) {
+        this(itemType, spanSize, resLat, url);
+        this.title = title;
+        this.desc = desc;
+        this.color = color;
     }
+
     /**
      * 商品 实体类
+     *
      * @param itemType 数据类型
      * @param spanSize 比重
-     * @param resLat 对应的布局id
-     * @param url 网络图片地址
+     * @param resLat   对应的布局id
+     * @param url      网络图片地址
+     * @param title    标题
+     * @param desc     描述
+     * @param saled    描述
+     */
+    public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String title, String desc, String saled) {
+        this(itemType, spanSize, resLat, url);
+        this.title = title;
+        this.desc = desc;
+        this.saled = saled;
+    }
+
+    /**
+     * 商品 实体类
+     *
+     * @param url   网络图片地址
      * @param title 标题
-     * @param desc 描述
+     * @param desc  描述
      * @param saled 描述
      */
-    public ShopBaseItem(int itemType,int spanSize,int resLat,String url,String title,String desc,String saled ){
-        this(itemType,spanSize,resLat,url);
-        this.title=title;
-        this.desc=desc;
-        this.saled=saled;
+    public ShopBaseItem(String url, String title, String desc, String saled) {
+        this.url = url;
+        this.title = title;
+        this.desc = desc;
+        this.saled = saled;
     }
+
     @Override
     public int getItemType() {
         return itemType;
