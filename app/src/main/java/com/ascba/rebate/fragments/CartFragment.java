@@ -2,12 +2,11 @@ package com.ascba.rebate.fragments;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -18,10 +17,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.adapter.ProfileAdapter;
@@ -41,13 +40,13 @@ import java.util.List;
 /**
  * 购物车
  */
-public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener{
+public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
 
 
     private ShopABar sab;
     private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView rv;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -90,7 +89,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         initData();
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
-        adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(),cbTotal);
+        adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
 
         rv.setAdapter(adapter);
         rv.addOnItemTouchListener(new OnItemClickListener() {
@@ -103,7 +102,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
                 int id = view.getId();
-                if(id==R.id.edit_standard){
+                if (id == R.id.edit_standard) {
                     showDialog();
                 }
             }
@@ -116,7 +115,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     }
 
     private void showDialog() {
-        final Dialog dialog=new Dialog(getActivity(),R.style.AlertDialog);
+        final Dialog dialog = new Dialog(getActivity(), R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_by_shop);
         //关闭对话框
         dialog.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
@@ -127,53 +126,53 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         });
         //规格列表
         RecyclerView rvRule = (RecyclerView) dialog.findViewById(R.id.goods_profile_list);
-        List<GoodsAttr> gas=new ArrayList<>();
+        List<GoodsAttr> gas = new ArrayList<>();
         initAttrsData(gas);
-        ProfileAdapter adapter=new ProfileAdapter(R.layout.goods_attrs_layout,gas);
+        ProfileAdapter adapter = new ProfileAdapter(R.layout.goods_attrs_layout, gas);
         rvRule.setLayoutManager(new LinearLayoutManager(getActivity()));
         //添加尾部试图
-        View view1=getActivity().getLayoutInflater().inflate(R.layout.num_btn_layout, null);
-        adapter.addFooterView(view1,0);
+        View view1 = getActivity().getLayoutInflater().inflate(R.layout.num_btn_layout, null);
+        adapter.addFooterView(view1, 0);
         rvRule.setAdapter(adapter);
 
         //显示对话框
         dialog.show();
         Window window = dialog.getWindow();
-        if(window!=null){
+        if (window != null) {
             window.setWindowAnimations(R.style.goods_profile_anim);
             window.setBackgroundDrawableResource(android.R.color.transparent);
             WindowManager.LayoutParams wlp = window.getAttributes();
             Display d = window.getWindowManager().getDefaultDisplay();
             wlp.width = d.getWidth();
-            wlp.gravity=Gravity.BOTTOM;
+            wlp.gravity = Gravity.BOTTOM;
             window.setAttributes(wlp);
         }
     }
 
     private void initAttrsData(List<GoodsAttr> gas) {
         for (int i = 0; i < 5; i++) {
-            if(i==0){
-                List<GoodsAttr.Attrs> strs=new ArrayList<>();
-                GoodsAttr ga=new GoodsAttr();
+            if (i == 0) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    if(j==2){
-                        strs.add(ga.new Attrs("红色/白色",2));
-                    }else {
-                        strs.add(ga.new Attrs("红色/白色",0));
+                    if (j == 2) {
+                        strs.add(ga.new Attrs("红色/白色", 2));
+                    } else {
+                        strs.add(ga.new Attrs("红色/白色", 0));
                     }
                 }
                 ga.setTitle("颜色分类");
                 ga.setStrs(strs);
                 gas.add(ga);
             }
-            if(i==1){
-                List<GoodsAttr.Attrs> strs=new ArrayList<>();
-                GoodsAttr ga=new GoodsAttr();
+            if (i == 1) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
-                    if(j==10){
-                        strs.add(ga.new Attrs((40+j+0.5)+"",2));
-                    }else {
-                        strs.add(ga.new Attrs((40+j+0.5)+"",0));
+                    if (j == 10) {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                    } else {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
                     }
 
                 }
@@ -181,24 +180,24 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
                 ga.setStrs(strs);
                 gas.add(ga);
             }
-            if(i==2){
-                List<GoodsAttr.Attrs> strs=new ArrayList<>();
-                GoodsAttr ga=new GoodsAttr();
+            if (i == 2) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形"+i,0));
+                    strs.add(ga.new Attrs("方形" + i, 0));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
                 gas.add(ga);
             }
-            if(i==3){
-                List<GoodsAttr.Attrs> strs=new ArrayList<>();
-                GoodsAttr ga=new GoodsAttr();
+            if (i == 3) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
-                    if(j==10){
-                        strs.add(ga.new Attrs((40+j+0.5)+"",2));
-                    }else {
-                        strs.add(ga.new Attrs((40+j+0.5)+"",0));
+                    if (j == 10) {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                    } else {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
                     }
 
                 }
@@ -206,11 +205,11 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
                 ga.setStrs(strs);
                 gas.add(ga);
             }
-            if(i==4){
-                List<GoodsAttr.Attrs> strs=new ArrayList<>();
-                GoodsAttr ga=new GoodsAttr();
+            if (i == 4) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形"+i,0));
+                    strs.add(ga.new Attrs("方形" + i, 0));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
@@ -275,14 +274,15 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.cart_tv_cost_total_count:
                 showFinalDialog();
                 break;
         }
     }
+
     private void showFinalDialog() {
-        final Dialog dialog=new Dialog(getActivity(),R.style.AlertDialog);
+        final Dialog dialog = new Dialog(getActivity(), R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_pay_pop);
         //关闭对话框
         dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
@@ -291,30 +291,38 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
                 dialog.dismiss();
             }
         });
+        //去付款
+        dialog.findViewById(R.id.go_pay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
+                startActivity(intent);
+            }
+        });
         //列表
         RecyclerView rvTypes = (RecyclerView) dialog.findViewById(R.id.pay_type_list);
-        List<PayType> types=new ArrayList<>();
+        List<PayType> types = new ArrayList<>();
         initPayTypesData(types);
-        PayTypeAdapter pt=new PayTypeAdapter(R.layout.pay_type_item,types);
+        PayTypeAdapter pt = new PayTypeAdapter(R.layout.pay_type_item, types);
         rvTypes.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvTypes.setAdapter(pt);
         //显示对话框
         dialog.show();
         Window window = dialog.getWindow();
-        if(window!=null){
+        if (window != null) {
             window.setWindowAnimations(R.style.goods_profile_anim);
             //window.setBackgroundDrawableResource(android.R.color.transparent);
             WindowManager.LayoutParams wlp = window.getAttributes();
             Display d = window.getWindowManager().getDefaultDisplay();
             wlp.width = d.getWidth();
-            wlp.gravity=Gravity.BOTTOM;
+            wlp.gravity = Gravity.BOTTOM;
             window.setAttributes(wlp);
         }
     }
 
     private void initPayTypesData(List<PayType> types) {
-        types.add(new PayType(false,R.mipmap.pay_left,"账户余额支付","快捷支付"));
-        types.add(new PayType(false,R.mipmap.pay_ali,"支付宝支付","大额支付，支持银行卡、信用卡"));
-        types.add(new PayType(false,R.mipmap.pay_weixin,"微信支付","大额支付，支持银行卡、信用卡"));
+        types.add(new PayType(false, R.mipmap.pay_left, "账户余额支付", "快捷支付"));
+        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡"));
+        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡"));
     }
 }

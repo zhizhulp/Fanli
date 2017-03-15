@@ -33,6 +33,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_confirm_order);
         context=this;
         initView();
     }
