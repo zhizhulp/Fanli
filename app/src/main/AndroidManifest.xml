@@ -571,13 +571,9 @@
         <activity android:name=".activities.FilterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
-        <activity
-            android:name=".activities.BusinessShopActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
         <activity android:name=".activities.shop.ShopActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle"/>
     </application>
 
 </manifest>
