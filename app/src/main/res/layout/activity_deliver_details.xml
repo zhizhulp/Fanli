@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ascba.rebate.view.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.ascba.rebate.view.ShopABarText
+        android:id="@+id/shopbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#FFF3F3"
+        app:abar_title="待发货" />
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,12 +31,7 @@
                 android:background="#FFF3F3"
                 android:orientation="vertical">
 
-                <com.ascba.rebate.view.ShopABarText
-                    android:id="@+id/shopbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="#FFF3F3"
-                    app:abar_title="待发货" />
+
 
                 <TextView
                     android:id="@+id/deliver_details_state"
@@ -401,3 +405,4 @@
     </ScrollView>
 
 </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+</LinearLayout>
