@@ -23,7 +23,7 @@
                 android:id="@+id/im_tabs_zero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/tab_main" />
+                android:src="@mipmap/tab_main_select" />
 
             <TextView
                 android:id="@+id/tv_tabs_zero"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="首页"
-                android:textColor="@color/textgray"
+                android:textColor="@color/moneyBarColor"
                 android:textSize="11sp" />
         </LinearLayout>
 
@@ -47,19 +47,20 @@
                 android:id="@+id/im_tabs_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/shop_test_05" />
+                android:src="@mipmap/tab_zhoubian" />
 
             <TextView
                 android:id="@+id/tv_tabs_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="分类"
+                android:text="周边"
                 android:textColor="@color/textgray"
                 android:textSize="11sp" />
         </LinearLayout>
 
         <TextView
+            android:textColor="@color/textgray"
             android:id="@+id/tv_tabs_two"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -67,7 +68,6 @@
             android:gravity="bottom|center_horizontal"
             android:paddingBottom="3dp"
             android:text="商城"
-            android:textColor="@color/moneyBarColor"
             android:textSize="11sp" />
 
         <LinearLayout
@@ -82,13 +82,13 @@
                 android:id="@+id/im_tabs_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/tab_shop" />
+                android:src="@mipmap/tab_caifu" />
             <TextView
                 android:id="@+id/tv_tabs_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="购物车"
+                android:text="财富"
                 android:textColor="@color/textgray"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="设置"
+                android:text="我"
                 android:textColor="@color/textgray"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -118,10 +118,4 @@
     <View
         android:layout_marginBottom="48dp"
         style="@style/viewStyleMatch"/>
-    <!--<ImageView
-        android:id="@+id/im_tabs_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:src="@mipmap/shop_test_04" />-->
 </RelativeLayout>

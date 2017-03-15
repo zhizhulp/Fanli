@@ -9,7 +9,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.GoodsAttr;
-import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.ShopABarText;
 
 import java.util.ArrayList;

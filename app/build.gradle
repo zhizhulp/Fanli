@@ -43,6 +43,7 @@ dependencies {
     compile files('libs/jcore-android_v1.0.0.jar')
     compile files('libs/jpush-android_v3.0.0.jar')
     compile files('libs/core-3.3.0.jar')
+    compile files('libs/baidumapapi_util_v4_2_1.jar')
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
@@ -55,16 +56,15 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'
     compile 'com.baoyz.swipemenulistview:library:1.3.0'
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
-    testCompile 'junit:junit:4.12'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.3'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.zhy:flowlayout-lib:1.0.3'
     compile 'com.android.support:cardview-v7:25.2.0'
-    compile files('libs/baidumapapi_util_v4_2_1.jar')
+    testCompile 'junit:junit:4.12'
 }

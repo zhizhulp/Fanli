@@ -17,10 +17,14 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.fragments.CartFragment;
 import com.ascba.rebate.fragments.HomePageFragment;
+import com.ascba.rebate.fragments.MeFragment;
+import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.ShopMeFragment;
+import com.ascba.rebate.fragments.SideFragment;
 import com.ascba.rebate.fragments.main.FirstFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.fragments.message.SecondFragment;
@@ -45,7 +49,7 @@ import cn.jpush.android.api.TagAliasCallback;
 public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callback {
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
-    private List<Fragment> fgts=new ArrayList<>();
+    private List<Fragment> fgts = new ArrayList<>();
     private DialogManager2 dm;
     private final Handler mHandler = new Handler() {
         @Override
@@ -83,7 +87,6 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        StatusBarUtil.setColor(this, 0xffe52020);
         findViews();
         checkAllPermission();
     }
@@ -91,39 +94,40 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     private void checkAllPermission() {
 
         if (Build.VERSION.SDK_INT >= 23) {
-            boolean isAll=true;
+            boolean isAll = true;
             for (String permission : permissions) {
                 if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                     isAll = false;
                     break;
                 }
             }
-            if(!isAll){
+            if (!isAll) {
                 ActivityCompat.requestPermissions(this, permissions, 1);
             }
 
         }
 
     }
+
     //申请权限的回调
     @Override
-    public void onRequestPermissionsResult ( int requestCode, @NonNull String[] per,
-                                             @NonNull int[] grantResults){
-        boolean isAll=true;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] per,
+                                           @NonNull int[] grantResults) {
+        boolean isAll = true;
         for (int i = 0; i < permissions.length; i++) {
-            if (per[i].equals(permissions[i])&& grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                isAll=false;
+            if (per[i].equals(permissions[i]) && grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                isAll = false;
                 break;
             }
         }
-        if(!isAll){
+        if (!isAll) {
             Toast.makeText(this, "部分功能可能无法使用，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void findViews() {
-        dm=new DialogManager2(this);
+        dm = new DialogManager2(this);
         initFragments();
         AppTabs appTabs = ((AppTabs) findViewById(R.id.tabs));
         appTabs.setCallback(this);
@@ -131,33 +135,28 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     }
 
     private void initFragments() {
-        Fragment mFirstFragment = new FirstFragment();
-        Fragment mTypeFragment = new HomePageFragment();
-        Fragment mShopFragment = new ThirdFragment();
-        Fragment mCartFragment = new CartFragment();
-        Fragment mSettingFragment = new ShopMeFragment();
-        Fragment mSecondFragment = new SecondFragment();
-        Fragment mFourFragment = new FourthFragment();
+        Fragment mHomePageFragment = new HomePageFragment();
+        Fragment mSideFragment = new SideFragment();
+        Fragment mMoneyFragment = new MoneyFragment();
+        Fragment mMeFragment = new MeFragment();
 
-        fgts.add(mFirstFragment);
-        fgts.add(mTypeFragment);
-        fgts.add(mShopFragment);
-        fgts.add(mCartFragment);
-        fgts.add(mSettingFragment);
-        fgts.add(mSecondFragment);
-        fgts.add(mFourFragment);
 
+        fgts.add(mHomePageFragment);
+        fgts.add(mSideFragment);
+        fgts.add(mMoneyFragment);
+        fgts.add(mMeFragment);
 
         addAllFrgsToContai();
     }
+
     private void addAllFrgsToContai() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         for (int i = 0; i < fgts.size(); i++) {
-            ft.add(R.id.fl_change,fgts.get(i));
+            ft.add(R.id.fl_change, fgts.get(i));
         }
         ft.commit();
-        selFrgByPos(2,0);
+        selFrgByPos(0);
     }
 
     private void init() {
@@ -166,20 +165,21 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
             setAlias(uuid + "");
             boolean appDebug = LogUtils.isAppDebug(this);
             setTag(appDebug);
-            if(appDebug){
-                LogUtils.PrintLog("123","debug");
-            }else {
-                LogUtils.PrintLog("123","release");
+            if (appDebug) {
+                LogUtils.PrintLog("123", "debug");
+            } else {
+                LogUtils.PrintLog("123", "release");
             }
 
         }
     }
+
     //调用JPush API设置Tag
     private void setTag(boolean appDebug) {
         Set<String> tagSet = new LinkedHashSet<String>();
-        if(appDebug){
+        if (appDebug) {
             tagSet.add("debug");
-        }else {
+        } else {
             tagSet.add("release");
         }
        /* tagSet.add(getPackageVersionCode()+"");//把版本号传给服务器*/
@@ -205,12 +205,13 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
         //调用JPush API设置Alias
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
     }
+
     private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0://成功
-                    LogUtils.PrintLog("123","alias设置成功");
+                    LogUtils.PrintLog("123", "alias设置成功");
                     break;
                 case 6002://失败，重试
                     if (ExampleUtil.isConnected(getApplicationContext())) {
@@ -229,7 +230,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0:
-                    LogUtils.PrintLog("123","tag设置成功:");
+                    LogUtils.PrintLog("123", "tag设置成功:");
                     break;
 
                 case 6002:
@@ -246,40 +247,47 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
         }
 
     };
+
     //首页
     @Override
-    public void clickZero(View v, int type) {
-        selFrgByPos(0,type);
+    public void clickZero(View v) {
+        selFrgByPos(0);
     }
+
     //分类--消息
     @Override
-    public void clickOne(View v, int type) {
-        selFrgByPos(1,type);
+    public void clickOne(View v) {
+        selFrgByPos(1);
     }
+
     //商城
     @Override
-    public void clickTwo(View v, int type) {
-        selFrgByPos(2,type);
+    public void clickTwo(View v) {
+        Intent intent=new Intent(this,ShopActivity.class);
+        startActivity(intent);
     }
+
     //购物车
     @Override
-    public void clickThree(View v, int type) {
-        selFrgByPos(3,type);
+    public void clickThree(View v) {
+        selFrgByPos(3);
     }
+
     //设置--我
     @Override
-    public void clickFour(View v, int type) {
-        selFrgByPos(4,type);
+    public void clickFour(View v) {
+        selFrgByPos(4);
     }
+
     //根据位置切换相应碎片
-    public void selFrgByPos(int position,int type) {
+    public void selFrgByPos(int position) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         switch (position) {
             case 0:
                 for (int i = 0; i < fgts.size(); i++) {
                     Fragment fragment = fgts.get(i);
-                    if (fragment instanceof FirstFragment) {
+                    if (fragment instanceof HomePageFragment) {
                         ft.show(fragment);
                     } else {
                         ft.hide(fragment);
@@ -288,31 +296,9 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                 ft.commit();
                 break;
             case 1:
-                if (type == 0) {
-                    for (int i = 0; i < fgts.size(); i++) {
-                        Fragment fragment = fgts.get(i);
-                        if (fragment instanceof HomePageFragment) {
-                            ft.show(fragment);
-                        } else {
-                            ft.hide(fragment);
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < fgts.size(); i++) {
-                        Fragment fragment = fgts.get(i);
-                        if (fragment instanceof SecondFragment) {
-                            ft.show(fragment);
-                        } else {
-                            ft.hide(fragment);
-                        }
-                    }
-                }
-                ft.commit();
-                break;
-            case 2:
                 for (int i = 0; i < fgts.size(); i++) {
                     Fragment fragment = fgts.get(i);
-                    if (fragment instanceof ThirdFragment) {
+                    if (fragment instanceof SideFragment) {
                         ft.show(fragment);
                     } else {
                         ft.hide(fragment);
@@ -320,10 +306,13 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                 }
                 ft.commit();
                 break;
+            case 2:
+
+                break;
             case 3:
                 for (int i = 0; i < fgts.size(); i++) {
                     Fragment fragment = fgts.get(i);
-                    if (fragment instanceof CartFragment) {
+                    if (fragment instanceof MoneyFragment) {
                         ft.show(fragment);
                     } else {
                         ft.hide(fragment);
@@ -332,29 +321,17 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                 ft.commit();
                 break;
             case 4:
-                if (type == 0) {
-                    for (int i = 0; i < fgts.size(); i++) {
-                        Fragment fragment = fgts.get(i);
-                        if (fragment instanceof ShopMeFragment) {
-                            ft.show(fragment);
-                        } else {
-                            ft.hide(fragment);
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < fgts.size(); i++) {
-                        Fragment fragment = fgts.get(i);
-                        if (fragment instanceof FourthFragment) {
-                            ft.show(fragment);
-                        } else {
-                            ft.hide(fragment);
-                        }
+                for (int i = 0; i < fgts.size(); i++) {
+                    Fragment fragment = fgts.get(i);
+                    if (fragment instanceof MeFragment) {
+                        ft.show(fragment);
+                    } else {
+                        ft.hide(fragment);
                     }
                 }
                 ft.commit();
                 break;
-
         }
-    }
 
+    }
 }
