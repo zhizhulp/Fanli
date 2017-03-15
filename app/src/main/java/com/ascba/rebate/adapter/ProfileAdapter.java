@@ -27,6 +27,7 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
     protected void convert(BaseViewHolder helper, GoodsAttr item) {
         helper.setText(R.id.goods_attrs_title,item.getTitle());
         RadioGroupEx rgEx=helper.getView(R.id.goods_attrs_content);
+        rgEx.removeAllViews();//清除之前的视图
         List<GoodsAttr.Attrs> strs = item.getStrs();
         for (GoodsAttr.Attrs s : strs) {
             final RadioButton rb=new RadioButton(mContext);

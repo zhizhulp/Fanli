@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -30,8 +32,9 @@ import java.util.List;
  * 商品列表
  */
 
-public class GoodsListActivity extends BaseNetWork4Activity {
+public class GoodsListActivity extends BaseNetWork4Activity implements View.OnClickListener {
 
+    private static final int REQUEST_FILTER = 0;
     private ShopABar shopABar;
     private ExpandPopTabView expandPopTabView;
     private RadioGroup radioGroup;
@@ -46,6 +49,7 @@ public class GoodsListActivity extends BaseNetWork4Activity {
     private Handler handler = new Handler();
     Context context;
     private List<KeyValueBean> keyValueBeen = new ArrayList<>();
+    private Button btnFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,12 @@ public class GoodsListActivity extends BaseNetWork4Activity {
         InitRadio();
         InitRecylerView();
         InitRefresh();
+        initFilter();
+    }
+
+    private void initFilter() {
+        btnFilter = ((Button) findViewById(R.id.activity_goods_list_screening));
+        btnFilter.setOnClickListener(this);
     }
 
     private void InitRefresh() {
@@ -214,5 +224,28 @@ public class GoodsListActivity extends BaseNetWork4Activity {
         goodsListAdapter = new GoodsListAdapter(context, goodsBeen);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
         recyclerView.setAdapter(goodsListAdapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.activity_goods_list_screening:
+                Intent intent=new Intent(this,FilterActivity.class);
+                startActivityForResult(intent,REQUEST_FILTER);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        switch (requestCode){
+            case REQUEST_FILTER:
+                btnFilter.setText(data.getStringExtra("filter"));
+                break;
+        }
     }
 }

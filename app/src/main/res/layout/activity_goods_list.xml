@@ -10,7 +10,7 @@
         android:id="@+id/activity_goods_list_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="休闲零食"></com.ascba.rebate.view.ShopABar>
+        app:abar_title="休闲零食"/>
 
     <LinearLayout
         android:layout_width="match_parent"

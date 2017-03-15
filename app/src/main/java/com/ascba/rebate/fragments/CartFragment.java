@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -22,10 +23,12 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.CartAdapter;
+import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
+import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -38,7 +41,7 @@ import java.util.List;
 /**
  * 购物车
  */
-public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener{
 
 
     private ShopABar sab;
@@ -109,6 +112,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         //总计
         tvCost = ((TextView) view.findViewById(R.id.cart_tv_cost_total));
         tvCostNum = ((TextView) view.findViewById(R.id.cart_tv_cost_total_count));
+        tvCostNum.setOnClickListener(this);
     }
 
     private void showDialog() {
@@ -267,5 +271,50 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     @Override
     public void onPullEnable(boolean enable) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.cart_tv_cost_total_count:
+                showFinalDialog();
+                break;
+        }
+    }
+    private void showFinalDialog() {
+        final Dialog dialog=new Dialog(getActivity(),R.style.AlertDialog);
+        dialog.setContentView(R.layout.layout_pay_pop);
+        //关闭对话框
+        dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //列表
+        RecyclerView rvTypes = (RecyclerView) dialog.findViewById(R.id.pay_type_list);
+        List<PayType> types=new ArrayList<>();
+        initPayTypesData(types);
+        PayTypeAdapter pt=new PayTypeAdapter(R.layout.pay_type_item,types);
+        rvTypes.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvTypes.setAdapter(pt);
+        //显示对话框
+        dialog.show();
+        Window window = dialog.getWindow();
+        if(window!=null){
+            window.setWindowAnimations(R.style.goods_profile_anim);
+            //window.setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            Display d = window.getWindowManager().getDefaultDisplay();
+            wlp.width = d.getWidth();
+            wlp.gravity=Gravity.BOTTOM;
+            window.setAttributes(wlp);
+        }
+    }
+
+    private void initPayTypesData(List<PayType> types) {
+        types.add(new PayType(false,R.mipmap.pay_left,"账户余额支付","快捷支付"));
+        types.add(new PayType(false,R.mipmap.pay_ali,"支付宝支付","大额支付，支持银行卡、信用卡"));
+        types.add(new PayType(false,R.mipmap.pay_weixin,"微信支付","大额支付，支持银行卡、信用卡"));
     }
 }

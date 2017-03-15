@@ -46,7 +46,7 @@
             android:id="@+id/activity_add_ll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/activity_add_rl"
+            android:layout_toLeftOf="@id/activity_add_rl_contact"
             android:orientation="vertical">
 
             <LinearLayout

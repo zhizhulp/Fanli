@@ -38,6 +38,7 @@ public class BaseNetWork4Activity extends Activity {
     public interface Callback{
         void handle200Data(JSONObject dataObj, String message) throws JSONException;
         void handle404(String message);
+        void handleNoNetWork();
     }
 
     public Callback getCallback() {
@@ -69,6 +70,9 @@ public class BaseNetWork4Activity extends Activity {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
             dm.buildAlertDialog("请打开网络！");
+            if(callback!=null){
+                callback.handleNoNetWork();
+            }
             return;
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, new NetResponseListener());

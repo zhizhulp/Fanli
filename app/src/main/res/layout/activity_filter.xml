@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_filter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ascba.rebate.activities.FilterActivity">
+    <com.ascba.rebate.view.ShopABarText
+        app:abar_title="休闲零食"
+        android:id="@+id/sab"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/sab"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/filter_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/filter_btm"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <Button
+            android:id="@+id/filter_reset"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="16sp"
+            android:text="重置"
+            android:layout_weight="371"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/filter_over"
+            android:background="@color/moneyBarColor"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="完成"
+            android:layout_weight="349"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View
+        android:layout_above="@id/filter_btm"
+        android:background="@color/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+</RelativeLayout>
