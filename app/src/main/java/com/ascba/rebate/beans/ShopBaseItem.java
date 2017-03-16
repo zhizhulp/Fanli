@@ -22,8 +22,20 @@ public class ShopBaseItem implements MultiItemEntity {
     private int color;//背景色
 
     private String saled;//商品已出售
+    //限量抢购
+    private List<String> titles;
+    private List<String> contents;
+    private List<String> descs;
 
-    private ShopBaseItem(int itemType, int spanSize, int resLat) {
+    private ShopBaseItem(int itemType, int spanSize, int resLat,List<String> titles, List<String> contents
+            ,List<String> descs,List<String> pagerUrls) {
+        this(itemType, spanSize, resLat);
+        this.titles=titles;
+        this.contents=contents;
+        this.descs=descs;
+        this.pagerUrls=pagerUrls;
+    }
+    private ShopBaseItem(int itemType, int spanSize, int resLat){
         this.itemType = itemType;
         this.spanSize = spanSize;
         this.resLat = resLat;
@@ -31,7 +43,6 @@ public class ShopBaseItem implements MultiItemEntity {
 
     /**
      * viewPager实体类
-     *
      * @param itemType  数据类型
      * @param spanSize  比重
      * @param resLat    对应的布局id
@@ -243,5 +254,29 @@ public class ShopBaseItem implements MultiItemEntity {
 
     public void setLineWidth(float lineWidth) {
         this.lineWidth = lineWidth;
+    }
+
+    public List<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<String> titles) {
+        this.titles = titles;
+    }
+
+    public List<String> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<String> contents) {
+        this.contents = contents;
+    }
+
+    public List<String> getDescs() {
+        return descs;
+    }
+
+    public void setDescs(List<String> descs) {
+        this.descs = descs;
     }
 }

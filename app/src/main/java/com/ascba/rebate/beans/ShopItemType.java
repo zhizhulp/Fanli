@@ -14,4 +14,5 @@ public class ShopItemType {
     public static final int TYPE_CHEAP=7;
     public static final int TYPE_OTHER=8;
     public static final int TYPE_GOODS_STYLE2=9;
+    public static final int TYPE_RUSH=10;
 }

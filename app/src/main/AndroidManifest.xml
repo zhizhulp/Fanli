@@ -595,6 +595,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">
         </activity>
+        <activity android:name=".activities.clothes.TypeClothActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
     </application>
 
 </manifest>

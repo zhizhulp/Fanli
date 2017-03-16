@@ -43,6 +43,9 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data;
     private List<String> urls;//viewPager数据源
+    private List<String> titles;
+    private List<String> contents;
+    private List<String> descs;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -68,6 +71,13 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
 
     private void initViews(View view) {
         searchHead= (RelativeLayout) view.findViewById(R.id.head_search_rr);
+        //返回图标
+        view.findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
@@ -179,6 +189,7 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
                     , "http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg", "拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡", "￥ 498.00", "已售4件"));
         }
     }
+
 
     private void intPagerData() {
         urls = new ArrayList<>();
