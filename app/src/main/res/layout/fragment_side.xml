@@ -1,12 +1,47 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="com.ascba.rebate.fragments.SideFragment">
-
-    <TextView
+    <LinearLayout
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/side_search_bg"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="周边" />
-
-</FrameLayout>
+        android:layout_height="30dp">
+        <ImageView
+            android:src="@mipmap/shop_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="12sp"
+            android:textColorHint="@color/textgray"
+            android:layout_marginLeft="10dp"
+            app:hintSize="12sp"
+            android:background="@null"
+            android:hint="请输入您要搜索的商家名称"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View
+        android:background="@color/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <com.warmtel.expandtab.ExpandPopTabView
+        android:id="@+id/expandtab_view"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        app:tab_pop_bg_color="@android:color/transparent"
+        app:tab_toggle_btn_font_color="@color/white" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bus_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
