@@ -58,6 +58,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                  * ASK商学院、创业扶持
                  */
                 helper.addOnClickListener(R.id.homepage_btn_college);
+
                 helper.addOnClickListener(R.id.homepage_btn_policy);
                 break;
 
