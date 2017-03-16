@@ -40,8 +40,15 @@
         android:layout_height="42dp"
         app:tab_pop_bg_color="@android:color/transparent"
         app:tab_toggle_btn_font_color="@color/white" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/bus_list"
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bus_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+
+
 </LinearLayout>

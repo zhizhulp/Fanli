@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_mem_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.MemCardActivity">
+    <com.ascba.rebate.view.ShopABarText
+        app:abar_title="学员证"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mem_msg_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+</LinearLayout>

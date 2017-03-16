@@ -2,14 +2,22 @@ package com.ascba.rebate.fragments;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.adapter.BusAdapter;
+import com.ascba.rebate.beans.Business;
+import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
@@ -21,13 +29,23 @@ import java.util.List;
 /**
  * 周边
  */
-public class SideFragment extends Fragment {
+public class SideFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
 
 
     private ExpandPopTabView popTab;
     private List<KeyValueBean> typeAll;//全部
     private List<KeyValueBean> typeSide;//附近
     private List<KeyValueBean> typeAuto;//智能排序
+    private RecyclerView busRV;
+    private List<Business> data;
+    private BusAdapter busAdapter;
+    private SuperSwipeRefreshLayout ssr;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 
     public SideFragment() {
 
@@ -52,6 +70,23 @@ public class SideFragment extends Fragment {
         addItem(popTab,typeAll,"全部0","全部0");
         addItem(popTab,typeSide,"附近0","附近0");
         addItem(popTab,typeAuto,"智能排序0","智能排序0");
+
+        busRV = ((RecyclerView) view.findViewById(R.id.bus_list));
+        initBusData();
+        busAdapter = new BusAdapter(R.layout.main_bussiness_list_item,data,getActivity());
+        busRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        busRV.setAdapter(busAdapter);
+
+        ssr = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
+        ssr.setOnPullRefreshListener(this);
+
+    }
+
+    private void initBusData() {
+        data=new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            data.add(new Business("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg","金牌炒面","五星级商家",R.mipmap.main_business_category,"0个评论","0m"));
+        }
     }
 
     private void initData() {
@@ -94,5 +129,25 @@ public class SideFragment extends Fragment {
             }
         });
         expandTabView.addItemToExpandTab(defaultShowText, popTwoListView);
+    }
+
+    @Override
+    public void onRefresh() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ssr.setRefreshing(false);
+            }
+        },1000);
+    }
+
+    @Override
+    public void onPullDistance(int distance) {
+
+    }
+
+    @Override
+    public void onPullEnable(boolean enable) {
+
     }
 }
