@@ -2,34 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/head_search_rr"
     android:layout_width="match_parent"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
     android:background="@mipmap/yinying"
     android:layout_height="48dp">
 
-    <LinearLayout
-        android:id="@+id/head_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+    <ImageView
+        android:paddingLeft="15dp"
+        android:paddingRight="18dp"
+        android:id="@+id/head_ll_back"
         android:layout_centerVertical="true"
-        android:gravity="center"
-        android:orientation="vertical">
-        <ImageView
-            android:scaleType="fitCenter"
-            android:layout_width="17dp"
-            android:layout_height="17dp"
-            android:src="@mipmap/shop_sweep" />
-        <TextView
-            android:textColor="@color/shop_normal_text_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="扫一扫"
-            android:textSize="8sp" />
-    </LinearLayout>
-
+        android:src="@mipmap/abar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
 
     <LinearLayout
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         android:gravity="center"
         android:orientation="vertical"
         android:id="@+id/head_rr"
@@ -56,13 +43,11 @@
         android:focusableInTouchMode="true"
         android:focusable="true"
         android:background="@drawable/shop_action_bar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="13dp"
         android:layout_toLeftOf="@id/head_rr"
-        android:layout_toRightOf="@id/head_ll">
+        android:layout_toRightOf="@id/head_ll_back">
 
         <ImageView
             android:id="@+id/head_img_sousuo"
