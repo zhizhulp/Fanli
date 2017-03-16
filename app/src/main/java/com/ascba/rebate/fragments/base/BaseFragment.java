@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -178,6 +180,12 @@ public class BaseFragment extends Fragment {
             }
         }
     }
+    protected void showToast(String content) {
+        Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+    }
 
+    protected void showToast(int content) {
+        Toast.makeText(getActivity(), String.valueOf(content), Toast.LENGTH_SHORT).show();
+    }
 
 }

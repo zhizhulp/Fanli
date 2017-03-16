@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
@@ -178,6 +179,14 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
                         break;
                     case R.id.homepage_btn_makemon:
                         Toast.makeText(context, "赚钱", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.homepage_btn_policy:
+                        //创业扶持
+                        break;
+                    case R.id.homepage_btn_college:
+                        //ASK商学院
+                        Intent college=new Intent(getActivity(), ASKCollegeActivity.class);
+                        startActivity(college);
                         break;
                 }
             }
@@ -366,13 +375,15 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if (!Settings.canDrawOverlays(getActivity())) {
-                Toast.makeText(getActivity(), "权限授予失败，无法开启悬浮窗", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), "权限授予成功！", Toast.LENGTH_SHORT).show();
-                //启动悬浮窗
-                floatButton = new FloatButton(getActivity().getApplicationContext());
-                floatButton.showView();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!Settings.canDrawOverlays(getActivity())) {
+                    Toast.makeText(getActivity(), "权限授予失败，无法开启悬浮窗", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "权限授予成功！", Toast.LENGTH_SHORT).show();
+                    //启动悬浮窗
+                    floatButton = new FloatButton(getActivity().getApplicationContext());
+                    floatButton.showView();
+                }
             }
 
         }
