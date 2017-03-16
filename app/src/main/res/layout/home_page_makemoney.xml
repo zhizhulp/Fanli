@@ -8,7 +8,7 @@
     <Button
         android:id="@+id/homepage_btn_speedmon"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="6dp"
         android:layout_weight="1"
@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/homepage_btn_makemon"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="12dp"
         android:layout_weight="1"

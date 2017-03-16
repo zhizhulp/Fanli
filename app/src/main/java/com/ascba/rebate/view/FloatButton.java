@@ -60,11 +60,11 @@ public class FloatButton extends RelativeLayout {
         param.flags = param.flags | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
         param.flags = param.flags | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS; // 排版不受限制
 
-        param.alpha = 0.8f;
+        param.alpha = 1.0f;
 
         //设置悬浮窗口长宽数据
-        param.width = 250;
-        param.height = 250;
+        param.width = LayoutParams.WRAP_CONTENT;
+        param.height = LayoutParams.WRAP_CONTENT;
 
         param.gravity = Gravity.LEFT | Gravity.TOP;   //调整悬浮窗口至左上角
         //以屏幕左上角为原点，设置x、y初始值
@@ -80,7 +80,7 @@ public class FloatButton extends RelativeLayout {
         int y = (int) event.getRawY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                param.alpha = 0.5f;
+                param.alpha = 0.8f;
                 mTouchStartX = event.getX();
                 mTouchStartY = event.getY();
                 wm.updateViewLayout(this, param);
@@ -108,9 +108,9 @@ public class FloatButton extends RelativeLayout {
                 wm.updateViewLayout(this, param);
                 break;
             case MotionEvent.ACTION_UP:
-                param.alpha = 0.8f;
+                param.alpha = 1.0f;
                 if (param.x >= (mScreenWidth - param.width) / 2) {
-                    param.x = (mScreenWidth - param.width);
+                    param.x = (mScreenWidth - 160);
                 } else {
                     param.x = 0;
                 }
