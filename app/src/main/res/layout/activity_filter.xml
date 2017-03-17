@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.ascba.rebate.activities.FilterActivity">
     <com.ascba.rebate.view.ShopABarText
-        app:abar_title="休闲零食"
+        app:abar_title="筛选"
         android:id="@+id/sab"
         android:layout_width="match_parent"
         android:layout_height="48dp"/>
@@ -47,8 +47,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_above="@id/line"
         android:layout_below="@id/sab"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:id="@+id/filter_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

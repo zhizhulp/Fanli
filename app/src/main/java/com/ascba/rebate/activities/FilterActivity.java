@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.view.ShopABarText;
@@ -20,8 +21,8 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
     private Button btnReset;
     private Button btnOver;
     private List<GoodsAttr> gas;
-    private ProfileAdapter adapter;
     private ShopABarText sab;
+    private FilterAdapter filterAdapter;
 
 
     @Override
@@ -54,9 +55,9 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
         filterRV = ((RecyclerView) findViewById(R.id.filter_list));
         gas=new ArrayList<>();
         initAttrsData(gas);
-        adapter=new ProfileAdapter(R.layout.goods_attrs_layout,gas);
+        filterAdapter = new FilterAdapter(R.layout.filter_layout,gas,this);
         filterRV.setLayoutManager(new LinearLayoutManager(this));
-        filterRV.setAdapter(adapter);
+        filterRV.setAdapter(filterAdapter);
     }
 
     private void initAttrsData(List<GoodsAttr> gas) {
@@ -129,7 +130,7 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
                             }
                         }
                     }
-                    adapter.notifyDataSetChanged();
+                    filterAdapter.notifyDataSetChanged();
                 }
                 break;
             case R.id.filter_over:
