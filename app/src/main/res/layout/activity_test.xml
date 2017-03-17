@@ -2,88 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:fillViewport="true"
     android:orientation="vertical">
-
-    <!--<com.ascba.rebate.view.FlowTagLayout
+    <com.ascba.rebate.view.FlowTagLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:layout_marginLeft="5dp"
-                android:text="哈哈"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:layout_marginLeft="5dp"
-                android:text="哈哈"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:layout_marginLeft="5dp"
-                android:text="哈哈"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:enabled="false"
-                android:layout_marginLeft="5dp"
-                android:text="哈哈"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RadioGroup>
-    </com.ascba.rebate.view.FlowTagLayout>-->
-    <com.ascba.rebate.view.RadioGroupEx
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:button="@null"
-            android:background="@drawable/goods_standrad_bg"
-            android:textSize="25sp"
-            android:text="哈哈哈"
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <RadioButton
-            android:button="@null"
-            android:background="@drawable/goods_standrad_bg"
-            android:textSize="25sp"
-            android:text="哈哈哈"
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <RadioButton
-            android:button="@null"
-            android:background="@drawable/goods_standrad_bg"
-            android:textSize="25sp"
-            android:text="哈哈哈"
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <RadioButton
-            android:button="@null"
-            android:background="@drawable/goods_standrad_bg"
-            android:textSize="25sp"
-            android:text="哈哈哈"
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <RadioButton
-            android:button="@null"
-            android:background="@drawable/goods_standrad_bg"
-            android:textSize="25sp"
-            android:text="哈哈哈"
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <RadioButton
-            android:button="@null"
-            android:background="@drawable/goods_standrad_bg"
-            android:textSize="25sp"
-            android:text="哈哈哈"
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </com.ascba.rebate.view.RadioGroupEx>
-
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.ascba.rebate.view.FilterCheckBox
+            android:text="好开心啊"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.ascba.rebate.view.FlowTagLayout>
 
 </LinearLayout>
