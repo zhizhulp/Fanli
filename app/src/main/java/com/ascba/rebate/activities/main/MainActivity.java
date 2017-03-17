@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.fragments.HomePageFragment;
@@ -42,6 +43,8 @@ import cn.jpush.android.api.TagAliasCallback;
 public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callback {
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
+    private static final int REQUEST_LOGIN_CAIFU = 2016;
+    private static final int REQUEST_LOGIN_ME = 2017;
     private List<Fragment> fgts = new ArrayList<>();
     private DialogManager2 dm;
     private final Handler mHandler = new Handler() {
@@ -192,6 +195,21 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_LOGIN_CAIFU:
+                if(resultCode==RESULT_OK){
+                    selFrgByPos(3);
+                }else {
+                    selFrgByPos(0);
+                }
+                break;
+            case REQUEST_LOGIN_ME:
+                if(resultCode==RESULT_OK){
+                    selFrgByPos(4);
+                }else {
+                    selFrgByPos(0);
+                }
+        }
     }
 
     private void setAlias(String alias) {
@@ -247,7 +265,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
         selFrgByPos(0);
     }
 
-    //分类--消息
+    //周边
     @Override
     public void clickOne(View v) {
         selFrgByPos(1);
@@ -260,17 +278,28 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
         startActivity(intent);
     }
 
-    //购物车
+    //财富
     @Override
     public void clickThree(View v) {
-        selFrgByPos(3);
+        if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){//登录
+            selFrgByPos(3);
+        }else {
+            Intent intent=new Intent(this, LoginActivity.class);
+            startActivityForResult(intent,REQUEST_LOGIN_CAIFU);
+        }
     }
 
-    //设置--我
+    //我
     @Override
     public void clickFour(View v) {
-        selFrgByPos(4);
+        if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
+            selFrgByPos(4);
+        }else {
+            Intent intent=new Intent(this, LoginActivity.class);
+            startActivityForResult(intent,REQUEST_LOGIN_ME);
+        }
     }
+
 
     //根据位置切换相应碎片
     public void selFrgByPos(int position) {

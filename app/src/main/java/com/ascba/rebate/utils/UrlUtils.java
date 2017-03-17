@@ -84,4 +84,6 @@ public class UrlUtils {
     public static final String wxpay=baseWebsite+"/"+webVersion+"/"+"wxpay";//微信支付
     public static final String getCharging=baseWebsite+"/"+webVersion+"/"+"getCharging";//商家扣费比率
 
+    public static final String wealth=baseWebsite+"/"+webVersion+"/"+"wealth";//财富
+
 }

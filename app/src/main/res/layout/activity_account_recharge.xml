@@ -103,6 +103,7 @@
             android:textColor="@color/black" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:id="@+id/ed_recharge_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -114,6 +114,7 @@
             android:layout_height="match_parent"
             android:text="¥"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:id="@+id/money"
             android:inputType="numberDecimal"
             android:hint="请输入提现金额"
