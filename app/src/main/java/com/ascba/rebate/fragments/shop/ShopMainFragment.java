@@ -163,6 +163,9 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
                 "新手返福利，专享188元大礼包"));
         //限量抢购
 
+
+
+
         //今日更新
         data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
                 "今日更新", "上新抢先看", 0xffffeeee));

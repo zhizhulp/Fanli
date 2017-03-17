@@ -1,13 +1,12 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -16,6 +15,8 @@ import com.ascba.rebate.adapter.FragmentPagerAdapter;
 import com.ascba.rebate.fragments.DeliverGoodsFragment;
 import com.ascba.rebate.fragments.TypeFragment;
 import com.ascba.rebate.view.ShopABar;
+import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
 
     private ShopABar shopABar;
     private Context context;
-    private TabLayout mTabLayout;
+    private SlidingTabLayout slidingtablayout;
     private ViewPager mViewPager;
     private LayoutInflater mInflater;
     private List<Bean> mTitleList = new ArrayList<>();//页卡标题集合
@@ -65,7 +66,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
 
             }
         });
-        mTabLayout = (TabLayout) findViewById(R.id.activity_order_tab);
+        slidingtablayout = (SlidingTabLayout) findViewById(R.id.slidingtablayout);
         mViewPager = (ViewPager) findViewById(R.id.activity_order_vp);
         initViewpagerView();
     }
@@ -93,7 +94,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
 
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
-        mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
+
 
         //添加页卡标题
         mTitleList.add(new Bean("全部", 0));
@@ -102,45 +103,29 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         mTitleList.add(new Bean("待收货", 5));
         mTitleList.add(new Bean("待评价", 7));
 
+        String[] title = new String[]{"全部", "待付款", "待发货", "待收货", "待评价"};
+        slidingtablayout.setViewPager(mViewPager, title);
 
-        for (int i = 0; i < mAdapter.getCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);//获得每一个tab
-            tab.setCustomView(R.layout.item_tablayout);//给每一个tab设置view
-            if (i == 0) {
-                // 设置第一个tab的TextView是被选择的样式
-                tab.getCustomView().findViewById(R.id.item_tablayout_text).setSelected(true);//第一个tab被选中
+        /**
+         * 遍历添加消息
+         */
+        for (int i = 0; i < mTitleList.size(); i++) {
+            Bean bean = mTitleList.get(i);
+            if (bean.getNum() > 0) {
+                slidingtablayout.showMsg(i, bean.getNum());
+                /**
+                 * position
+                 * 偏移量
+                 */
+                slidingtablayout.setMsgMargin(i, 0, 12);
+                MsgView msgView = slidingtablayout.getMsgView(i);
+                if (msgView != null) {
+                    msgView.setBackgroundColor(Color.parseColor("#ffffffff"));
+                    msgView.setTextColor(Color.parseColor("#DD0E0E"));
+                    msgView.setStrokeColor(Color.parseColor("#DD0E0E"));
+                }
             }
-            TextView title = (TextView) tab.getCustomView().findViewById(R.id.item_tablayout_text);
-            title.setText(mTitleList.get(i).getTitle());//设置tab上的文字
-
-            TextView noti = (TextView) tab.getCustomView().findViewById(R.id.item_tablayout_noti);
-            if (mTitleList.get(i).getNum() > 0) {
-                noti.setVisibility(View.VISIBLE);
-                noti.setText(String.valueOf(mTitleList.get(i).getNum()));//设置tab上的角标
-            } else {
-                noti.setVisibility(View.INVISIBLE);
-            }
-
         }
-
-
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                tab.getCustomView().findViewById(R.id.item_tablayout_text).setSelected(true);
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                tab.getCustomView().findViewById(R.id.item_tablayout_text).setSelected(false);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
     public class Bean {
