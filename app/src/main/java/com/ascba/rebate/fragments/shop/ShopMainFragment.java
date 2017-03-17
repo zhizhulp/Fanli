@@ -55,7 +55,7 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
     private List<String> navUrls;//导航栏图片链接
     private List<String> navStr;//导航栏文字
     private RelativeLayout searchHead;//搜索头
-    private int mDistanceY=0;//下拉刷新滑动距离
+    private int mDistanceY = 0;//下拉刷新滑动距离
 
     @Nullable
     @Override
@@ -70,7 +70,7 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
     }
 
     private void initViews(View view) {
-        searchHead= (RelativeLayout) view.findViewById(R.id.head_search_rr);
+        searchHead = (RelativeLayout) view.findViewById(R.id.head_search_rr);
         //返回图标
         view.findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,10 +161,33 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
         //头条
         data.add(new ShopBaseItem(ShopItemType.TYPE_HOT, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_hot,
                 "新手返福利，专享188元大礼包"));
+
+        //横线
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
         //限量抢购
+        List<String> titleList = new ArrayList<>();
+        titleList.add("限量抢购");
+        titleList.add("天天特价");
+        titleList.add("品牌精选");
 
+        List<String> contentList = new ArrayList<>();
+        contentList.add("Miss Dior迪奥香水 国际大牌");
+        contentList.add("每天都有大收获");
+        contentList.add("鞋服特卖 种类齐全");
 
+        List<String> descList = new ArrayList<>();
+        descList.add("仅剩三件");
+        descList.add("全场五折");
+        descList.add("首发价99元");
 
+        List<String> pagerUrls = new ArrayList<>();
+        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
+        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
+        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
+
+        data.add(new ShopBaseItem(ShopItemType.TYPE_RUSH, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_rush, titleList, contentList, descList, pagerUrls));
+        //横线
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
 
         //今日更新
         data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",

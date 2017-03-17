@@ -2,8 +2,6 @@ package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,7 +11,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.utils.ScreenDpiUtils;
-import com.ascba.rebate.view.cityList.Text;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
 import com.bumptech.glide.Glide;
@@ -63,6 +60,26 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
             case ShopItemType.TYPE_HOT:
                 helper.setText(R.id.item_type_4_text3, item.getUrl());
                 break;
+            case ShopItemType.TYPE_RUSH:
+                helper.setText(R.id.tv_rush_title1, item.getTitles().get(0));
+                helper.setText(R.id.tv_rush_content1, item.getContents().get(0));
+                helper.setText(R.id.tv_rush_desc1, item.getDescs().get(0));
+                ImageView img1 = helper.getView(R.id.tv_rush_img1);
+                Glide.with(context).load(item.getPagerUrls().get(0)).into(img1);
+
+                helper.setText(R.id.tv_rush_title2, item.getTitles().get(1));
+                helper.setText(R.id.tv_rush_content2, item.getContents().get(1));
+                helper.setText(R.id.tv_rush_desc2, item.getDescs().get(1));
+                ImageView img2 = helper.getView(R.id.tv_rush_img2);
+                Glide.with(context).load(item.getPagerUrls().get(1)).into(img2);
+
+                helper.setText(R.id.tv_rush_title3, item.getTitles().get(2));
+                helper.setText(R.id.tv_rush_content3, item.getContents().get(2));
+                helper.setText(R.id.tv_rush_desc3, item.getDescs().get(2));
+                ImageView img3 = helper.getView(R.id.tv_rush_img3);
+                Glide.with(context).load(item.getPagerUrls().get(2)).into(img3);
+                break;
+
             case ShopItemType.TYPE_CHEAP:
 
                 break;
@@ -89,8 +106,8 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 break;
             case ShopItemType.TYPE_GOODS_STYLE2:
                 Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.shop_im_goods_style2));
-                helper.setText(R.id.shop_tv_goods_title_style2,item.getTitle());
-                helper.setText(R.id.shop_tv_goods_price_style2,item.getDesc());
+                helper.setText(R.id.shop_tv_goods_title_style2, item.getTitle());
+                helper.setText(R.id.shop_tv_goods_price_style2, item.getDesc());
                 TextView view = helper.getView(R.id.shop_tv_goods_price_old_style2);
                 view.setText(item.getTitle());
                 view.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

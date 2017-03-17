@@ -27,14 +27,14 @@ public class ShopBaseItem implements MultiItemEntity {
     private List<String> contents;
     private List<String> descs;
 
-    private ShopBaseItem(int itemType, int spanSize, int resLat,List<String> titles, List<String> contents
-            ,List<String> descs,List<String> pagerUrls) {
+    public ShopBaseItem(int itemType, int spanSize, int resLat, List<String> titles, List<String> contents, List<String> descs, List<String> pagerUrls) {
         this(itemType, spanSize, resLat);
-        this.titles=titles;
-        this.contents=contents;
-        this.descs=descs;
-        this.pagerUrls=pagerUrls;
+        this.titles = titles;
+        this.contents = contents;
+        this.descs = descs;
+        this.pagerUrls = pagerUrls;
     }
+
     private ShopBaseItem(int itemType, int spanSize, int resLat){
         this.itemType = itemType;
         this.spanSize = spanSize;
