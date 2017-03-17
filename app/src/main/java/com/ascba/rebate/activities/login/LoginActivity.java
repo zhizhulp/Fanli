@@ -5,16 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetWork3Activity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 import org.json.JSONObject;
 
@@ -22,7 +20,7 @@ import org.json.JSONObject;
  * 登录页面
  */
 
-public class LoginActivity extends BaseNetWorkActivity {
+public class LoginActivity extends BaseNetWork3Activity {
     private EditText edPhone;
     private EditText edPassword;
     private String loginPhone;
@@ -32,9 +30,8 @@ public class LoginActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
-//        StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
-        autoLogin();
+        //autoLogin();
         backFirstPhone();//传回注册成功的手机账号
         backLossPhone();//密码找回成功
     }
@@ -121,10 +118,22 @@ public class LoginActivity extends BaseNetWorkActivity {
                 AppConfig.getInstance().putString("login_phone",loginPhone);
                 AppConfig.getInstance().putString("login_password","");
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                setResult(RESULT_OK,new Intent(LoginActivity.this,MainActivity.class));
+                finish();
+            }
+
+            @Override
+            public void handle404(String message) {
+                setResult(RESULT_CANCELED,getIntent());
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        /*setResult(RESULT_CANCELED,getIntent());
+        finish();*/
     }
 }

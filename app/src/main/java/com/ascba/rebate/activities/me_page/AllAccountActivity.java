@@ -23,7 +23,6 @@ public class AllAccountActivity extends BaseNetWorkActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_account);
-        StatusBarUtil.setColor(this, 0xffe52020);
         getDataFromIntent();
     }
     //红积分兑换成功，点击历史记录，查看账单

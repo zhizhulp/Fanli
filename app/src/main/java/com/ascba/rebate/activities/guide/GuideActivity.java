@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +156,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
 
 
     private void enterMainActivity() {
-        Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
+        Intent intent = new Intent(GuideActivity.this, MainActivity.class);
         startActivity(intent);
         SharedPreferencesUtil.putBoolean(GuideActivity.this, SharedPreferencesUtil.FIRST_OPEN, false);
         finish();

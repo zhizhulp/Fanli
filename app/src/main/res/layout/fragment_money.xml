@@ -21,6 +21,7 @@
                 android:background="@mipmap/me_head_bg">
 
                 <TextView
+                    android:id="@+id/me_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -47,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cash_left"
                     android:layout_centerHorizontal="true"
-                    android:text="现金账户余额(元)"
+                    android:text="账户总余额(元)"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -70,9 +71,10 @@
                     android:paddingTop="8dp">
 
                     <TextView
+                        android:id="@+id/me_tv_red_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="50"
+                        android:text="0"
                         android:textColor="@color/me_text_red"
                         android:textSize="16sp" />
 
@@ -102,9 +104,10 @@
                     android:paddingTop="8dp">
 
                     <TextView
+                        android:id="@+id/me_tv_white_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1000"
+                        android:text="0"
                         android:textColor="@color/me_text_red"
                         android:textSize="16sp" />
 
@@ -134,9 +137,10 @@
                     android:paddingTop="8dp">
 
                     <TextView
+                        android:id="@+id/me_tv_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0.34%"
+                        android:text="0.05%"
                         android:textColor="@color/me_text_red"
                         android:textSize="16sp" />
 
@@ -158,6 +162,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_daifan"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -186,10 +191,11 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/me_tv_daifan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="6821" />
+                            android:text="0" />
                     </LinearLayout>
 
                     <TextView
@@ -223,6 +229,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_duihuan"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -251,10 +258,11 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/me_tv_duihuan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="486" />
+                            android:text="0" />
                     </LinearLayout>
 
                     <TextView
@@ -300,6 +308,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_jiaoyi"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -328,10 +337,11 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/me_tv_jiaoyi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="6821" />
+                            android:text="0" />
                     </LinearLayout>
 
                     <TextView
@@ -353,6 +363,7 @@
                     android:background="@color/view_line_new" />
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_djq"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -378,10 +389,11 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/me_tv_djq"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="486" />
+                            android:text="0" />
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -395,6 +407,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_grzh"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -418,11 +431,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="个人账户"
+                            android:text="现金账户"
                             android:textColor="@color/shop_normal_text_color"
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/me_tv_grzh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -460,6 +474,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_sjzh"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -483,11 +498,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="商家账户"
+                            android:text="返佣账户"
                             android:textColor="@color/shop_normal_text_color"
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/me_tv_sjzh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -500,7 +516,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="13dp"
-                        android:text="明细"
+                        android:text="转出"
                         android:textColor="@color/text_blue" />
                 </RelativeLayout>
             </LinearLayout>
@@ -536,6 +552,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_chongzhi"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -589,6 +606,7 @@
                     android:background="@color/view_line_new" />
 
                 <RelativeLayout
+                    android:id="@+id/me_lat_bank"
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
@@ -614,6 +632,7 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/me_tv_bank"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"

@@ -151,7 +151,6 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.login.LoginActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
