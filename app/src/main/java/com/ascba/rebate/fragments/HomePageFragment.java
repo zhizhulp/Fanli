@@ -1,22 +1,27 @@
 package com.ascba.rebate.fragments;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -25,7 +30,7 @@ import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.fragments.base.BaseFragment;
-import com.ascba.rebate.view.FloatButton;
+import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -53,8 +58,11 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
     private ImageView imgUser, ImgAdd;
 
     private int mDistanceY = 0;
+    private TextView floatButton;
 
-    private FloatButton floatButton;
+    private FrameLayout btnAdd;
+    private ImageView imgAdd;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +78,24 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initView(View view) {
+
+
+        /**
+         * 悬浮球
+         */
+        floatButton = (TextView) view.findViewById(R.id.floatButton);
+        floatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("点我了");
+            }
+        });
+        String text = "本月任务\n已完成30%";
+        SpannableString textSpan = new SpannableString(text);
+        textSpan.setSpan(new RelativeSizeSpan(1.0f), 0, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        textSpan.setSpan(new RelativeSizeSpan(0.7f), 4, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        floatButton.setText(textSpan);
+
         /**
          * 刷新
          */
@@ -134,10 +160,16 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
          * 头部信息
          */
         homepage_head = (RelativeLayout) view.findViewById(R.id.homepage_head);
-        imgUser = (ImageView) view.findViewById(R.id.homepage_img_user);
-        imgUser.setOnClickListener(this);
-        ImgAdd = (ImageView) view.findViewById(R.id.homepage_img_add);
-        ImgAdd.setOnClickListener(this);
+        //+号
+        btnAdd = (FrameLayout) view.findViewById(R.id.homepage_add);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopWindow();
+            }
+        });
+        imgAdd = (ImageView) view.findViewById(R.id.homepage_img_add);
+
 
         /**
          * 初始化recylerview
@@ -185,7 +217,7 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
                         break;
                     case R.id.homepage_btn_college:
                         //ASK商学院
-                        Intent college=new Intent(getActivity(), ASKCollegeActivity.class);
+                        Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
                         startActivity(college);
                         break;
                 }
@@ -326,68 +358,57 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
     }
 
     /**
-     * 初始化悬浮按钮
+     * 弹窗
      */
-    private void initFloatButton() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            askForPermission();
-        } else {
-            floatButton = new FloatButton(getActivity().getApplicationContext());
-            floatButton.showView();
+    private void showPopWindow() {
+        View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
 
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initFloatButton();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        floatButton.removeView();
-    }
-
-    /**
-     * 请求用户给予悬浮窗的权限
-     */
-    @TargetApi(Build.VERSION_CODES.M)
-    public void askForPermission() {
-        if (!Settings.canDrawOverlays(getActivity())) {
-            Toast.makeText(getActivity(), "当前无权限，请授权！", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getActivity().getPackageName()));
-            startActivityForResult(intent, 1);
-        } else {
-            floatButton = new FloatButton(getActivity().getApplicationContext());
-            floatButton.showView();
-        }
-    }
-
-    /**
-     * 用户返回
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (!Settings.canDrawOverlays(getActivity())) {
-                    Toast.makeText(getActivity(), "权限授予失败，无法开启悬浮窗", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "权限授予成功！", Toast.LENGTH_SHORT).show();
-                    //启动悬浮窗
-                    floatButton = new FloatButton(getActivity().getApplicationContext());
-                    floatButton.showView();
-                }
+        //消息
+        LinearLayout btnMsg = (LinearLayout) view.findViewById(R.id.pop_hm_msg);
+        btnMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("消息");
             }
+        });
 
-        }
+        //付款
+        LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("付款");
+            }
+        });
+
+        //收款
+        LinearLayout btnRece = (LinearLayout) view.findViewById(R.id.pop_hm_rece);
+        btnRece.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("收款");
+            }
+        });
+
+        //推广码
+        LinearLayout btnCode = (LinearLayout) view.findViewById(R.id.pop_hm_code);
+        btnCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("推广码");
+            }
+        });
+
+        PopupWindow window = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        // 设置可以获取焦点
+        window.setFocusable(true);
+        // 设置可以触摸弹出框以外的区域
+        window.setOutsideTouchable(true);
+        window.setBackgroundDrawable(new BitmapDrawable());
+        // 更新popupwindow的状态
+        window.update();
+        // 以下拉的方式显示，并且可以设置显示的位置
+        window.showAtLocation(imgAdd, Gravity.END|Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 20), ScreenDpiUtils.dip2px(context, 0));
     }
-
 
 }

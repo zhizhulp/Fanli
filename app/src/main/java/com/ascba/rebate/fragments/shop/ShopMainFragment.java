@@ -105,13 +105,13 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
                 } else if (position == 3) {
                     Intent intent = new Intent(getContext(), TypeMilkActivity.class);
                     startActivity(intent);
-                } else if (position == 16) {
+                } else if (position == 19) {
                     Intent intent = new Intent(getContext(), GoodsDetailsActivity.class);
                     startActivity(intent);
-                } else if (position == 17) {
+                } else if (position == 20) {
                     Intent intent = new Intent(getContext(), BeginnerGuideActivity.class);
                     startActivity(intent);
-                } else if (position == 18) {
+                } else if (position == 21) {
                     Intent intent = new Intent(getContext(), GoodsListActivity.class);
                     startActivity(intent);
                 }

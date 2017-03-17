@@ -11,7 +11,12 @@
         android:id="@+id/sab"
         android:layout_width="match_parent"
         android:layout_height="48dp"/>
-
+    <View
+        android:id="@+id/sab_line"
+        android:layout_below="@id/sab"
+        android:background="@color/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
     <LinearLayout
         android:id="@+id/filter_btm"
         android:layout_alignParentBottom="true"
@@ -46,7 +51,7 @@
         android:layout_height="0.5dp"/>
     <android.support.v7.widget.RecyclerView
         android:layout_above="@id/line"
-        android:layout_below="@id/sab"
+        android:layout_below="@id/sab_line"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:id="@+id/filter_list"
