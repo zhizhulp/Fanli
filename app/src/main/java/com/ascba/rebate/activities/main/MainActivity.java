@@ -205,6 +205,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                 if (resultCode == RESULT_OK) {
                     selFrgByPos(3);
                 } else {
+                    appTabs.setFilPos(0);
                     selFrgByPos(0);
                     appTabs.getImThree().setImageResource(R.mipmap.tab_caifu);
                     appTabs.getTvThree().setTextColor(getResources().getColor(R.color.textgray));
@@ -217,6 +218,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                 if (resultCode == RESULT_OK) {
                     selFrgByPos(4);
                 } else {
+                    appTabs.setFilPos(0);
                     selFrgByPos(0);
                     appTabs.getImFour().setImageResource(R.mipmap.tab_me);
                     appTabs.getTvFour().setTextColor(getResources().getColor(R.color.textgray));
