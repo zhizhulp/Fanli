@@ -281,11 +281,6 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                         requestMyData(0);
                     }
                     break;
-                /*case REQUEST_CLOSE:
-                    getActivity().finish();
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                    break;*/
                 case REQUEST_CASH_GET:
                     requestMyData(0);
                     break;

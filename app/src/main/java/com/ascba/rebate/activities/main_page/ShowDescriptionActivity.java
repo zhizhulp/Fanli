@@ -16,7 +16,7 @@ public class ShowDescriptionActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_description);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();//获取商家详情
     }

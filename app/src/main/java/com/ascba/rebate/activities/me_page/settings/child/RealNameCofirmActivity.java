@@ -23,7 +23,7 @@ public class RealNameCofirmActivity extends BaseNetWorkActivity implements BaseN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_name_cofirm);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initView();
     }
 

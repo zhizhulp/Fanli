@@ -44,7 +44,7 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_result);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         receiveMsgFromServer();
     }

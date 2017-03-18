@@ -25,7 +25,7 @@ public class BCProcessActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bcprocess);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
 

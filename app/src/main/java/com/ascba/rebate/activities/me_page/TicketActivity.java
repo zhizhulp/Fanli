@@ -34,7 +34,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestServer(UrlUtils.getVoucherList);
     }

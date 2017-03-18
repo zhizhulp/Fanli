@@ -26,6 +26,7 @@
             android:text="身份证号"/>
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:maxLines="1"
             android:textSize="14sp"
             app:hintSize="15dp"

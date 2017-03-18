@@ -79,7 +79,7 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_center);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }

@@ -27,7 +27,7 @@ public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_red_score_update);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestRedScore();
     }

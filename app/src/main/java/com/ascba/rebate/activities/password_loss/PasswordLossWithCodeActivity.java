@@ -41,7 +41,7 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_loss_with_code);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getPhoneFromBefore();//获取上个界面传来的手机号码
     }

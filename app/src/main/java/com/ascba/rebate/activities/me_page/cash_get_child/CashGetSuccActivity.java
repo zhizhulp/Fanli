@@ -17,7 +17,7 @@ public class CashGetSuccActivity extends AppCompatActivity implements MoneyBar.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_get_succ);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
     private void initViews() {

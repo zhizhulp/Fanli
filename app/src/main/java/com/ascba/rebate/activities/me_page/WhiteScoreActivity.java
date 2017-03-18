@@ -37,7 +37,7 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_to);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestNetWork();
     }

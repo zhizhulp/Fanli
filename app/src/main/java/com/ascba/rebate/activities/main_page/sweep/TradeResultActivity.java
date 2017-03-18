@@ -12,7 +12,7 @@ public class TradeResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade_result);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
     }
 
     public void goComplete(View view) {

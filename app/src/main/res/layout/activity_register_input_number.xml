@@ -93,6 +93,7 @@
             android:layout_height="match_parent"
             android:background="@color/view_line"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:id="@+id/ed_input_number"
             android:maxLines="1"
             android:padding="15dp"

@@ -67,9 +67,9 @@ public class MyApplication extends MultiDexApplication {
                         // 设置全局服务器响应超时时间，单位毫秒，默认10s。
 //                .setReadTimeout(30 * 1000)
                         // 配置缓存，默认保存数据库DBCacheStore，保存到SD卡使用DiskCacheStore。
-                        .setCacheStore(
+                        /*.setCacheStore(
                                 new DBCacheStore(this).setEnable(false) // 如果不使用缓存，设置false禁用。
-                        )
+                        )*/
                         // 配置Cookie，默认保存数据库DBCookieStore，开发者可以自己实现。
                         .setCookieStore(
                                 new DBCookieStore(this).setEnable(true) // 如果不维护cookie，设置false禁用。

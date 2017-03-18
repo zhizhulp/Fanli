@@ -19,7 +19,7 @@ public class ShowPicActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pic);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
 
