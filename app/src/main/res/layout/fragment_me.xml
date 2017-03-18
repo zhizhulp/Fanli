@@ -1,5 +1,4 @@
 <com.ascba.rebate.view.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
@@ -47,7 +46,7 @@
                     android:id="@+id/me_tv_nick_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/me_user_img_fl"
+                    android:layout_below="@id/me_user_img"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:textColor="#fff"
@@ -156,6 +155,7 @@
                 android:id="@+id/me_lat_smrz"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
+                android:layout_marginBottom="0.5dp"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -196,15 +196,11 @@
                     android:textSize="15sp" />
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/view_line_new" />
-
             <RelativeLayout
                 android:id="@+id/me_lat_sjlm"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
+                android:layout_marginBottom="0.5dp"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -245,16 +241,11 @@
                     android:textSize="15sp" />
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/view_line_new" />
-
             <RelativeLayout
                 android:id="@+id/me_lat_msg"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginBottom="9dp"
+                android:layout_marginBottom="0.5dp"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -286,9 +277,52 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/setting_my_qr"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                android:onClick="settingMyQRCode"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/safe_setting_img_04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/setting_qr_code" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/safe_setting_img_04"
+                    android:text="商家二维码"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="19dp"
+                    android:src="@mipmap/me_right_go" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="9dp"
+                android:background="@color/view_line_new" />
+
+            <RelativeLayout
                 android:id="@+id/me_lat_setting"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
+                android:layout_marginBottom="0.5dp"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -319,11 +353,6 @@
                     android:src="@mipmap/me_right_go" />
 
             </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/view_line_new" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
