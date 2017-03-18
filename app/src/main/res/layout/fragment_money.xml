@@ -177,6 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:paddingTop="2dp"
                         android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
@@ -204,6 +205,7 @@
                         android:layout_alignTop="@id/me_lat_daifan_l1"
                         android:layout_marginRight="12dp"
                         android:text="兑现"
+                        android:paddingTop="2dp"
                         android:textColor="#448ffe"
                         android:textSize="13sp" />
                 </RelativeLayout>
@@ -248,6 +250,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="17dp"
+                        android:paddingTop="2dp"
                         android:layout_toRightOf="@id/im_pre_score_06"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
@@ -275,6 +278,7 @@
                         android:layout_alignTop="@id/me_lat_daifan_l2"
                         android:layout_marginRight="12dp"
                         android:text="兑换"
+                        android:paddingTop="2dp"
                         android:textColor="#448ffe"
                         android:textSize="13sp" />
                 </RelativeLayout>
@@ -330,6 +334,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:paddingTop="2dp"
                         android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
@@ -358,6 +363,7 @@
                         android:layout_marginRight="12dp"
                         android:text="收银"
                         android:textColor="#448ffe"
+                        android:paddingTop="2dp"
                         android:textSize="13sp" />
                 </RelativeLayout>
 
@@ -389,6 +395,7 @@
                         android:layout_marginLeft="17dp"
                         android:layout_toRightOf="@id/im_pre_score_08"
                         android:gravity="center_vertical"
+                        android:paddingTop="2dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -438,6 +445,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
+                        android:paddingTop="2dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -463,6 +471,7 @@
                         android:layout_marginRight="12dp"
                         android:text="提现"
                         android:textSize="13sp"
+                        android:paddingTop="2dp"
                         android:layout_alignTop="@id/me_lat_daifan_l4"
                         android:textColor="#448ffe" />
                 </RelativeLayout>
@@ -509,6 +518,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/im_pre_score_02"
                         android:gravity="center_vertical"
+                        android:paddingTop="2dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -535,6 +545,7 @@
                         android:text="转出"
                         android:layout_alignTop="@id/me_lat_daifan_l5"
                         android:textSize="13sp"
+                        android:paddingTop="2dp"
                         android:textColor="#448ffe" />
                 </RelativeLayout>
             </LinearLayout>
@@ -590,6 +601,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
+                        android:paddingTop="2dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -615,6 +627,7 @@
                         android:layout_marginRight="12dp"
                         android:text="收银"
                         android:textSize="13sp"
+                        android:paddingTop="2dp"
                         android:layout_alignTop="@+id/me_lat_daifan_l6"
                         android:textColor="#448ffe" />
                 </RelativeLayout>
@@ -647,6 +660,7 @@
                         android:layout_marginLeft="17dp"
                         android:layout_toRightOf="@id/im_pre_score_03"
                         android:gravity="center_vertical"
+                        android:paddingTop="2dp"
                         android:orientation="vertical">
 
                         <TextView
