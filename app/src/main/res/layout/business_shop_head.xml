@@ -49,8 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="RCC韩国代购-男装"
                 android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,8 +59,7 @@
                 android:drawablePadding="5dp"
                 android:text="个人店铺"
                 android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="14sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -95,8 +93,7 @@
             android:gravity="center"
             android:text="默认"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <View
             android:layout_width="0.5dp"
@@ -111,8 +108,7 @@
             android:gravity="center"
             android:text="销量"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <View
             android:layout_width="0.5dp"
@@ -127,8 +123,7 @@
             android:gravity="center"
             android:text="价格"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <View
             android:layout_width="0.5dp"
@@ -143,8 +138,7 @@
             android:gravity="center"
             android:text="最新"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 

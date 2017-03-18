@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             app:hintSize="@dimen/activity_text_normal"
             android:hint="请输入您的手机号"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:singleLine="false" />
     </LinearLayout>
@@ -63,6 +64,7 @@
             android:id="@+id/login_password_ed"
             android:inputType="textWebPassword"
             android:layout_marginLeft="20dp"
+            android:textColor="@color/white"
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

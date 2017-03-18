@@ -3,6 +3,7 @@ package com.ascba.rebate.activities.shop;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.WindowManager;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
@@ -11,7 +12,6 @@ import com.ascba.rebate.fragments.CartFragment;
 import com.ascba.rebate.fragments.ShopMeFragment;
 import com.ascba.rebate.fragments.TypeFragment;
 import com.ascba.rebate.fragments.shop.ShopMainFragment;
-import com.ascba.rebate.view.Rotate3D.ActivitySwitcher;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 
@@ -38,6 +38,7 @@ public class ShopActivity extends BaseNetWorkActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_shop);
         findViews();
     }
@@ -68,21 +69,5 @@ public class ShopActivity extends BaseNetWorkActivity {
         mTabLayout_2.setCurrentTab(0);
     }
 
-    @Override
-    public void finish() {
-        ActivitySwitcher.animationOut(findViewById(R.id.second_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
-            @Override
-            public void onAnimationFinished() {
-                ShopActivity.super.finish();
-                overridePendingTransition(0, 0);
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        ActivitySwitcher.animationIn(findViewById(R.id.second_rr), getWindowManager());
-        super.onResume();
-    }
 }
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/goods_details_choose_rl"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="43dp"
     android:background="@color/white"
     android:orientation="horizontal">
 
@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:gravity="center_vertical"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
         android:textColor="@color/shop_normal_text_color"
         android:textSize="14sp" />
 

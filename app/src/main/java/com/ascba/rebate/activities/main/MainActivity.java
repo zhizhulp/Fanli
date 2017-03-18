@@ -28,7 +28,6 @@ import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
-import com.ascba.rebate.view.Rotate3D.ActivitySwitcher;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -191,7 +190,6 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
 
     @Override
     protected void onResume() {
-        ActivitySwitcher.animationIn(findViewById(R.id.main_rr), getWindowManager());
         super.onResume();
     }
 
@@ -293,26 +291,9 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     @Override
     public void clickTwo(View v) {
         final Intent intent = new Intent(this, ShopActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        ActivitySwitcher.animationOut(findViewById(R.id.main_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
-            @Override
-            public void onAnimationFinished() {
-                startActivity(intent);
-            }
-        });
+        startActivity(intent);
     }
 
-    @Override
-    public void finish() {
-        ActivitySwitcher.animationOut(findViewById(R.id.main_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
-            @Override
-            public void onAnimationFinished() {
-                MainActivity.super.finish();
-                // disable default animation
-                overridePendingTransition(0, 0);
-            }
-        });
-    }
 
 
     //财富

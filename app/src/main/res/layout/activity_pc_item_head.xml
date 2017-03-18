@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@mipmap/pc_beijing">
@@ -11,26 +12,32 @@
         android:layout_marginRight="9.5dp"
         android:layout_marginTop="10dp">
 
-        <ImageView
-            android:id="@+id/activity_pc_item_head_xiaoxi"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/pc_xiaoxi" />
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/activity_pc_item_head_xiaoxi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/pc_xiaoxi" />
+
+            <ImageView
+                android:id="@+id/activity_pc_item_head_xiaoxi_notify"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginLeft="-8dp"
+                android:layout_toRightOf="@+id/activity_pc_item_head_xiaoxi"
+                android:background="@drawable/notify_img" />
+        </RelativeLayout>
+
 
         <ImageView
-            android:id="@+id/activity_pc_item_head_xiaoxi_notify"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginLeft="-8dp"
-            android:layout_toRightOf="@+id/activity_pc_item_head_xiaoxi"
-            android:background="@drawable/notify_img"/>
-
-        <ImageView
-            android:id="@+id/activity_pc_item_head_dianpu"
+            android:id="@+id/activity_pc_item_head_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/pc_dianpu" />
+            android:src="@mipmap/abar_back" />
     </RelativeLayout>
 
     <LinearLayout
@@ -40,20 +47,34 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/activity_pc_item_head_touxiang"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/pc_touxiang" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:alpha="0.5"
+                android:background="@drawable/bg_circle" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/me_user_img"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/pc_touxiang" />
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/activity_pc_item_head_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:textSize="16sp"
+            android:text="钱来钱往"
             android:textColor="@color/white"
-            android:text="钱来钱往" />
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,9 +93,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4.5dp"
-                android:textSize="12sp"
+                android:text="金钻会员"
                 android:textColor="@color/white"
-                android:text="金钻会员" />
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>

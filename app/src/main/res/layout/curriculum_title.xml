@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/red_rectangle_s" />
+            android:src="@drawable/rectangle_red" />
 
         <TextView
             android:id="@+id/curriculum_title_left"

@@ -85,6 +85,11 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                         startActivity(intent);
                         break;
                 }
+                switch (view.getId()) {
+                    case R.id.activity_pc_item_head_back:
+                        getActivity().finish();
+                        break;
+                }
             }
 
         });

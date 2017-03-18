@@ -78,9 +78,24 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     private void initViews(View view) {
         //初始化标题栏
         sab = ((ShopABar) view.findViewById(R.id.sab));
-        sab.setBackEnable(false);
         sab.setImageOtherEnable(false);
         sab.setTitle("购物车(100)");
+        sab.setCallback(new ShopABar.Callback() {
+            @Override
+            public void back(View v) {
+                getActivity().finish();
+            }
+
+            @Override
+            public void clkMsg(View v) {
+
+            }
+
+            @Override
+            public void clkOther(View v) {
+
+            }
+        });
         //初始化刷新控件
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLayout.setOnPullRefreshListener(this);

@@ -21,8 +21,7 @@
             android:layout_height="wrap_content"
             android:text="全球券购"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/homepage_btn_global_text2"
@@ -73,8 +72,7 @@
                     android:layout_marginTop="14dp"
                     android:text="天天特价"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/homepage_btn_offer_text2"
@@ -126,8 +124,7 @@
                     android:layout_marginTop="14dp"
                     android:text="品牌精选"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/homepage_btn_selected_text2"

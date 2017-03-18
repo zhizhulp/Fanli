@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ import java.util.List;
  * 商品详情页
  */
 @SuppressLint("SetTextI18n")
-public class GoodsDetailsActivity extends BaseNetWork4Activity {
+public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.OnClickListener {
 
     //足记控件
     private PtrFrameLayout ptrLayout;
@@ -51,6 +52,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
     //viewpager
     private int currentItem;
     private List<View> viewList = new ArrayList<>();
+
+    private FrameLayout btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +138,10 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
      * 初始化UI
      */
     private void InitUI() {
+
+        btnBack = (FrameLayout) findViewById(R.id.goods_details_back);
+        btnBack.setOnClickListener(this);
+
         /**
          * viewPager
          */
@@ -317,7 +324,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
         shopEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,BusinessShopActivity.class);
+                Intent intent = new Intent(context, BusinessShopActivity.class);
                 startActivity(intent);
             }
         });
@@ -424,4 +431,13 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.goods_details_back:
+                //返回
+                finish();
+                break;
+        }
+    }
 }

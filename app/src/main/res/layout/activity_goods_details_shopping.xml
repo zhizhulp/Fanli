@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="48dp"
     android:layout_alignParentBottom="true"
     android:background="@android:color/white"
     android:orientation="horizontal">
@@ -11,14 +11,12 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
+            android:drawablePadding="4dp"
             android:drawableTop="@mipmap/service_phone"
             android:paddingRight="16dp"
             android:textColor="@color/shop_normal_text_color"
@@ -34,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
+            android:drawablePadding="4dp"
             android:drawableTop="@mipmap/store"
             android:textColor="@color/shop_normal_text_color"
             android:paddingLeft="16dp"

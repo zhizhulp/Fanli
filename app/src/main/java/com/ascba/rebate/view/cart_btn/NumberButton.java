@@ -73,7 +73,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         int buttonWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_buttonWidth, -1);
         int textWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textWidth, -1);
         int textSize = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textSize, -1);
-        int textColor = typedArray.getColor(R.styleable.NumberButton_textColor, 0xff000000);
+        int textColor = typedArray.getColor(R.styleable.NumberButton_textColor, 0xff707070);
         typedArray.recycle();
 
         setEditable(editable);

@@ -6,9 +6,9 @@
     tools:context="com.ascba.rebate.fragments.MoneyFragment">
 
     <ScrollView
-        android:background="@color/view_line_new"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/view_line_new">
         <!-- head -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,21 +43,21 @@
                     android:textSize="30sp" />
 
                 <TextView
-                    android:layout_marginTop="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cash_left"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="7dp"
                     android:text="账户总余额(元)"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>
             <!--昨日赠返红积分-->
             <LinearLayout
-                android:layout_marginBottom="9dp"
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:background="@color/white"
                 android:baselineAligned="true"
                 android:orientation="horizontal">
 
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textColor="@color/me_text_red"
+                        android:textColor="@color/fragment_money_red"
                         android:textSize="16sp" />
 
                     <TextView
@@ -83,7 +83,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="昨日赠返红积分"
-                        android:textColor="@color/shop_normal_text_color"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -108,7 +107,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textColor="@color/me_text_red"
+                        android:textColor="@color/fragment_money_red"
                         android:textSize="16sp" />
 
                     <TextView
@@ -116,7 +115,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="白积分总额"
-                        android:textColor="@color/shop_normal_text_color"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -141,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0.05%"
-                        android:textColor="@color/me_text_red"
+                        android:textColor="@color/fragment_money_red"
                         android:textSize="16sp" />
 
                     <TextView
@@ -149,16 +147,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="昨日赠送比例"
-                        android:textColor="@color/shop_normal_text_color"
                         android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
 
             <!--待返积分-->
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -176,10 +173,11 @@
                         android:src="@mipmap/me_df" />
 
                     <LinearLayout
+                        android:id="@+id/me_lat_daifan_l1"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="17dp"
-                        android:layout_toRightOf="@id/im_pre_score_05"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -187,26 +185,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="待返积分"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
                             android:id="@+id/me_tv_daifan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:text="0" />
+                            android:layout_marginTop="6dp"
+                            android:text="0"
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_alignTop="@id/me_lat_daifan_l1"
                         android:layout_marginRight="12dp"
-                        android:layout_marginTop="13dp"
                         android:text="兑现"
-                        android:textColor="@color/text_blue" />
+                        android:textColor="#448ffe"
+                        android:textSize="13sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -244,8 +243,10 @@
                         android:src="@mipmap/me_dh" />
 
                     <LinearLayout
+                        android:id="@+id/me_lat_daifan_l2"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="17dp"
                         android:layout_toRightOf="@id/im_pre_score_06"
                         android:gravity="center_vertical"
@@ -255,33 +256,34 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="兑换积分"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
                             android:id="@+id/me_tv_duihuan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:text="0" />
+                            android:layout_marginTop="6dp"
+                            android:text="0"
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_alignTop="@id/me_lat_daifan_l2"
                         android:layout_marginRight="12dp"
-                        android:layout_marginTop="13dp"
                         android:text="兑换"
-                        android:textColor="@color/text_blue" />
+                        android:textColor="#448ffe"
+                        android:textSize="13sp" />
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <View
@@ -303,10 +305,10 @@
 
             <!--交易积分-->
             <LinearLayout
-                android:layout_marginBottom="9dp"
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -324,10 +326,11 @@
                         android:src="@mipmap/me_jy" />
 
                     <LinearLayout
+                        android:id="@+id/me_lat_daifan_l3"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="17dp"
-                        android:layout_toRightOf="@id/im_pre_score_07"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -335,26 +338,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="交易积分"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
                             android:id="@+id/me_tv_jiaoyi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:text="0" />
+                            android:layout_marginTop="6dp"
+                            android:text="0"
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_alignTop="@id/me_lat_daifan_l3"
                         android:layout_marginRight="12dp"
-                        android:layout_marginTop="13dp"
                         android:text="收银"
-                        android:textColor="@color/text_blue" />
+                        android:textColor="#448ffe"
+                        android:textSize="13sp" />
                 </RelativeLayout>
 
                 <View
@@ -370,6 +374,7 @@
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
+
                     <ImageView
                         android:id="@+id/im_pre_score_08"
                         android:layout_width="wrap_content"
@@ -377,6 +382,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:src="@mipmap/me_djq" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -384,30 +390,31 @@
                         android:layout_toRightOf="@id/im_pre_score_08"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="代金券"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
                             android:id="@+id/me_tv_djq"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:text="0" />
+                            android:layout_marginTop="6dp"
+                            android:text="0"
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                 </RelativeLayout>
             </LinearLayout>
             <!--待返积分-->
             <LinearLayout
-                android:background="@color/white"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -425,10 +432,11 @@
                         android:src="@mipmap/me_grzh" />
 
                     <LinearLayout
+                        android:id="@+id/me_lat_daifan_l4"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="17dp"
-                        android:layout_toRightOf="@id/im_pre_score"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -436,16 +444,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="现金账户"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
                             android:id="@+id/me_tv_grzh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:text="0.00" />
+                            android:layout_marginTop="6dp"
+                            android:text="0.00"
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView
@@ -453,9 +461,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="12dp"
-                        android:layout_marginTop="13dp"
                         android:text="提现"
-                        android:textColor="@color/text_blue" />
+                        android:textSize="13sp"
+                        android:layout_alignTop="@id/me_lat_daifan_l4"
+                        android:textColor="#448ffe" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -493,9 +502,11 @@
                         android:src="@mipmap/me_sjzh" />
 
                     <LinearLayout
+                        android:id="@+id/me_lat_daifan_l5"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="17dp"
+                        android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/im_pre_score_02"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
@@ -504,16 +515,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="返佣账户"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
                             android:id="@+id/me_tv_sjzh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:text="0.00" />
+                            android:layout_marginTop="6dp"
+                            android:text="0.00"
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView
@@ -521,16 +532,17 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="12dp"
-                        android:layout_marginTop="13dp"
                         android:text="转出"
-                        android:textColor="@color/text_blue" />
+                        android:layout_alignTop="@id/me_lat_daifan_l5"
+                        android:textSize="13sp"
+                        android:textColor="#448ffe" />
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <View
@@ -552,9 +564,9 @@
 
             <!--交易积分-->
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -572,10 +584,11 @@
                         android:src="@mipmap/me_cz" />
 
                     <LinearLayout
+                        android:id="@+id/me_lat_daifan_l6"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="17dp"
-                        android:layout_toRightOf="@id/im_pre_score_04"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="58dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
@@ -583,16 +596,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="充值"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
+                            android:id="@+id/textView5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
+                            android:layout_marginTop="6dp"
                             android:text="账户充值"
-                            android:id="@+id/textView5" />
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView
@@ -600,9 +613,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="12dp"
-                        android:layout_marginTop="13dp"
                         android:text="收银"
-                        android:textColor="@color/text_blue" />
+                        android:textSize="13sp"
+                        android:layout_alignTop="@+id/me_lat_daifan_l6"
+                        android:textColor="#448ffe" />
                 </RelativeLayout>
 
                 <View
@@ -618,6 +632,7 @@
                     android:layout_width="0dp"
                     android:layout_height="62dp"
                     android:layout_weight="1">
+
                     <ImageView
                         android:id="@+id/im_pre_score_03"
                         android:layout_width="wrap_content"
@@ -625,6 +640,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:src="@mipmap/me_card" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -632,20 +648,21 @@
                         android:layout_toRightOf="@id/im_pre_score_03"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="我的银行"
-                            android:textColor="@color/shop_normal_text_color"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:textSize="13sp"
                             android:id="@+id/me_tv_bank"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:text="0张" />
+                            android:layout_marginTop="6dp"
+                            android:text="0张"
+                            android:textColor="@color/fragment_money_num"
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
