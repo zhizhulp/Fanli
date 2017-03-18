@@ -32,6 +32,38 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
     private Callback callback;
     private int filPos=0;//代表被选择的位置（默认）
 
+    public ImageView getImOne() {
+        return imOne;
+    }
+
+    public ImageView getImZero() {
+        return imZero;
+    }
+
+    public ImageView getImThree() {
+        return imThree;
+    }
+
+    public ImageView getImFour() {
+        return imFour;
+    }
+
+    public TextView getTvZero() {
+        return tvZero;
+    }
+
+    public TextView getTvOne() {
+        return tvOne;
+    }
+
+    public TextView getTvThree() {
+        return tvThree;
+    }
+
+    public TextView getTvFour() {
+        return tvFour;
+    }
+
     public AppTabs(Context context) {
         super(context);
         initViews(context);

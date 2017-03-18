@@ -71,6 +71,12 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
             Manifest.permission.READ_CONTACTS
     };
 
+    private Fragment mHomePageFragment;
+    private Fragment mSideFragment;
+    private Fragment mMoneyFragment;
+    private  Fragment mMeFragment;
+    private AppTabs appTabs;
+
     public DialogManager2 getDm() {
         return dm;
     }
@@ -125,22 +131,22 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     private void findViews() {
         dm = new DialogManager2(this);
         initFragments();
-        AppTabs appTabs = ((AppTabs) findViewById(R.id.tabs));
+        appTabs = ((AppTabs) findViewById(R.id.tabs));
         appTabs.setCallback(this);
         init();//设置极光推送用户标识
     }
 
     private void initFragments() {
-        Fragment mHomePageFragment = new HomePageFragment();
-        Fragment mSideFragment = new SideFragment();
-        Fragment mMoneyFragment = new MoneyFragment();
-        Fragment mMeFragment = new MeFragment();
+        mHomePageFragment = new HomePageFragment();
+        mSideFragment = new SideFragment();
+        mMoneyFragment = new MoneyFragment();
+        mMeFragment = new MeFragment();
 
 
         fgts.add(mHomePageFragment);
         fgts.add(mSideFragment);
-        fgts.add(mMoneyFragment);
-        fgts.add(mMeFragment);
+        /*fgts.add(mMoneyFragment);
+        fgts.add(mMeFragment);*/
 
         addAllFrgsToContai();
     }
@@ -148,9 +154,9 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     private void addAllFrgsToContai() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        for (int i = 0; i < fgts.size(); i++) {
-            ft.add(R.id.fl_change, fgts.get(i));
-        }
+
+        ft.add(R.id.fl_change, mHomePageFragment);
+        ft.add(R.id.fl_change, mSideFragment);
         ft.commit();
         selFrgByPos(0);
     }
@@ -201,6 +207,11 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                     selFrgByPos(3);
                 }else {
                     selFrgByPos(0);
+                    appTabs.getImThree().setImageResource(R.mipmap.tab_caifu);
+                    appTabs.getTvThree().setTextColor(getResources().getColor(R.color.textgray));
+
+                    appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
+                    appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }
                 break;
             case REQUEST_LOGIN_ME:
@@ -208,6 +219,11 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                     selFrgByPos(4);
                 }else {
                     selFrgByPos(0);
+                    appTabs.getImFour().setImageResource(R.mipmap.tab_me);
+                    appTabs.getTvFour().setTextColor(getResources().getColor(R.color.textgray));
+
+                    appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
+                    appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }
         }
     }
@@ -332,6 +348,10 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
 
                 break;
             case 3:
+                if(!fgts.contains(mMoneyFragment)){
+                    ft.add(R.id.fl_change,mMoneyFragment);
+                    fgts.add(mMoneyFragment);
+                }
                 for (int i = 0; i < fgts.size(); i++) {
                     Fragment fragment = fgts.get(i);
                     if (fragment instanceof MoneyFragment) {
@@ -339,10 +359,15 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                     } else {
                         ft.hide(fragment);
                     }
+
                 }
                 ft.commit();
                 break;
             case 4:
+                if(!fgts.contains(mMeFragment)){
+                    ft.add(R.id.fl_change,mMeFragment);
+                    fgts.add(mMeFragment);
+                }
                 for (int i = 0; i < fgts.size(); i++) {
                     Fragment fragment = fgts.get(i);
                     if (fragment instanceof MeFragment) {
