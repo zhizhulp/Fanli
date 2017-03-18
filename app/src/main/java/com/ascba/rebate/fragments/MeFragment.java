@@ -26,12 +26,11 @@ import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -45,7 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * 个人中心
  */
-public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseFragment.Callback {
+public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
 
     private Handler handler = new Handler() {
         @Override
@@ -390,5 +389,22 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
         if(refreshLayout!=null && refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleReLogin() {
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

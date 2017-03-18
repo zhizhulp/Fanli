@@ -24,7 +24,7 @@ public class LocationActivity extends BaseNetWorkActivity implements OnAddressCh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         init();
     }
     //城市选择

@@ -267,6 +267,13 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
     }
 
     @Override
+    public void handleReLogin() {
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
     public void handleNoNetWork() {
 
     }

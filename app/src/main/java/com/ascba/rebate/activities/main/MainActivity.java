@@ -45,6 +45,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     private static final int MSG_SET_TAGS = 1002;
     private static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
+    private static final int REQUEST_SHOP = 0;
     private List<Fragment> fgts = new ArrayList<>();
     private DialogManager2 dm;
     private final Handler mHandler = new Handler() {
@@ -145,8 +146,6 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
 
         fgts.add(mHomePageFragment);
         fgts.add(mSideFragment);
-        /*fgts.add(mMoneyFragment);
-        fgts.add(mMeFragment);*/
 
         addAllFrgsToContai();
     }
@@ -225,6 +224,14 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                     appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
                     appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }
+                break;
+            case REQUEST_SHOP:
+                appTabs.getTvTwo().setTextColor(getResources().getColor(R.color.textgray));
+                appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
+                appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
+                appTabs.setFilPos(0);
+                selFrgByPos(0);
+                break;
         }
     }
 
@@ -290,8 +297,8 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     //商城
     @Override
     public void clickTwo(View v) {
-        final Intent intent = new Intent(this, ShopActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, ShopActivity.class);
+        startActivityForResult(intent,REQUEST_SHOP);
     }
 
 

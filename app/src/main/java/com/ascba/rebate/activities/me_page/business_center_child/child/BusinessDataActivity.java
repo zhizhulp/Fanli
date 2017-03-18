@@ -94,7 +94,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_data);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
     }

@@ -19,7 +19,7 @@ public class ModifyNicknameActivity extends BaseNetWorkActivity implements Money
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_nickname);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 

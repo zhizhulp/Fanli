@@ -106,7 +106,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaode_poisearch_update);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         dm = new DialogManager2(this);
         init(savedInstanceState);
 

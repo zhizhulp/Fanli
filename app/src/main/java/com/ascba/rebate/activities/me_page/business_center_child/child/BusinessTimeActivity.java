@@ -19,7 +19,7 @@ public class BusinessTimeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_time);
         initViews();
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         getDataFromIntent();
     }
 

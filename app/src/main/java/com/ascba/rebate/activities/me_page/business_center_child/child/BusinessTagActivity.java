@@ -29,7 +29,7 @@ public class BusinessTagActivity extends BaseNetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_tag);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
     }

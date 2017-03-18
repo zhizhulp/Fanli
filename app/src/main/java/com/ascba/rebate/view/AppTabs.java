@@ -32,6 +32,10 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
     private Callback callback;
     private int filPos=0;//代表被选择的位置（默认）
 
+    public void setFilPos(int filPos) {
+        this.filPos = filPos;
+    }
+
     public TextView getTvTwo() {
         return tvTwo;
     }
@@ -175,7 +179,7 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
         }
     }
 
-    private void statusChaByPosition(int currentPos, int beforePos) {
+    public void statusChaByPosition(int currentPos, int beforePos) {
         if(beforePos!=currentPos){
             switch (beforePos){
                 case 0:

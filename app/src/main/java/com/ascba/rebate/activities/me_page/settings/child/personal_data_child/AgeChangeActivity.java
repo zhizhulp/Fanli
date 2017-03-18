@@ -19,7 +19,7 @@ public class AgeChangeActivity extends BaseNetWorkActivity implements MoneyBar.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_age_change);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 

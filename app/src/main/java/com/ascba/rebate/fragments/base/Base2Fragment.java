@@ -38,6 +38,7 @@ public class Base2Fragment extends Fragment {
         void handle200Data(JSONObject dataObj, String message);//数据请求成功
         void handleReqFailed();//请求服务器失败
         void handle404(String message);
+        void handleReLogin();
         void handleNoNetWork();
     }
 
@@ -134,7 +135,9 @@ public class Base2Fragment extends Fragment {
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
                 AppConfig.getInstance().putInt("uuid",-1000);
                 startActivity(intent);
-                ((MyApplication) getActivity().getApplication()).exit();
+                if(callback!=null){//重新登录的处理
+                    callback.handleReLogin();
+                }
             } else if(status==404){
                 if(callback!=null){//对于404额外的处理
                     callback.handle404(message);

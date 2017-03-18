@@ -130,10 +130,4 @@ public class LoginActivity extends BaseNetWork3Activity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        /*setResult(RESULT_CANCELED,getIntent());
-        finish();*/
-    }
 }
