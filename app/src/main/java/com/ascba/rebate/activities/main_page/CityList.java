@@ -65,7 +65,7 @@ public class CityList extends BaseNetWorkActivity {
         LayoutInflater localLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View city_layout = localLayoutInflater.inflate(R.layout.public_cityhot, null);
         setContentView(city_layout);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
 
         citysearch = (TextView) city_layout.findViewById(R.id.city_search_edittext);
         mCityLit = (ListView) city_layout.findViewById(R.id.public_allcity_list);

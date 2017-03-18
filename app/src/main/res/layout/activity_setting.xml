@@ -47,80 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>
-    <RelativeLayout
-        android:onClick="settingRealNameConfirm"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="46dp">
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/safe_setting_img_02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/setting_real_name"/>
-        <TextView
-            android:textColor="@color/black"
 
-            android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/safe_setting_img_02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="实名认证"/>
-        <ImageView
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/setting_go"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/view_line"/>
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/setting_my_qr"
-        android:onClick="settingMyQRCode"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="46dp">
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/safe_setting_img_04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/setting_qr_code"/>
-        <TextView
-            android:textColor="@color/black"
-
-            android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/safe_setting_img_04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="商家二维码"/>
-        <ImageView
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/setting_go"/>
-    </RelativeLayout>
-    <View
-        android:visibility="gone"
-        android:id="@+id/setting_my_qr_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/view_line"/>
     <RelativeLayout
         android:visibility="gone"
         android:onClick="settingPay"
@@ -164,8 +91,6 @@
         android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
-
-
         <ImageView
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

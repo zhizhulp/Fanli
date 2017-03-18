@@ -35,7 +35,7 @@ public class FirstRecActivity extends BaseNetWorkActivity implements BaseNetWork
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_rec);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestRecList();//获取推荐列表
     }

@@ -68,21 +68,5 @@ public class ShopActivity extends BaseNetWorkActivity {
         mTabLayout_2.setCurrentTab(0);
     }
 
-    @Override
-    public void finish() {
-        ActivitySwitcher.animationOut(findViewById(R.id.second_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
-            @Override
-            public void onAnimationFinished() {
-                ShopActivity.super.finish();
-                overridePendingTransition(0, 0);
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        ActivitySwitcher.animationIn(findViewById(R.id.second_rr), getWindowManager());
-        super.onResume();
-    }
 }
 

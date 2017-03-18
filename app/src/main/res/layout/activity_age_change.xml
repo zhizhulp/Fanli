@@ -26,6 +26,7 @@
             android:layout_height="wrap_content" 
             android:text="年龄"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:id="@+id/et_age"
             android:layout_marginLeft="20dp"
             android:background="@null"

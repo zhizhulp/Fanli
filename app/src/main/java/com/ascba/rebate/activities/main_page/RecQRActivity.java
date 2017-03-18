@@ -33,7 +33,7 @@ public class RecQRActivity extends BaseNetWorkActivity implements BaseNetWorkAct
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec_qr);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         createQR();
         requestFromServer();

@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
@@ -22,6 +23,7 @@ import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterA
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
+import com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
@@ -67,7 +69,9 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
     private int finalScene;
 
     private static final int REQUEST_APPLY = 0;
+    private static final int REQUEST_CLOSE=1;
     private TextView tvUserName;
+    private View qrView;
 
     public MeFragment() {
     }
@@ -113,6 +117,9 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
         //消息
         viewMsg = view.findViewById(R.id.me_lat_msg);
         viewMsg.setOnClickListener(this);
+        //商家二维码
+        qrView = view.findViewById(R.id.setting_my_qr);
+        qrView.setOnClickListener(this);
         //设置
         viewSetting = view.findViewById(R.id.me_lat_setting);
         viewSetting.setOnClickListener(this);
@@ -161,7 +168,13 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
                 break;
             case R.id.me_lat_msg://消息
                 break;
+            case R.id.setting_my_qr:
+                Intent intent3 = new Intent(getActivity(), QRCodeActivity.class);
+                startActivity(intent3);
+                break;
             case R.id.me_lat_setting://设置
+                Intent intent2 = new Intent(getActivity(), SettingActivity.class);
+                startActivityForResult(intent2, REQUEST_CLOSE);
                 break;
 
         }
@@ -179,8 +192,16 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_APPLY:
-                //TODO 刷新页面数据
+                requestData(UrlUtils.user,3);
                 break;
+            case REQUEST_CLOSE:
+                if(resultCode== Activity.RESULT_OK){
+                    getActivity().finish();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+
         }
     }
 
@@ -325,8 +346,13 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
                 refreshLayout.setRefreshing(false);
             }
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
-            Glide.with(getActivity()).load(UrlUtils.baseWebsite+infoObj.optString("avatar")).into(userIcon);
+            Picasso.with(getActivity()).load(UrlUtils.baseWebsite + infoObj.optString("avatar")).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(userIcon);
             JSONArray group_type = infoObj.optJSONArray("group_type");
+            if(group_type==null || group_type.length()==0){
+                return;
+            }
+            imgsLat.removeAllViews();
             for (int i = 0; i < group_type.length(); i++) {
                 JSONObject typeObj = group_type.optJSONObject(i);
                 int isUpgraded = typeObj.optInt("isUpgraded");
@@ -338,10 +364,12 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
                 imageView.setLayoutParams(lp);
                 if (isUpgraded == 1 || id == 1) {
                     String upgraded_icon = typeObj.optString("upgraded_icon");
-                    Glide.with(getActivity()).load(UrlUtils.baseWebsite + upgraded_icon).error(R.mipmap.logo).into(imageView);
+                    Picasso.with(getActivity()).load(UrlUtils.baseWebsite + upgraded_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(imageView);
                 } else {
                     String default_icon = typeObj.optString("default_icon");
-                    Glide.with(getActivity()).load(UrlUtils.baseWebsite + default_icon).error(R.mipmap.logo).into(imageView);
+                    Picasso.with(getActivity()).load(UrlUtils.baseWebsite + default_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(imageView);
                 }
                 imgsLat.addView(imageView);
             }
@@ -349,11 +377,18 @@ public class MeFragment extends BaseFragment implements SuperSwipeRefreshLayout.
             tvUserName.setText(infoObj.optString("nickname"));
             tvSjlm.setText(infoObj.optInt("merchant")<3 ?infoObj.optString("merchant_tip") : infoObj.optString("seller_status_tip"));
             tvPhone.setText(infoObj.optString("telephone"));
+            if (infoObj.optInt("seller_status")==2) {
+                qrView.setVisibility(View.VISIBLE);
+            } else {
+                qrView.setVisibility(View.GONE);
+            }
         }
     }
 
     @Override
     public void handleReqFailed() {
-
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
     }
 }

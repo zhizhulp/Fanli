@@ -40,7 +40,7 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         findView();
     }
 

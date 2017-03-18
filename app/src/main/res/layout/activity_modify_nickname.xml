@@ -27,6 +27,7 @@
             android:text="昵称"/>
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:textSize="14sp"
             android:layout_marginLeft="20dp"
             app:hintSize="14sp"

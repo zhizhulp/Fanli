@@ -46,6 +46,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     private static final int MSG_SET_TAGS = 1002;
     private static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
+    private static final int REQUEST_SHOP = 0;
     private List<Fragment> fgts = new ArrayList<>();
     private DialogManager2 dm;
     private final Handler mHandler = new Handler() {
@@ -146,8 +147,6 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
 
         fgts.add(mHomePageFragment);
         fgts.add(mSideFragment);
-        /*fgts.add(mMoneyFragment);
-        fgts.add(mMeFragment);*/
 
         addAllFrgsToContai();
     }
@@ -190,17 +189,6 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     }
 
     @Override
-    protected void onResume() {
-        ActivitySwitcher.animationIn(findViewById(R.id.main_rr), getWindowManager());
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
@@ -227,6 +215,14 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                     appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
                     appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }
+                break;
+            case REQUEST_SHOP:
+                appTabs.getTvTwo().setTextColor(getResources().getColor(R.color.textgray));
+                appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
+                appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
+
+                selFrgByPos(0);
+                break;
         }
     }
 
@@ -292,26 +288,8 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     //商城
     @Override
     public void clickTwo(View v) {
-        final Intent intent = new Intent(this, ShopActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        ActivitySwitcher.animationOut(findViewById(R.id.main_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
-            @Override
-            public void onAnimationFinished() {
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    public void finish() {
-        ActivitySwitcher.animationOut(findViewById(R.id.main_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
-            @Override
-            public void onAnimationFinished() {
-                MainActivity.super.finish();
-                // disable default animation
-                overridePendingTransition(0, 0);
-            }
-        });
+        Intent intent = new Intent(this, ShopActivity.class);
+        startActivityForResult(intent,REQUEST_SHOP);
     }
 
 

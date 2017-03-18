@@ -39,7 +39,7 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_card);
-        StatusBarUtil.setColor(this, 0xffe52020);
+        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getIntentFromBefore();
     }

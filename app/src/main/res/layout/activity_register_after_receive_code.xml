@@ -65,6 +65,7 @@
             android:layout_height="wrap_content"
             android:text="验证码"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:textSize="15sp"
             android:id="@+id/confirm_code"
             android:maxLines="1"
@@ -100,6 +101,7 @@
             android:text="密码"/>
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:textSize="15sp"
             android:inputType="textPassword"
             android:maxLines="1"
@@ -135,6 +137,7 @@
             android:text="确认密码"/>
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:textSize="15sp"
             android:inputType="textPassword"
             android:id="@+id/confirm_repassword"
@@ -172,6 +175,7 @@
             android:id="@+id/textView3" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/textgray"
             android:textSize="15sp"
             android:id="@+id/confirm_recommend_man"
             app:hintSize="14sp"

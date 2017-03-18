@@ -443,10 +443,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.me_page.business_center_child.child.GaoDeSearch"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.me_page.business_center_child.BCInputNameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />

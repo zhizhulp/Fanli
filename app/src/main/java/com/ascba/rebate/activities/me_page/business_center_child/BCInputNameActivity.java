@@ -27,7 +27,7 @@ public class BCInputNameActivity extends BaseNetWorkActivity implements  BaseNet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bcinput_name);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initviews();
     }
 
