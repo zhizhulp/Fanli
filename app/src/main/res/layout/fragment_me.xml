@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:id="@+id/me_lat_tuiguang"
                     android:gravity="center"
                     android:paddingTop="9dp"
                     android:paddingBottom="9dp"
@@ -75,6 +76,7 @@
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"/>
                 <LinearLayout
+                    android:id="@+id/me_lat_jiangli"
                     android:gravity="center"
                     android:paddingTop="9dp"
                     android:paddingBottom="9dp"
@@ -99,6 +101,7 @@
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"/>
                 <LinearLayout
+                    android:id="@+id/me_lat_power"
                     android:gravity="center"
                     android:paddingTop="9dp"
                     android:paddingBottom="9dp"
@@ -120,6 +123,7 @@
             </LinearLayout>
             <!--实名认证-->
             <RelativeLayout
+                android:id="@+id/me_lat_smrz"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
@@ -148,6 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/me_tv_smrz_sta"
                     android:layout_marginRight="6dp"
                     android:textSize="15sp"
                     android:layout_centerVertical="true"
@@ -161,6 +166,7 @@
                 android:layout_height="0.5dp"
                 android:background="@color/view_line_new"/>
             <RelativeLayout
+                android:id="@+id/me_lat_sjlm"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
@@ -188,12 +194,22 @@
                     android:src="@mipmap/me_right_go"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/me_tv_sjlm_sta"
+                    android:layout_marginRight="6dp"
+                    android:textSize="15sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/me_icon_go_02"
+                    android:text="未实名"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/view_line_new"/>
             <RelativeLayout
+                android:id="@+id/me_lat_msg"
                 android:layout_marginBottom="9dp"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
@@ -225,6 +241,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/me_lat_setting"
                 android:background="@color/white"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
@@ -280,6 +297,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/me_tv_phone"
                     android:text="400-6611-781"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
