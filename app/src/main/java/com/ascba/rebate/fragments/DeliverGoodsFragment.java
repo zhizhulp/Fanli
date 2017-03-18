@@ -59,10 +59,18 @@ public class DeliverGoodsFragment extends BaseFragment implements SuperSwipeRefr
     }
 
     private void InitRecylerView(View view) {
+
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         DeliverGoodsAdapter adapter = new DeliverGoodsAdapter(getData(), context);
+
+        /**
+         * empty
+         */
+        View emptyView = LayoutInflater.from(context).inflate(R.layout.view_empty, null);
+        adapter.setEmptyView(emptyView);
+
         recyclerView.setAdapter(adapter);
 
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));

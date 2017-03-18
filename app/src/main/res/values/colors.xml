@@ -460,4 +460,6 @@
     <color name="view_line_new">#ececec</color>
     <color name="divider">#ffd2d2d2</color>
     <color name="me_text_red">#f73e3e</color>
+
+    <color name="cutting_line">#ecebeb</color>
 </resources>

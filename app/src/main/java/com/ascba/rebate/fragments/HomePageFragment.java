@@ -408,7 +408,7 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
         // 更新popupwindow的状态
         window.update();
         // 以下拉的方式显示，并且可以设置显示的位置
-        window.showAtLocation(imgAdd, Gravity.END|Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 20), ScreenDpiUtils.dip2px(context, 0));
+        window.showAtLocation(imgAdd, Gravity.TOP|Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
     }
 
 }

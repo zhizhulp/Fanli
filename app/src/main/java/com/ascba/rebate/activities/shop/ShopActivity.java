@@ -3,16 +3,20 @@ package com.ascba.rebate.activities.shop;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.beans.TabEntity;
 import com.ascba.rebate.fragments.CartFragment;
 import com.ascba.rebate.fragments.ShopMeFragment;
 import com.ascba.rebate.fragments.TypeFragment;
+import com.ascba.rebate.fragments.shop.ShopMainFragment;
+import com.ascba.rebate.view.Rotate3D.ActivitySwitcher;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
-import com.ascba.rebate.R;
-import com.ascba.rebate.fragments.shop.ShopMainFragment;
+
 import java.util.ArrayList;
+
 /**
  * 主界面
  */
@@ -62,6 +66,23 @@ public class ShopActivity extends BaseNetWorkActivity {
         }
         mTabLayout_2.setTabData(mTabEntities, this, R.id.fl_change, mFragments);
         mTabLayout_2.setCurrentTab(0);
+    }
+
+    @Override
+    public void finish() {
+        ActivitySwitcher.animationOut(findViewById(R.id.second_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
+            @Override
+            public void onAnimationFinished() {
+                ShopActivity.super.finish();
+                overridePendingTransition(0, 0);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        ActivitySwitcher.animationIn(findViewById(R.id.second_rr), getWindowManager());
+        super.onResume();
     }
 }
 

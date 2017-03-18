@@ -14,7 +14,7 @@
     <View
         android:id="@+id/sab_line"
         android:layout_below="@id/sab"
-        android:background="@color/view_line"
+        android:background="@color/cutting_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
     <LinearLayout
@@ -46,7 +46,7 @@
     <View
         android:id="@+id/line"
         android:layout_above="@id/filter_btm"
-        android:background="@color/view_line"
+        android:background="@color/cutting_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
     <android.support.v7.widget.RecyclerView

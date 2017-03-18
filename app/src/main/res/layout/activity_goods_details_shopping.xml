@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="6dp"
             android:layout_marginTop="6dp"
-            android:background="@color/lighter_gray" />
+            android:background="@color/cutting_line" />
 
         <TextView
             android:layout_width="wrap_content"

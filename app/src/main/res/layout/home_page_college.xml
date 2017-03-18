@@ -34,7 +34,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
-        android:background="@color/lighter_gray" />
+        android:background="@color/cutting_line" />
 
     <LinearLayout
         android:id="@+id/homepage_btn_policy"

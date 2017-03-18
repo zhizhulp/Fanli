@@ -27,9 +27,11 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
     public HomePageAdapter(List<HomePageMultiItemItem> data, Context context) {
         super(data);
         this.context = context;
-        for (int i = 0; i < data.size(); i++) {
-            HomePageMultiItemItem item = data.get(i);
-            addItemType(item.getItemType(), item.getLayout());
+        if (data != null && data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                HomePageMultiItemItem item = data.get(i);
+                addItemType(item.getItemType(), item.getLayout());
+            }
         }
     }
 

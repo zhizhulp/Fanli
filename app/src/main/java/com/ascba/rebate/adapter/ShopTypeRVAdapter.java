@@ -35,9 +35,11 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
     public ShopTypeRVAdapter(List<ShopBaseItem> data, Context context) {
         super(data);
         this.context = context;
-        for (int i = 0; i < data.size(); i++) {
-            ShopBaseItem sbI = data.get(i);
-            addItemType(sbI.getItemType(), sbI.getResLat());
+        if (data != null && data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                ShopBaseItem sbI = data.get(i);
+                addItemType(sbI.getItemType(), sbI.getResLat());
+            }
         }
     }
 

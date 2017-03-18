@@ -84,5 +84,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/lighter_gray" />
+        android:background="@color/cutting_line" />
 </LinearLayout>

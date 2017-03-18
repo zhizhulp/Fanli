@@ -28,6 +28,7 @@ import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
+import com.ascba.rebate.view.Rotate3D.ActivitySwitcher;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -184,6 +185,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
 
     @Override
     protected void onResume() {
+        ActivitySwitcher.animationIn(findViewById(R.id.main_rr), getWindowManager());
         super.onResume();
     }
 
@@ -195,18 +197,18 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_LOGIN_CAIFU:
-                if(resultCode==RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     selFrgByPos(3);
-                }else {
+                } else {
                     selFrgByPos(0);
                 }
                 break;
             case REQUEST_LOGIN_ME:
-                if(resultCode==RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     selFrgByPos(4);
-                }else {
+                } else {
                     selFrgByPos(0);
                 }
         }
@@ -274,29 +276,48 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     //商城
     @Override
     public void clickTwo(View v) {
-        Intent intent=new Intent(this,ShopActivity.class);
-        startActivity(intent);
+        final Intent intent = new Intent(this, ShopActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        ActivitySwitcher.animationOut(findViewById(R.id.main_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
+            @Override
+            public void onAnimationFinished() {
+                startActivity(intent);
+            }
+        });
     }
+
+    @Override
+    public void finish() {
+        ActivitySwitcher.animationOut(findViewById(R.id.main_rr), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
+            @Override
+            public void onAnimationFinished() {
+                MainActivity.super.finish();
+                // disable default animation
+                overridePendingTransition(0, 0);
+            }
+        });
+    }
+
 
     //财富
     @Override
     public void clickThree(View v) {
-        if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){//登录
+        if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
             selFrgByPos(3);
-        }else {
-            Intent intent=new Intent(this, LoginActivity.class);
-            startActivityForResult(intent,REQUEST_LOGIN_CAIFU);
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN_CAIFU);
         }
     }
 
     //我
     @Override
     public void clickFour(View v) {
-        if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
+        if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
             selFrgByPos(4);
-        }else {
-            Intent intent=new Intent(this, LoginActivity.class);
-            startActivityForResult(intent,REQUEST_LOGIN_ME);
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN_ME);
         }
     }
 

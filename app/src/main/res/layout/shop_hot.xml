@@ -23,7 +23,7 @@
         android:layout_marginLeft="13.5dp"
         android:layout_marginTop="9dp"
         android:layout_toRightOf="@+id/item_type_4_toutaio"
-        android:background="@color/lighter_gray" />
+        android:background="@color/cutting_line"  />
     <LinearLayout
         android:layout_centerVertical="true"
         android:layout_width="match_parent"

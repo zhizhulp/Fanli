@@ -29,8 +29,10 @@ public class DeliverGoodsAdapter extends BaseMultiItemQuickAdapter<OrderBean, Ba
     public DeliverGoodsAdapter(List<OrderBean> data, Context context) {
         super(data);
         this.context = context;
-        for (OrderBean bean : data) {
-            addItemType(bean.getItemType(), bean.getLayout());
+        if (data != null && data.size() > 0) {
+            for (OrderBean bean : data) {
+                addItemType(bean.getItemType(), bean.getLayout());
+            }
         }
     }
 
