@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ViewPagerAdapter;
 import com.ascba.rebate.beans.GoodsDetailsItem;
+import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.handler.PtrDefaultHandler;
@@ -53,7 +53,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private int currentItem;
     private List<View> viewList = new ArrayList<>();
 
-    private FrameLayout btnBack;
+    private ShopABar shopABar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +139,27 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      */
     private void InitUI() {
 
-        btnBack = (FrameLayout) findViewById(R.id.goods_details_back);
-        btnBack.setOnClickListener(this);
+        /**
+         * bar
+         */
+        shopABar = (ShopABar) findViewById(R.id.shopbar);
+        shopABar.setImageOther(R.mipmap.pc_gouwuche);
+        shopABar.setCallback(new ShopABar.Callback() {
+            @Override
+            public void back(View v) {
+                finish();
+            }
+
+            @Override
+            public void clkMsg(View v) {
+
+            }
+
+            @Override
+            public void clkOther(View v) {
+
+            }
+        });
 
         /**
          * viewPager
@@ -434,10 +453,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.goods_details_back:
-                //返回
-                finish();
-                break;
         }
     }
 }

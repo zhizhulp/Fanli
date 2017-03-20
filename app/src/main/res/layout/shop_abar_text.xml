@@ -31,4 +31,9 @@
         android:paddingLeft="10dp"
         android:textSize="14sp"
         android:paddingRight="12dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/cutting_line"/>
 </RelativeLayout>

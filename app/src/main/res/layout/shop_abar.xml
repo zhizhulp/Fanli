@@ -37,4 +37,10 @@
         android:id="@+id/abar_im_other"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/cutting_line"/>
 </RelativeLayout>

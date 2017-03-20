@@ -28,7 +28,7 @@
         app:tl_tab_padding="22dp"
         app:tl_tab_space_equal="true"
         app:tl_textSelectColor="@color/shop_normal_text_color"
-        app:tl_textUnselectColor="@color/light_gray"
+        app:tl_textUnselectColor="#a7a7a7"
         app:tl_underline_height="3dp"
         app:tl_textsize="15sp" />
 
