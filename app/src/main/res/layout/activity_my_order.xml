@@ -18,6 +18,7 @@
         android:id="@+id/slidingtablayout"
         android:layout_width="match_parent"
         android:layout_height="42dp"
+        android:layout_marginTop="4dp"
         android:background="@color/white"
         app:tl_indicator_color="#DD0E0E"
         app:tl_indicator_height="2dp"
@@ -25,8 +26,8 @@
         app:tl_tab_space_equal="true"
         app:tl_textSelectColor="#DD0E0E"
         app:tl_textUnselectColor="@color/shop_normal_text_color"
-        app:tl_underline_height="3dp"
-        app:tl_textsize="15sp" />
+        app:tl_textsize="15sp"
+        app:tl_underline_height="3dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/activity_order_vp"

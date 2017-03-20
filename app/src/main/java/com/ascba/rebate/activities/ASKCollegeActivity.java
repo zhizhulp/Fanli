@@ -1,5 +1,7 @@
 package com.ascba.rebate.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -27,11 +29,13 @@ public class ASKCollegeActivity extends BaseNetWork4Activity {
     private SlidingTabLayout slidingtablayout;
     private ViewPager mViewPager;
     private List<Fragment> fragmentList = new ArrayList<>();//页卡视图集合
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_college);
+        context = this;
         initView();
     }
 
@@ -48,7 +52,11 @@ public class ASKCollegeActivity extends BaseNetWork4Activity {
 
             @Override
             public void clkMsg(View v) {
-                showToast("个人中心");
+                /**
+                 * 个人中心
+                 */
+                Intent intent = new Intent(context, MyEvaluationActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -76,10 +84,10 @@ public class ASKCollegeActivity extends BaseNetWork4Activity {
         TypeFragment fragment4 = new TypeFragment();
         fragmentList.add(fragment4);
 
-        ViewpagerFragmentAdapter viewPager=new ViewpagerFragmentAdapter(getSupportFragmentManager(),fragmentList);
+        ViewpagerFragmentAdapter viewPager = new ViewpagerFragmentAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager.setAdapter(viewPager);
-        String[] title=new String[]{"全部","初级","中级","高级"};
-        slidingtablayout.setViewPager(mViewPager,title);
+        String[] title = new String[]{"全部", "初级", "中级", "高级"};
+        slidingtablayout.setViewPager(mViewPager, title);
 
     }
 }

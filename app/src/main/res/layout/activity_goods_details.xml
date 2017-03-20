@@ -105,80 +105,10 @@
 
     </com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout>
 
-    <RelativeLayout
+    <com.ascba.rebate.view.ShopABar
+        android:id="@+id/shopbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/white"
-        android:paddingTop="12dp">
-
-        <FrameLayout
-            android:id="@+id/goods_details_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/icon_back" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/abar_back" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/goods_details_meg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingRight="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/icon_back" />
-
-            <ImageView
-                android:id="@+id/homepage_img_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/shop_no_msg" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/goods_details_meg"
-            android:paddingRight="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/icon_back" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/pc_gouwuche" />
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/cutting_line"></View>
-    </RelativeLayout>
+        android:background="@color/white" />
 
 </RelativeLayout>
