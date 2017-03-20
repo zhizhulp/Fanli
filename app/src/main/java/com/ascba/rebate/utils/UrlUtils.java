@@ -86,4 +86,6 @@ public class UrlUtils {
 
     public static final String wealth=baseWebsite+"/"+webVersion+"/"+"wealth";//财富
 
+    public static final String getMyPspread=baseWebsite+"/"+webVersion+"/"+"getMyPspread";//一级推广
+    public static final String getSearchSpread=baseWebsite+"/"+webVersion+"/"+"getSearchSpread";//筛选出的一级推广;
 }

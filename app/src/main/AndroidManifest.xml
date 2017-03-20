@@ -597,9 +597,10 @@
             android:name=".activities.MyEvaluationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity android:name=".activities.MyRecActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" ></activity>
     </application>
-    <activity android:name=".activities.MyRecActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppStyle" ></activity>
+
 
 </manifest>
