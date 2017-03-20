@@ -12,7 +12,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.URLConnectionNetworkExecutor;
-import com.yolanda.nohttp.cache.DBCacheStore;
 import com.yolanda.nohttp.cookie.DBCookieStore;
 import com.yolanda.nohttp.rest.RequestQueue;
 
@@ -107,7 +106,7 @@ public class MyApplication extends MultiDexApplication {
 
                 }else{
                     activity.finish();
-                    removeActivity(activity);
+                    //removeActivity(activity);
                 }
 
             }

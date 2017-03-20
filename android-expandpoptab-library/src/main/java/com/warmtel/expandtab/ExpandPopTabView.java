@@ -5,20 +5,23 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
 public class ExpandPopTabView extends LinearLayout implements OnDismissListener {
     private ArrayList<RelativeLayout> mViewLists = new ArrayList<RelativeLayout>();
-    private ToggleButton mSelectedToggleBtn;
+    private CheckBox mSelectedToggleBtn;
+    private ImageView imageView;
     private PopupWindow mPopupWindow;
     private Context mContext;
     private int mDisplayWidth;
@@ -33,7 +36,7 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
 
     public ExpandPopTabView(Context context) {
         super(context);
-        init(context,null);
+        init(context, null);
     }
 
     public ExpandPopTabView(Context context, AttributeSet attrs) {
@@ -47,13 +50,13 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
             a = context.obtainStyledAttributes(attrs, R.styleable.ExpandPopTabView);
             mToggleBtnBackground = a.getResourceId(R.styleable.ExpandPopTabView_tab_toggle_btn_bg, -1);
             mToggleBtnBackgroundColor = a.getColor(R.styleable.ExpandPopTabView_tab_toggle_btn_color, -1);
-            mToggleTextColor = a.getColor(R.styleable.ExpandPopTabView_tab_toggle_btn_font_color,-1);
-            mPopViewBackgroundColor = a.getColor(R.styleable.ExpandPopTabView_tab_pop_bg_color,-1);
+            mToggleTextColor = a.getColor(R.styleable.ExpandPopTabView_tab_toggle_btn_font_color, -1);
+            mPopViewBackgroundColor = a.getColor(R.styleable.ExpandPopTabView_tab_pop_bg_color, -1);
             mToggleTextSize = a.getDimension(R.styleable.ExpandPopTabView_tab_toggle_btn_font_size, -1);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            if(a != null) {
+        } finally {
+            if (a != null) {
                 a.recycle();
             }
         }
@@ -64,17 +67,19 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
     }
 
     public void addItemToExpandTab(String tabTitle, ViewGroup tabItemView) {
-        ToggleButton tButton = (ToggleButton) LayoutInflater.from(mContext).inflate(R.layout.expand_tab_toggle_button, this, false);
-        if(mToggleBtnBackground != -1){
+        View view = LayoutInflater.from(mContext).inflate(R.layout.expand_tab_toggle_button, this, false);
+        CheckBox tButton = (CheckBox) view.findViewById(R.id.togglebutton);
+        imageView = (ImageView) view.findViewById(R.id.imageview);
+        if (mToggleBtnBackground != -1) {
             tButton.setBackgroundResource(mToggleBtnBackground);
         }
-        if(mToggleBtnBackgroundColor != -1){
+        if (mToggleBtnBackgroundColor != -1) {
             tButton.setBackgroundColor(mToggleBtnBackgroundColor);
         }
-        if(mToggleTextColor != -1){
+        if (mToggleTextColor != -1) {
             tButton.setTextColor(mToggleTextColor);
         }
-        if(mToggleTextSize != -1){
+        if (mToggleTextSize != -1) {
             tButton.setTextSize(mToggleTextSize);
         }
 
@@ -83,7 +88,7 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         tButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToggleButton tButton = (ToggleButton) view;
+                CheckBox tButton = (CheckBox) view;
                 if (mSelectedToggleBtn != null && mSelectedToggleBtn != tButton) {
                     mSelectedToggleBtn.setChecked(false);
                 }
@@ -92,13 +97,13 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
                 expandPopView();
             }
         });
-        addView(tButton);
+        addView(view);
 
         RelativeLayout popContainerView = new RelativeLayout(mContext);
 
-        if(mPopViewBackgroundColor != -1){
+        if (mPopViewBackgroundColor != -1) {
             popContainerView.setBackgroundColor(mPopViewBackgroundColor);
-        }else{
+        } else {
             popContainerView.setBackgroundColor(Color.parseColor("#b0000000"));
         }
 //        RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mDisplayHeight * 0.7));
@@ -114,9 +119,10 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         mViewLists.add(popContainerView);
     }
 
-    public void setToggleButtonText(String tabTitle){
-        ToggleButton toggleButton = (ToggleButton) getChildAt(mSelectPosition);
-        toggleButton.setText(tabTitle);
+    public void setToggleButtonText(String tabTitle) {
+        View view = getChildAt(mSelectPosition);
+        CheckBox tButton = (CheckBox) view.findViewById(R.id.togglebutton);
+        tButton.setText(tabTitle);
     }
 
     private void expandPopView() {
@@ -130,15 +136,22 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         if (mSelectedToggleBtn.isChecked()) {
             if (!mPopupWindow.isShowing()) {
                 showPopView();
+                ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
+                imageView.setImageResource(R.mipmap.spinner_corner_up);
             } else {
                 mPopupWindow.setOnDismissListener(this);
                 mPopupWindow.dismiss();
+                ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
+                imageView.setImageResource(R.mipmap.spinner_corner_down);
             }
         } else {
             if (mPopupWindow.isShowing()) {
                 mPopupWindow.dismiss();
+                ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
+                imageView.setImageResource(R.mipmap.spinner_corner_down);
             }
         }
+        Log.d("ExpandPopTabView", "mSelectPosition:" + mSelectPosition);
     }
 
     /**
@@ -157,7 +170,7 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         }
     }
 
-    public void showPopView(){
+    public void showPopView() {
         if (mPopupWindow.getContentView() != mViewLists.get(mSelectPosition)) {
             mPopupWindow.setContentView(mViewLists.get(mSelectPosition));
         }

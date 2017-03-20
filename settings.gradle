@@ -1,1 +1,1 @@
-include ':app', ':android-expandpoptab-library'
+include ':app', ':android-expandpoptab-library', ':ijkplayerlibrary', ':superplayerlibrary'
