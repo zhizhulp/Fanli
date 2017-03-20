@@ -34,7 +34,6 @@ public class MyApplication extends MultiDexApplication {
         return requestQueue;
     }
 
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -108,6 +107,7 @@ public class MyApplication extends MultiDexApplication {
 
                 }else{
                     activity.finish();
+                    removeActivity(activity);
                 }
 
             }

@@ -1,14 +1,16 @@
 package com.ascba.rebate.activities.base;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yolanda.nohttp.NoHttp;
@@ -19,6 +21,8 @@ import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * 网络界面的基类
@@ -132,10 +136,11 @@ public class BaseNetWork3Activity extends AppCompatActivity {
                     }
                 }
             } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                Intent intent = new Intent(BaseNetWork3Activity.this,LoginActivity.class);
-                AppConfig.getInstance().putInt("uuid",-1000);
+                Intent intent = new Intent(BaseNetWork3Activity.this, LoginActivity.class);
+                AppConfig.getInstance().putInt("uuid", -1000);
                 startActivity(intent);
                 ((MyApplication) getApplication()).exit();
+
             } else if(status==404){
                 if(callback!=null){
                     callback.handle404(message);
