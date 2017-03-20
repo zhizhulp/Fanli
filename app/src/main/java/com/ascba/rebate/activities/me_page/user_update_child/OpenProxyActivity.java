@@ -49,7 +49,6 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
     private List<City> cacheList=new ArrayList<>();
     private CitiesAdapter cAdapter;
     private EditTextWithCustomHint edCity;
-    private ListPopupWindow pList;
     private int finalGroupId;
     private int finalGroup;
     private String url="";
