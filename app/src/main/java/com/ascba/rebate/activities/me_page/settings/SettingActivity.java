@@ -11,6 +11,7 @@ import com.ascba.rebate.activities.me_page.settings.child.PasswordProtect2Activi
 import com.ascba.rebate.activities.me_page.settings.child.PayPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.SafeSettingActivity;
+import com.ascba.rebate.fragments.MeFragment;
 import com.jaeger.library.StatusBarUtil;
 
 public class SettingActivity extends BaseNetWorkActivity  {
@@ -56,8 +57,8 @@ public class SettingActivity extends BaseNetWorkActivity  {
                 .putLong("expiring_time", -2000)
                 .putString("login_phone", "")
                 .putString("login_password", "").apply();
-        /*Intent intent = new Intent(this, MeFragment.class);*/
-        setResult(RESULT_OK, getIntent());
+        Intent intent = new Intent(this, MeFragment.class);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

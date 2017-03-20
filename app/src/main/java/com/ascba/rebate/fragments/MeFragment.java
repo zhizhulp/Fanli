@@ -195,7 +195,6 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 break;
             case REQUEST_CLOSE:
                 if(resultCode== Activity.RESULT_OK){
-                    getActivity().finish();
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 }
