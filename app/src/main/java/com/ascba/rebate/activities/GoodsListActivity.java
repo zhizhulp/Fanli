@@ -159,10 +159,10 @@ public class GoodsListActivity extends BaseNetWork4Activity implements View.OnCl
     private void InitSpinner() {
         expandPopTabView = (ExpandPopTabView) findViewById(R.id.activity_goods_list_spinner);
 
-            keyValueBeen.add(new KeyValueBean("A","默认"));
-            keyValueBeen.add(new KeyValueBean("B","上新时间"));
-            keyValueBeen.add(new KeyValueBean("C","价格从低到高"));
-            keyValueBeen.add(new KeyValueBean("D","价格从高到低"));
+        keyValueBeen.add(new KeyValueBean("A", "默认"));
+        keyValueBeen.add(new KeyValueBean("B", "上新时间"));
+        keyValueBeen.add(new KeyValueBean("C", "价格从低到高"));
+        keyValueBeen.add(new KeyValueBean("D", "价格从高到低"));
 
         addItem(expandPopTabView, keyValueBeen, "", "默认");
     }
@@ -228,10 +228,10 @@ public class GoodsListActivity extends BaseNetWork4Activity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.activity_goods_list_screening:
-                Intent intent=new Intent(this,FilterActivity.class);
-                startActivityForResult(intent,REQUEST_FILTER);
+                Intent intent = new Intent(this, FilterActivity.class);
+                startActivityForResult(intent, REQUEST_FILTER);
                 break;
         }
     }
@@ -239,10 +239,10 @@ public class GoodsListActivity extends BaseNetWork4Activity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null){
+        if (data == null) {
             return;
         }
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_FILTER:
                 btnFilter.setText(data.getStringExtra("filter"));
                 break;

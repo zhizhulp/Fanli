@@ -22,8 +22,7 @@
             android:id="@+id/activity_goods_list_spinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center" />
+            android:layout_weight="1" />
 
         <View
             android:layout_width="0.5dp"
@@ -86,6 +85,7 @@
         android:id="@+id/activity_goods_list_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_goods_list_recyclerview"
             android:layout_width="match_parent"

@@ -309,7 +309,11 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
         /**
          * 视频
          */
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE9, R.layout.home_page_video));
+        List<String> strings = new ArrayList<>();
+        strings.add("http://baobab.wandoujia.com/api/v1/playUrl?vid=2614&editionType=high");
+        strings.add("http://baobab.wandoujia.com/api/v1/playUrl?vid=9502&editionType=normal");
+        strings.add("http://baobab.wandoujia.com/api/v1/playUrl?vid=8530&editionType=normal");
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE9, R.layout.home_page_video, strings));
 
         /**
          * 宽分割线
@@ -408,7 +412,7 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
         // 更新popupwindow的状态
         window.update();
         // 以下拉的方式显示，并且可以设置显示的位置
-        window.showAtLocation(imgAdd, Gravity.TOP|Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
+        window.showAtLocation(imgAdd, Gravity.TOP | Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
     }
 
 }

@@ -2,8 +2,10 @@ package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
@@ -12,14 +14,16 @@ import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.superplayer.library.SuperPlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/11 0011.
  */
 
-public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItemItem, BaseViewHolder> {
+public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItemItem, BaseViewHolder> implements SuperPlayer.OnNetChangeListener {
 
     private Context context;
     private ShufflingViewPager pagerVideo;
@@ -106,9 +110,11 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 /**
                  * 视频
                  */
-                ImageView imageView1 = helper.getView(R.id.home_page_video_img);
-                Glide.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135526047_640.jpg").into(imageView1);
                 ViewPager viewPager1 = helper.getView(R.id.home_page_video_pager);
+//                List<View> viewList = initVideo(item.getList());
+//                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(viewList);
+//                viewPager1.setAdapter(pagerAdapter);
+
                 break;
             case HomePageMultiItemItem.TYPE10:
                 /**
@@ -158,5 +164,79 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 helper.setText(R.id.item_news_time, item.getBean().getTime());
                 break;
         }
+    }
+
+    /**
+     * 初始化视频播放
+     */
+    private List<View> initVideo(List<String> strings) {
+        List<View> viewList = new ArrayList<>();
+        for (String string : strings) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_video, null);
+            SuperPlayer player = (SuperPlayer) view.findViewById(R.id.super_player);
+            player.setLive(false);//true：表示直播地址；false表示点播地址
+            player.setNetChangeListener(true)//设置监听手机网络的变化
+                    .setOnNetChangeListener(this)//true ： 表示监听网络的变化；false ： 播放的过程中不监听网络的变化
+                    .onPrepared(new SuperPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared() {
+                            /**
+                             * 监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）
+                             */
+                        }
+                    }).onComplete(new Runnable() {
+                @Override
+                public void run() {
+                    /**
+                     * 监听视频是否已经播放完成了。（可以在这里处理视频播放完成进行的操作）
+                     */
+                }
+            }).onInfo(new SuperPlayer.OnInfoListener() {
+                @Override
+                public void onInfo(int what, int extra) {
+                    /**
+                     * 监听视频的相关信息。
+                     */
+
+                }
+            }).onError(new SuperPlayer.OnErrorListener() {
+                @Override
+                public void onError(int what, int extra) {
+                    /**
+                     * 监听视频播放失败的回调
+                     */
+
+                }
+            }).setTitle(string)//设置视频的titleName
+                    .play(string);//开始播放视频
+            player.setScaleType(SuperPlayer.SCALETYPE_FITXY);
+            player.setPlayerWH(0, player.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
+
+            viewList.add(player);
+        }
+        return viewList;
+    }
+
+    /**
+     * 网络链接监听类
+     */
+    @Override
+    public void onWifi() {
+        Toast.makeText(context,"当前网络环境是WIFI",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMobile() {
+        Toast.makeText(context,"当前网络环境是手机网络",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDisConnect() {
+        Toast.makeText(context,"网络链接断开",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNoAvailable() {
+        Toast.makeText(context,"无网络链接",Toast.LENGTH_SHORT).show();
     }
 }
