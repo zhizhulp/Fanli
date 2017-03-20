@@ -29,6 +29,7 @@ import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
+import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -309,11 +310,17 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
         /**
          * 视频
          */
-        List<String> strings = new ArrayList<>();
-        strings.add("http://baobab.wandoujia.com/api/v1/playUrl?vid=2614&editionType=high");
-        strings.add("http://baobab.wandoujia.com/api/v1/playUrl?vid=9502&editionType=normal");
-        strings.add("http://baobab.wandoujia.com/api/v1/playUrl?vid=8530&editionType=normal");
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE9, R.layout.home_page_video, strings));
+        List<VideoBean> videoBeen = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            VideoBean bean = new VideoBean();
+            View view = LayoutInflater.from(context).inflate(R.layout.item_video, null);
+            bean.setView(view);
+            bean.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=2614&editionType=high");
+            bean.setTitle("title" + i);
+            bean.setImgUrl("http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135526047_640.jpg");
+            videoBeen.add(bean);
+        }
+        items.add(new HomePageMultiItemItem(videoBeen, HomePageMultiItemItem.TYPE9, R.layout.home_page_video));
 
         /**
          * 宽分割线

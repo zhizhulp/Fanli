@@ -1,8 +1,15 @@
 package com.ascba.rebate.adapter;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import com.ascba.rebate.R;
+import com.ascba.rebate.beans.VideoBean;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -12,15 +19,24 @@ import java.util.List;
 
 public class VideoPagerAdapter extends PagerAdapter {
 
-    private List<View> viewList;
+    private List<VideoBean> videoBean;
+    private ImgOnClick imgOnClick;
+    private ImageView imageView;
+    private FrameLayout frameLayout;
+    private Context context;
 
-    public VideoPagerAdapter(List<View> drawables) {
-        this.viewList = drawables;
+    public void setImgOnClick(ImgOnClick imgOnClick) {
+        this.imgOnClick = imgOnClick;
+    }
+
+    public VideoPagerAdapter(List<VideoBean> videoBean, Context context) {
+        this.videoBean = videoBean;
+        this.context = context;
     }
 
     @Override
     public int getCount() {
-        return viewList.size();
+        return videoBean.size();
     }
 
     @Override
@@ -30,16 +46,29 @@ public class VideoPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(viewList.get(position));
+        container.removeView(videoBean.get(position).getView());
+        imgOnClick.onClick(null, null, position, null);
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(viewList.get(position));
-        return viewList.get(position);
+    public Object instantiateItem(ViewGroup container, final int position) {
+        View view = videoBean.get(position).getView();
+        container.addView(view);
+        imageView = (ImageView) view.findViewById(R.id.item_video_img);
+        Glide.with(context).load(videoBean.get(position).getImgUrl()).into(imageView);
+        frameLayout = (FrameLayout) view.findViewById(R.id.item_video_fl);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgOnClick.onClick(v, imageView, position, frameLayout);
+            }
+        });
+
+        return videoBean.get(position).getView();
     }
 
-    public List<View> getListView() {
-        return viewList;
+
+    public interface ImgOnClick {
+        void onClick(View view, ImageView imageView, int position, FrameLayout frameLayout);
     }
 }

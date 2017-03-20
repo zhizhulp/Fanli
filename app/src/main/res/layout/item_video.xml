@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.superplayer.library.SuperPlayer xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/super_player"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_video_control"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"></com.superplayer.library.SuperPlayer>
+    android:layout_height="200dp">
+
+    <ImageView
+        android:id="@+id/item_video_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="12dp"
+        android:visibility="gone"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop" />
+
+    <FrameLayout
+        android:id="@+id/item_video_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</RelativeLayout>

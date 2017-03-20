@@ -32,6 +32,8 @@ public class HomePageMultiItemItem implements MultiItemEntity {
 
     public static final int TYPE10 = 10;//最新动态
 
+    private List<VideoBean> videoBeen;
+
     /**
      * 新闻
      */
@@ -69,6 +71,7 @@ public class HomePageMultiItemItem implements MultiItemEntity {
 
     /**
      * 标题
+     *
      * @param type
      * @param layout
      * @param title
@@ -77,6 +80,35 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.type = type;
         this.layout = layout;
         this.title = title;
+    }
+
+    /**
+     * 视频轮播
+     *
+     * @param type
+     * @param layout
+     * @param videoBeen
+     */
+    public HomePageMultiItemItem(List<VideoBean> videoBeen,int type, int layout ) {
+        this.type = type;
+        this.layout = layout;
+        this.videoBeen = videoBeen;
+    }
+
+    public List<NewsBean> getNewsBeens() {
+        return newsBeens;
+    }
+
+    public void setNewsBeens(List<NewsBean> newsBeens) {
+        this.newsBeens = newsBeens;
+    }
+
+    public List<VideoBean> getVideoBeen() {
+        return videoBeen;
+    }
+
+    public void setVideoBeen(List<VideoBean> videoBeen) {
+        this.videoBeen = videoBeen;
     }
 
     public int getLayout() {
@@ -127,17 +159,18 @@ public class HomePageMultiItemItem implements MultiItemEntity {
 
     /**
      * 新闻
+     *
      * @param type
      * @param layout
      * @param newsBeens
      */
-    public HomePageMultiItemItem(int type, List<NewsBean> newsBeens,int layout) {
+    public HomePageMultiItemItem(int type, List<NewsBean> newsBeens, int layout) {
         this.type = type;
         this.layout = layout;
         this.newsBeens = newsBeens;
     }
 
-    public HomePageMultiItemItem(int type,NewsBean bean,int layout) {
+    public HomePageMultiItemItem(int type, NewsBean bean, int layout) {
         this.type = type;
         this.layout = layout;
         this.bean = bean;

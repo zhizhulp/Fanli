@@ -136,19 +136,15 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         if (mSelectedToggleBtn.isChecked()) {
             if (!mPopupWindow.isShowing()) {
                 showPopView();
-                ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
-                imageView.setImageResource(R.mipmap.spinner_corner_up);
             } else {
                 mPopupWindow.setOnDismissListener(this);
                 mPopupWindow.dismiss();
-                ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
-                imageView.setImageResource(R.mipmap.spinner_corner_down);
+                noExpanded();
             }
         } else {
             if (mPopupWindow.isShowing()) {
                 mPopupWindow.dismiss();
-                ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
-                imageView.setImageResource(R.mipmap.spinner_corner_down);
+                noExpanded();
             }
         }
         Log.d("ExpandPopTabView", "mSelectPosition:" + mSelectPosition);
@@ -164,8 +160,10 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
             if (mSelectedToggleBtn != null) {
                 mSelectedToggleBtn.setChecked(false);
             }
+            noExpanded();
             return true;
         } else {
+            isExpanded();
             return false;
         }
     }
@@ -175,6 +173,16 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
             mPopupWindow.setContentView(mViewLists.get(mSelectPosition));
         }
         mPopupWindow.showAsDropDown(this, 0, 0);
+
+        for (int i = 0; i < mViewLists.size(); i++) {
+            if (i == mSelectPosition) {
+                isExpanded();
+            } else {
+                ImageView imageView = (ImageView) getChildAt(i).findViewById(R.id.imageview);
+                imageView.setImageResource(R.mipmap.spinner_corner_down);
+            }
+        }
+
     }
 
     @Override
@@ -183,4 +191,14 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         mPopupWindow.setOnDismissListener(null);
     }
 
+
+    private void isExpanded() {
+        ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
+        imageView.setImageResource(R.mipmap.spinner_corner_up);
+    }
+
+    private void noExpanded() {
+        ImageView imageView = (ImageView) getChildAt(mSelectPosition).findViewById(R.id.imageview);
+        imageView.setImageResource(R.mipmap.spinner_corner_down);
+    }
 }

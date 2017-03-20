@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
@@ -58,6 +59,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     private CheckBox cbTotal;
     private TextView tvCost;
     private TextView tvCostNum;
+    private RelativeLayout cartClean;
 
     public CartFragment() {
     }
@@ -76,6 +78,11 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     }
 
     private void initViews(View view) {
+        /**
+         * 合计 .结算
+         */
+        cartClean = (RelativeLayout) view.findViewById(R.id.cart_clear);
+
         //初始化标题栏
         sab = ((ShopABar) view.findViewById(R.id.sab));
         sab.setImageOtherEnable(false);
@@ -105,6 +112,17 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         initData();
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
         adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
+
+        /**
+         * empty
+         */
+        View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
+        adapter.setEmptyView(emptyView);
+        if (data.size() > 0) {
+            cartClean.setVisibility(View.VISIBLE);
+        } else {
+            cartClean.setVisibility(View.GONE);
+        }
 
         rv.setAdapter(adapter);
         rv.addOnItemTouchListener(new OnItemClickListener() {
