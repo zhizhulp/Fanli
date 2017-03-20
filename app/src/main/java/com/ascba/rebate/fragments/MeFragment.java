@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.MyRecActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
@@ -151,7 +152,8 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 startActivity(intent);
                 break;
             case R.id.me_lat_tuiguang://推广
-
+                Intent intent4=new Intent(getActivity(), MyRecActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.me_lat_jiangli://奖励
                 break;
