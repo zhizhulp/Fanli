@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.MyRecActivity;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -42,6 +43,7 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
     private SuperSwipeRefreshLayout refreshLayout;
     private View noView;
     private int classes;
+    private int finalScene;
 
     public BaseRecFragment() {
     }
@@ -73,6 +75,12 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dm=new DialogManager(getActivity());
+        ((MyRecActivity) getActivity()).setListener(new MyRecActivity.Listener() {
+            @Override
+            public void onDataTypeClick(int id) {
+                requestNetData(id,UrlUtils.getSearchPspread);
+            }
+        });
 
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLayout.setOnPullRefreshListener(this);
@@ -82,17 +90,17 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
         recListView = ((ListView) view.findViewById(R.id.recommend_list));
         tGaAdapter = new TuiGAdapter(data,getActivity());
         recListView.setAdapter(tGaAdapter);
+        finalScene=classes;
         if(classes==0){
-            requestNetData(0,UrlUtils.getSearchSpread);
+            requestNetData(0,UrlUtils.getSearchPspread);
+        }else if(classes==1){
+            requestNetData(0,UrlUtils.getSearchPpspread);
         }
-
-
-
     }
 
-    private void requestNetData(int type,String url) {
+    private void requestNetData(int id,String url) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        request.add("id",type);
+        request.add("id",id);
         executeNetWork(request,"请稍后");
         setCallback(this);
     }
@@ -120,10 +128,11 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
                 fr.setTime(time);
                 data.add(fr);
             }
-            tGaAdapter.notifyDataSetChanged();
+
         }else {
             noView.setVisibility(View.VISIBLE);
         }
+        tGaAdapter.notifyDataSetChanged();
 
     }
 
@@ -156,7 +165,7 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
 
     @Override
     public void onRefresh() {
-        requestNetData(0,UrlUtils.getSearchSpread);
+        requestNetData(0,UrlUtils.getSearchPspread);
     }
 
     @Override
