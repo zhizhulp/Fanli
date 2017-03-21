@@ -86,6 +86,10 @@ public class UrlUtils {
 
     public static final String wealth=baseWebsite+"/"+webVersion+"/"+"wealth";//财富
 
-    public static final String getMyPspread=baseWebsite+"/"+webVersion+"/"+"getMyPspread";//一级推广
-    public static final String getSearchSpread=baseWebsite+"/"+webVersion+"/"+"getSearchSpread";//筛选出的一级推广;
+    public static final String getMyPspread=baseWebsite+"/"+webVersion+"/"+"getMyPspread";//筛选列表;
+    public static final String getSearchPspread=baseWebsite+"/"+webVersion+"/"+"getSearchPspread";//筛选出的一级推广;
+    public static final String getGroupPspread=baseWebsite+"/"+webVersion+"/"+"getGroupPspread";//一级推广
+
+    public static final String getGroupPpspread=baseWebsite+"/"+webVersion+"/"+"getGroupPpspread";//二级筛选列表
+    public static final String getSearchPpspread=baseWebsite+"/"+webVersion+"/"+"getSearchPpspread";//二级筛选结果
 }

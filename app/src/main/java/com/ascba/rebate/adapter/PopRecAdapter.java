@@ -40,15 +40,29 @@ public class PopRecAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if(convertView==null){
             convertView=inflater.inflate(R.layout.pop_rec_list_item,null);
         }
-        RadioButton rb = (RadioButton) convertView.findViewById(R.id.pop_rb);
-        RecType r = data.get(position);
+        final RadioButton rb = (RadioButton) convertView.findViewById(R.id.pop_rb);
+        final RecType r = data.get(position);
         rb.setSelected(r.isSelect());
         rb.setText(r.getContent());
         rb.setTextSize(r.isSelect()? 14 : 13);
+        rb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecType recType = data.get(position);
+                recType.setSelect(true);
+                for (int i = 0; i < data.size(); i++) {
+                    RecType recType1 = data.get(i);
+                    if(recType1!=recType){
+                        recType1.setSelect(false);
+                    }
+                }
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 }

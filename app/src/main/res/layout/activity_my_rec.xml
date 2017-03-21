@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
+        android:id="@+id/rec_man_lat"
         android:background="@mipmap/me_head_bg"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -31,9 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/rec_tv_name"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_14px"
-                android:text="白菜棒子"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -62,6 +63,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/rec_tv_classes"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:layout_marginLeft="20dp"
@@ -69,7 +71,6 @@
                 android:layout_weight="1"
                 android:textSize="@dimen/text_14px"
                 android:textColor="@color/white"
-                android:text="级别：金钻会员"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
             <View
@@ -78,6 +79,7 @@
                 android:background="@color/mr_rec_line"
                 android:layout_height="0.5dp"/>
             <TextView
+                android:id="@+id/rec_tv_mobile"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:layout_marginLeft="20dp"
@@ -85,7 +87,6 @@
                 android:layout_weight="1"
                 android:textSize="@dimen/text_14px"
                 android:textColor="@color/white"
-                android:text="电话：13645739988"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
         </LinearLayout>
@@ -100,7 +101,7 @@
             android:id="@+id/rec_gb_one"
             android:gravity="center"
             android:textColor="@color/white"
-            android:text="20人\n一级推荐"
+            android:text="\?人\n一级推荐"
             android:button="@null"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -115,7 +116,7 @@
             android:id="@+id/rec_gb_two"
             android:gravity="center"
             android:textColor="@color/white"
-            android:text="20人\n二级推荐"
+            android:text="\?人\n二级推荐"
             android:button="@null"
             android:layout_weight="1"
             android:layout_width="0dp"

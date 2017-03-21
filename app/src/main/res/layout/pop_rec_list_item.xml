@@ -3,16 +3,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center_vertical"
-    android:minHeight="47dp"
-    android:layout_height="47dp">
+    android:minHeight="40dp"
+    android:layout_height="40dp">
     <RadioButton
         android:id="@+id/pop_rb"
         android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
         android:paddingLeft="14dp"
         android:textColor="@color/shop_normal_text_color"
         android:textSize="@dimen/text_14px"
         android:text="全部(10)"
         android:button="@drawable/pop_rb_bg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

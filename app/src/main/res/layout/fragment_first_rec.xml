@@ -28,11 +28,16 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/recommend_list"
+        <ScrollView
+            android:scrollbars="none"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:layout_height="match_parent">
+            <com.ascba.rebate.view.ScrollViewWithListView
+                android:id="@+id/recommend_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </ScrollView>
+
     </com.ascba.rebate.view.SuperSwipeRefreshLayout>
 
 </FrameLayout>
