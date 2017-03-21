@@ -227,7 +227,7 @@
         <activity
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
+            android:theme="@style/AppStyle">
 
         </activity>
         <activity
@@ -503,7 +503,8 @@
                 <data android:scheme="wxc0690c2be47a7d66" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
+        <activity
+            android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
         <activity
@@ -571,7 +572,8 @@
             android:name=".activities.BusinessShopActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.shop.ShopActivity"
+        <activity
+            android:name=".activities.shop.ShopActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
         <activity
@@ -586,20 +588,27 @@
             android:name=".activities.shop.ShopActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.MemCardActivity"
+        <activity
+            android:name=".activities.MemCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-        </activity>
-        <activity android:name=".activities.clothes.TypeClothActivity"
+            android:theme="@style/AppStyle"></activity>
+        <activity
+            android:name=".activities.clothes.TypeClothActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.MyEvaluationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.MyRecActivity"
+        <activity
+            android:name=".activities.MyRecActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" ></activity>
+            android:theme="@style/AppStyle"></activity>
+
+        <activity
+            android:name=".activities.me_page.RecommActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 

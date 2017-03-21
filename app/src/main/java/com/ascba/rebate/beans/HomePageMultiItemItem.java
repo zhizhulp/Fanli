@@ -32,7 +32,6 @@ public class HomePageMultiItemItem implements MultiItemEntity {
 
     public static final int TYPE10 = 10;//最新动态
 
-    private List<VideoBean> videoBeen;
 
     /**
      * 新闻
@@ -43,6 +42,8 @@ public class HomePageMultiItemItem implements MultiItemEntity {
     public static final int TYPE12 = 12;
 
     private String title;
+
+    private List<VideoBean> videoList;
 
     public HomePageMultiItemItem() {
     }
@@ -69,6 +70,12 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.layout = layout;
     }
 
+    public HomePageMultiItemItem(List<VideoBean> videoList, int type, int layout) {
+        this.videoList = videoList;
+        this.type = type;
+        this.layout = layout;
+    }
+
     /**
      * 标题
      *
@@ -82,18 +89,6 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.title = title;
     }
 
-    /**
-     * 视频轮播
-     *
-     * @param type
-     * @param layout
-     * @param videoBeen
-     */
-    public HomePageMultiItemItem(List<VideoBean> videoBeen,int type, int layout ) {
-        this.type = type;
-        this.layout = layout;
-        this.videoBeen = videoBeen;
-    }
 
     public List<NewsBean> getNewsBeens() {
         return newsBeens;
@@ -103,13 +98,6 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.newsBeens = newsBeens;
     }
 
-    public List<VideoBean> getVideoBeen() {
-        return videoBeen;
-    }
-
-    public void setVideoBeen(List<VideoBean> videoBeen) {
-        this.videoBeen = videoBeen;
-    }
 
     public int getLayout() {
         return layout;
@@ -127,6 +115,13 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.type = type;
     }
 
+    public List<VideoBean> getVideoList() {
+        return videoList;
+    }
+
+    public void setVideoList(List<VideoBean> videoList) {
+        this.videoList = videoList;
+    }
 
     @Override
     public int getItemType() {

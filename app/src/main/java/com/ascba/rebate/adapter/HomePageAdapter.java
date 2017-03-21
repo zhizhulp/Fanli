@@ -1,22 +1,17 @@
 package com.ascba.rebate.adapter;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
+import com.ascba.rebate.view.pagerWithTurn.ShufflingViewAdapter;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.superplayer.library.SuperPlayer;
-import com.superplayer.library.SuperPlayerManage;
-import com.superplayer.library.mediaplayer.IjkVideoView;
 
 import java.util.List;
 
@@ -27,10 +22,6 @@ import java.util.List;
 public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItemItem, BaseViewHolder> {
 
     private Context context;
-    private ViewPager videoPager;
-    private SuperPlayer player;
-    private VideoPagerAdapter pagerAdapter;
-    private String TAG = "HomePageAdapter";
 
     public HomePageAdapter(List<HomePageMultiItemItem> data, Context context) {
         super(data);
@@ -171,33 +162,16 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
      * 初始化视频播放
      */
     private void initVideo(BaseViewHolder helper, final HomePageMultiItemItem item) {
-        videoPager = helper.getView(R.id.home_page_video_pager);
-
-        pagerAdapter = new VideoPagerAdapter(item.getVideoBeen(), context);
-        videoPager.setAdapter(pagerAdapter);
-
-        player = SuperPlayerManage.getSuperManage().initialize(context);
-        player.setShowTopControl(false).setSupportGesture(false);
-
-        pagerAdapter.setImgOnClick(new VideoPagerAdapter.ImgOnClick() {
+        ShufflingViewPager videoPager = helper.getView(R.id.homepage_pager);
+        List<String> stringList = item.getList();
+        ShufflingViewAdapter adapter = new ShufflingViewAdapter(context, stringList);
+        videoPager.setAdapter(adapter);
+        //videoPager.start();
+        adapter.addOnClick(new ShufflingViewAdapter.OnClick() {
             @Override
-            public void onClick(View view, ImageView imageView, int position, FrameLayout frameLayout) {
-                imageView.setVisibility(View.GONE);
-                Log.d(TAG, "pagerAdapter:" + pagerAdapter);
-                if (player.isPlaying()) {
-                    return;
-                }
-                if (player.getVideoStatus() == IjkVideoView.STATE_PAUSED) {
-                    player.stopPlayVideo();
-                    player.release();
-                }
-                frameLayout.removeAllViews();
-                player.showView(R.id.item_video_control);
-                frameLayout.addView(player);
-                player.play(item.getVideoBeen().get(position).getVideoUrl());
+            public void OnClick(int position) {
+
             }
         });
-
     }
-
 }

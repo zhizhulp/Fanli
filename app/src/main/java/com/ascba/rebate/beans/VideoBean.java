@@ -1,56 +1,34 @@
 package com.ascba.rebate.beans;
 
-import android.view.View;
-
 /**
- * Created by 李鹏 on 2017/03/20 0020.
+ * Created by 李鹏 on 2017/03/21 0021.
  */
 
 public class VideoBean {
-    private String videoUrl;
-    private String imgUrl;
-    private String title;
-    private View view;
+    private String ImgUrl;
+    private String VideoUrl;
 
     public VideoBean() {
     }
 
-    public VideoBean(String videoUrl, String imgUrl, String title, View view) {
-        this.videoUrl = videoUrl;
-        this.imgUrl = imgUrl;
-        this.title = title;
-        this.view = view;
-    }
-
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+    public VideoBean(String imgUrl, String videoUrl) {
+        ImgUrl = imgUrl;
+        VideoUrl = videoUrl;
     }
 
     public String getImgUrl() {
-        return imgUrl;
+        return ImgUrl;
     }
 
     public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+        ImgUrl = imgUrl;
     }
 
-    public String getTitle() {
-        return title;
+    public String getVideoUrl() {
+        return VideoUrl;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
+    public void setVideoUrl(String videoUrl) {
+        VideoUrl = videoUrl;
     }
 }

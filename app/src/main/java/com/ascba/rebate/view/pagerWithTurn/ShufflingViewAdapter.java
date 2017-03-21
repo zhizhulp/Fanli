@@ -2,20 +2,23 @@ package com.ascba.rebate.view.pagerWithTurn;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
+import com.ascba.rebate.R;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import static com.alipay.sdk.app.statistic.c.s;
+
 /**
- * Created by Kevin on 2016/10/13.
+ * Created by 李鹏 on 2016/10/13.
  */
 
-public class ShufflingViewPagerAdapter extends PagerAdapter {
+public class ShufflingViewAdapter extends PagerAdapter {
 
     private Context mContext;
     private List<String> mImageArr;
@@ -26,7 +29,7 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
         this.onClick = onClick;
     }
 
-    public ShufflingViewPagerAdapter(Context context, List<String> imageArr) {
+    public ShufflingViewAdapter(Context context, List<String> imageArr) {
         this.mContext = context;
         this.mImageArr = imageArr;
     }
@@ -43,28 +46,28 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView = new ImageView(mContext);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(layoutParams);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_video, null);
+        ImageView imageView = (ImageView) view.findViewById(R.id.item_video_img);
+        Glide.with(mContext).load(s).into(imageView);
+
         position %= mImageArr.size();
         if (position < 0) {
             position = mImageArr.size() + position;
         }
 
-        id = position;
+        id=position;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onClick != null) {
+                if(onClick!=null){
                     onClick.OnClick(id);
                 }
             }
         });
 
         Glide.with(mContext).load(mImageArr.get(position)).into(imageView);
-        container.addView(imageView);
-        return imageView;
+        container.addView(view);
+        return view;
     }
 
     @Override
@@ -76,7 +79,9 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
         return mImageArr;
     }
 
+
     public interface OnClick {
         void OnClick(int position);
     }
+
 }

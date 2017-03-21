@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyRecActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
+import com.ascba.rebate.activities.me_page.RecommActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
@@ -156,6 +158,8 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 startActivity(intent4);
                 break;
             case R.id.me_lat_jiangli://奖励
+                Intent intent5=new Intent(getActivity(), RecommActivity.class);
+                startActivity(intent5);
                 break;
             case R.id.me_lat_power://会员特权
                 Intent intent1 = new Intent(getActivity(), UserUpdateActivity.class);

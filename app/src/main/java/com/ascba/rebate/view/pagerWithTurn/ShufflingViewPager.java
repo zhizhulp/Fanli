@@ -60,9 +60,15 @@ public class ShufflingViewPager extends RelativeLayout {
     }
 
     public void setAdapter(ShufflingViewPagerAdapter adapter) {
-        initViewPager(adapter);
+        getList = adapter.getStringList();
+        initViewPager();
         viewPager.setAdapter(adapter);
-        start();
+    }
+
+    public void setAdapter(ShufflingViewAdapter adapter) {
+        getList = adapter.getStringList();
+        initViewPager();
+        viewPager.setAdapter(adapter);
     }
 
     public void start() {
@@ -71,11 +77,9 @@ public class ShufflingViewPager extends RelativeLayout {
         }
     }
 
+    private void initViewPager() {
 
-    private void initViewPager(ShufflingViewPagerAdapter adapter) {
-        getList = adapter.getStringList();
-
-        viewPager.setCurrentItem(5000 * (getList.size() + 1));
+        viewPager.setCurrentItem(5000 * (getList.size()));
 
         if (mImageView == null) {
             initIndicator();
@@ -110,7 +114,7 @@ public class ShufflingViewPager extends RelativeLayout {
             } else {
                 mImageView[i].setBackgroundResource(R.mipmap.hui_indicator);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(ScreenDpiUtils.dip2px(context,5), 0, 0, 0);
+                layoutParams.setMargins(ScreenDpiUtils.dip2px(context, 5), 0, 0, 0);
                 mImageView[i].setLayoutParams(layoutParams);
             }
             indicator.addView(mImageView[i]);
@@ -126,4 +130,6 @@ public class ShufflingViewPager extends RelativeLayout {
             }
         }
     }
+
+
 }
