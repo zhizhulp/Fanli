@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -54,6 +56,7 @@ import com.yolanda.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -481,8 +484,16 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             pD.dismiss();
             if (filePath != null) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
-                getActivity().startActivity(i);
+                if(Build.VERSION.SDK_INT>23){
+                    Uri uri= FileProvider.getUriForFile(getActivity(),"com.ascba.rebate.provider",new File(filePath));
+                    i.setDataAndType(uri, "application/vnd.android.package-archive");
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    getActivity().startActivity(i);
+                }else {
+                    i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+                    getActivity().startActivity(i);
+                }
+
                 SharedPreferencesUtil.putBoolean(getActivity(), SharedPreferencesUtil.FIRST_OPEN, true);
             }
         }
@@ -504,7 +515,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             public void onClick(DialogInterface dialog, int which) {
                 pD.show();
                 downloadQueue = NoHttp.newDownloadQueue(2);
-                DownloadRequest downloadRequest = NoHttp.createDownloadRequest(url, getDiskCacheDir(getActivity()), true);
+                DownloadRequest downloadRequest = NoHttp.createDownloadRequest(url, getDiskCacheDir().getPath(), true);
                 downloadQueue.add(0, downloadRequest, downloadListener);
             }
         });
@@ -521,15 +532,18 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     }
 
 
-    public String getDiskCacheDir(Context context) {
-        String cachePath;
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                || !Environment.isExternalStorageRemovable()) {
-            cachePath = context.getExternalCacheDir().getPath();
+    public File getDiskCacheDir() {
+        File dst;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            dst = new File(Environment.getExternalStorageDirectory(), "com.ascba.rebate");
+            if (!dst.exists()) {
+                dst.mkdirs();
+            }
+
         } else {
-            cachePath = context.getCacheDir().getPath();
+            dst = getContext().getFilesDir();
         }
-        return cachePath;
+        return dst;
     }
 
 

@@ -180,7 +180,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     }
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message) {
+    public void handle200Data(JSONObject dataObj, String message)   {
         JSONObject seObj = dataObj.optJSONObject("sellerInfo");
         seller_name = seObj.optString("seller_name");
         String seller_taglib = seObj.optString("seller_taglib");
@@ -202,14 +202,16 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         String seller_image = seObj.optString("seller_image");
         Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .networkPolicy(NetworkPolicy.NO_CACHE).into(imBusiPic);
-        tvName.setText(seller_name);
-        tvType.setText(seller_taglib);
-        tvAddress.setText(StringUtils.isEmpty(seller_localhost)? seller_address:seller_localhost);
-        tvPhone.setText(seller_tel);
-        tvTime.setText(seller_business_hours);
-        tvRate.setText(handleStr(seller_return_ratio_tip) );
-
-
+        try {
+            tvName.setText(seller_name);
+            tvType.setText(seller_taglib);
+            tvAddress.setText(StringUtils.isEmpty(seller_localhost)? seller_address:seller_localhost);
+            tvPhone.setText(seller_tel);
+            tvTime.setText(seller_business_hours);
+            tvRate.setText(handleStr(seller_return_ratio_tip) );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String handleStr(String str) {
