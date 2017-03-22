@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:qinc="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -141,11 +142,13 @@
                         android:textSize="14sp" />
 
                     <com.ascba.rebate.view.cart_btn.NumberButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/number_button"
+                        android:layout_width="84dp"
+                        android:layout_height="23dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="15dp"></com.ascba.rebate.view.cart_btn.NumberButton>
+                        android:layout_marginRight="15dp"
+                        qinc:editable="true" />
                 </RelativeLayout>
 
                 <include layout="@layout/goods_details_cuttingline" />

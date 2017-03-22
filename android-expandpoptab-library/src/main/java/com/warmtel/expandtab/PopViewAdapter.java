@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -78,29 +79,29 @@ public class PopViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView view;
+        ViewHolder viewHolder;
         if (convertView == null) {
-            view = (TextView) layoutInflater.inflate(R.layout.expand_tab_popview_item1_layout, null);
+            convertView = layoutInflater.inflate(R.layout.expand_tab_popview_item1_layout, null);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
         } else {
-            view = (TextView) convertView;
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
         KeyValueBean keyValueBean = (KeyValueBean) getItem(position);
         if (keyValueBean.getValue().equals(selectorText)) {
-            view.setBackgroundResource(selectorResId);
+            viewHolder.imageView.setVisibility(View.VISIBLE);
         } else {
-            view.setBackgroundResource(normalResId);
+            viewHolder.imageView.setVisibility(View.INVISIBLE);
         }
-        int pading = context.getResources().getDimensionPixelSize(R.dimen.expand_tab_popview_padingtop);
+        viewHolder.textView.setText(keyValueBean.getValue());
 
-        view.setText(keyValueBean.getValue());
-        view.setTag(position);
-        if(textSize != -1) {
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        viewHolder.textView.setTag(position);
+        if (textSize != -1) {
+            viewHolder.textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         }
-        view.setPadding(pading, pading, 0, pading);
 
-        view.setOnClickListener(new View.OnClickListener() {
+        viewHolder.textView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -114,6 +115,16 @@ public class PopViewAdapter extends BaseAdapter {
             }
         });
 
-        return view;
+        return convertView;
+    }
+
+    public class ViewHolder {
+        private TextView textView;
+        private ImageView imageView;
+
+        public ViewHolder(View view) {
+            textView = (TextView) view.findViewById(R.id.textview);
+            imageView = (ImageView) view.findViewById(R.id.imgview);
+        }
     }
 }

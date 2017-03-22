@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
         android:textColor="@color/shop_normal_text_color"
         android:textSize="14sp" />
 
