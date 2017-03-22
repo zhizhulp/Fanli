@@ -157,11 +157,12 @@ public class SuperPlayer extends RelativeLayout {
                 doPauseResume();
                 show(defaultTimeout);
             } else if (v.getId() == R.id.app_video_finish) {
-                if (!fullScreenOnly && !portrait) {
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                } else {
-                    activity.finish();
-                }
+//                if (!fullScreenOnly && !portrait) {
+//                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                } else {
+//                    activity.finish();
+//                }
+                activity.finish();
             } else if (v.getId() == R.id.view_jky_player_tv_continue) {
                 isNetListener = false;// 取消网络的监听
                 $.id(R.id.view_jky_player_tip_control).gone();
@@ -1515,7 +1516,8 @@ public class SuperPlayer extends RelativeLayout {
 
     /**
      * 设置了竖屏的时候播放器的宽高
-     * @param width 0：默认是屏幕的宽度
+     *
+     * @param width  0：默认是屏幕的宽度
      * @param height 0：默认是宽度的16:9
      * @return
      */
