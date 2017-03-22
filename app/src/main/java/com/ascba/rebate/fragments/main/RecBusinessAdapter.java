@@ -56,29 +56,25 @@ public class RecBusinessAdapter extends BaseAdapter {
         }
         viewHolder= ((ViewHolder) convertView.getTag());
         Business business = mList.get(position);
-        Picasso.with(mContext).load(business.getLogo()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE).into(viewHolder.mLogo);
+        Picasso.with(mContext).load(business.getLogo())/*.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)*/.into(viewHolder.mLogo);
         viewHolder.bName.setText(business.getbName());
         viewHolder.bCategory.setText(business.getbCategory());
-        //viewHolder.bCategoryIcon.setImageResource(business.getbCategoryIcon());
         viewHolder.goodComm.setText(business.getGoodComm());
         viewHolder.distance.setText(business.getDistance());
         return convertView;
     }
 
     class ViewHolder{
-        View root;
         ImageView mLogo;
         TextView bName;
         TextView bCategory;
-        ImageView bCategoryIcon;
         TextView goodComm;
         TextView distance;
         public ViewHolder(View root){
             mLogo= ((ImageView) root.findViewById(R.id.iv_main_business_logo));
             bName= ((TextView) root.findViewById(R.id.tv_main_business_name));
             bCategory= ((TextView) root.findViewById(R.id.tv_main_business_category));
-            //bCategoryIcon= ((ImageView) root.findViewById(R.id.iv_main_business_category_icon));
             goodComm= ((TextView) root.findViewById(R.id.tv_main_business_goodjob));
             distance= ((TextView) root.findViewById(R.id.tv_main_business_distance));
 
