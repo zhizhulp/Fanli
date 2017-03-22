@@ -317,12 +317,12 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
         VideoBean videoBean1 = new VideoBean(img1, video1);
         videoBeen.add(videoBean1);
 
-        String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135526047_640.jpg";
+        String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";
         String video2 = "http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal";
         VideoBean videoBean2 = new VideoBean(img2, video2);
         videoBeen.add(videoBean2);
 
-        String img3 = "http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135526047_640.jpg";
+        String img3 = "http://image18-c.poco.cn/mypoco/myphoto/20170315/16/18505011120170315160125061_640.jpg";
         String video3 = "http://baobab.wandoujia.com/api/v1/playUrl?vid=8438&editionType=normal";
         VideoBean videoBean3 = new VideoBean(img3, video3);
         videoBeen.add(videoBean3);

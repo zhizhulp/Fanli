@@ -585,10 +585,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.shop.ShopActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.MemCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
@@ -609,6 +605,10 @@
             android:name=".activities.me_page.RecommActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.PlayVideoActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/NotitleTheme" />
     </application>
 
 
