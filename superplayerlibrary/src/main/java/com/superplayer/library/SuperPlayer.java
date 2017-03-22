@@ -1057,11 +1057,11 @@ public class SuperPlayer extends RelativeLayout {
     }
 
     public boolean onBackPressed() {
-        if (!fullScreenOnly
-                && getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            return true;
-        }
+//        if (!fullScreenOnly
+//                && getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+//            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//            return true;
+//        }
         return false;
     }
 
