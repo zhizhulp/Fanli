@@ -29,7 +29,8 @@ public class PlayVideoActivity extends BaseNetWork4Activity implements SuperPlay
         if (videoUrl != null && videoUrl.length() > 0) {
             initViews();
         } else {
-            showToast("没有资源");
+            showToast("没有发现资源");
+            finish();
         }
     }
 
@@ -84,7 +85,7 @@ public class PlayVideoActivity extends BaseNetWork4Activity implements SuperPlay
         }).setTitle(videoUrl)//设置视频的titleName
                 .play(videoUrl);//开始播放视频
         player.setScaleType(SuperPlayer.SCALETYPE_FITXY);
-        player.setPlayerWH(0,player.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
+        player.setPlayerWH(0, player.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
     }
 
     @Override
@@ -144,9 +145,9 @@ public class PlayVideoActivity extends BaseNetWork4Activity implements SuperPlay
 
     @Override
     public void onBackPressed() {
-        if (player != null && player.onBackPressed()) {
-            return;
-        }
+//        if (player != null && player.onBackPressed()) {
+//            return;
+//        }
         super.onBackPressed();
     }
 }
