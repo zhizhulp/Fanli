@@ -52,10 +52,11 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     private TextView tvClass;
     private View viewRec;
     private int finalScene;
+    private int type;//0一级筛选  一级筛选
 
 
     public interface Listener {
-        void onDataTypeClick(int id);
+        void onDataTypeClick(int id,int type);
     }
 
     public Listener getListener() {
@@ -108,6 +109,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
         switch (v.getId()) {
             case R.id.rec_gb_one:
                 if (position == 0) {//重复点击一次
+                    type=0;
                     requestData(UrlUtils.getGroupPspread, 1);
                 } else {
                     ft.show(fragsOne).hide(fragsTwo).commit();
@@ -116,6 +118,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 break;
             case R.id.rec_gb_two:
                 if (position == 1) {//重复点击一次
+                    type=1;
                     requestData(UrlUtils.getGroupPpspread, 1);
                 } else {
                     ft.show(fragsTwo).hide(fragsOne).commit();
@@ -132,23 +135,36 @@ public class MyRecActivity extends BaseNetWork4Activity implements
         setCallback(this);
     }
 
-    private void showPopList(int pos) {
+    private void showPopList() {
         if(pop==null){
             pop = new PopupWindow(this);
             pop.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
             pop.setOutsideTouchable(true);
             View popView = getLayoutInflater().inflate(R.layout.city_list, null);
             listView = ((ListView) popView.findViewById(R.id.listView));
-            listView.setOnItemClickListener(this);
+            /*listView.setOnItemClickListener(this);*/
             pop.setContentView(popView);
             pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
             pop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
             pop.setFocusable(true);
-
         }
         pop.showAsDropDown(recRg);
         if(adapter==null && popData.size() !=0){
             adapter = new PopRecAdapter(popData, this);
+            adapter.setCallback(new PopRecAdapter.Callback() {
+                @Override
+                public void clickItem(int position, View view) {
+                    if (pop != null && pop.isShowing()) {
+                        pop.dismiss();
+                    }
+                    RadioButton rb = (RadioButton) view.findViewById(R.id.pop_rb);
+                    rb.setChecked(true);
+                    RecType recType = popData.get(position);
+                    if (listener != null) {
+                        listener.onDataTypeClick(recType.getId(),type);
+                    }
+                }
+            });
             listView.setAdapter(adapter);
         }else {
             adapter.notifyDataSetChanged();
@@ -158,13 +174,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (pop != null && pop.isShowing()) {
-            pop.dismiss();
-        }
-        RecType recType = popData.get(position);
-        if (listener != null) {
-            listener.onDataTypeClick(recType.getId());
-        }
+
     }
 
     @Override
@@ -184,7 +194,12 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             rbOne.setText(dataObj.optInt("p_referee_count") + "人\n一级推荐");
             rbTwo.setText(dataObj.optInt("pp_referee_count") + "人\n二级推荐");
         } else if (finalScene == 1) {
-            JSONArray array = dataObj.optJSONArray("getMyPspread_data");
+            JSONArray array=null;
+            if(type==0){
+                array = dataObj.optJSONArray("getMyPspread_data");
+            }else {
+                array = dataObj.optJSONArray("getMyPpspread_data");
+            }
             if (array != null && array.length() != 0) {
                 if (popData.size() != 0) {
                     popData.clear();
@@ -199,7 +214,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                         popData.add(rt);
                     }
                 }
-                showPopList(0);
+                showPopList();
             }else {
                 Toast.makeText(this, "无分类", Toast.LENGTH_SHORT).show();
             }

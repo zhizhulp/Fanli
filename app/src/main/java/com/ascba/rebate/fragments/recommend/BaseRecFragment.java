@@ -77,8 +77,14 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
         dm=new DialogManager(getActivity());
         ((MyRecActivity) getActivity()).setListener(new MyRecActivity.Listener() {
             @Override
-            public void onDataTypeClick(int id) {
-                requestNetData(id,UrlUtils.getSearchPspread);
+            public void onDataTypeClick(int id,int type) {
+                classes=type;
+                if(type==0){
+                    requestNetData(id,UrlUtils.getSearchPspread);
+                }else {
+                    requestNetData(id,UrlUtils.getSearchPpspread);
+                }
+
             }
         });
 
@@ -128,7 +134,6 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
                 fr.setTime(time);
                 data.add(fr);
             }
-
         }else {
             noView.setVisibility(View.VISIBLE);
         }
@@ -165,7 +170,12 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
 
     @Override
     public void onRefresh() {
-        requestNetData(0,UrlUtils.getSearchPspread);
+        if(classes==0){
+            requestNetData(0,UrlUtils.getSearchPspread);
+        }else {
+            requestNetData(0,UrlUtils.getSearchPpspread);
+        }
+
     }
 
     @Override

@@ -19,9 +19,21 @@ import java.util.List;
 public class PopRecAdapter extends BaseAdapter {
     private List<RecType> data;
     private LayoutInflater inflater;
+    private Callback callback;
     public PopRecAdapter(List<RecType> data, Context context) {
         this.data=data;
         this.inflater=LayoutInflater.from(context);
+    }
+    public interface Callback{
+        void clickItem(int position,View view);
+    }
+
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -49,7 +61,9 @@ public class PopRecAdapter extends BaseAdapter {
         rb.setSelected(r.isSelect());
         rb.setText(r.getContent());
         rb.setTextSize(r.isSelect()? 14 : 13);
-        rb.setOnClickListener(new View.OnClickListener() {
+
+        View view = convertView.findViewById(R.id.lat_rec);
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RecType recType = data.get(position);
@@ -61,8 +75,19 @@ public class PopRecAdapter extends BaseAdapter {
                     }
                 }
                 notifyDataSetChanged();
+                if(callback!=null){
+                    callback.clickItem(position,v);
+                }
             }
         });
+
+
+        /*rb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
         return convertView;
     }
 }
