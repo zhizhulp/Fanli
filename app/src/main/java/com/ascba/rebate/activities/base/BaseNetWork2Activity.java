@@ -34,7 +34,7 @@ public class BaseNetWork2Activity extends AppCompatActivity {
 
 
     public interface Callback{
-        void handle200Data(JSONObject dataObj, String message) throws JSONException;
+        void handle200Data(JSONObject dataObj, String message) throws JSONException, Exception;
     }
 
     public Callback getCallback() {
@@ -136,7 +136,7 @@ public class BaseNetWork2Activity extends AppCompatActivity {
                 if(callback!=null){//对于200额外的处理
                     try {
                         callback.handle200Data(dataObj,message);
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

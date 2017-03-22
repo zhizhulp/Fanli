@@ -13,11 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import com.ascba.rebate.activities.base.BaseNetWork2Activity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.TabEntity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
