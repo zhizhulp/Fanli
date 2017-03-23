@@ -15,6 +15,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.activities.main_page.HotActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.adapter.MainBusAdapter;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
@@ -99,12 +102,14 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private SuperSwipeRefreshLayout refreshLayout;
     private TextView tvRedScore;
     private DialogManager dm;
+    private RecyclerView rv;
+    private MainBusAdapter adapter;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.first_fragment, null);
+        return inflater.inflate(R.layout.first_fragment_update, null);
     }
 
     @Override
@@ -137,14 +142,20 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         dm = new DialogManager(getActivity());
         tvAllScore = ((TextView) view.findViewById(R.id.score_all));
         tvRedScore = ((TextView) view.findViewById(R.id.tv_red_score));
-        initRecBusiness(view);//初始化ListView
+        rv = ((RecyclerView) view.findViewById(R.id.busi_list));
+        adapter = new MainBusAdapter(R.layout.main_bussiness_list_item,mList);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv.setAdapter(adapter);
+        View view1=getActivity().getLayoutInflater().inflate(R.layout.main_head,null);
+        adapter.addHeaderView(view1);
+        requestMainData();
+
         initViewPager(view);//初始化viewpager
         initLocation(view);//地址显示
         initRefreshLayout(view);//界面刷新
         goHotList(view);//进入热门推荐的页面
         goSweepActivity(view);//进入扫一扫的界面
         goRecommend(view);//进入推荐页面
-        requestMainData();
     }
 
     private void requestMainData() {
@@ -182,7 +193,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                         b.setId(id);
                         mList.add(b);
                     }
-                    mAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -222,6 +233,22 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
                     }
                 });
+        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onPushDistance(int distance) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+
+            }
+        });
 
     }
 
