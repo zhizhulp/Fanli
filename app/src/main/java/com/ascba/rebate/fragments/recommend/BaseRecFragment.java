@@ -122,7 +122,6 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
         JSONArray array = dataObj.optJSONArray("getSearchSpread");
         if(array!=null && array.length()!=0){
             noView.setVisibility(View.GONE);
-            recListView.setVisibility(View.VISIBLE);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 FirstRec fr=new FirstRec();
@@ -136,7 +135,6 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
                 data.add(fr);
             }
         }else {
-            recListView.setVisibility(View.GONE);
             noView.setVisibility(View.VISIBLE);
         }
         tGaAdapter.notifyDataSetChanged();

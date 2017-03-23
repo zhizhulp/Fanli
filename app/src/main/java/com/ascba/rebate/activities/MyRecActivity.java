@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,8 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.frags_layout, fragsOne).add(R.id.frags_layout, fragsTwo).hide(fragsTwo).commit();
+        ft.add(R.id.frags_layout, fragsOne).add(R.id.frags_layout, fragsTwo)
+                .show(fragsOne).hide(fragsTwo).commit();
     }
 
     @Override
@@ -112,7 +114,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     type=0;
                     requestData(UrlUtils.getGroupPspread, 1);
                 } else {
-                    ft.show(fragsOne).hide(fragsTwo).commit();
+                    ft.hide(fragsTwo).show(fragsOne).commit();
                     position = 0;
                 }
                 break;
@@ -121,7 +123,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     type=1;
                     requestData(UrlUtils.getGroupPpspread, 1);
                 } else {
-                    ft.show(fragsTwo).hide(fragsOne).commit();
+                    ft.hide(fragsOne).show(fragsTwo).commit();
                     position = 1;
                 }
                 break;
@@ -142,7 +144,6 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             pop.setOutsideTouchable(true);
             View popView = getLayoutInflater().inflate(R.layout.city_list, null);
             listView = ((ListView) popView.findViewById(R.id.listView));
-            /*listView.setOnItemClickListener(this);*/
             pop.setContentView(popView);
             pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
             pop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
