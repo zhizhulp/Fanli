@@ -1,13 +1,13 @@
 package com.ascba.rebate.activities;
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -28,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +53,12 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     private View viewRec;
     private int finalScene;
     private int type;//0一级筛选  一级筛选
+    private int number;//一级推荐全部人数
+    private ImageView imgOne,imgTwo;
 
 
     public interface Listener {
-        void onDataTypeClick(int id,int type);
+        void onDataTypeClick(int id, int type);
     }
 
     public Listener getListener() {
@@ -89,6 +90,9 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
         viewRec = findViewById(R.id.rec_man_lat);
 
+        imgOne = (ImageView) findViewById(R.id.rec_gb_img_one);
+        imgTwo = (ImageView) findViewById(R.id.rec_gb_img_two);
+
         addAllFragments();
 
         requestData(UrlUtils.getMyPspread, 0);
@@ -100,8 +104,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.frags_layout, fragsOne).add(R.id.frags_layout, fragsTwo)
-                .show(fragsOne).hide(fragsTwo).commit();
+        ft.add(R.id.frags_layout, fragsOne).commit();
     }
 
     @Override
@@ -111,19 +114,23 @@ public class MyRecActivity extends BaseNetWork4Activity implements
         switch (v.getId()) {
             case R.id.rec_gb_one:
                 if (position == 0) {//重复点击一次
-                    type=0;
+                    type = 0;
                     requestData(UrlUtils.getGroupPspread, 1);
                 } else {
-                    ft.hide(fragsTwo).show(fragsOne).commit();
+                    imgOne.setVisibility(View.VISIBLE);
+                    imgTwo.setVisibility(View.INVISIBLE);
+                    ft.add(R.id.frags_layout, fragsOne).remove(fragsTwo).commit();
                     position = 0;
                 }
                 break;
             case R.id.rec_gb_two:
                 if (position == 1) {//重复点击一次
-                    type=1;
+                    type = 1;
                     requestData(UrlUtils.getGroupPpspread, 1);
                 } else {
-                    ft.hide(fragsOne).show(fragsTwo).commit();
+                    imgOne.setVisibility(View.INVISIBLE);
+                    imgTwo.setVisibility(View.VISIBLE);
+                    ft.add(R.id.frags_layout, fragsTwo).remove(fragsOne).commit();
                     position = 1;
                 }
                 break;
@@ -138,7 +145,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     }
 
     private void showPopList() {
-        if(pop==null){
+        if (pop == null) {
             pop = new PopupWindow(this);
             pop.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
             pop.setOutsideTouchable(true);
@@ -150,7 +157,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             pop.setFocusable(true);
         }
         pop.showAsDropDown(recRg);
-        if(adapter==null && popData.size() !=0){
+        if (adapter == null && popData.size() != 0) {
             adapter = new PopRecAdapter(popData, this);
             adapter.setCallback(new PopRecAdapter.Callback() {
                 @Override
@@ -162,12 +169,12 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     rb.setChecked(true);
                     RecType recType = popData.get(position);
                     if (listener != null) {
-                        listener.onDataTypeClick(recType.getId(),type);
+                        listener.onDataTypeClick(recType.getId(), type);
                     }
                 }
             });
             listView.setAdapter(adapter);
-        }else {
+        } else {
             adapter.notifyDataSetChanged();
         }
 
@@ -192,18 +199,23 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     viewRec.setVisibility(View.GONE);
                 }
             }
-            rbOne.setText(dataObj.optInt("p_referee_count") + "人\n一级推荐");
+            number = dataObj.optInt("p_referee_count");
+            rbOne.setText(number + "人\n一级推荐");
             rbTwo.setText(dataObj.optInt("pp_referee_count") + "人\n二级推荐");
         } else if (finalScene == 1) {
-            JSONArray array=null;
-            if(type==0){
+            JSONArray array = null;
+            if (type == 0) {
                 array = dataObj.optJSONArray("getMyPspread_data");
-            }else {
+
+            } else {
                 array = dataObj.optJSONArray("getMyPpspread_data");
             }
             if (array != null && array.length() != 0) {
                 if (popData.size() != 0) {
                     popData.clear();
+                }
+                if (type == 0) {
+                    popData.add(new RecType(true, "全部("+number+")", -1));
                 }
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
@@ -216,7 +228,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     }
                 }
                 showPopList();
-            }else {
+            } else {
                 Toast.makeText(this, "无分类", Toast.LENGTH_SHORT).show();
             }
         }

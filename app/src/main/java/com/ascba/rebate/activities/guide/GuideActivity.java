@@ -11,10 +11,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
 
     // 引导页图片资源
     private static final int[] pics = { R.layout.guide_view1,
-            R.layout.guide_view2, R.layout.guide_view3,R.layout.guide_view4,R.layout.guide_view5};
+            R.layout.guide_view2, R.layout.guide_view3,R.layout.guide_view4};
 
     // 底部小点图片
     private ImageView[] dots;

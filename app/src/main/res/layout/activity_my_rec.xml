@@ -1,129 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_my_rec"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.MyRecActivity">
+
     <com.ascba.rebate.view.MoneyBar
-        app:barBg="#f64545"
         android:id="@+id/mb"
-        app:textTitle="我的推荐"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:barBg="#f64545"
+        app:textTitle="我的推荐" />
+
     <LinearLayout
         android:id="@+id/rec_man_lat"
-        android:background="@mipmap/me_head_bg"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:background="@mipmap/me_head_bg"
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:gravity="center"
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
             <TextView
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:text="我的推荐人"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="我的推荐人"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/rec_tv_name"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_14px"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14px" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <View
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_width="0.5dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/mr_rec_line"/>
-            <View
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_width="0.5dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
+                android:background="@color/mr_rec_line" />
+
+            <View
+                android:layout_width="0.5dp"
                 android:layout_height="0dp"
-                android:background="@color/mr_rec_line"/>
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@color/mr_rec_line" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/rec_tv_classes"
-                android:ellipsize="end"
-                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:textSize="@dimen/text_14px"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
                 android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:textSize="@dimen/text_14px" />
+
             <View
-                android:layout_marginRight="30dp"
                 android:layout_width="match_parent"
-                android:background="@color/mr_rec_line"
-                android:layout_height="0.5dp"/>
+                android:layout_height="0.5dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/mr_rec_line" />
+
             <TextView
                 android:id="@+id/rec_tv_mobile"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_marginLeft="20dp"
-                android:gravity="center_vertical"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_14px"
-                android:textColor="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14px" />
         </LinearLayout>
     </LinearLayout>
+
     <RadioGroup
         android:id="@+id/rec_rg"
-        android:background="#f64545"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="#f64545"
         android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/rec_gb_one"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="\?人\n一级推荐"
-            android:button="@null"
-            android:layout_weight="1"
+
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/rec_gb_one"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:gravity="center"
+                android:text="\?人\n一级推荐"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/rec_gb_img_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="6dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_rec_white" />
+        </RelativeLayout>
+
         <View
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/mr_rec_line"
             android:layout_width="0.5dp"
-            android:layout_height="match_parent"/>
-        <RadioButton
-            android:id="@+id/rec_gb_two"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="\?人\n二级推荐"
-            android:button="@null"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/mr_rec_line" />
+
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/rec_gb_two"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:gravity="center"
+                android:text="\?人\n二级推荐"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/rec_gb_img_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="6dp"
+                android:visibility="invisible"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_rec_white" />
+        </RelativeLayout>
     </RadioGroup>
+
     <FrameLayout
         android:id="@+id/frags_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>
