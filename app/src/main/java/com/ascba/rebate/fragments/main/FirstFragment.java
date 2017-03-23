@@ -37,11 +37,14 @@ import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yolanda.nohttp.Headers;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.download.DownloadListener;
@@ -71,7 +74,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private float pointDownX, pointUpX;
     private List<ImageView> imageList;
     private RecBusinessAdapter mAdapter;
-    private List<Business> mList;
+    private List<Business> mList=new ArrayList<>();
     private TextView location_text;
     private ViewPager vp;
     private static final int VIEWPAGER_LEFT = 0;
@@ -104,6 +107,10 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private DialogManager dm;
     private RecyclerView rv;
     private MainBusAdapter adapter;
+    private int now_page=1;//当前页数
+    private int total_page;//总页数
+    private View footProgressView;
+    private View footTv;
 
 
     @Nullable
@@ -140,22 +147,35 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dm = new DialogManager(getActivity());
-        tvAllScore = ((TextView) view.findViewById(R.id.score_all));
-        tvRedScore = ((TextView) view.findViewById(R.id.tv_red_score));
+
         rv = ((RecyclerView) view.findViewById(R.id.busi_list));
         adapter = new MainBusAdapter(R.layout.main_bussiness_list_item,mList);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(adapter);
+
+        rv.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
+                Business business = mList.get(position);
+                intent.putExtra("business_id", business.getId());
+                startActivity(intent);
+            }
+        });
+
         View view1=getActivity().getLayoutInflater().inflate(R.layout.main_head,null);
         adapter.addHeaderView(view1);
         requestMainData();
 
-        initViewPager(view);//初始化viewpager
-        initLocation(view);//地址显示
+
+        tvAllScore = ((TextView) view1.findViewById(R.id.score_all));
+        tvRedScore = ((TextView) view1.findViewById(R.id.tv_red_score));
+        initViewPager(view1);//初始化viewpager
+        initLocation(view1);//地址显示
         initRefreshLayout(view);//界面刷新
-        goHotList(view);//进入热门推荐的页面
-        goSweepActivity(view);//进入扫一扫的界面
-        goRecommend(view);//进入推荐页面
+        goHotList(view1);//进入热门推荐的页面
+        goSweepActivity(view1);//进入扫一扫的界面
+        goRecommend(view1);//进入推荐页面
     }
 
     private void requestMainData() {
@@ -163,11 +183,15 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         String version = getPackageVersion();
         Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, true);
         request.add("version_code", version);
+        request.add("now_page", now_page);
         executeNetWork(request, "请稍候");
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
+
                 refreshLayout.setRefreshing(false);
+                refreshLayout.setLoadMore(false);
+
                 JSONObject rebate = dataObj.optJSONObject("rebate");
                 int white_score = rebate.optInt("white_score");
                 int red_score = rebate.optInt("red_score");
@@ -180,6 +204,10 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                     String apk_url = verObj.optString("apk_url");
                     downLoadApp(apk_url);
                 }
+                //now_page = dataObj.optInt("now_page");//当前页数
+                now_page++;
+                total_page=dataObj.optInt("total_page");
+                LogUtils.PrintLog("123","now_page-->"+now_page+"; total_page-->"+total_page);
                 //商家列表
                 JSONArray optJSONArray = dataObj.optJSONArray("pushBusinessList");
                 if (optJSONArray != null && optJSONArray.length() != 0) {
@@ -208,17 +236,24 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
     private void initRefreshLayout(View view) {
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
+        View footView = getActivity().getLayoutInflater().inflate(R.layout.foot_view, null);
+        footProgressView = footView.findViewById(R.id.foot_progress);
+        footTv = footView.findViewById(R.id.foot_no_more);
+        refreshLayout.setFooterView(footView);
         refreshLayout
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
                     @Override
                     public void onRefresh() {
+                        footProgressView.setVisibility(View.VISIBLE);
+                        footTv.setVisibility(View.GONE);
                         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
                         if (!netAva) {
                             dm.buildAlertDialog("请打开网络！");
                             refreshLayout.setRefreshing(false);
                             return;
                         }
+                        now_page=1;
                         requestMainData();
                         mList.clear();
                     }
@@ -236,17 +271,23 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
-
+                if(now_page> total_page-1 && total_page!=0){
+                    footProgressView.setVisibility(View.GONE);
+                    footTv.setVisibility(View.VISIBLE);
+                    refreshLayout.setLoadMore(false);
+                    return;
+                }
+                requestMainData();
             }
 
             @Override
             public void onPushDistance(int distance) {
-
+                LogUtils.PrintLog("234","distance-->"+distance);
             }
 
             @Override
             public void onPushEnable(boolean enable) {
-
+                LogUtils.PrintLog("234","enable-->"+enable);
             }
         });
 
@@ -318,27 +359,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
 
     /**
-     * 商家列表初始化
-     */
-    private void initRecBusiness(View view) {
-        ScrollViewWithListView recBusiness = (ScrollViewWithListView) view.findViewById(R.id.main_business_list);
-        recBusiness.setFocusable(false);//解决直接滑动到listview以上部分的问题
-        initList();
-        mAdapter = new RecBusinessAdapter(mList, getContext());
-        recBusiness.setAdapter(mAdapter);
-        recBusiness.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
-                Business business = mList.get(position);
-                intent.putExtra("business_id", business.getId());
-                startActivity(intent);
-            }
-        });
-
-    }
-
-    /**
      * viewPager初始化
      */
     private void initViewPager(View view) {
@@ -372,11 +392,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         imageList.add(ivb);
         imageList.add(ivc);
         imageList.add(ivd);
-    }
-
-    //初始化商家列表
-    private void initList() {
-        mList = new ArrayList<>();
     }
 
 
