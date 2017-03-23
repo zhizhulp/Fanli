@@ -14,7 +14,6 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
-import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.OnResponseListener;
@@ -169,6 +168,9 @@ public class BaseNetWork2Activity extends AppCompatActivity {
         public void onFinish(int what) {
             LogUtils.PrintLog("123","onFinish"+count);
             count++;
+            if(dm!=null){
+                dm.dismissDialog();
+            }
         }
     }
 }

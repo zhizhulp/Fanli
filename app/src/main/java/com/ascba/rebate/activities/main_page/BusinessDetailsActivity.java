@@ -19,10 +19,8 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps.AMapUtils;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork2Activity;
-import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
@@ -101,7 +99,6 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
 
     public void goBaiduNavi(View view) {
         initLocation();
-
     }
 
     private void startGaodeSearch() {
