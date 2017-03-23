@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -172,7 +174,16 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
         if (mPopupWindow.getContentView() != mViewLists.get(mSelectPosition)) {
             mPopupWindow.setContentView(mViewLists.get(mSelectPosition));
         }
-        mPopupWindow.showAsDropDown(this, 0, 0);
+        if (Build.VERSION.SDK_INT < 24) {
+            mPopupWindow.showAsDropDown(this, 0, 0);
+        } else {
+            // 适配 android 7.0
+            int[] location = new int[2];
+            getLocationOnScreen(location);
+            int x = location[0];
+            int y = location[1];
+            mPopupWindow.showAtLocation(this, Gravity.NO_GRAVITY, 0, y + getHeight());
+        }
 
         for (int i = 0; i < mViewLists.size(); i++) {
             if (i == mSelectPosition) {
