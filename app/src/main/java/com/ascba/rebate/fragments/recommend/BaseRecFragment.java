@@ -3,6 +3,8 @@ package com.ascba.rebate.fragments.recommend;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +36,14 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
         , SuperSwipeRefreshLayout.OnPullRefreshListener {
 
 
-    private ListView recListView;
+    private RecyclerView recListView;
     private TuiGAdapter tGaAdapter;
     private List<FirstRec> data = new ArrayList<>();
     private DialogManager dm;
     private SuperSwipeRefreshLayout refreshLayout;
-    private View noView;
+    //private View noView;
     private int classes;
+    private View emptyView;
 
     public BaseRecFragment() {
     }
@@ -89,16 +92,17 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLayout.setOnPullRefreshListener(this);
 
-        noView = view.findViewById(R.id.no_view);
-
-        recListView = ((ListView) view.findViewById(R.id.recommend_list));
-        tGaAdapter = new TuiGAdapter(data, getActivity());
+        recListView = ((RecyclerView) view.findViewById(R.id.recommend_list));
+        recListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tGaAdapter = new TuiGAdapter(data, R.layout.rec_list_item_rec);
         recListView.setAdapter(tGaAdapter);
         if (classes == 0) {
             requestNetData(0, UrlUtils.getSearchPspread);
         } else if (classes == 1) {
             requestNetData(0, UrlUtils.getSearchPpspread);
         }
+
+        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_list_view,null);
     }
 
     private void requestNetData(int id, String url) {
@@ -118,7 +122,6 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
         }
         JSONArray array = dataObj.optJSONArray("getSearchSpread");
         if (array != null && array.length() != 0) {
-            noView.setVisibility(View.GONE);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 FirstRec fr = new FirstRec();
@@ -132,7 +135,7 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
                 data.add(fr);
             }
         } else {
-            noView.setVisibility(View.VISIBLE);
+            tGaAdapter.setEmptyView(emptyView);
         }
 
         Log.d("BaseRecFragment", "data.size():" + data.size());

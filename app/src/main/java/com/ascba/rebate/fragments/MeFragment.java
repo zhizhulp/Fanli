@@ -74,6 +74,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     private static final int REQUEST_CLOSE=1;
     private TextView tvUserName;
     private View qrView;
+    private int is_referee;
 
     public MeFragment() {
     }
@@ -155,6 +156,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 break;
             case R.id.me_lat_tuiguang://推广
                 Intent intent4=new Intent(getActivity(), MyRecActivity.class);
+                intent4.putExtra("is_referee",is_referee);
                 startActivity(intent4);
                 break;
             case R.id.me_lat_jiangli://奖励
@@ -386,6 +388,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             } else {
                 qrView.setVisibility(View.GONE);
             }
+            is_referee = infoObj.optInt("is_referee");//0 无推荐人 1有推荐人
         }
     }
 

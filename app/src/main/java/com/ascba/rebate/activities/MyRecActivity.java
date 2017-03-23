@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -54,7 +55,11 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     private int finalScene;
     private int type;//0一级筛选  一级筛选
     private int number;//一级推荐全部人数
+    private int number2;//二级级推荐全部人数
     private ImageView imgOne,imgTwo;
+    private int is_referee;
+    private int index;
+
 
 
     public interface Listener {
@@ -74,6 +79,20 @@ public class MyRecActivity extends BaseNetWork4Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_rec);
         initViews();
+
+        getDataFromIntent();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            is_referee = intent.getIntExtra("is_referee",0);//有无推荐人
+            if(is_referee==0){
+                viewRec.setVisibility(View.GONE);
+            }else {
+                viewRec.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void initViews() {
@@ -92,6 +111,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
         imgOne = (ImageView) findViewById(R.id.rec_gb_img_one);
         imgTwo = (ImageView) findViewById(R.id.rec_gb_img_two);
+
 
         addAllFragments();
 
@@ -165,9 +185,8 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     if (pop != null && pop.isShowing()) {
                         pop.dismiss();
                     }
-                    RadioButton rb = (RadioButton) view.findViewById(R.id.pop_rb);
-                    rb.setChecked(true);
                     RecType recType = popData.get(position);
+                    recType.setSelect(true);
                     if (listener != null) {
                         listener.onDataTypeClick(recType.getId(), type);
                     }
@@ -195,13 +214,12 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     tvMobile.setText("电话：" + obj1.optString("mobile"));
                     tvClass.setText("级别：" + obj1.optString("referee_group"));
                     tvName.setText(obj1.optString("realname"));
-                } else {
-                    viewRec.setVisibility(View.GONE);
                 }
             }
             number = dataObj.optInt("p_referee_count");
+            number2 = dataObj.optInt("pp_referee_count");
             rbOne.setText(number + "人\n一级推荐");
-            rbTwo.setText(dataObj.optInt("pp_referee_count") + "人\n二级推荐");
+            rbTwo.setText(number2 + "人\n二级推荐");
         } else if (finalScene == 1) {
             JSONArray array = null;
             if (type == 0) {
@@ -214,9 +232,9 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 if (popData.size() != 0) {
                     popData.clear();
                 }
-                if (type == 0) {
-                    popData.add(new RecType(true, "全部("+number+")", -1));
-                }
+
+                popData.add(new RecType(true, "全部  ("+number+")", 0));
+
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
                     if (i == 0) {
