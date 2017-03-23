@@ -11,27 +11,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.CashGetActivity;
-import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
-import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.RecommendActivity;
 import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
-import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
+import com.ascba.rebate.activities.me_page.settings.SettingActivity;
+import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
+import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -164,7 +165,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initViews(View view) {
-        dm=new DialogManager(getActivity());
+        dm = new DialogManager(getActivity());
         tvWhiteScore = ((TextView) view.findViewById(R.id.me_tv_white_score));
         tvNickName = ((TextView) view.findViewById(R.id.me_tv_nick_name));
         tvMoney = ((TextView) view.findViewById(R.id.me_tv_money));
@@ -183,7 +184,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onRefresh() {
                 boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-                if(!netAva){
+                if (!netAva) {
                     dm.buildAlertDialog("请打开网络！");
                     refreshLayout.setRefreshing(false);
                     return;
@@ -216,7 +217,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.go_white_score_account:
                 Intent intent = new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivityForResult(intent,WhiteScoreActivity.REQUEST_EXCHANGE);
+                startActivityForResult(intent, WhiteScoreActivity.REQUEST_EXCHANGE);
                 break;
             case R.id.me_go_card:
                 requestMyData(2);//检查是否实名
@@ -484,15 +485,24 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
-                startActivityForResult(intent,REQUEST_CASH_GET);
+                startActivityForResult(intent, REQUEST_CASH_GET);
             }
         }
     }
 
     @Override
     public void handleReqFailed() {
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (MyApplication.isPersonalCenterRefresh) {
+            requestMyData(0);
+            MyApplication.isPersonalCenterRefresh = false;
         }
     }
 }
