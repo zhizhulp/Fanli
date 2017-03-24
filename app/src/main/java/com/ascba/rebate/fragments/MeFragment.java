@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -73,7 +71,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     private int finalScene;
 
     private static final int REQUEST_APPLY = 0;
-    private static final int REQUEST_CLOSE = 1;
+    private static final int REQUEST_CLOSE=1;
     private TextView tvUserName;
     private View qrView;
 
@@ -130,12 +128,12 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
         //电话
         tvPhone = ((TextView) view.findViewById(R.id.me_tv_phone));
 
-        requestData(UrlUtils.user, 3);
+        requestData(UrlUtils.user,3);
     }
 
     @Override
     public void onRefresh() {
-        requestData(UrlUtils.user, 3);
+        requestData(UrlUtils.user,3);
     }
 
     @Override
@@ -156,11 +154,11 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 startActivity(intent);
                 break;
             case R.id.me_lat_tuiguang://推广
-                Intent intent4 = new Intent(getActivity(), MyRecActivity.class);
+                Intent intent4=new Intent(getActivity(), MyRecActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.me_lat_jiangli://奖励
-                Intent intent5 = new Intent(getActivity(), RecommActivity.class);
+                Intent intent5=new Intent(getActivity(), RecommActivity.class);
                 startActivity(intent5);
                 break;
             case R.id.me_lat_power://会员特权
@@ -199,10 +197,10 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_APPLY:
-                requestData(UrlUtils.user, 3);
+                requestData(UrlUtils.user,3);
                 break;
             case REQUEST_CLOSE:
-                if (resultCode == Activity.RESULT_OK) {
+                if(resultCode== Activity.RESULT_OK){
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     MyApplication.isPersonalData = true;
                     startActivity(intent);
@@ -348,15 +346,15 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                     startActivity(intent);
                 }
             }
-        } else if (finalScene == 3) {
-            if (refreshLayout != null && refreshLayout.isRefreshing()) {
+        } else if(finalScene==3){
+            if(refreshLayout!=null && refreshLayout.isRefreshing()){
                 refreshLayout.setRefreshing(false);
             }
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
             Picasso.with(getActivity()).load(UrlUtils.baseWebsite + infoObj.optString("avatar")).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(userIcon);
             JSONArray group_type = infoObj.optJSONArray("group_type");
-            if (group_type == null || group_type.length() == 0) {
+            if(group_type==null || group_type.length()==0){
                 return;
             }
             imgsLat.removeAllViews();
@@ -380,11 +378,11 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 }
                 imgsLat.addView(imageView);
             }
-            tvSmrz.setText(infoObj.optInt("card_status") == 0 ? "未实名" : "已实名");
+            tvSmrz.setText(infoObj.optInt("card_status")==0 ? "未实名" : "已实名");
             tvUserName.setText(infoObj.optString("nickname"));
-            tvSjlm.setText(infoObj.optInt("merchant") < 3 ? infoObj.optString("merchant_tip") : infoObj.optString("seller_status_tip"));
+            tvSjlm.setText(infoObj.optInt("merchant")<3 ?infoObj.optString("merchant_tip") : infoObj.optString("seller_status_tip"));
             tvPhone.setText(infoObj.optString("telephone"));
-            if (infoObj.optInt("seller_status") == 2) {
+            if (infoObj.optInt("seller_status")==2) {
                 qrView.setVisibility(View.VISIBLE);
             } else {
                 qrView.setVisibility(View.GONE);
@@ -394,7 +392,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
 
     @Override
     public void handleReqFailed() {
-        if (refreshLayout != null && refreshLayout.isRefreshing()) {
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }
     }
@@ -406,7 +404,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
 
     @Override
     public void handleReLogin() {
-        if (refreshLayout != null && refreshLayout.isRefreshing()) {
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }
     }

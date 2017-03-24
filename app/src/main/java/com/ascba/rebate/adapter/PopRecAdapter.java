@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import com.ascba.rebate.R;
@@ -62,7 +63,7 @@ public class PopRecAdapter extends BaseAdapter {
         rb.setText(r.getContent());
         rb.setTextSize(r.isSelect()? 14 : 13);
 
-        View view = convertView.findViewById(R.id.lat_rec);
+        LinearLayout view = (LinearLayout)convertView.findViewById(R.id.lat_rec);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,13 +82,6 @@ public class PopRecAdapter extends BaseAdapter {
             }
         });
 
-
-        /*rb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
         return convertView;
     }
 }

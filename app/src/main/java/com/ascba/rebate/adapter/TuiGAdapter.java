@@ -8,7 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.beans.FirstRec;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
@@ -16,64 +19,21 @@ import java.util.List;
  * 推广适配器
  */
 
-public class TuiGAdapter extends BaseAdapter {
-    private List<FirstRec> mList;
-    private LayoutInflater mInflater;
+public class TuiGAdapter extends BaseQuickAdapter<FirstRec,BaseViewHolder> {
 
-    public TuiGAdapter(List<FirstRec> mList, Context mContext) {
-        this.mList = mList;
-        this.mInflater = LayoutInflater.from(mContext);
+
+    public TuiGAdapter(List<FirstRec> data,int layoutResId) {
+        super(layoutResId, data);
     }
 
-    @Override
-    public int getCount() {
-        return mList.size();
-    }
+
 
     @Override
-    public Object getItem(int position) {
-        return mList.get(position);
+    protected void convert(BaseViewHolder helper, FirstRec item) {
+        helper.setText(R.id.first_rec_name,item.getName());
+        helper.setText(R.id.first_rec_num,item.getGroupName());
+        helper.setText(R.id.first_rec_money,item.getMoney());
+        helper.setText(R.id.first_rec_time,item.getTime());
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if(convertView==null){
-            convertView= mInflater.inflate(R.layout.rec_list_item,null);
-            viewHolder=new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        }
-        viewHolder= (ViewHolder) convertView.getTag();
-        FirstRec firstRec = mList.get(position);
-        viewHolder.tvName.setText(firstRec.getName());
-        viewHolder.tvNum.setText(firstRec.getGroupName());
-        viewHolder.tvMoney.setText(firstRec.getMoney());
-        viewHolder.tvTime.setText(firstRec.getTime());
-        return convertView;
-    }
-    private class ViewHolder{
-        TextView tvName;
-        TextView tvNum;
-        TextView tvMoney;
-        TextView tvTime;
-        public ViewHolder(View root){
-            if(tvName==null){
-                tvName= (TextView) root.findViewById(R.id.first_rec_name);
-            }
-            if(tvNum==null){
-                tvNum= (TextView) root.findViewById(R.id.first_rec_num);
-            }
-            if(tvMoney==null){
-                tvMoney= (TextView) root.findViewById(R.id.first_rec_money);
-            }
-            if(tvTime==null){
-                tvTime= (TextView) root.findViewById(R.id.first_rec_time);
-            }
-        }
-    }
 }
