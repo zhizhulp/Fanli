@@ -17,24 +17,43 @@
             android:layout_marginTop="14dp"
             android:background="@android:color/white">
 
-            <Button
+            <LinearLayout
                 android:id="@+id/btn_buy_input_message"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/by_good_button"
-                android:text="完成"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_16" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#F49898"
+                    android:gravity="center"
+                    android:text="加入购物车"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#e52020"
+                    android:gravity="center"
+                    android:text="立即购买"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
                 android:id="@+id/goods_profile_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/btn_buy_input_message"
-                android:layout_marginTop="100dp"/>
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="100dp" />
 
         </RelativeLayout>
 
@@ -57,11 +76,11 @@
             android:paddingLeft="15.5dp">
 
             <ImageView
-                android:scaleType="center"
                 android:id="@+id/iv_close"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
+                android:scaleType="center"
                 android:src="@mipmap/close" />
 
             <TextView
@@ -83,12 +102,13 @@
                 android:text="库存5双 "
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="14sp" />
+
             <TextView
-                android:layout_marginTop="11dp"
-                android:layout_below="@id/tv_shop_name"
-                android:text="选择 尺码 颜色分类"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_shop_name"
+                android:layout_marginTop="11dp"
+                android:text="选择 尺码 颜色分类" />
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

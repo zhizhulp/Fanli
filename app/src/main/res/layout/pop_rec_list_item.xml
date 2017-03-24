@@ -5,11 +5,15 @@
     android:layout_width="match_parent"
     android:gravity="center_vertical"
     android:minHeight="40dp"
+    android:focusable="true"
+    android:clickable="true"
     android:layout_height="40dp">
     <RadioButton
         android:id="@+id/pop_rb"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
+        android:focusable="false"
+        android:clickable="false"
         android:paddingLeft="14dp"
         android:textColor="@color/shop_normal_text_color"
         android:textSize="@dimen/text_14px"

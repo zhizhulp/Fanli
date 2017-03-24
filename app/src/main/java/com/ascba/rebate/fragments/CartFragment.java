@@ -147,6 +147,9 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         tvCostNum.setOnClickListener(this);
     }
 
+    /**
+     * 规格选择
+     */
     private void showDialog() {
         final Dialog dialog = new Dialog(getActivity(), R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_by_shop);

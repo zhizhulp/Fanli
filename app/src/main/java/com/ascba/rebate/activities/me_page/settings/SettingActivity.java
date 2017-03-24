@@ -11,8 +11,8 @@ import com.ascba.rebate.activities.me_page.settings.child.PasswordProtect2Activi
 import com.ascba.rebate.activities.me_page.settings.child.PayPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.SafeSettingActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.MeFragment;
-import com.jaeger.library.StatusBarUtil;
 
 public class SettingActivity extends BaseNetWorkActivity  {
 
@@ -50,6 +50,7 @@ public class SettingActivity extends BaseNetWorkActivity  {
 
     //点击退出，清除缓存，进入登录界面
     public void exitUser(View view) {
+        MyApplication.isPersonalData = true;
         SharedPreferences sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
         sf.edit()
                 .putInt("uuid", -1000)

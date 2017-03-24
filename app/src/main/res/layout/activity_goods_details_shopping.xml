@@ -19,8 +19,8 @@
             android:drawablePadding="4dp"
             android:drawableTop="@mipmap/service_phone"
             android:paddingRight="16dp"
-            android:textColor="@color/shop_normal_text_color"
-            android:text="客服" />
+            android:text="客服"
+            android:textColor="@color/shop_normal_text_color" />
 
         <View
             android:layout_width="0.5dp"
@@ -34,42 +34,28 @@
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
             android:drawableTop="@mipmap/store"
-            android:textColor="@color/shop_normal_text_color"
             android:paddingLeft="16dp"
-            android:text="店铺" />
+            android:text="店铺"
+            android:textColor="@color/shop_normal_text_color" />
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#F49898"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:text="加入购物车"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="加入购物车"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#e52020"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="立即购买"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+        android:gravity="center"
+        android:text="立即购买"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 </LinearLayout>

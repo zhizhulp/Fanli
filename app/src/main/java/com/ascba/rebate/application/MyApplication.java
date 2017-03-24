@@ -24,12 +24,20 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends MultiDexApplication {
     private static RequestQueue requestQueue;
     private static MyApplication app;
-    private List<Activity> activities=new ArrayList<>();
+    private List<Activity> activities = new ArrayList<>();
 
-    public static MyApplication getInstance(){
+    /**
+     * 刷新个人中心：修改个人信息后
+     */
+    public static boolean isPersonalData;
+
+    public static boolean isLogined=true;
+
+    public static MyApplication getInstance() {
         return app;
     }
-    public static RequestQueue getRequestQueue(){
+
+    public static RequestQueue getRequestQueue() {
         return requestQueue;
     }
 
@@ -40,12 +48,11 @@ public class MyApplication extends MultiDexApplication {
     }
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
-        app=this;
+        app = this;
         initNohttp();
-        requestQueue=NoHttp.newRequestQueue();
+        requestQueue = NoHttp.newRequestQueue();
         JPushInterface.setDebugMode(false);//release版改为false
         JPushInterface.init(this);//极光推送
         initWXPay();
@@ -80,18 +87,19 @@ public class MyApplication extends MultiDexApplication {
     // 添加Activity到容器中
     public void addActivity(Activity activity) {
         if (activities.size() > 0) {
-            if(!activities.contains(activity)){
+            if (!activities.contains(activity)) {
                 activities.add(activity);
             }
-        }else{
+        } else {
             activities.add(activity);
         }
 
     }
+
     // 从容器中移除Activity
     public void removeActivity(Activity activity) {
         if (activities.size() > 0) {
-            if(activities.contains(activity)){
+            if (activities.contains(activity)) {
                 activities.remove(activity);
             }
         }
@@ -102,9 +110,9 @@ public class MyApplication extends MultiDexApplication {
     public void exit() {
         if (activities.size() > 0) {
             for (Activity activity : activities) {
-                if(activity instanceof LoginActivity){
+                if (activity instanceof LoginActivity) {
 
-                }else{
+                } else {
                     activity.finish();
                     //removeActivity(activity);
                 }
@@ -114,10 +122,10 @@ public class MyApplication extends MultiDexApplication {
         //System.exit(0);
     }
 
-    private WindowManager.LayoutParams wmParams=new WindowManager.LayoutParams();
+    private WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
 
 
-    public WindowManager.LayoutParams getMywmParams(){
+    public WindowManager.LayoutParams getMywmParams() {
         return wmParams;
     }
 }

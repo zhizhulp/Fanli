@@ -54,7 +54,8 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     private int finalScene;
     private int type;//0一级筛选  一级筛选
     private int number;//一级推荐全部人数
-    private ImageView imgOne,imgTwo;
+    private ImageView imgOne, imgTwo;
+    private int index = 0;
 
 
     public interface Listener {
@@ -121,6 +122,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     imgTwo.setVisibility(View.INVISIBLE);
                     ft.add(R.id.frags_layout, fragsOne).remove(fragsTwo).commit();
                     position = 0;
+                    index = 0;
                 }
                 break;
             case R.id.rec_gb_two:
@@ -132,6 +134,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     imgTwo.setVisibility(View.VISIBLE);
                     ft.add(R.id.frags_layout, fragsTwo).remove(fragsOne).commit();
                     position = 1;
+                    index = 0;
                 }
                 break;
         }
@@ -171,6 +174,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     if (listener != null) {
                         listener.onDataTypeClick(recType.getId(), type);
                     }
+                    index = position;
                 }
             });
             listView.setAdapter(adapter);
@@ -206,7 +210,6 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             JSONArray array = null;
             if (type == 0) {
                 array = dataObj.optJSONArray("getMyPspread_data");
-
             } else {
                 array = dataObj.optJSONArray("getMyPpspread_data");
             }
@@ -214,19 +217,21 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 if (popData.size() != 0) {
                     popData.clear();
                 }
-                if (type == 0) {
-                    popData.add(new RecType(true, "全部("+number+")", -1));
-                }
+
+                popData.add(new RecType(false, "全部(" + number + ")", -1));
+
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
-                    if (i == 0) {
-                        RecType rt = new RecType(false, obj.optString("name") + "  (" + obj.optInt("count") + ")", obj.optInt("id"));
-                        popData.add(rt);
-                    } else {
-                        RecType rt = new RecType(false, obj.optString("name") + "  (" + obj.optInt("count") + ")", obj.optInt("id"));
-                        popData.add(rt);
+                    RecType rt = new RecType(false, obj.optString("name") + "  (" + obj.optInt("count") + ")", obj.optInt("id"));
+                    popData.add(rt);
+                }
+
+                for (int i = 0; i < popData.size(); i++) {
+                    if (i == index) {
+                        popData.get(index).setSelect(true);
                     }
                 }
+
                 showPopList();
             } else {
                 Toast.makeText(this, "无分类", Toast.LENGTH_SHORT).show();
