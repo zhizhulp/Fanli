@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities.main_page;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -19,10 +20,8 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps.AMapUtils;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork2Activity;
-import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
@@ -60,11 +59,13 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
     private double lat;
     private String seller_name;
     private String seller_address;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_details);
+        context=this;
         initViews();
         getDataFromMain();
     }
@@ -176,6 +177,8 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
             Intent intent=new Intent(this,ShowDescriptionActivity.class);
             intent.putExtra("seller_description",seller_description);
             startActivity(intent);
+        }else {
+            showToast("商家太懒了，没有上传简介~");
         }
     }
 

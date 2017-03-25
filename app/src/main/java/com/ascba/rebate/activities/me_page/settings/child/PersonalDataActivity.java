@@ -24,22 +24,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.AgeChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.LocationActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.SexChangeActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
-
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -49,7 +49,7 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonalDataActivity extends BaseNetWorkActivity implements View.OnClickListener,BaseNetWorkActivity.Callback {
+public class PersonalDataActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback {
     public static final int nickNameRequest = 0x06;
     public static final int sexRequest = 0x05;
     public static final int locationRequest = 0x04;
@@ -68,7 +68,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     private DialogManager dm;
     private String picturePath;
     private File file;
-    private String[] permissions=new String[]{
+    private String[] permissions = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private Bitmap bitmap;
@@ -82,7 +82,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
+        dm = new DialogManager(this);
         userIconView = ((CircleImageView) findViewById(R.id.head_icon));
         tvMobile = ((TextView) findViewById(R.id.personal_data_mobile));
         tvNickname = ((TextView) findViewById(R.id.personal_data_nickname));
@@ -93,18 +93,18 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     }
 
     private void requestPData(int scene) {
-        finalScene=scene;
-        if(scene==0){
+        finalScene = scene;
+        if (scene == 0) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.userSet, 0, true);
-            executeNetWork(request,"请稍候");
+            executeNetWork(request, "请稍候");
             setCallback(this);
-        }else if(scene==1){
+        } else if (scene == 1) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.updateSet, 0, true);
-            if(picturePath!=null){
-                file=new File(picturePath);
-                saveBitmapFile(bitmap,file);
+            if (picturePath != null) {
+                file = new File(picturePath);
+                saveBitmapFile(bitmap, file);
                 request.add("avatar", new FileBinary(file));
-            }else {
+            } else {
                 request.add("avatar", "");
             }
             request.add("nickname", tvNickname.getText().toString());
@@ -118,7 +118,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             }
             request.add("age", tvAge.getText().toString());
             request.add("location", tvLocation.getText().toString());
-            executeNetWork(request,"请稍候");
+            executeNetWork(request, "请稍候");
             setCallback(this);
         }
     }
@@ -131,20 +131,21 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
 
     //进入修改性别的页面
     public void personalSexChange(View view) {
-        if(isCardId==1){
+        if (isCardId == 1) {
             dm.buildAlertDialog("实名后不可修改性别");
-        }else{
+        } else {
             Intent intent = new Intent(this, SexChangeActivity.class);
             CharSequence sex = sexShow.getText();
             intent.putExtra("tag", sex);
             startActivityForResult(intent, sexRequest);
         }
     }
+
     //进入修改地址的页面
     public void personalLocationChange(View view) {
-        if(isCardId==1){
+        if (isCardId == 1) {
             dm.buildAlertDialog("实名后不可修改地址");
-        }else{
+        } else {
             Intent intent = new Intent(this, LocationActivity.class);
             startActivityForResult(intent, locationRequest);
         }
@@ -152,9 +153,9 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
 
     //进入修改年龄的页面
     public void personalAgeChange(View view) {
-        if(isCardId==1){
+        if (isCardId == 1) {
             dm.buildAlertDialog("实名后不可修改年龄");
-        }else{
+        } else {
             Intent intent = new Intent(this, AgeChangeActivity.class);
             startActivityForResult(intent, ageRequest);
         }
@@ -168,24 +169,25 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     }
 
     private void checkPermission() {
-        if(Build.VERSION.SDK_INT>=23){
-            if(ContextCompat.checkSelfPermission(this,permissions[0])!= PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this,permissions,1);
-            }else{
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, 1);
+            } else {
                 showPop();
             }
-        }else {
+        } else {
             showPop();
         }
     }
+
     //申请权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             //用户同意使用read
             showPop();
-        }else{
+        } else {
             //用户不同意，自行处理即可
             Toast.makeText(this, "无法使用此功能，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
         }
@@ -234,11 +236,11 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 popupWindow.dismiss();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 getDiskCacheDir();//创建文件
-                if(Build.VERSION.SDK_INT>23){//处理7.0的情况
+                if (Build.VERSION.SDK_INT > 23) {//处理7.0的情况
                     Uri uri = FileProvider.getUriForFile(this, "com.ascba.rebate.provider", file);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(intent, GO_CAMERA);
-                }else {
+                } else {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                     startActivityForResult(intent, GO_CAMERA);
                 }
@@ -274,14 +276,14 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GO_CAMERA:
-                if(file != null && file.exists()){
-                    picturePath=file.getPath();
-                    bitmap=handleBitmap(picturePath);
+                if (file != null && file.exists()) {
+                    picturePath = file.getPath();
+                    bitmap = handleBitmap(picturePath);
                     userIconView.setImageBitmap(bitmap);
                 }
                 break;
             case GO_ALBUM:
-                if(data==null){
+                if (data == null) {
                     return;
                 }
                 Uri selectedImage = data.getData();
@@ -297,7 +299,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 userIconView.setImageBitmap(bitmap);
                 break;
             case sexRequest:
-                if(data==null){
+                if (data == null) {
                     return;
                 }
                 switch (resultCode) {
@@ -313,21 +315,21 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 }
                 break;
             case nickNameRequest:
-                if(data==null){
+                if (data == null) {
                     return;
                 }
                 String nickname = data.getStringExtra("nickname");
                 tvNickname.setText(nickname);
                 break;
             case ageRequest:
-                if(data==null){
+                if (data == null) {
                     return;
                 }
                 String age = data.getStringExtra("age");
                 tvAge.setText(age);
                 break;
             case locationRequest:
-                if(data==null){
+                if (data == null) {
                     return;
                 }
                 String location = data.getStringExtra("location");
@@ -335,14 +337,18 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
                 break;
         }
     }
+
     //上传个人资料
     public void saveData(View view) {
         requestPData(1);
+
+        //刷新个人中心
+        MyApplication.isPersonalCenterRefresh = true;
     }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(finalScene==0){
+        if (finalScene == 0) {
             JSONObject userInfo = dataObj.optJSONObject("userInfo");
             isCardId = dataObj.optInt("isCardId");
             String avatar = userInfo.optString("avatar");
@@ -351,7 +357,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             int sex = userInfo.optInt("sex");
             int age = userInfo.optInt("age");
             String location = userInfo.optString("location");
-            Picasso.with(PersonalDataActivity.this).load(UrlUtils.baseWebsite+avatar).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+            Picasso.with(PersonalDataActivity.this).load(UrlUtils.baseWebsite + avatar).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(userIconView);
             tvMobile.setText(mobile);
             tvNickname.setText(nickname);
@@ -366,11 +372,12 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             if (location != null) {
                 tvLocation.setText(location);
             }
-        }else if(finalScene==1){//修改成功的提示
+        } else if (finalScene == 1) {//修改成功的提示
             Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
         }
 
     }
+
     public void getDiskCacheDir() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             File dst = new File(Environment.getExternalStorageDirectory(), "com.ascba.rebate");
@@ -384,7 +391,8 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             file = getFilesDir();
         }
     }
-    public void saveBitmapFile(Bitmap bitmap,File file){
+
+    public void saveBitmapFile(Bitmap bitmap, File file) {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
