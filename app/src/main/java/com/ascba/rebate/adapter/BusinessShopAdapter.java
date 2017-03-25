@@ -26,9 +26,8 @@ public class BusinessShopAdapter extends BaseQuickAdapter<ShopBaseItem, BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, ShopBaseItem item) {
-        Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.item_type9_img));
-        helper.setText(R.id.item_type9_name, item.getTitle());
-        helper.setText(R.id.item_type9_price, item.getDesc());
-        helper.setText(R.id.item_type9_selled, item.getSaled());
+        Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.goods_list_img));
+        helper.setText(R.id.goods_list_name, item.getTitle());
+        helper.setText(R.id.goods_list_price, item.getDesc());
     }
 }

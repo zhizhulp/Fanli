@@ -105,13 +105,13 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
                 } else if (position == 3) {
                     Intent intent = new Intent(getContext(), TypeMilkActivity.class);
                     startActivity(intent);
-                } else if (position == 19) {
+                } else if (position == 7) {
                     Intent intent = new Intent(getContext(), GoodsDetailsActivity.class);
                     startActivity(intent);
-                } else if (position == 20) {
+                } else if (position == 8) {
                     Intent intent = new Intent(getContext(), BeginnerGuideActivity.class);
                     startActivity(intent);
-                } else if (position == 21) {
+                } else if (position == 9) {
                     Intent intent = new Intent(getContext(), GoodsListActivity.class);
                     startActivity(intent);
                 }
@@ -155,57 +155,57 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
         }
         //横线
         data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
-        //广告图(一张)
-        data.add(new ShopBaseItem(ShopItemType.TYPE_IMG, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_img,
-                "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301174703033_640.jpg"));
-        //头条
-        data.add(new ShopBaseItem(ShopItemType.TYPE_HOT, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_hot,
-                "新手返福利，专享188元大礼包"));
-
-        //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
-        //限量抢购
-        List<String> titleList = new ArrayList<>();
-        titleList.add("限量抢购");
-        titleList.add("天天特价");
-        titleList.add("品牌精选");
-
-        List<String> contentList = new ArrayList<>();
-        contentList.add("Miss Dior迪奥香水 国际大牌");
-        contentList.add("每天都有大收获");
-        contentList.add("鞋服特卖 种类齐全");
-
-        List<String> descList = new ArrayList<>();
-        descList.add("仅剩三件");
-        descList.add("全场五折");
-        descList.add("首发价99元");
-
-        List<String> pagerUrls = new ArrayList<>();
-        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
-        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
-        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
-
-        data.add(new ShopBaseItem(ShopItemType.TYPE_RUSH, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_rush, titleList, contentList, descList, pagerUrls));
-        //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
-
-        //今日更新
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "今日更新", "上新抢先看", 0xffffeeee));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "一元购物", "一元购电视", 0xfffffdee));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "每日十件", "不将就 要好用", 0xffecf9fe));
-        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
-                "代金券购", "购券赢好礼", 0xfffff9ee));
-        //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 9.0f));
-        //标题栏
-        data.add(new ShopBaseItem(ShopItemType.TYPE_TITLE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_title,
-                "http://image18-c.poco.cn/mypoco/myphoto/20170302/10/18505011120170302105506050_640.jpg",
-                "精品推荐", 0xff000000));
-        //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
+//        //广告图(一张)
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_IMG, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_img,
+//                "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301174703033_640.jpg"));
+//        //头条
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_HOT, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_hot,
+//                "新手返福利，专享188元大礼包"));
+//
+//        //横线
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
+//        //限量抢购
+//        List<String> titleList = new ArrayList<>();
+//        titleList.add("限量抢购");
+//        titleList.add("天天特价");
+//        titleList.add("品牌精选");
+//
+//        List<String> contentList = new ArrayList<>();
+//        contentList.add("Miss Dior迪奥香水 国际大牌");
+//        contentList.add("每天都有大收获");
+//        contentList.add("鞋服特卖 种类齐全");
+//
+//        List<String> descList = new ArrayList<>();
+//        descList.add("仅剩三件");
+//        descList.add("全场五折");
+//        descList.add("首发价99元");
+//
+//        List<String> pagerUrls = new ArrayList<>();
+//        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
+//        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
+//        pagerUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg");
+//
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_RUSH, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_rush, titleList, contentList, descList, pagerUrls));
+//        //横线
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
+//
+//        //今日更新
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+//                "今日更新", "上新抢先看", 0xffffeeee));
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+//                "一元购物", "一元购电视", 0xfffffdee));
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+//                "每日十件", "不将就 要好用", 0xffecf9fe));
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_OTHER, TypeWeight.TYPE_SPAN_SIZE_15, R.layout.shop_other, "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301175231074_640.jpg",
+//                "代金券购", "购券赢好礼", 0xfffff9ee));
+//        //横线
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 9.0f));
+//        //标题栏
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_TITLE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_title,
+//                "http://image18-c.poco.cn/mypoco/myphoto/20170302/10/18505011120170302105506050_640.jpg",
+//                "精品推荐", 0xff000000));
+//        //横线
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
         //商品
         for (int i = 0; i < 8; i++) {
             data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods

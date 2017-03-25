@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp"
-    android:paddingBottom="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/lighter_gray"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
 
     <ImageView
-        android:id="@+id/item_type9_img"
+        android:id="@+id/goods_list_img"
         android:layout_width="match_parent"
         android:layout_height="165dp"
         android:scaleType="centerCrop" />
 
     <TextView
-        android:background="@color/white"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="@color/shop_normal_text_color"
-        android:id="@+id/item_type9_name"
+        android:id="@+id/goods_list_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="11dp"
+        android:background="@android:color/white"
         android:lineSpacingExtra="5dp"
+        android:maxLines="2"
+        android:paddingLeft="12dp"
+        android:paddingRight="10dp"
+        android:paddingTop="11dp"
         android:textSize="12sp" />
 
-    <LinearLayout
-        android:background="@color/white"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="13dp"
-        android:paddingTop="10dp"
-        android:orientation="horizontal">
+        android:background="@android:color/white"
+        android:paddingLeft="14dp">
 
         <TextView
-            android:id="@+id/item_type9_price"
+            android:id="@+id/goods_list_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="14sp" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/item_type9_selled"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/goods_list_cart"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right|center_vertical"
-            android:textSize="10sp" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="11dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:paddingTop="10dp"
+            android:src="@mipmap/icon_add_cart" />
+    </RelativeLayout>
 </LinearLayout>

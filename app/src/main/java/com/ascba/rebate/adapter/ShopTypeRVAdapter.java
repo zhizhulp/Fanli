@@ -97,10 +97,9 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 Glide.with(context).load(item.getUrl()).fitCenter().into((ImageView) helper.getView(R.id.im_shop_title));
                 break;
             case ShopItemType.TYPE_GOODS:
-                Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.item_type9_img));
-                helper.setText(R.id.item_type9_name, item.getTitle());
-                helper.setText(R.id.item_type9_price, item.getDesc());
-                helper.setText(R.id.item_type9_selled, item.getSaled());
+                Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.goods_list_img));
+                helper.setText(R.id.goods_list_name, item.getTitle());
+                helper.setText(R.id.goods_list_price, item.getDesc());
                 break;
             case ShopItemType.TYPE_LINE:
                 View view1 = helper.getView(R.id.view_shop_line);
