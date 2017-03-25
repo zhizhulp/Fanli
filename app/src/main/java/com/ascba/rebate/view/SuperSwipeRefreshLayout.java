@@ -58,7 +58,7 @@ import com.ascba.rebate.utils.LogUtils;
 public class SuperSwipeRefreshLayout extends ViewGroup {
     private static final String LOG_TAG = "CustomeSwipeRefreshLayout";
     private static final int HEADER_VIEW_HEIGHT = 50;// HeaderView height (dp)
-
+    private static final int FOOTER_VIEW_HEIGHT = 25;
     private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
     private static final int INVALID_POINTER = -1;
     private static final float DRAG_RATE = .5f;
@@ -256,7 +256,8 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
         mHeaderViewWidth = (int) display.getWidth();
         mFooterViewWidth = (int) display.getWidth();
         mHeaderViewHeight = (int) (HEADER_VIEW_HEIGHT * metrics.density);
-        mFooterViewHeight = (int) (HEADER_VIEW_HEIGHT * metrics.density);
+        // TODO: 2017/3/25 0025  HEADER_VIEW_HEIGHT 改为 FOOTER_VIEW_HEIGHT
+        mFooterViewHeight = (int) (FOOTER_VIEW_HEIGHT * metrics.density);
         defaultProgressView = new CircleProgressView(getContext());
         createHeaderViewContainer();
         createFooterViewContainer();

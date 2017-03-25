@@ -1,7 +1,6 @@
 package com.ascba.rebate.fragments.main;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -22,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,10 +40,9 @@ import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.yolanda.nohttp.Headers;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.download.DownloadListener;
@@ -79,7 +76,9 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private ViewPager vp;
     private static final int VIEWPAGER_LEFT = 0;
     private static final int VIEWPAGER_RIGNT = 2;
+    private static final int LOAD_MORE_END = 3;
     private Handler handler = new Handler() {
+
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case VIEWPAGER_RIGNT:
@@ -94,6 +93,9 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                     pointDownX = pointUpX = 0;
                     vp.setCurrentItem(vp.getCurrentItem() - 1);//收到消息，指向下一个页面
                     handler.sendEmptyMessageDelayed(VIEWPAGER_RIGNT, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
+                    break;
+                case LOAD_MORE_END:
+                    adapter.loadMoreEnd();
                     break;
             }
 
@@ -148,8 +150,82 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         super.onViewCreated(view, savedInstanceState);
         dm = new DialogManager(getActivity());
 
-        rv = ((RecyclerView) view.findViewById(R.id.busi_list));
+        initAdapterAddHeadView();
+
+        initRecyclerView(view);
+
+        requestMainData();
+
+        initRefreshLayout(view);//界面刷新
+
+
+    }
+
+    private void initAdapterAddHeadView() {
         adapter = new MainBusAdapter(R.layout.main_bussiness_list_item,mList);
+        adapter.setLoadMoreView(new CustomLoadMoreView());
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                //adapter.setEnableLoadMore(true);
+                if(now_page> total_page-1 && total_page!=0){
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                    return;
+                }
+                requestMainData();
+            }
+        });
+        View view1=getActivity().getLayoutInflater().inflate(R.layout.main_head,null);
+        adapter.addHeaderView(view1);
+
+        tvAllScore = ((TextView) view1.findViewById(R.id.score_all));
+        tvRedScore = ((TextView) view1.findViewById(R.id.tv_red_score));
+        initViewPager(view1);//初始化viewpager
+        initLocation(view1);//地址显示
+
+        goHotList(view1);//进入热门推荐的页面
+        goSweepActivity(view1);//进入扫一扫的界面
+        goRecommend(view1);//进入推荐页面
+    }
+    private void initRefreshLayout(View view) {
+        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
+        View footView = getActivity().getLayoutInflater().inflate(R.layout.foot_view, null);
+        footProgressView = footView.findViewById(R.id.foot_progress);
+        footTv = footView.findViewById(R.id.foot_no_more);
+        refreshLayout.setFooterView(footView);
+        refreshLayout
+                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+
+                    @Override
+                    public void onRefresh() {
+                        //adapter.setEnableLoadMore(false);
+                        footProgressView.setVisibility(View.VISIBLE);
+                        footTv.setVisibility(View.GONE);
+                        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+                        if (!netAva) {
+                            dm.buildAlertDialog("请打开网络！");
+                            refreshLayout.setRefreshing(false);
+                            return;
+                        }
+                        now_page=1;
+                        requestMainData();
+                        mList.clear();
+                    }
+
+                    @Override
+                    public void onPullDistance(int distance) {
+
+                    }
+
+                    @Override
+                    public void onPullEnable(boolean enable) {
+
+                    }
+                });
+    }
+
+    private void initRecyclerView(View view) {
+        rv = ((RecyclerView) view.findViewById(R.id.busi_list));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(adapter);
 
@@ -163,30 +239,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             }
         });
 
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
-
-        View view1=getActivity().getLayoutInflater().inflate(R.layout.main_head,null);
-        adapter.addHeaderView(view1);
-        requestMainData();
-
-        tvAllScore = ((TextView) view1.findViewById(R.id.score_all));
-        tvRedScore = ((TextView) view1.findViewById(R.id.tv_red_score));
-        initViewPager(view1);//初始化viewpager
-        initLocation(view1);//地址显示
-        initRefreshLayout(view);//界面刷新
-        goHotList(view1);//进入热门推荐的页面
-        goSweepActivity(view1);//进入扫一扫的界面
-        goRecommend(view1);//进入推荐页面
     }
 
     private void requestMainData() {
@@ -201,7 +253,9 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             public void handle200Data(JSONObject dataObj, String message) {
 
                 refreshLayout.setRefreshing(false);
-                refreshLayout.setLoadMore(false);
+                if(adapter.isLoadMoreEnable()){
+                    adapter.loadMoreComplete();
+                }
 
                 JSONObject rebate = dataObj.optJSONObject("rebate");
                 int white_score = rebate.optInt("white_score");
@@ -218,7 +272,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                 //now_page = dataObj.optInt("now_page");//当前页数
                 now_page++;
                 total_page=dataObj.optInt("total_page");
-                LogUtils.PrintLog("123","now_page-->"+now_page+"; total_page-->"+total_page);
                 //商家列表
                 JSONArray optJSONArray = dataObj.optJSONArray("pushBusinessList");
                 if (optJSONArray != null && optJSONArray.length() != 0) {
@@ -245,64 +298,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         });
     }
 
-    private void initRefreshLayout(View view) {
-        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
-        View footView = getActivity().getLayoutInflater().inflate(R.layout.foot_view, null);
-        footProgressView = footView.findViewById(R.id.foot_progress);
-        footTv = footView.findViewById(R.id.foot_no_more);
-        refreshLayout.setFooterView(footView);
-        refreshLayout
-                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
-                    @Override
-                    public void onRefresh() {
-                        footProgressView.setVisibility(View.VISIBLE);
-                        footTv.setVisibility(View.GONE);
-                        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-                        if (!netAva) {
-                            dm.buildAlertDialog("请打开网络！");
-                            refreshLayout.setRefreshing(false);
-                            return;
-                        }
-                        now_page=1;
-                        requestMainData();
-                        mList.clear();
-                    }
-
-                    @Override
-                    public void onPullDistance(int distance) {
-
-                    }
-
-                    @Override
-                    public void onPullEnable(boolean enable) {
-
-                    }
-                });
-        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                if(now_page> total_page-1 && total_page!=0){
-                    footProgressView.setVisibility(View.GONE);
-                    footTv.setVisibility(View.VISIBLE);
-                    refreshLayout.setLoadMore(false);
-                    return;
-                }
-                requestMainData();
-            }
-
-            @Override
-            public void onPushDistance(int distance) {
-                LogUtils.PrintLog("234","distance-->"+distance);
-            }
-
-            @Override
-            public void onPushEnable(boolean enable) {
-                LogUtils.PrintLog("234","enable-->"+enable);
-            }
-        });
-
-    }
 
 
     private void goRecommend(View view) {

@@ -6,6 +6,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Business;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -28,4 +29,5 @@ public class MainBusAdapter extends BaseQuickAdapter<Business,BaseViewHolder> {
         helper.setText(R.id.tv_main_business_goodjob,item.getGoodComm());
         helper.setText(R.id.tv_main_business_distance,item.getDistance());
     }
+
 }
