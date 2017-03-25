@@ -77,6 +77,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private static final int VIEWPAGER_LEFT = 0;
     private static final int VIEWPAGER_RIGNT = 2;
     private static final int LOAD_MORE_END = 3;
+    private static final int LOAD_MORE_NEXT = 4;
     private Handler handler = new Handler() {
 
         public void handleMessage(android.os.Message msg) {
@@ -95,7 +96,10 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                     handler.sendEmptyMessageDelayed(VIEWPAGER_RIGNT, 2500);//2S后在发送一条消息，由于在handleMessage()方法中，造成死循环。
                     break;
                 case LOAD_MORE_END:
-                    adapter.loadMoreEnd();
+                    adapter.loadMoreEnd(false);
+                    break;
+                case LOAD_MORE_NEXT:
+
                     break;
             }
 
@@ -111,8 +115,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private MainBusAdapter adapter;
     private int now_page=1;//当前页数
     private int total_page;//总页数
-    private View footProgressView;
-    private View footTv;
 
 
     @Nullable
@@ -171,6 +173,8 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                 if(now_page> total_page-1 && total_page!=0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
                     return;
+                }else {
+                    handler.sendEmptyMessage(LOAD_MORE_NEXT);
                 }
                 requestMainData();
             }
@@ -247,9 +251,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             public void handle200Data(JSONObject dataObj, String message) {
 
                 refreshLayout.setRefreshing(false);
-                if(adapter.isLoadMoreEnable()){
-                    adapter.loadMoreComplete();
-                }
+                adapter.loadMoreComplete();
 
                 JSONObject rebate = dataObj.optJSONObject("rebate");
                 int white_score = rebate.optInt("white_score");
