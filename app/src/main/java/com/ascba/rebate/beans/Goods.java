@@ -1,5 +1,7 @@
 package com.ascba.rebate.beans;
 
+import java.util.List;
+
 /**
  * 购物车商品实体类
  */
@@ -10,9 +12,16 @@ public class Goods {
     private String goodsTitle;//商品标题
     private String goodsStandard;//商品规格
     private String goodsPrice;//商品价格
-    private String goodsPriceOld;//商品原价
+    private String goodsPriceOld;//商品原价/市场价
     private String userQuy;//用户选择数量
     private String goodsSelled;//商品已售数量
+    private List<GoodsImgBean> imgBeanList;//商品详情广告轮播
+    private String goodsNumber;//商品编号
+    private int storeId;//店铺id
+    private int brand;//品牌id
+    private int inventory;//总库存
+    private int weight;//重量g
+    private int freightPrice;//运费
 
     public Goods() {
     }
@@ -97,5 +106,69 @@ public class Goods {
 
     public void setGoodsPriceOld(String goodsPriceOld) {
         this.goodsPriceOld = goodsPriceOld;
+    }
+
+    public List<GoodsImgBean> getImgBeanList() {
+        return imgBeanList;
+    }
+
+    public void setImgBeanList(List<GoodsImgBean> imgBeanList) {
+        this.imgBeanList = imgBeanList;
+    }
+
+    public int getTitleId() {
+        return titleId;
+    }
+
+    public void setTitleId(int titleId) {
+        this.titleId = titleId;
+    }
+
+    public String getGoodsNumber() {
+        return goodsNumber;
+    }
+
+    public void setGoodsNumber(String goodsNumber) {
+        this.goodsNumber = goodsNumber;
+    }
+
+    public int getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
+    }
+
+    public int getBrand() {
+        return brand;
+    }
+
+    public void setBrand(int brand) {
+        this.brand = brand;
+    }
+
+    public int getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getFreightPrice() {
+        return freightPrice;
+    }
+
+    public void setFreightPrice(int freightPrice) {
+        this.freightPrice = freightPrice;
     }
 }

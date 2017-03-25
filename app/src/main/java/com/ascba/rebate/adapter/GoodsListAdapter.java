@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
@@ -53,7 +55,19 @@ public class GoodsListAdapter extends RecyclerView.Adapter<GoodsListAdapter.Base
         Glide.with(context).load(goodsBean.getImgUrl()).into(viewHolder.imageView);
         viewHolder.name.setText(goodsBean.getGoodsTitle());
         viewHolder.price.setText(goodsBean.getGoodsPrice());
-        viewHolder.selled.setText(goodsBean.getGoodsSelled());
+        viewHolder.addCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"加入购物车",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"商品详情",Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -83,14 +97,16 @@ public class GoodsListAdapter extends RecyclerView.Adapter<GoodsListAdapter.Base
         private TextView name;
         private TextView price;
         private ImageView imageView;
-        private TextView selled;
+        private ImageView addCart;
+        private LinearLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.goods_list_name);
             price = (TextView) itemView.findViewById(R.id.goods_list_price);
-            selled = (TextView) itemView.findViewById(R.id.goods_list_selled);
+            addCart = (ImageView) itemView.findViewById(R.id.goods_list_cart);
             imageView = (ImageView) itemView.findViewById(R.id.goods_list_img);
+            layout = (LinearLayout) itemView.findViewById(R.id.goods_list_ll);
         }
     }
 

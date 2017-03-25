@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_light"
             android:textSize="13sp"
+            android:layout_centerVertical="true"
             android:textStyle="bold" />
 
         <ImageView

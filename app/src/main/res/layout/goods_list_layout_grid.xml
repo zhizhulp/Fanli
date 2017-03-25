@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goods_list_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lighter_gray"
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_light"
             android:textSize="13sp"
+            android:layout_centerVertical="true"
             android:textStyle="bold" />
 
         <ImageView

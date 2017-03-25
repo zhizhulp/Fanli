@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goods_list_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/lighter_gray"
@@ -12,21 +13,20 @@
         android:layout_height="122dp"
         android:scaleType="centerCrop" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="14dp"
         android:background="@android:color/white"
-        android:orientation="vertical">
+        android:paddingTop="14dp">
 
         <TextView
             android:id="@+id/goods_list_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="14dp"
             android:background="@android:color/white"
             android:lineSpacingExtra="5dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:text="拉菲庄园2009珍酿原装酒进口红酒艾格丽古堡干红葡萄..."
             android:textSize="12sp" />
 
@@ -34,17 +34,24 @@
             android:id="@+id/goods_list_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="12dp"
             android:text="￥498.00"
             android:textColor="@android:color/holo_red_light"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/goods_list_selled"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/goods_list_cart"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right|center_vertical"
-            android:text="￥498.00"
-            android:textSize="10sp" />
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="16dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:paddingTop="10dp"
+            android:src="@mipmap/icon_add_cart" />
+    </RelativeLayout>
 </LinearLayout>

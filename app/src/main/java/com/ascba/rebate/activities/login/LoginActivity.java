@@ -11,6 +11,7 @@ import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -122,6 +123,7 @@ public class LoginActivity extends BaseNetWork3Activity {
                 AppConfig.getInstance().putString("login_password","");
 
                 setResult(RESULT_OK,new Intent(LoginActivity.this,MainActivity.class));
+                MyApplication.isPersonalData = true;
                 finish();
             }
 

@@ -20,16 +20,26 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ViewPagerAdapter;
+import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsDetailsItem;
+import com.ascba.rebate.beans.GoodsImgBean;
+import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.handler.PtrDefaultHandler;
 import com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView;
 import com.bumptech.glide.Glide;
+import com.yolanda.nohttp.rest.Request;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +50,11 @@ import java.util.List;
  */
 @SuppressLint("SetTextI18n")
 public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.OnClickListener {
+
+    /**
+     * 商品id
+     */
+    private int goodsId = 0;
 
     //足记控件
     private PtrFrameLayout ptrLayout;
@@ -53,17 +68,53 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private int currentItem;
     private List<View> viewList = new ArrayList<>();
 
+    /**
+     * 导航栏
+     */
     private ShopABar shopABar;
+
+    private DialogManager dm;
+
+    /**
+     * 商品实体类
+     */
+    private Goods goods = new Goods();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         context = this;
-        InitPull();
-        InitFotoplace();
+        //获取商品详情
+        getdata();
 
-        InitUI();
+        //上滑加载更多
+        InitPull();
+
+        //足迹
+        InitFotoplace();
+    }
+
+    /**
+     * 页面跳转
+     *
+     * @param context
+     * @param goodsId
+     */
+    public void startIntent(Context context, int goodsId) {
+        Intent intent = new Intent(context, GoodsDetailsActivity.class);
+        intent.putExtra("goodsId", goodsId);
+        startActivity(intent);
+    }
+
+    /**
+     * 获取商品id
+     */
+    private void getUrl() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            goodsId = intent.getIntExtra("goodsId", 0);
+        }
     }
 
     /**
@@ -137,7 +188,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     /**
      * 初始化UI
      */
-    private void InitUI() {
+    private void InitView() {
 
         /**
          * bar
@@ -172,18 +223,18 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          */
         TextView storeType = (TextView) findViewById(R.id.goods_details_simple_desc_type_store);
         storeType.setText("【自营店】");
-
+        //商品名
         TextView goodsDesc1 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods1);
-        goodsDesc1.setText("NB 530系列男鞋女鞋");
+        goodsDesc1.setText(goods.getGoodsTitle());
 
-        TextView goodsDesc2 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods2);
-        goodsDesc2.setText("复古跑步鞋休闲鞋运动鞋M530CKA");
-
+//        TextView goodsDesc2 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods2);
+//        goodsDesc2.setText("复古跑步鞋休闲鞋运动鞋M530CKA");
+        //商品价格
         TextView priceNow = (TextView) findViewById(R.id.goods_details_simple_desc_price_now);
-        priceNow.setText("￥455");
-
+        priceNow.setText("￥" + goods.getGoodsPrice());
+        //市场价
         TextView priceOld = (TextView) findViewById(R.id.goods_details_simple_desc_price_old);
-        priceOld.setText("￥899");
+        priceOld.setText("￥" + goods.getGoodsPriceOld());
         priceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         /**
@@ -208,8 +259,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          * 增值：购买送积分
          */
         TextView appreciationText = (TextView) findViewById(R.id.goods_details_appreciation_text);
-        appreciationText.setText("购买即账户增值20积分");
-
+        appreciationText.setText("购买即账户增值" + (Float.valueOf(goods.getGoodsPrice()) * 100) + "积分");
         RelativeLayout appreciationRL = (RelativeLayout) findViewById(R.id.goods_details_appreciation_rl);
         appreciationRL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,8 +408,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          */
         List<String> url = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
-            url.add("http://image18-c.poco.cn/mypoco/myphoto/20170303/13/18505011120170303135920078_640.jpg");
+        for (int i = 0; i < goods.getImgBeanList().size(); i++) {
+            url.add(goods.getImgBeanList().get(i).getImgUrl());
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.goods_details_viewpager_vp);
 
@@ -454,5 +504,94 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
         }
+    }
+
+    /**
+     * 获取商品详情数据
+     */
+    private void getdata() {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsArticle, 0, false);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getGoodsArticle));
+        jsonRequest.add("id", 95);
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+                //广告轮播数据
+                getPagerList(dataObj);
+
+                //解析商品详情
+                getGoodsDetails(dataObj);
+
+                InitView();
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
+    }
+
+    /**
+     * 解析广告轮播数据
+     *
+     * @param dataObj
+     */
+    private void getPagerList(JSONObject dataObj) {
+        List<GoodsImgBean> imgBeanList = new ArrayList<>();
+        JSONArray pagerArray = dataObj.optJSONArray("goods_img");
+        if (pagerArray != null && pagerArray.length() > 0) {
+            for (int i = 0; i < pagerArray.length(); i++) {
+                try {
+                    JSONObject jsonObject = pagerArray.getJSONObject(i);
+                    GoodsImgBean imgBean = new GoodsImgBean();
+                    imgBean.setId(jsonObject.optInt("id"));
+                    imgBean.setImgUrl(UrlUtils.baseWebsite + "/" + jsonObject.optString("img_url"));
+                    imgBeanList.add(imgBean);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            goods.setImgBeanList(imgBeanList);
+        }
+    }
+
+    /**
+     * 解析商品详情
+     *
+     * @param dataObj
+     */
+    private void getGoodsDetails(JSONObject dataObj) {
+        JSONObject goodsObject = dataObj.optJSONObject("mallgoods");
+
+        //商品id
+        goods.setTitleId(goodsObject.optInt("id"));
+        //商品名
+        goods.setGoodsTitle(goodsObject.optString("title"));
+        //商品编号
+        goods.setGoodsNumber(goodsObject.optString("goods_number"));
+        //店铺id
+        goods.setStoreId(goodsObject.optInt("store_id"));
+        //商品缩略图
+        goods.setImgUrl(UrlUtils.baseWebsite + "/" +goodsObject.optString("img"));
+        //品牌id
+        goods.setBrand(goodsObject.optInt("brand"));
+        //价格
+        goods.setGoodsPrice(goodsObject.optString("shop_price"));
+        //市场价
+        goods.setGoodsPriceOld(goodsObject.optString("market_price"));
+        //总库存
+        goods.setInventory(goodsObject.optInt("inventory"));
+        //重量g
+        goods.setWeight(goodsObject.optInt("weight"));
+        //运费
+        goods.setFreightPrice(goodsObject.optInt("freight_price"));
     }
 }
