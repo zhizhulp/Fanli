@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     /**
      * 商品id
      */
-    private int goodsId = 0;
+    private int goodsId = 95;
 
     //足记控件
     private PtrFrameLayout ptrLayout;
@@ -79,6 +80,17 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      * 商品实体类
      */
     private Goods goods = new Goods();
+
+    /**
+     * 店铺推荐
+     */
+    private List<Goods> storeGoodsList = new ArrayList<>();
+
+    /**
+     * 商品详情页地址
+     */
+    private String webUrl;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +122,63 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     /**
      * 获取商品id
      */
-    private void getUrl() {
+    private void getGoodsId() {
         Intent intent = getIntent();
         if (intent != null) {
             goodsId = intent.getIntExtra("goodsId", 0);
+
+            //获取商品详情
+            getdata();
         }
     }
+
+    /**
+     * 获取商品详情数据
+     */
+    private void getdata() {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsArticle, 0, false);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getGoodsArticle));
+        jsonRequest.add("id", goodsId);
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+
+                dataObj = dataObj.optJSONObject("mallgoods");
+
+                //广告轮播数据
+                getPagerList(dataObj);
+
+                //解析商品详情
+                getGoodsDetails(dataObj);
+
+                //店铺推荐
+                getStoreComm(dataObj);
+
+                //详情页地址
+                webUrl = dataObj.optString("details");
+
+                if (goods.getGoodsTitle() != null && goods.getGoodsTitle().length() > 0) {
+                    InitView();
+                } else {
+                    showToast("获取数据失败!");
+                }
+
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
+    }
+
 
     /**
      * 初始化滑动详情控件
@@ -343,50 +406,79 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         /**
          *店铺
          */
-        List<String> list = new ArrayList<>();
-        list.add("http://image18-c.poco.cn/mypoco/myphoto/20170303/18/18505011120170303180014027_640.jpg");
-        list.add("http://image18-c.poco.cn/mypoco/myphoto/20170303/18/18505011120170303180044057_640.jpg");
-        list.add("http://image18-c.poco.cn/mypoco/myphoto/20170303/18/18505011120170303180121047_640.jpg");
-        String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
 
+        //logo
+        String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
         ImageView imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
         Glide.with(context).load(logo).into(imgLogo);
 
-        ImageView imageView1 = (ImageView) findViewById(R.id.goods_details_shop_img1);
-        Glide.with(context).load(list.get(0)).into(imageView1);
-
-        ImageView imageView2 = (ImageView) findViewById(R.id.goods_details_shop_img2);
-        Glide.with(context).load(list.get(1)).into(imageView2);
-
-        ImageView imageView3 = (ImageView) findViewById(R.id.goods_details_shop_img3);
-        Glide.with(context).load(list.get(2)).into(imageView3);
-
+        //店名
         TextView shopName = (TextView) findViewById(R.id.goods_details_shop_text_name);
         shopName.setText("New Balance专卖店");
 
+        //全部宝贝
         TextView shopAll = (TextView) findViewById(R.id.goods_details_shop_text_all);
         shopAll.setText(String.valueOf(102));
 
+        //大人推荐
         TextView shopRecomm = (TextView) findViewById(R.id.goods_details_shop_img_recomm);
         shopRecomm.setText(String.valueOf(18));
 
+        //描述相符
         TextView shopDesc = (TextView) findViewById(R.id.goods_details_shop_text_desc);
         shopDesc.setText(String.valueOf(4.8));
 
+        //服务态度
         TextView shopmService = (TextView) findViewById(R.id.goods_details_shop_img_service);
         shopmService.setText(String.valueOf(4.8));
 
+        //发货速度
         TextView shopSpeed = (TextView) findViewById(R.id.goods_details_shop_text_speed);
         shopSpeed.setText(String.valueOf(4.8));
 
+        /**
+         * 商品1
+         */
+        Goods goods1 = storeGoodsList.get(0);
+        ImageView imageView1 = (ImageView) findViewById(R.id.goods_details_shop_img1);
+        Glide.with(context).load(goods1.getImgUrl()).into(imageView1);
+        //商城价
+        TextView goods1price = (TextView) findViewById(R.id.goods_details_shop_img1_price);
+        goods1price.setText("￥" + goods1.getGoodsPrice());
+        //市场价
         TextView goods1PriceOld = (TextView) findViewById(R.id.goods_details_shop_img1_price_old);
+        goods1PriceOld.setText("￥" + goods1.getGoodsPriceOld());
         goods1PriceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
+        /**
+         * 商品2
+         */
+        Goods goods2 = storeGoodsList.get(1);
+        ImageView imageView2 = (ImageView) findViewById(R.id.goods_details_shop_img2);
+        Glide.with(context).load(goods2.getImgUrl()).into(imageView2);
+        //商城价
+        TextView goods2price = (TextView) findViewById(R.id.goods_details_shop_img2_price);
+        goods2price.setText("￥" + goods2.getGoodsPrice());
+        //市场价
         TextView goods2PriceOld = (TextView) findViewById(R.id.goods_details_shop_img2_price_old);
+        goods2PriceOld.setText("￥" + goods2.getGoodsPriceOld());
         goods2PriceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
+
+        /**
+         * 商品3
+         */
+        Goods goods3 = storeGoodsList.get(2);
+        ImageView imageView3 = (ImageView) findViewById(R.id.goods_details_shop_img3);
+        Glide.with(context).load(goods3.getImgUrl()).into(imageView3);
+        //商城价
+        TextView goods3price = (TextView) findViewById(R.id.goods_details_shop_img3_price);
+        goods3price.setText("￥" + goods3.getGoodsPrice());
+        //市场价
         TextView goods3PriceOld = (TextView) findViewById(R.id.goods_details_shop_img3_price_old);
+        goods3PriceOld.setText("￥" + goods3.getGoodsPriceOld());
         goods3PriceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
 
         //进店看看
         TextView shopEnter = (TextView) findViewById(R.id.goods_details_shop_img_enter);
@@ -397,6 +489,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 startActivity(intent);
             }
         });
+
+        initWebView();
     }
 
     /**
@@ -507,53 +601,20 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     }
 
     /**
-     * 获取商品详情数据
-     */
-    private void getdata() {
-        dm = new DialogManager(context);
-        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsArticle, 0, false);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getGoodsArticle));
-        jsonRequest.add("id", 95);
-        executeNetWork(jsonRequest, "请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) throws JSONException {
-                //广告轮播数据
-                getPagerList(dataObj);
-
-                //解析商品详情
-                getGoodsDetails(dataObj);
-
-                InitView();
-            }
-
-            @Override
-            public void handle404(String message) {
-                dm.buildAlertDialog(message);
-            }
-
-            @Override
-            public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
-            }
-        });
-    }
-
-    /**
      * 解析广告轮播数据
      *
      * @param dataObj
      */
     private void getPagerList(JSONObject dataObj) {
         List<GoodsImgBean> imgBeanList = new ArrayList<>();
-        JSONArray pagerArray = dataObj.optJSONArray("goods_img");
+        JSONArray pagerArray = dataObj.optJSONArray("mallGoodsImg");
         if (pagerArray != null && pagerArray.length() > 0) {
             for (int i = 0; i < pagerArray.length(); i++) {
                 try {
                     JSONObject jsonObject = pagerArray.getJSONObject(i);
                     GoodsImgBean imgBean = new GoodsImgBean();
                     imgBean.setId(jsonObject.optInt("id"));
-                    imgBean.setImgUrl(UrlUtils.baseWebsite + "/" + jsonObject.optString("img_url"));
+                    imgBean.setImgUrl(UrlUtils.baseWebsite + jsonObject.optString("img_url"));
                     imgBeanList.add(imgBean);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -566,11 +627,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     /**
      * 解析商品详情
      *
-     * @param dataObj
+     * @param goodsObject
      */
-    private void getGoodsDetails(JSONObject dataObj) {
-        JSONObject goodsObject = dataObj.optJSONObject("mallgoods");
-
+    private void getGoodsDetails(JSONObject goodsObject) {
         //商品id
         goods.setTitleId(goodsObject.optInt("id"));
         //商品名
@@ -580,7 +639,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         //店铺id
         goods.setStoreId(goodsObject.optInt("store_id"));
         //商品缩略图
-        goods.setImgUrl(UrlUtils.baseWebsite + "/" +goodsObject.optString("img"));
+        goods.setImgUrl(UrlUtils.baseWebsite + "/" + goodsObject.optString("img"));
         //品牌id
         goods.setBrand(goodsObject.optInt("brand"));
         //价格
@@ -593,5 +652,33 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         goods.setWeight(goodsObject.optInt("weight"));
         //运费
         goods.setFreightPrice(goodsObject.optInt("freight_price"));
+    }
+
+    /**
+     * 解析店铺推荐
+     *
+     * @param goodsObject
+     */
+    private void getStoreComm(JSONObject goodsObject) {
+        JSONArray jsonArray = goodsObject.optJSONArray("other_goods");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Goods goods = new Goods();
+                goods.setTitleId(jsonObject.optInt("id"));
+                goods.setImgUrl(UrlUtils.baseWebsite + jsonObject.optString("img"));
+                goods.setGoodsTitle(jsonObject.optString("title"));
+                goods.setGoodsPrice(jsonObject.optString("shop_price"));
+                goods.setGoodsPriceOld(jsonObject.optString("market_price"));
+                storeGoodsList.add(goods);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initWebView() {
+        webView = (WebView) findViewById(R.id.webView);
+        webView.loadUrl(webUrl);
     }
 }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,7 +18,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.GoodsListActivity;
-import com.ascba.rebate.activities.base.BaseNetWork2Activity;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
 import com.ascba.rebate.activities.milk.TypeMilkActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
@@ -47,23 +45,18 @@ import java.util.List;
 
 public class ShopMainFragment extends Base2Fragment implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
-        ,Base2Fragment.Callback{
+        , Base2Fragment.Callback {
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
-    private List<ShopBaseItem> data;
-    private List<String> urls;//viewPager数据源
-    private List<String> titles;
-    private List<String> contents;
-    private List<String> descs;
+    private List<ShopBaseItem> data=new ArrayList<>();
+    private List<String> urls = new ArrayList<>();//viewPager数据源
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
         }
     };
-    private List<String> navUrls;//导航栏图片链接
-    private List<String> navStr;//导航栏文字
     private RelativeLayout searchHead;//搜索头
     private int mDistanceY = 0;//下拉刷新滑动距离
 
@@ -91,7 +84,7 @@ public class ShopMainFragment extends Base2Fragment implements
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
-        initData();
+
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -147,24 +140,12 @@ public class ShopMainFragment extends Base2Fragment implements
     private void requestNetwork() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.shop, 0, false);
         request.add("sign", UrlEncodeUtils.createSign(UrlUtils.shop));
-        executeNetWork(request,"请稍后");
+        executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
     private void initData() {
-        data = new ArrayList<>();
-        //viewPager
-        intPagerData();
-        //data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager, urls));
-        //导航栏
-        initNavData();
-        /*for (int i = 0; i < navUrls.size(); i++) {
-            ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
-                    navUrls.get(i), navStr.get(i));
-            baseItem.setColor(0);//此处为id
-            data.add(baseItem);
 
-        }*/
         //横线
 //        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
 
@@ -227,23 +208,6 @@ public class ShopMainFragment extends Base2Fragment implements
     }
 
 
-    private void intPagerData() {
-        urls = new ArrayList<>();
-        /*for (int i = 0; i < 3; i++) {
-            urls.add("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161128072_640.jpg");
-        }*/
-    }
-
-    private void initNavData() {
-        navUrls = new ArrayList<>();
-        navStr = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            navUrls.add("http://image18-c.poco.cn/mypoco/myphoto/20170302/09/18505011120170302094130032_640.jpg");
-            navStr.add("导航" + i);
-        }
-
-    }
-
     @Override
     public void onRefresh() {
         handler.postDelayed(new Runnable() {
@@ -271,28 +235,55 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(refreshLat.isRefreshing()){
+        if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
             refreshLat.setLoadMore(false);
         }
-        if(data.size()!=0){
+        if (data.size() != 0) {
             data.clear();
         }
+
+        //广告轮播
+        initViewpager(dataObj);
+
+        //商城首页导航栏
+        initShoopNave(dataObj);
+
+        //商品列表
+        initGoodsList(dataObj);
+
+        initadapter();
+    }
+
+    /**
+     * 广告轮播
+     *
+     * @param dataObj
+     */
+    private void initViewpager(JSONObject dataObj) {
         //轮播数据
         JSONArray pagerArray = dataObj.optJSONArray("banner");
-        if(pagerArray!=null && pagerArray.length()!=0){
+        if (pagerArray != null && pagerArray.length() != 0) {
 
             for (int i = 0; i < pagerArray.length(); i++) {
                 String s = pagerArray.optString(i);
-                urls.add(UrlUtils.baseWebsite+s);
+                urls.add(UrlUtils.baseWebsite + s);
             }
             data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager, urls));
         }
         //横线
         data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
+    }
+
+    /**
+     * 商城首页导航栏
+     *
+     * @param dataObj
+     */
+    private void initShoopNave(JSONObject dataObj) {
         //商品导航
         JSONArray goodsAy = dataObj.optJSONArray("mallCategory");
-        if(goodsAy!=null && goodsAy.length()!=0){
+        if (goodsAy != null && goodsAy.length() != 0) {
             for (int i = 0; i < goodsAy.length(); i++) {
                 JSONObject gObj = goodsAy.optJSONObject(i);
                 String id = gObj.optString("id");
@@ -300,13 +291,21 @@ public class ShopMainFragment extends Base2Fragment implements
                 String subtitle = gObj.optString("sub_title");
 
                 ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
-                        UrlUtils.baseWebsite+cover, subtitle);
+                        UrlUtils.baseWebsite + cover, subtitle);
                 baseItem.setColor(Integer.parseInt(id));
+                data.add(baseItem);
             }
         }
-        //商品列表
+    }
+
+    /**
+     * 商品列表
+     *
+     * @param dataObj
+     */
+    private void initGoodsList(JSONObject dataObj) {
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
-        if(mallGoodsAy!=null && mallGoodsAy.length()!=0){
+        if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
             for (int i = 0; i < mallGoodsAy.length(); i++) {
                 JSONObject gObj = mallGoodsAy.optJSONObject(i);
                 String id = gObj.optString("id");
@@ -314,12 +313,17 @@ public class ShopMainFragment extends Base2Fragment implements
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite+imgUrl, title, shop_price, "");
-
+                        , UrlUtils.baseWebsite + imgUrl, title, shop_price, "");
                 shopBaseItem.setColor(Integer.parseInt(id));
                 data.add(shopBaseItem);
             }
         }
+    }
+
+    /**
+     * 初始化adapter
+     */
+    private void initadapter() {
         adapter = new ShopTypeRVAdapter(data, getActivity());
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
         rv.setLayoutManager(manager);
@@ -329,13 +333,12 @@ public class ShopMainFragment extends Base2Fragment implements
                 return data.get(position).getSpanSize();
             }
         });
-
         rv.setAdapter(adapter);
     }
 
     @Override
     public void handleReqFailed() {
-        if(refreshLat.isRefreshing()){
+        if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
             refreshLat.setLoadMore(false);
         }
@@ -348,7 +351,7 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void handleReLogin() {
-        if(refreshLat.isRefreshing()){
+        if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
             refreshLat.setLoadMore(false);
         }
@@ -356,7 +359,7 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void handleNoNetWork() {
-        if(refreshLat.isRefreshing()){
+        if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
             refreshLat.setLoadMore(false);
         }

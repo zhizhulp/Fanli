@@ -81,6 +81,8 @@
             android:text="筛选" />
     </LinearLayout>
 
+    <include layout="@layout/goods_details_cuttingline" />
+
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/activity_goods_list_refresh_layout"
         android:layout_width="match_parent"
