@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.ascba.rebate.R;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -62,7 +63,7 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
             }
         });
 
-        Glide.with(mContext).load(mImageArr.get(position)).into(imageView);
+        Glide.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.busi_loading).into(imageView);
         container.addView(imageView);
         return imageView;
     }

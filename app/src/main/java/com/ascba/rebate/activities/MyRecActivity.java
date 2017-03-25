@@ -208,7 +208,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     }
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+    public void handle200Data(JSONObject dataObj, String message)  {
         if (finalScene == 0) {
             JSONObject obj1 = dataObj.optJSONObject("p_referee");
             if (obj1 != null) {

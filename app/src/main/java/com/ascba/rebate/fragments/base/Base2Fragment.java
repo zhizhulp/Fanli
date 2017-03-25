@@ -1,7 +1,9 @@
 package com.ascba.rebate.fragments.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -10,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
@@ -31,8 +35,16 @@ import org.json.JSONObject;
  * A simple {@link Fragment} subclass.
  */
 public class Base2Fragment extends Fragment {
-    private DialogManager2 dm;
     private Callback callback;
+    private DialogManager dm;
+
+    public DialogManager getDm() {
+        return dm;
+    }
+
+    public void setDm(DialogManager dm) {
+        this.dm = dm;
+    }
 
     public interface Callback{
         void handle200Data(JSONObject dataObj, String message);//数据请求成功
@@ -57,13 +69,22 @@ public class Base2Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return null;
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if(activity instanceof BaseNetWork4Activity){
+            dm=((BaseNetWork4Activity) activity).getDm();
+        }else {
+            dm=new DialogManager(getActivity());
+        }
+    }
+
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
-        if(dm==null){
-            dm=new DialogManager2(getActivity());
-        }
         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
         if(!netAva){
             if(callback!=null){

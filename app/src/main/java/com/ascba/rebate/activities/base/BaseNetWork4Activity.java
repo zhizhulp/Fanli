@@ -36,7 +36,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
     }
 
     public interface Callback {
-        void handle200Data(JSONObject dataObj, String message) throws JSONException;
+        void handle200Data(JSONObject dataObj, String message);
 
         void handle404(String message);
 
@@ -89,7 +89,6 @@ public class BaseNetWork4Activity extends AppCompatActivity {
 
     /**
      * 建立网络请求
-     *
      * @param url          请求网址
      * @param method       请求方式 0 post 1 get
      * @param defaultParam 是否有默认请求参数
@@ -133,11 +132,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
                     AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
                 }
                 if (callback != null) {//对于200额外的处理
-                    try {
-                        callback.handle200Data(dataObj, message);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    callback.handle200Data(dataObj, message);
                 }
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                 Intent intent = new Intent(BaseNetWork4Activity.this, LoginActivity.class);

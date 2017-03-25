@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.WindowManager;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.beans.TabEntity;
 import com.ascba.rebate.fragments.CartFragment;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 /**
  * 主界面
  */
-public class ShopActivity extends BaseNetWorkActivity {
+public class ShopActivity extends BaseNetWork4Activity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "分类", "购物车", "我"};
     private ArrayList<Fragment> mFragments = new ArrayList<>();

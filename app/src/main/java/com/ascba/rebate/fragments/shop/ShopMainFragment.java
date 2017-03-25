@@ -19,6 +19,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.GoodsListActivity;
+import com.ascba.rebate.activities.base.BaseNetWork2Activity;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
 import com.ascba.rebate.activities.milk.TypeMilkActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
@@ -26,9 +27,16 @@ import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
+import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +45,9 @@ import java.util.List;
  * 商城
  */
 
-public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class ShopMainFragment extends Base2Fragment implements
+        SuperSwipeRefreshLayout.OnPullRefreshListener
+        ,Base2Fragment.Callback{
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
@@ -82,16 +92,6 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
         initData();
-        adapter = new ShopTypeRVAdapter(data, getActivity());
-        final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
-        rv.setLayoutManager(manager);
-        adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return data.get(position).getSpanSize();
-            }
-        });
-        rv.setAdapter(adapter);
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -140,21 +140,34 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
                 }
             }
         });
+
+        requestNetwork();
+    }
+
+    private void requestNetwork() {
+        Request<JSONObject> request = buildNetRequest(UrlUtils.shop, 0, false);
+        request.add("sign", UrlEncodeUtils.createSign(UrlUtils.shop));
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
 
     private void initData() {
         data = new ArrayList<>();
         //viewPager
         intPagerData();
-        data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager, urls));
+        //data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager, urls));
         //导航栏
         initNavData();
-        for (int i = 0; i < navUrls.size(); i++) {
-            data.add(new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
-                    navUrls.get(i), navStr.get(i)));
-        }
+        /*for (int i = 0; i < navUrls.size(); i++) {
+            ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
+                    navUrls.get(i), navStr.get(i));
+            baseItem.setColor(0);//此处为id
+            data.add(baseItem);
+
+        }*/
         //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
+//        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
+
 //        //广告图(一张)
 //        data.add(new ShopBaseItem(ShopItemType.TYPE_IMG, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_img,
 //                "http://image18-c.poco.cn/mypoco/myphoto/20170301/17/18505011120170301174703033_640.jpg"));
@@ -207,18 +220,18 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
 //        //横线
 //        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
         //商品
-        for (int i = 0; i < 8; i++) {
+       /* for (int i = 0; i < 8; i++) {
             data.add(new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
                     , "http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg", "拉菲庄园2009珍酿原装进口红酒艾格力古堡干红葡", "￥ 498.00", "已售4件"));
-        }
+        }*/
     }
 
 
     private void intPagerData() {
         urls = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        /*for (int i = 0; i < 3; i++) {
             urls.add("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161128072_640.jpg");
-        }
+        }*/
     }
 
     private void initNavData() {
@@ -256,4 +269,97 @@ public class ShopMainFragment extends Fragment implements SuperSwipeRefreshLayou
 
     }
 
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        if(refreshLat.isRefreshing()){
+            refreshLat.setRefreshing(false);
+            refreshLat.setLoadMore(false);
+        }
+        if(data.size()!=0){
+            data.clear();
+        }
+        //轮播数据
+        JSONArray pagerArray = dataObj.optJSONArray("banner");
+        if(pagerArray!=null && pagerArray.length()!=0){
+
+            for (int i = 0; i < pagerArray.length(); i++) {
+                String s = pagerArray.optString(i);
+                urls.add(UrlUtils.baseWebsite+s);
+            }
+            data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager, urls));
+        }
+        //横线
+        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
+        //商品导航
+        JSONArray goodsAy = dataObj.optJSONArray("mallCategory");
+        if(goodsAy!=null && goodsAy.length()!=0){
+            for (int i = 0; i < goodsAy.length(); i++) {
+                JSONObject gObj = goodsAy.optJSONObject(i);
+                String id = gObj.optString("id");
+                String cover = gObj.optString("cover");
+                String subtitle = gObj.optString("sub_title");
+
+                ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
+                        UrlUtils.baseWebsite+cover, subtitle);
+                baseItem.setColor(Integer.parseInt(id));
+            }
+        }
+        //商品列表
+        JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
+        if(mallGoodsAy!=null && mallGoodsAy.length()!=0){
+            for (int i = 0; i < mallGoodsAy.length(); i++) {
+                JSONObject gObj = mallGoodsAy.optJSONObject(i);
+                String id = gObj.optString("id");
+                String imgUrl = gObj.optString("img");
+                String title = gObj.optString("title");
+                String shop_price = gObj.optString("shop_price");
+                ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
+                        , UrlUtils.baseWebsite+imgUrl, title, shop_price, "");
+
+                shopBaseItem.setColor(Integer.parseInt(id));
+                data.add(shopBaseItem);
+            }
+        }
+        adapter = new ShopTypeRVAdapter(data, getActivity());
+        final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
+        rv.setLayoutManager(manager);
+        adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                return data.get(position).getSpanSize();
+            }
+        });
+
+        rv.setAdapter(adapter);
+    }
+
+    @Override
+    public void handleReqFailed() {
+        if(refreshLat.isRefreshing()){
+            refreshLat.setRefreshing(false);
+            refreshLat.setLoadMore(false);
+        }
+    }
+
+    @Override
+    public void handle404(String message) {
+        getDm().buildAlertDialog(message);
+    }
+
+    @Override
+    public void handleReLogin() {
+        if(refreshLat.isRefreshing()){
+            refreshLat.setRefreshing(false);
+            refreshLat.setLoadMore(false);
+        }
+    }
+
+    @Override
+    public void handleNoNetWork() {
+        if(refreshLat.isRefreshing()){
+            refreshLat.setRefreshing(false);
+            refreshLat.setLoadMore(false);
+        }
+        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+    }
 }

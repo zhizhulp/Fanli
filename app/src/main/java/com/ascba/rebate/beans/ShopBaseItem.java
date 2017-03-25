@@ -76,7 +76,8 @@ public class ShopBaseItem implements MultiItemEntity {
      * @param url      网络图片
      * @param desc     描述
      */
-    public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String desc) {
+    public ShopBaseItem(int itemType, int spanSize, int resLat,
+                        String url, String desc) {
         this(itemType, spanSize, resLat);
         this.url = url;
         this.desc = desc;
@@ -90,7 +91,7 @@ public class ShopBaseItem implements MultiItemEntity {
      * @param resLat   对应的布局id
      * @param url      网络图片
      * @param title    标题
-     * @param color    字体颜色
+     * @param color    字体颜色/id
      */
     public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String title, int color) {
         this(itemType, spanSize, resLat);

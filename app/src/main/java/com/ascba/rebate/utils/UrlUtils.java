@@ -72,7 +72,8 @@ public class UrlUtils {
     public static final String service=baseWebsiteChange+"/"+"service";//银行卡服务协议
     public static final String regAgree=baseWebsiteChange+"/"+"regAgree";//注册协议
     public static final String explain=baseWebsiteChange+"/"+"explain";//商家入驻流程
-    public static final String shop=baseWebsiteChange+"/"+"shop";//商城
+
+    public static final String shop=baseWebsite+"/"+webVersion+"/"+"shop";;//商城
 
 
     //public static final String getCompanyInfo=baseWebsite+"/"+webVersion+"/"+"getCompanyInfo";

@@ -54,10 +54,10 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 break;
             case ShopItemType.TYPE_NAVIGATION:
                 helper.setText(R.id.item_type1_text, item.getDesc());
-                Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.item_type1_img));
+                Glide.with(context).load(item.getUrl()).centerCrop().placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.item_type1_img));
                 break;
             case ShopItemType.TYPE_IMG:
-                Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.item_type3_img));
+                Glide.with(context).load(item.getUrl()).centerCrop().placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.item_type3_img));
                 break;
             case ShopItemType.TYPE_HOT:
                 helper.setText(R.id.item_type_4_text3, item.getUrl());
@@ -67,19 +67,19 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 helper.setText(R.id.tv_rush_content1, item.getContents().get(0));
                 helper.setText(R.id.tv_rush_desc1, item.getDescs().get(0));
                 ImageView img1 = helper.getView(R.id.tv_rush_img1);
-                Glide.with(context).load(item.getPagerUrls().get(0)).into(img1);
+                Glide.with(context).load(item.getPagerUrls().get(0)).placeholder(R.mipmap.busi_loading).into(img1);
 
                 helper.setText(R.id.tv_rush_title2, item.getTitles().get(1));
                 helper.setText(R.id.tv_rush_content2, item.getContents().get(1));
                 helper.setText(R.id.tv_rush_desc2, item.getDescs().get(1));
                 ImageView img2 = helper.getView(R.id.tv_rush_img2);
-                Glide.with(context).load(item.getPagerUrls().get(1)).into(img2);
+                Glide.with(context).load(item.getPagerUrls().get(1)).placeholder(R.mipmap.busi_loading).into(img2);
 
                 helper.setText(R.id.tv_rush_title3, item.getTitles().get(2));
                 helper.setText(R.id.tv_rush_content3, item.getContents().get(2));
                 helper.setText(R.id.tv_rush_desc3, item.getDescs().get(2));
                 ImageView img3 = helper.getView(R.id.tv_rush_img3);
-                Glide.with(context).load(item.getPagerUrls().get(2)).into(img3);
+                Glide.with(context).load(item.getPagerUrls().get(2)).placeholder(R.mipmap.busi_loading).into(img3);
                 break;
 
             case ShopItemType.TYPE_CHEAP:
