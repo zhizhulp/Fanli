@@ -42,6 +42,12 @@ public class BusinessTimeActivity extends Activity {
                 endTime.setCurrentHour(Integer.valueOf(endHour));
                 endTime.setCurrentMinute(Integer.valueOf(endMin));
             }
+            else {
+                startTime.setCurrentHour(9);
+                startTime.setCurrentMinute(0);
+                endTime.setCurrentHour(22);
+                endTime.setCurrentMinute(30);
+            }
         }
     }
 

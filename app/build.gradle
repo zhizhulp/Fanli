@@ -60,4 +60,5 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile files('libs/baidumapapi_util_v4_2_1.jar')
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.0'
+    compile project(':xrecyclerview')
 }

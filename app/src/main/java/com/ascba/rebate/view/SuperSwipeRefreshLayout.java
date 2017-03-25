@@ -37,6 +37,8 @@ import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.ascba.rebate.utils.LogUtils;
+
 /**
  * @Author Zheng Haibo
  * @PersonalWebsite http://www.mobctrl.net
@@ -233,6 +235,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
          * getScaledTouchSlop是一个距离，表示滑动的时候，手的移动要大于这个距离才开始移动控件。如果小于这个距离就不触发移动控件
          */
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        LogUtils.PrintLog("mTouchSlop","mTouchSlop-->"+mTouchSlop);
 
         mMediumAnimationDuration = getResources().getInteger(
                 android.R.integer.config_mediumAnimTime);
@@ -572,7 +575,8 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
             int count = recyclerView.getAdapter().getItemCount();
             if (layoutManager instanceof LinearLayoutManager && count > 0) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == count - 1) {
+                // TODO: 2017/3/24 0024 recycler
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == count - 1) {//由1修改为2
                     return true;
                 }
             } else if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -677,7 +681,8 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
                     }
                 } else {
                     yDiff = y - mInitialMotionY;// 计算下拉距离
-                    if (yDiff > mTouchSlop && !mIsBeingDragged) {// 判断是否下拉的距离足够
+                    // TODO: 2017/3/24 0024 下拉距离
+                    if (yDiff > mTouchSlop-10  && !mIsBeingDragged) {// 判断是否下拉的距离足够
                         mIsBeingDragged = true;// 正在下拉
                     }
                 }

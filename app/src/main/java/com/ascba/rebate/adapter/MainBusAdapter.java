@@ -22,7 +22,7 @@ public class MainBusAdapter extends BaseQuickAdapter<Business,BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Business item) {
         Picasso.with(mContext).load(item.getLogo())/*.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)*/.into((ImageView) helper.getView(R.id.iv_main_business_logo));
+                .networkPolicy(NetworkPolicy.NO_CACHE)*/.placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.iv_main_business_logo));
         helper.setText(R.id.tv_main_business_name,item.getbName());
         helper.setText(R.id.tv_main_business_category,item.getbCategory());
         helper.setText(R.id.tv_main_business_goodjob,item.getGoodComm());

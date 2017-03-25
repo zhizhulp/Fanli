@@ -41,10 +41,11 @@ import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.yolanda.nohttp.Headers;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.download.DownloadListener;
@@ -73,7 +74,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
     private float pointDownX, pointUpX;
     private List<ImageView> imageList;
-    private RecBusinessAdapter mAdapter;
     private List<Business> mList=new ArrayList<>();
     private TextView location_text;
     private ViewPager vp;
@@ -163,10 +163,21 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             }
         });
 
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
         View view1=getActivity().getLayoutInflater().inflate(R.layout.main_head,null);
         adapter.addHeaderView(view1);
         requestMainData();
-
 
         tvAllScore = ((TextView) view1.findViewById(R.id.score_all));
         tvRedScore = ((TextView) view1.findViewById(R.id.tv_red_score));
