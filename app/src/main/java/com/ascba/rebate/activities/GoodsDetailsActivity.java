@@ -8,11 +8,14 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -680,5 +683,33 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private void initWebView() {
         webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl(webUrl);
+        //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // TODO Auto-generated method stub
+                //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        //启用支持javascript
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (pullUpToLoadMoreView.getCurrPosition() == 1) {
+                pullUpToLoadMoreView.scrollToTop();
+                return true;
+            } else {
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

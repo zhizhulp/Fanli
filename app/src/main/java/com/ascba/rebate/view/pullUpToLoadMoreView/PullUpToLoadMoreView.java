@@ -273,4 +273,8 @@ public class PullUpToLoadMoreView extends ViewGroup {
     public interface OnCurrPosition {
         void currPosition(int currPosition, boolean isTop);
     }
+
+    public int getCurrPosition() {
+        return currPosition;
+    }
 }
