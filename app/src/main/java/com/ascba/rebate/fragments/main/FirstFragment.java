@@ -189,18 +189,12 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     }
     private void initRefreshLayout(View view) {
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
-        View footView = getActivity().getLayoutInflater().inflate(R.layout.foot_view, null);
-        footProgressView = footView.findViewById(R.id.foot_progress);
-        footTv = footView.findViewById(R.id.foot_no_more);
-        refreshLayout.setFooterView(footView);
         refreshLayout
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
                     @Override
                     public void onRefresh() {
                         //adapter.setEnableLoadMore(false);
-                        footProgressView.setVisibility(View.VISIBLE);
-                        footTv.setVisibility(View.GONE);
                         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
                         if (!netAva) {
                             dm.buildAlertDialog("请打开网络！");
