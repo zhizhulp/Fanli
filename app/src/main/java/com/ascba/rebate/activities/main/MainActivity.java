@@ -79,6 +79,10 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     private  Fragment mMeFragment;
     private AppTabs appTabs;
 
+    public AppTabs getAppTabs() {
+        return appTabs;
+    }
+
     public DialogManager2 getDm() {
         return dm;
     }

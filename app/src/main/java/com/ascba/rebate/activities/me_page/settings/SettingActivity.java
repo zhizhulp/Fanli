@@ -56,8 +56,7 @@ public class SettingActivity extends BaseNetWorkActivity  {
                 .putLong("expiring_time", -2000)
                 .putString("login_phone", "")
                 .putString("login_password", "").apply();
-        Intent intent = new Intent(this, MeFragment.class);
-        setResult(RESULT_OK, intent);
+        setResult(RESULT_OK, getIntent());
         finish();
     }
 
