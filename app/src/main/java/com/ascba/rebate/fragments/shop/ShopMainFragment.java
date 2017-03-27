@@ -67,13 +67,13 @@ public class ShopMainFragment extends Base2Fragment implements
             super.handleMessage(msg);
             switch (msg.what) {
                 case LOAD_MORE_END:
-                    if(adapter!=null){
+                    if (adapter != null) {
                         adapter.loadMoreEnd(false);
                     }
 
                     break;
                 case LOAD_MORE_ERROR:
-                    if(adapter!=null){
+                    if (adapter != null) {
                         adapter.loadMoreFail();
                     }
 
@@ -115,26 +115,22 @@ public class ShopMainFragment extends Base2Fragment implements
                 if (position == 1) {
                     Intent intent = new Intent(getContext(), TypeClothActivity.class);
                     startActivity(intent);
-                } else if (position == 2) {
-                    Intent intent = new Intent(getContext(), TypeMarketActivity.class);
-                    startActivity(intent);
                 } else if (position == 3) {
                     Intent intent = new Intent(getContext(), TypeMilkActivity.class);
                     startActivity(intent);
-                } /*else if (position == 7) {
-                    Intent intent = new Intent(getContext(), GoodsDetailsActivity.class);
-                    startActivity(intent);
-                } */else if (position == 8) {
+                }  else if (position == 8) {
                     Intent intent = new Intent(getContext(), BeginnerGuideActivity.class);
                     startActivity(intent);
                 } else if (position == 9) {
                     Intent intent = new Intent(getContext(), GoodsListActivity.class);
                     startActivity(intent);
                 }
-                if(data.size()!=0){
-                    ShopBaseItem shopBaseItem = data.get(position);
-                    if(shopBaseItem.getItemType()==ShopItemType.TYPE_GOODS){
-                        GoodsDetailsActivity.startIntent(getActivity(),shopBaseItem.getColor());
+                ShopBaseItem shopBaseItem = data.get(position);
+                if (data.size() != 0) {
+                    if (shopBaseItem.getItemType() == ShopItemType.TYPE_GOODS) {
+                        GoodsDetailsActivity.startIntent(getActivity(), shopBaseItem.getColor());
+                    } else if (shopBaseItem.getItemType() == ShopItemType.TYPE_NAVIGATION) {
+                        TypeMarketActivity.startIntent(getActivity(), shopBaseItem.getColor());
                     }
                 }
             }
@@ -294,7 +290,7 @@ public class ShopMainFragment extends Base2Fragment implements
     public void handle200Data(JSONObject dataObj, String message) {
 
         refreshLat.setRefreshing(false);
-        if(adapter!=null){
+        if (adapter != null) {
             adapter.loadMoreComplete();
         }
         if (loadMoreView != null) {

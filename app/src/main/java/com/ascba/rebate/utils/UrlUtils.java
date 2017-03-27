@@ -100,4 +100,7 @@ public class UrlUtils {
 
     //周边
     public static final String getNearBy=urlPrefix+"nearby";
+
+    //商城分类
+    public static final String category=urlPrefix+"category";
 }
