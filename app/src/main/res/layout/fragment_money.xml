@@ -185,7 +185,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="待返积分"
+                            android:text="白积分"
                             android:textSize="14sp" />
 
                         <TextView
@@ -258,7 +258,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="兑换积分"
+                            android:text="红积分"
                             android:textSize="14sp" />
 
                         <TextView
@@ -342,7 +342,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="交易积分"
+                            android:text="交易记录"
                             android:textSize="14sp" />
 
                         <TextView
@@ -351,6 +351,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="0"
+                            android:visibility="invisible"
                             android:textColor="@color/fragment_money_num"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -362,6 +363,7 @@
                         android:layout_alignTop="@id/me_lat_daifan_l3"
                         android:layout_marginRight="12dp"
                         android:text="收银"
+                        android:visibility="invisible"
                         android:textColor="#448ffe"
                         android:paddingTop="2dp"
                         android:textSize="13sp" />
@@ -451,7 +453,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="现金账户"
+                            android:text="个人账户"
                             android:textSize="14sp" />
 
                         <TextView
@@ -533,6 +535,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="0.00"
+                            android:visibility="invisible"
                             android:textColor="@color/fragment_money_num"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -627,6 +630,7 @@
                         android:layout_marginRight="12dp"
                         android:text="收银"
                         android:textSize="13sp"
+                        android:visibility="invisible"
                         android:paddingTop="2dp"
                         android:layout_alignTop="@+id/me_lat_daifan_l6"
                         android:textColor="#448ffe" />
@@ -666,7 +670,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="我的银行"
+                            android:text="银行卡"
                             android:textSize="14sp" />
 
                         <TextView

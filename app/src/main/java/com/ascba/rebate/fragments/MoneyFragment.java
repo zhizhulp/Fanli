@@ -226,7 +226,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
             tvWhite.setText(infoObj.optInt("white_score")+"");
             tvDaiFan.setText(infoObj.optInt("white_score")+"");
             tvDuiHuan.setText(infoObj.optInt("red_score")+"");
-            tvDjq.setText(infoObj.optInt("vouchers")+"");
+            tvDjq.setText(infoObj.optInt("vouchers")+"张");
             tvGrzh.setText(infoObj.optString("money"));
             tvSjzh.setText(infoObj.optString("account_money"));
             tvBank.setText(infoObj.optInt("banks")+"张");

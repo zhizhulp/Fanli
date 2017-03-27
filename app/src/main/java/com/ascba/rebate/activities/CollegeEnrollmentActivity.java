@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -52,7 +53,11 @@ public class CollegeEnrollmentActivity extends BaseNetWork4Activity {
 
             @Override
             public void clkMsg(View v) {
-                showToast("个人中心");
+                /**
+                 * 学员证
+                 */
+                Intent intent = new Intent(context, MemCardActivity.class);
+                startActivity(intent);
             }
 
             @Override

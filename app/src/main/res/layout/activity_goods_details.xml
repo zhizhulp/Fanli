@@ -9,11 +9,18 @@
         android:id="@+id/activity_goods_details_shopping_in"
         layout="@layout/activity_goods_details_shopping" />
 
+    <com.ascba.rebate.view.ShopABar
+        android:id="@+id/shopbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white" />
+
     <com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout
         android:id="@+id/activity_goods_details_pl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/activity_goods_details_shopping_in"
+        android:layout_below="@id/shopbar"
         app:ptr_duration_to_close="150"
         app:ptr_keep_header_when_refresh="false">
 
@@ -106,11 +113,5 @@
         </com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView>
 
     </com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout>
-
-    <com.ascba.rebate.view.ShopABar
-        android:id="@+id/shopbar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white" />
 
 </RelativeLayout>
