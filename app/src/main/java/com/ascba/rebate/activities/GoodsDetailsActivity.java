@@ -58,7 +58,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     /**
      * 商品id
      */
-    private int goodsId = 95;
+    private int goodsId;
 
     //足记控件
     private PtrFrameLayout ptrLayout;
@@ -101,7 +101,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         setContentView(R.layout.activity_goods_details);
         context = this;
         //获取商品详情
-        getdata();
+        getGoodsId();
 
         //上滑加载更多
         InitPull();
@@ -116,10 +116,10 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      * @param context
      * @param goodsId
      */
-    public void startIntent(Context context, int goodsId) {
+    public static void startIntent(Context context, int goodsId) {
         Intent intent = new Intent(context, GoodsDetailsActivity.class);
         intent.putExtra("goodsId", goodsId);
-        startActivity(intent);
+        context.startActivity(intent);
     }
 
     /**

@@ -50,6 +50,7 @@ public class ShopMainFragment extends Base2Fragment implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
         , Base2Fragment.Callback {
     private static final int LOAD_MORE_END = 0;
+    private static final int LOAD_MORE_ERROR = 1;
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
@@ -66,7 +67,16 @@ public class ShopMainFragment extends Base2Fragment implements
             super.handleMessage(msg);
             switch (msg.what) {
                 case LOAD_MORE_END:
-                    adapter.loadMoreEnd(false);
+                    if(adapter!=null){
+                        adapter.loadMoreEnd(false);
+                    }
+
+                    break;
+                case LOAD_MORE_ERROR:
+                    if(adapter!=null){
+                        adapter.loadMoreFail();
+                    }
+
                     break;
             }
         }
@@ -111,15 +121,21 @@ public class ShopMainFragment extends Base2Fragment implements
                 } else if (position == 3) {
                     Intent intent = new Intent(getContext(), TypeMilkActivity.class);
                     startActivity(intent);
-                } else if (position == 7) {
+                } /*else if (position == 7) {
                     Intent intent = new Intent(getContext(), GoodsDetailsActivity.class);
                     startActivity(intent);
-                } else if (position == 8) {
+                } */else if (position == 8) {
                     Intent intent = new Intent(getContext(), BeginnerGuideActivity.class);
                     startActivity(intent);
                 } else if (position == 9) {
                     Intent intent = new Intent(getContext(), GoodsListActivity.class);
                     startActivity(intent);
+                }
+                if(data.size()!=0){
+                    ShopBaseItem shopBaseItem = data.get(position);
+                    if(shopBaseItem.getItemType()==ShopItemType.TYPE_GOODS){
+                        GoodsDetailsActivity.startIntent(getActivity(),shopBaseItem.getColor());
+                    }
                 }
             }
         });
@@ -407,10 +423,8 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void handleReqFailed() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
-            //refreshLat.setLoadMore(false);
-        }
+        refreshLat.setRefreshing(false);
+        handler.sendEmptyMessage(LOAD_MORE_ERROR);
     }
 
     @Override
@@ -420,18 +434,14 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void handleReLogin() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
-            //refreshLat.setLoadMore(false);
-        }
+        refreshLat.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
-            //refreshLat.setLoadMore(false);
-        }
+
+        refreshLat.setRefreshing(false);
+        handler.sendEmptyMessage(LOAD_MORE_ERROR);
         getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 }
