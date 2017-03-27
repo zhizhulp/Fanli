@@ -29,6 +29,7 @@ import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yolanda.nohttp.rest.Request;
@@ -39,6 +40,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
+
 /**
  * 商城
  */
@@ -46,19 +49,28 @@ import java.util.List;
 public class ShopMainFragment extends Base2Fragment implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
         , Base2Fragment.Callback {
+    private static final int LOAD_MORE_END = 0;
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data=new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
-    private Handler handler = new Handler() {
+    private RelativeLayout searchHead;//搜索头
+    private int mDistanceY = 0;//下拉刷新滑动距离
+    private int now_page=1;
+    private int total_page;
+    private CustomLoadMoreView loadMoreView;
+    private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            switch (msg.what){
+                case LOAD_MORE_END:
+                    adapter.loadMoreEnd(false);
+                    break;
+            }
         }
     };
-    private RelativeLayout searchHead;//搜索头
-    private int mDistanceY = 0;//下拉刷新滑动距离
 
     @Nullable
     @Override
@@ -210,12 +222,10 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void onRefresh() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLat.setRefreshing(false);
-            }
-        }, 1000);
+        now_page=1;
+
+        requestNetwork();
+
     }
 
     @Override
@@ -237,11 +247,14 @@ public class ShopMainFragment extends Base2Fragment implements
     public void handle200Data(JSONObject dataObj, String message) {
         if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
-            refreshLat.setLoadMore(false);
+            adapter.loadMoreComplete();
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
         if (data.size() != 0) {
             data.clear();
         }
+        //分页
+        getPageCount(dataObj);
 
         //广告轮播
         initViewpager(dataObj);
@@ -253,6 +266,29 @@ public class ShopMainFragment extends Base2Fragment implements
         initGoodsList(dataObj);
 
         initadapter();
+
+        initLoadMore();
+    }
+
+    private void initLoadMore() {
+        loadMoreView = new CustomLoadMoreView();
+        adapter.setLoadMoreView(loadMoreView);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if(now_page> total_page-1 && total_page!=0){
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                }else {
+                    requestNetwork();
+                }
+            }
+        });
+    }
+
+    private void getPageCount(JSONObject dataObj) {
+        //now_page = dataObj.optInt("now_page");
+        total_page = dataObj.optInt("total_page");
+        now_page++;
     }
 
     /**
@@ -324,16 +360,22 @@ public class ShopMainFragment extends Base2Fragment implements
      * 初始化adapter
      */
     private void initadapter() {
-        adapter = new ShopTypeRVAdapter(data, getActivity());
-        final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
-        rv.setLayoutManager(manager);
-        adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return data.get(position).getSpanSize();
-            }
-        });
-        rv.setAdapter(adapter);
+        if(adapter==null){
+            adapter = new ShopTypeRVAdapter(data, getActivity());
+            final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
+            rv.setLayoutManager(manager);
+            adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                    return data.get(position).getSpanSize();
+                }
+            });
+            rv.setAdapter(adapter);
+        }else {
+            adapter.notifyDataSetChanged();
+        }
+
+
     }
 
     @Override
