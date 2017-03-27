@@ -64,6 +64,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
+
 /**
  * 扫一扫主页
  */
@@ -77,7 +79,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private static final int VIEWPAGER_LEFT = 0;
     private static final int VIEWPAGER_RIGNT = 2;
     private static final int LOAD_MORE_END = 3;
-    private static final int LOAD_MORE_NEXT = 4;
     private Handler handler = new Handler() {
 
         public void handleMessage(android.os.Message msg) {
@@ -98,9 +99,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                 case LOAD_MORE_END:
                     adapter.loadMoreEnd(false);
                     break;
-                case LOAD_MORE_NEXT:
 
-                    break;
             }
 
         }
@@ -115,6 +114,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private MainBusAdapter adapter;
     private int now_page=1;//当前页数
     private int total_page;//总页数
+    private CustomLoadMoreView loadMoreView;
 
 
     @Nullable
@@ -165,23 +165,21 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
     private void initAdapterAddHeadView() {
         adapter = new MainBusAdapter(R.layout.main_bussiness_list_item,mList);
-        adapter.setLoadMoreView(new CustomLoadMoreView());
+        loadMoreView = new CustomLoadMoreView();
+        adapter.setLoadMoreView(loadMoreView);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                //adapter.setEnableLoadMore(true);
                 if(now_page> total_page-1 && total_page!=0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
-                    return;
                 }else {
-                    handler.sendEmptyMessage(LOAD_MORE_NEXT);
+                    requestMainData();
                 }
-                requestMainData();
+
             }
         });
         View view1=getActivity().getLayoutInflater().inflate(R.layout.main_head,null);
         adapter.addHeaderView(view1);
-
         tvAllScore = ((TextView) view1.findViewById(R.id.score_all));
         tvRedScore = ((TextView) view1.findViewById(R.id.tv_red_score));
         initViewPager(view1);//初始化viewpager
@@ -198,14 +196,13 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
                     @Override
                     public void onRefresh() {
-                        //adapter.setEnableLoadMore(false);
                         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
                         if (!netAva) {
                             dm.buildAlertDialog("请打开网络！");
                             refreshLayout.setRefreshing(false);
                             return;
                         }
-                        now_page=1;
+                        now_page=1;//重置页数
                         requestMainData();
                         mList.clear();
                     }
@@ -252,6 +249,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
 
                 refreshLayout.setRefreshing(false);
                 adapter.loadMoreComplete();
+                loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
 
                 JSONObject rebate = dataObj.optJSONObject("rebate");
                 int white_score = rebate.optInt("white_score");
