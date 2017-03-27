@@ -15,37 +15,56 @@ import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
+import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TypeMarketActivity extends BaseNetWork4Activity implements
-        SuperSwipeRefreshLayout.OnPullRefreshListener, ShopABar.Callback {
+        SuperSwipeRefreshLayout.OnPullRefreshListener, ShopABar.Callback, BaseNetWork4Activity.Callback {
 
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data;
     private List<String> urls;//viewPager数据源
+
+    private ShopABar sab;
+    private List<String> navUrls;//导航栏图片链接
+    private List<String> navStr;//导航栏文字
+    private int categoryId = 1327;
+
+    private static final int LOAD_MORE_END = 0;
+    private int now_page = 1;
+    private int total_page;
+    private CustomLoadMoreView loadMoreView;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            switch (msg.what) {
+                case LOAD_MORE_END:
+                    adapter.loadMoreEnd(false);
+                    break;
+            }
         }
     };
-    private ShopABar sab;
-    private List<String> navUrls;//导航栏图片链接
-    private List<String> navStr;//导航栏文字
-    private int categoryId;
+    private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_maket);
         initViews();
+        requestNetwork();
     }
 
     public static void startIntent(Context context, int id) {
@@ -168,6 +187,30 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
 
     @Override
     public void clkOther(View v) {
+
+    }
+
+    private void requestNetwork() {
+        Request<JSONObject> request = buildNetRequest(UrlUtils.shop, 0, false);
+        request.add("sign", UrlEncodeUtils.createSign(UrlUtils.shop));
+        request.add("now_page", now_page);
+        request.add("category_id", categoryId);
+        executeNetWork(request, "请稍后");
+        setCallback(this);
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
 
     }
 }

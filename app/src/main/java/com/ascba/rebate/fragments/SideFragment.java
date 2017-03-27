@@ -2,6 +2,8 @@ package com.ascba.rebate.fragments;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,8 @@ import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
@@ -30,22 +34,44 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
+
 /**
  * 周边
  */
-public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, SuperSwipeRefreshLayout.OnPushLoadMoreListener {
+public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, SuperSwipeRefreshLayout.OnPushLoadMoreListener, Base2Fragment.Callback {
 
-
+    private static final int LOAD_MORE_END = 0;
+    private static final int LOAD_MORE_ERROR = 1;
     private ExpandPopTabView popTab;
     private List<KeyValueBean> typeAll;//全部
     private List<KeyValueBean> typeSide;//附近
     private List<KeyValueBean> typeAuto;//智能排序
     private RecyclerView busRV;
-    private List<Business> data=new ArrayList<>();
-    private BusAdapter busAdapter;
-    private int nowPage = 1;//当前页数
-    private int pageNum = 1;//总页数
+    private List<Business> data = new ArrayList<>();
+    private BusAdapter adapter;
+    private int now_page = 1;//当前页数
+    private int total_page;//总页数
     private SuperSwipeRefreshLayout refreshLat;
+    private CustomLoadMoreView loadMoreView;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case LOAD_MORE_END:
+                    adapter.loadMoreEnd(false);
+                    break;
+                case LOAD_MORE_ERROR:
+                    if (adapter != null) {
+                        adapter.loadMoreFail();
+                    }
+
+                    break;
+            }
+        }
+    };
+    private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
 
     public SideFragment() {
 
@@ -68,11 +94,6 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         refreshLat = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         refreshLat.setOnPullRefreshListener(this);
 
-        View footView = LayoutInflater.from(getContext()).inflate(R.layout.foot_view, null);
-        refreshLat.setFooterView(footView);
-        refreshLat.setOnPushLoadMoreListener(this);
-
-
         popTab = ((ExpandPopTabView) view.findViewById(R.id.expandtab_view));
         initData();
         addItem(popTab, typeAll, "全部0", "全部0");
@@ -83,11 +104,12 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         requestNetwork();
     }
 
-    private void initBusData() {
-        data = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            data.add(new Business("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg", "金牌炒面", "五星级商家", R.mipmap.main_business_category, "0个评论", "0m"));
-        }
+    private void requestNetwork() {
+        Request<JSONObject> request = buildNetRequest(UrlUtils.getNearBy, 0, false);
+        request.add("sign", UrlEncodeUtils.createSign(UrlUtils.getNearBy));
+        request.add("now_page", now_page);
+        executeNetWork(request, "请稍后");
+        setCallback(this);
     }
 
     /**
@@ -137,8 +159,36 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         expandTabView.addItemToExpandTab(defaultShowText, popTwoListView);
     }
 
+
+    private void initLoadMore() {
+        if (isRefresh) {
+            isRefresh = false;
+        }
+        if (loadMoreView == null) {
+            loadMoreView = new CustomLoadMoreView();
+            adapter.setLoadMoreView(loadMoreView);
+        }
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (now_page > total_page - 1 && total_page != 0) {
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                } else {
+                    requestNetwork();
+                }
+            }
+        });
+    }
+
     @Override
     public void onRefresh() {
+        if (!isRefresh) {
+            isRefresh = true;
+        }
+        now_page = 1;
+        if (data.size() != 0) {
+            data.clear();
+        }
         requestNetwork();
     }
 
@@ -152,66 +202,10 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     }
 
-    /**
-     * 请求周边数据
-     */
-    private void requestNetwork() {
 
-        if (nowPage <= pageNum) {
-            Request<JSONObject> request = buildNetRequest(UrlUtils.getNearBy, 0, false);
-            request.add("sign", UrlEncodeUtils.createSign(UrlUtils.getNearBy));
-            request.add("now_page", nowPage);
-            executeNetWork(request, "请稍后");
-            setCallback(new Callback() {
-                @Override
-                public void handle200Data(JSONObject dataObj, String message) {
-                    getBussinData(dataObj);
-                    nowPage = dataObj.optInt("now_page");
-                    pageNum = dataObj.optInt("total_page");
-
-                    if (refreshLat.isRefreshing()) {
-                        refreshLat.setRefreshing(false);
-                        refreshLat.setLoadMore(false);
-                    }
-                }
-
-                @Override
-                public void handleReqFailed() {
-                    if (refreshLat.isRefreshing()) {
-                        refreshLat.setRefreshing(false);
-                        refreshLat.setLoadMore(false);
-                    }
-                }
-
-                @Override
-                public void handle404(String message) {
-                    getDm().buildAlertDialog(message);
-                }
-
-                @Override
-                public void handleReLogin() {
-                    if (refreshLat.isRefreshing()) {
-                        refreshLat.setRefreshing(false);
-                        refreshLat.setLoadMore(false);
-                    }
-                }
-
-                @Override
-                public void handleNoNetWork() {
-                    if (refreshLat.isRefreshing()) {
-                        refreshLat.setRefreshing(false);
-                        refreshLat.setLoadMore(false);
-                    }
-                    getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
-                }
-            });
-        } else {
-            if (refreshLat.isRefreshing()) {
-                refreshLat.setRefreshing(false);
-                refreshLat.setLoadMore(false);
-            }
-            showToast("已经到底了");
-        }
+    private void getPageCount(JSONObject dataObj) {
+        total_page = dataObj.optInt("total_page");
+        now_page++;
     }
 
     /**
@@ -232,13 +226,6 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 business.setbName(jsonObject.optString("seller_name"));
                 data.add(business);
 
-                if (busAdapter == null) {
-                    busAdapter = new BusAdapter(R.layout.main_bussiness_list_item, data, getActivity());
-                    busRV.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    busRV.setAdapter(busAdapter);
-                } else {
-                    busAdapter.notifyDataSetChanged();
-                }
             } catch (JSONException e) {
             }
         }
@@ -246,8 +233,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void onLoadMore() {
-        nowPage++;
-        requestNetwork();
+
     }
 
     @Override
@@ -259,4 +245,63 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     public void onPushEnable(boolean enable) {
 
     }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        refreshLat.setRefreshing(false);
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
+        }
+        //分页
+        getPageCount(dataObj);
+
+        if (isRefresh) {//下拉刷新
+            getBussinData(dataObj);
+            initadapter();
+            initLoadMore();
+        } else {//上拉加载
+            getBussinData(dataObj);
+        }
+    }
+
+    private void initadapter() {
+        if (adapter == null) {
+            adapter = new BusAdapter(R.layout.main_bussiness_list_item, data, getActivity());
+            busRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+            busRV.setAdapter(adapter);
+        } else {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void handleReqFailed() {
+        refreshLat.setRefreshing(false);
+        handler.sendEmptyMessage(LOAD_MORE_ERROR);
+    }
+
+
+    @Override
+    public void handle404(String message) {
+        getDm().buildAlertDialog(message);
+    }
+
+
+
+    @Override
+    public void handleReLogin() {
+        refreshLat.setRefreshing(false);
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
+        refreshLat.setRefreshing(false);
+        handler.sendEmptyMessage(LOAD_MORE_ERROR);
+        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+    }
+
 }
