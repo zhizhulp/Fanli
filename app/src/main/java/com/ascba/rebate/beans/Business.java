@@ -6,13 +6,14 @@ package com.ascba.rebate.beans;
 
 public class Business {
     private int id;
-    private String logo;
-    private String bName;
-    private String bCategory;
+    private String logo;//logo
+    private String bName;//店名
+    private String bCategory;//商家等级——五星级商家
     private int bCategoryIcon;
-    private String goodComm;
-    private String distance;
-    public Business(){
+    private String goodComm;//评论数量
+    private String distance;//距离
+
+    public Business() {
 
     }
 

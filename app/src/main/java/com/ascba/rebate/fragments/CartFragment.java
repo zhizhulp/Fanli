@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.adapter.ProfileAdapter;
@@ -95,7 +96,8 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
 
             @Override
             public void clkMsg(View v) {
-
+                Intent intent = new Intent(getActivity(), ShopMessageActivity.class);
+                startActivity(intent);
             }
 
             @Override

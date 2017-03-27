@@ -609,6 +609,11 @@
             android:name=".activities.PlayVideoActivity"
             android:screenOrientation="landscape"
             android:theme="@style/NotitleTheme" />
+
+        <activity
+            android:name=".activities.ShopMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 
