@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -172,6 +173,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             public void onLoadMoreRequested() {
                 if(now_page> total_page-1 && total_page!=0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
+
                 }else {
                     requestMainData();
                 }
