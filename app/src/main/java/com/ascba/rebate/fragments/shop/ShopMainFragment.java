@@ -53,24 +53,25 @@ public class ShopMainFragment extends Base2Fragment implements
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
-    private List<ShopBaseItem> data=new ArrayList<>();
+    private List<ShopBaseItem> data = new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
     private RelativeLayout searchHead;//搜索头
     private int mDistanceY = 0;//下拉刷新滑动距离
-    private int now_page=1;
+    private int now_page = 1;
     private int total_page;
     private CustomLoadMoreView loadMoreView;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case LOAD_MORE_END:
                     adapter.loadMoreEnd(false);
                     break;
             }
         }
     };
+    private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
 
     @Nullable
     @Override
@@ -152,6 +153,7 @@ public class ShopMainFragment extends Base2Fragment implements
     private void requestNetwork() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.shop, 0, false);
         request.add("sign", UrlEncodeUtils.createSign(UrlUtils.shop));
+        request.add("now_page", now_page);
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
@@ -222,9 +224,38 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void onRefresh() {
-        now_page=1;
-
+        if (!isRefresh) {
+            isRefresh = true;
+        }
+        now_page = 1;
+        if (data.size() != 0) {
+            data.clear();
+        }
         requestNetwork();
+
+    }
+
+    private void initLoadMore() {
+
+        if (isRefresh) {
+            isRefresh = false;
+        }
+        if (loadMoreView == null) {
+            loadMoreView = new CustomLoadMoreView();
+            adapter.setLoadMoreView(loadMoreView);
+        }
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (now_page > total_page - 1 && total_page != 0) {
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                } else {
+
+                    requestNetwork();
+                }
+            }
+        });
+
 
     }
 
@@ -245,45 +276,41 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+
+        refreshLat.setRefreshing(false);
+        if(adapter!=null){
             adapter.loadMoreComplete();
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
-        if (data.size() != 0) {
-            data.clear();
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
         //分页
         getPageCount(dataObj);
 
-        //广告轮播
-        initViewpager(dataObj);
-
-        //商城首页导航栏
-        initShoopNave(dataObj);
-
-        //商品列表
-        initGoodsList(dataObj);
-
-        initadapter();
-
-        initLoadMore();
-    }
-
-    private void initLoadMore() {
-        loadMoreView = new CustomLoadMoreView();
-        adapter.setLoadMoreView(loadMoreView);
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                if(now_page> total_page-1 && total_page!=0){
-                    handler.sendEmptyMessage(LOAD_MORE_END);
-                }else {
-                    requestNetwork();
-                }
+        if (isRefresh) {//下拉刷新
+            if (urls.size() != 0) {
+                urls.clear();
             }
-        });
+            //广告轮播
+            initViewpager(dataObj);
+
+            //商城首页导航栏
+            initShoopNave(dataObj);
+
+            //商品列表
+            initGoodsList(dataObj);
+
+            initadapter();
+
+            initLoadMore();
+        } else {//上拉加载
+
+            initGoodsList(dataObj);
+        }
+
+
     }
+
 
     private void getPageCount(JSONObject dataObj) {
         //now_page = dataObj.optInt("now_page");
@@ -360,7 +387,7 @@ public class ShopMainFragment extends Base2Fragment implements
      * 初始化adapter
      */
     private void initadapter() {
-        if(adapter==null){
+        if (adapter == null) {
             adapter = new ShopTypeRVAdapter(data, getActivity());
             final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
             rv.setLayoutManager(manager);
@@ -371,7 +398,7 @@ public class ShopMainFragment extends Base2Fragment implements
                 }
             });
             rv.setAdapter(adapter);
-        }else {
+        } else {
             adapter.notifyDataSetChanged();
         }
 
@@ -382,7 +409,7 @@ public class ShopMainFragment extends Base2Fragment implements
     public void handleReqFailed() {
         if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
-            refreshLat.setLoadMore(false);
+            //refreshLat.setLoadMore(false);
         }
     }
 
@@ -395,7 +422,7 @@ public class ShopMainFragment extends Base2Fragment implements
     public void handleReLogin() {
         if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
-            refreshLat.setLoadMore(false);
+            //refreshLat.setLoadMore(false);
         }
     }
 
@@ -403,7 +430,7 @@ public class ShopMainFragment extends Base2Fragment implements
     public void handleNoNetWork() {
         if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
-            refreshLat.setLoadMore(false);
+            //refreshLat.setLoadMore(false);
         }
         getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }

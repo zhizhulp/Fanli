@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
@@ -48,9 +49,16 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
         switch (helper.getItemViewType()) {
             case ShopItemType.TYPE_PAGER:
                 ShufflingViewPager pager = helper.getView(R.id.shop_pager);
-                ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(context, item.getPagerUrls());
-                pager.setAdapter(adapter);
-                pager.start();
+                ShufflingViewPagerAdapter adapter = pager.getAdapter();
+
+                if(adapter==null){
+                    adapter = new ShufflingViewPagerAdapter(context, item.getPagerUrls());
+                    pager.setAdapter(adapter);
+                    pager.start();
+                }else {
+                    adapter.notifyDataSetChanged();
+                }
+                LogUtils.PrintLog("ShopTypeRVAdapter","count is-->"+adapter.getStringList().size());
                 break;
             case ShopItemType.TYPE_NAVIGATION:
                 helper.setText(R.id.item_type1_text, item.getDesc());
@@ -114,5 +122,12 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 view.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 break;
         }
+    }
+
+    //数据刷新
+    public void refreshData(){
+
+        notifyDataSetChanged();
+
     }
 }

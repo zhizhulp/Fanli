@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ShufflingViewPager extends RelativeLayout {
     private List<String> getList;
     private ImageView[] mImageView;
     private Context context;
+    private ShufflingViewPagerAdapter adapter;
 
     private Handler handler = new Handler() {
         @Override
@@ -60,15 +62,27 @@ public class ShufflingViewPager extends RelativeLayout {
     }
 
     public void setAdapter(ShufflingViewPagerAdapter adapter) {
+        this.adapter=adapter;
         getList = adapter.getStringList();
-        initViewPager();
-        viewPager.setAdapter(adapter);
+        if(getList.size()!=0){
+            initViewPager();
+            viewPager.setAdapter(adapter);
+        }
+
+    }
+
+    public ShufflingViewPagerAdapter getAdapter() {
+        return adapter;
     }
 
     public void setAdapter(ShufflingViewAdapter adapter) {
+
         getList = adapter.getStringList();
-        initViewPager();
-        viewPager.setAdapter(adapter);
+        if(getList.size()!=0){
+            initViewPager();
+            viewPager.setAdapter(adapter);
+        }
+
     }
 
     public void start() {
