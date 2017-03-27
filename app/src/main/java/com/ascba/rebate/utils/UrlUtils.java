@@ -97,4 +97,7 @@ public class UrlUtils {
 
     //商品详情
     public static final String getGoodsArticle = urlPrefix + "goodsArticle";
+
+    //周边
+    public static final String getNearBy=urlPrefix+"nearby";
 }

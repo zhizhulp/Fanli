@@ -1,75 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:minHeight="87dp"
-    android:layout_height="87dp">
+    android:layout_height="87dp"
+    android:minHeight="87dp">
+
     <ImageView
-        android:scaleType="fitCenter"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
         android:id="@+id/iv_main_business_logo"
         android:layout_width="67dp"
-        android:layout_height="67dp" />
-    <LinearLayout
-        android:layout_marginLeft="10dp"
+        android:layout_height="67dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/iv_main_business_logo"
+        android:layout_marginLeft="15dp"
+        android:src="@mipmap/busi_loading"
+        android:scaleType="fitCenter" />
+
+    <LinearLayout
         android:id="@+id/gp_main_business_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_main_business_logo"
         android:orientation="vertical">
+
         <TextView
-            android:maxLines="1"
-            android:maxLength="10"
-            android:ellipsize="end"
-            android:textColor="@color/black"
-            android:textSize="14sp"
             android:id="@+id/tv_main_business_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
         <LinearLayout
-            android:layout_marginTop="19dp"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:gravity="center"
             android:orientation="horizontal">
+
             <TextView
-                android:maxLength="5"
-                android:textSize="13sp"
                 android:id="@+id/tv_main_business_category"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLength="5"
+                android:text="五星级等级"
+                android:textSize="13sp" />
+
             <RatingBar
-                android:rating="3"
-                android:layout_marginLeft="15dp"
-                android:stepSize="1"
-                android:numStars="5"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.RatingBar.Small"/>
+                android:layout_marginLeft="15dp"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="1" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
-        android:visibility="gone"
-        android:layout_marginRight="15dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <TextView
-            android:textColor="@color/red"
-            android:textSize="13sp"
             android:id="@+id/tv_main_business_goodjob"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="13sp" />
+
         <TextView
-            android:textSize="13sp"
             android:id="@+id/tv_main_business_distance"
-            android:layout_marginTop="21dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:textSize="13sp" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/lighter_gray" />
 </RelativeLayout>
