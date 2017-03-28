@@ -86,6 +86,12 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                         startActivity(intent);
                         break;
                 }
+
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemChildClick(adapter, view, position);
                 switch (view.getId()) {
                     case R.id.activity_pc_item_head_back:
                         getActivity().finish();
@@ -95,8 +101,9 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                         break;
                 }
             }
-
         });
+
+
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
     }

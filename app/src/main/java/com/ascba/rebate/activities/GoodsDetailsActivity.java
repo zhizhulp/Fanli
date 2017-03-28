@@ -272,7 +272,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
             @Override
             public void clkMsg(View v) {
-                ShopMessageActivity.startIntent(context);
+            ShopMessageActivity.startIntent(context);
             }
 
             @Override
