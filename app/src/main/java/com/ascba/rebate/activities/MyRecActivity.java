@@ -22,6 +22,7 @@ import com.ascba.rebate.adapter.PopRecAdapter;
 import com.ascba.rebate.beans.RecType;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.fragments.recommend.BaseRecFragment;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 
@@ -59,6 +60,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     private ImageView imgOne,imgTwo;
     private int is_referee;
     private int index;
+    private boolean isFirstComing=true;//是否是第一次进入界面  解决被挤掉，2次登录的问题
 
 
     public interface Listener {
@@ -111,13 +113,11 @@ public class MyRecActivity extends BaseNetWork4Activity implements
         imgOne = (ImageView) findViewById(R.id.rec_gb_img_one);
         imgTwo = (ImageView) findViewById(R.id.rec_gb_img_two);
 
-
-        addAllFragments();
-
         requestData(UrlUtils.getMyPspread, 0);
     }
 
     private void addAllFragments() {
+
         fragsOne = BaseRecFragment.getInstance(0, "全部");
         fragsTwo = BaseRecFragment.getInstance(1, "全部");
 
@@ -209,6 +209,10 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message)  {
+        if(isFirstComing){
+            addAllFragments();
+            isFirstComing=false;
+        }
         if (finalScene == 0) {
             JSONObject obj1 = dataObj.optJSONObject("p_referee");
             if (obj1 != null) {

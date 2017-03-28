@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:text="累计兑换券(元)"
+            android:text="累计兑现券(元)"
             android:textColor="@color/white"
             android:textSize="17sp" />
     </LinearLayout>
@@ -67,7 +67,7 @@
                         android:id="@+id/first_rec_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0笔奖励/0人"
+                        android:text="0笔奖励"
                         android:textColor="@color/white" />
 
                     <TextView
@@ -104,7 +104,7 @@
                         android:id="@+id/first_sec_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0笔奖励/0人"
+                        android:text="0笔奖励"
                         android:textColor="@color/white" />
 
                     <TextView

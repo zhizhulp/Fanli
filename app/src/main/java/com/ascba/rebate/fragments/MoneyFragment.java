@@ -298,7 +298,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 case REQUEST_RED:
                     requestMyData(0);
                     break;
-                case BaseNetWork4Activity.REQUEST_LOGIN:
+                case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
                     if(resultCode==Activity.RESULT_OK){
                         requestMyData(0);
                     }
