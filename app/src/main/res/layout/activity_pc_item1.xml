@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="11.5dp"
-    android:layout_marginTop="11.5dp"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <ImageView
@@ -22,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="11.5dp"
+        android:layout_marginBottom="11.5dp"
         android:layout_toRightOf="@id/activity_pc_item1_img_left"
         android:text="我的订单"
         android:textColor="@color/shop_normal_text_color"

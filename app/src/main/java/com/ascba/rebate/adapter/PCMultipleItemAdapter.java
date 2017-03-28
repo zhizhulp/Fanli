@@ -36,6 +36,7 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
         switch (helper.getItemViewType()) {
             case PCMultipleItem.TYPE_0:
                 helper.addOnClickListener(R.id.activity_pc_item_head_back);
+                helper.addOnClickListener(R.id.activity_pc_item_head_message);
                 break;
 
             case PCMultipleItem.TYPE_1:

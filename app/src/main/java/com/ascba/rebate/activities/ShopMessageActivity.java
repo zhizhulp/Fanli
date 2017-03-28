@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,11 @@ public class ShopMessageActivity extends BaseNetWork4Activity {
         setContentView(R.layout.activity_shop_message);
         context = this;
         initView();
+    }
+
+    public static void startIntent(Context context) {
+        Intent intent = new Intent(context, ShopMessageActivity.class);
+        context.startActivity(intent);
     }
 
     private void initView() {

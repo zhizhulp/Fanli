@@ -96,8 +96,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
 
             @Override
             public void clkMsg(View v) {
-                Intent intent = new Intent(getActivity(), ShopMessageActivity.class);
-                startActivity(intent);
+                ShopMessageActivity.startIntent(getActivity());
             }
 
             @Override

@@ -12,12 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.GoodsListActivity;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.clothes.TypeClothActivity;
 import com.ascba.rebate.activities.milk.TypeMilkActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
@@ -83,6 +85,8 @@ public class ShopMainFragment extends Base2Fragment implements
     };
     private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
 
+    private LinearLayout messageBtn;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,6 +108,18 @@ public class ShopMainFragment extends Base2Fragment implements
                 getActivity().finish();
             }
         });
+
+        /**
+         * 消息
+         */
+        messageBtn= (LinearLayout) view.findViewById(R.id.head_rr);
+        messageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShopMessageActivity.startIntent(getActivity());
+            }
+        });
+
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
@@ -388,7 +404,7 @@ public class ShopMainFragment extends Base2Fragment implements
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite + imgUrl, title, shop_price, "");
+                        , UrlUtils.baseWebsite + imgUrl, title, "￥"+shop_price, "");
                 shopBaseItem.setColor(Integer.parseInt(id));
                 data.add(shopBaseItem);
             }

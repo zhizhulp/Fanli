@@ -7,6 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -269,7 +272,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
             @Override
             public void clkMsg(View v) {
-
+                ShopMessageActivity.startIntent(context);
             }
 
             @Override
@@ -287,14 +290,13 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          * 商品简单介绍
          *
          */
-        TextView storeType = (TextView) findViewById(R.id.goods_details_simple_desc_type_store);
-        storeType.setText("【自营店】");
         //商品名
         TextView goodsDesc1 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods1);
-        goodsDesc1.setText(goods.getGoodsTitle());
+        SpannableStringBuilder builder = new SpannableStringBuilder("【自营店】" + goods.getGoodsTitle());
+        ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.shop_red_text_color));
+        builder.setSpan(redSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        goodsDesc1.setText(builder);
 
-//        TextView goodsDesc2 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods2);
-//        goodsDesc2.setText("复古跑步鞋休闲鞋运动鞋M530CKA");
         //商品价格
         TextView priceNow = (TextView) findViewById(R.id.goods_details_simple_desc_price_now);
         priceNow.setText("￥" + goods.getGoodsPrice());
@@ -514,7 +516,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             View view = LayoutInflater.from(context).inflate(R.layout.goods_details_viewpager_item, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.goods_details_viewpager_item_img);
             TextView textView = (TextView) view.findViewById(R.id.goods_details_viewpager_item_text);
-            Glide.with(context).load(url.get(i - 1)).into(imageView);
+            Glide.with(context).load(url.get(i - 1)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
             textView.setText(i + "/" + (url.size()));
             viewList.add(view);
         }

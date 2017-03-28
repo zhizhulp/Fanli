@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseFragment;
@@ -88,6 +89,9 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                 switch (view.getId()) {
                     case R.id.activity_pc_item_head_back:
                         getActivity().finish();
+                        break;
+                    case R.id.activity_pc_item_head_message:
+                        ShopMessageActivity.startIntent(getActivity());
                         break;
                 }
             }

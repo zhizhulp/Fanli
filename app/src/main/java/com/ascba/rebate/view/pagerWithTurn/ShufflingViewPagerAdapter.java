@@ -63,7 +63,7 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
             }
         });
 
-        Glide.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.busi_loading).into(imageView);
+        Glide.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
         container.addView(imageView);
         return imageView;
     }

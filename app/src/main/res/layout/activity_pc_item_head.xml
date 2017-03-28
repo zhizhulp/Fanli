@@ -13,8 +13,10 @@
         android:layout_marginTop="10dp">
 
         <RelativeLayout
+            android:id="@+id/activity_pc_item_head_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:layout_alignParentRight="true">
 
             <ImageView
@@ -37,7 +39,8 @@
             android:id="@+id/activity_pc_item_head_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/abar_back" />
+            android:padding="5dp"
+            android:src="@mipmap/abar_back_white" />
     </RelativeLayout>
 
     <LinearLayout
