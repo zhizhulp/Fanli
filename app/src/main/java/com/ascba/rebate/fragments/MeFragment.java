@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyRecActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
@@ -205,14 +206,14 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             case REQUEST_APPLY:
                 requestData(UrlUtils.user,3);
                 break;
-            case REQUEST_CLOSE:
+            case REQUEST_CLOSE://设置传来的
                 if(resultCode== Activity.RESULT_OK){
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    MyApplication.isPersonalData = true;
+                    //MyApplication.isPersonalData = true;
                     startActivityForResult(intent,REQUEST_LOGIN);
                 }
                 break;
-            case REQUEST_LOGIN:
+            case REQUEST_LOGIN://登录传来的
                 if(resultCode!= Activity.RESULT_OK){//登录不成功
                     FragmentActivity activity = getActivity();
                     if(activity instanceof MainActivity){
@@ -225,7 +226,15 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                         appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
                         appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                     }
+                }else {//登录成功，刷新界面
+                    requestData(UrlUtils.user,3);
                 }
+                break;
+            case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
+                if(resultCode==Activity.RESULT_OK){
+                    requestData(UrlUtils.user,3);
+                }
+                break;
 
         }
     }
@@ -424,6 +433,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
 
     @Override
     public void handleReLogin() {
+
         if(refreshLayout!=null && refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }
@@ -437,9 +447,10 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     @Override
     public void onResume() {
         super.onResume();
-        if (MyApplication.isPersonalData) {
-            //requestData(UrlUtils.user, 3);
+        // TODO: 2017/3/28 0028  
+        /*if (MyApplication.isPersonalData) {
+            requestData(UrlUtils.user, 3);
             MyApplication.isPersonalData = false;
-        }
+        }*/
     }
 }

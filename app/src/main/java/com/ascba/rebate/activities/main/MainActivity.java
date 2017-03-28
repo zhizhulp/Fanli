@@ -207,7 +207,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_LOGIN_CAIFU:
+            case REQUEST_LOGIN_CAIFU://第一次登录回调财富
                 if (resultCode == RESULT_OK) {
                     selFrgByPos(3);
                 } else {
@@ -220,7 +220,7 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                     appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }
                 break;
-            case REQUEST_LOGIN_ME:
+            case REQUEST_LOGIN_ME://第一次登录回调个人中心
                 if (resultCode == RESULT_OK) {
                     selFrgByPos(4);
                 } else {

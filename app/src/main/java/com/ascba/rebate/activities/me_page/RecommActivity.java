@@ -126,8 +126,8 @@ public class RecommActivity extends BaseNetWorkActivity implements View.OnClickL
         int p_referee = recObj.optInt("p_referee");//一级笔数
         int pp_referee = recObj.optInt("pp_referee");
         tvAll.setText(cashing_money);
-        tvFirNum.setText(p_referee_count + "笔奖励/" + p_referee + "人");
-        tvSecNum.setText(pp_referee_count + "笔奖励/" + pp_referee + "人");
+        tvFirNum.setText(p_referee_count + "笔奖励");
+        tvSecNum.setText(pp_referee_count + "笔奖励");
         JSONArray list = recObj.optJSONArray("p_member_list");
         if (list == null || list.length() == 0) {
             tvNoView.setVisibility(View.VISIBLE);

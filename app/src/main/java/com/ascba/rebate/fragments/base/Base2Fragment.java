@@ -129,12 +129,13 @@ public class Base2Fragment extends Fragment {
 
         @Override
         public void onStart(int what) {
-            LogUtils.PrintLog("234","onStart");
+            LogUtils.PrintLog("235","onStart");
+
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-
+            LogUtils.PrintLog("235","onSucceed");
             JSONObject jObj = response.get();
             int status = jObj.optInt("status");
             String message = jObj.optString("msg");
@@ -151,7 +152,7 @@ public class Base2Fragment extends Fragment {
             } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
                 AppConfig.getInstance().putInt("uuid",-1000);
-                startActivity(intent);
+                startActivityForResult(intent,BaseNetWork4Activity.REQUEST_LOGIN);
                 if(callback!=null){//重新登录的处理
                     callback.handleReLogin();
                 }
@@ -166,6 +167,7 @@ public class Base2Fragment extends Fragment {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
+            LogUtils.PrintLog("235","onFailed");
             if(dm!=null){
                 dm.dismissDialog();
             }
@@ -181,6 +183,7 @@ public class Base2Fragment extends Fragment {
         }
         @Override
         public void onFinish(int what) {
+            LogUtils.PrintLog("235","onFinish");
             if(dm!=null){
                 dm.dismissDialog();
             }

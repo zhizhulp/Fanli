@@ -55,9 +55,10 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     private int type;//0一级筛选  一级筛选
     private int number;//一级推荐全部人数
     private int number2;//二级级推荐全部人数
-    private ImageView imgOne, imgTwo;
+    private ImageView imgOne,imgTwo;
     private int is_referee;
     private int index;
+    private boolean isFirstComing=true;//是否是第一次进入界面  解决被挤掉，2次登录的问题
 
 
     public interface Listener {
@@ -83,11 +84,11 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
-        if (intent != null) {
-            is_referee = intent.getIntExtra("is_referee", 0);//有无推荐人
-            if (is_referee == 0) {
+        if(intent!=null){
+            is_referee = intent.getIntExtra("is_referee",0);//有无推荐人
+            if(is_referee==0){
                 viewRec.setVisibility(View.GONE);
-            } else {
+            }else {
                 viewRec.setVisibility(View.VISIBLE);
             }
         }
@@ -111,7 +112,6 @@ public class MyRecActivity extends BaseNetWork4Activity implements
         imgTwo = (ImageView) findViewById(R.id.rec_gb_img_two);
 
 
-        addAllFragments();
 
         requestData(UrlUtils.getMyPspread, 0);
     }
@@ -145,7 +145,6 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                     ft.add(R.id.frags_layout, fragsOne).remove(fragsTwo).commit();
                     position = 0;
                     index = 0;
-
                 }
                 break;
             case R.id.rec_gb_two:
@@ -223,7 +222,11 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     }
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message) {
+    public void handle200Data(JSONObject dataObj, String message)  {
+        if(isFirstComing){
+            addAllFragments();
+            isFirstComing=false;
+        }
         if (finalScene == 0) {
             JSONObject obj1 = dataObj.optJSONObject("p_referee");
             if (obj1 != null) {
@@ -249,7 +252,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 if (popData.size() != 0) {
                     popData.clear();
                 }
-                popData.add(new RecType(false, "全部  (" + number + ")", 0));
+                popData.add(new RecType(false, "全部  ("+number+")", 0));
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
@@ -268,6 +271,8 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 Toast.makeText(this, "无分类", Toast.LENGTH_SHORT).show();
             }
         }
+
+
     }
 
     @Override
