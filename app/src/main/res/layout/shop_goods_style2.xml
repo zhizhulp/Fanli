@@ -8,7 +8,7 @@
     android:layout_height="203dp">
     <ImageView
         android:id="@+id/shop_im_goods_style2"
-        android:scaleType="fitCenter"
+        android:scaleType="center"
         android:layout_width="match_parent"
         android:layout_height="100dp" />
     <TextView

@@ -453,7 +453,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="个人账户"
+                            android:text="现金账户"
                             android:textSize="14sp" />
 
                         <TextView

@@ -1,5 +1,6 @@
 package com.ascba.rebate.fragments.shop;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class ShopMainFragment extends Base2Fragment implements
     private int now_page = 1;
     private int total_page;
     private CustomLoadMoreView loadMoreView;
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -370,6 +372,8 @@ public class ShopMainFragment extends Base2Fragment implements
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }
+            //横线
+            data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 4.0f));
         }
     }
 
