@@ -43,7 +43,7 @@ public class MessageDetailsActivity extends BaseNetWork4Activity {
 
     private void initView() {
         shopBar = (ShopABarText) findViewById(R.id.shopBar);
-        shopBar.setBackEnable(false);
+        shopBar.setBtnEnable(false);
         shopBar.setCallback(new ShopABarText.Callback() {
             @Override
             public void back(View v) {
