@@ -49,8 +49,8 @@ public class DialogManager2 {
     public DialogManager2 buildWaitDialog(String message){
         Dialog dialog=new ProgressDialog(context, R.style.dialog);
         dialogList.add(dialog);
-        //dialog.setCanceledOnTouchOutside(true);//不可点击，返回键可以取消
-        dialog.setCancelable(false);//返还键不可取消
+        dialog.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
+        dialog.setCancelable(true);//返还键不可取消
         ((ProgressDialog) dialog).setMessage(message);
         dialog.show();
         return this;

@@ -9,6 +9,7 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yolanda.nohttp.NoHttp;
@@ -24,14 +25,14 @@ import org.json.JSONObject;
  * 网络界面的基类
  */
 public class BaseNetWork4Activity extends AppCompatActivity {
-    private DialogManager dm;
+    private DialogManager2 dm;
     private Callback callback;
 
-    public DialogManager getDm() {
+    public DialogManager2 getDm() {
         return dm;
     }
 
-    public void setDm(DialogManager dm) {
+    public void setDm(DialogManager2 dm) {
         this.dm = dm;
     }
 
@@ -56,7 +57,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((MyApplication) getApplication()).addActivity(this);
         if (dm == null) {
-            dm = new DialogManager(this);
+            dm = new DialogManager2(this);
         }
     }
 
@@ -79,7 +80,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
             return;
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, new NetResponseListener());
-        dm.buildWaitDialog(message).showDialog();
+        dm.buildWaitDialog(message);
     }
 
     //取消执行网络请求

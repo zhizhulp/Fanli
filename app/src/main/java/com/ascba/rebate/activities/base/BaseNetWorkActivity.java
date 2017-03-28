@@ -13,6 +13,7 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -30,7 +31,7 @@ import org.json.JSONObject;
  * 网络界面的基类
  */
 public class BaseNetWorkActivity extends AppCompatActivity {
-    private DialogManager dm;
+    private DialogManager2 dm;
     private Callback callback;
     private int count;
 
@@ -63,7 +64,7 @@ public class BaseNetWorkActivity extends AppCompatActivity {
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest,String message) {
         if(dm==null){
-            dm=new DialogManager(this);
+            dm=new DialogManager2(this);
         }
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if(!netAva){
@@ -71,7 +72,7 @@ public class BaseNetWorkActivity extends AppCompatActivity {
             return;
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, new NetResponseListener());
-        dm.buildWaitDialog(message).showDialog();
+        dm.buildWaitDialog(message);
     }
 
     //取消执行网络请求
@@ -149,11 +150,10 @@ public class BaseNetWorkActivity extends AppCompatActivity {
         public void onFailed(int what, Response<JSONObject> response) {
             if(dm!=null){
                 dm.dismissDialog();
+                //请求失败的信息
+                //String message = response.getException().getMessage();
+                dm.buildAlertDialog("请求失败");
             }
-            //请求失败的信息
-            //String message = response.getException().getMessage();
-            dm.buildAlertDialog("请求失败");
-
         }
 
         @Override

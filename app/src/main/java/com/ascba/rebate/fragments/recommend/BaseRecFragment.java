@@ -41,7 +41,6 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
     private List<FirstRec> data = new ArrayList<>();
     private DialogManager dm;
     private SuperSwipeRefreshLayout refreshLayout;
-    //private View noView;
     private int classes;
     private View emptyView;
 
