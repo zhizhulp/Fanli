@@ -25,6 +25,7 @@ import org.json.JSONObject;
  * 网络界面的基类
  */
 public class BaseNetWork4Activity extends AppCompatActivity {
+    public static final int REQUEST_LOGIN = 2017;
     private DialogManager2 dm;
     private Callback callback;
 
@@ -138,7 +139,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                 Intent intent = new Intent(BaseNetWork4Activity.this, LoginActivity.class);
                 AppConfig.getInstance().putInt("uuid", -1000);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_LOGIN);
                 ((MyApplication) getApplication()).exit();
             } else if (status == 404) {
                 if (callback != null) {

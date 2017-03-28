@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
@@ -296,6 +297,11 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                     break;
                 case REQUEST_RED:
                     requestMyData(0);
+                    break;
+                case BaseNetWork4Activity.REQUEST_LOGIN:
+                    if(resultCode==Activity.RESULT_OK){
+                        requestMyData(0);
+                    }
                     break;
             }
 

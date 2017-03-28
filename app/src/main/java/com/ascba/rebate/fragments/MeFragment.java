@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyRecActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
@@ -226,6 +227,12 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                         appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                     }
                 }
+                break;
+            case BaseNetWork4Activity.REQUEST_LOGIN:
+                if(resultCode==Activity.RESULT_OK){
+                    requestData(UrlUtils.user,3);
+                }
+                break;
 
         }
     }
