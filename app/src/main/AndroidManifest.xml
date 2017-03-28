@@ -614,6 +614,12 @@
             android:name=".activities.ShopMessageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+
+        <activity
+            android:name=".activities.MessageDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+
     </application>
 
 

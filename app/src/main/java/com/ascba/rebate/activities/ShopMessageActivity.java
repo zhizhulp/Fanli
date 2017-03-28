@@ -12,6 +12,8 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ShopMessageAdapter;
 import com.ascba.rebate.beans.MessageBean;
 import com.ascba.rebate.view.ShopABarText;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,15 @@ public class ShopMessageActivity extends BaseNetWork4Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         ShopMessageAdapter adapter = new ShopMessageAdapter(R.layout.item_message, getData());
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (position == 1) {
+                    MessageDetailsActivity.startIntent(context);
+                }
+            }
+        });
     }
 
     public List<MessageBean> getData() {

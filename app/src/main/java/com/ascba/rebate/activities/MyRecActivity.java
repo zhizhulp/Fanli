@@ -26,7 +26,6 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     private int type;//0一级筛选  一级筛选
     private int number;//一级推荐全部人数
     private int number2;//二级级推荐全部人数
-    private ImageView imgOne,imgTwo;
+    private ImageView imgOne, imgTwo;
     private int is_referee;
     private int index;
 
@@ -84,11 +83,11 @@ public class MyRecActivity extends BaseNetWork4Activity implements
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
-        if(intent!=null){
-            is_referee = intent.getIntExtra("is_referee",0);//有无推荐人
-            if(is_referee==0){
+        if (intent != null) {
+            is_referee = intent.getIntExtra("is_referee", 0);//有无推荐人
+            if (is_referee == 0) {
                 viewRec.setVisibility(View.GONE);
-            }else {
+            } else {
                 viewRec.setVisibility(View.VISIBLE);
             }
         }
@@ -134,19 +133,30 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             case R.id.rec_gb_one:
                 if (position == 0) {//重复点击一次
                     type = 0;
-                    requestData(UrlUtils.getGroupPspread, 1);
+                    if ( popData.size() <= 0) {
+                        requestData(UrlUtils.getGroupPspread, 1);
+                    } else {
+                        showPopList();
+                    }
+
                 } else {
                     imgOne.setVisibility(View.VISIBLE);
                     imgTwo.setVisibility(View.INVISIBLE);
                     ft.add(R.id.frags_layout, fragsOne).remove(fragsTwo).commit();
                     position = 0;
                     index = 0;
+
                 }
                 break;
             case R.id.rec_gb_two:
                 if (position == 1) {//重复点击一次
                     type = 1;
-                    requestData(UrlUtils.getGroupPpspread, 1);
+                    if (popData.size() <= 0) {
+                        requestData(UrlUtils.getGroupPpspread, 1);
+                    } else {
+                        showPopList();
+                    }
+
                 } else {
                     imgOne.setVisibility(View.INVISIBLE);
                     imgTwo.setVisibility(View.VISIBLE);
@@ -193,10 +203,15 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                         listener.onDataTypeClick(recType.getId(), type);
                     }
                     index = position;
+                    for (int i = 0; i < popData.size(); i++) {
+                        if (i == index) {
+                            popData.get(index).setSelect(true);
+                        }
+                    }
                 }
             });
             listView.setAdapter(adapter);
-        } else {
+        }else if(adapter!=null){
             adapter.notifyDataSetChanged();
         }
 
@@ -208,7 +223,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     }
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message)  {
+    public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {
             JSONObject obj1 = dataObj.optJSONObject("p_referee");
             if (obj1 != null) {
@@ -234,7 +249,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 if (popData.size() != 0) {
                     popData.clear();
                 }
-                popData.add(new RecType(false, "全部  ("+number+")", 0));
+                popData.add(new RecType(false, "全部  (" + number + ")", 0));
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
@@ -253,8 +268,6 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 Toast.makeText(this, "无分类", Toast.LENGTH_SHORT).show();
             }
         }
-
-
     }
 
     @Override
