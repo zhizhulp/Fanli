@@ -58,7 +58,6 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 }else {
                     adapter.notifyDataSetChanged();
                 }
-                LogUtils.PrintLog("ShopTypeRVAdapter","count is-->"+adapter.getStringList().size());
                 break;
             case ShopItemType.TYPE_NAVIGATION:
                 helper.setText(R.id.item_type1_text, item.getDesc());

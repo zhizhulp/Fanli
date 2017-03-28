@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.adapter.BusAdapter;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -21,6 +24,7 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
@@ -101,6 +105,15 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         addItem(popTab, typeAuto, "智能排序0", "智能排序0");
 
         busRV = ((RecyclerView) view.findViewById(R.id.bus_list));
+        busRV.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
+                Business business = data.get(position);
+                intent.putExtra("business_id", business.getId());
+                startActivity(intent);
+            }
+        });
         requestNetwork();
     }
 
@@ -224,9 +237,11 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 business.setLogo(UrlUtils.baseWebsite + jsonObject.optString("seller_cover_logo"));
                 //店名
                 business.setbName(jsonObject.optString("seller_name"));
+                business.setId(jsonObject.optInt("id"));
                 data.add(business);
 
             } catch (JSONException e) {
+
             }
         }
     }

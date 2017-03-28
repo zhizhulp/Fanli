@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyRecActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.RecommActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
@@ -34,6 +36,7 @@ import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.AppTabs;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -49,6 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 个人中心
  */
 public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
+
 
     private Handler handler = new Handler() {
         @Override
@@ -73,6 +77,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
 
     private static final int REQUEST_APPLY = 0;
     private static final int REQUEST_CLOSE=1;
+    private static final int REQUEST_LOGIN = 2;
     private TextView tvUserName;
     private View qrView;
 
@@ -204,9 +209,23 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 if(resultCode== Activity.RESULT_OK){
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     MyApplication.isPersonalData = true;
-                    startActivity(intent);
+                    startActivityForResult(intent,REQUEST_LOGIN);
                 }
                 break;
+            case REQUEST_LOGIN:
+                if(resultCode!= Activity.RESULT_OK){//登录不成功
+                    FragmentActivity activity = getActivity();
+                    if(activity instanceof MainActivity){
+                        ((MainActivity) activity).selFrgByPos(0);
+                        AppTabs appTabs = ((MainActivity) activity).getAppTabs();
+                        appTabs.setFilPos(0);
+                        appTabs.getImFour().setImageResource(R.mipmap.tab_me);
+                        appTabs.getTvFour().setTextColor(getResources().getColor(R.color.textgray));
+
+                        appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
+                        appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    }
+                }
 
         }
     }
@@ -419,7 +438,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     public void onResume() {
         super.onResume();
         if (MyApplication.isPersonalData) {
-            requestData(UrlUtils.user, 3);
+            //requestData(UrlUtils.user, 3);
             MyApplication.isPersonalData = false;
         }
     }
