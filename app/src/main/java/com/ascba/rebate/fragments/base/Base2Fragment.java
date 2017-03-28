@@ -3,18 +3,14 @@ package com.ascba.rebate.fragments.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
@@ -36,13 +32,13 @@ import org.json.JSONObject;
  */
 public class Base2Fragment extends Fragment {
     private Callback callback;
-    private DialogManager dm;
+    private DialogManager2 dm;
 
-    public DialogManager getDm() {
+    public DialogManager2 getDm() {
         return dm;
     }
 
-    public void setDm(DialogManager dm) {
+    public void setDm(DialogManager2 dm) {
         this.dm = dm;
     }
 
@@ -79,7 +75,7 @@ public class Base2Fragment extends Fragment {
         if(activity instanceof BaseNetWork4Activity){
             dm=((BaseNetWork4Activity) activity).getDm();
         }else {
-            dm=new DialogManager(getActivity());
+            dm=new DialogManager2(getActivity());
         }
     }
 

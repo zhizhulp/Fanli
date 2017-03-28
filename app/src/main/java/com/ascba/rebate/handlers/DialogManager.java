@@ -18,7 +18,6 @@ public class DialogManager {
     private Dialog dialog;
     private Callback callback;
 
-
     public Callback getCallback() {
         return callback;
     }
@@ -38,8 +37,8 @@ public class DialogManager {
     //创建进度对话框
     public DialogManager buildWaitDialog(String message){
         dialog=new ProgressDialog(context, R.style.dialog);
-        //dialog.setCanceledOnTouchOutside(true);//不可点击，返回键可以取消
-        dialog.setCancelable(false);//返还键不可取消
+        dialog.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
+        dialog.setCancelable(true);//返还键不可取消
         ((ProgressDialog) dialog).setMessage(message);
         return this;
     }

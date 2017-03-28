@@ -198,7 +198,7 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         String seller_return_ratio_tip = seObj.optString("seller_return_ratio_tip");
         String seller_image = seObj.optString("seller_image");
         Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE).into(imBusiPic);
+                .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imBusiPic);
         try {
             tvName.setText(seller_name);
             tvType.setText(seller_taglib);

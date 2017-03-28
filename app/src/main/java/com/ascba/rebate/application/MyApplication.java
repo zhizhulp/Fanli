@@ -7,6 +7,7 @@ import android.support.multidex.MultiDexApplication;
 import android.view.WindowManager;
 
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.IDsUtils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -110,11 +111,10 @@ public class MyApplication extends MultiDexApplication {
     public void exit() {
         if (activities.size() > 0) {
             for (Activity activity : activities) {
-                if (activity instanceof LoginActivity) {
+                if (activity instanceof LoginActivity || activity instanceof MainActivity) {
 
                 } else {
                     activity.finish();
-                    //removeActivity(activity);
                 }
 
             }

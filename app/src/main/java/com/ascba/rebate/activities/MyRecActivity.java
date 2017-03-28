@@ -234,7 +234,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 if (popData.size() != 0) {
                     popData.clear();
                 }
-                popData.add(new RecType(true, "全部  ("+number+")", 0));
+                popData.add(new RecType(false, "全部  ("+number+")", 0));
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
