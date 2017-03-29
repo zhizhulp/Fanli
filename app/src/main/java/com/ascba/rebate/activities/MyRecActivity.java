@@ -133,11 +133,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             case R.id.rec_gb_one:
                 if (position == 0) {//重复点击一次
                     type = 0;
-                    if ( popData.size() <= 0) {
-                        requestData(UrlUtils.getGroupPspread, 1);
-                    } else {
-                        showPopList();
-                    }
+                    requestData(UrlUtils.getGroupPspread, 1);
 
                 } else {
                     imgOne.setVisibility(View.VISIBLE);
@@ -150,11 +146,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             case R.id.rec_gb_two:
                 if (position == 1) {//重复点击一次
                     type = 1;
-                    if (popData.size() <= 0) {
-                        requestData(UrlUtils.getGroupPpspread, 1);
-                    } else {
-                        showPopList();
-                    }
+                    requestData(UrlUtils.getGroupPpspread, 1);
 
                 } else {
                     imgOne.setVisibility(View.INVISIBLE);
