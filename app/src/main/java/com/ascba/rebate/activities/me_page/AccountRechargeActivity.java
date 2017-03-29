@@ -248,8 +248,8 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     }
 
     public void testWX(View view) {
-        /*Request<JSONObject> request = buildNetRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", 0, false);
-        request.add("body","test");//商品描述
+        Request<JSONObject> request = buildNetRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", 0, false);
+        /*request.add("body","test");//商品描述
         request.add("mch_create_ip","192.168.50.24");//终端ip
         request.add("mch_id","6000000002");//商户号
         request.add("nonce_str","lp377762984");//随机字符串
@@ -257,7 +257,12 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         request.add("out_trade_no","qw201703281958");//订单号
         request.add("service","unified.trade.pay");//接口类型
         request.add("sign",createSign());//sign
-        request.add("total_fee","1");//
+        request.add("total_fee","1");//*/
+        request.add("saruLruid", "6000000001");// 商户号
+        request.add("transAmt", "1");// 交易金额 单位为分 整数
+        request.add("out_trade_no", "YBWX14363139912920");// 订单号 不可重复
+        request.add("body", "test");// 商品信息
+        request.add("notify_url","http://123.57.20.120:8050/PhonePospInterface/WXTestCallbackServlet");
 
         executeNetWork(request,"请稍后");
         setCallback(new Callback() {
@@ -265,8 +270,8 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
             public void handle200Data(JSONObject dataObj, String message) throws JSONException {
 
             }
-        });*/
-        Request<String> request= NoHttp.createStringRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", RequestMethod.POST);
+        });
+        /*Request<String> request= NoHttp.createStringRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", RequestMethod.POST);
         request.add("body","test");//商品描述
         request.add("mch_create_ip","192.168.50.24");//终端ip
         request.add("mch_id","6000000002");//商户号
@@ -275,7 +280,20 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         request.add("out_trade_no","qw201703281958");//订单号
         request.add("service","unified.trade.pay");//接口类型
         request.add("sign",createSign());//sign
-        request.add("total_fee","1");//
+        request.add("total_fee","100");//
+
+        request.setDefineRequestBodyForXML("<xml>" +
+                "<body><![CDATA[test]]></body>\n" +
+                "<mch_create_ip><![CDATA[127.0.0.1]]></mch_create_ip>\n" +
+                "<mch_id><![CDATA[6000000002]]></mch_id>\n" +
+                "<nonce_str><![CDATA[lp377762984]]></nonce_str>\n" +
+                "<notify_url><![CDATA[http://www.baidu.com]]></notify_url>\n" +
+                "<out_trade_no><![CDATA[qw201703291402]]></out_trade_no>\n" +
+                "<service><![CDATA[unified.trade.pay]]></service>\n" +
+                "<sign><![CDATA["+createSign()+"]]></sign>\n" +
+                "<total_fee><![CDATA[1]]></total_fee>\n" +
+                "</xml>\n");
+        request.setContentType("text/xml");
         MyApplication.getRequestQueue().add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -296,19 +314,19 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
             public void onFinish(int what) {
 
             }
-        });
+        });*/
     }
 
     private String createSign() {
         return EncryptUtils.MD5("body=test&" +
-                "mch_create_ip=192.168.50.24&" +
+                "mch_create_ip=127.0.0.1&" +
                 "mch_id=6000000002&" +
                 "nonce_str=lp377762984&" +
-                "notify_url=http://www.baidu.com&" +
-                "out_trade_no=qw201703281958&" +
+                "notify_url=http:\\/\\/www.baidu.com&" +
+                "out_trade_no=qw201703291402&" +
                 "service=unified.trade.pay&" +
                 "total_fee=1&"+
-                "9d101c97133837e13dde2d32a5054abb",true);
+                "7daa4babae15ae17eee90c9e",true);
     }
 
 
