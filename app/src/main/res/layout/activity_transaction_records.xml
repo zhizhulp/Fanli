@@ -6,30 +6,29 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.ascba.rebate.view.ShopABar
-        android:id="@+id/activity_order_bar"
+    <com.ascba.rebate.view.ShopABarText
+        android:id="@+id/shopBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="我的订单"></com.ascba.rebate.view.ShopABar>
-
+        app:abar_title="交易记录"></com.ascba.rebate.view.ShopABarText>
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/slidingtablayout"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/white"
+        android:layout_height="47dp"
+        android:background="#FBFBFB"
         app:tl_indicator_color="#DD0E0E"
         app:tl_indicator_height="2dp"
-        app:tl_indicator_width_equal_title="true"
+        app:tl_indicator_width_equal_title="false"
         app:tl_tab_space_equal="true"
         app:tl_textSelectColor="#DD0E0E"
         app:tl_textUnselectColor="@color/shop_normal_text_color"
-        app:tl_textsize="15sp"
-        app:tl_tab_padding="4dp" />
+        app:tl_textsize="14sp" />
+
+    <include layout="@layout/goods_details_cuttingline" />
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/activity_order_vp"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 </LinearLayout>

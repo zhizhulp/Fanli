@@ -620,6 +620,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
 
+        <activity android:name=".activities.TransactionRecordsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"/>
     </application>
 
 

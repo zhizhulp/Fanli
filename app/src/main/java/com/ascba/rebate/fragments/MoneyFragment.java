@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
@@ -34,12 +35,12 @@ import org.json.JSONObject;
 /**
  * 财富
  */
-public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,View.OnClickListener
-,Base2Fragment.Callback{
+public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
+        , Base2Fragment.Callback {
 
 
     private SuperSwipeRefreshLayout refreshLayout;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -57,9 +58,9 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
     private TextView tvSjzh;
     private TextView tvBank;
     private View accountView;
-    private static final int REQUEST_RED=5;
-    private static final int REQUEST_PAY=2;
-    private static final int REQUEST_CASH_GET=4;
+    private static final int REQUEST_RED = 5;
+    private static final int REQUEST_PAY = 2;
+    private static final int REQUEST_CASH_GET = 4;
     private int finalScene;
 
     public MoneyFragment() {
@@ -114,7 +115,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
         viewSjzh.setOnClickListener(this);
         View viewChongzhi = view.findViewById(R.id.me_lat_chongzhi);
         viewChongzhi.setOnClickListener(this);
-        View viewBank= view.findViewById(R.id.me_lat_bank);
+        View viewBank = view.findViewById(R.id.me_lat_bank);
         viewBank.setOnClickListener(this);
 
         requestMyData(0);
@@ -137,21 +138,21 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.me_account:
-                Intent intent=new Intent(getActivity(), AllAccountActivity.class);
+                Intent intent = new Intent(getActivity(), AllAccountActivity.class);
                 startActivity(intent);
                 break;
             case R.id.me_lat_daifan:
-                Intent intent1=new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivityForResult(intent1,WhiteScoreActivity.REQUEST_EXCHANGE);
+                Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
+                startActivityForResult(intent1, WhiteScoreActivity.REQUEST_EXCHANGE);
                 break;
             case R.id.me_lat_duihuan:
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
                 startActivityForResult(intent3, REQUEST_RED);
                 break;
             case R.id.me_lat_jiaoyi:
-
+                TransactionRecordsActivity.startIntent(getActivity());
                 break;
             case R.id.me_lat_djq:
                 Intent intent8 = new Intent(getActivity(), TicketActivity.class);
@@ -174,16 +175,16 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
     }
 
     private void requestMyData(int scene) {
-        finalScene=scene;
-        if(scene==2){
+        finalScene = scene;
+        if (scene == 2) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, true);
             executeNetWork(request, "请稍后");
             setCallback(this);
-        }else if(scene==0){
+        } else if (scene == 0) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.wealth, 0, true);
             executeNetWork(request, "请稍后");
             setCallback(this);
-        }else if(scene==3){
+        } else if (scene == 3) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, true);
             executeNetWork(request, "请稍后");
             setCallback(this);
@@ -192,7 +193,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(finalScene==2){
+        if (finalScene == 2) {
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
             if (isCardId == 0) {
@@ -217,21 +218,21 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                     startActivity(intent);
                 }
             }
-        } else if(finalScene==0){
-            if(refreshLayout!=null &&refreshLayout.isRefreshing()){
+        } else if (finalScene == 0) {
+            if (refreshLayout != null && refreshLayout.isRefreshing()) {
                 refreshLayout.setRefreshing(false);
             }
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
             tvAllCash.setText(infoObj.optString("money_count"));
-            tvRed.setText(infoObj.optInt("yesterday_red_score")+"");
-            tvWhite.setText(infoObj.optInt("white_score")+"");
-            tvDaiFan.setText(infoObj.optInt("white_score")+"");
-            tvDuiHuan.setText(infoObj.optInt("red_score")+"");
-            tvDjq.setText(infoObj.optInt("vouchers")+"张");
+            tvRed.setText(infoObj.optInt("yesterday_red_score") + "");
+            tvWhite.setText(infoObj.optInt("white_score") + "");
+            tvDaiFan.setText(infoObj.optInt("white_score") + "");
+            tvDuiHuan.setText(infoObj.optInt("red_score") + "");
+            tvDjq.setText(infoObj.optInt("vouchers") + "张");
             tvGrzh.setText(infoObj.optString("money"));
             tvSjzh.setText(infoObj.optString("account_money"));
-            tvBank.setText(infoObj.optInt("banks")+"张");
-        }else if (finalScene == 3) {//检查是否实名，点击提现前
+            tvBank.setText(infoObj.optInt("banks") + "张");
+        } else if (finalScene == 3) {//检查是否实名，点击提现前
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
             if (isCardId == 0) {
@@ -250,14 +251,14 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
-                startActivityForResult(intent,REQUEST_CASH_GET);
+                startActivityForResult(intent, REQUEST_CASH_GET);
             }
         }
     }
 
     @Override
     public void handleReqFailed() {
-        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+        if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
     }
@@ -269,7 +270,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
 
     @Override
     public void handleReLogin() {
-        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+        if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
     }
@@ -299,7 +300,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                     requestMyData(0);
                     break;
                 case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
-                    if(resultCode==Activity.RESULT_OK){
+                    if (resultCode == Activity.RESULT_OK) {
                         requestMyData(0);
                     }
                     break;
