@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.test.mock.MockApplication;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +18,11 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.EncodeUtils;
+import com.ascba.rebate.utils.EncryptUtils;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -28,7 +32,11 @@ import com.jaeger.library.StatusBarUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -238,5 +246,71 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         }
 
     }
+
+    public void testWX(View view) {
+        /*Request<JSONObject> request = buildNetRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", 0, false);
+        request.add("body","test");//商品描述
+        request.add("mch_create_ip","192.168.50.24");//终端ip
+        request.add("mch_id","6000000002");//商户号
+        request.add("nonce_str","lp377762984");//随机字符串
+        request.add("notify_url","http://www.baidu.com");//通知地址
+        request.add("out_trade_no","qw201703281958");//订单号
+        request.add("service","unified.trade.pay");//接口类型
+        request.add("sign",createSign());//sign
+        request.add("total_fee","1");//
+
+        executeNetWork(request,"请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+
+            }
+        });*/
+        Request<String> request= NoHttp.createStringRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", RequestMethod.POST);
+        request.add("body","test");//商品描述
+        request.add("mch_create_ip","192.168.50.24");//终端ip
+        request.add("mch_id","6000000002");//商户号
+        request.add("nonce_str","lp377762984");//随机字符串
+        request.add("notify_url","http://www.baidu.com");//通知地址
+        request.add("out_trade_no","qw201703281958");//订单号
+        request.add("service","unified.trade.pay");//接口类型
+        request.add("sign",createSign());//sign
+        request.add("total_fee","1");//
+        MyApplication.getRequestQueue().add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+
+    private String createSign() {
+        return EncryptUtils.MD5("body=test&" +
+                "mch_create_ip=192.168.50.24&" +
+                "mch_id=6000000002&" +
+                "nonce_str=lp377762984&" +
+                "notify_url=http://www.baidu.com&" +
+                "out_trade_no=qw201703281958&" +
+                "service=unified.trade.pay&" +
+                "total_fee=1&"+
+                "9d101c97133837e13dde2d32a5054abb",true);
+    }
+
+
 }
 

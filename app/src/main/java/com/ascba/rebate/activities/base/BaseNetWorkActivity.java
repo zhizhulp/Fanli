@@ -33,7 +33,6 @@ import org.json.JSONObject;
 public class BaseNetWorkActivity extends AppCompatActivity {
     private DialogManager2 dm;
     private Callback callback;
-    private int count;
 
 
     public interface Callback{
@@ -106,12 +105,11 @@ public class BaseNetWorkActivity extends AppCompatActivity {
 
         @Override
         public void onStart(int what) {
-            count++;
+
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            count++;
             if(dm!=null){
                 dm.dismissDialog();
             }

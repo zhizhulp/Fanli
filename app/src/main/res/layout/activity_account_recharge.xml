@@ -131,10 +131,11 @@
         android:layout_marginTop="29dp"
         android:onClick="goRechargeActivity"
         android:text="充值" />
-    <!--<Button
-        android:onClick="goWXSweepPay"
-        android:text="微信充值"
-        android:layout_marginTop="29dp"
-        style="@style/btnNormal"/>-->
+
+    <Button
+        android:onClick="testWX"
+        android:text="测试"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
