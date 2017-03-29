@@ -260,7 +260,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         request.add("total_fee","1");//*/
         request.add("saruLruid", "6000000001");// 商户号
         request.add("transAmt", "1");// 交易金额 单位为分 整数
-        request.add("out_trade_no", "YBWX14363139912920");// 订单号 不可重复
+        request.add("out_trade_no", "YBWX143631399129");// 订单号 不可重复
         request.add("body", "test");// 商品信息
         request.add("notify_url","http://123.57.20.120:8050/PhonePospInterface/WXTestCallbackServlet");
 
@@ -320,7 +320,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     private String createSign() {
         return EncryptUtils.MD5("body=test&" +
                 "mch_create_ip=127.0.0.1&" +
-                "mch_id=6000000002&" +
+                "mch_id=6000000001&" +
                 "nonce_str=lp377762984&" +
                 "notify_url=http:\\/\\/www.baidu.com&" +
                 "out_trade_no=qw201703291402&" +
