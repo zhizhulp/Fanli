@@ -13,6 +13,7 @@ import com.yolanda.nohttp.cache.DBCacheStore;
 import com.yolanda.nohttp.cookie.DBCookieStore;
 import com.yolanda.nohttp.rest.RequestQueue;
 
+import java.net.CookieStore;
 import java.util.ArrayList;
 import java.util.List;
 

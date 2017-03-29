@@ -80,6 +80,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
     private static final int VIEWPAGER_LEFT = 0;
     private static final int VIEWPAGER_RIGNT = 2;
     private static final int LOAD_MORE_END = 3;
+    private boolean firstSuccess=true;//第一次加载成功
     private Handler handler = new Handler() {
 
         public void handleMessage(android.os.Message msg) {
@@ -173,7 +174,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             public void onLoadMoreRequested() {
                 if(now_page> total_page-1 && total_page!=0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
-
                 }else {
                     requestMainData();
                 }
@@ -261,11 +261,10 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                 //app更新
                 JSONObject verObj = dataObj.optJSONObject("version");
                 int isUpdate = verObj.optInt("isUpdate");
-                if (isUpdate == 1) {
+                if (firstSuccess &&isUpdate == 1) {
                     String apk_url = verObj.optString("apk_url");
                     downLoadApp(apk_url);
                 }
-                //now_page = dataObj.optInt("now_page");//当前页数
                 now_page++;
                 total_page=dataObj.optInt("total_page");
                 //商家列表
@@ -283,6 +282,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                     }
                     adapter.notifyDataSetChanged();
                 }
+                firstSuccess=false;
             }
 
             @Override
