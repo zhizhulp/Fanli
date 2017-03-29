@@ -97,9 +97,9 @@ public class MyOrderActivity extends BaseNetWork4Activity {
 
 
         //添加页卡标题
-        mTitleList.add(new Bean("全部", 0));
-        mTitleList.add(new Bean("待付款", 0));
-        mTitleList.add(new Bean("待发货", 0));
+        mTitleList.add(new Bean("全部", 456));
+        mTitleList.add(new Bean("待付款", 59));
+        mTitleList.add(new Bean("待发货", 55));
         mTitleList.add(new Bean("待收货", 5));
         mTitleList.add(new Bean("待评价", 7));
 
@@ -117,7 +117,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
                  * position
                  * 偏移量
                  */
-                slidingtablayout.setMsgMargin(i, 0, 12);
+                slidingtablayout.setMsgMargin(i, 3, 12);
                 MsgView msgView = slidingtablayout.getMsgView(i);
                 if (msgView != null) {
                     msgView.setBackgroundColor(Color.parseColor("#ffffffff"));

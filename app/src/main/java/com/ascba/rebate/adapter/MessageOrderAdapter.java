@@ -37,7 +37,9 @@ public class MessageOrderAdapter extends BaseQuickAdapter<OrderBean, BaseViewHol
         TextView content = helper.getView(R.id.item_message_order_text);
         SpannableStringBuilder builder = new SpannableStringBuilder("您的订单号：" + item.getId() + "还未支付，订单24小时未支付，订单就会取消，前往支付~");
         ForegroundColorSpan redSpan = new ForegroundColorSpan(content.getResources().getColor(R.color.shop_red_text_color));
-        builder.setSpan(redSpan, 6, 21, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int startIndex = 6;
+        int endIndex = startIndex + item.getId().length();
+        builder.setSpan(redSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         content.setText(builder);
     }
 }

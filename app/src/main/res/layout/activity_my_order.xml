@@ -17,7 +17,7 @@
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/slidingtablayout"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="44dp"
         android:layout_marginTop="4dp"
         android:background="@color/white"
         app:tl_indicator_color="#DD0E0E"
@@ -27,6 +27,7 @@
         app:tl_textSelectColor="#DD0E0E"
         app:tl_textUnselectColor="@color/shop_normal_text_color"
         app:tl_textsize="15sp"
+        app:tl_tab_padding="4dp"
         app:tl_underline_height="3dp" />
 
     <android.support.v4.view.ViewPager

@@ -4,14 +4,27 @@
     android:layout_height="87dp"
     android:minHeight="87dp">
 
-    <ImageView
-        android:id="@+id/iv_main_business_logo"
+    <RelativeLayout
+        android:id="@+id/iv_main_business_logo_rl"
         android:layout_width="67dp"
         android:layout_height="67dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:src="@mipmap/busi_loading"
-        android:scaleType="fitCenter" />
+        android:layout_marginLeft="15dp">
+
+        <ImageView
+            android:id="@+id/iv_main_business_logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/busi_loading" />
+
+        <ImageView
+            android:id="@+id/iv_main_business_logo_angle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/store_angle" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/gp_main_business_text"
@@ -19,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/iv_main_business_logo"
+        android:layout_toRightOf="@id/iv_main_business_logo_rl"
         android:orientation="vertical">
 
         <TextView
