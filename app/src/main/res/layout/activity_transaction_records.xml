@@ -10,7 +10,7 @@
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="交易记录"></com.ascba.rebate.view.ShopABarText>
+        app:abar_title="收支记录"></com.ascba.rebate.view.ShopABarText>
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/slidingtablayout"

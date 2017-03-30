@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/moneyBar"
         app:textTitle="兑换红积分"
+        app:needComplete="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout

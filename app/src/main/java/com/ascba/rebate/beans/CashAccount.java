@@ -8,11 +8,12 @@ import android.os.Parcelable;
  */
 
 public class CashAccount implements Parcelable {
-    private String day;
-    private String time;
-    private String money;
-    private String filterText;
-    private String status;
+    private String day;//今天
+    private String time;//21:41
+    private String money;//-456.12
+    private String filterText;//农业银行-提现
+    private String status;//24小时内到账
+    private int imgId;//图片
     private CashAccountType type;
 
     public CashAccountType getType() {
@@ -56,6 +57,23 @@ public class CashAccount implements Parcelable {
         this.money = money;
         this.filterText = filterText;
         this.type = type;
+    }
+
+    public CashAccount(String day, String time, String money, String filterText, String status, int imgId) {
+        this.day = day;
+        this.time = time;
+        this.money = money;
+        this.filterText = filterText;
+        this.status = status;
+        this.imgId = imgId;
+    }
+
+    public int getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
     }
 
     public String getDay() {

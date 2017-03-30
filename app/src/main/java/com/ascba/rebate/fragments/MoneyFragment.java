@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
@@ -152,7 +151,6 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 startActivityForResult(intent3, REQUEST_RED);
                 break;
             case R.id.me_lat_jiaoyi:
-                TransactionRecordsActivity.startIntent(getActivity());
                 break;
             case R.id.me_lat_djq:
                 Intent intent8 = new Intent(getActivity(), TicketActivity.class);

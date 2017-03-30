@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
+import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.ScrollViewWithListView;
-import com.jaeger.library.StatusBarUtil;
+import com.ascba.rebate.view.MoneyBar;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -24,14 +24,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 财富-白积分
+ */
 public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
 
     private ListView listView;
     private List<WhiteTicket> mList;
     private WhiteTicketAdapter wta;
     private View noView;
-    public static final int REQUEST_EXCHANGE=1;
+    public static final int REQUEST_EXCHANGE = 1;
     private DialogManager dm;
+    private MoneyBar moneyBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,21 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
+        moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
+        moneyBar.setTailTitle(getString(R.string.inoutcome_record));
+        moneyBar.setCallBack(new MoneyBar.CallBack() {
+            @Override
+            public void clickImage(View im) {
+                finish();
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+                TransactionRecordsActivity.startIntent(WhiteScoreActivity.this);
+            }
+        });
+
+        dm = new DialogManager(this);
         noView = findViewById(R.id.no_ticket_view);
         listView = ((ListView) findViewById(R.id.cash_ticket_list));
         initData();
@@ -58,13 +76,13 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
             @Override
             public void onExchangeClick(int position) {
                 WhiteTicket wt = mList.get(position);
-                if(wt.getTest()==1){
+                if (wt.getTest() == 1) {
                     dm.buildAlertDialog("推荐用户为体验账户升级，兑现券暂未激活！");
                     return;
                 }
                 Intent intent = new Intent(WhiteScoreActivity.this, WSExchangeActivity.class);
                 intent.putExtra("cashing_id", wt.getId());
-                startActivityForResult(intent,REQUEST_EXCHANGE);
+                startActivityForResult(intent, REQUEST_EXCHANGE);
             }
         });
         listView.setAdapter(wta);
@@ -73,9 +91,9 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_EXCHANGE:
-                setResult(REQUEST_EXCHANGE,getIntent());
+                setResult(REQUEST_EXCHANGE, getIntent());
                 finish();
                 break;
         }
@@ -128,11 +146,11 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
             sb.append(hour);
             sb.append("时");
             long leftM = leftH % (60 * 60);
-            if(leftM!=0){
+            if (leftM != 0) {
                 long min = leftM / 60;
                 sb.append(min);
                 sb.append("分");
-            }else {
+            } else {
                 sb.append("0分");
             }
         } else {

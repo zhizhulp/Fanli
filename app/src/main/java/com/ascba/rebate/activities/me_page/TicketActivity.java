@@ -6,12 +6,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.adapter.TicketAdapter;
 import com.ascba.rebate.beans.Ticket;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.ScrollViewWithListView;
-import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -29,6 +30,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
     private View noIv;
     private View noTv;
     private Button btnTicket;
+    private MoneyBar moneyBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,21 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
 
     private void initViews() {
         initListView();
+
+        moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
+        moneyBar.setTailTitle(getString(R.string.inoutcome_record));
+        moneyBar.setCallBack(new MoneyBar.CallBack() {
+            @Override
+            public void clickImage(View im) {
+                finish();
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+                TransactionRecordsActivity.startIntent(TicketActivity.this);
+            }
+        });
+
         noIv = findViewById(R.id.no_ticket_icon);
         noTv = findViewById(R.id.no_ticket_text);
         btnTicket = ((Button) findViewById(R.id.ticket_btn));

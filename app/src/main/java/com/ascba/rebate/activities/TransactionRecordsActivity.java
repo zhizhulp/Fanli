@@ -19,7 +19,7 @@ import static com.ascba.rebate.R.id.shopBar;
 
 /**
  * Created by 李鹏 on 2017/03/29 0029.
- * 交易记录
+ * 收支记录
  */
 
 public class TransactionRecordsActivity extends BaseNetWork4Activity {

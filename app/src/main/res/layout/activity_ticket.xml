@@ -8,8 +8,10 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.me_page.TicketActivity">
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/moneyBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:needComplete="true"
         app:textTitle="代金券" />
     <ImageView
         android:id="@+id/no_ticket_icon"
