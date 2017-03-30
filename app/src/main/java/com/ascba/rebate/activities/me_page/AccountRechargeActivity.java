@@ -6,27 +6,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.test.mock.MockApplication;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.EncodeUtils;
 import com.ascba.rebate.utils.EncryptUtils;
 import com.ascba.rebate.utils.IDsUtils;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
+import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.pay.PayResult;
+import com.jaeger.library.StatusBarUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +99,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     private ImageView imWx;
     private View wxClick;
     private View aliClick;
+    private MoneyBar moneyBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +110,20 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     }
 
     private void initViews() {
+        moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
+        moneyBar.setTailTitle(getString(R.string.inoutcome_record));
+        moneyBar.setCallBack(new MoneyBar.CallBack() {
+            @Override
+            public void clickImage(View im) {
+                finish();
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+                TransactionRecordsActivity.startIntent(AccountRechargeActivity.this);
+            }
+        });
+
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.ed_recharge_money));
         imAli = ((ImageView) findViewById(R.id.alipay_circle));
         imWx = ((ImageView) findViewById(R.id.wxpay_circle));

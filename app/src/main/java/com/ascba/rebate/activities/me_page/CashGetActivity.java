@@ -15,9 +15,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.TransactionRecordsActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.cash_get_child.CashGetSuccActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.adapter.BankAdapter;
 import com.ascba.rebate.beans.Card;
@@ -26,7 +27,6 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -35,6 +35,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 财富-现金账户-提现
+ */
 public class CashGetActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback
 ,MoneyBar.CallBack{
 
@@ -71,7 +74,7 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
         mList = new ArrayList<>();
         dm = new DialogManager(this);
         mb = ((MoneyBar) findViewById(R.id.mb));
-        mb.setTailTitle("提现记录");
+        mb.setTailTitle(getString(R.string.inoutcome_record));
         mb.setCallBack(this);
         edMoney = ((EditText) findViewById(R.id.money));
         cardView = findViewById(R.id.when_has_card);
@@ -275,10 +278,10 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
 
     @Override
     public void clickComplete(View tv) {
-        Intent intent=new Intent(this,AllAccountActivity.class);
-        intent.putExtra("order",1);
-        startActivity(intent);
-
+//        Intent intent=new Intent(this,AllAccountActivity.class);
+//        intent.putExtra("order",1);
+//        startActivity(intent);
+        TransactionRecordsActivity.startIntent(this);
     }
 
     @Override
