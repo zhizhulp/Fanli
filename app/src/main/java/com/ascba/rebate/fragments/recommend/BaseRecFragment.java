@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.MyRecActivity;
+import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -71,7 +71,7 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dm = new DialogManager(getActivity());
-        ((MyRecActivity) getActivity()).setListener(new MyRecActivity.Listener() {
+        /*((MyRecActivity) getActivity()).setListener(new MyRecActivity.Listener() {
             @Override
             public void onDataTypeClick(int id, int type) {
                 classes = type;
@@ -82,7 +82,7 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
                 }
 
             }
-        });
+        });*/
 
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLayout.setOnPullRefreshListener(this);

@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.me_page.RecommActivity;
+import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
@@ -243,7 +243,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 requestMyData(3);//检查是否实名
                 break;
             case R.id.me_go_recommend:
-                Intent intent7 = new Intent(getActivity(), RecommActivity.class);
+                Intent intent7 = new Intent(getActivity(), MyAwardActivity.class);
                 startActivity(intent7);
                 break;
             case R.id.me_go_ticket:

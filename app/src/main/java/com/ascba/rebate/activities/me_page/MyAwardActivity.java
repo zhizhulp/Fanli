@@ -24,7 +24,7 @@ import org.json.JSONObject;
  * 推荐奖励
  */
 
-public class RecommActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback {
+public class MyAwardActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback {
 
     private RadioGroup recRg;
     private RadioButton rbOne;
