@@ -56,7 +56,6 @@ public class HomePageFragment extends BaseFragment implements View.OnClickListen
      * 头部
      */
     private RelativeLayout homepage_head;
-    private ImageView imgUser, ImgAdd;
 
     private int mDistanceY = 0;
     private TextView floatButton;

@@ -221,10 +221,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.me_page.RecommendActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle">

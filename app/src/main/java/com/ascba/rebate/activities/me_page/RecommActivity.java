@@ -1,29 +1,23 @@
 package com.ascba.rebate.activities.me_page;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.activities.me_page.recmmennd_child.FirstRecActivity;
-import com.ascba.rebate.activities.me_page.recmmennd_child.SecondRecActivity;
-import com.ascba.rebate.adapter.RecAdapter;
-import com.ascba.rebate.beans.FirstRec;
+import com.ascba.rebate.fragments.award.FirstAwardFragment;
+import com.ascba.rebate.fragments.award.SecAwardFragment;
+import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.recommend.BaseRecFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/21 0021.
@@ -32,88 +26,69 @@ import java.util.List;
 
 public class RecommActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback {
 
-    private Context context;
-    private ListView recommendListView;
-    private RecAdapter recAdapter;
-    private List<FirstRec> mList;
-    private TextView tvTitle;
-    private String title;
+    private RadioGroup recRg;
+    private RadioButton rbOne;
+    private RadioButton rbTwo;
+    private Base2Fragment fragsOne;
+    private Base2Fragment fragsTwo;
+    private ImageView imgOne, imgTwo;
     private TextView tvAll;
-    private View tvNoView;
-    private TextView tvFirNum;
-    private TextView tvSecNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recomm);
-        context = this;
-        initView();
+        initViews();
     }
 
-    private void initView() {
-        tvNoView = findViewById(R.id.no_view);
-        tvFirNum = ((TextView) findViewById(R.id.first_rec_num));
-        tvSecNum = ((TextView) findViewById(R.id.first_sec_num));
-        initTitle();
-        initListView();
-        initFirstRec();
-        initSecondRec();
-        requestRecList();//获取推荐列表
+    private void initViews() {
+        tvAll = (TextView) findViewById(R.id.tv_rec_all_money);
+
+        recRg = ((RadioGroup) findViewById(R.id.rec_rg));
+        recRg.setOnClickListener(this);
+        rbOne = ((RadioButton) findViewById(R.id.rec_gb_one));
+        rbOne.setOnClickListener(this);
+        rbTwo = ((RadioButton) findViewById(R.id.rec_gb_two));
+        rbTwo.setOnClickListener(this);
+
+        imgOne = (ImageView) findViewById(R.id.rec_gb_img_one);
+        imgTwo = (ImageView) findViewById(R.id.rec_gb_img_two);
+
+        requestData(UrlUtils.getMyReferee);
+        addAllFragments();
     }
 
-    private void requestRecList() {
-        Request<JSONObject> request = buildNetRequest(UrlUtils.getMyReferee, 0, true);
-        executeNetWork(request, "请稍后");
-        setCallback(this);
-    }
+    private void addAllFragments() {
+        fragsOne = new FirstAwardFragment();
+        fragsTwo = new SecAwardFragment();
 
-    private void initTitle() {
-        tvTitle = ((TextView) findViewById(R.id.money_money));
-        if (title != null) {
-            tvTitle.setText(title);
-        }
-
-    }
-
-    private void initSecondRec() {
-        findViewById(R.id.recommend_first).setOnClickListener(this);
-    }
-
-    private void initFirstRec() {
-        findViewById(R.id.recommend_second).setOnClickListener(this);
-    }
-
-
-    private void initListView() {
-        recommendListView = ((ListView) findViewById(R.id.recommend_list));
-        tvAll = ((TextView) findViewById(R.id.tv_rec_all_money));
-        initData();
-        recAdapter = new RecAdapter(mList, context);
-        recommendListView.setAdapter(recAdapter);
-    }
-
-    private void initData() {
-        mList = new ArrayList<>();
-        /*for (int i = 0; i < 20; i++) {
-            FirstRec firstRec=new FirstRec("推荐-王朋(VIP)",R.mipmap.me_user_img,"推荐5人","+1000元兑现券","2016.12.31");
-            mList.add(firstRec);
-        }*/
-
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.frags_layout, fragsOne).add(R.id.frags_layout, fragsTwo).hide(fragsTwo).commit();
     }
 
     @Override
     public void onClick(View v) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
         switch (v.getId()) {
-            case R.id.recommend_first:
-                Intent intent = new Intent(context, FirstRecActivity.class);
-                startActivity(intent);
+            case R.id.rec_gb_one:
+                imgOne.setVisibility(View.VISIBLE);
+                imgTwo.setVisibility(View.INVISIBLE);
+                ft.show(fragsOne).hide(fragsTwo).commit();
                 break;
-            case R.id.recommend_second:
-                Intent intent2 = new Intent(context, SecondRecActivity.class);
-                startActivity(intent2);
+            case R.id.rec_gb_two:
+                imgOne.setVisibility(View.INVISIBLE);
+                imgTwo.setVisibility(View.VISIBLE);
+                ft.show( fragsTwo).hide(fragsOne).commit();
                 break;
         }
+    }
+
+    private void requestData(String url) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        executeNetWork(request, "请稍后");
+        setCallback(this);
     }
 
     @SuppressLint("SetTextI18n")
@@ -123,30 +98,8 @@ public class RecommActivity extends BaseNetWorkActivity implements View.OnClickL
         String cashing_money = recObj.optString("cashing_money");
         int p_referee_count = recObj.optInt("p_referee_count");//一级人数
         int pp_referee_count = recObj.optInt("pp_referee_count");
-        int p_referee = recObj.optInt("p_referee");//一级笔数
-        int pp_referee = recObj.optInt("pp_referee");
         tvAll.setText(cashing_money);
-        tvFirNum.setText(p_referee_count + "笔奖励");
-        tvSecNum.setText(pp_referee_count + "笔奖励");
-        JSONArray list = recObj.optJSONArray("p_member_list");
-        if (list == null || list.length() == 0) {
-            tvNoView.setVisibility(View.VISIBLE);
-        } else {
-            tvNoView.setVisibility(View.GONE);
-            for (int i = 0; i < list.length(); i++) {
-                JSONObject memObj = list.optJSONObject(i);
-                int member_id = memObj.optInt("member_id");
-                String realname = memObj.optString("m_realname");
-                String group_name = memObj.optString("m_group_name");
-                String cashing_money1 = memObj.optString("cashing_money");
-                long create_time = memObj.optLong("create_time");
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-                String time = sdf.format(new Date(create_time * 1000));
-                FirstRec firstRec = new FirstRec(member_id, realname, group_name, cashing_money1, time);
-                mList.add(firstRec);
-            }
-            recAdapter.notifyDataSetChanged();
-        }
-
+        rbOne.setText(p_referee_count + "笔奖励\n一级推广");
+        rbTwo.setText(pp_referee_count + "笔奖励\n二级级推广");
     }
 }

@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyRecActivity;
@@ -49,14 +48,12 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
 
     /**
      * @param classes 级别（一级？ 二级？）
-     * @param type    类别
      * @return BaseRecFragment
      */
-    public static BaseRecFragment getInstance(int classes, String type) {
+    public static BaseRecFragment getInstance(int classes) {
         BaseRecFragment fragment = new BaseRecFragment();
         Bundle b = new Bundle();
         b.putInt("classes", classes);
-        b.putString("type", type);
         fragment.setArguments(b);
         return fragment;
     }
@@ -78,7 +75,6 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
             @Override
             public void onDataTypeClick(int id, int type) {
                 classes = type;
-                Log.d("BaseRecFragment", "id:" + id + "   type:" + type);
                 if (type == 0) {
                     requestNetData(id, UrlUtils.getSearchPspread);
                 } else {
