@@ -117,8 +117,8 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     }
 
     private void addAllFragments() {
-        fragsOne = BaseRecFragment.getInstance(0, "全部");
-        fragsTwo = BaseRecFragment.getInstance(1, "全部");
+        fragsOne = BaseRecFragment.getInstance(0);
+        fragsTwo = BaseRecFragment.getInstance(1);
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

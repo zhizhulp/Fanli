@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
+import com.ascba.rebate.activities.me_page.RecommActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
@@ -22,7 +23,6 @@ import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.CashGetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
-import com.ascba.rebate.activities.me_page.RecommendActivity;
 import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.TicketActivity;
@@ -31,7 +31,6 @@ import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -244,7 +243,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 requestMyData(3);//检查是否实名
                 break;
             case R.id.me_go_recommend:
-                Intent intent7 = new Intent(getActivity(), RecommendActivity.class);
+                Intent intent7 = new Intent(getActivity(), RecommActivity.class);
                 startActivity(intent7);
                 break;
             case R.id.me_go_ticket:

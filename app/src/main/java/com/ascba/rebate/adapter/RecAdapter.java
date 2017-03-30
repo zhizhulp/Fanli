@@ -14,7 +14,7 @@ import com.ascba.rebate.beans.FirstRec;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/11/6.
+ * 奖励适配器
  */
 
 public class RecAdapter extends BaseAdapter {
