@@ -16,12 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.MyRecActivity;
+import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
-import com.ascba.rebate.activities.me_page.RecommActivity;
+import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
@@ -32,7 +32,6 @@ import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -165,7 +164,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 startActivity(intent4);
                 break;
             case R.id.me_lat_jiangli://奖励
-                Intent intent5=new Intent(getActivity(), RecommActivity.class);
+                Intent intent5=new Intent(getActivity(), MyAwardActivity.class);
                 startActivity(intent5);
                 break;
             case R.id.me_lat_power://会员特权

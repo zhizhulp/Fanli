@@ -593,12 +593,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.MyRecActivity"
+            android:name=".activities.me_page.MyRecActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
 
         <activity
-            android:name=".activities.me_page.RecommActivity"
+            android:name=".activities.me_page.MyAwardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
