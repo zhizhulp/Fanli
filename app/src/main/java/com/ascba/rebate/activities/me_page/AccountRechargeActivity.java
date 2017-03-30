@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.test.mock.MockApplication;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,17 +18,14 @@ import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.EncodeUtils;
-import com.ascba.rebate.utils.EncryptUtils;
 import com.ascba.rebate.utils.IDsUtils;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.pay.PayResult;
-import com.jaeger.library.StatusBarUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -42,6 +38,7 @@ import com.yolanda.nohttp.rest.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class AccountRechargeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback, View.OnClickListener {
@@ -264,87 +261,38 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     }
 
     public void testWX(View view) {
-        Request<JSONObject> request = buildNetRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", 0, false);
-        /*request.add("body","test");//商品描述
-        request.add("mch_create_ip","192.168.50.24");//终端ip
-        request.add("mch_id","6000000002");//商户号
-        request.add("nonce_str","lp377762984");//随机字符串
-        request.add("notify_url","http://www.baidu.com");//通知地址
-        request.add("out_trade_no","qw201703281958");//订单号
-        request.add("service","unified.trade.pay");//接口类型
-        request.add("sign",createSign());//sign
-        request.add("total_fee","1");//*/
-        request.add("saruLruid", "6000000001");// 商户号
-        request.add("transAmt", "1");// 交易金额 单位为分 整数
-        request.add("out_trade_no", "YBWX143631399129");// 订单号 不可重复
-        request.add("body", "test");// 商品信息
-        request.add("notify_url","http://123.57.20.120:8050/PhonePospInterface/WXTestCallbackServlet");
+        Request<String> request= NoHttp.createStringRequest("http://123.57.20.120:8050/native-pay/unifyPay", RequestMethod.POST);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("saruLruid", "6000000002");// 商户号
+        map.put("total_fee", "1");// 交易金额 单位为分 整数
+        map.put("out_trade_no", "QLQW143631399159");// 订单号 不可重复
+        map.put("body", "test");// 商品信息
+        map.put("notify_url","http://api.qlqwp2p.com/v1/wxpayTest");// 通知地址 需外网可以访问的到
+        map.put("mch_create_ip","192.168.50.18");// 通知地址 需外网可以访问的到
+        request.add(map);
 
-        executeNetWork(request,"请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) throws JSONException {
-
-            }
-        });
-        /*Request<String> request= NoHttp.createStringRequest("http://123.57.20.120:8050/PhonePospInterface/servlet/WXGalleryPayServlet", RequestMethod.POST);
-        request.add("body","test");//商品描述
-        request.add("mch_create_ip","192.168.50.24");//终端ip
-        request.add("mch_id","6000000002");//商户号
-        request.add("nonce_str","lp377762984");//随机字符串
-        request.add("notify_url","http://www.baidu.com");//通知地址
-        request.add("out_trade_no","qw201703281958");//订单号
-        request.add("service","unified.trade.pay");//接口类型
-        request.add("sign",createSign());//sign
-        request.add("total_fee","100");//
-
-        request.setDefineRequestBodyForXML("<xml>" +
-                "<body><![CDATA[test]]></body>\n" +
-                "<mch_create_ip><![CDATA[127.0.0.1]]></mch_create_ip>\n" +
-                "<mch_id><![CDATA[6000000002]]></mch_id>\n" +
-                "<nonce_str><![CDATA[lp377762984]]></nonce_str>\n" +
-                "<notify_url><![CDATA[http://www.baidu.com]]></notify_url>\n" +
-                "<out_trade_no><![CDATA[qw201703291402]]></out_trade_no>\n" +
-                "<service><![CDATA[unified.trade.pay]]></service>\n" +
-                "<sign><![CDATA["+createSign()+"]]></sign>\n" +
-                "<total_fee><![CDATA[1]]></total_fee>\n" +
-                "</xml>\n");
-        request.setContentType("text/xml");
         MyApplication.getRequestQueue().add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
+                Log.d("AccountRechargeActivity", "onStart what:" + what);
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
+                Log.d("AccountRechargeActivity", "onSucceed response:" + response.toString());
 
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
+                Log.d("AccountRechargeActivity", "onFailed response:" + response.toString());
             }
 
             @Override
             public void onFinish(int what) {
-
+                Log.d("AccountRechargeActivity", "onFinish what:" + what);
             }
-        });*/
+        });
     }
-
-    private String createSign() {
-        return EncryptUtils.MD5("body=test&" +
-                "mch_create_ip=127.0.0.1&" +
-                "mch_id=6000000001&" +
-                "nonce_str=lp377762984&" +
-                "notify_url=http:\\/\\/www.baidu.com&" +
-                "out_trade_no=qw201703291402&" +
-                "service=unified.trade.pay&" +
-                "total_fee=1&"+
-                "7daa4babae15ae17eee90c9e",true);
-    }
-
-
 }
 
