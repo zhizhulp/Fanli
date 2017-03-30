@@ -33,6 +33,7 @@ import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.ImageViewDialog;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout;
@@ -98,11 +99,19 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private String webUrl;
     private WebView webView;
 
+    /**
+     * 商品轮播展示
+     */
+    List<String> url ;
+
+    private TextView btnCart,btnBuy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         context = this;
+        initView();
         //获取商品详情
         getGoodsId();
 
@@ -111,6 +120,13 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
         //足迹
         InitFotoplace();
+    }
+
+    private void initView() {
+        btnCart= (TextView) findViewById(R.id.btn_cart);
+        btnCart.setOnClickListener(this);
+        btnBuy= (TextView) findViewById(R.id.btn_buy);
+        btnBuy.setOnClickListener(this);
     }
 
     /**
@@ -272,7 +288,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
             @Override
             public void clkMsg(View v) {
-            ShopMessageActivity.startIntent(context);
+                ShopMessageActivity.startIntent(context);
             }
 
             @Override
@@ -505,7 +521,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         /**
          * 商品轮播展示
          */
-        List<String> url = new ArrayList<>();
+       url = new ArrayList<>();
 
         for (int i = 0; i < goods.getImgBeanList().size(); i++) {
             url.add(goods.getImgBeanList().get(i).getImgUrl());
@@ -519,6 +535,15 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             Glide.with(context).load(url.get(i - 1)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
             textView.setText(i + "/" + (url.size()));
             viewList.add(view);
+            /**
+             * 点击查看大图
+             */
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ImageViewDialog(context,url);
+                }
+            });
         }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(viewList);
         viewPager.setAdapter(viewPagerAdapter);
@@ -602,6 +627,16 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_cart:
+                /**
+                 * 加入购物车
+                 */
+                break;
+            case R.id.btn_buy:
+                /**
+                 * 立即购买
+                 */
+                break;
         }
     }
 
