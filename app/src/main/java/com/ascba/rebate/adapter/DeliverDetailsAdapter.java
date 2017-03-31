@@ -6,9 +6,9 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class DeliverDetailsAdapter extends BaseQuickAdapter<Goods, BaseViewHolde
     @Override
     protected void convert(BaseViewHolder helper, Goods item) {
         ImageView imageView = helper.getView(R.id.item_goods_img);
-        Glide.with(context).load(item.getImgUrl()).into(imageView);
+        Picasso.with(context).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
         helper.setText(R.id.item_goods_name, item.getGoodsTitle());
         helper.setText(R.id.item_goods_standard, item.getGoodsStandard());
         helper.setText(R.id.item_goods_price, "￥" + item.getGoodsPrice());

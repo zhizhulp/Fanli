@@ -33,12 +33,13 @@ import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.ImageViewDialog;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.handler.PtrDefaultHandler;
 import com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -98,11 +99,19 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private String webUrl;
     private WebView webView;
 
+    /**
+     * 商品轮播展示
+     */
+    List<String> url ;
+
+    private TextView btnCart,btnBuy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         context = this;
+        initView();
         //获取商品详情
         getGoodsId();
 
@@ -111,6 +120,13 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
         //足迹
         InitFotoplace();
+    }
+
+    private void initView() {
+        btnCart= (TextView) findViewById(R.id.btn_cart);
+        btnCart.setOnClickListener(this);
+        btnBuy= (TextView) findViewById(R.id.btn_buy);
+        btnBuy.setOnClickListener(this);
     }
 
     /**
@@ -272,7 +288,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
             @Override
             public void clkMsg(View v) {
-            ShopMessageActivity.startIntent(context);
+                ShopMessageActivity.startIntent(context);
             }
 
             @Override
@@ -393,10 +409,10 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         evFirstChoose.setText("颜色：蓝白 尺寸：40");
 
         ImageView evFirstImg1 = (ImageView) findViewById(R.id.goods_details_ev_first_img1);
-        Glide.with(context).load(imgList.get(0)).into(evFirstImg1);
+        Picasso.with(context).load(imgList.get(0)).into(evFirstImg1);
 
         ImageView evFirstImg2 = (ImageView) findViewById(R.id.goods_details_ev_first_img2);
-        Glide.with(context).load(imgList.get(1)).into(evFirstImg2);
+        Picasso.with(context).load(imgList.get(1)).into(evFirstImg2);
 
         //查看全部
         TextView evFirstBtn = (TextView) findViewById(R.id.goods_details_ev_first_btn);
@@ -415,7 +431,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         //logo
         String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
         ImageView imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
-        Glide.with(context).load(logo).into(imgLogo);
+        Picasso.with(context).load(logo).into(imgLogo);
 
         //店名
         TextView shopName = (TextView) findViewById(R.id.goods_details_shop_text_name);
@@ -446,7 +462,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          */
         Goods goods1 = storeGoodsList.get(0);
         ImageView imageView1 = (ImageView) findViewById(R.id.goods_details_shop_img1);
-        Glide.with(context).load(goods1.getImgUrl()).into(imageView1);
+        Picasso.with(context).load(goods1.getImgUrl()).into(imageView1);
         //商城价
         TextView goods1price = (TextView) findViewById(R.id.goods_details_shop_img1_price);
         goods1price.setText("￥" + goods1.getGoodsPrice());
@@ -460,7 +476,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          */
         Goods goods2 = storeGoodsList.get(1);
         ImageView imageView2 = (ImageView) findViewById(R.id.goods_details_shop_img2);
-        Glide.with(context).load(goods2.getImgUrl()).into(imageView2);
+        Picasso.with(context).load(goods2.getImgUrl()).into(imageView2);
         //商城价
         TextView goods2price = (TextView) findViewById(R.id.goods_details_shop_img2_price);
         goods2price.setText("￥" + goods2.getGoodsPrice());
@@ -475,7 +491,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          */
         Goods goods3 = storeGoodsList.get(2);
         ImageView imageView3 = (ImageView) findViewById(R.id.goods_details_shop_img3);
-        Glide.with(context).load(goods3.getImgUrl()).into(imageView3);
+        Picasso.with(context).load(goods3.getImgUrl()).into(imageView3);
         //商城价
         TextView goods3price = (TextView) findViewById(R.id.goods_details_shop_img3_price);
         goods3price.setText("￥" + goods3.getGoodsPrice());
@@ -505,7 +521,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         /**
          * 商品轮播展示
          */
-        List<String> url = new ArrayList<>();
+       url = new ArrayList<>();
 
         for (int i = 0; i < goods.getImgBeanList().size(); i++) {
             url.add(goods.getImgBeanList().get(i).getImgUrl());
@@ -516,9 +532,18 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             View view = LayoutInflater.from(context).inflate(R.layout.goods_details_viewpager_item, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.goods_details_viewpager_item_img);
             TextView textView = (TextView) view.findViewById(R.id.goods_details_viewpager_item_text);
-            Glide.with(context).load(url.get(i - 1)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
+            Picasso.with(context).load(url.get(i - 1)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
             textView.setText(i + "/" + (url.size()));
             viewList.add(view);
+            /**
+             * 点击查看大图
+             */
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ImageViewDialog(context,url);
+                }
+            });
         }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(viewList);
         viewPager.setAdapter(viewPagerAdapter);
@@ -602,6 +627,16 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_cart:
+                /**
+                 * 加入购物车
+                 */
+                break;
+            case R.id.btn_buy:
+                /**
+                 * 立即购买
+                 */
+                break;
         }
     }
 

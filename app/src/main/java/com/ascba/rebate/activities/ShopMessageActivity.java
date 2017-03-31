@@ -64,8 +64,15 @@ public class ShopMessageActivity extends BaseNetWork4Activity {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position == 1) {
-                    MessageDetailsActivity.startIntent(context);
+                switch (position) {
+                    case 0:
+                        //最新公告
+                        MessageLatestActivity.startIntent(context);
+                        break;
+                    case 1:
+                        //系统通知
+                        MessageDetailsActivity.startIntent(context);
+                        break;
                 }
             }
         });
@@ -73,7 +80,7 @@ public class ShopMessageActivity extends BaseNetWork4Activity {
 
     public List<MessageBean> getData() {
         List<MessageBean> beanList = new ArrayList<>();
-        beanList.add(new MessageBean(R.mipmap.icon_mess_sale, "促销活动", "商城促销折扣，更多优惠通知都在这里~"));
+        beanList.add(new MessageBean(R.mipmap.icon_mess_sale, "最新公告", "关于钱来钱往2017年发布会通知"));
         beanList.add(new MessageBean(R.mipmap.icon_mess_sys, "系统通知", "您的订单号：231541321321541321123还未支付"));
         beanList.add(new MessageBean(R.mipmap.icon_mess_update, "升级提示", "app将于本月24号进行维护升级，带来的不便敬请谅解"));
         return beanList;

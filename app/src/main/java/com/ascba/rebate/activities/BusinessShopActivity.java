@@ -16,8 +16,8 @@ import com.ascba.rebate.adapter.BusinessShopAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,9 +84,9 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements SuperS
         //头布局
         View headView = LayoutInflater.from(context).inflate(R.layout.business_shop_head, null);
         ImageView backImg = (ImageView) headView.findViewById(R.id.shop_img);
-        Glide.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170315/16/18505011120170315160125061_640.jpg").into(backImg);
+        Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170315/16/18505011120170315160125061_640.jpg").placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(backImg);
         ImageView headImg = (ImageView) headView.findViewById(R.id.shop_img_head);
-        Glide.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170315/16/18505011120170315160144021_640.jpg").into(headImg);
+        Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170315/16/18505011120170315160144021_640.jpg").placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(headImg);
         businessShopAdapter.addHeaderView(headView);
 
         recyclerView.setAdapter(businessShopAdapter);

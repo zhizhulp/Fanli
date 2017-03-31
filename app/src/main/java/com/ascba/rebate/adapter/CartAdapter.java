@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -15,9 +14,9 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.fragments.CartFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.cart_btn.NumberButton;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +132,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
     protected void convert(BaseViewHolder helper, final CartGoods item) {
         ImageView view = helper.getView(R.id.cart_goods_pic);
         Goods goods = item.t;
-        Glide.with(context).load(goods.getImgUrl()).into(view);
+        Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(view);
         helper.setText(R.id.cart_goods_title, goods.getGoodsTitle());
         helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
         helper.setText(R.id.cart_price, goods.getGoodsPrice());

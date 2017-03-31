@@ -11,9 +11,9 @@ import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewAdapter;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                  */
                 helper.addOnClickListener(R.id.homepage_btn_global);
                 ImageView btnGlobalImg = helper.getView(R.id.homepage_btn_global_img);
-                Glide.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").into(btnGlobalImg);
+                Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnGlobalImg);
 
                 /**
                  * 天天特价
@@ -89,14 +89,14 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
 
                 helper.addOnClickListener(R.id.homepage_btn_offer);
                 ImageView btnOfferImg = helper.getView(R.id.homepage_btn_offer_img);
-                Glide.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").into(btnOfferImg);
+                Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnOfferImg);
 
                 /**
                  * 品牌精选
                  */
                 helper.addOnClickListener(R.id.homepage_btn_selected);
                 ImageView btnSelectedImg = helper.getView(R.id.homepage_btn_selected_img);
-                Glide.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").into(btnSelectedImg);
+                Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnSelectedImg);
                 break;
 
             case HomePageMultiItemItem.TYPE8:
@@ -126,27 +126,27 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
             case HomePageMultiItemItem.TYPE11:
                 helper.setText(R.id.item_news_head_text1, item.getNewsBeen().get(0).getTitle());
                 ImageView img1 = helper.getView(R.id.item_news_head_img1);
-                Glide.with(context).load(item.getNewsBeen().get(0).getImg()).into(img1);
+                Picasso.with(context).load(item.getNewsBeen().get(0).getImg()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(img1);
                 helper.addOnClickListener(R.id.item_news_head_rl1);
 
                 helper.setText(R.id.item_news_head_text2, item.getNewsBeen().get(1).getTitle());
                 ImageView img2 = helper.getView(R.id.item_news_head_img2);
-                Glide.with(context).load(item.getNewsBeen().get(1).getImg()).into(img2);
+                Picasso.with(context).load(item.getNewsBeen().get(1).getImg()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(img2);
                 helper.addOnClickListener(R.id.item_news_head_rl2);
 
                 helper.setText(R.id.item_news_head_text3, item.getNewsBeen().get(2).getTitle());
                 ImageView img3 = helper.getView(R.id.item_news_head_img3);
-                Glide.with(context).load(item.getNewsBeen().get(2).getImg()).into(img3);
+                Picasso.with(context).load(item.getNewsBeen().get(2).getImg()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(img3);
                 helper.addOnClickListener(R.id.item_news_head_rl3);
 
                 helper.setText(R.id.item_news_head_text4, item.getNewsBeen().get(3).getTitle());
                 ImageView img4 = helper.getView(R.id.item_news_head_img4);
-                Glide.with(context).load(item.getNewsBeen().get(3).getImg()).into(img4);
+                Picasso.with(context).load(item.getNewsBeen().get(3).getImg()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(img4);
                 helper.addOnClickListener(R.id.item_news_head_rl4);
 
                 helper.setText(R.id.item_news_head_text5, item.getNewsBeen().get(4).getTitle());
                 ImageView img5 = helper.getView(R.id.item_news_head_img5);
-                Glide.with(context).load(item.getNewsBeen().get(4).getImg()).into(img5);
+                Picasso.with(context).load(item.getNewsBeen().get(4).getImg()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(img5);
                 helper.addOnClickListener(R.id.item_news_head_rl5);
                 break;
 

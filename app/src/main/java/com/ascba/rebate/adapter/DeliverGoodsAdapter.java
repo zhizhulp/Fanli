@@ -8,9 +8,9 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class DeliverGoodsAdapter extends BaseMultiItemQuickAdapter<OrderBean, Ba
                 Goods goods = item.getGoods();
                 //商品缩略图
                 ImageView imageView = helper.getView(R.id.item_goods_img);
-                Glide.with(context).load(goods.getImgUrl()).into(imageView);
+                Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
 
                 //商品名称
                 helper.setText(R.id.item_goods_name, goods.getGoodsTitle());
