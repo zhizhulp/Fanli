@@ -48,7 +48,9 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 ShufflingViewPager viewPager = helper.getView(R.id.homepage_pager);
                 ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(context, item.getList());
                 viewPager.setAdapter(adapter);
-                viewPager.start();
+                if(item.getList().size()!=1){
+                    viewPager.start();
+                }
                 break;
             case HomePageMultiItemItem.TYPE2:
                 /**
