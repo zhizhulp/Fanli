@@ -8,9 +8,9 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.EvaluationBean;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -46,7 +46,7 @@ public class AllEvaluationAdapter extends BaseMultiItemQuickAdapter<EvaluationBe
                 helper.setText(R.id.all_evaluation_item_desc, item.getDesc());
                 helper.setText(R.id.all_evaluation_item_choose, item.getChoose());
                 ImageView imgHead = helper.getView(R.id.all_evaluation_item_head);
-                Glide.with(context).load(item.getImgHead()).into(imgHead);
+                Picasso.with(context).load(item.getImgHead()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imgHead);
                 InitFlowLayout(helper, item);
                 break;
         }
@@ -61,7 +61,7 @@ public class AllEvaluationAdapter extends BaseMultiItemQuickAdapter<EvaluationBe
             public View getView(FlowLayout parent, int position, String s) {
                 ImageView imageView = (ImageView) mInflater.inflate(R.layout.all_evaluation_flow_item,
                         flowLayout, false);
-                Glide.with(context).load(s).into(imageView);
+                Picasso.with(context).load(s).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
                 return imageView;
             }
         });

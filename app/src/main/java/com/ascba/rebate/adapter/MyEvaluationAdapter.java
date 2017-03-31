@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CurriculumBean;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class MyEvaluationAdapter extends BaseMultiItemQuickAdapter<CurriculumBea
             case TYPE2:
                 ImageView imageView = helper.getView(R.id.curriculum_content_img);
                 helper.addOnClickListener(R.id.curriculum_content_img);
-                Glide.with(context).load(item.getImgUrl()).into(imageView);
+                Picasso.with(context).load(item.getImgUrl()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
                 helper.setText(R.id.curriculum_content_title, item.getContentTitle());
                 helper.setText(R.id.curriculum_content_state, item.getContentState());
                 break;

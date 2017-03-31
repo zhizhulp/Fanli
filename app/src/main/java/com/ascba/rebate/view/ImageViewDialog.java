@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/30 0030.
- *
  */
 
 public class ImageViewDialog {
@@ -33,7 +32,9 @@ public class ImageViewDialog {
     public ImageViewDialog(Context context, List<String> imgList) {
         this.context = context;
         this.imgList = imgList;
-        initDialog();
+        if (imgList != null && imgList.size() > 0) {
+            initDialog();
+        }
     }
 
     private void initDialog() {

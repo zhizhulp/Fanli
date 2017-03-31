@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.GoodsDetailsItem;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class DropDownMultiPagerItem extends LinearLayout {
 
         //图文
         ImageView img = (ImageView) findViewById(R.id.item_dropdownfootprint_img);
-        Glide.with(context).load(beanList.get(num).getImgUrl()).into(img);
+        Picasso.with(context).load(beanList.get(num).getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(img);
 
     }
 

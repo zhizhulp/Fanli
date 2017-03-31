@@ -5,9 +5,9 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.ShopBaseItem;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class BusinessShopAdapter extends BaseQuickAdapter<ShopBaseItem, BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, ShopBaseItem item) {
-        Glide.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.goods_list_img));
+        Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).centerCrop().into((ImageView) helper.getView(R.id.goods_list_img));
         helper.setText(R.id.goods_list_name, item.getTitle());
         helper.setText(R.id.goods_list_price, item.getDesc());
     }

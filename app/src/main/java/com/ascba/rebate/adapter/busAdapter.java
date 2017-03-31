@@ -5,9 +5,9 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Business;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class BusAdapter extends BaseQuickAdapter<Business,BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, Business item) {
-        Glide.with(context).load(item.getLogo()).error(R.mipmap.busi_loading).placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.iv_main_business_logo));
+        Picasso.with(context).load(item.getLogo()).error(R.mipmap.busi_loading).placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.iv_main_business_logo));
         helper.setText(R.id.tv_main_business_name,item.getbName());
        // helper.setText(R.id.tv_main_business_category,item.getbCategory());
         helper.setText(R.id.tv_main_business_goodjob,item.getGoodComm());

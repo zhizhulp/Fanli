@@ -5,10 +5,9 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.ascba.rebate.R;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,8 +45,6 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        /*LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(layoutParams);*/
         position %= mImageArr.size();
         if (position < 0) {
             position = mImageArr.size() + position;
@@ -62,8 +59,8 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
                 }
             }
         });
+        Picasso.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
 
-        Glide.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
         container.addView(imageView);
         return imageView;
     }

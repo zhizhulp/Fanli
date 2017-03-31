@@ -387,14 +387,6 @@
             android:exported="false"
             android:screenOrientation="behind" />
         <activity
-            android:name=".activities.me_page.recmmennd_child.FirstRecActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.me_page.recmmennd_child.SecondRecActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.main_page.RecQRActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -616,9 +608,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
 
-        <activity android:name=".activities.TransactionRecordsActivity"
+        <activity
+            android:name=".activities.TransactionRecordsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.MessageLatestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 

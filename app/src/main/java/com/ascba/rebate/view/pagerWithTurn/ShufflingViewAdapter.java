@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class ShufflingViewAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_video, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_video_img);
-        Glide.with(mContext).load(s).into(imageView);
+        Picasso.with(mContext).load(s).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
 
         position %= mImageArr.size();
         if (position < 0) {
@@ -65,7 +65,7 @@ public class ShufflingViewAdapter extends PagerAdapter {
             }
         });
 
-        Glide.with(mContext).load(mImageArr.get(position)).into(imageView);
+        Picasso.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
         container.addView(view);
         return view;
     }

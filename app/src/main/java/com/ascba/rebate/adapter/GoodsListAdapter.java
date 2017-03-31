@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class GoodsListAdapter extends RecyclerView.Adapter<GoodsListAdapter.Base
 
         ViewHolder viewHolder = (ViewHolder) holder;
         Goods goodsBean = list.get(position);
-        Glide.with(context).load(goodsBean.getImgUrl()).into(viewHolder.imageView);
+        Picasso.with(context).load(goodsBean.getImgUrl()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(viewHolder.imageView);
         viewHolder.name.setText(goodsBean.getGoodsTitle());
         viewHolder.price.setText(goodsBean.getGoodsPrice());
         viewHolder.addCart.setOnClickListener(new View.OnClickListener() {
