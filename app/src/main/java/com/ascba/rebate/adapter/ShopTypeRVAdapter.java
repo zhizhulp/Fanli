@@ -60,7 +60,7 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 break;
             case ShopItemType.TYPE_NAVIGATION:
                 helper.setText(R.id.item_type1_text, item.getDesc());
-                Picasso.with(context).load(item.getUrl()).centerCrop().placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.item_type1_img));
+                Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.item_type1_img));
                 break;
             case ShopItemType.TYPE_IMG:
                 Picasso.with(context).load(item.getUrl()).centerCrop().placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.item_type3_img));
@@ -103,7 +103,7 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 Picasso.with(context).load(item.getUrl()).into((ImageView) helper.getView(R.id.im_shop_title));
                 break;
             case ShopItemType.TYPE_GOODS:
-                Picasso.with(context).load(item.getUrl()).centerCrop().placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.goods_list_img));
+                Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.goods_list_img));
                 helper.setText(R.id.goods_list_name, item.getTitle());
                 helper.setText(R.id.goods_list_price, item.getDesc());
                 break;
@@ -112,7 +112,7 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 view1.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenDpiUtils.dip2px(context, item.getLineWidth())));
                 break;
             case ShopItemType.TYPE_GOODS_STYLE2:
-                Picasso.with(context).load(item.getUrl()).centerCrop().into((ImageView) helper.getView(R.id.shop_im_goods_style2));
+                Picasso.with(context).load(item.getUrl()).into((ImageView) helper.getView(R.id.shop_im_goods_style2));
                 helper.setText(R.id.shop_tv_goods_title_style2, item.getTitle());
                 helper.setText(R.id.shop_tv_goods_price_style2, item.getDesc());
                 TextView view = helper.getView(R.id.shop_tv_goods_price_old_style2);

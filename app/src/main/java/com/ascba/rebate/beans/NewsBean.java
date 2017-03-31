@@ -10,9 +10,10 @@ public class NewsBean {
     private String time;
     private String img;
 
-
     public NewsBean() {
     }
+
+
 
     public NewsBean(String title, String img) {
         this.title = title;

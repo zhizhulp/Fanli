@@ -12,6 +12,8 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.MessageOrderAdapter;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.view.ShopABarText;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +62,14 @@ public class MessageDetailsActivity extends BaseNetWork4Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         MessageOrderAdapter adapter = new MessageOrderAdapter(R.layout.item_message_order, beanList, context);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (position) {
+
+                }
+            }
+        });
     }
 
     private void initData() {
