@@ -40,6 +40,6 @@
     <string name="bank_card_protocol">使用前请阅读《银行卡服务协议》</string>
     <string name="tips_rec">温馨提示:只显示被推荐人所产生的奖励。</string>
     <string name="no_data_txt">暂无数据!</string>
-    <string name="no_network">没有网络</string>
+    <string name="no_network">请打开手机网络</string>
     <string name="inoutcome_record">收支记录</string>
 </resources>

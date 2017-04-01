@@ -143,35 +143,31 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tabs_zero_par://首页
-                tvZero.setTextColor(getResources().getColor(R.color.moneyBarColor));
-                imZero.setImageResource(R.mipmap.tab_main_select);
+
                 statusChaByPosition(0,filPos);
                 filPos=0;
                 callback.clickZero(v);
                 break;
             case R.id.tabs_one_par://周边
-                tvOne.setTextColor(getResources().getColor(R.color.moneyBarColor));
-                imOne.setImageResource(R.mipmap.tab_zhoubian_select);
+
                 statusChaByPosition(1,filPos);
                 filPos=1;
                 callback.clickOne(v);
                 break;
             case R.id.tv_tabs_two://商城
-                tvTwo.setTextColor(getResources().getColor(R.color.moneyBarColor));
+
                 statusChaByPosition(2,filPos);
                 filPos=2;
                 callback.clickTwo(v);
                 break;
             case R.id.tabs_three_par://财富
-                tvThree.setTextColor(getResources().getColor(R.color.moneyBarColor));
-                imThree.setImageResource(R.mipmap.tab_caifu_select);
+
                 statusChaByPosition(3,filPos);
                 filPos=3;
                 callback.clickThree(v);
                 break;
             case R.id.tabs_four_par://我
-                tvFour.setTextColor(getResources().getColor(R.color.moneyBarColor));
-                imFour.setImageResource(R.mipmap.tab_me_select);
+
                 statusChaByPosition(4,filPos);
                 filPos=4;
                 callback.clickFour(v);
@@ -200,6 +196,31 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
                 case 4:
                     imFour.setImageResource(R.mipmap.tab_me);
                     tvFour.setTextColor(getResources().getColor(R.color.textgray));
+                    break;
+                default:
+                    break;
+            }
+            switch (currentPos){
+                case 0:
+                    tvZero.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    imZero.setImageResource(R.mipmap.tab_main_select);
+                    break;
+                case 1:
+                    tvOne.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    imOne.setImageResource(R.mipmap.tab_zhoubian_select);
+                    break;
+                case 2:
+                    tvTwo.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    break;
+                case 3:
+                    tvThree.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    imThree.setImageResource(R.mipmap.tab_caifu_select);
+                    break;
+                case 4:
+                    tvFour.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    imFour.setImageResource(R.mipmap.tab_me_select);
+                    break;
+                default:
                     break;
             }
         }

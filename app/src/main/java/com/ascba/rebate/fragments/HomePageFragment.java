@@ -276,7 +276,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
         initPagerTurn(dataObj);//广告轮播
 
-        /* //花钱赚钱
+         //花钱赚钱
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE2, R.layout.home_page_makemoney));
         //ASK商学院  创业扶持
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
@@ -293,7 +293,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         //ASK资讯
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "ASK资讯"));
         //分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));*/
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
         //视频
         initVideoTurn(dataObj);
 
