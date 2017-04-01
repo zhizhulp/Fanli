@@ -1,21 +1,23 @@
 package com.ascba.rebate.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,7 +28,6 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
-import com.ascba.rebate.adapter.ViewPagerAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.ascba.rebate.beans.GoodsImgBean;
@@ -102,9 +103,15 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     /**
      * 商品轮播展示
      */
-    List<String> url ;
+    List<String> url;
 
-    private TextView btnCart,btnBuy;
+    private TextView btnCart, btnBuy;
+
+    /**
+     * 商品展示图轮播
+     */
+    private ImageAdapter imageAdapter;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +130,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     }
 
     private void initView() {
-        btnCart= (TextView) findViewById(R.id.btn_cart);
+        btnCart = (TextView) findViewById(R.id.btn_cart);
         btnCart.setOnClickListener(this);
-        btnBuy= (TextView) findViewById(R.id.btn_buy);
+        btnBuy = (TextView) findViewById(R.id.btn_buy);
         btnBuy.setOnClickListener(this);
     }
 
@@ -521,12 +528,12 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         /**
          * 商品轮播展示
          */
-       url = new ArrayList<>();
+        url = new ArrayList<>();
 
         for (int i = 0; i < goods.getImgBeanList().size(); i++) {
             url.add(goods.getImgBeanList().get(i).getImgUrl());
         }
-        ViewPager viewPager = (ViewPager) findViewById(R.id.goods_details_viewpager_vp);
+        viewPager = (ViewPager) findViewById(R.id.goods_details_viewpager_vp);
 
         for (int i = 1; i <= url.size(); i++) {
             View view = LayoutInflater.from(context).inflate(R.layout.goods_details_viewpager_item, null);
@@ -541,61 +548,12 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new ImageViewDialog(context,url);
+                    new ImageViewDialog(context, url);
                 }
             });
         }
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(viewList);
-        viewPager.setAdapter(viewPagerAdapter);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                currentItem = position;//获取位置，即第几页
-                Log.i("Guide", "监听改变" + position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        viewPager.setOnTouchListener(new View.OnTouchListener() {
-            float startX;
-            float startY;
-            float endX;
-            float endY;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        startX = event.getX();
-                        startY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        endX = event.getX();
-                        endY = event.getY();
-                        WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-                        //获取屏幕的宽度
-                        Point size = new Point();
-                        windowManager.getDefaultDisplay().getSize(size);
-                        int width = size.x;
-                        //首先要确定的是，是否到了最后一页，然后判断是否向左滑动，并且滑动距离是否符合，我这里的判断距离是屏幕宽度的4分之一（这里可以适当控制）
-                        if (currentItem == (viewList.size() - 1) && startX - endX > 0 && startX - endX >= (width / 4)) {
-                            pullUpToLoadMoreView.scrollToSecond();
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+        viewPager.setAdapter(imageAdapter = new ImageAdapter());
+        viewPager.addOnPageChangeListener(new ViewPagerOnPageChangeListener());
     }
 
     /**
@@ -717,6 +675,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         }
     }
 
+    /**
+     * 加载商品详情页
+     */
     private void initWebView() {
         webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl(webUrl);
@@ -736,6 +697,12 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
     }
 
+    /**
+     * 详情页点击返回首页
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -749,4 +716,123 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         return super.onKeyDown(keyCode, event);
     }
 
+    //=======================商品详情轮播====================
+    public class ViewPagerOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        int currPosition = 0; // 当前滑动到了哪一页
+        boolean canJump = false;
+        boolean canLeft = true;
+
+        boolean isObjAnmatitor = true;
+        boolean isObjAnmatitor2 = false;
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (position == (viewList.size() - 1)) {
+                if (positionOffset > 0.35) {
+                    canJump = true;
+                    if (imageAdapter.arrowImage != null && imageAdapter.slideText != null) {
+                        if (isObjAnmatitor) {
+                            isObjAnmatitor = false;
+                            ObjectAnimator animator = ObjectAnimator.ofFloat(imageAdapter.arrowImage, "rotation", 0f, 180f);
+                            animator.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    imageAdapter.slideText.setText("松开跳到详情");
+                                    isObjAnmatitor2 = true;
+                                }
+                            });
+                            animator.setDuration(500).start();
+                        }
+                    }
+                } else if (positionOffset <= 0.35 && positionOffset > 0) {
+                    canJump = false;
+                    if (imageAdapter.arrowImage != null && imageAdapter.slideText != null) {
+                        if (isObjAnmatitor2) {
+                            isObjAnmatitor2 = false;
+                            ObjectAnimator animator = ObjectAnimator.ofFloat(imageAdapter.arrowImage, "rotation", 180f, 360f);
+                            animator.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    imageAdapter.slideText.setText("继续滑动跳到详情");
+                                    isObjAnmatitor = true;
+                                }
+                            });
+                            animator.setDuration(500).start();
+                        }
+                    }
+                }
+                canLeft = false;
+            } else {
+                canLeft = true;
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            currPosition = position;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+            if (currPosition == (viewList.size() - 1) && !canLeft) {
+                if (state == ViewPager.SCROLL_STATE_SETTLING) {
+
+                    if (canJump) {
+                        pullUpToLoadMoreView.scrollToSecond();
+                    }
+
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 在handler里调用setCurrentItem才有效
+                            viewPager.setCurrentItem(viewList.size() - 1);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    public class ImageAdapter extends PagerAdapter {
+
+        private TextView slideText;
+        private ImageView arrowImage;
+
+        @Override
+        public int getCount() {
+            return viewList.size() + 1; // 这里要加1，是因为多了一个隐藏的view
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            if (position < viewList.size()) {
+
+                container.addView(viewList.get(position));
+                return viewList.get(position);
+            } else {
+                View hintView = LayoutInflater.from(container.getContext()).inflate(R.layout.more_view, container, false);
+
+                slideText = (TextView) hintView.findViewById(R.id.tv);
+                arrowImage = (ImageView) hintView.findViewById(R.id.iv);
+
+                container.addView(hintView);
+                return hintView;
+            }
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+    }
+    //=======================商品详情轮播结束====================
 }
