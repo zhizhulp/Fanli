@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +27,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
-import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -276,9 +273,10 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         clearData();
         stopRefresh();
 
+
         initPagerTurn(dataObj);//广告轮播
 
-        //花钱赚钱
+        /* //花钱赚钱
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE2, R.layout.home_page_makemoney));
         //ASK商学院  创业扶持
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
@@ -295,7 +293,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         //ASK资讯
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "ASK资讯"));
         //分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));*/
         //视频
         initVideoTurn(dataObj);
 
@@ -340,13 +338,13 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);
+                String img = obj.optString("thumb") + UrlUtils.baseWebsite;
                 String video_url = obj.optString("video_url");
                 String title = obj.optString("title");
-                String thumb = obj.optString("thumb");//图片
-                VideoBean videoBean = new VideoBean(UrlUtils.baseWebsite+thumb, video_url);
+                VideoBean videoBean = new VideoBean(img, video_url, title);
                 videoBeans.add(videoBean);
             }
-            items.add(new HomePageMultiItemItem(videoBeans,HomePageMultiItemItem.TYPE9,R.layout.home_page_videopage));
+            items.add(new HomePageMultiItemItem(videoBeans, HomePageMultiItemItem.TYPE9, R.layout.home_page_videopage));
         }
 
     }
@@ -358,7 +356,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             List<String> list = new ArrayList<>();
             for (int i = 0; i < banner.length(); i++) {
                 String string = banner.optString(i);
-                list.add(UrlUtils.baseWebsite+string);
+                list.add(UrlUtils.baseWebsite + string);
             }
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE1, R.layout.home_page_viewpager, list));
         }

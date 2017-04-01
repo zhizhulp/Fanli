@@ -12,7 +12,7 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ViewPagerAdapter;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
-import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
+import com.ascba.rebate.adapter.ShufflingViewPagerAdapter;
 import com.flyco.tablayout.SlidingTabLayout;
 
 import java.util.ArrayList;

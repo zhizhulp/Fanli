@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CurriculumBean;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
-import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;

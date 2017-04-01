@@ -1,4 +1,4 @@
-package com.ascba.rebate.view.pagerWithTurn;
+package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
