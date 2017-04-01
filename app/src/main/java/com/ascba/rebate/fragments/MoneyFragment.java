@@ -26,6 +26,7 @@ import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yolanda.nohttp.rest.Request;
@@ -123,7 +124,13 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
 
     @Override
     public void onRefresh() {
-        requestMyData(0);
+        if( NetUtils.isNetworkAvailable(getActivity())){
+            requestMyData(0);
+        }else {
+            refreshLayout.setRefreshing(false);
+            getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+        }
+
     }
 
     @Override

@@ -34,6 +34,7 @@ import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.AppTabs;
@@ -139,7 +140,12 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        requestData(UrlUtils.user,3);
+        if( NetUtils.isNetworkAvailable(getActivity())){
+            requestData(UrlUtils.user,3);
+        }else {
+            refreshLayout.setRefreshing(false);
+            getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+        }
     }
 
     @Override
@@ -219,11 +225,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                         ((MainActivity) activity).selFrgByPos(0);
                         AppTabs appTabs = ((MainActivity) activity).getAppTabs();
                         appTabs.setFilPos(0);
-                        appTabs.getImFour().setImageResource(R.mipmap.tab_me);
-                        appTabs.getTvFour().setTextColor(getResources().getColor(R.color.textgray));
-
-                        appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
-                        appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
+                        appTabs.statusChaByPosition(0,4);
                     }
                 }else {//登录成功，刷新界面
                     requestData(UrlUtils.user,3);

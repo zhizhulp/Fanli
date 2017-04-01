@@ -211,32 +211,23 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
                 if (resultCode == RESULT_OK) {
                     selFrgByPos(3);
                 } else {
+                    appTabs.statusChaByPosition(0,3);
                     appTabs.setFilPos(0);
                     selFrgByPos(0);
-                    appTabs.getImThree().setImageResource(R.mipmap.tab_caifu);
-                    appTabs.getTvThree().setTextColor(getResources().getColor(R.color.textgray));
 
-                    appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
-                    appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }
                 break;
             case REQUEST_LOGIN_ME://第一次登录回调个人中心
                 if (resultCode == RESULT_OK) {
                     selFrgByPos(4);
                 } else {
+                    appTabs.statusChaByPosition(0,4);
                     appTabs.setFilPos(0);
                     selFrgByPos(0);
-                    appTabs.getImFour().setImageResource(R.mipmap.tab_me);
-                    appTabs.getTvFour().setTextColor(getResources().getColor(R.color.textgray));
-
-                    appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
-                    appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
                 }
                 break;
             case REQUEST_SHOP:
-                appTabs.getTvTwo().setTextColor(getResources().getColor(R.color.textgray));
-                appTabs.getImZero().setImageResource(R.mipmap.tab_main_select);
-                appTabs.getTvZero().setTextColor(getResources().getColor(R.color.moneyBarColor));
+                appTabs.statusChaByPosition(0,2);
                 appTabs.setFilPos(0);
                 selFrgByPos(0);
                 break;
