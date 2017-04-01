@@ -57,7 +57,7 @@ public class ShufflingVideoPager extends RelativeLayout {
     }
 
     private void Init(Context context) {
-        inflate = LayoutInflater.from(context).inflate(R.layout.shuffling_viewpager, this, true);
+        inflate = LayoutInflater.from(context).inflate(R.layout.shuffling_videopager, this, true);
         viewPager = (ViewPager) findViewById(R.id.head_viewPager);
         indicator = (LinearLayout) findViewById(R.id.indicator);
     }

@@ -23,7 +23,7 @@
         android:paddingTop="12dp">
 
         <FrameLayout
-            android:id="@+id/homepage_user"
+            android:id="@+id/homepage_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp">
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/icon_scan_black" />
+                android:src="@mipmap/shop_no_msg" />
         </FrameLayout>
 
         <FrameLayout

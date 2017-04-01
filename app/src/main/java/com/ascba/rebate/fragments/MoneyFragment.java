@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.CommissionActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
@@ -110,8 +111,8 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
         viewDjq.setOnClickListener(this);
         View viewGrzh = view.findViewById(R.id.me_lat_grzh);
         viewGrzh.setOnClickListener(this);
-        View viewSjzh = view.findViewById(R.id.me_lat_sjzh);
-        viewSjzh.setOnClickListener(this);
+        View viewfyzh = view.findViewById(R.id.me_lat_fyzh);
+        viewfyzh.setOnClickListener(this);
         View viewChongzhi = view.findViewById(R.id.me_lat_chongzhi);
         viewChongzhi.setOnClickListener(this);
         View viewBank = view.findViewById(R.id.me_lat_bank);
@@ -159,8 +160,9 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
             case R.id.me_lat_grzh://提现
                 requestMyData(3);//检查是否实名
                 break;
-            case R.id.me_lat_sjzh://商户申请
-                requestMyData(1);
+            case R.id.me_lat_fyzh://返佣账户
+                Intent intent4=new Intent(getActivity(), CommissionActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.me_lat_chongzhi:
                 Intent intent2 = new Intent(getActivity(), AccountRechargeActivity.class);

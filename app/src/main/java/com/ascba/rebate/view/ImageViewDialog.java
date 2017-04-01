@@ -2,7 +2,6 @@ package com.ascba.rebate.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ public class ImageViewDialog {
 
     private Context context;
     private Dialog dialog;
-    private ViewPager viewPager;
+    private PhotoViewPager viewPager;
     private List<String> imgList;
     private ViewPagerAdapter viewpagerAdpter;
     private List<View> viewList;
@@ -41,7 +40,7 @@ public class ImageViewDialog {
         if (dialog == null) {
             dialog = new Dialog(context, R.style.dialog_imageview);
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_viewpager, null);
-            viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+            viewPager = (PhotoViewPager) view.findViewById(R.id.viewpager);
             dialog.setContentView(view);
         }
         viewList = new ArrayList<>();
