@@ -1,4 +1,4 @@
-package com.ascba.rebate.view.pagerWithTurn;
+package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -6,22 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.beans.VideoBean;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import static com.alipay.sdk.app.statistic.c.s;
 
 /**
  * Created by 李鹏 on 2016/10/13.
  */
 
-public class ShufflingViewAdapter extends PagerAdapter {
+public class ShufflingVideoAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<String> mImageArr;
+    private List<VideoBean> beanList;
     private OnClick onClick;
     private int id;
 
@@ -29,9 +29,9 @@ public class ShufflingViewAdapter extends PagerAdapter {
         this.onClick = onClick;
     }
 
-    public ShufflingViewAdapter(Context context, List<String> imageArr) {
+    public ShufflingVideoAdapter(Context context, List<VideoBean> beanList) {
         this.mContext = context;
-        this.mImageArr = imageArr;
+        this.beanList = beanList;
     }
 
     @Override
@@ -48,24 +48,25 @@ public class ShufflingViewAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_video, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_video_img);
-        Picasso.with(mContext).load(s).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
 
-        position %= mImageArr.size();
+        TextView title = (TextView) view.findViewById(R.id.item_video_title);
+
+        position %= beanList.size();
         if (position < 0) {
-            position = mImageArr.size() + position;
+            position = beanList.size() + position;
         }
 
-        id=position;
+        id = position;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onClick!=null){
+                if (onClick != null) {
                     onClick.OnClick(id);
                 }
             }
         });
-
-        Picasso.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
+        Picasso.with(mContext).load(beanList.get(position).getImgUrl()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
+        title.setText(beanList.get(position).getImgTitle());
         container.addView(view);
         return view;
     }
@@ -75,8 +76,8 @@ public class ShufflingViewAdapter extends PagerAdapter {
         container.removeView((View) view);
     }
 
-    public List<String> getStringList() {
-        return mImageArr;
+    public List<VideoBean> getStringList() {
+        return beanList;
     }
 
 

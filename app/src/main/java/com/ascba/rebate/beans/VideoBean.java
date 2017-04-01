@@ -7,6 +7,7 @@ package com.ascba.rebate.beans;
 public class VideoBean {
     private String ImgUrl;
     private String VideoUrl;
+    private String ImgTitle;
 
     public VideoBean() {
     }
@@ -14,6 +15,20 @@ public class VideoBean {
     public VideoBean(String imgUrl, String videoUrl) {
         ImgUrl = imgUrl;
         VideoUrl = videoUrl;
+    }
+
+    public VideoBean(String imgUrl, String videoUrl, String imgTitle) {
+        ImgUrl = imgUrl;
+        VideoUrl = videoUrl;
+        ImgTitle = imgTitle;
+    }
+
+    public String getImgTitle() {
+        return ImgTitle;
+    }
+
+    public void setImgTitle(String imgTitle) {
+        ImgTitle = imgTitle;
     }
 
     public String getImgUrl() {

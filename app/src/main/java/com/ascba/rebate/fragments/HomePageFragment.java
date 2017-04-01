@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +27,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
-import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -341,13 +338,13 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);
-                String img = "http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135526047_640.jpg";
+                String img = obj.optString("thumb") + UrlUtils.baseWebsite;
                 String video_url = obj.optString("video_url");
                 String title = obj.optString("title");
-                VideoBean videoBean = new VideoBean(img, video_url);
+                VideoBean videoBean = new VideoBean(img, video_url, title);
                 videoBeans.add(videoBean);
             }
-            items.add(new HomePageMultiItemItem(videoBeans,HomePageMultiItemItem.TYPE9,R.layout.home_page_videopage));
+            items.add(new HomePageMultiItemItem(videoBeans, HomePageMultiItemItem.TYPE9, R.layout.home_page_videopage));
         }
 
     }
@@ -359,7 +356,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             List<String> list = new ArrayList<>();
             for (int i = 0; i < banner.length(); i++) {
                 String string = banner.optString(i);
-                list.add(UrlUtils.baseWebsite+string);
+                list.add(UrlUtils.baseWebsite + string);
             }
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE1, R.layout.home_page_viewpager, list));
         }

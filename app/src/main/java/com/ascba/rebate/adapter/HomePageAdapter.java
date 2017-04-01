@@ -7,15 +7,12 @@ import android.widget.ImageView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PlayVideoActivity;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
-import com.ascba.rebate.beans.VideoBean;
-import com.ascba.rebate.view.pagerWithTurn.ShufflingViewAdapter;
+import com.ascba.rebate.view.pagerWithTurn.ShufflingVideoPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
-import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -167,16 +164,12 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
      * 初始化视频播放
      */
     private void initVideo(BaseViewHolder helper, final HomePageMultiItemItem item) {
-        ShufflingViewPager videoPager = helper.getView(R.id.homepage_pager);
+        ShufflingVideoPager videoPager = helper.getView(R.id.homepage_pager);
 
-        List<String> stringList = new ArrayList<>();
-        for (VideoBean videoBean : item.getVideoList()) {
-            stringList.add(videoBean.getImgUrl());
-        }
-        ShufflingViewAdapter adapter = new ShufflingViewAdapter(context, stringList);
+        ShufflingVideoAdapter adapter = new ShufflingVideoAdapter(context, item.getVideoList());
         videoPager.setAdapter(adapter);
         videoPager.start();
-        adapter.addOnClick(new ShufflingViewAdapter.OnClick() {
+        adapter.addOnClick(new ShufflingVideoAdapter.OnClick() {
             @Override
             public void OnClick(int position) {
                 PlayVideoActivity.newIndexIntent(context, item.getVideoList().get(position).getVideoUrl());

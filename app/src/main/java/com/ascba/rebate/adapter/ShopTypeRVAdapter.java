@@ -12,7 +12,6 @@ import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
-import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPagerAdapter;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;

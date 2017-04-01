@@ -13,7 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.adapter.ShufflingViewPagerAdapter;
+import com.ascba.rebate.adapter.ShufflingVideoAdapter;
+import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 
 import java.util.List;
@@ -22,15 +23,15 @@ import java.util.List;
  * Created by 李鹏 on 2017/02/28 0028.
  */
 
-public class ShufflingViewPager extends RelativeLayout {
+public class ShufflingVideoPager extends RelativeLayout {
 
     private ViewPager viewPager;
     private LinearLayout indicator;
     private View inflate;
-    private List<String> getList;
+    private List<VideoBean> getList;
     private ImageView[] mImageView;
     private Context context;
-    private ShufflingViewPagerAdapter adapter;
+    private ShufflingVideoAdapter adapter;
 
     private Handler handler = new Handler() {
         @Override
@@ -43,13 +44,13 @@ public class ShufflingViewPager extends RelativeLayout {
         }
     };
 
-    public ShufflingViewPager(Context context) {
+    public ShufflingVideoPager(Context context) {
         super(context, null);
         this.context = context;
         Init(context);
     }
 
-    public ShufflingViewPager(Context context, AttributeSet attrs) {
+    public ShufflingVideoPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         Init(context);
@@ -61,7 +62,7 @@ public class ShufflingViewPager extends RelativeLayout {
         indicator = (LinearLayout) findViewById(R.id.indicator);
     }
 
-    public void setAdapter(ShufflingViewPagerAdapter adapter) {
+    public void setAdapter(ShufflingVideoAdapter adapter) {
         this.adapter=adapter;
         getList = adapter.getStringList();
         if(getList.size()!=0){
@@ -71,7 +72,7 @@ public class ShufflingViewPager extends RelativeLayout {
 
     }
 
-    public ShufflingViewPagerAdapter getAdapter() {
+    public ShufflingVideoAdapter getAdapter() {
         return adapter;
     }
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_video_control"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
@@ -14,5 +14,44 @@
         android:layout_height="145dp"
         android:layout_marginBottom="5dp"
         android:scaleType="centerCrop" />
+
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:alpha="0.3"
+        android:layout_centerInParent="true"
+        android:background="@color/black">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/white_bg1">
+
+            <TextView
+                android:id="@+id/item_video_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:lineSpacingExtra="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="钱来钱往，百万战神计划成就您的千万财富"
+                android:textColor="#808080"
+                android:textSize="23dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:alpha="0.6"
+                android:src="@mipmap/video_start" />
+        </FrameLayout>
+
+    </FrameLayout>
 
 </RelativeLayout>
