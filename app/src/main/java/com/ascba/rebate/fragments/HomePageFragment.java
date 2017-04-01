@@ -66,9 +66,10 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     private int mDistanceY = 0;
     private TextView floatButton;
 
-    private FrameLayout btnAdd,btnMessage;
+    private FrameLayout btnAdd, btnMessage;
     private ImageView imgAdd;
     private List<HomePageMultiItemItem> items = new ArrayList<>();
+    private PopupWindow popupWindow;
 
 
     @Override
@@ -228,45 +229,51 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
      * 弹窗
      */
     private void showPopWindow() {
-        View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
+        if (popupWindow == null) {
+            View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
 
-        //付款
-        LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
-        btnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("付款");
-            }
-        });
+            //付款
+            LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
+            btnPay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("付款");
+                    popupWindow.dismiss();
+                }
+            });
 
-        //收款
-        LinearLayout btnRece = (LinearLayout) view.findViewById(R.id.pop_hm_rece);
-        btnRece.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("收款");
-            }
-        });
+            //收款
+            LinearLayout btnRece = (LinearLayout) view.findViewById(R.id.pop_hm_rece);
+            btnRece.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("收款");
+                    popupWindow.dismiss();
+                }
+            });
 
-        //推广码
-        LinearLayout btnCode = (LinearLayout) view.findViewById(R.id.pop_hm_code);
-        btnCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("推广码");
-            }
-        });
+            //推广码
+            LinearLayout btnCode = (LinearLayout) view.findViewById(R.id.pop_hm_code);
+            btnCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("推广码");
+                    popupWindow.dismiss();
+                }
+            });
 
-        PopupWindow window = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        // 设置可以获取焦点
-        window.setFocusable(true);
-        // 设置可以触摸弹出框以外的区域
-        window.setOutsideTouchable(true);
-        window.setBackgroundDrawable(new BitmapDrawable());
-        // 更新popupwindow的状态
-        window.update();
+            popupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            // 设置可以获取焦点
+            popupWindow.setFocusable(true);
+            // 设置可以触摸弹出框以外的区域
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            // 更新popupwindow的状态
+            popupWindow.update();
+        }
         // 以下拉的方式显示，并且可以设置显示的位置
-        window.showAtLocation(imgAdd, Gravity.TOP | Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
+        popupWindow.showAtLocation(imgAdd, Gravity.TOP | Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
+
     }
 
     @Override
@@ -278,7 +285,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
         initPagerTurn(dataObj);//广告轮播
 
-         //花钱赚钱
+        //花钱赚钱
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE2, R.layout.home_page_makemoney));
         //ASK商学院  创业扶持
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
@@ -340,7 +347,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);
-                String img =UrlUtils.baseWebsite+ obj.optString("thumb");
+                String img = UrlUtils.baseWebsite + obj.optString("thumb");
                 Log.d("HomePageFragment", img);
                 String video_url = obj.optString("video_url");
                 String title = obj.optString("title");

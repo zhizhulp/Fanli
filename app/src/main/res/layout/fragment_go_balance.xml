@@ -31,7 +31,7 @@
                 android:layout_marginLeft="40dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:hint="最多转出佣金1334.5元"
                 android:textColorHint="#BAB9B9"
                 android:textSize="14sp" />

@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -32,9 +33,10 @@ public class AddAdressActivity extends BaseNetWork4Activity {
     private ShopABarText bar;
     private RelativeLayout btn_contact;
     private Context context;
-    private String[] permissions=new String[]{
+    private String[] permissions = new String[]{
             Manifest.permission.READ_CONTACTS,
     };
+    private EditText name, phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +70,19 @@ public class AddAdressActivity extends BaseNetWork4Activity {
 
             }
         });
+
+        name = (EditText) findViewById(R.id.address_name);
+        phone = (EditText) findViewById(R.id.address_phone);
     }
 
     private void checkPermission() {
-        if(Build.VERSION.SDK_INT>=23){
-            if(ContextCompat.checkSelfPermission(this,permissions[0])!= PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this,permissions,1);
-            }else{
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, 1);
+            } else {
                 getContact();
             }
-        }else {
+        } else {
             getContact();
         }
     }
@@ -89,14 +94,15 @@ public class AddAdressActivity extends BaseNetWork4Activity {
         startActivityForResult(new Intent(Intent.ACTION_PICK,
                 ContactsContract.Contacts.CONTENT_URI), 0);
     }
+
     //申请权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (permissions[0].equals(Manifest.permission.READ_CONTACTS)
-                &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             //用户同意使用read
             getContact();
-        }else{
+        } else {
             //用户不同意，自行处理即可
             Toast.makeText(this, "无法使用此功能，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
         }
@@ -113,9 +119,26 @@ public class AddAdressActivity extends BaseNetWork4Activity {
             //处理返回的data,获取选择的联系人信息
             Uri uri = data.getData();
             String[] contacts = getPhoneContacts(uri);
-            Toast.makeText(context, contacts[0] + ":" + contacts[1], Toast.LENGTH_SHORT).show();
+
+            name.setText(contacts[0]);
+
+            String phoneNum = contacts[1];
+            phone.setText(getNumbers(phoneNum.trim()));
         }
 
+    }
+
+    //截取数字
+    public String getNumbers(String content) {
+        String str2 = "";
+        if (content != null && !"".equals(content)) {
+            for (int i = 0; i < content.length(); i++) {
+                if (content.charAt(i) >= 48 && content.charAt(i) <= 57) {
+                    str2 += content.charAt(i);
+                }
+            }
+        }
+        return str2;
     }
 
     private String[] getPhoneContacts(Uri uri) {

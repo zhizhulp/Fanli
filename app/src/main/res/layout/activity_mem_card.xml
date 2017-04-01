@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.MemCardActivity">
     <com.ascba.rebate.view.ShopABarText
+        android:id="@+id/shopBar"
         app:abar_title="学员证"
         android:layout_width="match_parent"
         android:layout_height="48dp"/>

@@ -286,7 +286,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          * bar
          */
         shopABar = (ShopABar) findViewById(R.id.shopbar);
-        shopABar.setImageOther(R.mipmap.pc_gouwuche);
+        shopABar.setImageOther(R.mipmap.icon_cart_black);
         shopABar.setCallback(new ShopABar.Callback() {
             @Override
             public void back(View v) {
