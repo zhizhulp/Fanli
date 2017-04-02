@@ -98,7 +98,7 @@ public class CityList extends BaseNetWorkActivity {
                         cityModel);
                 Intent intent =new Intent();
                 intent.putExtra("city",cityModel);
-                setResult(2,intent);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -111,7 +111,7 @@ public class CityList extends BaseNetWorkActivity {
                         cityModel);
                 Intent intent =new Intent();
                 intent.putExtra("city",cityModel);
-                setResult(2,intent);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -400,10 +400,6 @@ public class CityList extends BaseNetWorkActivity {
     }
     /**
      * 初始化并开始定位
-     *
-     * @since 2.8.0
-     * @author hongming.wang
-     *
      */
     private void initLocation(){
         //初始化client
@@ -423,9 +419,6 @@ public class CityList extends BaseNetWorkActivity {
 
     /**
      * 默认的定位参数
-     * @since 2.8.0
-     * @author hongming.wang
-     *
      */
     private AMapLocationClientOption getDefaultOption(){
         AMapLocationClientOption mOption = new AMapLocationClientOption();
@@ -467,9 +460,6 @@ public class CityList extends BaseNetWorkActivity {
 
     /**
      * 停止定位
-     * @since 2.8.0
-     * @author hongming.wang
-     *
      */
     private void stopLocation(){
         // 停止定位
@@ -477,10 +467,6 @@ public class CityList extends BaseNetWorkActivity {
     }
     /**
      * 销毁定位
-     *
-     * @since 2.8.0
-     * @author hongming.wang
-     *
      */
     private void destroyLocation(){
         if (null != locationClient) {

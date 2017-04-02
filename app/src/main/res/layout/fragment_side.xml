@@ -7,40 +7,86 @@
     android:background="@color/white"
     tools:context="com.ascba.rebate.fragments.SideFragment">
     <LinearLayout
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:background="@drawable/side_search_bg"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
+        android:id="@+id/side_locate_lat"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="#ff5c5d"
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="30dp"
+        android:orientation="horizontal">
         <ImageView
-            android:src="@mipmap/shop_search"
+            android:src="@mipmap/location_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textSize="12sp"
-            android:textColorHint="@color/textgray"
+        <TextView
+            android:id="@+id/side_tv_locate"
             android:layout_marginLeft="10dp"
-            app:hintSize="12sp"
-            android:background="@null"
-            android:hint="请输入您要搜索的商家名称"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:textColor="@color/white"
+            android:text="北京市"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/main_location_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
+    <RelativeLayout
+        android:background="#ff5c5d"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:id="@+id/et_search"
+            android:background="@drawable/side_search_bg"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/im_search"
+                android:src="@mipmap/shop_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.ascba.rebate.view.EditTextWithCustomHint
+                android:id="@+id/side_et_search"
+                android:layout_toRightOf="@id/im_search"
+                android:textSize="12sp"
+                android:textColorHint="@color/textgray"
+                android:layout_marginLeft="10dp"
+                app:hintSize="12sp"
+                android:background="@null"
+                android:hint="请输入您要搜索的商家名称"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_search"
+            android:textSize="13sp"
+            android:paddingRight="20dp"
+            android:gravity="right|center_vertical"
+            android:layout_toRightOf="@id/et_search"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:text="搜索"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
     <View
         android:background="@color/view_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
-    <com.warmtel.expandtab.ExpandPopTabView
+    <!--<com.warmtel.expandtab.ExpandPopTabView
         android:id="@+id/expandtab_view"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         app:tab_pop_bg_color="@android:color/transparent"
-        app:tab_toggle_btn_font_color="@color/white" />
+        app:tab_toggle_btn_font_color="@color/white" />-->
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"

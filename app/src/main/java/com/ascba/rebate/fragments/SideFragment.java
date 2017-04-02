@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,14 +14,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
+import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.adapter.BusAdapter;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -47,6 +57,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
+    private static final int REQUEST_LOCATE = 2;
     private ExpandPopTabView popTab;
     private List<KeyValueBean> typeAll;//全部
     private List<KeyValueBean> typeSide;//附近
@@ -58,6 +69,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private int total_page;//总页数
     private SuperSwipeRefreshLayout refreshLat;
     private CustomLoadMoreView loadMoreView;
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -70,17 +82,21 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                     if (adapter != null) {
                         adapter.loadMoreFail();
                     }
-
                     break;
             }
         }
     };
-    private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
+    private TextView tvLocate;
+    private String keywords;
+    private AMapLocationClient locationClient = null;
+    private double lon;
+    private double lat;
+    private String region_name;
+    private int finalScene;
 
     public SideFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,11 +114,11 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         refreshLat = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         refreshLat.setOnPullRefreshListener(this);
 
-        popTab = ((ExpandPopTabView) view.findViewById(R.id.expandtab_view));
+        /*popTab = ((ExpandPopTabView) view.findViewById(R.id.expandtab_view));
         initData();
         addItem(popTab, typeAll, "全部0", "全部0");
         addItem(popTab, typeSide, "附近0", "附近0");
-        addItem(popTab, typeAuto, "智能排序0", "智能排序0");
+        addItem(popTab, typeAuto, "智能排序0", "智能排序0");*/
 
         busRV = ((RecyclerView) view.findViewById(R.id.bus_list));
         busRV.addOnItemTouchListener(new OnItemClickListener() {
@@ -114,13 +130,66 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 startActivity(intent);
             }
         });
-        requestNetwork();
+        initLocation();//定位
+        goLocation(view);//进入城市列表
+        initSearch(view);//搜索
     }
 
-    private void requestNetwork() {
+    private void initSearch(View view) {
+        final EditTextWithCustomHint etSearch = ((EditTextWithCustomHint) view.findViewById(R.id.side_et_search));
+
+        view.findViewById(R.id.tv_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keywords = etSearch.getText().toString();
+                if (!StringUtils.isEmpty(keywords)) {
+                    requestNetwork(1);
+                } else {
+                    getDm().buildAlertDialog("请输入商家名称");
+                }
+
+            }
+        });
+    }
+
+    private void goLocation(View view) {
+        View locateLat = view.findViewById(R.id.side_locate_lat);
+        locateLat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CityList.class);
+                startActivityForResult(intent, REQUEST_LOCATE);
+            }
+        });
+        tvLocate = ((TextView) view.findViewById(R.id.side_tv_locate));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        switch (requestCode) {
+            case REQUEST_LOCATE:
+                tvLocate.setText(data.getStringExtra("city"));
+                break;
+        }
+    }
+
+    private void requestNetwork(int scene) {
+        finalScene=scene;
         Request<JSONObject> request = buildNetRequest(UrlUtils.getNearBy, 0, false);
         request.add("sign", UrlEncodeUtils.createSign(UrlUtils.getNearBy));
-        request.add("now_page", now_page);
+
+        if (scene == 0) {
+            request.add("now_page", now_page);
+            request.add("lon", lon);
+            request.add("lat", lat);
+            request.add("region_name", region_name);
+        } else {//搜索
+            request.add("seller_name", keywords);
+        }
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
@@ -174,9 +243,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
 
     private void initLoadMore() {
-        if (isRefresh) {
-            isRefresh = false;
-        }
+
         if (loadMoreView == null) {
             loadMoreView = new CustomLoadMoreView();
             adapter.setLoadMoreView(loadMoreView);
@@ -187,7 +254,8 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 if (now_page > total_page - 1 && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork();
+                    // TODO: 2017/4/1 0001 请求哪次的
+                    requestNetwork(1);
                 }
             }
         });
@@ -195,14 +263,13 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-        if (!isRefresh) {
-            isRefresh = true;
-        }
+
         now_page = 1;
         if (data.size() != 0) {
             data.clear();
         }
-        requestNetwork();
+        // TODO: 2017/4/1 0001 请求哪次的
+        requestNetwork(0);
     }
 
     @Override
@@ -223,16 +290,17 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     /**
      * 解析商家数据
-     *
-     * @param dataobj
      */
     private void getBussinData(JSONObject dataobj) {
-        JSONArray jsonArray = dataobj.optJSONArray("pushBusinessList");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Business business = new Business();
 
+        JSONArray jsonArray = dataobj.optJSONArray("pushBusinessList");
+        if (jsonArray != null && jsonArray.length() != 0) {
+            if(finalScene==1){
+                data.clear();
+            }
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                Business business = new Business();
                 //logo
                 business.setLogo(UrlUtils.baseWebsite + jsonObject.optString("seller_cover_logo"));
                 //店名
@@ -240,10 +308,9 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 business.setId(jsonObject.optInt("id"));
                 data.add(business);
 
-            } catch (JSONException e) {
-
             }
         }
+
     }
 
     @Override
@@ -273,13 +340,10 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         //分页
         getPageCount(dataObj);
 
-        if (isRefresh) {//下拉刷新
-            getBussinData(dataObj);
-            initadapter();
-            initLoadMore();
-        } else {//上拉加载
-            getBussinData(dataObj);
-        }
+        getBussinData(dataObj);
+        initadapter();
+        initLoadMore();
+
     }
 
     private void initadapter() {
@@ -305,7 +369,6 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     }
 
 
-
     @Override
     public void handleReLogin() {
         refreshLat.setRefreshing(false);
@@ -319,4 +382,63 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 
+    /**
+     * 初始化并开始定位
+     */
+    private void initLocation() {
+        //初始化client
+        locationClient = new AMapLocationClient(getActivity());
+        //设置定位参数
+        locationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        locationClient.setLocationListener(locationListener);
+        locationClient.startLocation();
+
+    }
+
+    /**
+     * 默认的定位参数
+     */
+    private AMapLocationClientOption getDefaultOption() {
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
+        mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        return mOption;
+    }
+
+    /**
+     * 定位监听
+     */
+    AMapLocationListener locationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation loc) {
+            if (null != loc) {
+                stopLocation();
+                tvLocate.setText(loc.getCity());
+                region_name=loc.getCity();
+                lat=loc.getLatitude();
+                lon=loc.getLongitude();
+                requestNetwork(0);
+            } else {
+                Toast.makeText(getActivity(), "定位失败", Toast.LENGTH_SHORT).show();
+                stopLocation();
+                requestNetwork(0);
+            }
+        }
+    };
+
+    /**
+     * 停止定位
+     */
+    private void stopLocation() {
+        locationClient.stopLocation();
+    }
 }
