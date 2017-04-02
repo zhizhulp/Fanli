@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.VideoBean;
@@ -64,9 +66,10 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     private int mDistanceY = 0;
     private TextView floatButton;
 
-    private FrameLayout btnAdd;
+    private FrameLayout btnAdd, btnMessage;
     private ImageView imgAdd;
     private List<HomePageMultiItemItem> items = new ArrayList<>();
+    private PopupWindow popupWindow;
 
 
     @Override
@@ -149,6 +152,15 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         });
         imgAdd = (ImageView) view.findViewById(R.id.homepage_img_add);
 
+        //消息
+        btnMessage = (FrameLayout) view.findViewById(R.id.homepage_message);
+        btnMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShopMessageActivity.startIntent(context);
+            }
+        });
+
 
         /**
          * 初始化recylerview
@@ -217,54 +229,51 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
      * 弹窗
      */
     private void showPopWindow() {
-        View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
+        if (popupWindow == null) {
+            View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
 
-        //消息
-        LinearLayout btnMsg = (LinearLayout) view.findViewById(R.id.pop_hm_msg);
-        btnMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("消息");
-            }
-        });
+            //付款
+            LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
+            btnPay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("付款");
+                    popupWindow.dismiss();
+                }
+            });
 
-        //付款
-        LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
-        btnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("付款");
-            }
-        });
+            //收款
+            LinearLayout btnRece = (LinearLayout) view.findViewById(R.id.pop_hm_rece);
+            btnRece.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("收款");
+                    popupWindow.dismiss();
+                }
+            });
 
-        //收款
-        LinearLayout btnRece = (LinearLayout) view.findViewById(R.id.pop_hm_rece);
-        btnRece.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("收款");
-            }
-        });
+            //推广码
+            LinearLayout btnCode = (LinearLayout) view.findViewById(R.id.pop_hm_code);
+            btnCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("推广码");
+                    popupWindow.dismiss();
+                }
+            });
 
-        //推广码
-        LinearLayout btnCode = (LinearLayout) view.findViewById(R.id.pop_hm_code);
-        btnCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("推广码");
-            }
-        });
-
-        PopupWindow window = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        // 设置可以获取焦点
-        window.setFocusable(true);
-        // 设置可以触摸弹出框以外的区域
-        window.setOutsideTouchable(true);
-        window.setBackgroundDrawable(new BitmapDrawable());
-        // 更新popupwindow的状态
-        window.update();
+            popupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            // 设置可以获取焦点
+            popupWindow.setFocusable(true);
+            // 设置可以触摸弹出框以外的区域
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            // 更新popupwindow的状态
+            popupWindow.update();
+        }
         // 以下拉的方式显示，并且可以设置显示的位置
-        window.showAtLocation(imgAdd, Gravity.TOP | Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
+        popupWindow.showAtLocation(imgAdd, Gravity.TOP | Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
+
     }
 
     @Override
@@ -276,7 +285,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
         initPagerTurn(dataObj);//广告轮播
 
-         //花钱赚钱
+        //花钱赚钱
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE2, R.layout.home_page_makemoney));
         //ASK商学院  创业扶持
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
@@ -299,7 +308,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
 
         /*String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";
-        String video2 = "http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal";
+        String video2  = "http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal";
         VideoBean videoBean2 = new VideoBean(img2, video2);
         videoBeen.add(videoBean2);
 
@@ -338,7 +347,8 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);
-                String img = obj.optString("thumb") + UrlUtils.baseWebsite;
+                String img = UrlUtils.baseWebsite + obj.optString("thumb");
+                Log.d("HomePageFragment", img);
                 String video_url = obj.optString("video_url");
                 String title = obj.optString("title");
                 VideoBean videoBean = new VideoBean(img, video_url, title);

@@ -616,6 +616,11 @@
             android:name=".activities.MessageLatestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+
+        <activity
+            android:name=".activities.CommissionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 

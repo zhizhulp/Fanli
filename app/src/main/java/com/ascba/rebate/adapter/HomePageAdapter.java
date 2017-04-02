@@ -45,7 +45,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 ShufflingViewPager viewPager = helper.getView(R.id.homepage_pager);
                 ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(context, item.getList());
                 viewPager.setAdapter(adapter);
-                if(item.getList().size()!=1){
+                if (item.getList().size() != 1) {
                     viewPager.start();
                 }
                 break;
@@ -168,7 +168,9 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
 
         ShufflingVideoAdapter adapter = new ShufflingVideoAdapter(context, item.getVideoList());
         videoPager.setAdapter(adapter);
-        videoPager.start();
+        if (item.getVideoList().size() > 1) {
+            videoPager.start();
+        }
         adapter.addOnClick(new ShufflingVideoAdapter.OnClick() {
             @Override
             public void OnClick(int position) {
