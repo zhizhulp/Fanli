@@ -14,10 +14,14 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.BusinessShopAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.squareup.picasso.Picasso;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,9 @@ import java.util.List;
  * 商家店铺
  */
 
-public class BusinessShopActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class BusinessShopActivity extends BaseNetWork4Activity implements
+        SuperSwipeRefreshLayout.OnPullRefreshListener
+        ,BaseNetWork4Activity.Callback{
 
     private SuperSwipeRefreshLayout refreshLat;
     private Handler handler = new Handler();
@@ -42,6 +48,13 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements SuperS
         setContentView(R.layout.activity_business_shop);
         context = this;
         initView();
+        requestData(UrlUtils.getStore);
+    }
+
+    private void requestData(String url) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
 
     private void initView() {
@@ -117,6 +130,21 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements SuperS
 
     @Override
     public void onPullEnable(boolean enable) {
+
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
 
     }
 }
