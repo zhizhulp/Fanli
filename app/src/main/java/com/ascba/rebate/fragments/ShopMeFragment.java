@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
@@ -80,6 +81,9 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                         Intent order = new Intent(getActivity(), MyOrderActivity.class);
                         startActivity(order);
                         break;
+                    case 9:
+                        Intent intent1 = new Intent(getContext(), BeginnerGuideActivity.class);
+                        startActivity(intent1);
                     case 17:
                         //收货地址管理
                         Intent intent = new Intent(getActivity(), ReceiveAddressActivity.class);

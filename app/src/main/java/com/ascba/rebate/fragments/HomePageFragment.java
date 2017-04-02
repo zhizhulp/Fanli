@@ -28,6 +28,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.VideoBean;
@@ -197,7 +198,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.homepage_btn_speedmon:
-                        Toast.makeText(context, "花钱", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), ShopActivity.class));
                         break;
                     case R.id.homepage_btn_makemon:
                         Toast.makeText(context, "赚钱", Toast.LENGTH_SHORT).show();

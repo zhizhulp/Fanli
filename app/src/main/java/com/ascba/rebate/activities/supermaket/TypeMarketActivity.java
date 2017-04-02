@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
+import com.ascba.rebate.activities.GoodsListActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
@@ -21,6 +23,7 @@ import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -39,10 +42,7 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data=new ArrayList<>();
     private List<String> urls=new ArrayList<>();//viewPager数据源
-
     private ShopABar sab;
-    private List<String> navUrls=new ArrayList<>();//导航栏图片链接
-    private List<String> navStr=new ArrayList<>();//导航栏文字
     private int categoryId = 1327;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int LOAD_MORE_END = 0;
@@ -88,6 +88,22 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
         rv = ((RecyclerView) findViewById(R.id.list_market));
         refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
+
+        rv.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                ShopBaseItem shopBaseItem = data.get(position);
+                if (data.size() != 0) {
+                    if (shopBaseItem.getItemType() == ShopItemType.TYPE_GOODS) {
+                        GoodsDetailsActivity.startIntent(TypeMarketActivity.this, shopBaseItem.getColor());
+                    } else if (shopBaseItem.getItemType() == ShopItemType.TYPE_NAVIGATION) {
+                        Intent intent = new Intent(TypeMarketActivity.this, GoodsListActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
        // initData();
        // adapter = new ShopTypeRVAdapter(data, this);
 //        final GridLayoutManager manager = new GridLayoutManager(this, TypeWeight.TYPE_SPAN_SIZE_MAX);
@@ -273,8 +289,8 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
         //商品导航
         JSONArray goodsAy = dataObj.optJSONArray("mallCategory");
         if (goodsAy != null && goodsAy.length() != 0) {
-            for (int i = 0; i < goodsAy.length(); i++) {
-                JSONObject gObj = goodsAy.optJSONObject(i);
+            for (int i = 0; i < 3; i++) {
+                JSONObject gObj = goodsAy.optJSONObject(0);
                 String id = gObj.optString("id");
                 String cover = gObj.optString("cover");
                 String subtitle = gObj.optString("sub_title");
