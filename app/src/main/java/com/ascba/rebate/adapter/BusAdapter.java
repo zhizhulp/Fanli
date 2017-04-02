@@ -26,8 +26,8 @@ public class BusAdapter extends BaseQuickAdapter<Business,BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Business item) {
         Picasso.with(context).load(item.getLogo()).error(R.mipmap.busi_loading).placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.iv_main_business_logo));
         helper.setText(R.id.tv_main_business_name,item.getbName());
-       // helper.setText(R.id.tv_main_business_category,item.getbCategory());
-        helper.setText(R.id.tv_main_business_goodjob,item.getGoodComm());
+        helper.setText(R.id.tv_main_business_category,item.getbCategory());
+        //helper.setText(R.id.tv_main_business_goodjob,item.getGoodComm());
         helper.setText(R.id.tv_main_business_distance,item.getDistance());
     }
 }

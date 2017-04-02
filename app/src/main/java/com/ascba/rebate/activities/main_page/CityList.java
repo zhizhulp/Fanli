@@ -57,7 +57,7 @@ public class CityList extends BaseNetWorkActivity {
 
     View hotcityall;
 
-    String[] hotcity = new String[]{"北京市", "上海市", "广州市", "深圳市", "杭州市", "南京市", "天津市", "武汉市", "重庆市"};
+    String[] hotcity = new String[]{"北京市", "山西省", "河北省", "广东省", "深圳市", "南京市", "上海市", "武汉市", "重庆市"};
     WindowManager windowManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {

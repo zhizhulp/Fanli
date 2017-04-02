@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="17dp"
-            android:text="付款"
+            android:text="扫一扫"
             android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>

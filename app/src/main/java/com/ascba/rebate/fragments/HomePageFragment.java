@@ -27,10 +27,12 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -237,7 +239,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showToast("付款");
+                    startActivity(new Intent(getActivity(), CaptureActivity.class));
                     popupWindow.dismiss();
                 }
             });
@@ -257,7 +259,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             btnCode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showToast("推广码");
+                    startActivity(new Intent(getActivity(), RecQRActivity.class));
                     popupWindow.dismiss();
                 }
             });

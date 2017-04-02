@@ -2,22 +2,17 @@ package com.ascba.rebate.activities.main;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -41,7 +36,7 @@ import cn.jpush.android.api.TagAliasCallback;
 /**
  * 主界面
  */
-public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callback {
+public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callback {
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
     private static final int REQUEST_LOGIN_CAIFU = 2016;
@@ -67,7 +62,6 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
     };
     private String[] permissions = new String[]{
             Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CALL_PHONE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_CONTACTS
@@ -91,50 +85,15 @@ public class MainActivity extends BaseNetWorkActivity implements AppTabs.Callbac
         this.dm = dm;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findViews();
-        checkAllPermission();
+        checkAndRequestAllPermission(permissions);
     }
-
-    private void checkAllPermission() {
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            boolean isAll = true;
-            for (String permission : permissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                    isAll = false;
-                    break;
-                }
-            }
-            if (!isAll) {
-                ActivityCompat.requestPermissions(this, permissions, 1);
-            }
-
-        }
-
-    }
-
-    //申请权限的回调
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] per,
-                                           @NonNull int[] grantResults) {
-        boolean isAll = true;
-        for (int i = 0; i < permissions.length; i++) {
-            if (per[i].equals(permissions[i]) && grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                isAll = false;
-                break;
-            }
-        }
-        if (!isAll) {
-            Toast.makeText(this, "部分功能可能无法使用，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
     private void findViews() {
         dm = new DialogManager2(this);
         initFragments();

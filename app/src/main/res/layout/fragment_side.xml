@@ -8,7 +8,6 @@
     tools:context="com.ascba.rebate.fragments.SideFragment">
     <LinearLayout
         android:id="@+id/side_locate_lat"
-        android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:background="#ff5c5d"
@@ -16,17 +15,19 @@
         android:layout_height="30dp"
         android:orientation="horizontal">
         <ImageView
-            android:src="@mipmap/location_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_gravity="bottom"
+            android:src="@mipmap/ic_locate"
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
         <TextView
+            android:layout_gravity="bottom"
             android:id="@+id/side_tv_locate"
             android:layout_marginLeft="10dp"
             android:textColor="@color/white"
-            android:text="北京市"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
+            android:layout_marginTop="18dp"
             android:layout_marginLeft="5dp"
             android:src="@mipmap/main_location_more"
             android:layout_width="wrap_content"

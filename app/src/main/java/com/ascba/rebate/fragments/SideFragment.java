@@ -1,19 +1,25 @@
 package com.ascba.rebate.fragments;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +28,14 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.adapter.BusAdapter;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -45,6 +54,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +63,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 /**
  * 周边
  */
-public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, SuperSwipeRefreshLayout.OnPushLoadMoreListener, Base2Fragment.Callback {
+public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, Base2Fragment.Callback {
 
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
@@ -87,12 +97,13 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         }
     };
     private TextView tvLocate;
-    private String keywords;
     private AMapLocationClient locationClient = null;
     private double lon;
     private double lat;
-    private String region_name;
+    private String region_name;//地区
     private int finalScene;
+    private EditTextWithCustomHint etSearch;
+    private String keywords;
 
     public SideFragment() {
 
@@ -136,13 +147,36 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     }
 
     private void initSearch(View view) {
-        final EditTextWithCustomHint etSearch = ((EditTextWithCustomHint) view.findViewById(R.id.side_et_search));
+        etSearch = ((EditTextWithCustomHint) view.findViewById(R.id.side_et_search));
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(StringUtils.isEmpty(s.toString())){
+                    finalScene=0;
+                    clearData();
+                    resetPage();
+                    requestNetwork(0);
+                }
+            }
+        });
         view.findViewById(R.id.tv_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 keywords = etSearch.getText().toString();
-                if (!StringUtils.isEmpty(keywords)) {
+                if (!StringUtils.isEmpty(etSearch.getText().toString())) {
+                    finalScene = 1;
+                    clearData();
+                    resetPage();
                     requestNetwork(1);
                 } else {
                     getDm().buildAlertDialog("请输入商家名称");
@@ -172,16 +206,23 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         }
         switch (requestCode) {
             case REQUEST_LOCATE:
-                tvLocate.setText(data.getStringExtra("city"));
+                String city = data.getStringExtra("city");
+                if (!StringUtils.isEmpty(city)) {
+                    finalScene=0;
+                    clearData();
+                    resetPage();
+                    region_name = city;
+                    requestNetwork(0);
+                }
+                tvLocate.setText(city);
                 break;
         }
     }
 
     private void requestNetwork(int scene) {
-        finalScene=scene;
+
         Request<JSONObject> request = buildNetRequest(UrlUtils.getNearBy, 0, false);
         request.add("sign", UrlEncodeUtils.createSign(UrlUtils.getNearBy));
-
         if (scene == 0) {
             request.add("now_page", now_page);
             request.add("lon", lon);
@@ -254,8 +295,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 if (now_page > total_page - 1 && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    // TODO: 2017/4/1 0001 请求哪次的
-                    requestNetwork(1);
+                    requestNetwork(finalScene);
                 }
             }
         });
@@ -263,13 +303,14 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-
-        now_page = 1;
-        if (data.size() != 0) {
-            data.clear();
+        if (!NetUtils.isNetworkAvailable(getActivity())) {
+            getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
         }
-        // TODO: 2017/4/1 0001 请求哪次的
-        requestNetwork(0);
+        resetPage();
+        clearData();
+
+        requestNetwork(finalScene);
+
     }
 
     @Override
@@ -292,12 +333,9 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
      * 解析商家数据
      */
     private void getBussinData(JSONObject dataobj) {
-
         JSONArray jsonArray = dataobj.optJSONArray("pushBusinessList");
         if (jsonArray != null && jsonArray.length() != 0) {
-            if(finalScene==1){
-                data.clear();
-            }
+
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
                 Business business = new Business();
@@ -306,25 +344,29 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 //店名
                 business.setbName(jsonObject.optString("seller_name"));
                 business.setId(jsonObject.optInt("id"));
+                int distance = jsonObject.optInt("earth_radius");
+                if (distance >= 1000) {
+                    double a = distance / 1000.0;
+                    DecimalFormat f = new DecimalFormat("##0.0");
+                    String dd = f.format(a);
+                    business.setDistance((dd + "km"));
+                } else {
+                    business.setDistance((distance + "m"));
+                }
+                business.setbCategory(jsonObject.optString("seller_taglib"));
                 data.add(business);
-
             }
+        } else {
+            FrameLayout ft = new FrameLayout(getActivity());
+            TextView textView = new TextView(getActivity());
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                    , ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER;
+            textView.setLayoutParams(lp);
+            textView.setText("暂无商家数据");
+            ft.addView(textView);
+            adapter.setEmptyView(ft);
         }
-
-    }
-
-    @Override
-    public void onLoadMore() {
-
-    }
-
-    @Override
-    public void onPushDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPushEnable(boolean enable) {
 
     }
 
@@ -386,14 +428,25 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
      * 初始化并开始定位
      */
     private void initLocation() {
-        //初始化client
-        locationClient = new AMapLocationClient(getActivity());
-        //设置定位参数
-        locationClient.setLocationOption(getDefaultOption());
-        // 设置定位监听
-        locationClient.setLocationListener(locationListener);
-        locationClient.startLocation();
-
+        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+        checkAndRequestAllPermission(permissions);
+        setpCallback(new PermissionCallback() {
+            @Override
+            public void requestPermissionAndBack(boolean isOk) {
+                finalScene=0;
+                if (isOk) {
+                    //初始化client
+                    locationClient = new AMapLocationClient(getActivity());
+                    //设置定位参数
+                    locationClient.setLocationOption(getDefaultOption());
+                    // 设置定位监听
+                    locationClient.setLocationListener(locationListener);
+                    locationClient.startLocation();
+                } else {
+                    requestNetwork(0);
+                }
+            }
+        });
     }
 
     /**
@@ -423,14 +476,17 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             if (null != loc) {
                 stopLocation();
                 tvLocate.setText(loc.getCity());
-                region_name=loc.getCity();
-                lat=loc.getLatitude();
-                lon=loc.getLongitude();
+                region_name = loc.getCity();
+                lat = loc.getLatitude();
+                lon = loc.getLongitude();
+                clearData();
+                finalScene = 0;
                 requestNetwork(0);
             } else {
                 Toast.makeText(getActivity(), "定位失败", Toast.LENGTH_SHORT).show();
                 stopLocation();
-                requestNetwork(0);
+                // TODO: 2017/4/2 0002
+                /*requestNetwork(0);*/
             }
         }
     };
@@ -440,5 +496,17 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
      */
     private void stopLocation() {
         locationClient.stopLocation();
+    }
+
+    private void clearData() {
+        if (data.size() != 0) {
+            data.clear();
+        }
+    }
+
+    private void resetPage() {
+        if (now_page != 1) {
+            now_page = 1;
+        }
     }
 }

@@ -75,7 +75,7 @@ public class RecBusinessAdapter extends BaseAdapter {
             mLogo= ((ImageView) root.findViewById(R.id.iv_main_business_logo));
             bName= ((TextView) root.findViewById(R.id.tv_main_business_name));
             bCategory= ((TextView) root.findViewById(R.id.tv_main_business_category));
-            goodComm= ((TextView) root.findViewById(R.id.tv_main_business_goodjob));
+            //goodComm= ((TextView) root.findViewById(R.id.tv_main_business_goodjob));
             distance= ((TextView) root.findViewById(R.id.tv_main_business_distance));
 
         }

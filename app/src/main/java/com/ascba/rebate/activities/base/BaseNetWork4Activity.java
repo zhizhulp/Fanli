@@ -1,14 +1,19 @@
 package com.ascba.rebate.activities.base;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -18,16 +23,24 @@ import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * 网络界面的基类
  */
-public class BaseNetWork4Activity extends AppCompatActivity {
+public class BaseNetWork4Activity extends AppCompatActivity  {
     public static final int REQUEST_LOGIN = 2017;
     private DialogManager2 dm;
     private Callback callback;
+    private PermissionCallback pCallback;
+
+    public PermissionCallback getpCallback() {
+        return pCallback;
+    }
+
+    public void setpCallback(PermissionCallback pCallback) {
+        this.pCallback = pCallback;
+    }
 
     public DialogManager2 getDm() {
         return dm;
@@ -43,6 +56,11 @@ public class BaseNetWork4Activity extends AppCompatActivity {
         void handle404(String message);
 
         void handleNoNetWork();
+
+
+    }
+    public interface PermissionCallback{
+        void requestPermissionAndBack(boolean isOk);
     }
 
     public Callback getCallback() {
@@ -61,6 +79,44 @@ public class BaseNetWork4Activity extends AppCompatActivity {
             dm = new DialogManager2(this);
         }
     }
+    public void checkAndRequestAllPermission(String [] permissions) {
+        if(permissions==null){
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= 23) {
+            boolean isAll = true;
+            for (String permission : permissions) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    isAll = false;
+                    break;
+                }
+            }
+            if (!isAll) {
+                ActivityCompat.requestPermissions(this, permissions, 1);
+            }
+
+        }
+
+    }
+    //申请权限的回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] per,
+                                           @NonNull int[] grantResults) {
+        boolean isAll = true;
+        for (int i = 0; i < per.length; i++) {
+            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                isAll = false;
+                break;
+            }
+        }
+        if (!isAll) {
+            Toast.makeText(this, getResources().getString(R.string.no_permission), Toast.LENGTH_SHORT).show();
+        }
+        if(pCallback!=null){
+            pCallback.requestPermissionAndBack(isAll);//isAll 用户是否拒绝
+        }
+        super.onRequestPermissionsResult(requestCode, per, grantResults);
+    }
 
     @Override
     protected void onDestroy() {
@@ -74,7 +130,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
 
         boolean netAva = NetUtils.isNetworkAvailable(this);
         if (!netAva) {
-            dm.buildAlertDialog("请打开网络！");
+            dm.buildAlertDialog(getResources().getString(R.string.no_network));
             if (callback != null) {
                 callback.handleNoNetWork();
             }
