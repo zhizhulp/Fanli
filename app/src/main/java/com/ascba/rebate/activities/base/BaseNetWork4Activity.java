@@ -33,6 +33,8 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
     private DialogManager2 dm;
     private Callback callback;
     private PermissionCallback pCallback;
+    public static final int LOAD_MORE_END = 2017*2;
+    public static final int LOAD_MORE_ERROR = 2017*2+1;
 
     public PermissionCallback getpCallback() {
         return pCallback;

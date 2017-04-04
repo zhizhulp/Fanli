@@ -129,10 +129,6 @@ public class ShopMainFragment extends Base2Fragment implements
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-               if (position == 9) {//商品筛选列表
-                    Intent intent = new Intent(getContext(), GoodsListActivity.class);
-                    startActivity(intent);
-                }
                 ShopBaseItem shopBaseItem = data.get(position);
                 if (data.size() != 0) {
                     if (shopBaseItem.getItemType() == ShopItemType.TYPE_GOODS) {

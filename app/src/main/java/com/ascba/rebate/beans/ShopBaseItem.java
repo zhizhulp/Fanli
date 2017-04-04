@@ -19,7 +19,7 @@ public class ShopBaseItem implements MultiItemEntity {
 
     private String url;//网络图片
     private String title;//标题
-    private int color;//背景色
+    private int color;//背景色 或 id
 
     private String saled;//商品已出售
     //限量抢购
@@ -156,12 +156,14 @@ public class ShopBaseItem implements MultiItemEntity {
      * @param title 标题
      * @param desc  描述
      * @param saled 描述
+     * @param color 商品id
      */
-    public ShopBaseItem(String url, String title, String desc, String saled) {
+    public ShopBaseItem(String url, String title, String desc, String saled, int color) {
         this.url = url;
         this.title = title;
         this.desc = desc;
         this.saled = saled;
+        this.color=color;
     }
 
     @Override

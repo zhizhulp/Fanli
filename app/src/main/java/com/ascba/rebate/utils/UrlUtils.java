@@ -102,4 +102,7 @@ public class UrlUtils {
 
     //商城分类
     public static final String category=urlPrefix+"category";
+    //收款
+    public static final String receivables = urlPrefix + "receivables";
+    public static final String getStore = urlPrefix + "getStore";
 }

@@ -1,5 +1,6 @@
 package com.ascba.rebate.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,9 +28,12 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -55,6 +59,7 @@ import java.util.List;
 
 public class HomePageFragment extends Base2Fragment implements View.OnClickListener, Base2Fragment.Callback {
 
+    private static final int REQUEST_LOGIN = 0;
     private Context context;
 
     private RecyclerView recylerview;
@@ -73,6 +78,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     private ImageView imgAdd;
     private List<HomePageMultiItemItem> items = new ArrayList<>();
     private PopupWindow popupWindow;
+    private int finalScene;
 
 
     @Override
@@ -85,12 +91,18 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
-        requestData(UrlUtils.index);
+        requestData(UrlUtils.index,0);
     }
 
-    private void requestData(String url) {
-        Request<JSONObject> request = buildNetRequest(url, 0, false);
-        request.add("sign", UrlEncodeUtils.createSign(url));
+    private void requestData(String url,int scene) {
+        finalScene=scene;
+        Request<JSONObject> request=null;
+        if(scene==0){
+            request = buildNetRequest(url, 0, false);
+            request.add("sign", UrlEncodeUtils.createSign(url));
+        }else if(scene==1){
+            request = buildNetRequest(url, 0, true);
+        }
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
@@ -120,7 +132,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
-                requestData(UrlUtils.index);
+                requestData(UrlUtils.index,0);
             }
 
             @Override
@@ -250,8 +262,14 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             btnRece.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showToast("收款");
                     popupWindow.dismiss();
+                    if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
+                        requestData(UrlUtils.receivables,1);
+                    } else {
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivityForResult(intent, REQUEST_LOGIN);
+                    }
+
                 }
             });
 
@@ -281,33 +299,33 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        if(finalScene==0){
+            clearData();
+            stopRefresh();
 
-        clearData();
-        stopRefresh();
 
+            initPagerTurn(dataObj);//广告轮播
 
-        initPagerTurn(dataObj);//广告轮播
-
-        //花钱赚钱
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE2, R.layout.home_page_makemoney));
-        //ASK商学院  创业扶持
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
-        //分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
-        //券购商城
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_title, "券购商城"));
-        //分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
-        //全球券购 天天特价 品牌精选
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
-        //宽分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
-        //ASK资讯
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "ASK资讯"));
-        //分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
-        //视频
-        initVideoTurn(dataObj);
+            //花钱赚钱
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE2, R.layout.home_page_makemoney));
+            //ASK商学院  创业扶持
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
+            //分割线
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            //券购商城
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_title, "券购商城"));
+            //分割线
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            //全球券购 天天特价 品牌精选
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
+            //宽分割线
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
+            //ASK资讯
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "ASK资讯"));
+            //分割线
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            //视频
+            initVideoTurn(dataObj);
 
 
         /*String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";
@@ -341,7 +359,17 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12, new NewsBean(true, "钱来钱往牵手沃尔玛", "2017-03-07"), R.layout.home_page_news2));
         }*/
 
-        initAdapterAndRefresh();
+            initAdapterAndRefresh();
+        }else if(finalScene==1) {
+            JSONObject obj = dataObj.optJSONObject("receivables");
+            String url = obj.optString("url");
+            Intent intent=new Intent(getActivity(), WebViewBaseActivity.class);
+            intent.putExtra("name","收款");
+            intent.putExtra("url",url);
+            startActivity(intent);
+        }
+
+
     }
 
     private void initVideoTurn(JSONObject dataObj) {
@@ -351,7 +379,6 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);
                 String img = UrlUtils.baseWebsite + obj.optString("thumb");
-                Log.d("HomePageFragment", img);
                 String video_url = obj.optString("video_url");
                 String title = obj.optString("title");
                 VideoBean videoBean = new VideoBean(img, video_url, title);
@@ -419,5 +446,17 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     public void handleNoNetWork() {
         stopRefresh();
         getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_LOGIN:
+                if(resultCode== Activity.RESULT_OK){
+                    requestData(UrlUtils.receivables,1);
+                }
+                break;
+        }
     }
 }

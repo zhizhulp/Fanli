@@ -31,7 +31,7 @@ public class WebViewBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view_base);
         ((MyApplication) getApplication()).addActivity(this);
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
+        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
         getMsgFromBefore();
     }
@@ -90,9 +90,6 @@ public class WebViewBaseActivity extends AppCompatActivity {
     }
     /**
      * 拦截实体键(MENU  BACK  POWER  VOLUME  HOME)的点击事件
-     * @param keyCode  实体按键的编码
-     * @param event
-     * @return
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

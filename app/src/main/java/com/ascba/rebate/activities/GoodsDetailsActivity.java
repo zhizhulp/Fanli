@@ -4,20 +4,28 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -28,7 +36,9 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.handlers.DialogManager;
@@ -112,6 +122,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      */
     private ImageAdapter imageAdapter;
     private ViewPager viewPager;
+    private int store_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +145,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         btnCart.setOnClickListener(this);
         btnBuy = (TextView) findViewById(R.id.btn_buy);
         btnBuy.setOnClickListener(this);
+
+        findViewById(R.id.det_tv_shop).setOnClickListener(this);
+        findViewById(R.id.det_tv_phone).setOnClickListener(this);
     }
 
     /**
@@ -514,6 +528,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BusinessShopActivity.class);
+                intent.putExtra("store_id",store_id);
                 startActivity(intent);
             }
         });
@@ -594,14 +609,24 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 /**
                  * 立即购买
                  */
+                showDialog();
+                break;
+            case R.id.det_tv_shop://进入店铺
+                Intent intent=new Intent(this,BusinessShopActivity.class);
+                intent.putExtra("store_id",store_id);
+                startActivity(intent);
+                break;
+            case R.id.det_tv_phone://打电话
+                Intent intent1=new Intent();
+                intent1.setAction(Intent.ACTION_DIAL);
+                intent1.setData(Uri.parse("tel:15206292150"));
+                startActivity(intent1);
                 break;
         }
     }
 
     /**
      * 解析广告轮播数据
-     *
-     * @param dataObj
      */
     private void getPagerList(JSONObject dataObj) {
         List<GoodsImgBean> imgBeanList = new ArrayList<>();
@@ -624,8 +649,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
     /**
      * 解析商品详情
-     *
-     * @param goodsObject
      */
     private void getGoodsDetails(JSONObject goodsObject) {
         //商品id
@@ -636,6 +659,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         goods.setGoodsNumber(goodsObject.optString("goods_number"));
         //店铺id
         goods.setStoreId(goodsObject.optInt("store_id"));
+        store_id = goodsObject.optInt("store_id");
         //商品缩略图
         goods.setImgUrl(UrlUtils.baseWebsite + "/" + goodsObject.optString("img"));
         //品牌id
@@ -835,4 +859,109 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         }
     }
     //=======================商品详情轮播结束====================
+    /**
+     * 规格选择
+     */
+    private void showDialog() {
+        final Dialog dialog = new Dialog(this, R.style.AlertDialog);
+        dialog.setContentView(R.layout.layout_by_shop);
+        //关闭对话框
+        dialog.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //规格列表
+        RecyclerView rvRule = (RecyclerView) dialog.findViewById(R.id.goods_profile_list);
+        List<GoodsAttr> gas = new ArrayList<>();
+        initAttrsData(gas);
+        ProfileAdapter adapter = new ProfileAdapter(R.layout.goods_attrs_layout, gas);
+        rvRule.setLayoutManager(new LinearLayoutManager(this));
+        //添加尾部试图
+        View view1 = getLayoutInflater().inflate(R.layout.num_btn_layout, null);
+        adapter.addFooterView(view1, 0);
+        rvRule.setAdapter(adapter);
+
+        //显示对话框
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setWindowAnimations(R.style.goods_profile_anim);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            Display d = window.getWindowManager().getDefaultDisplay();
+            wlp.width = d.getWidth();
+            wlp.gravity = Gravity.BOTTOM;
+            window.setAttributes(wlp);
+        }
+    }
+    private void initAttrsData(List<GoodsAttr> gas) {
+        for (int i = 0; i < 5; i++) {
+            if (i == 0) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    if (j == 2) {
+                        strs.add(ga.new Attrs("红色/白色", 2));
+                    } else {
+                        strs.add(ga.new Attrs("红色/白色", 0));
+                    }
+                }
+                ga.setTitle("颜色分类");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if (i == 1) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
+                for (int j = 0; j < 15; j++) {
+                    if (j == 10) {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                    } else {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
+                    }
+
+                }
+                ga.setTitle("鞋码");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if (i == 2) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    strs.add(ga.new Attrs("方形" + i, 0));
+                }
+                ga.setTitle("其他分类");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if (i == 3) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
+                for (int j = 0; j < 15; j++) {
+                    if (j == 10) {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                    } else {
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
+                    }
+
+                }
+                ga.setTitle("鞋码");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+            if (i == 4) {
+                List<GoodsAttr.Attrs> strs = new ArrayList<>();
+                GoodsAttr ga = new GoodsAttr();
+                for (int j = 0; j < 3; j++) {
+                    strs.add(ga.new Attrs("方形" + i, 0));
+                }
+                ga.setTitle("其他分类");
+                ga.setStrs(strs);
+                gas.add(ga);
+            }
+        }
+    }
 }

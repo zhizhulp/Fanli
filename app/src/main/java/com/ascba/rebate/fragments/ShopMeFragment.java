@@ -84,6 +84,7 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                     case 9:
                         Intent intent1 = new Intent(getContext(), BeginnerGuideActivity.class);
                         startActivity(intent1);
+                        break;
                     case 17:
                         //收货地址管理
                         Intent intent = new Intent(getActivity(), ReceiveAddressActivity.class);

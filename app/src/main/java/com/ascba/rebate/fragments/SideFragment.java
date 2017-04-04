@@ -303,9 +303,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-        if (!NetUtils.isNetworkAvailable(getActivity())) {
-            getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
-        }
+
         resetPage();
         clearData();
 
@@ -381,7 +379,6 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         }
         //分页
         getPageCount(dataObj);
-
         getBussinData(dataObj);
         initadapter();
         initLoadMore();
