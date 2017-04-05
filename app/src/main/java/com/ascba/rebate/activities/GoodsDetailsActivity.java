@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,11 +37,13 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.adapter.IntegralValueAdapter;
 import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.ascba.rebate.beans.GoodsImgBean;
+import com.ascba.rebate.beans.IntegralValueItem;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -369,8 +372,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         appreciationRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, IntegralValueActivity.class);
-                startActivity(intent);
+                showIntegralValue();
             }
         });
 
@@ -528,7 +530,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BusinessShopActivity.class);
-                intent.putExtra("store_id",store_id);
+                intent.putExtra("store_id", store_id);
                 startActivity(intent);
             }
         });
@@ -612,12 +614,12 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 showDialog();
                 break;
             case R.id.det_tv_shop://进入店铺
-                Intent intent=new Intent(this,BusinessShopActivity.class);
-                intent.putExtra("store_id",store_id);
+                Intent intent = new Intent(this, BusinessShopActivity.class);
+                intent.putExtra("store_id", store_id);
                 startActivity(intent);
                 break;
             case R.id.det_tv_phone://打电话
-                Intent intent1=new Intent();
+                Intent intent1 = new Intent();
                 intent1.setAction(Intent.ACTION_DIAL);
                 intent1.setData(Uri.parse("tel:15206292150"));
                 startActivity(intent1);
@@ -723,6 +725,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
     /**
      * 详情页点击返回首页
+     *
      * @param keyCode
      * @param event
      * @return
@@ -859,6 +862,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         }
     }
     //=======================商品详情轮播结束====================
+
     /**
      * 规格选择
      */
@@ -896,6 +900,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             window.setAttributes(wlp);
         }
     }
+
     private void initAttrsData(List<GoodsAttr> gas) {
         for (int i = 0; i < 5; i++) {
             if (i == 0) {
@@ -963,5 +968,48 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 gas.add(ga);
             }
         }
+    }
+
+    /**
+     * 增值积分dialog
+     */
+    private void showIntegralValue() {
+        final Dialog dialog = new Dialog(this, R.style.AlertDialog);
+        dialog.setContentView(R.layout.activity_integralvale);
+
+        RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.activity_integralvale_recyclerview);
+        Button button = (Button) dialog.findViewById(R.id.activity_integralvale_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        IntegralValueAdapter integralValueAdapter = new IntegralValueAdapter(R.layout.integral_value_item, getData());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.setAdapter(integralValueAdapter);
+
+        //显示对话框
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setWindowAnimations(R.style.goods_profile_anim);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            Display d = window.getWindowManager().getDefaultDisplay();
+            wlp.width = d.getWidth();
+            wlp.gravity = Gravity.BOTTOM;
+            window.setAttributes(wlp);
+        }
+    }
+
+    private List<IntegralValueItem> getData() {
+        List<IntegralValueItem> data = new ArrayList<>();
+        data.add(new IntegralValueItem("购买后送20积分", "购买后可获得20积分，会员等级越高购买商品送的积分越多"));
+        data.add(new IntegralValueItem("积分有什么用", "在购买商品时，可使用积分抵扣一部分现金"));
+        return data;
     }
 }
