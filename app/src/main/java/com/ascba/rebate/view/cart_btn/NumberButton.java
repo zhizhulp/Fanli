@@ -41,6 +41,24 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private int mBuyMax = Integer.MAX_VALUE;
     private EditText mCount;
     private OnWarnListener mOnWarnListener;
+    private TextView addButton;
+    private TextView subButton;
+
+    public TextView getAddButton() {
+        return addButton;
+    }
+
+    public void setAddButton(TextView addButton) {
+        this.addButton = addButton;
+    }
+
+    public TextView getSubButton() {
+        return subButton;
+    }
+
+    public void setSubButton(TextView subButton) {
+        this.subButton = subButton;
+    }
 
     public NumberButton(Context context) {
         this(context, null);
@@ -58,10 +76,10 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.cart_btn_layout, this);
 
-        TextView addButton = (TextView) findViewById(R.id.button_add);
-        addButton.setOnClickListener(this);
-        TextView subButton = (TextView) findViewById(R.id.button_sub);
-        subButton.setOnClickListener(this);
+        addButton = (TextView) findViewById(R.id.button_add);
+        //addButton.setOnClickListener(this);
+        subButton = (TextView) findViewById(R.id.button_sub);
+        //subButton.setOnClickListener(this);
 
         mCount = ((EditText) findViewById(R.id.text_count));
         mCount.addTextChangedListener(this);

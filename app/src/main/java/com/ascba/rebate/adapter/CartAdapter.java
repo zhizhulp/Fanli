@@ -37,8 +37,13 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         }
     };
     private CallBack callBack;
-    public interface CallBack{
-        void onClicked(View v);
+
+    public interface CallBack {
+        void onClickedChild(boolean isChecked,int position);
+        void onClickedParent(boolean isChecked,int position);
+        void onClickedTotal(boolean isChecked);
+        void clickAddBtn(int count,int position);
+        void clickSubBtn(int count,int position);
     }
 
     public CallBack getCallBack() {
@@ -61,12 +66,12 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         super(layoutResId, sectionHeadResId, data);
         this.context = context;
         this.data = data;
-        this.cbTotal=cb;
+        this.cbTotal = cb;
         //全局全选
         cbTotal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(data.size()==0){
+                if (data.size() == 0) {
                     return;
                 }
                 for (int i = 0; i < data.size(); i++) {
@@ -79,12 +84,15 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         notifyDataSetChanged();
                     }
                 });
+                if(callBack!=null){
+                    callBack.onClickedTotal(cbTotal.isChecked());
+                }
             }
         });
     }
 
     @Override
-    protected void convertHead(BaseViewHolder helper, final CartGoods item) {
+    protected void convertHead(final BaseViewHolder helper, final CartGoods item) {
         helper.setText(R.id.cart_cb_title, item.header);
         final CheckBox cb = helper.getView(R.id.cart_cb_title);
         cb.setChecked(item.isCheck());
@@ -100,34 +108,34 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                     }
 
                 }
-                List<CartGoods> gl=new ArrayList<>();
+                List<CartGoods> gl = new ArrayList<>();
                 //监听总的checkBox
                 for (int i = 0; i < data.size(); i++) {
-                    if(data.get(i).isHeader){
+                    if (data.get(i).isHeader) {
                         gl.add(data.get(i));
                     }
                 }
-                boolean isAll=false;
-                for (int i = 0; i <gl.size() ; i++) {
-                    if(i==gl.size()-1){
-                        isAll=true;
+                boolean isAll = false;
+                for (int i = 0; i < gl.size(); i++) {
+                    if (i == gl.size() - 1) {
+                        isAll = true;
                         break;
                     }
-                    if(gl.get(i).isCheck()==gl.get(i+1).isCheck()){
-                        isAll=true;
-                    }else {
-                        isAll=false;
+                    if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
+                        isAll = true;
+                    } else {
+                        isAll = false;
                         break;
                     }
                 }
-                if(isAll){
-                    if(cb.isChecked() && !cbTotal.isChecked()){
+                if (isAll) {
+                    if (cb.isChecked() && !cbTotal.isChecked()) {
                         cbTotal.setChecked(true);
-                    }else if(!cb.isChecked() && cbTotal.isChecked()){
+                    } else if (!cb.isChecked() && cbTotal.isChecked()) {
                         cbTotal.setChecked(false);
                     }
-                }else {
-                    if(!cb.isChecked() && cbTotal.isChecked()){
+                } else {
+                    if (!cb.isChecked() && cbTotal.isChecked()) {
                         cbTotal.setChecked(false);
                     }
                 }
@@ -139,12 +147,15 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         notifyDataSetChanged();
                     }
                 });
+                if(callBack!=null){
+                    callBack.onClickedParent(cb.isChecked(),helper.getAdapterPosition());
+                }
             }
         });
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final CartGoods item) {
+    protected void convert(final BaseViewHolder helper, final CartGoods item) {
         ImageView view = helper.getView(R.id.cart_goods_pic);
         Goods goods = item.t;
         Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(view);
@@ -152,7 +163,102 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
         helper.setText(R.id.cart_price, goods.getGoodsPrice());
         helper.addOnClickListener(R.id.edit_standard);
-        NumberButton nb = helper.getView(R.id.number_button);
+        initNumberButton(helper,goods);
+
+        final CheckBox cb = helper.getView(R.id.cb_cart_child);
+        cb.setChecked(item.isCheck());
+        cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox v1 = (CheckBox) v;
+                item.setCheck(v1.isChecked());
+                List<CartGoods> gL = new ArrayList<>();
+                CartGoods head = null;
+                for (int i = 0; i < data.size(); i++) {
+                    CartGoods cg = data.get(i);
+                    if (cg.getId() == item.getId()) {
+                        if (cg.isHeader) {
+                            head = cg;
+                        } else {
+                            gL.add(cg);
+                        }
+                    }
+                }
+                if (gL.size() != 0) {
+                    boolean isAll = true;
+                    for (int i = 0; i < gL.size(); i++) {
+                        if (i == gL.size() - 1) {
+                            break;
+                        }
+                        if (gL.get(i).isCheck() == gL.get(i + 1).isCheck()) {
+                            isAll = true;
+                        } else {
+                            isAll = false;
+                            break;
+                        }
+                    }
+                    if (isAll) {
+                        if (head != null) {
+                            if (cb.isChecked() && !head.isCheck()) {
+                                head.setCheck(true);
+                            } else if (!cb.isChecked() && head.isCheck()) {
+                                head.setCheck(false);
+                            }
+
+                        }
+                    } else {
+                        if (head != null) {
+                            if (head.isCheck()) {
+                                head.setCheck(false);
+                            }
+                        }
+                    }
+                }
+                //监听总的checkBox
+                List<CartGoods> gl = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    if (!data.get(i).isHeader) {
+                        gl.add(data.get(i));
+                    }
+                }
+                boolean isAll = false;
+                for (int i = 0; i < gl.size(); i++) {
+                    if (i == gl.size() - 1) {
+                        break;
+                    }
+                    if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
+                        isAll = true;
+                    } else {
+                        isAll = false;
+                        break;
+                    }
+                }
+                if (isAll) {
+                    if (cb.isChecked() && !cbTotal.isChecked()) {
+                        cbTotal.setChecked(true);
+                    } else if (!cb.isChecked() && cbTotal.isChecked()) {
+                        cbTotal.setChecked(false);
+                    }
+                } else {
+                    if (cbTotal.isChecked()) {
+                        cbTotal.setChecked(false);
+                    }
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
+                if (callBack != null) {
+                    callBack.onClickedChild(v1.isChecked(),helper.getAdapterPosition());
+                }
+            }
+        });
+    }
+
+    private void initNumberButton(final BaseViewHolder helper, Goods goods) {
+        final NumberButton nb = helper.getView(R.id.number_button);
         nb.setBuyMax(goods.getUserQuy())
                 .setInventory(6)
                 .setCurrentNumber(10)
@@ -167,99 +273,25 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         Toast.makeText(context, "超过最大购买数:" + buyMax, Toast.LENGTH_SHORT).show();
                     }
                 });
-
-        final CheckBox cb = helper.getView(R.id.cb_cart_child);
-        cb.setChecked(item.isCheck());
-        helper.addOnClickListener(R.id.cb_cart_child);
-       /* cb.setOnClickListener(new View.OnClickListener() {
+        nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                    item.setCheck(cb.isChecked());
-                    List<CartGoods> gL = new ArrayList<>();
-                    CartGoods head = null;
-                    for (int i = 0; i < data.size(); i++) {
-                        CartGoods cg = data.get(i);
-                        if (cg.getId() == item.getId()) {
-                            if (cg.isHeader) {
-                                head = cg;
-                            } else {
-                                gL.add(cg);
-                            }
-                        }
-                    }
-                    if (gL.size() != 0) {
-                        boolean isAll = true;
-                        for (int i = 0; i < gL.size(); i++) {
-                            if (i == gL.size() - 1) {
-                                break;
-                            }
-                            if (gL.get(i).isCheck() == gL.get(i + 1).isCheck()) {
-                                isAll = true;
-                            } else {
-                                isAll = false;
-                                break;
-                            }
-                        }
-                        LogUtils.PrintLog(CartFragment.LOG_TAG, "IS aLL?  " + isAll);
-                        if (isAll) {
-                            if (head != null) {
-                                if (cb.isChecked() && !head.isCheck()) {
-                                    head.setCheck(true);
-                                } else if (!cb.isChecked() && head.isCheck()) {
-                                    head.setCheck(false);
-                                }
-
-                            }
-                        } else {
-                            if (head != null) {
-                                if (head.isCheck()) {
-                                    head.setCheck(false);
-                                }
-                            }
-                        }
-                    }
-                    //监听总的checkBox
-                    List<CartGoods> gl=new ArrayList<>();
-                    for (int i = 0; i < data.size(); i++) {
-                        if(!data.get(i).isHeader){
-                            gl.add(data.get(i));
-                        }
-                    }
-                    boolean isAll=false;
-                    for (int i = 0; i <gl.size() ; i++) {
-                        if(i==gl.size()-1){
-                            break;
-                        }
-                        if(gl.get(i).isCheck()==gl.get(i+1).isCheck()){
-                            isAll=true;
-                        }else {
-                            isAll=false;
-                            break;
-                        }
-                    }
-                    if(isAll){
-                        if(cb.isChecked() && !cbTotal.isChecked()){
-                            cbTotal.setChecked(true);
-                        }else if(!cb.isChecked() && cbTotal.isChecked()){
-                            cbTotal.setChecked(false);
-                        }
-                    }else {
-                        if(cbTotal.isChecked()){
-                            cbTotal.setChecked(false);
-                        }
-                    }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyDataSetChanged();
-                        }
-                    });
-                    if(callBack!=null){
-                        callBack.onClicked(v);
-                    }
+                int number = nb.getNumber();
+                if(callBack!=null){
+                    callBack.clickAddBtn(number,helper.getAdapterPosition());
                 }
-        });*/
+            }
+        });
+        nb.getSubButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int number = nb.getNumber();
+                if(callBack!=null){
+                    callBack.clickSubBtn(number,helper.getAdapterPosition());
+                }
+            }
+        });
+
     }
 
 }

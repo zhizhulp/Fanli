@@ -129,4 +129,6 @@ public class UrlUtils {
 
     //确认订单
     public static final String createOrder = urlPrefix + "createOrder";
+    //购物车-加减商品
+    public static final String cartChangenumGoods = urlPrefix + "cartChangenumGoods";
 }

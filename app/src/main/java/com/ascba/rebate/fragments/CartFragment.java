@@ -30,6 +30,7 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -63,6 +64,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private RelativeLayout cartClean;
     private int finalScene;
     private Handler handler=new Handler();
+    private CartGoods cgSelect;//被选中的
+    private int goodsCount;//当前商品数量
+    private int position;//当前点击位置
 
     public CartFragment() {
     }
@@ -84,8 +88,66 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private void requestNetwork(String url, int scene) {
         finalScene=scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
+        if(scene==1){
+            request.add("cart_ids",createIds());
+            request.add("status",(cgSelect!=null) ? (cgSelect.isCheck()? 1: 0) : (cbTotal.isChecked()? 1:0));
+        }else if(scene==2){
+            request.add("cart_id",data.get(position).t.getCartId());
+            request.add("new_num",goodsCount);
+        }
         executeNetWork(request,"请稍后");
         setCallback(this);
+    }
+
+    private String createIds() {
+
+        if(cgSelect==null){
+            StringBuilder sb=new StringBuilder();
+            for (int i = 0; i < data.size(); i++) {
+                CartGoods cg = data.get(i);
+                if(!cg.isHeader){
+                    if( i==data.size()-1){
+                        sb.append(cg.t.getCartId());
+                    }else {
+                        sb.append(cg.t.getCartId());
+                        sb.append(",");
+                    }
+                }
+            }
+            return sb.toString();
+        }else {
+            if(!cgSelect.isHeader){
+                return cgSelect.t.getCartId();
+            }else {
+
+                StringBuilder sb=new StringBuilder();
+                List<CartGoods> filter=new ArrayList<>();
+                LogUtils.PrintLog("CartFragment","cgSelect_id-->"+cgSelect.getId()+"isHead-->"+cgSelect.isHeader);
+                for (int i = 0; i < data.size(); i++) {
+                    CartGoods cg = data.get(i);
+                    if(!cg.isHeader ){
+                        LogUtils.PrintLog("CartFragment","position-->"+i+";store_id-->"+cg.t.getStoreId());
+                        if(cg.getId()==(cgSelect.getId())){
+                            filter.add(cg);
+                        }
+
+                    }
+
+                }
+                for (int i = 0; i < filter.size(); i++) {
+                    CartGoods cg = filter.get(i);
+                    if(i==filter.size()-1){
+                        sb.append(cg.t.getCartId());
+                    }else {
+                        sb.append(cg.t.getCartId());
+                        sb.append(",");
+                    }
+                }
+
+                return sb.toString();
+            }
+
+        }
     }
 
     private void initViews(View view) {
@@ -142,12 +204,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 int id = view.getId();
                 if (id == R.id.edit_standard) {
                     showDialog();
-                }else if(id == R.id.cb_cart_child){//cb
-
-                    CheckBox cb=(CheckBox) view;
-                    CartGoods item = data.get(position);
-                    changeState(cb,item);
-
                 }
             }
         });
@@ -156,89 +212,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         tvCost = ((TextView) view.findViewById(R.id.cart_tv_cost_total));
         tvCostNum = ((TextView) view.findViewById(R.id.cart_tv_cost_total_count));
         tvCostNum.setOnClickListener(this);
-    }
-
-    private void changeState(CheckBox cb,CartGoods item) {
-
-        //item.setCheck(cb.isChecked());
-        List<CartGoods> gL = new ArrayList<>();
-        CartGoods head = null;
-        for (int i = 0; i < data.size(); i++) {
-            CartGoods cg = data.get(i);
-            if (cg.getId() == item.getId()) {
-                if (cg.isHeader) {
-                    head = cg;
-                } else {
-                    gL.add(cg);
-                }
-            }
-        }
-        if (gL.size() != 0) {
-            boolean isAll = true;
-            for (int i = 0; i < gL.size(); i++) {
-                if (i == gL.size() - 1) {
-                    break;
-                }
-                if (gL.get(i).isCheck() == gL.get(i + 1).isCheck()) {
-                    isAll = true;
-                } else {
-                    isAll = false;
-                    break;
-                }
-            }
-            if (isAll) {
-                if (head != null) {
-                    if (cb.isChecked() && !head.isCheck()) {
-                        head.setCheck(true);
-                    } else if (!cb.isChecked() && head.isCheck()) {
-                        head.setCheck(false);
-                    }
-
-                }
-            } else {
-                if (head != null) {
-                    if (head.isCheck()) {
-                        head.setCheck(false);
-                    }
-                }
-            }
-        }
-        //监听总的checkBox
-        List<CartGoods> gl=new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            if(!data.get(i).isHeader){
-                gl.add(data.get(i));
-            }
-        }
-        boolean isAll=false;
-        for (int i = 0; i <gl.size() ; i++) {
-            if(i==gl.size()-1){
-                break;
-            }
-            if(gl.get(i).isCheck()==gl.get(i+1).isCheck()){
-                isAll=true;
-            }else {
-                isAll=false;
-                break;
-            }
-        }
-        if(isAll){
-            if(cb.isChecked() && !cbTotal.isChecked()){
-                cbTotal.setChecked(true);
-            }else if(!cb.isChecked() && cbTotal.isChecked()){
-                cbTotal.setChecked(false);
-            }
-        }else {
-            if(cbTotal.isChecked()){
-                cbTotal.setChecked(false);
-            }
-        }
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
     /**
@@ -405,6 +378,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 startActivity(intent);
                 //showFinalDialog();
                 break;
+            case R.id.cart_cb_total:
+
+                break;
         }
     }
 
@@ -455,16 +431,60 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        //initData();
-        getData(dataObj);
-        if(adapter==null){
-            adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
-            View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
-            adapter.setEmptyView(emptyView);
-            rv.setAdapter(adapter);
-        }else {
-            adapter.notifyDataSetChanged();
+        if(finalScene==0){//购物车数据
+            getData(dataObj);
+            if(adapter==null){
+                adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
+                View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
+                adapter.setEmptyView(emptyView);
+                rv.setAdapter(adapter);
+                adapter.setCallBack(new CartAdapter.CallBack() {
+                    @Override
+                    public void onClickedChild(boolean isChecked, int position) {
+                        LogUtils.PrintLog("CartFragment","isChecked-->"+isChecked);
+                        cgSelect=data.get(position);
+                        requestNetwork(UrlUtils.cartSelectdGoods,1);
+
+                    }
+
+                    @Override
+                    public void onClickedParent(boolean isChecked, int position) {
+                        cgSelect=data.get(position);
+                        requestNetwork(UrlUtils.cartSelectdGoods,1);
+
+                    }
+
+                    @Override
+                    public void onClickedTotal(boolean isChecked) {
+                        cgSelect=null;
+                        requestNetwork(UrlUtils.cartSelectdGoods,1);
+                    }
+
+                    @Override
+                    public void clickAddBtn(int count, int position) {
+                        goodsCount=count + 1;
+                        CartFragment.this.position=position;
+                        requestNetwork(UrlUtils.cartChangenumGoods,2);
+                    }
+
+                    @Override
+                    public void clickSubBtn(int count, int position) {
+                        goodsCount=count - 1;
+                        CartFragment.this.position=position;
+                        requestNetwork(UrlUtils.cartChangenumGoods,2);
+                    }
+                });
+            }else {
+                adapter.notifyDataSetChanged();
+            }
+        }else if (finalScene==1){//选择商品
+            getDm().buildAlertDialog(message);
+        }else if(finalScene==2){//加减商品
+            getDm().buildAlertDialog(message);
+            data.get(position).t.setUserQuy(goodsCount);
+            adapter.notifyItemChanged(position);
         }
+
 
     }
 
@@ -478,6 +498,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             boolean isAll=true;
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
+
                 JSONObject storeObj = obj.optJSONObject("store_info");
                 String store_name = (String) storeObj.opt("store_name");
                 String store_id = String.valueOf(storeObj.opt("store_id"));//商品id 用于判断是否是一组
@@ -489,7 +510,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 if(gl!=null && gl.length()!=0){
                     boolean isChild=true;
                     for (int j = 0; j < gl.length(); j++) {
-                        JSONObject goodsOBj = gl.optJSONObject(i);
+                        JSONObject goodsOBj = gl.optJSONObject(j);
                         String goods_id = (String) goodsOBj.opt("goods_id");//商品id
                         String goods_number = (String) goodsOBj.opt("goods_number");//商品编号
                         String goods_name = (String) goodsOBj.opt("goods_name");//商品名称
@@ -498,6 +519,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         String goods_img = UrlUtils.baseWebsite + goodsOBj.optString("goods_img");//商品图片
                         String spec_names = (String) goodsOBj.opt("spec_names");//商品规格
                         String selected = (String) goodsOBj.opt("selected");//商品是否被选中
+                        String cart_id = String.valueOf(goodsOBj.opt("cart_id"));//
                         Goods goods=new Goods();
                         goods.setGoodsNumber(goods_number);
                         goods.setGoodsTitle(goods_name);
@@ -505,6 +527,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         goods.setUserQuy(Integer.parseInt(goods_num));
                         goods.setImgUrl(goods_img);
                         goods.setGoodsStandard(spec_names);
+                        goods.setCartId(cart_id);
                         int sele = Integer.parseInt(selected);
                         CartGoods dg=new CartGoods(goods,Integer.parseInt(store_id), sele != 0);
                         data.add(dg);
