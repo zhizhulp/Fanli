@@ -1,17 +1,39 @@
 package com.ascba.rebate.beans;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 /**
  * 商品规格实体类
  */
 
-public class GoodsAttr {
+public class GoodsAttr implements MultiItemEntity {
     private String Title;
-
+    private int layout;
     private List<Attrs> strs;
+    private int type;
 
-    public GoodsAttr(String title, List<Attrs> strs) {
+    public GoodsAttr(int type, int layout) {
+        this.type = type;
+        this.layout = layout;
+    }
+
+    public GoodsAttr(int type, int layout, String title) {
+        this.type = type;
+        Title = title;
+        this.layout = layout;
+    }
+
+    public GoodsAttr(int type, String title, List<Attrs> strs) {
+        this.type = type;
+        Title = title;
+        this.strs = strs;
+    }
+
+    public GoodsAttr(int type, int layout, String title, List<Attrs> strs) {
+        this.type = type;
+        this.layout = layout;
         Title = title;
         this.strs = strs;
     }
@@ -35,7 +57,28 @@ public class GoodsAttr {
         this.strs = strs;
     }
 
-    public class Attrs{
+    @Override
+    public int getItemType() {
+        return type;
+    }
+
+    public int getLayout() {
+        return layout;
+    }
+
+    public void setLayout(int layout) {
+        this.layout = layout;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public class Attrs {
         private String content;
         private int textColor;
 

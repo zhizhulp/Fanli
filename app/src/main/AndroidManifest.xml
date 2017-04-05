@@ -503,10 +503,6 @@
             android:name=".activities.milk.TypeMilkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.IntegralValueActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoTitleTranslucentTheme" />
 
         <activity
             android:name=".activities.BeginnerGuideActivity"
