@@ -72,7 +72,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         String standard = "颜色:深蓝色;尺码:S";
         String price = "368";
         String priceOld = "468";
-        String num = "1";
+        int num = 1;
 
         goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
         goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));

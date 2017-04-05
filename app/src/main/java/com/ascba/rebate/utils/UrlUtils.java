@@ -11,29 +11,29 @@ public class UrlUtils {
     public static final String urlPrefix = baseWebsite + "/" + webVersion + "/";
 
     //基本操作
-    public static final String sendMsg = baseWebsite + "/" + webVersion + "/" + "sendMsg";//短信验证
-    public static final String register = baseWebsite + "/" + webVersion + "/" + "register";//注册
-    public static final String login = baseWebsite + "/" + webVersion + "/" + "login";//登录
-    public static final String getBackPwd = baseWebsite + "/" + webVersion + "/" + "getBackPwd";//密码找回
+    public static final String sendMsg=baseWebsite+"/"+webVersion+"/"+"sendMsg";//短信验证
+    public static final String register=baseWebsite+"/"+webVersion+"/"+"register";//注册
+    public static final String login=baseWebsite+"/"+webVersion+"/"+"login";//登录
+    public static final String getBackPwd=baseWebsite+"/"+webVersion+"/"+"getBackPwd";//密码找回
     //首页尾页数据
-    public static final String index = baseWebsite + "/" + webVersion + "/" + "index";//首页
-    public static final String user = baseWebsite + "/" + webVersion + "/" + "user";//尾页
+    public static final String index=baseWebsite+"/"+webVersion+"/"+"index";//首页
+    public static final String user=baseWebsite+"/"+webVersion+"/"+"user";//尾页
     //设置
-    public static final String userSet = baseWebsite + "/" + webVersion + "/" + "userSet";//个人资料
-    public static final String updateSet = baseWebsite + "/" + webVersion + "/" + "updateSet";//修改个人资料
-    public static final String findCardInfo = baseWebsite + "/" + webVersion + "/" + "findCardInfo";//身份证查询
-    public static final String verifyCard = baseWebsite + "/" + webVersion + "/" + "verifyCard";//实名认证
-    public static final String checkCardId = baseWebsite + "/" + webVersion + "/" + "checkCardId";//检查实名认证
-    public static final String changePwd = baseWebsite + "/" + webVersion + "/" + "changePwd";//密码修改
+    public static final String userSet=baseWebsite+"/"+webVersion+"/"+"userSet";//个人资料
+    public static final String updateSet=baseWebsite+"/"+webVersion+"/"+"updateSet";//修改个人资料
+    public static final String findCardInfo=baseWebsite+"/"+webVersion+"/"+"findCardInfo";//身份证查询
+    public static final String verifyCard=baseWebsite+"/"+webVersion+"/"+"verifyCard";//实名认证
+    public static final String checkCardId=baseWebsite+"/"+webVersion+"/"+"checkCardId";//检查实名认证
+    public static final String changePwd=baseWebsite+"/"+webVersion+"/"+"changePwd";//密码修改
     //银行卡
-    public static final String getBankList = baseWebsite + "/" + webVersion + "/" + "getBankList";//银行卡列表数据
-    public static final String getBankCard = baseWebsite + "/" + webVersion + "/" + "getBankCard";//获取要添加的银行卡的信息
-    public static final String verifyBankCard = baseWebsite + "/" + webVersion + "/" + "verifyBankCard";//银行卡实名认证
-    public static final String delBanks = baseWebsite + "/" + webVersion + "/" + "delBanks";//删除银行卡
+    public static final String getBankList=baseWebsite+"/"+webVersion+"/"+"getBankList";//银行卡列表数据
+    public static final String getBankCard=baseWebsite+"/"+webVersion+"/"+"getBankCard";//获取要添加的银行卡的信息
+    public static final String verifyBankCard=baseWebsite+"/"+webVersion+"/"+"verifyBankCard";//银行卡实名认证
+    public static final String delBanks=baseWebsite+"/"+webVersion+"/"+"delBanks";//删除银行卡
     //代金券
-    public static final String getVoucherList = baseWebsite + "/" + webVersion + "/" + "getVoucherList";//代金券
+    public static final String getVoucherList=baseWebsite+"/"+webVersion+"/"+"getVoucherList";//代金券
     //兑现券列表
-    public static final String getCashingList = baseWebsite + "/" + webVersion + "/" + "getCashingList";
+    public static final String getCashingList=baseWebsite+"/"+webVersion+"/"+"getCashingList";
 
     //商户申请
     public static final String addCompany = baseWebsite + "/" + webVersion + "/" + "addCompany";//提交商家的公司审核资料
@@ -73,7 +73,7 @@ public class UrlUtils {
     public static final String service = baseWebsiteChange + "/" + "service";//银行卡服务协议
     public static final String regAgree = baseWebsiteChange + "/" + "regAgree";//注册协议
     public static final String explain = baseWebsiteChange + "/" + "explain";//商家入驻流程
-    public static final String shop = urlPrefix + "shop";//商城
+    public static final String shop = urlPrefix+ "shop";//商城
 
 
     //public static final String getCompanyInfo=baseWebsite+"/"+webVersion+"/"+"getCompanyInfo";
@@ -98,10 +98,10 @@ public class UrlUtils {
     public static final String getGoodsArticle = urlPrefix + "goodsArticle";
 
     //周边
-    public static final String getNearBy = urlPrefix + "nearby";
+    public static final String getNearBy=urlPrefix+"nearby";
 
     //商城分类
-    public static final String category = urlPrefix + "category";
+    public static final String category=urlPrefix+"category";
     //收款
     public static final String receivables = urlPrefix + "receivables";
     //商家店铺
@@ -115,4 +115,6 @@ public class UrlUtils {
     //添加收货地址
     public static final String memberAddressAdd = urlPrefix + "memberAddressAdd";
 
+    //购物车-选中商品
+    public static final String cartSelectdGoods = urlPrefix + "cartSelectdGoods";
 }
