@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
@@ -74,7 +73,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
             @Override
             public void clkMsg(View v) {
                 //消息中心
-                Toast.makeText(context, "消息中心", Toast.LENGTH_SHORT).show();
+              ShopMessageActivity.startIntent(context);
             }
 
             @Override

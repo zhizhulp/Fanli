@@ -115,6 +115,15 @@ public class UrlUtils {
     //添加收货地址
     public static final String memberAddressAdd = urlPrefix + "memberAddressAdd";
 
+    //修改收货地址
+    public static final String memberAddressEdit = urlPrefix + "memberAddressEdit";
+
+    //删除收货地址
+    public static final String memberAddressDel = urlPrefix + "memberAddressDel";
+
+    //设置默认收货地址
+    public static final String memberAddressSetDefault = urlPrefix + "memberAddressSetDefault";
+
     //购物车-选中商品
     public static final String cartSelectdGoods = urlPrefix + "cartSelectdGoods";
 }
