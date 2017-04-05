@@ -121,23 +121,10 @@
     <View
         style="@style/viewStyleMargin"
         android:layout_marginTop="7dp" />
-    <!--<TextView
-        android:layout_margin="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="该卡充值金额最大为300000元"/>
-    <View
-        style="@style/viewStyleMatch"/>-->
     <Button
         style="@style/btnNormal"
         android:layout_marginTop="29dp"
         android:onClick="goRechargeActivity"
         android:text="充值" />
-
-    <Button
-        android:onClick="testWX"
-        android:text="测试"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -3,7 +3,9 @@ package com.ascba.rebate.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +41,7 @@ import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
@@ -355,15 +358,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 data.add(business);
             }
         } else {
-            FrameLayout ft = new FrameLayout(getActivity());
-            TextView textView = new TextView(getActivity());
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                    , ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp.gravity = Gravity.CENTER;
-            textView.setLayoutParams(lp);
-            textView.setText("暂无商家数据");
-            ft.addView(textView);
-            adapter.setEmptyView(ft);
+            adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无商家数据"));
         }
 
     }
@@ -425,25 +420,34 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
      * 初始化并开始定位
      */
     private void initLocation() {
-        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-        checkAndRequestAllPermission(permissions);
-        setpCallback(new PermissionCallback() {
-            @Override
-            public void requestPermissionAndBack(boolean isOk) {
-                finalScene=0;
-                if (isOk) {
-                    //初始化client
-                    locationClient = new AMapLocationClient(getActivity());
-                    //设置定位参数
-                    locationClient.setLocationOption(getDefaultOption());
-                    // 设置定位监听
-                    locationClient.setLocationListener(locationListener);
-                    locationClient.startLocation();
-                } else {
-                    requestNetwork(0);
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+            checkAndRequestAllPermission(permissions);
+            setpCallback(new PermissionCallback() {
+                @Override
+                public void requestPermissionAndBack(boolean isOk) {
+                    finalScene=0;
+                    if (isOk) {
+                        initLocationListener();
+                    } else {
+                        requestNetwork(0);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            initLocationListener();
+        }
+
+    }
+
+    private void initLocationListener() {
+        //初始化client
+        locationClient = new AMapLocationClient(getActivity());
+        //设置定位参数
+        locationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        locationClient.setLocationListener(locationListener);
+        locationClient.startLocation();
     }
 
     /**

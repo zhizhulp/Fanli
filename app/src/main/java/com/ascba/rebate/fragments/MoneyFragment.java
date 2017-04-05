@@ -165,7 +165,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 startActivity(intent8);
                 break;
             case R.id.me_lat_grzh://提现
-                requestMyData(3);//检查是否实名
+                /*requestMyData(3);//检查是否实名*/
                 break;
             case R.id.me_lat_fyzh://返佣账户
                 Intent intent4=new Intent(getActivity(), CommissionActivity.class);
@@ -255,7 +255,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 });
             } else {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
-                Intent intent = new Intent(getActivity(), CashGetActivity.class);
+                Intent intent = new Intent(getActivity(), CommissionActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
                 startActivityForResult(intent, REQUEST_CASH_GET);

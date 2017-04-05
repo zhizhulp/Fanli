@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,6 +12,7 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
 import com.ascba.rebate.fragments.GoBalanceFragment;
 import com.ascba.rebate.fragments.GoBankCardFragment;
+import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.ShopABarText;
 import com.flyco.tablayout.SlidingTabLayout;
 
@@ -24,7 +26,7 @@ import static com.ascba.rebate.R.id.shopBar;
  * 财富-返佣账户
  */
 
-public class CommissionActivity extends BaseNetWork4Activity {
+public class CommissionActivity extends BaseNetWork4Activity implements MoneyBar.CallBack {
 
     private ShopABarText shopABar;
     private Context context;
@@ -32,6 +34,7 @@ public class CommissionActivity extends BaseNetWork4Activity {
     private ViewPager viewPager;
     private String[] mTitleList = new String[]{"转出到余额", "转出到银行卡"};//页卡标题集合
     private List<Fragment> fragmentList = new ArrayList<>();//页卡视图集合
+    private MoneyBar mb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class CommissionActivity extends BaseNetWork4Activity {
         /**
          * 导航栏
          */
-        shopABar = (ShopABarText) findViewById(shopBar);
+        /*shopABar = (ShopABarText) findViewById(R.id.shopBar);
         shopABar.setBtnEnable(false);
         shopABar.setCallback(new ShopABarText.Callback() {
             @Override
@@ -57,7 +60,10 @@ public class CommissionActivity extends BaseNetWork4Activity {
             public void clkBtn(View v) {
 
             }
-        });
+        });*/
+        mb = ((MoneyBar) findViewById(R.id.mb));
+        mb.setTailTitle(getString(R.string.inoutcome_record));
+        mb.setCallBack(this);
 
         slidingtablayout = (SlidingTabLayout) findViewById(R.id.slidingtablayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -78,5 +84,15 @@ public class CommissionActivity extends BaseNetWork4Activity {
         viewPager.setAdapter(mAdapter);//给ViewPager设置适配器
 
         slidingtablayout.setViewPager(viewPager, mTitleList);
+    }
+
+    @Override
+    public void clickImage(View im) {
+
+    }
+
+    @Override
+    public void clickComplete(View tv) {
+        TransactionRecordsActivity.startIntent(this);
     }
 }

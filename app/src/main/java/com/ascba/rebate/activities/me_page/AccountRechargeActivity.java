@@ -260,7 +260,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
 
     }
 
-    public void testWX(View view) {
+    /*public void testWX(View view) {
         Request<String> request= NoHttp.createStringRequest("http://123.57.20.120:8050/native-pay/unifyPay", RequestMethod.POST);
         Map<String, String> map = new HashMap<String, String>();
         map.put("saruLruid", "6000000002");// 商户号
@@ -293,6 +293,6 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
                 Log.d("AccountRechargeActivity", "onFinish what:" + what);
             }
         });
-    }
+    }*/
 }
 

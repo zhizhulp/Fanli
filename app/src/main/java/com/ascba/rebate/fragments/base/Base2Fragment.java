@@ -98,7 +98,7 @@ public class Base2Fragment extends Fragment {
             Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.no_permission), Toast.LENGTH_SHORT).show();
         }
         if (pCallback != null) {
-            pCallback.requestPermissionAndBack(isAll);//isAll 用户是否拒绝
+            pCallback.requestPermissionAndBack(isAll);//isAll 用户是否拥有所有权限
         }
         super.onRequestPermissionsResult(requestCode, per, grantResults);
     }
@@ -183,13 +183,11 @@ public class Base2Fragment extends Fragment {
 
         @Override
         public void onStart(int what) {
-            LogUtils.PrintLog("235", "onStart");
 
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            LogUtils.PrintLog("235", "onSucceed");
             JSONObject jObj = response.get();
             int status = jObj.optInt("status");
             String message = jObj.optString("msg");
@@ -221,7 +219,6 @@ public class Base2Fragment extends Fragment {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            LogUtils.PrintLog("235", "onFailed");
             if (dm != null) {
                 dm.dismissDialog();
             }
@@ -238,7 +235,6 @@ public class Base2Fragment extends Fragment {
 
         @Override
         public void onFinish(int what) {
-            LogUtils.PrintLog("235", "onFinish");
             if (dm != null) {
                 dm.dismissDialog();
             }
