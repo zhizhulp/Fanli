@@ -45,11 +45,11 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 public class BusinessShopActivity extends BaseNetWork4Activity implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
-        ,BaseNetWork4Activity.Callback{
+        , BaseNetWork4Activity.Callback {
 
     private SuperSwipeRefreshLayout refreshLat;
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -69,9 +69,9 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements
     private ShopABar shopABar;
     private RecyclerView recyclerView;
     private int store_id;
-    private static final int REQUEST_LOGIN=0;
-    private  BusinessShopAdapter adapter;
-    private int now_page=1;
+    private static final int REQUEST_LOGIN = 0;
+    private BusinessShopAdapter adapter;
+    private int now_page = 1;
     private int total_page;
     private View headView;
     private ImageView backImg;
@@ -91,26 +91,26 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements
     }
 
     private void isLogin() {
-        if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
+        if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
             getStoreFromIntent();
             requestData(UrlUtils.getStore);
-        }else {
-            Intent intent=new Intent(this, LoginActivity.class);
-            startActivityForResult(intent,REQUEST_LOGIN);
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);
         }
     }
 
     private void getStoreFromIntent() {
         Intent intent = getIntent();
-        if(intent!=null){
-            store_id = intent.getIntExtra("store_id",-1000);
+        if (intent != null) {
+            store_id = intent.getIntExtra("store_id", -1000);
         }
     }
 
     private void requestData(String url) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        request.add("store_id",store_id);
-        executeNetWork(request,"请稍后");
+        request.add("store_id", store_id);
+        executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
@@ -130,7 +130,8 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements
 
             @Override
             public void clkMsg(View v) {
-                Toast.makeText(context, "信息", Toast.LENGTH_SHORT).show();
+                //消息中心
+                ShopMessageActivity.startIntent(context);
             }
 
             @Override
@@ -215,7 +216,7 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements
     }
 
     private void initAdapterAndRefresh() {
-        if(adapter==null){
+        if (adapter == null) {
             adapter = new BusinessShopAdapter(R.layout.shop_goods, goodsList, context);
             adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
                 @Override
@@ -225,7 +226,7 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements
             });
             adapter.addHeaderView(headView);
             recyclerView.setAdapter(adapter);
-        }else {
+        } else {
             adapter.notifyDataSetChanged();
         }
 
@@ -233,30 +234,31 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements
 
     private void refreshGoodsData(JSONObject dataObj) {
         JSONArray array = dataObj.optJSONArray("mallGoods");
-        if(array==null || array.length()==0){
-            adapter.setEmptyView(ViewUtils.getEmptyView(this,"暂无商品数据"));
-        }else {
+        if (array == null || array.length() == 0) {
+            adapter.setEmptyView(ViewUtils.getEmptyView(this, "暂无商品数据"));
+        } else {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 int id = obj.optInt("id");
                 String title = obj.optString("title");
                 String img = obj.optString("img");
                 String shop_price = obj.optString("shop_price");
-                goodsList.add(new ShopBaseItem(UrlUtils.baseWebsite+img, title, "￥ "+shop_price, "",id));
+                goodsList.add(new ShopBaseItem(UrlUtils.baseWebsite + img, title, "￥ " + shop_price, "", id));
             }
         }
     }
 
     private void refreshHeadData(JSONObject dataObj) {
         JSONObject head = dataObj.optJSONObject("store");
-        if(head==null){
+        if (head == null) {
             adapter.removeHeaderView(headView);
-        }else {
-            Picasso.with(this).load(UrlUtils.baseWebsite+head.optString("store_banner")).into(backImg);
-            Picasso.with(this).load(UrlUtils.baseWebsite+head.optString("store_logo")).into(headImg);
+        } else {
+            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_banner")).into(backImg);
+            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_logo")).into(headImg);
             tvShopName.setText(head.optString("store_name"));
         }
     }
+
     private void getPageCount(JSONObject dataObj) {
         total_page = dataObj.optInt("total_page");
         now_page++;
@@ -277,16 +279,16 @@ public class BusinessShopActivity extends BaseNetWork4Activity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null){
+        if (data == null) {
             finish();
             return;
         }
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_LOGIN:
-                if(resultCode==RESULT_OK){//登录成功
+                if (resultCode == RESULT_OK) {//登录成功
                     getStoreFromIntent();
                     requestData(UrlUtils.getStore);
-                }else {//登录失败
+                } else {//登录失败
                     finish();
                 }
                 break;

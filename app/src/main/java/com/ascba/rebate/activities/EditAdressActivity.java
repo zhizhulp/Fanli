@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -33,10 +34,10 @@ import org.json.JSONObject;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
- * 新增地址
+ * 编辑收货地址
  */
 
-public class AddAdressActivity extends BaseNetWork4Activity {
+public class EditAdressActivity extends BaseNetWork4Activity {
 
     private ShopABarText bar;
     private RelativeLayout btn_contact;
@@ -47,15 +48,32 @@ public class AddAdressActivity extends BaseNetWork4Activity {
     private EditText name, phone, address;
     private CheckBox chbDefault;
     private DialogManager dm;
+    private ReceiveAddressBean bean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address);
         context = this;
-        initView();
+        getData();
     }
 
+    public static void startIntent(Context context, ReceiveAddressBean bean) {
+        Intent intent = new Intent(context, EditAdressActivity.class);
+        intent.putExtra("address", bean);
+        context.startActivity(intent);
+    }
+
+    private void getData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            bean = intent.getParcelableExtra("address");
+            initView();
+        } else {
+            showToast("发生错误！");
+            finish();
+        }
+    }
 
     private void initView() {
         bar = (ShopABarText) findViewById(R.id.add_address_bar);
@@ -84,9 +102,17 @@ public class AddAdressActivity extends BaseNetWork4Activity {
         });
 
         name = (EditText) findViewById(R.id.address_name);
+        name.setText(bean.getName());
         phone = (EditText) findViewById(R.id.address_phone);
+        phone.setText(bean.getPhone());
         address = (EditText) findViewById(R.id.address);
+        address.setText(bean.getAddress());
         chbDefault = (CheckBox) findViewById(R.id.chb_default);
+        if (bean.getIsDefault().equals("1")) {
+            chbDefault.setChecked(true);
+        } else {
+            chbDefault.setChecked(false);
+        }
     }
 
     /**
@@ -196,9 +222,10 @@ public class AddAdressActivity extends BaseNetWork4Activity {
      */
     private void submitData() {
         dm = new DialogManager(context);
-        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressAdd, 0, true);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressAdd));
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressEdit, 0, true);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressEdit));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        jsonRequest.add("member_address_id", bean.getId());
         jsonRequest.add("consignee", name.getText().toString().trim());//收货人
         jsonRequest.add("mobile", phone.getText().toString().trim());//手机号
         jsonRequest.add("province", 1);//省份ID

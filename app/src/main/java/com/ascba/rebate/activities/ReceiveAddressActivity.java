@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.adapter.ReceiveAddressAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
@@ -20,11 +19,11 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -35,14 +34,14 @@ import java.util.List;
  * 售货地址管理
  */
 
-public class ReceiveAddressActivity extends BaseNetWork4Activity {
+public class ReceiveAddressActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
 
     private ShopABar shopABar;
     private RecyclerView recyclerView;
     private LinearLayout addBtn;
     private List<ReceiveAddressBean> beanList = new ArrayList<>();
     private Context context;
-    private MyAdapter myAdapter;
+    private ReceiveAddressAdapter myAdapter;
     private SuperSwipeRefreshLayout refreshLayout;
     private DialogManager dm;
 
@@ -76,6 +75,7 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
         });
 
         refreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        refreshLayout.setOnPullRefreshListener(this);
 
         /**
          * 新增收货地址
@@ -91,8 +91,7 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
 
         recyclerView = (RecyclerView) findViewById(R.id.activity_receive_address_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        getData();
-        myAdapter = new MyAdapter(R.layout.item_receive_address, beanList);
+        myAdapter = new ReceiveAddressAdapter(R.layout.item_receive_address, beanList);
         recyclerView.setAdapter(myAdapter);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -100,20 +99,18 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.item_receive_address_del:
-                        Toast.makeText(context, "删除：" + position, Toast.LENGTH_SHORT).show();
+                        //删除
+                        deleteAddress(position);
                         break;
                     case R.id.item_receive_address_edit:
-                        Toast.makeText(context, "编辑：" + position, Toast.LENGTH_SHORT).show();
+                        //编辑
+                        EditAdressActivity.startIntent(context, beanList.get(position));
                         break;
                     case R.id.item_receive_address_check:
-                        Toast.makeText(context, "check：" + position, Toast.LENGTH_SHORT).show();
+                        //设置默认地址
                         ReceiveAddressBean bean = beanList.get(position);
-                        if (!bean.isSelect()) {
-                            for (ReceiveAddressBean receiveAddressBean : beanList) {
-                                receiveAddressBean.setSelect(false);
-                            }
-                            bean.setSelect(true);
-                            myAdapter.notifyDataSetChanged();
+                        if (bean.getIsDefault().equals("0")) {
+                            setDefault(bean);
                         }
                         break;
                 }
@@ -121,48 +118,31 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
         });
     }
 
-    public class MyAdapter extends BaseQuickAdapter<ReceiveAddressBean, BaseViewHolder> {
-
-
-        public MyAdapter(int layoutResId, List<ReceiveAddressBean> data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, ReceiveAddressBean item) {
-            //姓名
-            helper.setText(R.id.item_receive_address_name, item.getName());
-
-            //隐藏手机号中间4位
-            String phone = item.getPhone();
-            phone = phone.substring(0, 3) + "****" + phone.substring(7, 11);
-            helper.setText(R.id.item_receive_address_phone, phone);
-
-            //地址
-            helper.setText(R.id.item_receive_address_address, item.getAddress());
-            helper.addOnClickListener(R.id.item_receive_address_del);
-            helper.addOnClickListener(R.id.item_receive_address_edit);
-
-            CheckBox checkBox = helper.getView(R.id.item_receive_address_check);
-            checkBox.setChecked(item.isSelect());
-            if (item.isSelect()) {
-                checkBox.setEnabled(false);
-            } else {
-                checkBox.setEnabled(true);
-            }
-            helper.addOnClickListener(R.id.item_receive_address_check);
-        }
+    @Override
+    public void onRefresh() {
+        getData();
     }
 
+    @Override
+    public void onPullDistance(int distance) {
+
+    }
+
+    @Override
+    public void onPullEnable(boolean enable) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    /**
+     * 获取收货地址数据
+     */
     private void getData() {
-        ReceiveAddressBean bean1 = new ReceiveAddressBean("纸飞机", "18332145692", "北京市朝阳区三间房街道福盈家园4号院2号楼2单元", true);
-        beanList.add(bean1);
-
-        for (int i = 0; i < 4; i++) {
-            ReceiveAddressBean bean2 = new ReceiveAddressBean("木子", "15350732091", "北京市朝阳区三间房街道福盈家园1号院1号楼1单元", false);
-            beanList.add(bean2);
-        }
-
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
         jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getMemberAddress));
@@ -171,10 +151,70 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
+                beanList.clear();
                 JSONArray jsonArray = dataObj.optJSONArray("member_address_list");
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    ReceiveAddressBean addressBean=new ReceiveAddressBean();
+                    try {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        ReceiveAddressBean addressBean = new ReceiveAddressBean();
+                        addressBean.setId(object.optString("id"));
+                        addressBean.setName(object.optString("consignee"));
+                        addressBean.setPhone(object.optString("mobile"));
+                        addressBean.setAddress(object.optString("address"));
+                        addressBean.setProvince(object.optString("province"));
+                        addressBean.setCity(object.optString("city"));
+                        addressBean.setDistrict(object.optString("district"));
+                        addressBean.setTwon(object.optString("twon"));
+                        String isSelected = object.optString("default");
+                        addressBean.setIsDefault(isSelected);
+
+                        if (isSelected.equals("1")) {
+                            beanList.add(0, addressBean);
+                        } else {
+                            beanList.add(addressBean);
+                        }
+                        myAdapter.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
+                refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+                refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+                refreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    /**
+     * 删除收货地址
+     *
+     * @param postition
+     */
+    private void deleteAddress(final int postition) {
+        dm = new DialogManager(context);
+        ReceiveAddressBean bean = beanList.get(postition);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressDel, 0, true);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressDel));
+        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        jsonRequest.add("member_address_id", bean.getId());
+        jsonRequest.add("default", bean.getIsDefault());
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                beanList.remove(postition);
+                myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -189,5 +229,38 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
         });
     }
 
+    /**
+     * 设置默认收货地址
+     *
+     * @param bean
+     */
+    private void setDefault(final ReceiveAddressBean bean) {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressSetDefault, 0, true);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressSetDefault));
+        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        jsonRequest.add("member_address_id", bean.getId());
+        jsonRequest.add("default", bean.getIsDefault());
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                for (ReceiveAddressBean receiveAddressBean : beanList) {
+                    receiveAddressBean.setIsDefault("0");
+                }
+                bean.setIsDefault("1");
+                myAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
+    }
 }
