@@ -2,6 +2,7 @@ package com.ascba.rebate.fragments;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -78,10 +79,26 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                 switch (position) {
                     case 1:
                         //全部订单
-                        Intent order = new Intent(getActivity(), MyOrderActivity.class);
-                        startActivity(order);
+                        MyOrderActivity.startIntent(getActivity(), 0);
+                        break;
+                    case 3:
+                        //待付款
+                        MyOrderActivity.startIntent(getActivity(), 1);
+                        break;
+                    case 4:
+                        //待发货
+                        MyOrderActivity.startIntent(getActivity(), 2);
+                        break;
+                    case 5:
+                        //已成交
+                        MyOrderActivity.startIntent(getActivity(), 3);
+                        break;
+                    case 6:
+                        //待评价
+                        MyOrderActivity.startIntent(getActivity(), 4);
                         break;
                     case 9:
+                        //新手指南
                         Intent intent1 = new Intent(getContext(), BeginnerGuideActivity.class);
                         startActivity(intent1);
                         break;
@@ -90,8 +107,13 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
                         Intent intent = new Intent(getActivity(), ReceiveAddressActivity.class);
                         startActivity(intent);
                         break;
+                    case 19:
+                        Intent phone = new Intent();
+                        phone.setAction(Intent.ACTION_DIAL);
+                        phone.setData(Uri.parse("tel:15206292150"));
+                        startActivity(phone);
+                        break;
                 }
-
             }
 
             @Override

@@ -12,11 +12,20 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
+import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
+import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +43,8 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
     private List<ReceiveAddressBean> beanList = new ArrayList<>();
     private Context context;
     private MyAdapter myAdapter;
+    private SuperSwipeRefreshLayout refreshLayout;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +74,8 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
 
             }
         });
+
+        refreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
 
         /**
          * 新增收货地址
@@ -149,5 +162,32 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity {
             ReceiveAddressBean bean2 = new ReceiveAddressBean("木子", "15350732091", "北京市朝阳区三间房街道福盈家园1号院1号楼1单元", false);
             beanList.add(bean2);
         }
+
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getMemberAddress));
+        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                JSONArray jsonArray = dataObj.optJSONArray("member_address_list");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    ReceiveAddressBean addressBean=new ReceiveAddressBean();
+                }
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
     }
+
+
 }

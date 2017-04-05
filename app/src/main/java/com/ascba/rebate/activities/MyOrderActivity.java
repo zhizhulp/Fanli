@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
     private LayoutInflater mInflater;
     private List<Bean> mTitleList = new ArrayList<>();//页卡标题集合
     private List<Fragment> fragmentList = new ArrayList<>();//页卡视图集合
+    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,21 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         setContentView(R.layout.activity_my_order);
         context = this;
         mInflater = LayoutInflater.from(context);
+        getIndex();
         initView();
+    }
+
+    public static void startIntent(Context context, int index) {
+        Intent intent = new Intent(context, MyOrderActivity.class);
+        intent.putExtra("index", index);
+        context.startActivity(intent);
+    }
+
+    private void getIndex() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            index = intent.getIntExtra("index", 0);
+        }
     }
 
     private void initView() {
@@ -126,6 +142,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
                 }
             }
         }
+        slidingtablayout.setCurrentTab(index);
     }
 
     public class Bean {

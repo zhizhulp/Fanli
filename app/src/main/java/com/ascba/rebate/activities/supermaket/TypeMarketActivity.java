@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.GoodsListActivity;
@@ -25,10 +24,8 @@ import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yolanda.nohttp.rest.Request;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +37,8 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
-    private List<ShopBaseItem> data=new ArrayList<>();
-    private List<String> urls=new ArrayList<>();//viewPager数据源
+    private List<ShopBaseItem> data = new ArrayList<>();
+    private List<String> urls = new ArrayList<>();//viewPager数据源
     private ShopABar sab;
     private int categoryId = 1327;
     private static final int LOAD_MORE_ERROR = 1;
@@ -104,8 +101,8 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
                 }
             }
         });
-       // initData();
-       // adapter = new ShopTypeRVAdapter(data, this);
+        // initData();
+        // adapter = new ShopTypeRVAdapter(data, this);
 //        final GridLayoutManager manager = new GridLayoutManager(this, TypeWeight.TYPE_SPAN_SIZE_MAX);
 //        rv.setLayoutManager(manager);
 //        adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
@@ -228,7 +225,7 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         refreshLat.setRefreshing(false);
-        if(adapter!=null){
+        if (adapter != null) {
             adapter.loadMoreComplete();
         }
         if (loadMoreView != null) {
@@ -288,14 +285,15 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
     private void initShoopNave(JSONObject dataObj) {
         //商品导航
         JSONArray goodsAy = dataObj.optJSONArray("mallCategory");
+        int weight = TypeWeight.TYPE_SPAN_SIZE_MAX / goodsAy.length();
         if (goodsAy != null && goodsAy.length() != 0) {
-            for (int i = 0; i < 3; i++) {
-                JSONObject gObj = goodsAy.optJSONObject(0);
+            for (int i = 0; i < goodsAy.length(); i++) {
+                JSONObject gObj = goodsAy.optJSONObject(i);
                 String id = gObj.optString("id");
                 String cover = gObj.optString("cover");
                 String subtitle = gObj.optString("sub_title");
 
-                ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
+                ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, weight, R.layout.shop_navigation,
                         UrlUtils.baseWebsite + cover, subtitle);
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);

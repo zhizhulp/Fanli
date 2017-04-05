@@ -15,13 +15,21 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONObject;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
@@ -36,7 +44,9 @@ public class AddAdressActivity extends BaseNetWork4Activity {
     private String[] permissions = new String[]{
             Manifest.permission.READ_CONTACTS,
     };
-    private EditText name, phone;
+    private EditText name, phone, address;
+    private CheckBox chbDefault;
+    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,7 @@ public class AddAdressActivity extends BaseNetWork4Activity {
             @Override
             public void clkBtn(View v) {
                 //保存
+                submitData();
             }
         });
 
@@ -73,8 +84,13 @@ public class AddAdressActivity extends BaseNetWork4Activity {
 
         name = (EditText) findViewById(R.id.address_name);
         phone = (EditText) findViewById(R.id.address_phone);
+        address = (EditText) findViewById(R.id.address);
+        chbDefault = (CheckBox) findViewById(R.id.chb_default);
     }
 
+    /**
+     * 检查权限
+     */
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED) {
@@ -141,6 +157,12 @@ public class AddAdressActivity extends BaseNetWork4Activity {
         return str2;
     }
 
+    /**
+     * 获取联系人数据
+     *
+     * @param uri
+     * @return
+     */
     private String[] getPhoneContacts(Uri uri) {
         String[] contact = new String[2];
         //得到ContentResolver对象
@@ -166,5 +188,44 @@ public class AddAdressActivity extends BaseNetWork4Activity {
             return null;
         }
         return contact;
+    }
+
+    /**
+     * 提交数据
+     */
+    private void submitData() {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressAdd, 0, true);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressAdd));
+        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        jsonRequest.add("consignee", name.getText().toString().trim());//收货人
+        jsonRequest.add("mobile", phone.getText().toString().trim());//手机号
+        jsonRequest.add("province", 1);//省份ID
+        jsonRequest.add("city", 710682);//市ID
+        jsonRequest.add("district", 1106);//地区ID
+        jsonRequest.add("twon", 1158);//乡镇ID
+        jsonRequest.add("address", address.getText().toString().trim());//地址内容
+        if (chbDefault.isChecked()) {
+            jsonRequest.add("is_default", 1);//是否默认——1：是， 0——否
+        } else {
+            jsonRequest.add("is_default", 0);//是否默认——1：是， 0——否
+        }
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                dm.buildAlertDialog("保存成功");
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
     }
 }

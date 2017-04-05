@@ -1,14 +1,12 @@
 package com.ascba.rebate.fragments.base;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +15,10 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yolanda.nohttp.NoHttp;
@@ -122,18 +119,18 @@ public class Base2Fragment extends Fragment {
         return null;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof BaseNetWork4Activity) {
-            dm = ((BaseNetWork4Activity) activity).getDm();
-        } else {
-            dm = new DialogManager2(getActivity());
-        }
-    }
-
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
+
+        FragmentActivity activity = getActivity();
+        if(activity instanceof MainActivity){
+            dm = ((MainActivity) activity).getDm();
+        }else {
+            if(dm==null){
+                dm=new DialogManager2(getActivity());
+            }
+        }
+
         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
         if (!netAva) {
             if (callback != null) {

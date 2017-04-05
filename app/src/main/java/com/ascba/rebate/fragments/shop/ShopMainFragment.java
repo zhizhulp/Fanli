@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
@@ -29,8 +30,10 @@ import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yolanda.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +108,7 @@ public class ShopMainFragment extends Base2Fragment implements
         /**
          * 消息
          */
-        messageBtn= (LinearLayout) view.findViewById(R.id.head_rr);
+        messageBtn = (LinearLayout) view.findViewById(R.id.head_rr);
         messageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,6 +356,7 @@ public class ShopMainFragment extends Base2Fragment implements
     private void initShoopNave(JSONObject dataObj) {
         //商品导航
         JSONArray goodsAy = dataObj.optJSONArray("mallCategory");
+        int weight = TypeWeight.TYPE_SPAN_SIZE_MAX / goodsAy.length();
         if (goodsAy != null && goodsAy.length() != 0) {
             for (int i = 0; i < goodsAy.length(); i++) {
                 JSONObject gObj = goodsAy.optJSONObject(i);
@@ -360,7 +364,7 @@ public class ShopMainFragment extends Base2Fragment implements
                 String cover = gObj.optString("cover");
                 String subtitle = gObj.optString("sub_title");
 
-                ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, TypeWeight.TYPE_SPAN_SIZE_12, R.layout.shop_navigation,
+                ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, weight, R.layout.shop_navigation,
                         UrlUtils.baseWebsite + cover, subtitle);
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
@@ -385,7 +389,7 @@ public class ShopMainFragment extends Base2Fragment implements
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite + imgUrl, title, "￥"+shop_price, "");
+                        , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "");
                 shopBaseItem.setColor(Integer.parseInt(id));
                 data.add(shopBaseItem);
             }

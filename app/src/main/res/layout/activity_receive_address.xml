@@ -39,10 +39,16 @@
             android:layout_height="48dp"
             app:abar_title="收货地址"></com.ascba.rebate.view.ShopABar>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/activity_receive_address_rv"
+        <com.ascba.rebate.view.SuperSwipeRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_receive_address_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        </com.ascba.rebate.view.SuperSwipeRefreshLayout>
     </LinearLayout>
 
 </RelativeLayout>

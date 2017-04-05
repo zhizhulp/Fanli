@@ -47,6 +47,7 @@ public class ShopABarText extends RelativeLayout implements View.OnClickListener
         ta.recycle();
 
         imBack.setOnClickListener(this);
+        tvBtn.setOnClickListener(this);
         tvTitle.setText(title);
     }
 
