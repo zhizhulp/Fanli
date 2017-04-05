@@ -6,13 +6,25 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.DeliverDetailsAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.beans.ReceiveAddressBean;
+import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +34,31 @@ import java.util.List;
  * 确认订单
  */
 
-public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
 
     private SuperSwipeRefreshLayout refreshLat;
     private Handler handler = new Handler();
     private Context context;
     private ShopABarText shopABarText;
     private RecyclerView recyclerView;
+    private DialogManager dm;
+    private ArrayList<ReceiveAddressBean> beanList = new ArrayList<>();//收货地址
+    private ReceiveAddressBean defaultAddressBean;//默认收货地址
+    private RelativeLayout receiveAddress;
+    private TextView username;//收货人姓名
+    private TextView userPhone;//收货人电话
+    private TextView userAddress;//收货人地址
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
-        context=this;
-        initView();
+        context = this;
+        initUI();
+
     }
 
-    private void initView() {
+    private void initUI() {
         //刷新
         refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
@@ -58,11 +78,95 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             }
         });
 
+        /**
+         * 收货人信息
+         */
+        receiveAddress = (RelativeLayout) findViewById(R.id.confirm_order_addrss_rl);
+        receiveAddress.setOnClickListener(this);
+        username = (TextView) findViewById(R.id.confirm_order_username);
+        userPhone = (TextView) findViewById(R.id.confirm_order_phone);
+        userAddress = (TextView) findViewById(R.id.confirm_order_address);
+
         //recyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        DeliverDetailsAdapter adapter = new DeliverDetailsAdapter(R.layout.item_goods, getData(),context);
+        DeliverDetailsAdapter adapter = new DeliverDetailsAdapter(R.layout.item_goods, getData(), context);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //获取收货地址
+        getAddress();
+    }
+
+    /**
+     * 获取收货地址数据
+     */
+    private void getAddress() {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getMemberAddress));
+        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                beanList.clear();
+                JSONArray jsonArray = dataObj.optJSONArray("member_address_list");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        ReceiveAddressBean addressBean = new ReceiveAddressBean();
+                        addressBean.setId(object.optString("id"));
+                        addressBean.setName(object.optString("consignee"));
+                        addressBean.setPhone(object.optString("mobile"));
+                        addressBean.setAddress(object.optString("address"));
+                        addressBean.setProvince(object.optString("province"));
+                        addressBean.setCity(object.optString("city"));
+                        addressBean.setDistrict(object.optString("district"));
+                        addressBean.setTwon(object.optString("twon"));
+                        String isSelected = object.optString("default");
+                        addressBean.setIsDefault(isSelected);
+                        if (isSelected.equals("1")) {
+                            beanList.add(0, addressBean);
+                        } else {
+                            beanList.add(addressBean);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                /**
+                 * 初始化收货地址数据
+                 */
+                initReceiveData();
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
+    }
+
+    private void initReceiveData() {
+        /**
+         * 初始化收货地址数据
+         */
+        //获取默认收货地址
+        defaultAddressBean = beanList.get(0);
+        username.setText(defaultAddressBean.getName());
+        userPhone.setText(defaultAddressBean.getPhone());
+        userAddress.setText(defaultAddressBean.getAddress());
+
     }
 
     private List<Goods> getData() {
@@ -98,5 +202,48 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     @Override
     public void onPullEnable(boolean enable) {
 
+    }
+
+    /**
+     * 创建订单
+     *
+     * @param json
+     */
+    private void creatOrder(JSONObject json) {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.createOrder));
+        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        jsonRequest.add("buy_data", json.toString());
+        jsonRequest.add("member_address_id", defaultAddressBean.getId());//用户收货地址id
+        jsonRequest.add("payment_type", "balance");//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
+
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.confirm_order_addrss_rl:
+                //选择收货地址
+                SelectAddrssActivity.startIntent(this,beanList);
+                break;
+        }
     }
 }

@@ -621,6 +621,10 @@
             android:name=".activities.EditAdressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SelectAddrssActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 

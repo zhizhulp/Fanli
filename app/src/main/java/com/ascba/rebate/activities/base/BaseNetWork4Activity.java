@@ -178,9 +178,7 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            if (dm != null) {
-                dm.dismissDialog();
-            }
+
             JSONObject jObj = response.get();
             int status = jObj.optInt("status");
             String message = jObj.optString("msg");

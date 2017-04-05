@@ -126,4 +126,7 @@ public class UrlUtils {
 
     //购物车-选中商品
     public static final String cartSelectdGoods = urlPrefix + "cartSelectdGoods";
+
+    //确认订单
+    public static final String createOrder = urlPrefix + "createOrder";
 }

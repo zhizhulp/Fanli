@@ -33,9 +33,9 @@
                 <include layout="@layout/goods_details_cuttingline" />
 
                 <RelativeLayout
+                    android:id="@+id/confirm_order_addrss_rl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
 
                     <ImageView
                         android:id="@+id/confirm_order_location"
@@ -64,7 +64,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
                         android:layout_toRightOf="@id/confirm_order_location"
-                        android:text="纸灰机"
                         android:textSize="14sp" />
 
                     <TextView
@@ -76,7 +75,6 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_toRightOf="@id/confirm_order_username"
-                        android:text="18311011381"
                         android:textSize="13sp" />
 
                     <TextView
@@ -88,7 +86,6 @@
                         android:layout_marginTop="10dp"
                         android:layout_toLeftOf="@id/confirm_order_right"
                         android:layout_toRightOf="@id/confirm_order_location"
-                        android:text="北京北京市丰台区光彩路建邦华府底商钱来钱往网络科技有限公司"
                         android:textSize="13sp" />
                 </RelativeLayout>
 

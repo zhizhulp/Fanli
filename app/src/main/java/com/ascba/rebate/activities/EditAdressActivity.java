@@ -233,11 +233,7 @@ public class EditAdressActivity extends BaseNetWork4Activity {
         jsonRequest.add("district", 1106);//地区ID
         jsonRequest.add("twon", 1158);//乡镇ID
         jsonRequest.add("address", address.getText().toString().trim());//地址内容
-        if (chbDefault.isChecked()) {
-            jsonRequest.add("default", 1);//是否默认——1：是， 0——否
-        } else {
-            jsonRequest.add("default", 0);//是否默认——1：是， 0——否
-        }
+        jsonRequest.add("default", chbDefault.isChecked() ? 1 : 0);//是否默认——1：是， 0——否
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override
