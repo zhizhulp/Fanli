@@ -117,4 +117,6 @@ public class UrlUtils {
 
     //购物车-选中商品
     public static final String cartSelectdGoods = urlPrefix + "cartSelectdGoods";
+    //购物车-加减商品
+    public static final String cartChangenumGoods = urlPrefix + "cartChangenumGoods";
 }

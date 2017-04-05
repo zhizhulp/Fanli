@@ -13,6 +13,7 @@ public class Goods {
     private String goodsStandard;//商品规格
     private String goodsPrice;//商品价格
     private String goodsPriceOld;//商品原价/市场价
+    private String cartId;//商品购物车id
     private int userQuy;//用户选择数量
     private String goodsSelled;//商品已售数量
     private List<GoodsImgBean> imgBeanList;//商品详情广告轮播
@@ -24,6 +25,14 @@ public class Goods {
     private int freightPrice;//运费
 
     public Goods() {
+    }
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 
     public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String goodsPriceOld, int userQuy) {
