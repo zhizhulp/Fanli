@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,6 +36,19 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
             super.handleMessage(msg);
         }
     };
+    private CallBack callBack;
+    public interface CallBack{
+        void onClicked(View v);
+    }
+
+    public CallBack getCallBack() {
+        return callBack;
+    }
+
+    public void setCallBack(CallBack callBack) {
+        this.callBack = callBack;
+    }
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -96,6 +110,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                 boolean isAll=false;
                 for (int i = 0; i <gl.size() ; i++) {
                     if(i==gl.size()-1){
+                        isAll=true;
                         break;
                     }
                     if(gl.get(i).isCheck()==gl.get(i+1).isCheck()){
@@ -138,7 +153,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         helper.setText(R.id.cart_price, goods.getGoodsPrice());
         helper.addOnClickListener(R.id.edit_standard);
         NumberButton nb = helper.getView(R.id.number_button);
-        nb.setBuyMax(5)
+        nb.setBuyMax(goods.getUserQuy())
                 .setInventory(6)
                 .setCurrentNumber(10)
                 .setOnWarnListener(new NumberButton.OnWarnListener() {
@@ -155,7 +170,8 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
 
         final CheckBox cb = helper.getView(R.id.cb_cart_child);
         cb.setChecked(item.isCheck());
-        cb.setOnClickListener(new View.OnClickListener() {
+        helper.addOnClickListener(R.id.cb_cart_child);
+       /* cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -239,8 +255,11 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                             notifyDataSetChanged();
                         }
                     });
+                    if(callBack!=null){
+                        callBack.onClicked(v);
+                    }
                 }
-        });
+        });*/
     }
 
 }

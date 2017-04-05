@@ -108,4 +108,6 @@ public class UrlUtils {
     public static final String getStore = urlPrefix + "getStore";
     //购物车
     public static final String shoppingCart = urlPrefix + "shoppingCart";
+    //购物车-选中商品
+    public static final String cartSelectdGoods = urlPrefix + "cartSelectdGoods";
 }

@@ -37,4 +37,5 @@ public class CartGoods extends SectionEntity<Goods> {
     public void setCheck(boolean check) {
         this.check = check;
     }
+
 }

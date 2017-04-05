@@ -13,7 +13,7 @@ public class Goods {
     private String goodsStandard;//商品规格
     private String goodsPrice;//商品价格
     private String goodsPriceOld;//商品原价/市场价
-    private String userQuy;//用户选择数量
+    private int userQuy;//用户选择数量
     private String goodsSelled;//商品已售数量
     private List<GoodsImgBean> imgBeanList;//商品详情广告轮播
     private String goodsNumber;//商品编号
@@ -26,7 +26,7 @@ public class Goods {
     public Goods() {
     }
 
-    public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String goodsPriceOld, String userQuy) {
+    public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String goodsPriceOld, int userQuy) {
         this.imgUrl = imgUrl;
         this.goodsTitle = goodsTitle;
         this.goodsStandard = goodsStandard;
@@ -35,7 +35,7 @@ public class Goods {
         this.userQuy = userQuy;
     }
 
-    public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String userQuy, int titleId) {
+    public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, int userQuy, int titleId) {
         this.imgUrl = imgUrl;
         this.goodsTitle = goodsTitle;
         this.goodsStandard = goodsStandard;
@@ -84,11 +84,11 @@ public class Goods {
         this.goodsPrice = goodsPrice;
     }
 
-    public String getUserQuy() {
+    public int getUserQuy() {
         return userQuy;
     }
 
-    public void setUserQuy(String userQuy) {
+    public void setUserQuy(int userQuy) {
         this.userQuy = userQuy;
     }
 

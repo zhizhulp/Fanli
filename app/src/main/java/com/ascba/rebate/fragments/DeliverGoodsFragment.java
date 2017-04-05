@@ -96,12 +96,12 @@ public class DeliverGoodsFragment extends BaseFragment implements SuperSwipeRefr
     private List<OrderBean> getData() {
         List<OrderBean> beanArrayList = new ArrayList<>();
 
-        String imgUrl = "http://image18-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
+        String imgUrl = "http://image1+8-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
         String title = "RCC男装 春夏 设计师款修身尖领翻领免烫薄长袖寸衫 韩国代购 2色";
         String standard = "颜色:深蓝色;尺码:S";
         String price = "368";
         String priceOld = "468";
-        String num = "1";
+        int num = 1;
 
 
         /**

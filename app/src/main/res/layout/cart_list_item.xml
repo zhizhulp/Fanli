@@ -51,7 +51,7 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/logo"
             zhy:borderRadius="4dp"
-            zhy:type="round"></com.ascba.rebate.view.RoundImageView>
+            zhy:type="round"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
