@@ -107,7 +107,6 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
         }
     }
 
-    //点击绑定银行卡
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

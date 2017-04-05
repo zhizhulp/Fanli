@@ -104,5 +104,8 @@ public class UrlUtils {
     public static final String category=urlPrefix+"category";
     //收款
     public static final String receivables = urlPrefix + "receivables";
+    //商家店铺
     public static final String getStore = urlPrefix + "getStore";
+    //购物车
+    public static final String shoppingCart = urlPrefix + "shoppingCart";
 }

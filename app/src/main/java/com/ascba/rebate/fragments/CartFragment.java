@@ -30,11 +30,16 @@ import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.PayType;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.yolanda.nohttp.rest.Request;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +47,8 @@ import java.util.List;
 /**
  * 购物车
  */
-public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
+public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
+        View.OnClickListener,Base2Fragment.Callback {
 
 
     private ShopABar sab;
@@ -61,6 +67,7 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     private TextView tvCost;
     private TextView tvCostNum;
     private RelativeLayout cartClean;
+    private int finalScene;
 
     public CartFragment() {
     }
@@ -76,6 +83,14 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        requestNetwork(UrlUtils.shoppingCart,0);
+    }
+
+    private void requestNetwork(String url, int scene) {
+        finalScene=scene;
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
 
     private void initViews(View view) {
@@ -110,22 +125,16 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         //初始化recyclerView
         rv = ((RecyclerView) view.findViewById(R.id.cart_goods_list));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        initData();
-        cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
-        adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
 
-        /**
-         * empty
-         */
-        View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
-        adapter.setEmptyView(emptyView);
+        cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
+
         if (data.size() > 0) {
             cartClean.setVisibility(View.VISIBLE);
         } else {
             cartClean.setVisibility(View.GONE);
         }
 
-        rv.setAdapter(adapter);
+
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -361,5 +370,70 @@ public class CartFragment extends BaseFragment implements SuperSwipeRefreshLayou
         types.add(new PayType(false, R.mipmap.pay_left, "账户余额支付", "快捷支付"));
         types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡"));
         types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡"));
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        initData();
+        getData(dataObj);
+        if(adapter==null){
+            adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
+            View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
+            adapter.setEmptyView(emptyView);
+            rv.setAdapter(adapter);
+        }else {
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    private void getData(JSONObject dataObj) {
+        JSONArray array = dataObj.optJSONArray("shoppingCar");
+        if(array!=null && array.length()!=0){
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.optJSONObject(i);
+
+                JSONObject storeObj = obj.optJSONObject("store_info");
+                int id = storeObj.optInt("id");
+                String store_name = storeObj.optString("store_name");
+                CartGoods cgTitle=new CartGoods(true,store_name,id,false);
+                data.add(cgTitle);
+                JSONArray gl = obj.optJSONArray("goods_list");
+                if(gl!=null && gl.length()!=0){
+                    for (int j = 0; j < gl.length(); j++) {
+                        JSONObject goodsOBj = gl.optJSONObject(i);
+                        int goods_id = goodsOBj.optInt("goods_id");//商品id
+                        String goods_number = goodsOBj.optString("goods_number");//商品编号
+                        String goods_name = goodsOBj.optString("goods_name");//商品名称
+                        String goods_price = goodsOBj.optString("goods_price");//商品价格
+                        int goods_num = goodsOBj.optInt("goods_num");//商品数量
+                        String goods_img = UrlUtils.baseWebsite + goodsOBj.optString("goods_img");//商品图片
+                        String spec_names = goodsOBj.optString("spec_names");//商品规格
+
+                        Goods goods=new Goods();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void handleReqFailed() {
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleReLogin() {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }
