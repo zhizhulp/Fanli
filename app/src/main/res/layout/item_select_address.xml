@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/cutting_line" />
+
+    <RelativeLayout
+        android:id="@+id/item_select_address_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/item_select_address_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:clickable="false"
+            android:button="@drawable/check_address"
+            android:paddingLeft="5dp" />
+
+
+        <LinearLayout
+            android:id="@+id/item_select_address_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="14dp">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="38.5dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/cutting_line" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_edit2_black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_toLeftOf="@id/item_select_address_edit"
+            android:layout_toRightOf="@id/item_select_address_check"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_select_address_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="智慧记"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/item_select_address_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_toRightOf="@id/item_select_address_username"
+                    android:text="153****1381"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/item_select_address_defaule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="13sp"
+                    android:text="默认"
+                    android:visibility="invisible"
+                    android:background="@drawable/red_bg3"
+                    android:textColor="#E71313"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/item_select_address_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#7e7e7e"
+                android:text="北京市朝阳区三间房街道富盈嘉园4号院2号楼2单元"
+                android:layout_marginTop="11dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -14,6 +14,7 @@ public class ReceiveAddressBean implements Parcelable {
     private String phone;
     private String address;
     private String isDefault;//是否为默认：1——是;0——否
+    private boolean isSelect;//是否选中
     private String province;//省份ID
     private String city;//市ID
     private String district;//地区ID
@@ -95,6 +96,13 @@ public class ReceiveAddressBean implements Parcelable {
         this.isDefault = isDefault;
     }
 
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 
     @Override
     public int describeContents() {
@@ -108,6 +116,7 @@ public class ReceiveAddressBean implements Parcelable {
         dest.writeString(this.phone);
         dest.writeString(this.address);
         dest.writeString(this.isDefault);
+        dest.writeByte(this.isSelect ? (byte) 1 : (byte) 0);
         dest.writeString(this.province);
         dest.writeString(this.city);
         dest.writeString(this.district);
@@ -120,6 +129,7 @@ public class ReceiveAddressBean implements Parcelable {
         this.phone = in.readString();
         this.address = in.readString();
         this.isDefault = in.readString();
+        this.isSelect = in.readByte() != 0;
         this.province = in.readString();
         this.city = in.readString();
         this.district = in.readString();

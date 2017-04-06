@@ -14,6 +14,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.DeliverDetailsAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
@@ -139,12 +140,19 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                     }
                 }
 
-                /**
-                 * 初始化收货地址数据
-                 */
-                if (beanList.get(0).getIsDefault().equals("1") && defaultAddressBean == null) {
-                    defaultAddressBean = beanList.get(0);
-
+                //如果保存了收货地址id就遍历查找
+                if (MyApplication.addressId != null) {
+                    for (ReceiveAddressBean bean : beanList) {
+                        if (bean.getId().equals(MyApplication.addressId)) {
+                            defaultAddressBean = bean;
+                        }
+                    }
+                } else {
+                    //如果没有保存数据，就设置默认收货地址为当前地址，并保存
+                    if (beanList.get(0).getIsDefault().equals("1")) {
+                        defaultAddressBean = beanList.get(0);
+                        MyApplication.addressId = defaultAddressBean.getId();
+                    }
                 }
                 setReceiveData();
             }
@@ -276,9 +284,20 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == 1) {
-            defaultAddressBean = data.getParcelableExtra("address");
-            setReceiveData();
+
+        if (requestCode == 1) {
+            getAddress();//刷新数据
+            if (resultCode == 1 && data != null) {
+                //更改当前收货地址
+                defaultAddressBean = data.getParcelableExtra("address");
+                setReceiveData();
+            }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.addressId = null;
     }
 }

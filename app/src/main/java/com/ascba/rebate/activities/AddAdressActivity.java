@@ -24,7 +24,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.yolanda.nohttp.rest.Request;
@@ -197,7 +196,6 @@ public class AddAdressActivity extends BaseNetWork4Activity {
     private void submitData() {
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressAdd, 0, true);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressAdd));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("consignee", name.getText().toString().trim());//收货人
         jsonRequest.add("mobile", phone.getText().toString().trim());//手机号
@@ -212,6 +210,8 @@ public class AddAdressActivity extends BaseNetWork4Activity {
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
+                Intent intent = new Intent();
+                setResult(2, intent);
                 dm.buildAlertDialog("保存成功");
             }
 

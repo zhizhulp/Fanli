@@ -42,6 +42,8 @@ public class MyApplication extends MultiDexApplication {
         return requestQueue;
     }
 
+    public static String addressId;//当前收货地址id
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
