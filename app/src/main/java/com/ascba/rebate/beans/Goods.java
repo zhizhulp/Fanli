@@ -1,12 +1,14 @@
 package com.ascba.rebate.beans;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 /**
  * 购物车商品实体类
  */
 
-public class Goods {
+public class Goods implements MultiItemEntity {
     private int titleId;//父id
     private String imgUrl;//缩略图链接
     private String goodsTitle;//商品标题
@@ -18,24 +20,48 @@ public class Goods {
     private String goodsSelled;//商品已售数量
     private List<GoodsImgBean> imgBeanList;//商品详情广告轮播
     private String goodsNumber;//商品编号
+    private String store;//店铺名称
     private int storeId;//店铺id
     private int brand;//品牌id
     private int inventory;//总库存
     private int weight;//重量g
     private int freightPrice;//运费
+    private String message;//买家留言
+    private String totalPrice;//总价(数量*单价+数量*单价***)
+    private int num;//商品数量总数
+    private int type;
+    private int layout;
 
     public Goods() {
     }
 
-    public String getCartId() {
-        return cartId;
+    public Goods(int type, int layout, String store) {
+        this.type = type;
+        this.layout = layout;
+        this.store = store;
     }
 
-    public void setCartId(String cartId) {
-        this.cartId = cartId;
+    public Goods(int type, int layout, int freightPrice, String message,int num, String totalPrice) {
+        this.type = type;
+        this.layout = layout;
+        this.freightPrice = freightPrice;
+        this.message = message;
+        this.num=num;
+        this.totalPrice = totalPrice;
     }
 
     public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String goodsPriceOld, int userQuy) {
+        this.imgUrl = imgUrl;
+        this.goodsTitle = goodsTitle;
+        this.goodsStandard = goodsStandard;
+        this.goodsPrice = goodsPrice;
+        this.goodsPriceOld = goodsPriceOld;
+        this.userQuy = userQuy;
+    }
+
+    public Goods(int type, int layout, String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String goodsPriceOld, int userQuy) {
+        this.type = type;
+        this.layout = layout;
         this.imgUrl = imgUrl;
         this.goodsTitle = goodsTitle;
         this.goodsStandard = goodsStandard;
@@ -50,7 +76,15 @@ public class Goods {
         this.goodsStandard = goodsStandard;
         this.goodsPrice = goodsPrice;
         this.userQuy = userQuy;
-        this.titleId=titleId;
+        this.titleId = titleId;
+    }
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 
     public int getTitle() {
@@ -179,5 +213,54 @@ public class Goods {
 
     public void setFreightPrice(int freightPrice) {
         this.freightPrice = freightPrice;
+    }
+
+    public String getStore() {
+        return store;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getLayout() {
+        return layout;
+    }
+
+    public void setLayout(int layout) {
+        this.layout = layout;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    @Override
+    public int getItemType() {
+        return type;
     }
 }
