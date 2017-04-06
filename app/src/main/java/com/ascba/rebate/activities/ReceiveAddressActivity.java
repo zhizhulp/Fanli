@@ -51,6 +51,7 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
         setContentView(R.layout.activity_receive_address);
         context = this;
         initView();
+        getData();
     }
 
     private void initView() {
@@ -85,7 +86,7 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AddAdressActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -104,7 +105,9 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
                         break;
                     case R.id.item_receive_address_edit:
                         //编辑
-                        EditAdressActivity.startIntent(context, beanList.get(position));
+                        Intent intent = new Intent(context, EditAdressActivity.class);
+                        intent.putExtra("address", beanList.get(position));
+                        startActivityForResult(intent,2);
                         break;
                     case R.id.item_receive_address_check:
                         //设置默认地址
@@ -133,11 +136,6 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getData();
-    }
 
     /**
      * 获取收货地址数据
@@ -145,7 +143,6 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
     private void getData() {
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getMemberAddress));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
@@ -205,10 +202,8 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
         dm = new DialogManager(context);
         ReceiveAddressBean bean = beanList.get(postition);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressDel, 0, true);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressDel));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("member_address_id", bean.getId());
-        jsonRequest.add("default", bean.getIsDefault());
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override
@@ -262,5 +257,14 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
                 dm.buildAlertDialog("请检查网络！");
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //增加收货地址||编辑地址，刷新数据
+        if (requestCode == 2 && resultCode == 2) {
+            getData();
+        }
     }
 }

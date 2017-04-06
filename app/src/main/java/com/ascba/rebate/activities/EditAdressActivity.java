@@ -25,7 +25,6 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.yolanda.nohttp.rest.Request;
@@ -56,12 +55,6 @@ public class EditAdressActivity extends BaseNetWork4Activity {
         setContentView(R.layout.activity_add_address);
         context = this;
         getData();
-    }
-
-    public static void startIntent(Context context, ReceiveAddressBean bean) {
-        Intent intent = new Intent(context, EditAdressActivity.class);
-        intent.putExtra("address", bean);
-        context.startActivity(intent);
     }
 
     private void getData() {
@@ -223,7 +216,6 @@ public class EditAdressActivity extends BaseNetWork4Activity {
     private void submitData() {
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressEdit, 0, true);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressEdit));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("member_address_id", bean.getId());
         jsonRequest.add("consignee", name.getText().toString().trim());//收货人
@@ -238,6 +230,8 @@ public class EditAdressActivity extends BaseNetWork4Activity {
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
+                Intent intent = new Intent();
+                setResult(2, intent);
                 dm.buildAlertDialog("保存成功");
             }
 
