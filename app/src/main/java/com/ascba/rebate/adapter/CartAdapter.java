@@ -30,12 +30,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
     private CheckBox cbTotal;
     private Context context;
     private List<CartGoods> data;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
+    private Handler handler = new Handler();
     private CallBack callBack;
 
     public interface CallBack {
@@ -68,27 +63,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         this.data = data;
         this.cbTotal = cb;
         //全局全选
-        cbTotal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (data.size() == 0) {
-                    return;
-                }
-                for (int i = 0; i < data.size(); i++) {
-                    CartGoods cg = data.get(i);
-                    cg.setCheck(cbTotal.isChecked());
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-                if(callBack!=null){
-                    callBack.onClickedTotal(cbTotal.isChecked());
-                }
-            }
-        });
+        cbTotal.setOnClickListener(createTotalListener());
     }
 
     @Override
@@ -96,7 +71,65 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         helper.setText(R.id.cart_cb_title, item.header);
         final CheckBox cb = helper.getView(R.id.cart_cb_title);
         cb.setChecked(item.isCheck());
-        cb.setOnClickListener(new View.OnClickListener() {
+        cb.setOnClickListener(createHeadListener(cb,helper,item));
+    }
+
+
+
+    @Override
+    protected void convert(final BaseViewHolder helper, final CartGoods item) {
+        ImageView view = helper.getView(R.id.cart_goods_pic);
+        Goods goods = item.t;
+        Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(view);
+        helper.setText(R.id.cart_goods_title, goods.getGoodsTitle());
+        helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
+        helper.setText(R.id.cart_price, goods.getGoodsPrice());
+        helper.addOnClickListener(R.id.edit_standard);
+        initNumberButton(helper,goods);
+        final CheckBox cb = helper.getView(R.id.cb_cart_child);
+        cb.setChecked(item.isCheck());
+        cb.setOnClickListener(createItemListener(cb,helper,item));
+    }
+
+    private void initNumberButton(final BaseViewHolder helper, Goods goods) {
+        final NumberButton nb = helper.getView(R.id.number_button);
+        nb.setBuyMax(goods.getUserQuy())
+                .setInventory(6)
+                .setCurrentNumber(10)
+                .setOnWarnListener(new NumberButton.OnWarnListener() {
+                    @Override
+                    public void onWarningForInventory(int inventory) {
+                        Toast.makeText(context, "当前库存:" + inventory, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onWarningForBuyMax(int buyMax) {
+                        Toast.makeText(context, "超过最大购买数:" + buyMax, Toast.LENGTH_SHORT).show();
+                    }
+                });
+        nb.getAddButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int number = nb.getNumber();
+                if(callBack!=null){
+                    callBack.clickAddBtn(number,helper.getAdapterPosition());
+                }
+            }
+        });
+        nb.getSubButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int number = nb.getNumber();
+                if(callBack!=null){
+                    callBack.clickSubBtn(number,helper.getAdapterPosition());
+                }
+            }
+        });
+
+    }
+
+    private View.OnClickListener createHeadListener(final CheckBox cb,final BaseViewHolder helper, final CartGoods item) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item.setCheck(cb.isChecked());
@@ -151,23 +184,10 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                     callBack.onClickedParent(cb.isChecked(),helper.getAdapterPosition());
                 }
             }
-        });
+        };
     }
-
-    @Override
-    protected void convert(final BaseViewHolder helper, final CartGoods item) {
-        ImageView view = helper.getView(R.id.cart_goods_pic);
-        Goods goods = item.t;
-        Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(view);
-        helper.setText(R.id.cart_goods_title, goods.getGoodsTitle());
-        helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
-        helper.setText(R.id.cart_price, goods.getGoodsPrice());
-        helper.addOnClickListener(R.id.edit_standard);
-        initNumberButton(helper,goods);
-
-        final CheckBox cb = helper.getView(R.id.cb_cart_child);
-        cb.setChecked(item.isCheck());
-        cb.setOnClickListener(new View.OnClickListener() {
+    private View.OnClickListener createItemListener(final CheckBox cb, final BaseViewHolder helper, final CartGoods item) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckBox v1 = (CheckBox) v;
@@ -254,44 +274,31 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                     callBack.onClickedChild(v1.isChecked(),helper.getAdapterPosition());
                 }
             }
-        });
+        };
     }
 
-    private void initNumberButton(final BaseViewHolder helper, Goods goods) {
-        final NumberButton nb = helper.getView(R.id.number_button);
-        nb.setBuyMax(goods.getUserQuy())
-                .setInventory(6)
-                .setCurrentNumber(10)
-                .setOnWarnListener(new NumberButton.OnWarnListener() {
+    private View.OnClickListener createTotalListener() {
+        return  new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (data.size() == 0) {
+                    return;
+                }
+                for (int i = 0; i < data.size(); i++) {
+                    CartGoods cg = data.get(i);
+                    cg.setCheck(cbTotal.isChecked());
+                }
+                handler.post(new Runnable() {
                     @Override
-                    public void onWarningForInventory(int inventory) {
-                        Toast.makeText(context, "当前库存:" + inventory, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onWarningForBuyMax(int buyMax) {
-                        Toast.makeText(context, "超过最大购买数:" + buyMax, Toast.LENGTH_SHORT).show();
+                    public void run() {
+                        notifyDataSetChanged();
                     }
                 });
-        nb.getAddButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int number = nb.getNumber();
                 if(callBack!=null){
-                    callBack.clickAddBtn(number,helper.getAdapterPosition());
+                    callBack.onClickedTotal(cbTotal.isChecked());
                 }
             }
-        });
-        nb.getSubButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int number = nb.getNumber();
-                if(callBack!=null){
-                    callBack.clickSubBtn(number,helper.getAdapterPosition());
-                }
-            }
-        });
-
+        };
     }
 
 }
