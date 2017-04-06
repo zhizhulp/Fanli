@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,8 +55,11 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
         context = this;
-        initUI();
 
+        //获取收货地址
+        getAddress();
+
+        initUI();
     }
 
     private void initUI() {
@@ -94,12 +98,6 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //获取收货地址
-        getAddress();
-    }
 
     /**
      * 获取收货地址数据
@@ -142,7 +140,10 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                 /**
                  * 初始化收货地址数据
                  */
-                initReceiveData();
+                if (beanList.get(0).getIsDefault().equals("1") && defaultAddressBean == null) {
+                    defaultAddressBean = beanList.get(0);
+                    setReceiveData();
+                }
             }
 
             @Override
@@ -157,16 +158,16 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         });
     }
 
-    private void initReceiveData() {
+    /**
+     * set收货地址信息
+     */
+    private void setReceiveData() {
         /**
          * 初始化收货地址数据
          */
-        //获取默认收货地址
-        defaultAddressBean = beanList.get(0);
         username.setText(defaultAddressBean.getName());
         userPhone.setText(defaultAddressBean.getPhone());
         userAddress.setText(defaultAddressBean.getAddress());
-
     }
 
     private List<Goods> getData() {
@@ -242,8 +243,26 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         switch (v.getId()) {
             case R.id.confirm_order_addrss_rl:
                 //选择收货地址
-                SelectAddrssActivity.startIntent(this,beanList);
+                Intent intent = new Intent(context, SelectAddrssActivity.class);
+                intent.putParcelableArrayListExtra("address", beanList);
+                startActivityForResult(intent, 1);
                 break;
+        }
+    }
+
+    /**
+     * 接受选择地址回调结果
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            defaultAddressBean = data.getParcelableExtra("address");
+            setReceiveData();
         }
     }
 }
