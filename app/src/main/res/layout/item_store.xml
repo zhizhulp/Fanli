@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/goods_details_cuttingline_wide" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <ImageView
+            android:id="@+id/confir_order_img_bus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/business_detail_desc" />
+
+        <TextView
+            android:id="@+id/confir_order_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@id/confir_order_img_bus"
+            android:text="RCC韩国代购-男装" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/goods_details_cuttingline" />
+</LinearLayout>

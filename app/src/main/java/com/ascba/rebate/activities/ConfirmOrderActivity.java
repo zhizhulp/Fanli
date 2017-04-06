@@ -7,12 +7,13 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
-import com.ascba.rebate.adapter.DeliverDetailsAdapter;
+import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
@@ -54,6 +55,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_confirm_order);
         context = this;
         initUI();
@@ -97,10 +99,46 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         //recyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        DeliverDetailsAdapter adapter = new DeliverDetailsAdapter(R.layout.item_goods, getData(), context);
-        recyclerView.setAdapter(adapter);
+
+        ConfirmOrderAdapter confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
+        recyclerView.setAdapter(confirmOrderAdapter);
     }
 
+    private List<Goods> getData() {
+        List<Goods> goodsList = new ArrayList<>();
+        String imgUrl = "http://image18-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
+        String title = "RCC男装 春夏 设计师款修身尖领翻领免烫薄长袖寸衫 韩国代购 2色";
+        String standard = "颜色:深蓝色;尺码:S";
+        String price = "368";
+        String priceOld = "468";
+
+        //店铺信息
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, "RCC韩国代购——男装"));
+        //商品信息
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 1));
+        //费用
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, 10, "没什么想说的，就是品牌名字不认识", 1, "368.00"));
+
+        //店铺信息
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, "RCC韩国代购——女装"));
+        //商品信息
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 2));
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 4));
+        //费用
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, 10, "没什么想说的，就是来凑内容的", 6, "2208.00"));
+
+        //店铺信息
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, "平哥国际购物中心"));
+        //商品信息
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 4));
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 6));
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 8));
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 20));
+        //费用
+        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, 10, "我想说，我平威武！！！", 38, "13984.00"));
+
+        return goodsList;
+    }
 
     /**
      * 获取收货地址数据
@@ -187,21 +225,6 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             userAddress.setText(defaultAddressBean.getAddress());
         }
     }
-
-    private List<Goods> getData() {
-        List<Goods> goodsList = new ArrayList<>();
-        String imgUrl = "http://image18-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
-        String title = "RCC男装 春夏 设计师款修身尖领翻领免烫薄长袖寸衫 韩国代购 2色";
-        String standard = "颜色:深蓝色;尺码:S";
-        String price = "368";
-        String priceOld = "468";
-        int num = 1;
-
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        return goodsList;
-    }
-
 
     @Override
     public void onRefresh() {
