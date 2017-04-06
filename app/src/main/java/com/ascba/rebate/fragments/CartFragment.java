@@ -49,7 +49,7 @@ import java.util.List;
  * 购物车
  */
 public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
-        View.OnClickListener,Base2Fragment.Callback {
+        View.OnClickListener, Base2Fragment.Callback {
 
 
     private ShopABar sab;
@@ -63,7 +63,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private TextView tvCostNum;
     private RelativeLayout cartClean;
     private int finalScene;
-    private Handler handler=new Handler();
+    private Handler handler = new Handler();
     private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
@@ -82,52 +82,52 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        requestNetwork(UrlUtils.shoppingCart,0);
+        requestNetwork(UrlUtils.shoppingCart, 0);
     }
 
     private void requestNetwork(String url, int scene) {
-        finalScene=scene;
+        finalScene = scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        if(scene==1){
-            request.add("cart_ids",createIds());
-            request.add("status",(cgSelect!=null) ? (cgSelect.isCheck()? 1: 0) : (cbTotal.isChecked()? 1:0));
-        }else if(scene==2){
-            request.add("cart_id",data.get(position).t.getCartId());
-            request.add("new_num",goodsCount);
+        if (scene == 1) {
+            request.add("cart_ids", createIds());
+            request.add("status", (cgSelect != null) ? (cgSelect.isCheck() ? 1 : 0) : (cbTotal.isChecked() ? 1 : 0));
+        } else if (scene == 2) {
+            request.add("cart_id", data.get(position).t.getCartId());
+            request.add("new_num", goodsCount);
         }
-        executeNetWork(request,"请稍后");
+        executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
     private String createIds() {
 
-        if(cgSelect==null){
-            StringBuilder sb=new StringBuilder();
+        if (cgSelect == null) {
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < data.size(); i++) {
                 CartGoods cg = data.get(i);
-                if(!cg.isHeader){
-                    if( i==data.size()-1){
+                if (!cg.isHeader) {
+                    if (i == data.size() - 1) {
                         sb.append(cg.t.getCartId());
-                    }else {
+                    } else {
                         sb.append(cg.t.getCartId());
                         sb.append(",");
                     }
                 }
             }
             return sb.toString();
-        }else {
-            if(!cgSelect.isHeader){
+        } else {
+            if (!cgSelect.isHeader) {
                 return cgSelect.t.getCartId();
-            }else {
+            } else {
 
-                StringBuilder sb=new StringBuilder();
-                List<CartGoods> filter=new ArrayList<>();
-                LogUtils.PrintLog("CartFragment","cgSelect_id-->"+cgSelect.getId()+"isHead-->"+cgSelect.isHeader);
+                StringBuilder sb = new StringBuilder();
+                List<CartGoods> filter = new ArrayList<>();
+                LogUtils.PrintLog("CartFragment", "cgSelect_id-->" + cgSelect.getId() + "isHead-->" + cgSelect.isHeader);
                 for (int i = 0; i < data.size(); i++) {
                     CartGoods cg = data.get(i);
-                    if(!cg.isHeader ){
-                        LogUtils.PrintLog("CartFragment","position-->"+i+";store_id-->"+cg.t.getStoreId());
-                        if(cg.getId()==(cgSelect.getId())){
+                    if (!cg.isHeader) {
+                        LogUtils.PrintLog("CartFragment", "position-->" + i + ";store_id-->" + cg.t.getStoreId());
+                        if (cg.getId() == (cgSelect.getId())) {
                             filter.add(cg);
                         }
 
@@ -136,9 +136,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 }
                 for (int i = 0; i < filter.size(); i++) {
                     CartGoods cg = filter.get(i);
-                    if(i==filter.size()-1){
+                    if (i == filter.size() - 1) {
                         sb.append(cg.t.getCartId());
-                    }else {
+                    } else {
                         sb.append(cg.t.getCartId());
                         sb.append(",");
                     }
@@ -357,7 +357,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-        requestNetwork(UrlUtils.shoppingCart,0);
+        requestNetwork(UrlUtils.shoppingCart, 0);
     }
 
     @Override
@@ -431,55 +431,64 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(finalScene==0){//购物车数据
+        if (finalScene == 0) {//购物车数据
             getData(dataObj);
-            if(adapter==null){
+            if (adapter == null) {
                 adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
+                /**
+                 * 购物车是空的，去逛逛吧
+                 */
                 View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
+                TextView goShop = (TextView) emptyView.findViewById(R.id.tx_go_shop);
+                goShop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
                 adapter.setEmptyView(emptyView);
                 rv.setAdapter(adapter);
                 adapter.setCallBack(new CartAdapter.CallBack() {
                     @Override
                     public void onClickedChild(boolean isChecked, int position) {
-                        LogUtils.PrintLog("CartFragment","isChecked-->"+isChecked);
-                        cgSelect=data.get(position);
-                        requestNetwork(UrlUtils.cartSelectdGoods,1);
+                        LogUtils.PrintLog("CartFragment", "isChecked-->" + isChecked);
+                        cgSelect = data.get(position);
+                        requestNetwork(UrlUtils.cartSelectdGoods, 1);
 
                     }
 
                     @Override
                     public void onClickedParent(boolean isChecked, int position) {
-                        cgSelect=data.get(position);
-                        requestNetwork(UrlUtils.cartSelectdGoods,1);
+                        cgSelect = data.get(position);
+                        requestNetwork(UrlUtils.cartSelectdGoods, 1);
 
                     }
 
                     @Override
                     public void onClickedTotal(boolean isChecked) {
-                        cgSelect=null;
-                        requestNetwork(UrlUtils.cartSelectdGoods,1);
+                        cgSelect = null;
+                        requestNetwork(UrlUtils.cartSelectdGoods, 1);
                     }
 
                     @Override
                     public void clickAddBtn(int count, int position) {
-                        goodsCount=count + 1;
-                        CartFragment.this.position=position;
-                        requestNetwork(UrlUtils.cartChangenumGoods,2);
+                        goodsCount = count + 1;
+                        CartFragment.this.position = position;
+                        requestNetwork(UrlUtils.cartChangenumGoods, 2);
                     }
 
                     @Override
                     public void clickSubBtn(int count, int position) {
-                        goodsCount=count - 1;
-                        CartFragment.this.position=position;
-                        requestNetwork(UrlUtils.cartChangenumGoods,2);
+                        goodsCount = count - 1;
+                        CartFragment.this.position = position;
+                        requestNetwork(UrlUtils.cartChangenumGoods, 2);
                     }
                 });
-            }else {
+            } else {
                 adapter.notifyDataSetChanged();
             }
-        }else if (finalScene==1){//选择商品
+        } else if (finalScene == 1) {//选择商品
             getDm().buildAlertDialog(message);
-        }else if(finalScene==2){//加减商品
+        } else if (finalScene == 2) {//加减商品
             getDm().buildAlertDialog(message);
             data.get(position).t.setUserQuy(goodsCount);
             adapter.notifyItemChanged(position);
@@ -491,11 +500,11 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private void getData(JSONObject dataObj) {
         JSONArray array = dataObj.optJSONArray("shoppingCar");
         stopRefresh();
-        if(data.size()!=0){
+        if (data.size() != 0) {
             data.clear();
         }
-        if(array!=null && array.length()!=0){
-            boolean isAll=true;
+        if (array != null && array.length() != 0) {
+            boolean isAll = true;
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
 
@@ -503,12 +512,12 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 String store_name = (String) storeObj.opt("store_name");
                 String store_id = String.valueOf(storeObj.opt("store_id"));//商品id 用于判断是否是一组
 
-                CartGoods cgTitle=new CartGoods(true,store_name,Integer.parseInt(store_id),false);
+                CartGoods cgTitle = new CartGoods(true, store_name, Integer.parseInt(store_id), false);
                 data.add(cgTitle);
 
                 JSONArray gl = obj.optJSONArray("goods_list");
-                if(gl!=null && gl.length()!=0){
-                    boolean isChild=true;
+                if (gl != null && gl.length() != 0) {
+                    boolean isChild = true;
                     for (int j = 0; j < gl.length(); j++) {
                         JSONObject goodsOBj = gl.optJSONObject(j);
                         String goods_id = (String) goodsOBj.opt("goods_id");//商品id
@@ -520,7 +529,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         String spec_names = (String) goodsOBj.opt("spec_names");//商品规格
                         String selected = (String) goodsOBj.opt("selected");//商品是否被选中
                         String cart_id = String.valueOf(goodsOBj.opt("cart_id"));//
-                        Goods goods=new Goods();
+                        Goods goods = new Goods();
                         goods.setGoodsNumber(goods_number);
                         goods.setGoodsTitle(goods_name);
                         goods.setGoodsPrice(goods_price);
@@ -529,16 +538,16 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         goods.setGoodsStandard(spec_names);
                         goods.setCartId(cart_id);
                         int sele = Integer.parseInt(selected);
-                        CartGoods dg=new CartGoods(goods,Integer.parseInt(store_id), sele != 0);
+                        CartGoods dg = new CartGoods(goods, Integer.parseInt(store_id), sele != 0);
                         data.add(dg);
-                        if(sele==0){//未选择
-                            isChild=false;
+                        if (sele == 0) {//未选择
+                            isChild = false;
                         }
                     }
                     cgTitle.setCheck(isChild);
                 }
-                if(!cgTitle.isCheck()){
-                    isAll=false;
+                if (!cgTitle.isCheck()) {
+                    isAll = false;
                 }
             }
             cbTotal.setChecked(isAll);
@@ -550,7 +559,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         stopRefresh();
 
     }
-
 
 
     @Override
@@ -568,8 +576,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         stopRefresh();
         getDm().buildAlertDialog(getString(R.string.no_network));
     }
+
     private void stopRefresh() {
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
     }

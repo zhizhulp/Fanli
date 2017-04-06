@@ -45,7 +45,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     private DialogManager dm;
     private ArrayList<ReceiveAddressBean> beanList = new ArrayList<>();//收货地址
     private ReceiveAddressBean defaultAddressBean;//默认收货地址
-    private RelativeLayout receiveAddress;
+    private RelativeLayout receiveAddress, noReceiveAddress;
     private TextView username;//收货人姓名
     private TextView userPhone;//收货人电话
     private TextView userAddress;//收货人地址
@@ -55,11 +55,9 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
         context = this;
-
+        initUI();
         //获取收货地址
         getAddress();
-
-        initUI();
     }
 
     private void initUI() {
@@ -87,6 +85,10 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
          */
         receiveAddress = (RelativeLayout) findViewById(R.id.confirm_order_addrss_rl);
         receiveAddress.setOnClickListener(this);
+
+        noReceiveAddress = (RelativeLayout) findViewById(R.id.confirm_order_addrss_rl2);
+        noReceiveAddress.setOnClickListener(this);
+
         username = (TextView) findViewById(R.id.confirm_order_username);
         userPhone = (TextView) findViewById(R.id.confirm_order_phone);
         userAddress = (TextView) findViewById(R.id.confirm_order_address);
@@ -142,8 +144,9 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                  */
                 if (beanList.get(0).getIsDefault().equals("1") && defaultAddressBean == null) {
                     defaultAddressBean = beanList.get(0);
-                    setReceiveData();
+
                 }
+                setReceiveData();
             }
 
             @Override
@@ -162,12 +165,19 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
      * set收货地址信息
      */
     private void setReceiveData() {
-        /**
-         * 初始化收货地址数据
-         */
-        username.setText(defaultAddressBean.getName());
-        userPhone.setText(defaultAddressBean.getPhone());
-        userAddress.setText(defaultAddressBean.getAddress());
+        if (defaultAddressBean == null) {
+            receiveAddress.setVisibility(View.GONE);
+            noReceiveAddress.setVisibility(View.VISIBLE);
+        } else {
+            receiveAddress.setVisibility(View.VISIBLE);
+            noReceiveAddress.setVisibility(View.GONE);
+            /**
+             * 初始化收货地址数据
+             */
+            username.setText(defaultAddressBean.getName());
+            userPhone.setText(defaultAddressBean.getPhone());
+            userAddress.setText(defaultAddressBean.getAddress());
+        }
     }
 
     private List<Goods> getData() {
@@ -246,6 +256,12 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                 Intent intent = new Intent(context, SelectAddrssActivity.class);
                 intent.putParcelableArrayListExtra("address", beanList);
                 startActivityForResult(intent, 1);
+                break;
+            case R.id.confirm_order_addrss_rl2:
+                //选择收货地址
+                Intent intent2 = new Intent(context, SelectAddrssActivity.class);
+                intent2.putParcelableArrayListExtra("address", beanList);
+                startActivityForResult(intent2, 1);
                 break;
         }
     }
