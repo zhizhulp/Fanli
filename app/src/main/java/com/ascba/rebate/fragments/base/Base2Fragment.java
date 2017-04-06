@@ -185,32 +185,37 @@ public class Base2Fragment extends Fragment {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            JSONObject jObj = response.get();
-            int status = jObj.optInt("status");
-            String message = jObj.optString("msg");
-            if (status == 200) {
-                JSONObject dataObj = jObj.optJSONObject("data");
-                int update_status = dataObj.optInt("update_status");
-                if (update_status == 1) {
-                    AppConfig.getInstance().putString("token", dataObj.optString("token"));
-                    AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
+
+            try {
+                JSONObject jObj = response.get();
+                int status = jObj.optInt("status");
+                String message = jObj.optString("msg");
+                if (status == 200) {
+                    JSONObject dataObj = jObj.optJSONObject("data");
+                    int update_status = dataObj.optInt("update_status");
+                    if (update_status == 1) {
+                        AppConfig.getInstance().putString("token", dataObj.optString("token"));
+                        AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
+                    }
+                    if (callback != null) {//对于200额外的处理
+                        callback.handle200Data(dataObj, message);
+                    }
+                } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    AppConfig.getInstance().putInt("uuid", -1000);
+                    startActivityForResult(intent, BaseNetWork4Activity.REQUEST_LOGIN);
+                    if (callback != null) {//重新登录的处理
+                        callback.handleReLogin();
+                    }
+                } else if (status == 404) {
+                    if (callback != null) {//对于404额外的处理
+                        callback.handle404(message);
+                    }
+                } else if (status == 500) {
+                    dm.buildAlertDialog(message);
                 }
-                if (callback != null) {//对于200额外的处理
-                    callback.handle200Data(dataObj, message);
-                }
-            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                AppConfig.getInstance().putInt("uuid", -1000);
-                startActivityForResult(intent, BaseNetWork4Activity.REQUEST_LOGIN);
-                if (callback != null) {//重新登录的处理
-                    callback.handleReLogin();
-                }
-            } else if (status == 404) {
-                if (callback != null) {//对于404额外的处理
-                    callback.handle404(message);
-                }
-            } else if (status == 500) {
-                dm.buildAlertDialog(message);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

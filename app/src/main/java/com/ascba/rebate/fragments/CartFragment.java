@@ -31,6 +31,7 @@ import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -211,11 +212,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
-        /*if (data.size() > 0) {
-            cartClean.setVisibility(View.VISIBLE);
-        } else {
-            cartClean.setVisibility(View.GONE);
-        }*/
+
 
 
         rv.addOnItemTouchListener(new OnItemClickListener() {
@@ -455,6 +452,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {//购物车数据
+
             getData(dataObj);
             if (adapter == null) {
                 adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
@@ -474,16 +472,20 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             } else {
                 adapter.notifyDataSetChanged();
             }
+            calculateNumAndCost();
         } else if (finalScene == 1) {//选择商品
+            calculateNumAndCost();
             getDm().buildAlertDialog(message);
         } else if (finalScene == 2) {//加减商品
             getDm().buildAlertDialog(message);
             data.get(position).t.setUserQuy(goodsCount);
             adapter.notifyItemChanged(position);
+            calculateNumAndCost();
         } else if(finalScene == 3){//删除商品
             getDm().buildAlertDialog(message);
             data.remove(position);
             adapter.notifyItemRemoved(position);
+            calculateNumAndCost();
         } else if(finalScene == 4){//商品结算
             Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
             startActivity(intent);
@@ -498,7 +500,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         if (data.size() != 0) {
             data.clear();
         }
+
         if (array != null && array.length() != 0) {
+            cartClean.setVisibility(View.VISIBLE);
             boolean isAll = true;
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
@@ -546,6 +550,8 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 }
             }
             cbTotal.setChecked(isAll);
+        }else {
+            cartClean.setVisibility(View.GONE);
         }
     }
 
@@ -602,14 +608,14 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     @Override
     public void clickAddBtn(int count, int position) {
         goodsCount = count + 1;
-        CartFragment.this.position = position;
+        this.position = position;
         requestNetwork(UrlUtils.cartChangenumGoods, 2);
     }
 
     @Override
     public void clickSubBtn(int count, int position) {
         goodsCount = count - 1;
-        CartFragment.this.position = position;
+        this.position = position;
         requestNetwork(UrlUtils.cartChangenumGoods, 2);
     }
 
@@ -617,5 +623,30 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     public void clickDelBtn(int position) {
         this.position=position;
         requestNetwork(UrlUtils.cartDeleteGoods, 3);
+    }
+
+    private void calculateNumAndCost(){
+        if(data.size()!=0){
+            double totalCost=0;
+            int totalCount=0;
+            for (int i = 0; i < data.size(); i++) {
+                CartGoods cg = data.get(i);
+                if(!cg.isHeader && cg.isCheck()){
+                    String goodsPrice = cg.t.getGoodsPrice();
+                    if(!StringUtils.isEmpty(goodsPrice)){
+                        double price = Double.parseDouble(goodsPrice);
+                        int userQuy = cg.t.getUserQuy();
+                        if(userQuy!=0){
+                            totalCost += userQuy * price;
+                            totalCount += userQuy;
+                        }
+                    }
+
+                }
+            }
+            tvCost.setText("￥"+totalCost);
+            tvCostNum.setText("结算("+totalCount +")" );
+        }
+
     }
 }
