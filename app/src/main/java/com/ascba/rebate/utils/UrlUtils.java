@@ -131,4 +131,9 @@ public class UrlUtils {
     public static final String createOrder = urlPrefix + "createOrder";
     //购物车-加减商品
     public static final String cartChangenumGoods = urlPrefix + "cartChangenumGoods";
+    //购物车-删除商品
+    public static final String cartDeleteGoods = urlPrefix + "cartDeleteGoods";
+
+    //购物车-结算
+    public static final String cartAccount = urlPrefix + "cartAccount";
 }

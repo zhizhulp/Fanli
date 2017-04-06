@@ -39,7 +39,10 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         void onClickedTotal(boolean isChecked);
         void clickAddBtn(int count,int position);
         void clickSubBtn(int count,int position);
+        void clickDelBtn(int position);
     }
+
+
 
     public CallBack getCallBack() {
         return callBack;
@@ -89,6 +92,19 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         final CheckBox cb = helper.getView(R.id.cb_cart_child);
         cb.setChecked(item.isCheck());
         cb.setOnClickListener(createItemListener(cb,helper,item));
+
+        helper.setOnClickListener(R.id.btnDelete,createDelListener(helper));
+    }
+
+    private View.OnClickListener createDelListener(final BaseViewHolder helper) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null != callBack){
+                    callBack.clickDelBtn(helper.getAdapterPosition());
+                }
+            }
+        };
     }
 
     private void initNumberButton(final BaseViewHolder helper, Goods goods) {
