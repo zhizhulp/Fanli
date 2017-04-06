@@ -101,5 +101,9 @@
   **[] $VALUES;
   public *;
 }
+#实体类不混淆
+-keep class com.ascba.rebate.beans.**{
+    *;
+}
 
 

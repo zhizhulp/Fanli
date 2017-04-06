@@ -1,128 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="107dp"
+    swipe:ios="false"
+    swipe:leftSwipe="true"
+    swipe:swipeEnable="true"
     xmlns:qinc="http://schemas.android.com/apk/res-auto"
     xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:minHeight="107dp">
-
-    <LinearLayout
-        android:id="@+id/parent_cart_item"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:id="@+id/parent_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true">
-
-            <CheckBox
-                android:id="@+id/cb_cart_child"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:button="@drawable/cart_cb_bg"
-                android:maxLines="1"
-                android:paddingBottom="15dp"
-                android:paddingRight="10dp"
-                android:paddingTop="15dp"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/gray"
-                android:text="失效"
-                android:textSize="12sp"
-                android:visibility="gone" />
-        </FrameLayout>
-
-        <com.ascba.rebate.view.RoundImageView
-            android:id="@+id/cart_goods_pic"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/logo"
-            zhy:borderRadius="4dp"
-            zhy:type="round"/>
-
-        <RelativeLayout
+        android:layout_height="107dp">
+        <LinearLayout
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:id="@+id/parent_cart_item"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="106dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:id="@+id/parent_title"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="9dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingTop="10dp">
+                android:layout_centerVertical="true">
 
-                <TextView
-                    android:id="@+id/cart_goods_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lineSpacingExtra="3dp"
-                    android:maxLines="2"
-                    android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="11sp" />
-
-                <LinearLayout
-                    android:id="@+id/edit_standard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp">
-
-                    <TextView
-                        android:id="@+id/cart_goods_standard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="颜色:贪色;尺码:S"
-                        android:textSize="11sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="14dp"
-                        android:paddingRight="14dp"
-                        android:src="@mipmap/cart_edit" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/cart_price"
+                <CheckBox
+                    android:id="@+id/cb_cart_child"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="11dp"
-                    android:paddingTop="9dp"
-                    android:text="￥ 368.00"
-                    android:textColor="@color/shop_red_text_color"
-                    android:textSize="16sp" />
+                    android:layout_gravity="center"
+                    android:button="@drawable/cart_cb_bg"
+                    android:maxLines="1"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
 
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/gray"
+                    android:text="失效"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+            </FrameLayout>
 
-            <com.ascba.rebate.view.cart_btn.NumberButton
-                android:id="@+id/number_button"
-                android:layout_width="84dp"
-                android:layout_height="23dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                qinc:editable="true" />
-        </RelativeLayout>
-    </LinearLayout>
+            <com.ascba.rebate.view.RoundImageView
+                android:id="@+id/cart_goods_pic"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/logo"
+                zhy:borderRadius="4dp"
+                zhy:type="round"/>
 
-    <View
-        style="@style/viewStyleMatch"
-        android:layout_alignParentBottom="true" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/cart_goods_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="3dp"
+                        android:maxLines="2"
+                        android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:id="@+id/edit_standard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp">
+
+                        <TextView
+                            android:id="@+id/cart_goods_standard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="颜色:贪色;尺码:S"
+                            android:textSize="11sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="14dp"
+                            android:paddingRight="14dp"
+                            android:src="@mipmap/cart_edit" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/cart_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="11dp"
+                        android:paddingTop="9dp"
+                        android:text="￥ 368.00"
+                        android:textColor="@color/shop_red_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <com.ascba.rebate.view.cart_btn.NumberButton
+                    android:id="@+id/number_button"
+                    android:layout_width="84dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    qinc:editable="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <View
+            android:layout_below="@id/parent_cart_item"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/view_line"/>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="#ff4a57"
+        android:text="删除"
+        android:textColor="@android:color/white"/>
 </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
