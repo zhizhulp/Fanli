@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:qinc="http://schemas.android.com/tools"
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="107dp"
+    xmlns:qinc="http://schemas.android.com/apk/res-auto"
     xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:minHeight="107dp">
 
@@ -125,4 +125,4 @@
     <View
         style="@style/viewStyleMatch"
         android:layout_alignParentBottom="true" />
-</RelativeLayout>
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>
