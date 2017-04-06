@@ -96,4 +96,9 @@
    *;
 }
 
+-keep class com.ascba.rebate.beans.**{
+   *;
+}
+
+
 
