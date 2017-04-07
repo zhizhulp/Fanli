@@ -64,6 +64,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,6 +127,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private ImageAdapter imageAdapter;
     private ViewPager viewPager;
     private int store_id;
+
+    private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -362,7 +365,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
          * 增值：购买送积分
          */
         TextView appreciationText = (TextView) findViewById(R.id.goods_details_appreciation_text);
-        appreciationText.setText("购买即账户增值" + (Float.valueOf(goods.getGoodsPrice()) * 100) + "积分");
+        appreciationText.setText("购买即账户增值" + fnum.format(Float.valueOf(goods.getGoodsPrice()) * 100) + "积分");
         RelativeLayout appreciationRL = (RelativeLayout) findViewById(R.id.goods_details_appreciation_rl);
         appreciationRL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -669,7 +672,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         //重量g
         goods.setWeight(goodsObject.optInt("weight"));
         //运费
-        goods.setFreightPrice(goodsObject.optInt("freight_price"));
+        goods.setFreightPrice(fnum.format(goodsObject.optInt("freight_price")));
     }
 
     /*

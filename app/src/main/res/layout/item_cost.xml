@@ -74,7 +74,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:text="?元"
             android:textColor="@color/shop_red_text_color"
             android:textSize="14sp" />
 

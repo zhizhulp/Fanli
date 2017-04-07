@@ -25,7 +25,12 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
     public static final int TYPE2 = 2;
     public static final int TYPE3 = 3;
 
+    private editTextString editTextString;
     private Context context;
+
+    public void setEditTextString(ConfirmOrderAdapter.editTextString editTextString) {
+        this.editTextString = editTextString;
+    }
 
     public ConfirmOrderAdapter(Context context, List<Goods> data) {
         super(data);
@@ -54,7 +59,7 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
                 break;
             case TYPE3:
                 helper.setText(R.id.item_cost_freightPrice, "￥" + item.getFreightPrice());
-                /*EditText etMsg = (EditText) helper.getView(R.id.item_cost_message);
+                final EditText etMsg = (EditText) helper.getView(R.id.item_cost_message);
                 etMsg.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -68,13 +73,19 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        helper.setText(R.id.item_cost_message, s.toString());
+                        if (editTextString != null) {
+                            editTextString.getString(etMsg.getText().toString(), item.getStoreId());
+                        }
                     }
-                });*/
+                });
 
                 helper.setText(R.id.confir_order_text_num, "共" + item.getNum() + "件商品");
                 helper.setText(R.id.item_cost_price, "￥" + item.getTotalPrice());
                 break;
         }
+    }
+
+    public interface editTextString {
+        void getString(String content, int storeId);
     }
 }
