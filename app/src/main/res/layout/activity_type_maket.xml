@@ -1,25 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.clothes.TypeClothActivity">
-    <com.ascba.rebate.view.ShopABar
-        android:id="@+id/sab"
-        app:abar_icon="@mipmap/abar_search"
-        app:abar_title="精选超市"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"/>
+
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_market"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </com.ascba.rebate.view.SuperSwipeRefreshLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/head_search_rr"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/head_ll_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="18dp"
+            android:src="@mipmap/abar_back" />
+
+        <LinearLayout
+            android:id="@+id/head_rr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <ImageView
+                android:id="@+id/head_img_xiaoxi"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_alignParentTop="true"
+                android:src="@mipmap/shop_no_msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="消息"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="8sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="精选超市"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="15sp" />
+
+        <View
+            android:id="@+id/homepage_head_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:alpha="0"
+            android:background="@color/cutting_line" />
+    </RelativeLayout>
+
+</RelativeLayout>

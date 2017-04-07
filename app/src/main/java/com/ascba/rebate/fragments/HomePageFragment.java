@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +69,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
      * 头部
      */
     private RelativeLayout homepage_head;
+    private View homepage_head_line;
 
     private int mDistanceY = 0;
     private TextView floatButton;
@@ -91,16 +91,16 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
-        requestData(UrlUtils.index,0);
+        requestData(UrlUtils.index, 0);
     }
 
-    private void requestData(String url,int scene) {
-        finalScene=scene;
-        Request<JSONObject> request=null;
-        if(scene==0){
+    private void requestData(String url, int scene) {
+        finalScene = scene;
+        Request<JSONObject> request = null;
+        if (scene == 0) {
             request = buildNetRequest(url, 0, false);
             request.add("sign", UrlEncodeUtils.createSign(url));
-        }else if(scene==1){
+        } else if (scene == 1) {
             request = buildNetRequest(url, 0, true);
         }
         executeNetWork(request, "请稍后");
@@ -132,7 +132,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
-                requestData(UrlUtils.index,0);
+                requestData(UrlUtils.index, 0);
             }
 
             @Override
@@ -157,6 +157,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
          * 头部信息
          */
         homepage_head = (RelativeLayout) view.findViewById(R.id.homepage_head);
+        homepage_head_line = view.findViewById(R.id.homepage_head_view);
         //+号
         btnAdd = (FrameLayout) view.findViewById(R.id.homepage_add);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -193,15 +194,13 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                 mDistanceY += dy;
                 //toolbar的高度
                 int toolbarHeight = homepage_head.getBottom();
-
+                float maxAlpha = 229.5f;//最大透明度80%
                 //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
                 if (mDistanceY <= toolbarHeight) {
                     float scale = (float) mDistanceY / toolbarHeight;
-                    float alpha = scale * 255;
+                    float alpha = scale * maxAlpha;
                     homepage_head.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-                } else {
-                    //将标题栏的颜色设置为完全不透明状态
-                    homepage_head.setBackgroundResource(R.color.white);
+                    homepage_head_line.setAlpha(alpha);
                 }
             }
         });
@@ -264,7 +263,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                 public void onClick(View v) {
                     popupWindow.dismiss();
                     if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
-                        requestData(UrlUtils.receivables,1);
+                        requestData(UrlUtils.receivables, 1);
                     } else {
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                         startActivityForResult(intent, REQUEST_LOGIN);
@@ -299,7 +298,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(finalScene==0){
+        if (finalScene == 0) {
             clearData();
             stopRefresh();
 
@@ -360,12 +359,12 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         }*/
 
             initAdapterAndRefresh();
-        }else if(finalScene==1) {
+        } else if (finalScene == 1) {
             JSONObject obj = dataObj.optJSONObject("receivables");
             String url = obj.optString("url");
-            Intent intent=new Intent(getActivity(), WebViewBaseActivity.class);
-            intent.putExtra("name","收款");
-            intent.putExtra("url",url);
+            Intent intent = new Intent(getActivity(), WebViewBaseActivity.class);
+            intent.putExtra("name", "收款");
+            intent.putExtra("url", url);
             startActivity(intent);
         }
 
@@ -451,10 +450,10 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_LOGIN:
-                if(resultCode== Activity.RESULT_OK){
-                    requestData(UrlUtils.receivables,1);
+                if (resultCode == Activity.RESULT_OK) {
+                    requestData(UrlUtils.receivables, 1);
                 }
                 break;
         }

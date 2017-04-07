@@ -54,6 +54,7 @@ public class ShopMainFragment extends Base2Fragment implements
     private List<ShopBaseItem> data = new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
     private RelativeLayout searchHead;//搜索头
+    private View searchHeadLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
     private int now_page = 1;
     private int total_page;
@@ -97,6 +98,7 @@ public class ShopMainFragment extends Base2Fragment implements
 
     private void initViews(View view) {
         searchHead = (RelativeLayout) view.findViewById(R.id.head_search_rr);
+        searchHeadLine = view.findViewById(R.id.homepage_head_view);
         //返回图标
         view.findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,15 +146,13 @@ public class ShopMainFragment extends Base2Fragment implements
                 mDistanceY += dy;
                 //toolbar的高度
                 int toolbarHeight = searchHead.getBottom();
-
+                float maxAlpha = 229.5f;//最大透明度80%
                 //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
                 if (mDistanceY <= toolbarHeight) {
                     float scale = (float) mDistanceY / toolbarHeight;
-                    float alpha = scale * 255;
+                    float alpha = scale * maxAlpha;
                     searchHead.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-                } else {
-                    //将标题栏的颜色设置为完全不透明状态
-                    searchHead.setBackgroundResource(R.color.white);
+                    searchHeadLine.setAlpha(alpha);
                 }
             }
         });

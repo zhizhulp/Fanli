@@ -2,52 +2,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/head_search_rr"
     android:layout_width="match_parent"
-    android:background="@mipmap/yinying"
     android:layout_height="48dp">
 
     <ImageView
+        android:id="@+id/head_ll_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
         android:paddingLeft="15dp"
         android:paddingRight="18dp"
-        android:id="@+id/head_ll_back"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/abar_back"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:src="@mipmap/abar_back" />
 
     <LinearLayout
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        android:gravity="center"
-        android:orientation="vertical"
         android:id="@+id/head_rr"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
         <ImageView
             android:id="@+id/head_img_xiaoxi"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_alignParentTop="true"
             android:src="@mipmap/shop_no_msg" />
+
         <TextView
-            android:textColor="@color/shop_normal_text_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="消息"
+            android:textColor="@color/shop_normal_text_color"
             android:textSize="8sp" />
     </LinearLayout>
 
     <RelativeLayout
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        android:background="@drawable/shop_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/head_rr"
-        android:layout_toRightOf="@id/head_ll_back">
+        android:layout_toRightOf="@id/head_ll_back"
+        android:background="@drawable/shop_action_bar"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:id="@+id/head_img_sousuo"
@@ -67,6 +68,13 @@
             android:hint="阿斯顿马丁2016豪华限量版"
             android:textColorHint="@color/gray"
             android:textSize="16sp" />
-
     </RelativeLayout>
+
+    <View
+        android:id="@+id/homepage_head_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:alpha="0"
+        android:background="@color/cutting_line" />
 </RelativeLayout>
