@@ -109,8 +109,8 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
 
     private void initNumberButton(final BaseViewHolder helper, Goods goods) {
         final NumberButton nb = helper.getView(R.id.number_button);
-        nb.setBuyMax(200000)
-                .setInventory(2000000)
+        nb.setBuyMax(Integer.MAX_VALUE)
+                .setInventory(Integer.MAX_VALUE)
                 .setCurrentNumber(goods.getUserQuy())
                 .setOnWarnListener(new NumberButton.OnWarnListener() {
                     @Override

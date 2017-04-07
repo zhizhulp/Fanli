@@ -385,6 +385,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             adapter = new BusAdapter(R.layout.main_bussiness_list_item, data, getActivity());
             busRV.setLayoutManager(new LinearLayoutManager(getActivity()));
             busRV.setAdapter(adapter);
+            adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无商家信息"));
         } else {
             adapter.notifyDataSetChanged();
         }
