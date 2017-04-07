@@ -1,7 +1,10 @@
 package com.ascba.rebate.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
@@ -35,7 +38,7 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Goods item) {
+    protected void convert(final BaseViewHolder helper, final Goods item) {
         switch (helper.getItemViewType()) {
             case TYPE1:
                 helper.setText(R.id.confir_order_shop, item.getStore());
@@ -51,7 +54,24 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
                 break;
             case TYPE3:
                 helper.setText(R.id.item_cost_freightPrice, "￥" + item.getFreightPrice());
-                helper.setText(R.id.item_cost_message, item.getMessage());
+                /*EditText etMsg = (EditText) helper.getView(R.id.item_cost_message);
+                etMsg.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        helper.setText(R.id.item_cost_message, s.toString());
+                    }
+                });*/
+
                 helper.setText(R.id.confir_order_text_num, "共" + item.getNum() + "件商品");
                 helper.setText(R.id.item_cost_price, "￥" + item.getTotalPrice());
                 break;

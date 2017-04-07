@@ -25,7 +25,7 @@ public class Goods implements MultiItemEntity {
     private int brand;//品牌id
     private int inventory;//总库存
     private int weight;//重量g
-    private int freightPrice;//运费
+    private double freightPrice;//运费
     private String message;//买家留言
     private String totalPrice;//总价(数量*单价+数量*单价***)
     private int num;//商品数量总数
@@ -41,7 +41,7 @@ public class Goods implements MultiItemEntity {
         this.store = store;
     }
 
-    public Goods(int type, int layout, int freightPrice, String message,int num, String totalPrice) {
+    public Goods(int type, int layout, double freightPrice, String message,int num, String totalPrice) {
         this.type = type;
         this.layout = layout;
         this.freightPrice = freightPrice;
@@ -207,11 +207,11 @@ public class Goods implements MultiItemEntity {
         this.weight = weight;
     }
 
-    public int getFreightPrice() {
+    public double getFreightPrice() {
         return freightPrice;
     }
 
-    public void setFreightPrice(int freightPrice) {
+    public void setFreightPrice(double freightPrice) {
         this.freightPrice = freightPrice;
     }
 

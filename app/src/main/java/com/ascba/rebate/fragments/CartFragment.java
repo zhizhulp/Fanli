@@ -486,8 +486,10 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             data.remove(position);
             adapter.notifyItemRemoved(position);
             calculateNumAndCost();
+            requestNetwork(UrlUtils.shoppingCart, 0);
         } else if(finalScene == 4){//商品结算
             Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
+            intent.putExtra("json_data",dataObj.toString());
             startActivity(intent);
         }
 
@@ -586,7 +588,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void onClickedChild(boolean isChecked, int position) {
-        LogUtils.PrintLog("CartFragment", "isChecked-->" + isChecked);
         cgSelect = data.get(position);
         requestNetwork(UrlUtils.cartSelectdGoods, 1);
 

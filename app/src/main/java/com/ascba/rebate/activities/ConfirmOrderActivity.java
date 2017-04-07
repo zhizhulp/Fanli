@@ -19,6 +19,8 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
@@ -51,6 +53,9 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     private TextView username;//收货人姓名
     private TextView userPhone;//收货人电话
     private TextView userAddress;//收货人地址
+    private String json_data;
+    private TextView tvTotal;
+    private List<Goods> goodsList = new ArrayList<>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +63,28 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_confirm_order);
         context = this;
+        getDataFromIntent();
         initUI();
+
         //获取收货地址
         getAddress();
+
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        json_data = intent.getStringExtra("json_data");
     }
 
     private void initUI() {
         //刷新
         refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
+        //总金额
+        tvTotal = ((TextView) findViewById(R.id.confir_order_text_total_price));
 
+        //提交订单
+        findViewById(R.id.confir_order_btn_commit).setOnClickListener(this);
         //导航栏
         shopABarText = (ShopABarText) findViewById(R.id.shopbar);
         shopABarText.setBtnEnable(false);
@@ -102,11 +119,59 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
 
         ConfirmOrderAdapter confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
         recyclerView.setAdapter(confirmOrderAdapter);
+
+
     }
 
     private List<Goods> getData() {
-        List<Goods> goodsList = new ArrayList<>();
-        String imgUrl = "http://image18-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
+
+        try {
+            if(goodsList.size()!=0){
+                goodsList.clear();
+            }
+            JSONObject dataObj = new JSONObject(json_data);
+            JSONArray storeList = dataObj.optJSONArray("order_store_list");
+            if (storeList != null && storeList.length() != 0) {
+                double totalPrice=0;
+                for (int i = 0; i < storeList.length(); i++) {
+                    JSONObject storeObj = storeList.optJSONObject(i);
+                    if (storeObj != null) {
+                        JSONObject titleObj = storeObj.optJSONObject("store_info");
+                        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, titleObj.optString("store_name")));
+                        JSONArray goodsArray = storeObj.optJSONArray("goods_list");
+
+                        if (goodsArray != null && goodsArray.length() != 0) {
+                            double yunfei = 10;//运费
+                            int num = 0;
+                            double price = 0;
+                            for (int j = 0; j < goodsArray.length(); j++) {
+                                JSONObject obj = goodsArray.optJSONObject(j);
+                                String goods_price = obj.optString("goods_price");
+                                String goods_num = obj.optString("goods_num");
+                                //商品信息
+                                goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.baseWebsite + obj.optString("goods_img"),
+                                        obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
+                                        "no_old_price", Integer.parseInt(goods_num)));
+
+                                num += Integer.parseInt(goods_num);
+                                price += Double.parseDouble(goods_price) * Integer.parseInt(goods_num);
+
+
+                            }
+                            price += yunfei;
+                            totalPrice += price;
+                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, yunfei, "", num, price + ""));
+                        }
+                    }
+
+                }
+                tvTotal.setText("￥"+totalPrice);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        /*String imgUrl = "http://image18-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
         String title = "RCC男装 春夏 设计师款修身尖领翻领免烫薄长袖寸衫 韩国代购 2色";
         String standard = "颜色:深蓝色;尺码:S";
         String price = "368";
@@ -136,7 +201,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 20));
         //费用
         goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, 10, "我想说，我平威武！！！", 38, "13984.00"));
-
+*/
         return goodsList;
     }
 
@@ -179,7 +244,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                 }
 
                 //如果保存了收货地址id就遍历查找
-                if (MyApplication.addressId != null) {
+                if (!StringUtils.isEmpty(MyApplication.addressId)) {
                     for (ReceiveAddressBean bean : beanList) {
                         if (bean.getId().equals(MyApplication.addressId)) {
                             defaultAddressBean = bean;
@@ -187,7 +252,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                     }
                 } else {
                     //如果没有保存数据，就设置默认收货地址为当前地址，并保存
-                    if (beanList.get(0).getIsDefault().equals("1")) {
+                    if (beanList.size() != 0 && beanList.get(0).getIsDefault().equals("1")) {
                         defaultAddressBean = beanList.get(0);
                         MyApplication.addressId = defaultAddressBean.getId();
                     }
@@ -202,7 +267,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
+                dm.buildAlertDialog(getString(R.string.no_network));
             }
         });
     }
@@ -248,15 +313,12 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
 
     /**
      * 创建订单
-     *
-     * @param json
      */
-    private void creatOrder(JSONObject json) {
+    private void creatOrder(String message) {
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.createOrder));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
-        jsonRequest.add("buy_data", json.toString());
+        jsonRequest.add("buy_data", message);
         jsonRequest.add("member_address_id", defaultAddressBean.getId());//用户收货地址id
         jsonRequest.add("payment_type", "balance");//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
 
@@ -274,7 +336,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
+                dm.buildAlertDialog(getString(R.string.no_network));
             }
         });
     }
@@ -294,7 +356,25 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                 intent2.putParcelableArrayListExtra("address", beanList);
                 startActivityForResult(intent2, 1);
                 break;
+            case R.id.confir_order_btn_commit:
+                creatOrder(createMsg());
+                break;
         }
+    }
+
+    private String createMsg() {
+
+        StringBuilder sb=new StringBuilder();
+        if(goodsList.size()!=0){
+            for (int i = 0; i < goodsList.size(); i++) {
+                Goods goods = goodsList.get(i);
+                if(goods.getItemType()==ConfirmOrderAdapter.TYPE3){
+
+                }
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -25,7 +25,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:drawablePadding="2dp"
-            android:text="快递￥10.00"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -75,7 +74,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:text="368.00元"
+            android:text="?元"
             android:textColor="@color/shop_red_text_color"
             android:textSize="14sp" />
 
@@ -96,7 +95,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="14dp"
             android:layout_toLeftOf="@id/confir_order_text_total"
-            android:text="共一件商品"
+            android:text="共?件商品"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="14sp" />
     </RelativeLayout>
