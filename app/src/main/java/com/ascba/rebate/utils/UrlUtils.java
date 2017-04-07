@@ -136,4 +136,7 @@ public class UrlUtils {
 
     //购物车-结算
     public static final String cartAccount = urlPrefix + "cartAccount";
+
+    //获取商品规格
+    public static final String getGoodsSpec = urlPrefix + "getGoodsSpec";
 }

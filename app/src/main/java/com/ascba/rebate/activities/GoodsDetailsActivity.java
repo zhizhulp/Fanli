@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -73,7 +74,7 @@ import java.util.List;
 @SuppressLint("SetTextI18n")
 public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.OnClickListener {
 
-    /**
+    /*
      * 商品id
      */
     private int goodsId;
@@ -87,40 +88,39 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private Context context;
 
     //viewpager
-    private int currentItem;
     private List<View> viewList = new ArrayList<>();
 
-    /**
+    /*
      * 导航栏
      */
     private ShopABar shopABar;
 
     private DialogManager dm;
 
-    /**
+    /*
      * 商品实体类
      */
     private Goods goods = new Goods();
 
-    /**
+    /*
      * 店铺推荐
      */
     private List<Goods> storeGoodsList = new ArrayList<>();
 
-    /**
+    /*
      * 商品详情页地址
      */
     private String webUrl;
     private WebView webView;
 
-    /**
+    /*
      * 商品轮播展示
      */
     List<String> url;
 
     private TextView btnCart, btnBuy;
 
-    /**
+    /*
      * 商品展示图轮播
      */
     private ImageAdapter imageAdapter;
@@ -153,11 +153,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         findViewById(R.id.det_tv_phone).setOnClickListener(this);
     }
 
-    /**
+    /*
      * 页面跳转
-     *
-     * @param context
-     * @param goodsId
      */
     public static void startIntent(Context context, int goodsId) {
         Intent intent = new Intent(context, GoodsDetailsActivity.class);
@@ -165,7 +162,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         context.startActivity(intent);
     }
 
-    /**
+    /*
      * 获取商品id
      */
     private void getGoodsId() {
@@ -178,7 +175,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         }
     }
 
-    /**
+    /*
      * 获取商品详情数据
      */
     private void getdata() {
@@ -226,7 +223,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     }
 
 
-    /**
+    /*
      * 初始化滑动详情控件
      */
     private void InitPull() {
@@ -249,7 +246,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     }
 
 
-    /**
+    /*
      * 初始化足迹控件
      */
     private void InitFotoplace() {
@@ -279,10 +276,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         });
     }
 
-    /**
+    /*
      * 足迹数据
-     *
-     * @return
      */
     private List<GoodsDetailsItem> getList() {
         List<GoodsDetailsItem> beanList = new ArrayList<>();
@@ -294,7 +289,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         return beanList;
     }
 
-    /**
+    /*
      * 初始化UI
      */
     private void InitView() {
@@ -383,12 +378,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         chooseText.setText("选择 颜色尺码");
 
         RelativeLayout chooseRL = (RelativeLayout) findViewById(R.id.goods_details_choose_rl);
-        chooseRL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        chooseRL.setOnClickListener(this);
 
         /**
          * 宝贝评价、好评率
@@ -538,7 +528,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         initWebView();
     }
 
-    /**
+    /*
      * 初始化Viewpager
      */
     private void InitViewPager() {
@@ -573,7 +563,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         viewPager.addOnPageChangeListener(new ViewPagerOnPageChangeListener());
     }
 
-    /**
+    /*
      * 初始化评价流布局
      */
     private void InitFlowLayout() {
@@ -624,10 +614,14 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 intent1.setData(Uri.parse("tel:15206292150"));
                 startActivity(intent1);
                 break;
+            case R.id.goods_details_choose_rl:
+                //规格选择
+                selectSpecification();
+                break;
         }
     }
 
-    /**
+    /*
      * 解析广告轮播数据
      */
     private void getPagerList(JSONObject dataObj) {
@@ -649,7 +643,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         }
     }
 
-    /**
+    /*
      * 解析商品详情
      */
     private void getGoodsDetails(JSONObject goodsObject) {
@@ -678,7 +672,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         goods.setFreightPrice(goodsObject.optInt("freight_price"));
     }
 
-    /**
+    /*
      * 解析店铺推荐
      *
      * @param goodsObject
@@ -701,7 +695,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         }
     }
 
-    /**
+    /*
      * 加载商品详情页
      */
     private void initWebView() {
@@ -723,12 +717,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
     }
 
-    /**
+    /*
      * 详情页点击返回首页
      *
-     * @param keyCode
-     * @param event
-     * @return
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -863,7 +854,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     }
     //=======================商品详情轮播结束====================
 
-    /**
+    /*
      * 规格选择
      */
     private void showDialog() {
@@ -970,7 +961,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         }
     }
 
-    /**
+    /*
      * 增值积分dialog
      */
     private void showIntegralValue() {
@@ -1011,5 +1002,32 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         data.add(new IntegralValueItem("购买后送20积分", "购买后可获得20积分，会员等级越高购买商品送的积分越多"));
         data.add(new IntegralValueItem("积分有什么用", "在购买商品时，可使用积分抵扣一部分现金"));
         return data;
+    }
+
+    /*
+    获取规格数据
+     */
+    private void selectSpecification() {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsSpec, 0, true);
+        jsonRequest.add("goods_id", goodsId);
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                Log.d("GoodsDetailsActivity", dataObj.toString());
+
+            }
+
+            @Override
+            public void handle404(String message) {
+                dm.buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
+                dm.buildAlertDialog("请检查网络！");
+            }
+        });
     }
 }
