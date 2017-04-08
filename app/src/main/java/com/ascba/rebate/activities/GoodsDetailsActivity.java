@@ -31,6 +31,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -129,6 +130,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private int store_id;
 
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
+    private int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,18 +256,27 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      */
     private void InitFotoplace() {
         ptrLayout = (PtrFrameLayout) findViewById(R.id.activity_goods_details_pl);
-        final TextView textView = new TextView(this);
-        textView.setText("");
-        ptrLayout.setHeaderView(textView);
+        View header = LayoutInflater.from(context).inflate(R.layout.ptrlayout_headview, null);
+        final TextView textView = (TextView) header.findViewById(R.id.tv);
+        ptrLayout.setHeaderView(header);
         ptrLayout.disableWhenHorizontalMove(true);
+
         ptrLayout.setPtrHandler(new PtrDefaultHandler() {
+
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+
+                if (frame.getPtrIndicator().getCurrentPosY() > 300) {
+                    textView.setText("释放查看更多精彩");
+                } else {
+                    textView.setText("下拉查看更多精彩");
+                }
                 return true;
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                Log.i("onRefreshBegin", "i:" + (++i));
                 ptrLayout.refreshComplete();
                 DropDownMultiPagerView dropDownMultiPagerView = new DropDownMultiPagerView(context, getList());
                 dropDownMultiPagerView.show();
@@ -277,6 +288,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 });
             }
         });
+
     }
 
     /*
@@ -518,7 +530,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
 
         //进店看看
-        TextView shopEnter = (TextView) findViewById(R.id.goods_details_shop_img_enter);
+        FrameLayout shopEnter = (FrameLayout) findViewById(R.id.goods_details_shop_img_enter);
         shopEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

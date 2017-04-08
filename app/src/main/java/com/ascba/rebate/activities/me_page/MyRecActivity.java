@@ -63,6 +63,7 @@ public class MyRecActivity extends BaseNetWork4Activity implements
     public interface Listener1 {
         void onDataTypeClick(int id);
     }
+
     public interface Listener2 {
         void onDataTypeClick(int id);
     }
@@ -184,19 +185,17 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 RadioButton rb = (RadioButton) view.findViewById(R.id.pop_rb);
                 rb.setChecked(true);
                 RecType recType = data.get(position);
-                if(type==0){
+                if (type == 0) {
                     index1 = position;
+                    rbOne.setText(recType.getName() + "\n一级推荐");
                     if (listener1 != null) {
-
                         listener1.onDataTypeClick(recType.getId());
-
                     }
-                }else {
+                } else {
                     index2 = position;
+                    rbTwo.setText(recType.getName() + "\n二级推荐");
                     if (listener2 != null) {
-
                         listener2.onDataTypeClick(recType.getId());
-
                     }
                 }
             }
@@ -229,8 +228,8 @@ public class MyRecActivity extends BaseNetWork4Activity implements
             }
             number = dataObj.optInt("p_referee_count");
             number2 = dataObj.optInt("pp_referee_count");
-            rbOne.setText(number + "人\n一级推荐");
-            rbTwo.setText(number2 + "人\n二级推荐");
+            rbOne.setText("全部\n一级推荐");
+            rbTwo.setText("全部\n二级推荐");
         } else if (finalScene == 1) {
             JSONArray array;
             if (position == 0) {
@@ -243,26 +242,32 @@ public class MyRecActivity extends BaseNetWork4Activity implements
                 if (popData.size() != 0) {
                     popData.clear();
                 }
-                if(position==0){
-                    popData.add(new RecType(false, "全部  (" + number + ")", 0));
-                }else {
-                    popData.add(new RecType(false, "全部  (" + number2 + ")", 0));
+                if (position == 0) {
+                    RecType recType = new RecType(false, "全部  (" + number + "人)", 0);
+                    recType.setName("全部");
+                    popData.add(recType);
+                } else {
+                    RecType recType = new RecType(false, "全部  (" + number2 + "人)", 0);
+                    recType.setName("全部");
+                    popData.add(recType);
                 }
 
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
-                    RecType rt = new RecType(false, obj.optString("name") + "  (" + obj.optInt("count") + ")", obj.optInt("id"));
+                    RecType rt = new RecType(false, obj.optString("name") + "  (" + obj.optInt("count") + "人)", obj.optInt("id"));
+                    rt.setNum(obj.optInt("count"));
+                    rt.setName(obj.optString("name"));
                     popData.add(rt);
                 }
-                LogUtils.PrintLog("MyRecActivity","position-->"+position+";index1-->"+index1+";index2-->"+index2);
-                if(position==0){
+                LogUtils.PrintLog("MyRecActivity", "position-->" + position + ";index1-->" + index1 + ";index2-->" + index2);
+                if (position == 0) {
                     for (int i = 0; i < popData.size(); i++) {
                         if (i == index1) {
                             popData.get(i).setSelect(true);
                         }
                     }
-                }else {
+                } else {
                     for (int i = 0; i < popData.size(); i++) {
                         if (i == index2) {
                             popData.get(i).setSelect(true);
