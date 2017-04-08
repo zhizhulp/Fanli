@@ -13,12 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barBg="#f64545"
-        app:textTitle="我的推荐" />
+        app:textTitle="我的推广" />
 
     <LinearLayout
         android:id="@+id/rec_man_lat"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="79dp"
         android:background="@mipmap/me_head_bg"
         android:orientation="horizontal">
 
@@ -164,9 +164,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="6dp"
-                android:visibility="invisible"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/icon_rec_white" />
+                android:src="@mipmap/icon_rec_white"
+                android:visibility="invisible" />
         </RelativeLayout>
     </RadioGroup>
 

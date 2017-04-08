@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:paddingBottom="14dp"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp">
+    android:paddingBottom="14dp">
 
     <RelativeLayout
         android:id="@+id/goods_details_shop_rl1"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:paddingLeft="14dp">
 
         <LinearLayout
             android:id="@+id/goods_details_shop_l1"
@@ -38,20 +37,27 @@
 
         </LinearLayout>
 
-        <TextView
+        <FrameLayout
             android:id="@+id/goods_details_shop_img_enter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/red_bg"
             android:gravity="center"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="进店逛逛"
-            android:textColor="@color/shop_red_text_color"
-            android:textSize="13sp" />
+            android:paddingBottom="13dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="13dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/red_bg"
+                android:padding="3dp"
+                android:text="进店逛逛"
+                android:textColor="@color/shop_red_text_color"
+                android:textSize="13sp" />
+        </FrameLayout>
 
     </RelativeLayout>
 
@@ -62,7 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/goods_details_shop_rl1"
         android:layout_marginTop="18dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -81,9 +89,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="21.5dp"
+                android:layout_marginTop="22dp"
                 android:text="全部宝贝"
                 android:textColor="@color/shop_normal_text_color"
+                android:layout_marginBottom="2dp"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -105,8 +114,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="21.5dp"
+                android:layout_marginTop="22dp"
                 android:text="达人推荐"
+                android:layout_marginBottom="2dp"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="12sp" />
 
@@ -235,7 +245,9 @@
         android:layout_below="@id/goods_details_shop_l2"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
-        android:paddingBottom="14dp">
+        android:paddingBottom="14dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -270,9 +282,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
                     android:text="￥799.9"
-                    android:visibility="gone"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 
@@ -309,10 +321,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
-                    android:visibility="gone"
                     android:text="￥799.9"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 
@@ -350,9 +362,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
                     android:text="￥799.9"
-                    android:visibility="gone"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

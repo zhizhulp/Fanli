@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/shop_normal_text_color"
         android:ems="1"
         android:text="继续滑动跳到详情"/>
 </LinearLayout>

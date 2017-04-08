@@ -277,6 +277,8 @@ public class PtrFrameLayout extends ViewGroup {
 
                 mLastMoveEvent = e;
                 mPtrIndicator.onMove(e.getX(), e.getY());
+
+                Log.d("PtrFrameLayout", "mPtrIndicator.getCurrentPosY():" + mPtrIndicator.getCurrentPosY());
                 float offsetX = mPtrIndicator.getOffsetX();
                 float offsetY = mPtrIndicator.getOffsetY();
 
@@ -731,6 +733,10 @@ public class PtrFrameLayout extends ViewGroup {
 
     public int getOffsetToRefresh() {
         return mPtrIndicator.getOffsetToRefresh();
+    }
+
+    public PtrIndicator getPtrIndicator() {
+        return mPtrIndicator;
     }
 
     @SuppressWarnings({"unused"})
