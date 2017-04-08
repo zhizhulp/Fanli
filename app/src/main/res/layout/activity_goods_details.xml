@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <include
         android:id="@+id/activity_goods_details_shopping_in"
         layout="@layout/activity_goods_details_shopping" />

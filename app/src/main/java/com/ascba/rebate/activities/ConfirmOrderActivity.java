@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -19,7 +20,6 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,9 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     private TextView userAddress;//收货人地址
     private String json_data;
     private TextView tvTotal;
-    private List<Goods> goodsList = new ArrayList<>();;
+    private List<Goods> goodsList = new ArrayList<>();
+    private JSONObject jsonMessage = new JSONObject();//留言信息
+    private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,19 +123,31 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         ConfirmOrderAdapter confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
         recyclerView.setAdapter(confirmOrderAdapter);
 
-
+        //买家留言
+        confirmOrderAdapter.setEditTextString(new ConfirmOrderAdapter.editTextString() {
+            @Override
+            public void getString(String content, int storeId) {
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("message", content);
+                    jsonMessage.put(String.valueOf(storeId), jsonObject);
+                    Log.d("ConfirmOrderActivity", jsonMessage.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private List<Goods> getData() {
-
         try {
-            if(goodsList.size()!=0){
+            if (goodsList.size() != 0) {
                 goodsList.clear();
             }
             JSONObject dataObj = new JSONObject(json_data);
             JSONArray storeList = dataObj.optJSONArray("order_store_list");
             if (storeList != null && storeList.length() != 0) {
-                double totalPrice=0;
+                float totalPrice = 0;
                 for (int i = 0; i < storeList.length(); i++) {
                     JSONObject storeObj = storeList.optJSONObject(i);
                     if (storeObj != null) {
@@ -141,9 +156,10 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                         JSONArray goodsArray = storeObj.optJSONArray("goods_list");
 
                         if (goodsArray != null && goodsArray.length() != 0) {
-                            double yunfei = 10;//运费
+                            float yunfei = 10;//运费
                             int num = 0;
-                            double price = 0;
+                            float price = 0;
+                            int storeId = 0;
                             for (int j = 0; j < goodsArray.length(); j++) {
                                 JSONObject obj = goodsArray.optJSONObject(j);
                                 String goods_price = obj.optString("goods_price");
@@ -154,54 +170,24 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                                         "no_old_price", Integer.parseInt(goods_num)));
 
                                 num += Integer.parseInt(goods_num);
-                                price += Double.parseDouble(goods_price) * Integer.parseInt(goods_num);
-
-
+                                price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
+                                //店铺id
+                                storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("message", "");
+                                jsonMessage.put(String.valueOf(storeId), jsonObject);
                             }
                             price += yunfei;
                             totalPrice += price;
-                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, yunfei, "", num, price + ""));
+                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId));
                         }
                     }
-
                 }
-                tvTotal.setText("￥"+totalPrice);
+                tvTotal.setText("￥" + fnum.format(totalPrice));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        /*String imgUrl = "http://image18-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
-        String title = "RCC男装 春夏 设计师款修身尖领翻领免烫薄长袖寸衫 韩国代购 2色";
-        String standard = "颜色:深蓝色;尺码:S";
-        String price = "368";
-        String priceOld = "468";
-
-        //店铺信息
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, "RCC韩国代购——男装"));
-        //商品信息
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 1));
-        //费用
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, 10, "没什么想说的，就是品牌名字不认识", 1, "368.00"));
-
-        //店铺信息
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, "RCC韩国代购——女装"));
-        //商品信息
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 2));
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 4));
-        //费用
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, 10, "没什么想说的，就是来凑内容的", 6, "2208.00"));
-
-        //店铺信息
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, "平哥国际购物中心"));
-        //商品信息
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 4));
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 6));
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 8));
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, imgUrl, title, standard, price, priceOld, 20));
-        //费用
-        goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, 10, "我想说，我平威武！！！", 38, "13984.00"));
-*/
         return goodsList;
     }
 
@@ -311,15 +297,15 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
 
     }
 
-    /**
+    /*
      * 创建订单
      */
-    private void creatOrder(String message) {
+    private void creatOrder(String receiveId, String message) {
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
-        jsonRequest.add("buy_data", message);
-        jsonRequest.add("member_address_id", defaultAddressBean.getId());//用户收货地址id
+        jsonRequest.add("extra_data", message);
+        jsonRequest.add("member_address_id", receiveId);//用户收货地址id
         jsonRequest.add("payment_type", "balance");//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
 
         executeNetWork(jsonRequest, "请稍后");
@@ -357,24 +343,14 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                 startActivityForResult(intent2, 1);
                 break;
             case R.id.confir_order_btn_commit:
-                creatOrder(createMsg());
+                //提交订单
+                if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
+                    creatOrder(defaultAddressBean.getId(), jsonMessage.toString());
+                } else {
+                    showToast("请先填写收货地址");
+                }
                 break;
         }
-    }
-
-    private String createMsg() {
-
-        StringBuilder sb=new StringBuilder();
-        if(goodsList.size()!=0){
-            for (int i = 0; i < goodsList.size(); i++) {
-                Goods goods = goodsList.get(i);
-                if(goods.getItemType()==ConfirmOrderAdapter.TYPE3){
-
-                }
-            }
-        }
-
-        return null;
     }
 
     /**

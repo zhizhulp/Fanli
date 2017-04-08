@@ -2,15 +2,19 @@ package com.ascba.rebate.activities.supermaket;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.GoodsListActivity;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
@@ -18,28 +22,28 @@ import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yolanda.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 public class TypeMarketActivity extends BaseNetWork4Activity implements
-        SuperSwipeRefreshLayout.OnPullRefreshListener, ShopABar.Callback, BaseNetWork4Activity.Callback {
+        SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetWork4Activity.Callback {
 
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data = new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
-    private ShopABar sab;
     private int categoryId = 1327;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int LOAD_MORE_END = 0;
@@ -59,6 +63,9 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
     };
     private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
     private Context context;
+    private RelativeLayout searchHead;//搜索头
+    private View searchHeadLine;//分割线
+    private int mDistanceY = 0;//下拉刷新滑动距离
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,27 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
     }
 
     private void initViews() {
+
+        //标题栏
+        searchHead = (RelativeLayout) findViewById(R.id.head_search_rr);
+        searchHeadLine = findViewById(R.id.homepage_head_view);
+
+        //返回图标
+        findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //消息
+        findViewById(R.id.head_rr).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShopMessageActivity.startIntent(context);
+            }
+        });
+
         rv = ((RecyclerView) findViewById(R.id.list_market));
         refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
@@ -101,21 +129,27 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
                 }
             }
         });
-        // initData();
-        // adapter = new ShopTypeRVAdapter(data, this);
-//        final GridLayoutManager manager = new GridLayoutManager(this, TypeWeight.TYPE_SPAN_SIZE_MAX);
-//        rv.setLayoutManager(manager);
-//        adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-//                return data.get(position).getSpanSize();
-//            }
-//        });
-//        rv.setAdapter(adapter);
 
-        sab = ((ShopABar) findViewById(R.id.sab));
-        sab.setCallback(this);
-
+        /**
+         * 滑动标题栏渐变
+         */
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //滑动的距离
+                mDistanceY += dy;
+                //toolbar的高度
+                int toolbarHeight = searchHead.getBottom();
+                float maxAlpha = 229.5f;//最大透明度80%
+                //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
+                if (mDistanceY <= toolbarHeight) {
+                    float scale = (float) mDistanceY / toolbarHeight;
+                    float alpha = scale * maxAlpha;
+                    searchHead.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+                    searchHeadLine.setAlpha(alpha);
+                }
+            }
+        });
         requestNetwork();
     }
 
@@ -190,7 +224,12 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
 
     @Override
     public void onPullDistance(int distance) {
-
+        //隐藏搜索栏
+        if (distance > 0) {
+            searchHead.setVisibility(View.GONE);
+        } else {
+            searchHead.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -198,20 +237,6 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
 
     }
 
-    @Override
-    public void back(View v) {
-        finish();
-    }
-
-    @Override
-    public void clkMsg(View v) {
-
-    }
-
-    @Override
-    public void clkOther(View v) {
-
-    }
 
     private void requestNetwork() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.category, 0, false);

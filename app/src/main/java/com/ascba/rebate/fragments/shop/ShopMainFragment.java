@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -25,6 +26,7 @@ import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.BezierCurveAnimater;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -54,6 +56,7 @@ public class ShopMainFragment extends Base2Fragment implements
     private List<ShopBaseItem> data = new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
     private RelativeLayout searchHead;//搜索头
+    private View searchHeadLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
     private int now_page = 1;
     private int total_page;
@@ -74,7 +77,6 @@ public class ShopMainFragment extends Base2Fragment implements
                     if (adapter != null) {
                         adapter.loadMoreFail();
                     }
-
                     break;
             }
         }
@@ -82,6 +84,8 @@ public class ShopMainFragment extends Base2Fragment implements
     private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
 
     private LinearLayout messageBtn;
+    private RelativeLayout fatherView;//父布局
+    private BezierCurveAnimater bezierCurveAnimater;//加入购物车动画
 
     @Nullable
     @Override
@@ -96,7 +100,9 @@ public class ShopMainFragment extends Base2Fragment implements
     }
 
     private void initViews(View view) {
+        fatherView = (RelativeLayout) view.findViewById(R.id.fatherView);
         searchHead = (RelativeLayout) view.findViewById(R.id.head_search_rr);
+        searchHeadLine = view.findViewById(R.id.homepage_head_view);
         //返回图标
         view.findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +126,9 @@ public class ShopMainFragment extends Base2Fragment implements
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
 
+        //初始化加入购物车动画
+        bezierCurveAnimater = new BezierCurveAnimater(getActivity(), fatherView, getActivity().findViewById(R.id.tabs));
+
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -130,6 +139,16 @@ public class ShopMainFragment extends Base2Fragment implements
                     } else if (shopBaseItem.getItemType() == ShopItemType.TYPE_NAVIGATION) {
                         TypeMarketActivity.startIntent(getActivity(), shopBaseItem.getColor());
                     }
+                }
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemChildClick(adapter, view, position);
+                //加入购物车动画
+                if (view.getId() == R.id.goods_list_cart) {
+                    ImageView addCart = (ImageView) view;
+                    bezierCurveAnimater.addCart(addCart);
                 }
             }
         });
@@ -144,15 +163,13 @@ public class ShopMainFragment extends Base2Fragment implements
                 mDistanceY += dy;
                 //toolbar的高度
                 int toolbarHeight = searchHead.getBottom();
-
+                float maxAlpha = 229.5f;//最大透明度80%
                 //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
                 if (mDistanceY <= toolbarHeight) {
                     float scale = (float) mDistanceY / toolbarHeight;
-                    float alpha = scale * 255;
+                    float alpha = scale * maxAlpha;
                     searchHead.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-                } else {
-                    //将标题栏的颜色设置为完全不透明状态
-                    searchHead.setBackgroundResource(R.color.white);
+                    searchHeadLine.setAlpha(alpha);
                 }
             }
         });
