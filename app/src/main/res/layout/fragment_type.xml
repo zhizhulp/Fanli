@@ -5,8 +5,10 @@
     tools:context="com.ascba.rebate.fragments.TypeFragment">
 
     <TextView
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="分类" />
+        android:text="正在开发！" />
 
 </FrameLayout>

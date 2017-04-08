@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="true"
     android:id="@+id/second_rr"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.flyco.tablayout.CommonTabLayout
+    <!--<com.flyco.tablayout.CommonTabLayout
         android:layout_alignParentBottom="true"
         android:id="@+id/tabs"
         android:layout_width="match_parent"
@@ -19,15 +18,20 @@
         tl:tl_textUnselectColor="#66000000"
         tl:tl_textsize="12sp"
         tl:tl_underline_color="#DDDDDD"
-        tl:tl_underline_height="1dp"/>
+        tl:tl_underline_height="1dp"/>-->
+    <com.ascba.rebate.view.ShopTabs
+        android:layout_alignParentBottom="true"
+        android:id="@+id/shop_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
     <FrameLayout
-        android:layout_above="@id/tabs"
+        android:layout_above="@id/shop_tabs"
         android:id="@+id/fl_change"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </FrameLayout>
     <View
-        android:layout_above="@id/tabs"
+        android:layout_above="@id/shop_tabs"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/view_line"/>

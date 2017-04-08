@@ -24,14 +24,16 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, GoodsAttr item) {
+    protected void convert(BaseViewHolder helper, final GoodsAttr item) {
         helper.setText(R.id.goods_attrs_title,item.getTitle());
         RadioGroupEx rgEx=helper.getView(R.id.goods_attrs_content);
         rgEx.removeAllViews();//清除之前的视图
-        List<GoodsAttr.Attrs> strs = item.getStrs();
-        for (GoodsAttr.Attrs s : strs) {
+        final List<GoodsAttr.Attrs> strs = item.getStrs();
+        for (final GoodsAttr.Attrs s : strs) {
             final RadioButton rb=new RadioButton(mContext);
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            rb.setChecked(s.isHasCheck());
+            rb.setTextColor(s.getTextColor());
+            /*rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
@@ -41,18 +43,38 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
                     }
 
                 }
+            });*/
+            rb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    s.setHasCheck(rb.isChecked());
+                    s.setTextColor(1);
+                    for (int i = 0; i < strs.size(); i++) {
+                        GoodsAttr.Attrs attrs = strs.get(i);
+                        if(attrs.getTextColor()!=2){
+                            if(attrs.getTextColor()==1 && attrs!=s){
+                                attrs.setTextColor(0);
+                            }
+                        }
+                    }
+
+                    notifyDataSetChanged();
+                }
             });
             rb.setButtonDrawable(new ColorDrawable());
-            rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.goods_standrad_bg));
+            //rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.goods_standrad_bg));
             rb.setText(s.getContent());
-            int textColor = s.getTextColor();
-            if(textColor==0){//未选择
+            int textStatus = s.getTextColor();
+            if(textStatus==0){//未选择
                 rb.setEnabled(true);
                 rb.setTextColor(mContext.getResources().getColor(R.color.shop_normal_text_color));
-            }else if(textColor==1){//选择
+                rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.sta_no_press_shape));
+            }else if(textStatus==1){//选择
                 rb.setEnabled(true);
                 rb.setTextColor(mContext.getResources().getColor(R.color.white));
+                rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.sta_press_shape));
             }else {//不可用
+                rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.sta_no_press_shape));
                 rb.setEnabled(false);
                 rb.setTextColor(0xffd1d1d1);
             }

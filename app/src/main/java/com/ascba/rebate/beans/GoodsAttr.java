@@ -14,6 +14,8 @@ public class GoodsAttr implements MultiItemEntity {
     private List<Attrs> strs;
     private int type;
 
+
+
     public GoodsAttr(int type, int layout) {
         this.type = type;
         this.layout = layout;
@@ -81,13 +83,23 @@ public class GoodsAttr implements MultiItemEntity {
     public class Attrs {
         private String content;
         private int textColor;
+        private boolean hasCheck;
+
+        public boolean isHasCheck() {
+            return hasCheck;
+        }
+
+        public void setHasCheck(boolean hasCheck) {
+            this.hasCheck = hasCheck;
+        }
 
         public Attrs() {
         }
 
-        public Attrs(String content, int textColor) {
+        public Attrs(String content, int textColor,boolean hasCheck) {
             this.content = content;
             this.textColor = textColor;
+            this.hasCheck=hasCheck;
         }
 
         public String getContent() {

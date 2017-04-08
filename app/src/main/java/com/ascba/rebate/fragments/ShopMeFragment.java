@@ -1,12 +1,14 @@
 package com.ascba.rebate.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,12 +21,15 @@ import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +37,8 @@ import java.util.List;
 /**
  * 商城设置
  */
-public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
+        Base2Fragment.Callback{
     private RecyclerView pc_RecyclerView;
     private SuperSwipeRefreshLayout refreshLat;
     private Handler handler = new Handler() {
@@ -218,5 +224,54 @@ public class ShopMeFragment extends BaseFragment implements SuperSwipeRefreshLay
     @Override
     public void onPullEnable(boolean enable) {
 
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+
+    }
+
+    @Override
+    public void handleReqFailed() {
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleReLogin() {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            FragmentActivity activity = getActivity();
+            if (activity instanceof ShopActivity) {
+                ShopActivity a = (ShopActivity) activity;
+                a.selFrgByPos(0, a.getmFirstFragment());
+                a.getShopTabs().statusChaByPosition(0,3);
+                a.getShopTabs().setFilPos(0);
+            }
+        } else {
+            if (resultCode != Activity.RESULT_OK) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof ShopActivity) {
+                    ShopActivity a = (ShopActivity) activity;
+                    a.selFrgByPos(0, a.getmFirstFragment());
+                    a.getShopTabs().statusChaByPosition(0,3);
+                    a.getShopTabs().setFilPos(0);
+                }
+            }
+        }
     }
 }

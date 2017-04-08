@@ -50,6 +50,7 @@ import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ImageViewDialog;
 import com.ascba.rebate.view.ShopABar;
+import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout;
 import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.handler.PtrDefaultHandler;
@@ -875,6 +876,21 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         rvRule.setLayoutManager(new LinearLayoutManager(this));
         //添加尾部试图
         View view1 = getLayoutInflater().inflate(R.layout.num_btn_layout, null);
+
+        final NumberButton nb = (NumberButton) view1.findViewById(R.id.num_btn);
+        nb.setCurrentNumber(9);
+        nb.getAddButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nb.setCurrentNumber(nb.getNumber()+1);
+            }
+        });
+        nb.getSubButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nb.setCurrentNumber(nb.getNumber()-1);
+            }
+        });
         adapter.addFooterView(view1, 0);
         rvRule.setAdapter(adapter);
 
@@ -899,9 +915,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
                     if (j == 2) {
-                        strs.add(ga.new Attrs("红色/白色", 2));
+                        strs.add(ga.new Attrs("红色/白色", 2,false));
                     } else {
-                        strs.add(ga.new Attrs("红色/白色", 0));
+                        strs.add(ga.new Attrs("红色/白色", 0,false));
                     }
                 }
                 ga.setTitle("颜色分类");
@@ -913,9 +929,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2,false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0,false));
                     }
 
                 }
@@ -927,7 +943,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0));
+                    strs.add(ga.new Attrs("方形" + i, 0,false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
@@ -938,9 +954,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2,false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0,false));
                     }
 
                 }
@@ -952,7 +968,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0));
+                    strs.add(ga.new Attrs("方形" + i, 0 , false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);

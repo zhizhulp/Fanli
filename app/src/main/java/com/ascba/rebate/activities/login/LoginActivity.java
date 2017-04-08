@@ -124,7 +124,7 @@ public class LoginActivity extends BaseNetWork3Activity {
                 AppConfig.getInstance().putString("login_phone",loginPhone);
                 AppConfig.getInstance().putString("login_password","");
 
-                setResult(RESULT_OK,new Intent(LoginActivity.this,MainActivity.class));
+                setResult(RESULT_OK,getIntent());
                 MyApplication.isPersonalData = true;
                 finish();
             }
