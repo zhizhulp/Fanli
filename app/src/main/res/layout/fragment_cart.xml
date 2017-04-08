@@ -13,6 +13,7 @@
         app:abar_title="购物车(3)" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/cart_clear"
         android:layout_width="match_parent"
         android:layout_height="42dp"

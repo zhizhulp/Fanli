@@ -19,6 +19,15 @@ import java.util.List;
  */
 
 public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
+    private Callback callback;
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public interface Callback{
+        void click(GoodsAttr.Attrs s);
+    }
     public ProfileAdapter(int layoutResId, List<GoodsAttr> data) {
         super(layoutResId, data);
     }
@@ -33,17 +42,7 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
             final RadioButton rb=new RadioButton(mContext);
             rb.setChecked(s.isHasCheck());
             rb.setTextColor(s.getTextColor());
-            /*rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
-                        rb.setTextColor(mContext.getResources().getColor(R.color.white));
-                    }else {
-                        rb.setTextColor(mContext.getResources().getColor(R.color.shop_normal_text_color));
-                    }
 
-                }
-            });*/
             rb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,10 +58,12 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
                     }
 
                     notifyDataSetChanged();
+                    if(callback!=null){
+                        callback.click(s);
+                    }
                 }
             });
-            rb.setButtonDrawable(new ColorDrawable());
-            //rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.goods_standrad_bg));
+            rb.setButtonDrawable(new ColorDrawable());//去掉圆圈
             rb.setText(s.getContent());
             int textStatus = s.getTextColor();
             if(textStatus==0){//未选择
