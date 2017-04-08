@@ -1,11 +1,13 @@
 package com.ascba.rebate.fragments;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.adapter.ProfileAdapter;
@@ -67,6 +70,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
+    private boolean isFirst=true;
 
     public CartFragment() {
     }
@@ -75,6 +79,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_cart, container, false);
     }
 
@@ -94,9 +99,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         } else if (scene == 2) {
             request.add("cart_id", data.get(position).t.getCartId());
             request.add("new_num", goodsCount);
-        } else if(scene == 3){
+        } else if (scene == 3) {
             request.add("cart_ids", data.get(position).t.getCartId());
-        } else if(scene == 4){
+        } else if (scene == 4) {
             request.add("cart_ids", createClearIds());
         }
         executeNetWork(request, "请稍后");
@@ -105,12 +110,12 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     private String createClearIds() {
 
-        if(data.size()!=0){
-            List<CartGoods> filter=new ArrayList<>();
-            StringBuilder sb=new StringBuilder();
+        if (data.size() != 0) {
+            List<CartGoods> filter = new ArrayList<>();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < data.size(); i++) {
                 CartGoods cg = data.get(i);
-                if(!cg.isHeader && cg.isCheck()){
+                if (!cg.isHeader && cg.isCheck()) {
                     filter.add(cg);
                 }
             }
@@ -125,7 +130,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 }
             }
             return sb.toString();
-        }else {
+        } else {
             return null;
         }
 
@@ -214,7 +219,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
 
 
-
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -282,9 +286,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
                     if (j == 2) {
-                        strs.add(ga.new Attrs("红色/白色", 2));
+                        strs.add(ga.new Attrs("红色/白色", 2, false));
                     } else {
-                        strs.add(ga.new Attrs("红色/白色", 0));
+                        strs.add(ga.new Attrs("红色/白色", 0, false));
                     }
                 }
                 ga.setTitle("颜色分类");
@@ -296,9 +300,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2, false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0, false));
                     }
 
                 }
@@ -310,7 +314,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0));
+                    strs.add(ga.new Attrs("方形" + i, 0, false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
@@ -321,9 +325,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2, false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0, false));
                     }
 
                 }
@@ -335,7 +339,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0));
+                    strs.add(ga.new Attrs("方形" + i, 0, false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
@@ -397,7 +401,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cart_tv_cost_total_count:
-                requestNetwork(UrlUtils.cartAccount,4);
+                requestNetwork(UrlUtils.cartAccount, 4);
 
                 //showFinalDialog();
                 break;
@@ -475,21 +479,21 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             calculateNumAndCost();
         } else if (finalScene == 1) {//选择商品
             calculateNumAndCost();
-            getDm().buildAlertDialog(message);
+            //getDm().buildAlertDialog(message);
         } else if (finalScene == 2) {//加减商品
-            getDm().buildAlertDialog(message);
+            //getDm().buildAlertDialog(message);
             data.get(position).t.setUserQuy(goodsCount);
             adapter.notifyItemChanged(position);
             calculateNumAndCost();
-        } else if(finalScene == 3){//删除商品
-            getDm().buildAlertDialog(message);
+        } else if (finalScene == 3) {//删除商品
+            //getDm().buildAlertDialog(message);
             data.remove(position);
             adapter.notifyItemRemoved(position);
             calculateNumAndCost();
             requestNetwork(UrlUtils.shoppingCart, 0);
-        } else if(finalScene == 4){//商品结算
+        } else if (finalScene == 4) {//商品结算
             Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
-            intent.putExtra("json_data",dataObj.toString());
+            intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
         }
 
@@ -552,7 +556,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 }
             }
             cbTotal.setChecked(isAll);
-        }else {
+        } else {
             cartClean.setVisibility(View.GONE);
         }
     }
@@ -622,22 +626,22 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     @Override
     public void clickDelBtn(int position) {
-        this.position=position;
+        this.position = position;
         requestNetwork(UrlUtils.cartDeleteGoods, 3);
     }
 
-    private void calculateNumAndCost(){
-        if(data.size()!=0){
-            double totalCost=0;
-            int totalCount=0;
+    private void calculateNumAndCost() {
+        if (data.size() != 0) {
+            double totalCost = 0;
+            int totalCount = 0;
             for (int i = 0; i < data.size(); i++) {
                 CartGoods cg = data.get(i);
-                if(!cg.isHeader && cg.isCheck()){
+                if (!cg.isHeader && cg.isCheck()) {
                     String goodsPrice = cg.t.getGoodsPrice();
-                    if(!StringUtils.isEmpty(goodsPrice)){
+                    if (!StringUtils.isEmpty(goodsPrice)) {
                         double price = Double.parseDouble(goodsPrice);
                         int userQuy = cg.t.getUserQuy();
-                        if(userQuy!=0){
+                        if (userQuy != 0) {
                             totalCost += userQuy * price;
                             totalCount += userQuy;
                         }
@@ -645,9 +649,40 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
                 }
             }
-            tvCost.setText("￥"+totalCost);
-            tvCostNum.setText("结算("+totalCount +")" );
+            tvCost.setText("￥" + totalCost);
+            tvCostNum.setText("结算(" + totalCount + ")");
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            FragmentActivity activity = getActivity();
+            if (activity instanceof ShopActivity) {
+                ShopActivity a = (ShopActivity) activity;
+                a.selFrgByPos(0, a.getmFirstFragment());
+                a.getShopTabs().statusChaByPosition(0,2);
+                a.getShopTabs().setFilPos(0);
+            }
+        } else {
+            if (resultCode != Activity.RESULT_OK) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof ShopActivity) {
+                    ShopActivity a = (ShopActivity) activity;
+                    a.selFrgByPos(0, a.getmFirstFragment());
+                    a.getShopTabs().statusChaByPosition(0,2);
+                    a.getShopTabs().setFilPos(0);
+                }
+            }
+        }
     }
 }

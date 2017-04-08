@@ -396,7 +396,7 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (now_page > total_page - 1 && total_page != 0) {
+                if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
                     requestNetwork();

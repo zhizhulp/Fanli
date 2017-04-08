@@ -10,24 +10,26 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * AppTabs
  */
 
-public class AppTabs extends RelativeLayout implements View.OnClickListener {
+public class ShopTabs extends RelativeLayout implements View.OnClickListener {
     private ImageView imOne;
     private ImageView imZero;
     private ImageView imThree;
     private ImageView imFour;
 
+    public ImageView getImThree() {
+        return imThree;
+    }
+
     private TextView tvZero;
     private TextView tvOne;
-    private TextView tvTwo;
     private TextView tvThree;
     private TextView tvFour;
+    private View viewThree;
+
 
     private Callback callback;
     private int filPos=0;//代表被选择的位置（默认）
@@ -36,18 +38,18 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
         this.filPos = filPos;
     }
 
-    public AppTabs(Context context) {
+    public ShopTabs(Context context) {
         super(context);
         initViews(context);
     }
 
-    public AppTabs(Context context, AttributeSet attrs) {
+    public ShopTabs(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViews(context);
 
     }
 
-    public AppTabs(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ShopTabs(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initViews(context);
 
@@ -55,29 +57,26 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
 
 
     private void initViews(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.app_tabs, this, true);
+        LayoutInflater.from(context).inflate(R.layout.shop_tabs, this, true);
 
         imZero = ((ImageView) findViewById(R.id.im_tabs_zero));
         imOne = ((ImageView) findViewById(R.id.im_tabs_one));
-        /*imTwo = ((ImageView) findViewById(R.id.im_tabs_two));*/
         imThree = ((ImageView) findViewById(R.id.im_tabs_three));
         imFour = ((ImageView) findViewById(R.id.im_tabs_four));
 
         tvZero = ((TextView) findViewById(R.id.tv_tabs_zero));
         tvOne = ((TextView) findViewById(R.id.tv_tabs_one));
-        tvTwo = ((TextView) findViewById(R.id.tv_tabs_two));
         tvThree = ((TextView) findViewById(R.id.tv_tabs_three));
         tvFour = ((TextView) findViewById(R.id.tv_tabs_four));
 
 
         View viewZero = findViewById(R.id.tabs_zero_par);
         View viewOne = findViewById(R.id.tabs_one_par);
-        View viewThree = findViewById(R.id.tabs_three_par);
+        viewThree = findViewById(R.id.tabs_three_par);
         View viewFour = findViewById(R.id.tabs_four_par);
 
         viewZero.setOnClickListener(this);
         viewOne.setOnClickListener(this);
-        tvTwo.setOnClickListener(this);//商城
         viewThree.setOnClickListener(this);
         viewFour.setOnClickListener(this);
 
@@ -88,7 +87,6 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
 
         void clickOne(View v);
 
-        void clickTwo(View v);
 
         void clickThree(View v);
 
@@ -118,22 +116,17 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
                 filPos=1;
                 callback.clickOne(v);
                 break;
-            case R.id.tv_tabs_two://商城
+
+            case R.id.tabs_three_par://财富
 
                 statusChaByPosition(2,filPos);
                 filPos=2;
-                callback.clickTwo(v);
-                break;
-            case R.id.tabs_three_par://财富
-
-                statusChaByPosition(3,filPos);
-                filPos=3;
                 callback.clickThree(v);
                 break;
             case R.id.tabs_four_par://我
 
-                statusChaByPosition(4,filPos);
-                filPos=4;
+                statusChaByPosition(3,filPos);
+                filPos=3;
                 callback.clickFour(v);
                 break;
         }
@@ -147,17 +140,14 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
                     tvZero.setTextColor(getResources().getColor(R.color.textgray));
                     break;
                 case 1:
-                    imOne.setImageResource(R.mipmap.tab_zhoubian);
+                    imOne.setImageResource(R.mipmap.fenlei);
                     tvOne.setTextColor(getResources().getColor(R.color.textgray));
                     break;
                 case 2:
-                    tvTwo.setTextColor(getResources().getColor(R.color.textgray));
-                    break;
-                case 3:
-                    imThree.setImageResource(R.mipmap.tab_caifu);
+                    imThree.setImageResource(R.mipmap.tab_shop);
                     tvThree.setTextColor(getResources().getColor(R.color.textgray));
                     break;
-                case 4:
+                case 3:
                     imFour.setImageResource(R.mipmap.tab_me);
                     tvFour.setTextColor(getResources().getColor(R.color.textgray));
                     break;
@@ -171,16 +161,13 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
                     break;
                 case 1:
                     tvOne.setTextColor(getResources().getColor(R.color.moneyBarColor));
-                    imOne.setImageResource(R.mipmap.tab_zhoubian_select);
+                    imOne.setImageResource(R.mipmap.tab_type_select);
                     break;
                 case 2:
-                    tvTwo.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    tvThree.setTextColor(getResources().getColor(R.color.moneyBarColor));
+                    imThree.setImageResource(R.mipmap.tab_shop_select);
                     break;
                 case 3:
-                    tvThree.setTextColor(getResources().getColor(R.color.moneyBarColor));
-                    imThree.setImageResource(R.mipmap.tab_caifu_select);
-                    break;
-                case 4:
                     tvFour.setTextColor(getResources().getColor(R.color.moneyBarColor));
                     imFour.setImageResource(R.mipmap.tab_me_select);
                     break;

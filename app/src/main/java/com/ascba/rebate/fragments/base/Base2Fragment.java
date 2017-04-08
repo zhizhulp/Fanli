@@ -121,7 +121,6 @@ public class Base2Fragment extends Fragment {
 
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
-
         FragmentActivity activity = getActivity();
         if(activity instanceof MainActivity){
             dm = ((MainActivity) activity).getDm();
@@ -185,7 +184,9 @@ public class Base2Fragment extends Fragment {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-
+            if (dm != null) {
+                dm.dismissDialog();
+            }
             try {
                 JSONObject jObj = response.get();
                 int status = jObj.optInt("status");

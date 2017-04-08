@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
@@ -84,7 +85,6 @@ public class ShopMainFragment extends Base2Fragment implements
     private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
 
     private LinearLayout messageBtn;
-    private RelativeLayout fatherView;//父布局
     private BezierCurveAnimater bezierCurveAnimater;//加入购物车动画
 
     @Nullable
@@ -100,7 +100,6 @@ public class ShopMainFragment extends Base2Fragment implements
     }
 
     private void initViews(View view) {
-        fatherView = (RelativeLayout) view.findViewById(R.id.fatherView);
         searchHead = (RelativeLayout) view.findViewById(R.id.head_search_rr);
         searchHeadLine = view.findViewById(R.id.homepage_head_view);
         //返回图标
@@ -126,8 +125,9 @@ public class ShopMainFragment extends Base2Fragment implements
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
 
+        ShopActivity a = (ShopActivity) getActivity();
         //初始化加入购物车动画
-        bezierCurveAnimater = new BezierCurveAnimater(getActivity(), fatherView, getActivity().findViewById(R.id.tabs));
+        bezierCurveAnimater = new BezierCurveAnimater(a, ((RelativeLayout) a.findViewById(R.id.second_rr)), ((ShopActivity) getActivity()).getShopTabs().getImThree());
 
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -210,7 +210,7 @@ public class ShopMainFragment extends Base2Fragment implements
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (now_page > total_page - 1 && total_page != 0) {
+                if (now_page > total_page  && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
 
