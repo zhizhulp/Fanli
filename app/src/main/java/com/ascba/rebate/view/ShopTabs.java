@@ -20,15 +20,16 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
     private ImageView imThree;
     private ImageView imFour;
 
+    public ImageView getImThree() {
+        return imThree;
+    }
+
     private TextView tvZero;
     private TextView tvOne;
     private TextView tvThree;
     private TextView tvFour;
     private View viewThree;
 
-    public View getViewThree() {
-        return viewThree;
-    }
 
     private Callback callback;
     private int filPos=0;//代表被选择的位置（默认）
