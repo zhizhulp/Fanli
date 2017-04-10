@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.ascba.rebate.view.SuspendLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="26dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homepage_recylerview"
@@ -71,8 +73,8 @@
             android:id="@+id/homepage_head_view"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:alpha="0"
             android:layout_below="@id/homepage_message"
+            android:alpha="0"
             android:background="@color/cutting_line" />
     </RelativeLayout>
 

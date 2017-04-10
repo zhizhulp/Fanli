@@ -150,4 +150,7 @@ public class UrlUtils {
 
     //商城——我
     public static final String myPageInfo = urlPrefix + "myPageInfo";
+
+    //获取订单数据
+    public static final String getOrderList = urlPrefix + "getOrderList";
 }

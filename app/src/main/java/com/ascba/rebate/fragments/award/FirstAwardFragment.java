@@ -65,7 +65,7 @@ public class FirstAwardFragment extends BaseAwardFragment implements Base2Fragme
         refreshLatFirst.setOnPullRefreshListener(this);
         adapterFirst = getAdapter();
         dataFirst = getData();
-        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_list_view,null);
+        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_award_view,null);
     }
 
     @Override

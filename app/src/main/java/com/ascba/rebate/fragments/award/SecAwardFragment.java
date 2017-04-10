@@ -64,7 +64,7 @@ public class SecAwardFragment extends BaseAwardFragment implements Base2Fragment
         refreshLatSec.setOnPullRefreshListener(this);
         adapterSec = getAdapter();
         dataSec = getData();
-        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_list_view,null);
+        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_award_view,null);
     }
 
     @Override

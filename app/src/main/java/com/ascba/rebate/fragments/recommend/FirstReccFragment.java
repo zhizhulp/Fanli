@@ -7,11 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
-import com.ascba.rebate.adapter.AwardAdapter;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -76,7 +74,7 @@ public class FirstReccFragment extends BaseReccFragment implements Base2Fragment
         refreshLatFirst.setOnPullRefreshListener(this);
         adapterFirst = getAdapter();
         dataFirst = getData();
-        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_list_view,null);
+        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view,null);
     }
 
     @Override

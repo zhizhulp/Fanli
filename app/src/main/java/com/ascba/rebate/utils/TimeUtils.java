@@ -185,7 +185,7 @@ public class TimeUtils {
      * 注意SimpleDateFormat不是线程安全的
      */
     public static final SimpleDateFormat DEFAULT_SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-
+    public static final SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     /**
      * 将时间戳转为时间字符串
@@ -219,6 +219,15 @@ public class TimeUtils {
      */
     public static long string2Milliseconds(String time) {
         return string2Milliseconds(time, DEFAULT_SDF);
+    }
+
+    /**
+     * 将时间字符串转为时间戳
+     * <p>格式为yyyy-MM-dd</p>
+     *
+     */
+    public static String milli2String(long milliseconds) {
+        return simpleDateFormat.format(new Date(milliseconds));
     }
 
     /**

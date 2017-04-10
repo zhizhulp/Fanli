@@ -15,10 +15,6 @@ public class PCMultipleItem implements MultiItemEntity {
     public static final int TYPE_3 = 3;//待付款、待发货、已成交、待评价、退款
     public static final int TYPE_4 = 4;//粗分割线
     public static final int TYPE_5 = 5;//客服
-    public static final int TYPE_6 = 6;//
-    public static final int TYPE_7 = 7;//
-    public static final int TYPE_8 = 8;//
-    public static final int TYPE_9 = 9;//
 
     //权重
 
@@ -28,17 +24,27 @@ public class PCMultipleItem implements MultiItemEntity {
 
     private int drawableLeft;//左边图片资源
     private int drawableRight;//右边边图片资源
-    private int drawableHead;//头像
+    private String headImg;//头像
+    private int drawableHead;
     private int drawableVIP;//会员
     private String title;//标题
     private String content;//内容
+    private int messageNum;//消息数量
 
     private String contenLeft;
     private String contenRight;
-    private int spanSize=TYPE_SPAN_SIZE_DEFAULT;
+    private int spanSize = TYPE_SPAN_SIZE_DEFAULT;
 
     public int getDrawableLeft() {
         return drawableLeft;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 
     public void setDrawableLeft(int drawableLeft) {
@@ -108,9 +114,10 @@ public class PCMultipleItem implements MultiItemEntity {
     public PCMultipleItem() {
     }
 
-    public PCMultipleItem(int itemType, int drawableHead, String content, int spanSize) {
+    public PCMultipleItem(int itemType, int drawableHead, int messageNum, String content, int spanSize) {
         this.itemType = itemType;
         this.drawableHead = drawableHead;
+        this.messageNum = messageNum;
         this.content = content;
         this.spanSize = spanSize;
     }
@@ -119,14 +126,12 @@ public class PCMultipleItem implements MultiItemEntity {
         this.itemType = itemType;
     }
 
-    public PCMultipleItem(int itemType, int drawableLeft, int drawableRight, int drawableHead, int drawableVIP, String title, String content) {
+    public PCMultipleItem(int itemType, int drawableLeft, int drawableRight, String headImg, String title) {
         this.itemType = itemType;
         this.drawableLeft = drawableLeft;
         this.drawableRight = drawableRight;
-        this.drawableHead = drawableHead;
-        this.drawableVIP = drawableVIP;
+        this.headImg = headImg;
         this.title = title;
-        this.content = content;
     }
 
     public PCMultipleItem(int itemType, int drawableLeft, String contenLeft, int drawableRight, String contenRight) {
@@ -142,6 +147,14 @@ public class PCMultipleItem implements MultiItemEntity {
         this.drawableLeft = drawableLeft;
         this.contenLeft = contenLeft;
         this.contenRight = contenRight;
+    }
+
+    public int getMessageNum() {
+        return messageNum;
+    }
+
+    public void setMessageNum(int messageNum) {
+        this.messageNum = messageNum;
     }
 
     public int getSpanSize() {

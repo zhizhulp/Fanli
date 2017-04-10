@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
+import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -34,10 +35,12 @@ import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
+import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -66,7 +69,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     private SuperSwipeRefreshLayout refreshLayout;//刷新
     private HomePageAdapter homePageAdapter;
 
-    /**
+    /*
      * 头部
      */
     private RelativeLayout homepage_head;
@@ -103,7 +106,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             request.add("sign", UrlEncodeUtils.createSign(url));
         } else if (scene == 1) {
             request = buildNetRequest(url, 0, true);
-        } else if(scene == 2){
+        } else if (scene == 2) {
             request = buildNetRequest(url, 0, true);
         }
         executeNetWork(request, "请稍后");
@@ -232,23 +235,23 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                         startActivity(college);
                         break;
                 }
+
+                switch (position) {
+                    case 10:
+                        MessageLatestActivity.startIntent(context);
+                        break;
+                }
+                Toast.makeText(getActivity(), "position:" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-    /*private List<HomePageMultiItemItem> getRecylerViewData() {
-        List<HomePageMultiItemItem> items = new ArrayList<>();
-
-
-        return items;
-    }*/
 
     @Override
     public void onClick(View v) {
 
     }
 
-    /**
+    /*
      * 弹窗
      */
     private void showPopWindow() {
@@ -310,7 +313,6 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             clearData();
             stopRefresh();
 
-
             initPagerTurn(dataObj);//广告轮播
 
             //花钱赚钱
@@ -334,6 +336,10 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             //视频
             initVideoTurn(dataObj);
 
+            initNews(dataObj);
+
+            //消息数量
+            int messageNum = dataObj.optInt("msg_tip_count");
 
         /*String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";
         String video2  = "http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal";
@@ -348,23 +354,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         items.add(new HomePageMultiItemItem(videoBeen, HomePageMultiItemItem.TYPE9, R.layout.home_page_videopage));
         //宽分割线
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
-        //最新动态
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE10, R.layout.home_page_title, "最新动态"));
-        //分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
-        //新闻
-        List<NewsBean> newsBeen = new ArrayList<>();
-        String img = "http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135433013_640.jpg";
-        newsBeen.add(new NewsBean("实时资讯", img));
-        newsBeen.add(new NewsBean("创业动态", img));
-        newsBeen.add(new NewsBean("官方公告", img));
-        newsBeen.add(new NewsBean("官方公告", img));
-        newsBeen.add(new NewsBean("帮助中心", img));
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE11, newsBeen, R.layout.home_page_news1));
-
-        for (int i = 0; i < 3; i++) {
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12, new NewsBean(true, "钱来钱往牵手沃尔玛", "2017-03-07"), R.layout.home_page_news2));
-        }*/
+        */
 
             initAdapterAndRefresh();
         } else if (finalScene == 1) {
@@ -374,7 +364,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             intent.putExtra("name", "收款");
             intent.putExtra("url", url);
             startActivity(intent);
-        }else if (finalScene == 2) {
+        } else if (finalScene == 2) {
             JSONObject obj = dataObj.optJSONObject("receivables");
             String url = obj.optString("url");
             Intent intent = new Intent(getActivity(), WebViewBaseActivity.class);
@@ -386,6 +376,44 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
     }
 
+    /*
+    解析新闻内容
+     */
+    private void initNews(JSONObject dataObj) {
+
+        //最新动态
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE10, R.layout.home_page_title, "最新动态"));
+        //分割线
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+//        //新闻
+//        List<NewsBean> newsBeen = new ArrayList<>();
+//        String img = "http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135433013_640.jpg";
+//        newsBeen.add(new NewsBean("实时资讯", img));
+//        newsBeen.add(new NewsBean("创业动态", img));
+//        newsBeen.add(new NewsBean("官方公告", img));
+//        newsBeen.add(new NewsBean("官方公告", img));
+//        newsBeen.add(new NewsBean("帮助中心", img));
+//        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE11, newsBeen, R.layout.home_page_news1));
+        JSONArray jsonArray = dataObj.optJSONArray("article_list");
+        if (jsonArray != null && jsonArray.length() > 0) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String title = jsonObject.optString("title");
+                    String id = jsonObject.optString("id");
+                    String time = jsonObject.optString("create_time");
+                    time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
+                    items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12, new NewsBean(id, title, time), R.layout.home_page_news2));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /*
+   解析视频消息
+    */
     private void initVideoTurn(JSONObject dataObj) {
         JSONArray video_list = dataObj.optJSONArray("video_list");
         if (video_list != null && video_list.length() != 0) {
@@ -403,7 +431,9 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
     }
 
-
+    /*
+    广告轮播
+     */
     private void initPagerTurn(JSONObject dataObj) {
         JSONArray banner = dataObj.optJSONArray("banner");
         if (banner != null && banner.length() != 0) {

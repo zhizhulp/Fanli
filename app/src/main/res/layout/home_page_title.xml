@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/homepage_btn_dynamic"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="43dp">
+    android:layout_height="43dp"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/fg_homepage_img_red"
@@ -27,11 +27,14 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/homepage_text_more"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="12dp"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:text="更多"
         android:textColor="#448ffe"
         android:textSize="15sp" />

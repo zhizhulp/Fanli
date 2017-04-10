@@ -64,8 +64,8 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
 
         List<GoodsAttr.Attrs> strs1 = new ArrayList<>();
         GoodsAttr ga1 = new GoodsAttr(FilterAdapter.TYPE1, R.layout.filter_layout);
-        strs1.add(ga1.new Attrs("自营店铺", 0,false));
-        strs1.add(ga1.new Attrs("商家店铺", 0,false));
+        strs1.add(ga1.new Attrs(1,"自营店铺", 0,false));
+        strs1.add(ga1.new Attrs(1,"商家店铺", 0,false));
         ga1.setTitle("店铺类型：");
         ga1.setStrs(strs1);
         gas.add(ga1);
@@ -81,7 +81,7 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr(FilterAdapter.TYPE1, R.layout.filter_layout);
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("红色/白色", 0,false));
+                    strs.add(ga.new Attrs(1,"红色/白色", 0,false));
                 }
                 ga.setTitle("颜色分类：");
                 ga.setStrs(strs);
@@ -92,7 +92,7 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
                 GoodsAttr ga = new GoodsAttr(FilterAdapter.TYPE1, R.layout.filter_layout);
                 for (int j = 0; j < 15; j++) {
 
-                    strs.add(ga.new Attrs((40 + j + 0.5) + "", 0,false));
+                    strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0,false));
                 }
                 ga.setTitle("鞋码：");
                 ga.setStrs(strs);
@@ -102,7 +102,7 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr(FilterAdapter.TYPE1, R.layout.filter_layout);
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0,false));
+                    strs.add(ga.new Attrs(1,"方形" + i, 0,false));
                 }
                 ga.setTitle("其他分类：");
                 ga.setStrs(strs);
@@ -112,7 +112,7 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr(FilterAdapter.TYPE1, R.layout.filter_layout);
                 for (int j = 0; j < 15; j++) {
-                    strs.add(ga.new Attrs((40 + j + 0.5) + "", 0,false));
+                    strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0,false));
                 }
                 ga.setTitle("鞋码：");
                 ga.setStrs(strs);
@@ -122,7 +122,7 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr(FilterAdapter.TYPE1, R.layout.filter_layout);
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0,false));
+                    strs.add(ga.new Attrs(1,"方形" + i, 0,false));
                 }
                 ga.setTitle("其他分类：");
                 ga.setStrs(strs);

@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="我的推广"
+                        android:text="我的推荐"
                         android:textColor="@color/shop_normal_text_color" />
                 </LinearLayout>
 

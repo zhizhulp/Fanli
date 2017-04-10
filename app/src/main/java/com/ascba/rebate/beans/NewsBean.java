@@ -6,14 +6,20 @@ package com.ascba.rebate.beans;
 
 public class NewsBean {
     private boolean isIcon;
+    private String id;
     private String title;
     private String time;
     private String img;
 
+
     public NewsBean() {
     }
 
-
+    public NewsBean(String id, String title, String time) {
+        this.title = title;
+        this.time = time;
+        this.id = id;
+    }
 
     public NewsBean(String title, String img) {
         this.title = title;

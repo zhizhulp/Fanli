@@ -16,8 +16,8 @@
             android:id="@+id/activity_pc_item_head_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/activity_pc_item_head_xiaoxi"
@@ -66,7 +66,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/pc_touxiang" />
+                android:scaleType="centerCrop" />
         </FrameLayout>
 
 
@@ -75,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:text="钱来钱往"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -89,7 +88,8 @@
                 android:id="@+id/activity_pc_item_head_img_vip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/pc_huiyuan" />
+                android:src="@mipmap/pc_huiyuan"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/activity_pc_item_head_text_vip"
@@ -98,7 +98,8 @@
                 android:layout_marginLeft="4.5dp"
                 android:text="金钻会员"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

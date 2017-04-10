@@ -7,6 +7,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,19 +36,32 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
     protected void convert(BaseViewHolder helper, PCMultipleItem item) {
         switch (helper.getItemViewType()) {
             case PCMultipleItem.TYPE_0:
+                //个人信息
+                helper.setText(R.id.activity_pc_item_head_name, item.getTitle());
                 helper.addOnClickListener(R.id.activity_pc_item_head_back);
                 helper.addOnClickListener(R.id.activity_pc_item_head_message);
+                ImageView headView = helper.getView(R.id.me_user_img);
+                helper.addOnClickListener(R.id.me_user_img);
+                Picasso.with(context).load(item.getHeadImg()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(headView);
                 break;
 
             case PCMultipleItem.TYPE_1:
+                //我的订单
                 helper.setImageResource(R.id.activity_pc_item1_img_left, item.getDrawableLeft());
                 helper.setText(R.id.activity_pc_item1_text_left, item.getContenLeft());
                 helper.setText(R.id.activity_pc_item1_text_right, item.getContenRight());
                 break;
 
             case PCMultipleItem.TYPE_3:
-                ImageView imageView = helper.getView(R.id.activity_pc_item3_img);
+                //待付款、待发货、已成交、待评价、退款
                 helper.setText(R.id.activity_pc_item3_text, item.getContent());
+
+                if (item.getMessageNum() > 0) {
+                    helper.setText(R.id.activity_pc_item3_text_notify, String.valueOf(item.getMessageNum()));
+                } else {
+                    helper.setVisible(R.id.activity_pc_item3_text_notify, false);
+                }
+
                 helper.setImageResource(R.id.activity_pc_item3_img, item.getDrawableHead());
                 break;
         }

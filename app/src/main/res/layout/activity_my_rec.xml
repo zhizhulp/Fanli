@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barBg="#f64545"
-        app:textTitle="我的推广" />
+        app:textTitle="我的推荐" />
 
     <LinearLayout
         android:id="@+id/rec_man_lat"

@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public class Goods implements MultiItemEntity {
-    private int titleId;//父id
+    private int titleId;//商品id
     private String imgUrl;//缩略图链接
     private String goodsTitle;//商品标题
     private String goodsStandard;//商品规格

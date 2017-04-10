@@ -72,7 +72,7 @@ public class SecReccFragment extends BaseReccFragment implements Base2Fragment.C
         refreshLatSec.setOnPullRefreshListener(this);
         adapterSec = getAdapter();
         dataSec = getData();
-        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_list_view,null);
+        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view,null);
     }
 
     @Override

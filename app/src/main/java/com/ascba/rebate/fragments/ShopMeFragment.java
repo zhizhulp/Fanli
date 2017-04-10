@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,34 +42,24 @@ import java.util.List;
 public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
         Base2Fragment.Callback {
     private Context context;
+    private View view;
     private DialogManager dm;
     private RecyclerView pc_RecyclerView;
+    private PCMultipleItemAdapter pcMultipleItemAdapter;
     private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
     private SuperSwipeRefreshLayout refreshLat;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
-
-    public ShopMeFragment() {
-    }
-
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_shop_me, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        context =getActivity();
-        initView(view);
+        context = getActivity();
         getMeData();
-
+        this.view = view;
     }
 
     /*
@@ -89,7 +77,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
      */
     private void initView(View view) {
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
-        PCMultipleItemAdapter pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
+        pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
         pc_RecyclerView.setLayoutManager(manager);
         pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
@@ -159,85 +147,14 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
             }
         });
 
-
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
     }
 
-    /*
-    初始化数据
-     */
-    private void initData() {
-
-        //头信息
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_0, R.mipmap.pc_xiaoxi, R.mipmap.pc_dianpu, R.mipmap.pc_touxiang, R.mipmap.pc_huiyuan, "钱来钱往", "金钻会员"));
-
-        //我的订单
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_wodedingdan, "我的订单", R.mipmap.pc_qianjin, "查看全部订单"));
-
-        //分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
-
-        //待付款、待发货、已成交、待评价、退款
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifukuan, "待付款", PCMultipleItem.TYPE_SPAN_SIZE_4));
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifahuo, "待发货", PCMultipleItem.TYPE_SPAN_SIZE_4));
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_yichengjiao, "已成交", PCMultipleItem.TYPE_SPAN_SIZE_4));
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daipingjia, "待评价", PCMultipleItem.TYPE_SPAN_SIZE_4));
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_tuikuan, "退款/售后", PCMultipleItem.TYPE_SPAN_SIZE_4));
-
-        //粗分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
-
-        //学堂
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_xuetang, "钱来钱往学堂", R.mipmap.pc_qianjin, "APP教学指南"));
-
-        //粗分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
-
-        //代金券
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_daijinquan, "代金券", R.mipmap.pc_qianjin, "60张"));
-        //分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
-
-        //账户余额
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_zhanghuyue, "账户余额", R.mipmap.pc_qianjin, "3000元"));
-        //分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
-
-        //当日任务
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_dangrirenwu, "当日任务", R.mipmap.pc_qianjin, "完成60%"));
-        //分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
-
-        //收货地址
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_shouhuodizhi, "收货地址", R.mipmap.pc_qianjin, "北京市丰台区建邦钱来钱往"));
-
-        //粗分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
-
-
-        //在线客服
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_5, R.mipmap.pc_kefu, "在线客服", "400-4865217"));
-        //分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
-
-        //设置
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_shezhi, "设置", R.mipmap.pc_qianjin, ""));
-        //分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
-        //粗分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
-
-    }
 
     @Override
     public void onRefresh() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLat.setRefreshing(false);
-            }
-        }, 1000);
+        getMeData();
     }
 
     @Override
@@ -252,26 +169,119 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        JSONObject jsonObject = dataObj.optJSONObject("my_page_info");
+        initDat(jsonObject);
+        if (pcMultipleItemAdapter == null) {
+            //初次获取数据
+            initView(view);
+        } else {
+            //刷新数据
+            refreshLat.setRefreshing(false);
+            pcMultipleItemAdapter.notifyDataSetChanged();
+        }
 
+    }
+
+    private void initDat(JSONObject Object) {
+        pcMultipleItems.clear();
+        //头信息
+        JSONObject meObject = Object.optJSONObject("member_info");
+        String headImg = UrlUtils.baseWebsite + meObject.optString("avatar");
+        String realname = meObject.optString("realname");
+        String nickname = meObject.optString("nickname");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_0, R.mipmap.pc_xiaoxi, R.mipmap.pc_dianpu, headImg, nickname));
+
+        //我的订单
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_wodedingdan, "我的订单", R.mipmap.pc_qianjin, "查看全部订单"));
+
+        //分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
+
+        //待付款、待发货、已成交、待评价、退款
+        JSONObject orderObject = Object.optJSONObject("order_count_info");
+        int pay = orderObject.optInt("wait_pay");
+        int deliver = orderObject.optInt("wait_deliver");
+        int take = orderObject.optInt("wait_take");
+        int evaluate = orderObject.optInt("wait_evaluate");
+        int refund = orderObject.optInt("wait_refund");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifukuan, pay, "待付款", PCMultipleItem.TYPE_SPAN_SIZE_4));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifahuo, deliver, "待发货", PCMultipleItem.TYPE_SPAN_SIZE_4));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_yichengjiao, take, "已成交", PCMultipleItem.TYPE_SPAN_SIZE_4));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daipingjia, evaluate, "待评价", PCMultipleItem.TYPE_SPAN_SIZE_4));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_tuikuan, refund, "退款/售后", PCMultipleItem.TYPE_SPAN_SIZE_4));
+
+        //粗分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
+
+        JSONObject listObject = Object.optJSONObject("nav_list_info");
+
+        //学堂
+        String school = listObject.optJSONObject("school_nav").optString("sub_title");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_xuetang, "钱来钱往学堂", R.mipmap.pc_qianjin, school));
+
+        //粗分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
+
+
+        //代金券
+        String voucher = listObject.optJSONObject("voucher_nav").optString("sub_title");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_daijinquan, "代金券", R.mipmap.pc_qianjin, voucher));
+
+        //分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
+
+        //账户余额
+        String balance = listObject.optJSONObject("balance_nav").optString("sub_title");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_zhanghuyue, "账户余额", R.mipmap.pc_qianjin, balance));
+
+        //分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
+
+        //当日任务
+        String task = listObject.optJSONObject("today_task_nav").optString("sub_title");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_dangrirenwu, "当日任务", R.mipmap.pc_qianjin, task));
+        //分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
+
+        //收货地址
+        String address = listObject.optJSONObject("shipping_address_nav").optString("sub_title");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_shouhuodizhi, "收货地址", R.mipmap.pc_qianjin, address));
+
+        //粗分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
+
+        //在线客服
+        String phone = listObject.optJSONObject("customer_services_nav").optString("sub_title");
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_5, R.mipmap.pc_kefu, "在线客服", phone));
+        //分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
+
+        //设置
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_shezhi, "设置", R.mipmap.pc_qianjin, ""));
+
+        //粗分割线
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
     }
 
     @Override
     public void handleReqFailed() {
-
+        refreshLat.setRefreshing(false);
     }
 
     @Override
     public void handle404(String message) {
+        refreshLat.setRefreshing(false);
         dm.buildAlertDialog(message);
     }
 
     @Override
     public void handleReLogin() {
-
+        refreshLat.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
+        refreshLat.setRefreshing(false);
         dm.buildAlertDialog("请检查网络！");
     }
 

@@ -312,7 +312,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-
+                showToast(message);
             }
 
             @Override

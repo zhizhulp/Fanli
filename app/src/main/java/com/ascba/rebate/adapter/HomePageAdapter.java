@@ -1,7 +1,6 @@
 package com.ascba.rebate.adapter;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
@@ -115,6 +114,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                  * 最新动态
                  */
                 helper.setText(R.id.homepage_text_title, item.getTitle());
+                helper.addOnClickListener(R.id.homepage_text_more);
                 break;
 
             /**
@@ -148,12 +148,12 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 break;
 
             case HomePageMultiItemItem.TYPE12:
-                ImageView imageView = helper.getView(R.id.item_news_icon);
-                if (item.getBean().isIcon()) {
-                    imageView.setVisibility(View.VISIBLE);
-                } else {
-                    imageView.setVisibility(View.INVISIBLE);
-                }
+//                ImageView imageView = helper.getView(R.id.item_news_icon);
+//                if (item.getBean().isIcon()) {
+//                    imageView.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageView.setVisibility(View.INVISIBLE);
+//                }
                 helper.setText(R.id.item_news_title, item.getBean().getTitle());
                 helper.setText(R.id.item_news_time, item.getBean().getTime());
                 break;
