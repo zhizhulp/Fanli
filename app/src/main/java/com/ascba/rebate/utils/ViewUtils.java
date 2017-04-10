@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-/**
+/*
  * Created by 李平 on 2017/4/4 0004.14:49
  */
 
@@ -23,4 +23,5 @@ public class ViewUtils {
         ft.addView(textView);
         return ft;
     }
+
 }

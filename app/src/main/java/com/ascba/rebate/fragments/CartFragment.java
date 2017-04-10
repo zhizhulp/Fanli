@@ -70,7 +70,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
-    private boolean isFirst=true;
 
     public CartFragment() {
     }
@@ -468,6 +467,10 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 goShop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ShopActivity a = (ShopActivity) getActivity();
+                        a.selFrgByPos(0,a.getmFirstFragment());
+                        a.getShopTabs().statusChaByPosition(0,2);
+                        a.getShopTabs().setFilPos(0);
                     }
                 });
                 adapter.setEmptyView(emptyView);

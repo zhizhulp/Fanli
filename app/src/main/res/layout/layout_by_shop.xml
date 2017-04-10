@@ -93,7 +93,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_shop_name"
+                android:id="@+id/tv_inventory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_shop_price"
@@ -104,9 +104,10 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_listener"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_shop_name"
+                android:layout_below="@id/tv_inventory"
                 android:layout_marginTop="11dp"
                 android:text="选择 尺码 颜色分类" />
         </RelativeLayout>
