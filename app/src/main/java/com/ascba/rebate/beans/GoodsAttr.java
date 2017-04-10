@@ -11,23 +11,15 @@ import java.util.List;
 public class GoodsAttr implements MultiItemEntity {
     private int layout;
     private int type;//布局类型
-    private String Title;//商品分类title(鞋码，尺寸...)
-    private String imgUrl;//商品缩略图
-    private float unitPrice;//商品单价
-    private int inventory;//商品库存
-    private String desc;//商品规格描述
     private List<Attrs> strs;
+    private String Title;//商品标题
+    private boolean isSelect;//子类中是否有选择
 
-    public GoodsAttr(int layout, int type, String title, String imgUrl, float unitPrice,
-                     int inventory, String desc, List<Attrs> strs) {//用于商品规格
+    public GoodsAttr(int layout, int type,  List<Attrs> strs,boolean isSelect) {//用于商品规格
         this.layout = layout;
         this.type = type;
-        Title = title;
-        this.imgUrl = imgUrl;
-        this.unitPrice = unitPrice;
-        this.inventory = inventory;
-        this.desc = desc;
         this.strs = strs;
+        this.isSelect=isSelect;
     }
 
     public GoodsAttr(int type, int layout) {
@@ -55,6 +47,14 @@ public class GoodsAttr implements MultiItemEntity {
     }
 
     public GoodsAttr() {
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public String getTitle() {
@@ -94,42 +94,11 @@ public class GoodsAttr implements MultiItemEntity {
         this.type = type;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public float getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(float unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public int getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(int inventory) {
-        this.inventory = inventory;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     public class Attrs {
         private String content;
         private int textStatus;
         private boolean hasCheck;
+        private int itemId;
 
         public boolean isHasCheck() {
             return hasCheck;
@@ -140,9 +109,11 @@ public class GoodsAttr implements MultiItemEntity {
         }
 
         public Attrs() {
+
         }
 
-        public Attrs(String content, int textStatus,boolean hasCheck) {
+        public Attrs(int itemId,String content, int textStatus,boolean hasCheck) {
+            this.itemId=itemId;
             this.content = content;
             this.textStatus = textStatus;
             this.hasCheck=hasCheck;
@@ -162,6 +133,14 @@ public class GoodsAttr implements MultiItemEntity {
 
         public void setTextStatus(int textStatus) {
             this.textStatus = textStatus;
+        }
+
+        public int getItemId() {
+            return itemId;
+        }
+
+        public void setItemId(int itemId) {
+            this.itemId = itemId;
         }
     }
 }

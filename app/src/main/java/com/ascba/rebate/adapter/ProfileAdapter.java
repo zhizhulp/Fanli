@@ -26,14 +26,14 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
     }
 
     public interface Callback{
-        void click(GoodsAttr.Attrs s);
+        void click(GoodsAttr.Attrs s, GoodsAttr item);
     }
     public ProfileAdapter(int layoutResId, List<GoodsAttr> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final GoodsAttr item) {
+    protected void convert(final BaseViewHolder helper, final GoodsAttr item) {
         helper.setText(R.id.goods_attrs_title,item.getTitle());
         RadioGroupEx rgEx=helper.getView(R.id.goods_attrs_content);
         rgEx.removeAllViews();//清除之前的视图
@@ -56,10 +56,11 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
                             }
                         }
                     }
-
-                    notifyDataSetChanged();
+                    //父类置true
+                    item.setSelect(true);
+                    notifyItemChanged(helper.getAdapterPosition());
                     if(callback!=null){
-                        callback.click(s);
+                        callback.click(s,item);
                     }
                 }
             });
