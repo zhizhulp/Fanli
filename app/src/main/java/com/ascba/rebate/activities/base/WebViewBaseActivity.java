@@ -2,24 +2,17 @@ package com.ascba.rebate.activities.base;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.test.mock.MockApplication;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 
 public class WebViewBaseActivity extends AppCompatActivity {
     private String url;
@@ -78,7 +71,7 @@ public class WebViewBaseActivity extends AppCompatActivity {
     private void initViews() {
         webView = ((WebView) findViewById(R.id.webView));
         mb = ((MoneyBar) findViewById(R.id.mb_protocol));
-
+        webView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override

@@ -59,6 +59,7 @@ import java.util.List;
 public class HomePageFragment extends Base2Fragment implements View.OnClickListener, Base2Fragment.Callback {
 
     private static final int REQUEST_LOGIN = 0;
+    private static final int POLICY = 1;
     private Context context;
 
     private RecyclerView recylerview;
@@ -101,6 +102,8 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             request = buildNetRequest(url, 0, false);
             request.add("sign", UrlEncodeUtils.createSign(url));
         } else if (scene == 1) {
+            request = buildNetRequest(url, 0, true);
+        } else if(scene == 2){
             request = buildNetRequest(url, 0, true);
         }
         executeNetWork(request, "请稍后");
@@ -216,6 +219,12 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                         break;
                     case R.id.homepage_btn_policy:
                         //创业扶持
+                        if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
+                            requestData(UrlUtils.getDataUrl, 2);
+                        } else {
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            startActivityForResult(intent, POLICY);
+                        }
                         break;
                     case R.id.homepage_btn_college:
                         //ASK商学院
@@ -268,7 +277,6 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                         startActivityForResult(intent, REQUEST_LOGIN);
                     }
-
                 }
             });
 
@@ -366,6 +374,13 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             intent.putExtra("name", "收款");
             intent.putExtra("url", url);
             startActivity(intent);
+        }else if (finalScene == 2) {
+            JSONObject obj = dataObj.optJSONObject("receivables");
+            String url = obj.optString("url");
+            Intent intent = new Intent(getActivity(), WebViewBaseActivity.class);
+            intent.putExtra("name", "扶持政策");
+            intent.putExtra("url", url);
+            startActivity(intent);
         }
 
 
@@ -454,6 +469,11 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             case REQUEST_LOGIN:
                 if (resultCode == Activity.RESULT_OK) {
                     requestData(UrlUtils.receivables, 1);
+                }
+                break;
+            case POLICY:
+                if (resultCode == Activity.RESULT_OK) {
+                    requestData(UrlUtils.getDataUrl, 2);
                 }
                 break;
         }

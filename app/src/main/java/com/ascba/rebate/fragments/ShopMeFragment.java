@@ -2,6 +2,7 @@ package com.ascba.rebate.fragments;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,9 +26,12 @@ import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
@@ -38,8 +42,11 @@ import java.util.List;
  * 商城设置
  */
 public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
-        Base2Fragment.Callback{
+        Base2Fragment.Callback {
+    private Context context;
+    private DialogManager dm;
     private RecyclerView pc_RecyclerView;
+    private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
     private SuperSwipeRefreshLayout refreshLat;
     private Handler handler = new Handler() {
         @Override
@@ -61,18 +68,34 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        InitRecylerView(view);
+        context =getActivity();
+        initView(view);
+        getMeData();
+
     }
 
-    private void InitRecylerView(View view) {
+    /*
+       获取me数据
+     */
+    private void getMeData() {
+        dm = new DialogManager(context);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.myPageInfo, 0, true);
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(this);
+    }
+
+    /*
+    初始化UI
+     */
+    private void initView(View view) {
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
-        PCMultipleItemAdapter pcMultipleItemAdapter = new PCMultipleItemAdapter(getData(), getActivity());
+        PCMultipleItemAdapter pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
         pc_RecyclerView.setLayoutManager(manager);
         pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return getData().get(position).getSpanSize();
+                return pcMultipleItems.get(position).getSpanSize();
             }
         });
         pc_RecyclerView.setAdapter(pcMultipleItemAdapter);
@@ -141,8 +164,10 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         refreshLat.setOnPullRefreshListener(this);
     }
 
-    private List<PCMultipleItem> getData() {
-        List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
+    /*
+    初始化数据
+     */
+    private void initData() {
 
         //头信息
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_0, R.mipmap.pc_xiaoxi, R.mipmap.pc_dianpu, R.mipmap.pc_touxiang, R.mipmap.pc_huiyuan, "钱来钱往", "金钻会员"));
@@ -203,7 +228,6 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         //粗分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
 
-        return pcMultipleItems;
     }
 
     @Override
@@ -238,7 +262,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
     @Override
     public void handle404(String message) {
-
+        dm.buildAlertDialog(message);
     }
 
     @Override
@@ -248,7 +272,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
     @Override
     public void handleNoNetWork() {
-
+        dm.buildAlertDialog("请检查网络！");
     }
 
     @Override
@@ -259,7 +283,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
             if (activity instanceof ShopActivity) {
                 ShopActivity a = (ShopActivity) activity;
                 a.selFrgByPos(0, a.getmFirstFragment());
-                a.getShopTabs().statusChaByPosition(0,3);
+                a.getShopTabs().statusChaByPosition(0, 3);
                 a.getShopTabs().setFilPos(0);
             }
         } else {
@@ -268,7 +292,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
                 if (activity instanceof ShopActivity) {
                     ShopActivity a = (ShopActivity) activity;
                     a.selFrgByPos(0, a.getmFirstFragment());
-                    a.getShopTabs().statusChaByPosition(0,3);
+                    a.getShopTabs().statusChaByPosition(0, 3);
                     a.getShopTabs().setFilPos(0);
                 }
             }

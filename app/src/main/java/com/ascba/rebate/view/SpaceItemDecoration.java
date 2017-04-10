@@ -31,9 +31,5 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         if (parent.getChildLayoutPosition(view) % num == 0) {
             outRect.left = 0;
         }
-
-        if (parent.getAdapter().getItemCount() % num != 0) {
-
-        }
     }
 }

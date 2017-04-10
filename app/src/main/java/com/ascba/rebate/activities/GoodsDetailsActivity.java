@@ -51,10 +51,9 @@ import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ImageViewDialog;
 import com.ascba.rebate.view.ShopABar;
+import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
-import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.component.PtrFrameLayout;
-import com.ascba.rebate.view.dropDownMultiPager.ultraPullToRefash.handler.PtrDefaultHandler;
 import com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.rest.Request;
@@ -83,7 +82,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private int goodsId;
 
     //足记控件
-    private PtrFrameLayout ptrLayout;
+    private SuperSwipeRefreshLayout ptrLayout;
 
     //向上拖动查看详情
     private PullUpToLoadMoreView pullUpToLoadMoreView;
@@ -131,7 +130,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private int store_id;
 
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
-    private int i = 0;
+    boolean footIsObjAnmatitor = true;
+    boolean footIsObjAnmatitor2 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,29 +256,15 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      * 初始化足迹控件
      */
     private void InitFotoplace() {
-        ptrLayout = (PtrFrameLayout) findViewById(R.id.activity_goods_details_pl);
-        View header = LayoutInflater.from(context).inflate(R.layout.ptrlayout_headview, null);
+        ptrLayout = (SuperSwipeRefreshLayout) findViewById(R.id.activity_goods_details_pl);
+        final View header = LayoutInflater.from(context).inflate(R.layout.ptrlayout_headview, null);
         final TextView textView = (TextView) header.findViewById(R.id.tv);
+        final ImageView imageView = (ImageView) header.findViewById(R.id.img);
         ptrLayout.setHeaderView(header);
-        ptrLayout.disableWhenHorizontalMove(true);
-
-        ptrLayout.setPtrHandler(new PtrDefaultHandler() {
-
+        ptrLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-
-                if (frame.getPtrIndicator().getCurrentPosY() > 300) {
-                    textView.setText("释放查看更多精彩");
-                } else {
-                    textView.setText("下拉查看更多精彩");
-                }
-                return true;
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                Log.i("onRefreshBegin", "i:" + (++i));
-                ptrLayout.refreshComplete();
+            public void onRefresh() {
+                ptrLayout.setRefreshing(false);
                 DropDownMultiPagerView dropDownMultiPagerView = new DropDownMultiPagerView(context, getList());
                 dropDownMultiPagerView.show();
                 dropDownMultiPagerView.setOnDropDownMultiPagerViewItemClick(new DropDownMultiPagerView.OnDropDownMultiPagerViewItemClick() {
@@ -288,7 +274,42 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                     }
                 });
             }
+            @Override
+            public void onPullDistance(int distance) {
+                if (distance > (header.getHeight() + 10)) {
+                    if (footIsObjAnmatitor) {
+                        footIsObjAnmatitor = false;
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 180f);
+                        animator.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                textView.setText("释放查看更多精彩");
+                                footIsObjAnmatitor2 = true;
+                            }
+                        });
+                        animator.setDuration(500).start();
+                    }
+                } else if (footIsObjAnmatitor2) {
+                    footIsObjAnmatitor2 = false;
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(imageView, "rotation", 180f, 360f);
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            textView.setText("下拉查看更多精彩");
+                            footIsObjAnmatitor = true;
+                        }
+                    });
+                    animator.setDuration(500).start();
+                }
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+            }
         });
+
 
     }
 
@@ -897,13 +918,13 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nb.setCurrentNumber(nb.getNumber()+1);
+                nb.setCurrentNumber(nb.getNumber() + 1);
             }
         });
         nb.getSubButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nb.setCurrentNumber(nb.getNumber()-1);
+                nb.setCurrentNumber(nb.getNumber() - 1);
             }
         });
         adapter.addFooterView(view1, 0);
@@ -930,9 +951,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
                     if (j == 2) {
-                        strs.add(ga.new Attrs("红色/白色", 2,false));
+                        strs.add(ga.new Attrs("红色/白色", 2, false));
                     } else {
-                        strs.add(ga.new Attrs("红色/白色", 0,false));
+                        strs.add(ga.new Attrs("红色/白色", 0, false));
                     }
                 }
                 ga.setTitle("颜色分类");
@@ -944,9 +965,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2,false));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2, false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0,false));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0, false));
                     }
 
                 }
@@ -958,7 +979,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0,false));
+                    strs.add(ga.new Attrs("方形" + i, 0, false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
@@ -969,9 +990,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2,false));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2, false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0,false));
+                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0, false));
                     }
 
                 }
@@ -983,7 +1004,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0 , false));
+                    strs.add(ga.new Attrs("方形" + i, 0, false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
