@@ -28,6 +28,8 @@ public class Goods implements MultiItemEntity {
     private String freightPrice;//运费
     private String totalPrice;//总价(数量*单价+数量*单价***)
     private int num;//商品数量总数
+    private String specKeys;//商品对应的描述id145_147_151
+    private String specNames;//品对应的描述文字
     private int type;
     private int layout;
 
@@ -76,6 +78,18 @@ public class Goods implements MultiItemEntity {
         this.goodsPrice = goodsPrice;
         this.userQuy = userQuy;
         this.titleId = titleId;
+    }
+
+    public String getSpecNames() {
+        return specNames;
+    }
+
+    public void setSpecNames(String specNames) {
+        this.specNames = specNames;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public String getCartId() {
@@ -253,5 +267,13 @@ public class Goods implements MultiItemEntity {
     @Override
     public int getItemType() {
         return type;
+    }
+
+    public String getSpecKeys() {
+        return specKeys;
+    }
+
+    public void setSpecKeys(String specKeys) {
+        this.specKeys = specKeys;
     }
 }

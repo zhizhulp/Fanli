@@ -3,8 +3,6 @@ package com.ascba.rebate.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -17,6 +15,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.ProfileAdapter;
+import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 
@@ -28,14 +27,20 @@ import java.util.List;
 
 public class StdDialog extends Dialog {
     private List<GoodsAttr> gas;
+    private List<Goods> goodses;
     private NumberButton nb;
-    public StdDialog(@NonNull Context context,List<GoodsAttr> gas,int unitPrice,int inventory,int currentNum) {
+    private TextView tvUnitPrice;//单价
+    private TextView tvInv;//库存
+    private TextView tvListener;//动态标题
+
+    public StdDialog(@NonNull Context context,List<GoodsAttr> gas,List<Goods> goodses) {
         super(context);
         this.gas=gas;
-        init(context,gas,unitPrice,inventory,currentNum);
+        this.goodses=goodses;
+        init(context,gas);
     }
 
-    private void init(Context context,List<GoodsAttr> gas,int unitPrice,int inventory,int currentNum) {
+    private void init(Context context, final List<GoodsAttr> gas) {
         setContentView(R.layout.layout_by_shop);
         //关闭对话框
         findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
@@ -44,12 +49,12 @@ public class StdDialog extends Dialog {
                 dismiss();
             }
         });
-        TextView tvUnitPrice = (TextView) findViewById(R.id.tv_shop_price);
-        tvUnitPrice.setText("￥"+unitPrice);
-        TextView tvInv = (TextView) findViewById(R.id.tv_inventory);
-        tvInv.setText("库存"+ inventory);
-        TextView tvListener = (TextView) findViewById(R.id.tv_listener);
-        tvListener.setText(createSelectStr());
+        tvUnitPrice = (TextView) findViewById(R.id.tv_shop_price);
+        tvUnitPrice.setText("￥ ?");
+        tvInv = (TextView) findViewById(R.id.tv_inventory);
+        tvInv.setText("库存 ?");
+        tvListener = (TextView) findViewById(R.id.tv_listener);
+        tvListener.setText("请选择完整的规格");
         //规格列表
         RecyclerView rvRule = (RecyclerView) findViewById(R.id.goods_profile_list);
         ProfileAdapter adapter = new ProfileAdapter(R.layout.goods_attrs_layout, gas);
@@ -58,8 +63,7 @@ public class StdDialog extends Dialog {
         View view1 = LayoutInflater.from(context).inflate(R.layout.num_btn_layout, null);
 
         nb = (NumberButton) view1.findViewById(R.id.num_btn);
-        nb.setCurrentNumber(currentNum);//默认数量为1
-        nb.setInventory(inventory);
+        nb.setCurrentNumber(1);//默认数量为1
         nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,8 +81,18 @@ public class StdDialog extends Dialog {
 
         adapter.setCallback(new ProfileAdapter.Callback() {
             @Override
-            public void click(GoodsAttr.Attrs s) {
-                
+            public void click(GoodsAttr.Attrs s, GoodsAttr item) {
+                boolean isAllSelect=true;
+                for (int i = 0; i < gas.size(); i++) {
+                    GoodsAttr goodsAttr = gas.get(i);
+                    if(!goodsAttr.isSelect()){
+                        isAllSelect=false;
+                        break;
+                    }
+                }
+                if(isAllSelect){//所有选择完毕
+                    setTitleText();
+                }
             }
         });
     }
@@ -97,23 +111,36 @@ public class StdDialog extends Dialog {
     }
 
 
-    private  String createSelectStr() {
+    private  void setTitleText() {
         if(gas!=null && gas.size()!=0){
             StringBuilder sb=new StringBuilder();
             for (int i = 0; i < gas.size(); i++) {
                 GoodsAttr goodsAttr = gas.get(i);
-                sb.append("请选择");
-                if(i==gas.size()-1){
-                    sb.append(goodsAttr.getTitle());
-                }else {
-                    sb.append(goodsAttr.getTitle());
-                    sb.append(" ");
+                List<GoodsAttr.Attrs> strs = goodsAttr.getStrs();
+                for (int j = 0; j < strs.size(); j++) {
+                    GoodsAttr.Attrs attrs = strs.get(j);
+                    if(attrs.isHasCheck()){
+                        if(i==gas.size()-1){
+                            sb.append(attrs.getItemId());
+                        }else {
+                            sb.append(attrs.getItemId());
+                            sb.append("_");
+                        }
+                    }
                 }
-
             }
-            return sb.toString();
+            for (int i = 0; i < goodses.size(); i++) {
+                Goods goods = goodses.get(i);
+                if(sb.toString().equals(goods.getSpecKeys())){
+                    nb.setInventory(goods.getInventory());
+                    tvInv.setText("库存"+goods.getInventory());
+                    tvUnitPrice.setText("￥"+goods.getGoodsPrice());
+                    tvListener.setText(goods.getSpecNames());
+                }
+            }
+
         }
 
-        return null;
     }
+
 }
