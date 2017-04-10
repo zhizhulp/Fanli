@@ -41,18 +41,18 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
         for (final GoodsAttr.Attrs s : strs) {
             final RadioButton rb=new RadioButton(mContext);
             rb.setChecked(s.isHasCheck());
-            rb.setTextColor(s.getTextColor());
+            rb.setTextColor(s.getTextStatus());
 
             rb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     s.setHasCheck(rb.isChecked());
-                    s.setTextColor(1);
+                    s.setTextStatus(1);
                     for (int i = 0; i < strs.size(); i++) {
                         GoodsAttr.Attrs attrs = strs.get(i);
-                        if(attrs.getTextColor()!=2){
-                            if(attrs.getTextColor()==1 && attrs!=s){
-                                attrs.setTextColor(0);
+                        if(attrs.getTextStatus()!=2){
+                            if(attrs.getTextStatus()==1 && attrs!=s){
+                                attrs.setTextStatus(0);
                             }
                         }
                     }
@@ -65,7 +65,7 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
             });
             rb.setButtonDrawable(new ColorDrawable());//去掉圆圈
             rb.setText(s.getContent());
-            int textStatus = s.getTextColor();
+            int textStatus = s.getTextStatus();
             if(textStatus==0){//未选择
                 rb.setEnabled(true);
                 rb.setTextColor(mContext.getResources().getColor(R.color.shop_normal_text_color));

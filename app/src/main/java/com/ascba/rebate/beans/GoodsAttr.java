@@ -9,12 +9,26 @@ import java.util.List;
  */
 
 public class GoodsAttr implements MultiItemEntity {
-    private String Title;
     private int layout;
+    private int type;//布局类型
+    private String Title;//商品分类title(鞋码，尺寸...)
+    private String imgUrl;//商品缩略图
+    private float unitPrice;//商品单价
+    private int inventory;//商品库存
+    private String desc;//商品规格描述
     private List<Attrs> strs;
-    private int type;
 
-
+    public GoodsAttr(int layout, int type, String title, String imgUrl, float unitPrice,
+                     int inventory, String desc, List<Attrs> strs) {//用于商品规格
+        this.layout = layout;
+        this.type = type;
+        Title = title;
+        this.imgUrl = imgUrl;
+        this.unitPrice = unitPrice;
+        this.inventory = inventory;
+        this.desc = desc;
+        this.strs = strs;
+    }
 
     public GoodsAttr(int type, int layout) {
         this.type = type;
@@ -80,9 +94,41 @@ public class GoodsAttr implements MultiItemEntity {
         this.type = type;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public float getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(float unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public int getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
     public class Attrs {
         private String content;
-        private int textColor;
+        private int textStatus;
         private boolean hasCheck;
 
         public boolean isHasCheck() {
@@ -96,9 +142,9 @@ public class GoodsAttr implements MultiItemEntity {
         public Attrs() {
         }
 
-        public Attrs(String content, int textColor,boolean hasCheck) {
+        public Attrs(String content, int textStatus,boolean hasCheck) {
             this.content = content;
-            this.textColor = textColor;
+            this.textStatus = textStatus;
             this.hasCheck=hasCheck;
         }
 
@@ -110,12 +156,12 @@ public class GoodsAttr implements MultiItemEntity {
             this.content = content;
         }
 
-        public int getTextColor() {
-            return textColor;
+        public int getTextStatus() {
+            return textStatus;
         }
 
-        public void setTextColor(int textColor) {
-            this.textColor = textColor;
+        public void setTextStatus(int textStatus) {
+            this.textStatus = textStatus;
         }
     }
 }

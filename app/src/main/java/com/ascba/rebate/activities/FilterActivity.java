@@ -140,8 +140,8 @@ public class FilterActivity extends BaseNetWork4Activity implements View.OnClick
                         List<GoodsAttr.Attrs> strs = gas.get(i).getStrs();
                         for (int j = 0; j < strs.size(); j++) {
                             GoodsAttr.Attrs attrs = strs.get(j);
-                            if (attrs.getTextColor() != 0) {
-                                attrs.setTextColor(0);
+                            if (attrs.getTextStatus() != 0) {
+                                attrs.setTextStatus(0);
                             }
                         }
                     }
