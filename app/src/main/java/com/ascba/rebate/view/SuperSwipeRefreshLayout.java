@@ -16,13 +16,13 @@ import android.os.Handler;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -582,6 +582,12 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
                         .findLastCompletelyVisibleItemPositions(lastItems);
                 int lastItem = Math.max(lastItems[0], lastItems[1]);
                 if (lastItem == count - 1) {
+                    return true;
+                }
+            } else if (layoutManager instanceof GridLayoutManager) {
+                GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
+                int lastItem = gridLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastItem > 0 && lastItem == count - 1) {
                     return true;
                 }
             }

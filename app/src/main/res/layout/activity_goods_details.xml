@@ -19,9 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/activity_goods_details_shopping_in"
-        android:layout_below="@id/shopbar"
-        app:ptr_duration_to_close="150"
-        app:ptr_keep_header_when_refresh="false">
+        android:layout_below="@id/shopbar">
 
         <com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView
             android:id="@+id/activity_goods_details_pv"
