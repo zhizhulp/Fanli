@@ -191,7 +191,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         //初始化标题栏
         sab = ((ShopABar) view.findViewById(R.id.sab));
         sab.setImageOtherEnable(false);
-        sab.setTitle("购物车(100)");
+        sab.setTitle("购物车");
         sab.setCallback(new ShopABar.Callback() {
             @Override
             public void back(View v) {
@@ -285,9 +285,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
                     if (j == 2) {
-                        strs.add(ga.new Attrs("红色/白色", 2, false));
+                        strs.add(ga.new Attrs(1,"红色/白色", 2, false));
                     } else {
-                        strs.add(ga.new Attrs("红色/白色", 0, false));
+                        strs.add(ga.new Attrs(1,"红色/白色", 0, false));
                     }
                 }
                 ga.setTitle("颜色分类");
@@ -299,9 +299,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2, false));
+                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 2, false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0, false));
+                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0, false));
                     }
 
                 }
@@ -313,7 +313,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0, false));
+                    strs.add(ga.new Attrs(1,"方形" + i, 0, false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);
@@ -324,9 +324,9 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 15; j++) {
                     if (j == 10) {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 2, false));
+                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 2, false));
                     } else {
-                        strs.add(ga.new Attrs((40 + j + 0.5) + "", 0, false));
+                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0, false));
                     }
 
                 }
@@ -338,7 +338,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 List<GoodsAttr.Attrs> strs = new ArrayList<>();
                 GoodsAttr ga = new GoodsAttr();
                 for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs("方形" + i, 0, false));
+                    strs.add(ga.new Attrs(1,"方形" + i, 0, false));
                 }
                 ga.setTitle("其他分类");
                 ga.setStrs(strs);

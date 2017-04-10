@@ -10,7 +10,7 @@
         android:id="@+id/sab"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="购物车(3)" />
+        app:abar_title="购物车" />
 
     <RelativeLayout
         android:visibility="gone"

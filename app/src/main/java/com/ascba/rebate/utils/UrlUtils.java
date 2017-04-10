@@ -150,4 +150,6 @@ public class UrlUtils {
 
     //商城——我
     public static final String myPageInfo = urlPrefix + "myPageInfo";
+    //添加商品到购物车
+    public static final String cartAddGoods=urlPrefix + "cartAddGoods";
 }
