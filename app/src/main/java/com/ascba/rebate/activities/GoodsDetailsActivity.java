@@ -150,6 +150,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private Goods goodsSelect;
     private boolean isAll;
     private StdDialog sd;
+    private NumberButton nb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1015,6 +1016,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 String weight = obj.optString("weight");
 
                 Goods goods=new Goods();
+                goods.setCartId(id+"");
                 goods.setTitleId(goods_id);
                 goods.setGoodsNumber(goods_number);
                 goods.setSpecKeys(spec_keys);
@@ -1073,12 +1075,13 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             return;
         }
         sd=new StdDialog(this,gas,goodses);
+        nb = sd.getNb();
         sd.getTvAddToCart().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//加入购物车
-                if(isAll){
+                if(isAll){//选择了完整的规格
                     if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
-                        addToCart(UrlUtils.cartAddGoods,0);
+                        requestNetwork(UrlUtils.cartAddGoods,0);
                     }else {
                         Intent intent=new Intent(GoodsDetailsActivity.this, LoginActivity.class);
                         startActivityForResult(intent,REQUEST_ADD_TO_CART_LOGIN);
@@ -1087,6 +1090,17 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                     getDm().buildAlertDialog("请先选择商品");
                 }
 
+            }
+        });
+
+        sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
+            @Override
+            public void onClick(View v) {
+                if(isAll){
+                    requestNetwork(UrlUtils.cartAccount, 1);
+                }else {
+                    getDm().buildAlertDialog("请先选择商品");
+                }
             }
         });
         sd.setListener(new StdDialog.Listener() {
@@ -1100,6 +1114,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 GoodsDetailsActivity.this.isAll=isAll;
             }
         });
+
         sd.showMyDialog();
     }
 
@@ -1115,7 +1130,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                     break;
                 case REQUEST_ADD_TO_CART_LOGIN:
                     if(resultCode==RESULT_OK){
-                        addToCart(UrlUtils.cartAddGoods,0);
+                        requestNetwork(UrlUtils.cartAddGoods,0);
                     }
                     break;
             }
@@ -1123,18 +1138,23 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
     }
 
-    private void addToCart(String url,int scene) {
+    private void requestNetwork(String url,int scene) {
+        finalScene=scene;
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
         if(scene==0){
-            Request<JSONObject> request = buildNetRequest(url, 0, true);
+
             //request.add("session_id", cookie.getValue());
             request.add("store_id",store_id);
             request.add("goods_id",goodsSelect.getTitleId());
-            request.add("goods_num",goodsSelect.getGoodsNumber());
+            request.add("goods_num",nb.getNumber());
             request.add("spec_keys",goodsSelect.getSpecKeys());
             request.add("spec_names",goodsSelect.getSpecNames());
-            executeNetWork(request,"请稍后");
-            setCallback(this);
+
+        }else if(scene==1){
+            request.add("cart_ids", goodsSelect.getCartId());
         }
+        executeNetWork(request,"请稍后");
+        setCallback(this);
 
     }
 
@@ -1143,6 +1163,10 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         if(finalScene==0){
             getDm().buildAlertDialog(message);
             sd.dismiss();
+        }else if(finalScene==1){
+            Intent intent = new Intent(this, ConfirmOrderActivity.class);
+            intent.putExtra("json_data", dataObj.toString());
+            startActivity(intent);
         }
     }
 

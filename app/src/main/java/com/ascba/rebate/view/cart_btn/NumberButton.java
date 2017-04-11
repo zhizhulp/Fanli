@@ -84,10 +84,11 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         mCount = ((EditText) findViewById(R.id.text_count));
         mCount.addTextChangedListener(this);
         mCount.setOnClickListener(this);
+        mCount.setCursorVisible(false);
 
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NumberButton);
-        boolean editable = typedArray.getBoolean(R.styleable.NumberButton_editable, true);
+        boolean editable = typedArray.getBoolean(R.styleable.NumberButton_editable, false);
         int buttonWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_buttonWidth, -1);
         int textWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textWidth, -1);
         int textSize = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textSize, -1);

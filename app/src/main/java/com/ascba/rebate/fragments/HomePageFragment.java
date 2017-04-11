@@ -241,7 +241,6 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                         MessageLatestActivity.startIntent(context);
                         break;
                 }
-                Toast.makeText(getActivity(), "position:" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }

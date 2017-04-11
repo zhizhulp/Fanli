@@ -75,6 +75,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         final CheckBox cb = helper.getView(R.id.cart_cb_title);
         cb.setChecked(item.isCheck());
         cb.setOnClickListener(createHeadListener(cb,helper,item));
+        helper.addOnClickListener(R.id.tv_go_shop);
     }
 
 
@@ -259,15 +260,26 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                 }
                 boolean isAll = false;
                 for (int i = 0; i < gl.size(); i++) {
-                    if (i == gl.size() - 1) {
-                        break;
+                    if(gl.size()!=0){
+                        if(gl.size()==1){
+                            if(gl.get(i).isCheck()){
+                                isAll=true;
+                            }
+                        }else {
+                            if (i == gl.size() - 1) {
+                                break;
+                            }
+                            if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
+                                isAll = true;
+                            } else {
+                                isAll = false;
+                                break;
+                            }
+                        }
+
                     }
-                    if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
-                        isAll = true;
-                    } else {
-                        isAll = false;
-                        break;
-                    }
+
+
                 }
                 if (isAll) {
                     if (cb.isChecked() && !cbTotal.isChecked()) {
