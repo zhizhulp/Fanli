@@ -5,44 +5,6 @@
     android:layout_height="wrap_content"
     android:background="@mipmap/pc_beijing">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15.5dp"
-        android:layout_marginRight="9.5dp"
-        android:layout_marginTop="10dp">
-
-        <RelativeLayout
-            android:id="@+id/activity_pc_item_head_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:padding="5dp">
-
-            <ImageView
-                android:id="@+id/activity_pc_item_head_xiaoxi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/pc_xiaoxi" />
-
-            <ImageView
-                android:id="@+id/activity_pc_item_head_xiaoxi_notify"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_marginLeft="-8dp"
-                android:layout_toRightOf="@+id/activity_pc_item_head_xiaoxi"
-                android:background="@drawable/notify_img" />
-        </RelativeLayout>
-
-
-        <ImageView
-            android:id="@+id/activity_pc_item_head_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:src="@mipmap/abar_back_white" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

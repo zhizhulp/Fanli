@@ -76,6 +76,23 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     初始化UI
      */
     private void initView(View view) {
+
+        //返回
+        view.findViewById(R.id.activity_pc_item_head_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+        //消息
+        view.findViewById(R.id.activity_pc_item_head_message).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShopMessageActivity.startIntent(getActivity());
+            }
+        });
+
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
         pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
@@ -137,12 +154,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
                 switch (view.getId()) {
-                    case R.id.activity_pc_item_head_back:
-                        getActivity().finish();
-                        break;
-                    case R.id.activity_pc_item_head_message:
-                        ShopMessageActivity.startIntent(getActivity());
-                        break;
+
                 }
             }
         });

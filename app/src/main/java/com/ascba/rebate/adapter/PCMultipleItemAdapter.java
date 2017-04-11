@@ -38,8 +38,6 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
             case PCMultipleItem.TYPE_0:
                 //个人信息
                 helper.setText(R.id.activity_pc_item_head_name, item.getTitle());
-                helper.addOnClickListener(R.id.activity_pc_item_head_back);
-                helper.addOnClickListener(R.id.activity_pc_item_head_message);
                 ImageView headView = helper.getView(R.id.me_user_img);
                 helper.addOnClickListener(R.id.me_user_img);
                 Picasso.with(context).load(item.getHeadImg()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(headView);
