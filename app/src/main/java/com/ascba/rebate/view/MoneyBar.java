@@ -122,10 +122,8 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     public void setTextTitle(String title){
         this.title=title;
         mTextView.setText(title);
-        invalidate();
     }
     public void setTailTitle(String tailText){
         completeText.setText(tailText);
-        invalidate();
     }
 }

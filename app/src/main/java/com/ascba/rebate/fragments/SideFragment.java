@@ -487,8 +487,6 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             } else {
                 Toast.makeText(getActivity(), "定位失败", Toast.LENGTH_SHORT).show();
                 stopLocation();
-                // TODO: 2017/4/2 0002
-                /*requestNetwork(0);*/
             }
         }
     };
