@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
@@ -68,6 +69,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
+    private boolean canClear;//是否能结算（是否有商品）
 
     public CartFragment() {
     }
@@ -225,9 +227,14 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             @Override
             public void onItemChildClick(final BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
+                CartGoods cartGoods = data.get(position);
                 int id = view.getId();
-                if (id == R.id.edit_standard) {
-                    showDialog();
+                if (id == R.id.edit_standard) {//选择规格
+                    //showDialog();
+                }else if(id == R.id.tv_go_shop){
+                    Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
+                    intent.putExtra("store_id", cartGoods.getId());
+                    startActivity(intent);
                 }
             }
         });
@@ -238,43 +245,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         tvCostNum.setOnClickListener(this);
     }
 
-    /**
-     * 规格选择
-     */
-    private void showDialog() {
-        final Dialog dialog = new Dialog(getActivity(), R.style.AlertDialog);
-        dialog.setContentView(R.layout.layout_by_shop);
-        //关闭对话框
-        dialog.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        //规格列表
-        RecyclerView rvRule = (RecyclerView) dialog.findViewById(R.id.goods_profile_list);
-        List<GoodsAttr> gas = new ArrayList<>();
-        initAttrsData(gas);
-        ProfileAdapter adapter = new ProfileAdapter(R.layout.goods_attrs_layout, gas);
-        rvRule.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //添加尾部试图
-        View view1 = getActivity().getLayoutInflater().inflate(R.layout.num_btn_layout, null);
-        adapter.addFooterView(view1, 0);
-        rvRule.setAdapter(adapter);
-
-        //显示对话框
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window != null) {
-            window.setWindowAnimations(R.style.goods_profile_anim);
-            window.setBackgroundDrawableResource(android.R.color.transparent);
-            WindowManager.LayoutParams wlp = window.getAttributes();
-            Display d = window.getWindowManager().getDefaultDisplay();
-            wlp.width = d.getWidth();
-            wlp.gravity = Gravity.BOTTOM;
-            window.setAttributes(wlp);
-        }
-    }
 
     private void initAttrsData(List<GoodsAttr> gas) {
         for (int i = 0; i < 5; i++) {
@@ -397,51 +367,31 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.cart_tv_cost_total_count:
-                requestNetwork(UrlUtils.cartAccount, 4);
-
-                //showFinalDialog();
+            case R.id.cart_tv_cost_total_count://点击结算
+                if(canClearCart()){
+                    requestNetwork(UrlUtils.cartAccount, 4);
+                }else {
+                    getDm().buildAlertDialog("请先选择商品");
+                }
                 break;
         }
     }
-
-    private void showFinalDialog() {
-        final Dialog dialog = new Dialog(getActivity(), R.style.AlertDialog);
-        dialog.setContentView(R.layout.layout_pay_pop);
-        //关闭对话框
-        dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+    //购物车是否有选择的商品
+    private boolean canClearCart() {
+        boolean hasCheck=false;
+        if(data.size()!=0) {
+            for (int i = 0; i < data.size(); i++) {
+                CartGoods cartGoods = data.get(i);
+                if (!cartGoods.isHeader) {
+                    if (cartGoods.isCheck()) {
+                        hasCheck = true;
+                        break;
+                    }
+                }
             }
-        });
-        //去付款
-        dialog.findViewById(R.id.go_pay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
-                startActivity(intent);
-            }
-        });
-        //列表
-        RecyclerView rvTypes = (RecyclerView) dialog.findViewById(R.id.pay_type_list);
-        List<PayType> types = new ArrayList<>();
-        initPayTypesData(types);
-        PayTypeAdapter pt = new PayTypeAdapter(R.layout.pay_type_item, types);
-        rvTypes.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvTypes.setAdapter(pt);
-        //显示对话框
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window != null) {
-            window.setWindowAnimations(R.style.goods_profile_anim);
-            //window.setBackgroundDrawableResource(android.R.color.transparent);
-            WindowManager.LayoutParams wlp = window.getAttributes();
-            Display d = window.getWindowManager().getDefaultDisplay();
-            wlp.width = d.getWidth();
-            wlp.gravity = Gravity.BOTTOM;
-            window.setAttributes(wlp);
         }
+
+        return  hasCheck;
     }
 
     private void initPayTypesData(List<PayType> types) {
@@ -686,4 +636,5 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             }
         }
     }
+
 }

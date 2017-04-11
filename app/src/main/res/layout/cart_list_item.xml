@@ -126,7 +126,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="10dp"
-                    qinc:editable="true" />
+                    qinc:editable="false" />
             </RelativeLayout>
         </LinearLayout>
         <View
