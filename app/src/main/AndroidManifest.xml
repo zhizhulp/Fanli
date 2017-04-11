@@ -625,6 +625,11 @@
             android:name=".activities.SelectAddrssActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+
+        <activity
+            android:name=".activities.BusinessUnionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 
