@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -95,6 +96,9 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
         myAdapter = new ReceiveAddressAdapter(R.layout.item_receive_address, beanList);
         recyclerView.setAdapter(myAdapter);
 
+        View emptyView = LayoutInflater.from(context).inflate(R.layout.empty_address, null);
+        myAdapter.setEmptyView(emptyView);
+
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -107,7 +111,7 @@ public class ReceiveAddressActivity extends BaseNetWork4Activity implements Supe
                         //编辑
                         Intent intent = new Intent(context, EditAdressActivity.class);
                         intent.putExtra("address", beanList.get(position));
-                        startActivityForResult(intent,2);
+                        startActivityForResult(intent, 2);
                         break;
                     case R.id.item_receive_address_check:
                         //设置默认地址

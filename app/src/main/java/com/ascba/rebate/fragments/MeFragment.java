@@ -16,18 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.BusinessUnionActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.MyAwardActivity;
+import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity;
@@ -267,40 +267,9 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
         } else if (finalScene == 1) {
             //点击商户中心
             JSONObject company = dataObj.optJSONObject("company");
-            int seller_enable_time = dataObj.optInt("seller_enable_time");
-            String seller_enable_tip = dataObj.optString("seller_enable_tip");
             int merchant = company.optInt("status");
             if (merchant == 3) {//申请成功
-                String seller_name = company.optString("seller_name");
-                String seller_cover_logo = company.optString("seller_cover_logo");
-                String seller_image = company.optString("seller_image");
-                String seller_taglib = company.optString("seller_taglib");
-                String seller_address = company.optString("seller_address");
-                String seller_localhost = company.optString("seller_localhost");
-                String seller_lon = company.optString("seller_lon");
-                String seller_lat = company.optString("seller_lat");
-                String seller_tel = company.optString("seller_tel");
-                String seller_business_hours = company.optString("seller_business_hours");
-                String seller_return_ratio = company.optString("seller_return_ratio");
-                String seller_return_ratio_tip = company.optString("seller_return_ratio_tip");
-                String seller_description = company.optString("seller_description");
-                Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
-                intent.putExtra("seller_name", seller_name);
-                intent.putExtra("seller_cover_logo", seller_cover_logo);
-                intent.putExtra("seller_image", seller_image);
-                intent.putExtra("seller_taglib", seller_taglib);
-                intent.putExtra("seller_address", seller_address);
-                intent.putExtra("seller_localhost", seller_localhost);
-                intent.putExtra("seller_lon", seller_lon);
-                intent.putExtra("seller_lat", seller_lat);
-                intent.putExtra("seller_tel", seller_tel);
-                intent.putExtra("seller_business_hours", seller_business_hours);
-                intent.putExtra("seller_return_ratio", seller_return_ratio);
-                intent.putExtra("seller_return_ratio_tip", seller_return_ratio_tip);
-                intent.putExtra("seller_description", seller_description);
-                intent.putExtra("seller_enable_time", seller_enable_time);
-                intent.putExtra("seller_enable_tip", seller_enable_tip);
-                startActivity(intent);
+                BusinessUnionActivity.startIntent(getActivity(), dataObj.toString());
             } else if (merchant == 0) {//填写申请资料
                 Intent intent = new Intent(getActivity(), BCProcessActivity.class);
                 startActivityForResult(intent, REQUEST_APPLY);

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
+    android:background="@color/lighter_gray"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -89,6 +90,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -186,6 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="82dp"
                 android:gravity="center_vertical"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -226,6 +229,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="82dp"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -267,6 +271,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="82dp"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
