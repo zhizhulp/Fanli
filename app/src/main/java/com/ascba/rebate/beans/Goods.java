@@ -32,6 +32,8 @@ public class Goods implements MultiItemEntity {
     private String specNames;//品对应的描述文字
     private int type;
     private int layout;
+    private String messageCart;//买家留言，购物车id信息拼接字符串
+
 
     public Goods() {
     }
@@ -42,13 +44,14 @@ public class Goods implements MultiItemEntity {
         this.store = store;
     }
 
-    public Goods(int type, int layout, String freightPrice,int num, String totalPrice,int storeId) {
+    public Goods(int type, int layout, String freightPrice, int num, String totalPrice, int storeId, String messageCart) {
         this.type = type;
         this.layout = layout;
         this.freightPrice = freightPrice;
-        this.num=num;
+        this.num = num;
         this.totalPrice = totalPrice;
-        this.storeId=storeId;
+        this.storeId = storeId;
+        this.messageCart = messageCart;
     }
 
     public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String goodsPriceOld, int userQuy) {
@@ -275,5 +278,13 @@ public class Goods implements MultiItemEntity {
 
     public void setSpecKeys(String specKeys) {
         this.specKeys = specKeys;
+    }
+
+    public String getMessageCart() {
+        return messageCart;
+    }
+
+    public void setMessageCart(String messageCart) {
+        this.messageCart = messageCart;
     }
 }

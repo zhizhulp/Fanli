@@ -126,9 +126,10 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         //买家留言
         confirmOrderAdapter.setEditTextString(new ConfirmOrderAdapter.editTextString() {
             @Override
-            public void getString(String content, int storeId) {
+            public void getString(String content, int storeId, String mesaagesCartId) {
                 try {
                     JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("cart_ids", mesaagesCartId);
                     jsonObject.put("message", content);
                     jsonMessage.put(String.valueOf(storeId), jsonObject);
                     Log.d("ConfirmOrderActivity", jsonMessage.toString());
@@ -154,12 +155,13 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                         JSONObject titleObj = storeObj.optJSONObject("store_info");
                         goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, titleObj.optString("store_name")));
                         JSONArray goodsArray = storeObj.optJSONArray("goods_list");
-
                         if (goodsArray != null && goodsArray.length() != 0) {
                             float yunfei = 10;//运费
                             int num = 0;
                             float price = 0;
                             int storeId = 0;
+                            String cartId = null;
+                            StringBuffer mesaagesCartId = new StringBuffer();
                             for (int j = 0; j < goodsArray.length(); j++) {
                                 JSONObject obj = goodsArray.optJSONObject(j);
                                 String goods_price = obj.optString("goods_price");
@@ -173,13 +175,22 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                                 price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
                                 //店铺id
                                 storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
-                                JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("message", "");
-                                jsonMessage.put(String.valueOf(storeId), jsonObject);
+                                //购物车id
+                                cartId = obj.optString("cart_id");
+                                mesaagesCartId.append(cartId + ",");
                             }
+                            /**
+                             * 拼接空白留言信息
+                             */
+                            JSONObject jsonObject = new JSONObject();
+                            mesaagesCartId.delete(mesaagesCartId.length() - 1, mesaagesCartId.length());
+                            jsonObject.put("cart_ids", mesaagesCartId.toString());
+                            jsonObject.put("message", "");
+                            jsonMessage.put(String.valueOf(storeId), jsonObject);
+
                             price += yunfei;
                             totalPrice += price;
-                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId));
+                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId, mesaagesCartId.toString()));
                         }
                     }
                 }
@@ -191,7 +202,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         return goodsList;
     }
 
-    /**
+    /*
      * 获取收货地址数据
      */
     private void getAddress() {

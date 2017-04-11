@@ -74,7 +74,7 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
                     @Override
                     public void afterTextChanged(Editable s) {
                         if (editTextString != null) {
-                            editTextString.getString(etMsg.getText().toString(), item.getStoreId());
+                            editTextString.getString(etMsg.getText().toString(), item.getStoreId(), item.getMessageCart());
                         }
                     }
                 });
@@ -86,6 +86,6 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
     }
 
     public interface editTextString {
-        void getString(String content, int storeId);
+        void getString(String content, int storeId, String cartId);
     }
 }
