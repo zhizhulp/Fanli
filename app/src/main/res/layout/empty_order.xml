@@ -9,21 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@mipmap/img_empty" />
+        android:src="@mipmap/empty_order" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="您还没有相关的订单"
+        android:layout_marginTop="20dp"
+        android:text="您还没有相关的订单~"
         android:textColor="@color/shop_normal_text_color"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:text="可以去看看有哪些想买的"
-        android:textColor="@color/textgray"
-        android:textSize="12sp" />
 </LinearLayout>

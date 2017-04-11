@@ -49,6 +49,10 @@ public class IncomeFragment extends Base2Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         InOutComeAdapter inOutComeAdapter = new InOutComeAdapter(R.layout.wsaccount_list_item, beanList);
+
+        View empty = LayoutInflater.from(context).inflate(R.layout.empty_records, null);
+        inOutComeAdapter.setEmptyView(empty);
+
         recyclerView.setAdapter(inOutComeAdapter);
     }
 

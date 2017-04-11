@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -110,6 +111,8 @@ public class SelectAddrssActivity extends BaseNetWork4Activity {
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(context));
         adapter = new SelectAddressAdapter(R.layout.item_select_address, beanList);
+        View empty = LayoutInflater.from(context).inflate(R.layout.empty_address, null);
+        adapter.setEmptyView(empty);
         recyclerview.setAdapter(adapter);
 
         /**
