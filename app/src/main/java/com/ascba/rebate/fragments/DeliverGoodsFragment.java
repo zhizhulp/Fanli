@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -81,6 +83,7 @@ public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRef
                     refreshLat.setRefreshing(false);
                     adapter.notifyDataSetChanged();
                 }
+                Log.d("DeliverGoodsFragment", "beanArrayList.size():" + beanArrayList.size());
             }
 
             @Override
@@ -118,35 +121,42 @@ public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRef
                 int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
                 //头部信息
-                String time = object.optString("create_time");//时间
+                String time = object.optString("add_time");//时间
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead1 = new OrderBean(DeliverGoodsAdapter.TYPE1, R.layout.item_goods_order_head, time, "等待卖家发货");
-                beanArrayList.add(beanHead1);
+                OrderBean beanHead = new OrderBean(DeliverGoodsAdapter.TYPE1, R.layout.item_goods_order_head, time, "等待卖家发货");
+                beanArrayList.add(beanHead);
 
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
-                for (int j = 0; j < goodsArray.length(); j++) {
-                    JSONObject goodsObject = goodsArray.optJSONObject(i);
-                    Goods good = new Goods();
-                    good.setTitleId(Integer.parseInt(String.valueOf(goodsObject.opt("id"))));//商品id
-                    good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
-                    good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
+                Log.d("DeliverGoodsFragment", "goodsArray.length():" + goodsArray.length());
+                if (goodsArray != null && goodsArray.length() > 0) {
+                    for (int j = 0; j < goodsArray.length(); j++) {
+                        try {
+                            JSONObject goodsObject = goodsArray.getJSONObject(j);
+                            Goods good = new Goods();
+                            good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
+                            good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                            good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
-                    int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
-                    totalNum = num + totalNum;
+                            int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
+                            totalNum = num + totalNum;
 
-                    good.setUserQuy(num);//购买数量
-                    good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
-                    good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
-                    beanArrayList.add(new OrderBean(DeliverGoodsAdapter.TYPE2, R.layout.item_goods, good));
+                            good.setUserQuy(num);//购买数量
+                            good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
+                            good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
+                            beanArrayList.add(new OrderBean(DeliverGoodsAdapter.TYPE2, R.layout.item_goods, good));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
                 //底部信息
                 String orderAmount = object.optString("order_amount");//订单总价
-                String shippingFee = object.optString("shipping_fee");//运费
+                String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot1 = new OrderBean(DeliverGoodsAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum, "￥" + orderAmount, shippingFee);
-                beanArrayList.add(beadFoot1);
+                OrderBean beadFoot = new OrderBean(DeliverGoodsAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                beanArrayList.add(beadFoot);
             }
         }
     }
