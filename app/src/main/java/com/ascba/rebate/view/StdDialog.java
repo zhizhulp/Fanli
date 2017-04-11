@@ -15,9 +15,12 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.ProfileAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.cart_btn.NumberButton;
+import com.yolanda.nohttp.NoHttp;
 
 import java.util.List;
 
@@ -32,8 +35,40 @@ public class StdDialog extends Dialog {
     private TextView tvUnitPrice;//单价
     private TextView tvInv;//库存
     private TextView tvListener;//动态标题
+    private Listener listener;
+    private TextView tvAddToCart;
+    private TextView tvPurchase;
 
-    public StdDialog(@NonNull Context context,List<GoodsAttr> gas,List<Goods> goodses) {
+    public TextView getTvPurchase() {
+        return tvPurchase;
+    }
+
+    public void setTvPurchase(TextView tvPurchase) {
+        this.tvPurchase = tvPurchase;
+    }
+
+    public TextView getTvAddToCart() {
+        return tvAddToCart;
+    }
+
+    public void setTvAddToCart(TextView tvAddToCart) {
+        this.tvAddToCart = tvAddToCart;
+    }
+
+    public interface Listener{
+        void getSelectGoods(Goods gs);
+        void isSelectAll(boolean isAll);
+    }
+
+    public Listener getListener() {
+        return listener;
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public StdDialog(@NonNull Context context, List<GoodsAttr> gas, List<Goods> goodses) {
         super(context);
         this.gas=gas;
         this.goodses=goodses;
@@ -49,7 +84,9 @@ public class StdDialog extends Dialog {
                 dismiss();
             }
         });
+        tvAddToCart = ((TextView) findViewById(R.id.tv_add_to_cart));
         tvUnitPrice = (TextView) findViewById(R.id.tv_shop_price);
+        tvPurchase = ((TextView) findViewById(R.id.tv_purchase_cart));
         tvUnitPrice.setText("￥ ?");
         tvInv = (TextView) findViewById(R.id.tv_inventory);
         tvInv.setText("库存 ?");
@@ -90,9 +127,13 @@ public class StdDialog extends Dialog {
                         break;
                     }
                 }
+                if(listener!=null){
+                    listener.isSelectAll(isAllSelect);
+                }
                 if(isAllSelect){//所有选择完毕
                     setTitleText();
                 }
+
             }
         });
     }
@@ -129,15 +170,21 @@ public class StdDialog extends Dialog {
                     }
                 }
             }
+            LogUtils.PrintLog("369","拼接字符串-->"+sb.toString());
             for (int i = 0; i < goodses.size(); i++) {
                 Goods goods = goodses.get(i);
+                LogUtils.PrintLog("369","当前字符串-->"+goods.getSpecKeys());
                 if(sb.toString().equals(goods.getSpecKeys())){
                     nb.setInventory(goods.getInventory());
                     tvInv.setText("库存"+goods.getInventory());
                     tvUnitPrice.setText("￥"+goods.getGoodsPrice());
                     tvListener.setText(goods.getSpecNames());
+                    if(listener!=null){
+                        listener.getSelectGoods(goods);
+                    }
                 }
             }
+
 
         }
 

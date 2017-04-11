@@ -53,15 +53,17 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
                         if(attrs.getTextStatus()!=2){
                             if(attrs.getTextStatus()==1 && attrs!=s){
                                 attrs.setTextStatus(0);
+                                attrs.setHasCheck(false);
                             }
                         }
                     }
                     //父类置true
                     item.setSelect(true);
-                    notifyItemChanged(helper.getAdapterPosition());
+
                     if(callback!=null){
                         callback.click(s,item);
                     }
+                    notifyItemChanged(helper.getAdapterPosition());
                 }
             });
             rb.setButtonDrawable(new ColorDrawable());//去掉圆圈

@@ -189,7 +189,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         //初始化标题栏
         sab = ((ShopABar) view.findViewById(R.id.sab));
         sab.setImageOtherEnable(false);
-        sab.setTitle("购物车(100)");
+        sab.setTitle("购物车");
         sab.setCallback(new ShopABar.Callback() {
             @Override
             public void back(View v) {
