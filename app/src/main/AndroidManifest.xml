@@ -617,7 +617,9 @@
             android:name=".activities.BusinessUnionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.ProxyDetActivity"></activity>
+        <activity android:name=".activities.ProxyDetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
     </application>
 
 </manifest>

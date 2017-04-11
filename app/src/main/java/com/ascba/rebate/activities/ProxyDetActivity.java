@@ -36,6 +36,7 @@ public class ProxyDetActivity extends BaseNetWork4Activity implements MoneyBar.C
     private void initViews() {
         initRecyclerView();
         initRefreshLayout();
+        initMoneyBar();
     }
 
     private void initRefreshLayout() {
@@ -49,7 +50,6 @@ public class ProxyDetActivity extends BaseNetWork4Activity implements MoneyBar.C
         getData();
         adapter = new ProxyDetAdapter(R.layout.proxy_det_item, data);
         View inflate = getLayoutInflater().inflate(R.layout.proxy_det_head, null);
-        initMoneyBar(inflate);
         adapter.addHeaderView(inflate);
         rv.setAdapter(adapter);
     }
@@ -64,8 +64,8 @@ public class ProxyDetActivity extends BaseNetWork4Activity implements MoneyBar.C
 
     }
 
-    private void initMoneyBar(View inflate) {
-        mb = ((MoneyBar) inflate.findViewById(R.id.mb));
+    private void initMoneyBar() {
+        mb = ((MoneyBar) findViewById(R.id.mb));
         mb.setTailTitle("切换地区");
         mb.setCallBack(this);
     }

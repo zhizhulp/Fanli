@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <com.ascba.rebate.view.MoneyBar
-        app:needComplete="true"
         android:id="@+id/mb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barBg="#f43b3b"
-        app:textTitle="推荐奖励" />
+        app:needComplete="true"
+        app:textTitle="代理专区" />
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
@@ -18,6 +18,6 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </com.ascba.rebate.view.SuperSwipeRefreshLayout>
 </LinearLayout>
