@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ascba.rebate.view.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</com.ascba.rebate.view.SuperSwipeRefreshLayout>
+    <LinearLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/empty_order" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="您还没有相关的订单~"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+</FrameLayout>

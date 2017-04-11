@@ -19,7 +19,6 @@ import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yolanda.nohttp.rest.Request;
@@ -36,10 +35,9 @@ import java.util.List;
  * 待发货
  */
 
-public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class DeliverGoodsFragment extends Base2Fragment {
 
     private RecyclerView recyclerView;
-    private SuperSwipeRefreshLayout refreshLat;
     private Context context;
 
     /**
@@ -49,6 +47,7 @@ public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRef
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private DeliverGoodsAdapter adapter;
     private View view;
+    private View emptyView;
 
 
     @Override
@@ -79,33 +78,33 @@ public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRef
                 if (adapter == null) {
                     initRecylerView();
                 } else {
-                    //刷新数据
-                    refreshLat.setRefreshing(false);
                     adapter.notifyDataSetChanged();
                 }
-                Log.d("DeliverGoodsFragment", "beanArrayList.size():" + beanArrayList.size());
+
+                if (beanArrayList.size() == 0) {
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    emptyView.setVisibility(View.GONE);
+                }
+
             }
 
             @Override
             public void handleReqFailed() {
-                refreshLat.setRefreshing(false);
             }
 
             @Override
             public void handle404(String message) {
                 getDm().buildAlertDialog(message);
-                refreshLat.setRefreshing(false);
             }
 
             @Override
             public void handleReLogin() {
-                refreshLat.setRefreshing(false);
             }
 
             @Override
             public void handleNoNetWork() {
                 getDm().buildAlertDialog("请检查网络！");
-                refreshLat.setRefreshing(false);
             }
         });
     }
@@ -162,21 +161,13 @@ public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRef
     }
 
     private void initRecylerView() {
+        emptyView = view.findViewById(R.id.empty_view);
+
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new DeliverGoodsAdapter(beanArrayList, context);
-
-        /**
-         * empty
-         */
-        View emptyView = LayoutInflater.from(context).inflate(R.layout.view_empty, null);
-        adapter.setEmptyView(emptyView);
-
         recyclerView.setAdapter(adapter);
-
-        refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
@@ -192,7 +183,7 @@ public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRef
         });
     }
 
-    /**
+    /*
      * 商品数据
      */
     private List<OrderBean> getData() {
@@ -275,18 +266,4 @@ public class DeliverGoodsFragment extends Base2Fragment implements SuperSwipeRef
         return beanArrayList;
     }
 
-    @Override
-    public void onRefresh() {
-        requstData();
-    }
-
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 }
