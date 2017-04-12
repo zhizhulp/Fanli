@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
@@ -107,81 +108,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         setCallback(this);
     }
 
-    private String createClearIds() {
-
-        if (data.size() != 0) {
-            List<CartGoods> filter = new ArrayList<>();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < data.size(); i++) {
-                CartGoods cg = data.get(i);
-                if (!cg.isHeader && cg.isCheck()) {
-                    filter.add(cg);
-                }
-            }
-
-            for (int i = 0; i < filter.size(); i++) {
-                CartGoods cg = filter.get(i);
-                if (i == filter.size() - 1) {
-                    sb.append(cg.t.getCartId());
-                } else {
-                    sb.append(cg.t.getCartId());
-                    sb.append(",");
-                }
-            }
-            return sb.toString();
-        } else {
-            return null;
-        }
-
-    }
-
-    private String createIds() {
-        if (cgSelect == null) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < data.size(); i++) {
-                CartGoods cg = data.get(i);
-                if (!cg.isHeader) {
-                    if (i == data.size() - 1) {
-                        sb.append(cg.t.getCartId());
-                    } else {
-                        sb.append(cg.t.getCartId());
-                        sb.append(",");
-                    }
-                }
-            }
-            return sb.toString();
-        } else {
-            if (!cgSelect.isHeader) {
-                return cgSelect.t.getCartId();
-            } else {
-                StringBuilder sb = new StringBuilder();
-                List<CartGoods> filter = new ArrayList<>();
-                for (int i = 0; i < data.size(); i++) {
-                    CartGoods cg = data.get(i);
-                    if (!cg.isHeader) {
-                        if (cg.getId() == (cgSelect.getId())) {
-                            filter.add(cg);
-                        }
-
-                    }
-
-                }
-                for (int i = 0; i < filter.size(); i++) {
-                    CartGoods cg = filter.get(i);
-                    if (i == filter.size() - 1) {
-                        sb.append(cg.t.getCartId());
-                    } else {
-                        sb.append(cg.t.getCartId());
-                        sb.append(",");
-                    }
-                }
-
-                return sb.toString();
-            }
-
-        }
-    }
-
     private void initViews(View view) {
         /**
          * 合计 .结算
@@ -231,10 +157,12 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 int id = view.getId();
                 if (id == R.id.edit_standard) {//选择规格
                     //showDialog();
-                }else if(id == R.id.tv_go_shop){
+                }else if(id == R.id.tv_go_shop){//点击进店
                     Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
                     intent.putExtra("store_id", cartGoods.getId());
                     startActivity(intent);
+                }else if(id==R.id.cart_goods_title){//点击购物车商品title,进去商品页
+                    GoodsDetailsActivity.startIntent(getActivity(),cartGoods.t.getTitleId());
                 }
             }
         });
@@ -390,6 +318,10 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         goods.setImgUrl(goods_img);
                         goods.setGoodsStandard(spec_names);
                         goods.setCartId(cart_id);
+                        if(!StringUtils.isEmpty(goods_id)){
+                            goods.setTitleId(Integer.parseInt(goods_id));
+                        }
+
                         int sele = Integer.parseInt(selected);
                         CartGoods dg = new CartGoods(goods, Integer.parseInt(store_id), sele != 0);
                         data.add(dg);
@@ -508,7 +440,14 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         super.onResume();
 
     }
-
+    //调用show,hide会回调的方法
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            requestNetwork(UrlUtils.shoppingCart, 0);
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -535,6 +474,81 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             }
         }
 
+    }
+
+    private String createClearIds() {
+
+        if (data.size() != 0) {
+            List<CartGoods> filter = new ArrayList<>();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.size(); i++) {
+                CartGoods cg = data.get(i);
+                if (!cg.isHeader && cg.isCheck()) {
+                    filter.add(cg);
+                }
+            }
+
+            for (int i = 0; i < filter.size(); i++) {
+                CartGoods cg = filter.get(i);
+                if (i == filter.size() - 1) {
+                    sb.append(cg.t.getCartId());
+                } else {
+                    sb.append(cg.t.getCartId());
+                    sb.append(",");
+                }
+            }
+            return sb.toString();
+        } else {
+            return null;
+        }
+
+    }
+
+    private String createIds() {
+        if (cgSelect == null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.size(); i++) {
+                CartGoods cg = data.get(i);
+                if (!cg.isHeader) {
+                    if (i == data.size() - 1) {
+                        sb.append(cg.t.getCartId());
+                    } else {
+                        sb.append(cg.t.getCartId());
+                        sb.append(",");
+                    }
+                }
+            }
+            return sb.toString();
+        } else {
+            if (!cgSelect.isHeader) {
+                return cgSelect.t.getCartId();
+            } else {
+                StringBuilder sb = new StringBuilder();
+                List<CartGoods> filter = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    CartGoods cg = data.get(i);
+                    if (!cg.isHeader) {
+                        if (cg.getId() == (cgSelect.getId())) {
+                            filter.add(cg);
+                        }
+
+                    }
+
+                }
+                for (int i = 0; i < filter.size(); i++) {
+                    CartGoods cg = filter.get(i);
+                    if (i == filter.size() - 1) {
+                        sb.append(cg.t.getCartId());
+                    } else {
+                        sb.append(cg.t.getCartId());
+                        sb.append(",");
+                    }
+                }
+
+                return sb.toString();
+            }
+
+        }
     }
 
 }

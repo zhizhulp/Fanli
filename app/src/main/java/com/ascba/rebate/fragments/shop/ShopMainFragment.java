@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments.shop;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +20,15 @@ import android.widget.RelativeLayout;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
+import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
@@ -28,7 +36,9 @@ import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BezierCurveAnimater;
+import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -40,6 +50,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 /**
@@ -51,6 +62,8 @@ public class ShopMainFragment extends Base2Fragment implements
         , Base2Fragment.Callback {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
+    private static final int REQUEST_ADD_TO_CART_LOGIN = 2;
+    private static final int REQUEST_STD_LOGIN = 3;
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
@@ -86,6 +99,12 @@ public class ShopMainFragment extends Base2Fragment implements
 
     private LinearLayout messageBtn;
     private BezierCurveAnimater bezierCurveAnimater;//加入购物车动画
+    private int finalScene;
+    private int goodsId;
+    private StdDialog sd;
+    private NumberButton nb;
+    private boolean isAll;
+    private Goods goodsSelect;
 
     @Nullable
     @Override
@@ -149,7 +168,14 @@ public class ShopMainFragment extends Base2Fragment implements
                 if (view.getId() == R.id.goods_list_cart) {
                     ImageView addCart = (ImageView) view;
                     bezierCurveAnimater.addCart(addCart);
-
+                    ShopBaseItem shopBaseItem = data.get(position);
+                    goodsId=shopBaseItem.getColor();
+                    if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
+                        requestNetwork(UrlUtils.getGoodsSpec,2);
+                    }else {
+                        Intent intent2=new Intent(getActivity(), LoginActivity.class);
+                        startActivityForResult(intent2,REQUEST_STD_LOGIN);
+                    }
 
                 }
             }
@@ -176,13 +202,29 @@ public class ShopMainFragment extends Base2Fragment implements
             }
         });
 
-        requestNetwork();
+        requestNetwork(UrlUtils.shop,0);
     }
 
-    private void requestNetwork() {
-        Request<JSONObject> request = buildNetRequest(UrlUtils.shop, 0, false);
-        request.add("sign", UrlEncodeUtils.createSign(UrlUtils.shop));
-        request.add("now_page", now_page);
+    private void requestNetwork(String url,int scene) {
+        finalScene=scene;
+        Request<JSONObject> request=null;
+        if(scene==0){//商品列表
+            request = buildNetRequest(url, 0, false);
+            request.add("sign", UrlEncodeUtils.createSign(url));
+            request.add("now_page", now_page);
+        }else if(scene==1){//添加商品到购物车
+            request = buildNetRequest(url, 0, true);
+            request.add("goods_id",goodsSelect.getTitleId());
+            request.add("goods_num",nb.getNumber());
+            request.add("spec_keys",goodsSelect.getSpecKeys());
+            request.add("spec_names",goodsSelect.getSpecNames());
+        }else if(scene==2){//规格数据
+            request = buildNetRequest(url, 0, true);
+            request.add("goods_id", goodsId);
+        }else if(scene==3){//立即购买
+            request = buildNetRequest(url, 0, true);
+            request.add("cart_ids", goodsSelect.getCartId());
+        }
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
@@ -196,7 +238,7 @@ public class ShopMainFragment extends Base2Fragment implements
         if (data.size() != 0) {
             data.clear();
         }
-        requestNetwork();
+        requestNetwork(UrlUtils.shop,0);
 
     }
 
@@ -216,7 +258,7 @@ public class ShopMainFragment extends Base2Fragment implements
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
 
-                    requestNetwork();
+                    requestNetwork(UrlUtils.shop,0);
                 }
             }
         });
@@ -241,37 +283,50 @@ public class ShopMainFragment extends Base2Fragment implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-
-        refreshLat.setRefreshing(false);
-        if (adapter != null) {
-            adapter.loadMoreComplete();
-        }
-        if (loadMoreView != null) {
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-        }
-        //分页
-        getPageCount(dataObj);
-
-        if (isRefresh) {//下拉刷新
-            if (urls.size() != 0) {
-                urls.clear();
+        if(finalScene==0){
+            refreshLat.setRefreshing(false);
+            if (adapter != null) {
+                adapter.loadMoreComplete();
             }
-            //广告轮播
-            initViewpager(dataObj);
+            if (loadMoreView != null) {
+                loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
+            }
+            //分页
+            getPageCount(dataObj);
 
-            //商城首页导航栏
-            initShoopNave(dataObj);
+            if (isRefresh) {//下拉刷新
+                if (urls.size() != 0) {
+                    urls.clear();
+                }
+                //广告轮播
+                initViewpager(dataObj);
 
-            //商品列表
-            initGoodsList(dataObj);
+                //商城首页导航栏
+                initShoopNave(dataObj);
 
-            initadapter();
+                //商品列表
+                initGoodsList(dataObj);
 
-            initLoadMore();
-        } else {//上拉加载
+                initadapter();
 
-            initGoodsList(dataObj);
+                initLoadMore();
+            } else {//上拉加载
+
+                initGoodsList(dataObj);
+            }
+        } else if(finalScene==1){//添加到购物车成功
+            getDm().buildAlertDialog(message);
+            sd.dismiss();
+        } else if(finalScene==2){//规格数据
+            JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
+
+            JSONArray array = dataObj.optJSONArray("spec_goods_price");
+
+            showStandardDialog( parseFilterSpec(filter_spec),parseSpecGoodsPrice(array));
+        } else if(finalScene==3){//立即购买 成功
+
         }
+
 
 
     }
@@ -369,8 +424,6 @@ public class ShopMainFragment extends Base2Fragment implements
         } else {
             adapter.notifyDataSetChanged();
         }
-
-
     }
 
     @Override
@@ -395,5 +448,143 @@ public class ShopMainFragment extends Base2Fragment implements
         refreshLat.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
         getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+    }
+
+    //购物车Dialog
+    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses) {
+        if(gas.size()==0||goodses.size()==0){
+            return;
+        }
+        sd=new StdDialog(getActivity(),gas,goodses);
+        nb = sd.getNb();
+        sd.getTvAddToCart().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {//加入购物车
+                if(isAll){//选择了完整的规格
+                    if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
+                        requestNetwork(UrlUtils.cartAddGoods,1);
+                    }else {
+                        Intent intent=new Intent(getActivity(), LoginActivity.class);
+                        startActivityForResult(intent,REQUEST_ADD_TO_CART_LOGIN);
+                    }
+                }else {
+                    getDm().buildAlertDialog("请先选择商品");
+                }
+
+            }
+        });
+
+        sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
+            @Override
+            public void onClick(View v) {
+                if(isAll){
+                    requestNetwork(UrlUtils.cartAccount, 3);
+                }else {
+                    getDm().buildAlertDialog("请先选择商品");
+                }
+            }
+        });
+        sd.setListener(new StdDialog.Listener() {
+            @Override
+            public void getSelectGoods(Goods gs) {
+                goodsSelect=gs;
+            }
+
+            @Override
+            public void isSelectAll(boolean isAll) {
+                ShopMainFragment.this.isAll=isAll;
+            }
+        });
+
+        sd.showMyDialog();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data!=null){
+            switch (requestCode) {
+                case REQUEST_ADD_TO_CART_LOGIN:
+                    if (resultCode == RESULT_OK) {
+                        requestNetwork(UrlUtils.cartAddGoods, 1);
+                    }
+                    break;
+                case REQUEST_STD_LOGIN:
+                    if(resultCode==RESULT_OK){
+                        requestNetwork(UrlUtils.getGoodsSpec,2);
+                    }
+                    break;
+            }
+        }
+    }
+
+    private List<Goods> parseSpecGoodsPrice(JSONArray array) {
+        List<Goods> goodses=new ArrayList<Goods>();
+        if(array!=null && array.length()!=0){
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.optJSONObject(i);
+                int id = obj.optInt("id");
+                int goods_id = obj.optInt("goods_id");
+                String goods_number = obj.optString("goods_number");
+                String spec_keys = obj.optString("spec_keys");
+                String spec_names = obj.optString("spec_names");
+                String shop_price = obj.optString("shop_price");
+                String market_price = obj.optString("market_price");
+                int inventory = obj.optInt("inventory");
+                String weight = obj.optString("weight");
+
+                Goods goods=new Goods();
+                goods.setCartId(id+"");
+                goods.setTitleId(goods_id);
+                goods.setGoodsNumber(goods_number);
+                goods.setSpecKeys(spec_keys);
+                goods.setSpecNames(spec_names);
+                goods.setGoodsPrice(shop_price);
+                goods.setTotalPrice(market_price);
+                goods.setInventory(inventory);
+                //goods.setWeight(22222);
+
+                goodses.add(goods);
+            }
+        }
+        return goodses;
+    }
+
+    private List<GoodsAttr> parseFilterSpec(JSONArray filter_spec) {
+        List<GoodsAttr> gas=new ArrayList<GoodsAttr>();
+        if(filter_spec!=null && filter_spec.length()!=0){
+            for (int i = 0; i < filter_spec.length(); i++) {
+                JSONObject jObj = filter_spec.optJSONObject(i);
+                if(jObj!= null){
+                    GoodsAttr ga=new GoodsAttr();
+                    String title = jObj.optString("title");
+
+                    JSONArray item = jObj.optJSONArray("item");
+                    if(item!=null && item.length()!=0){
+                        List<GoodsAttr.Attrs> ats=new ArrayList<GoodsAttr.Attrs>();
+                        for (int j = 0; j < item.length(); j++) {
+                            JSONObject obj = item.optJSONObject(j);
+                            if(obj!=null){
+
+                                int item_id = obj.optInt("item_id");
+                                String item_value = obj.optString("item_value");
+                                GoodsAttr.Attrs as=ga.new Attrs(item_id,item_value,0,false);
+
+                                ats.add(as);
+                            }
+                        }
+                        ga.setSelect(false);
+                        ga.setLayout(R.layout.filter_layout);
+                        ga.setStrs(ats);
+                        ga.setTitle(title);
+                        ga.setType(FilterAdapter.TYPE1);
+
+                    }
+                    gas.add(ga);
+                }
+            }
+        }
+        return gas;
+
     }
 }
