@@ -11,6 +11,7 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ProxyDetAdapter;
 import com.ascba.rebate.beans.ProxyDet;
 import com.ascba.rebate.view.MoneyBar;
+import com.ascba.rebate.view.SpaceItemDecoration;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class ProxyDetActivity extends BaseNetWork4Activity implements MoneyBar.C
     private void initRecyclerView() {
         rv = ((RecyclerView) findViewById(R.id.rv));
         rv.setLayoutManager(new GridLayoutManager(this, 2));
+        rv.addItemDecoration(new SpaceItemDecoration(2, 1));
         getData();
         adapter = new ProxyDetAdapter(R.layout.proxy_det_item, data);
         View inflate = getLayoutInflater().inflate(R.layout.proxy_det_head, null);
