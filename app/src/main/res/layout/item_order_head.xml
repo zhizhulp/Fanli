@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="2016-12-26"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="14sp" />
 
@@ -28,7 +27,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:text="等待卖家发货"
             android:textColor="#DD0E0E" />
     </RelativeLayout>
 

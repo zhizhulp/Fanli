@@ -19,6 +19,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
+import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
@@ -48,6 +49,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     private PCMultipleItemAdapter pcMultipleItemAdapter;
     private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
     private SuperSwipeRefreshLayout refreshLat;
+    private int[] orderMsg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,23 +114,27 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
                 switch (position) {
                     case 1:
                         //全部订单
-                        MyOrderActivity.startIntent(getActivity(), 0);
+                        MyOrderActivity.startIntent(getActivity(), 0, orderMsg);
                         break;
                     case 3:
                         //待付款
-                        MyOrderActivity.startIntent(getActivity(), 1);
+                        MyOrderActivity.startIntent(getActivity(), 1, orderMsg);
                         break;
                     case 4:
                         //待发货
-                        MyOrderActivity.startIntent(getActivity(), 2);
+                        MyOrderActivity.startIntent(getActivity(), 2, orderMsg);
                         break;
                     case 5:
                         //已成交
-                        MyOrderActivity.startIntent(getActivity(), 3);
+                        MyOrderActivity.startIntent(getActivity(), 3, orderMsg);
                         break;
                     case 6:
                         //待评价
-                        MyOrderActivity.startIntent(getActivity(), 4);
+                        MyOrderActivity.startIntent(getActivity(), 4, orderMsg);
+                        break;
+                    case 7:
+                        //退货
+                        RefundOrderActivity.startIntent(getActivity());
                         break;
                     case 9:
                         //新手指南
@@ -210,11 +216,21 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
         //待付款、待发货、已成交、待评价、退款
         JSONObject orderObject = Object.optJSONObject("order_count_info");
-        int pay = orderObject.optInt("wait_pay");
-        int deliver = orderObject.optInt("wait_deliver");
-        int take = orderObject.optInt("wait_take");
-        int evaluate = orderObject.optInt("wait_evaluate");
-        int refund = orderObject.optInt("wait_refund");
+        //待付款订单数
+        int pay = orderObject.optInt("wait_pay", 0);
+        //待发货订单数
+        int deliver = orderObject.optInt("wait_deliver", 0);
+        //待收货
+        int take = orderObject.optInt("wait_take", 0);
+        //已成交/待评价
+        int evaluate = orderObject.optInt("wait_evaluate", 0);
+        //退货退款
+        int refund = orderObject.optInt("wait_refund", 0);
+        //全部订单数
+        int total = pay + deliver + take + evaluate;
+
+        orderMsg = new int[]{total, pay, deliver, take, evaluate};
+
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifukuan, pay, "待付款", PCMultipleItem.TYPE_SPAN_SIZE_4));
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifahuo, deliver, "待发货", PCMultipleItem.TYPE_SPAN_SIZE_4));
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_yichengjiao, take, "已成交", PCMultipleItem.TYPE_SPAN_SIZE_4));
