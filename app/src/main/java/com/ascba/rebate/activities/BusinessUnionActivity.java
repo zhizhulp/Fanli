@@ -8,9 +8,12 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
@@ -19,12 +22,14 @@ import org.json.JSONObject;
  * 我——商家联盟——审核通过
  */
 
-public class BusinessUnionActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
+public class BusinessUnionActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
+            ,BaseNetWork4Activity.Callback{
 
     private Context context;
     private SuperSwipeRefreshLayout refreshLayout;
     private MoneyBar moneyBar;
     private Handler handler = new Handler();
+    private int finalScene;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,15 +92,25 @@ public class BusinessUnionActivity extends BaseNetWork4Activity implements Super
         switch (v.getId()) {
             case R.id.business_code:
                 //立即收款
+                requestData(UrlUtils.receivables, 0);
                 break;
             case R.id.business_account:
                 //流水记录
+                Intent intent=new Intent(this,BusiFlowRecordsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.business_data:
                 //商家资料
                 getData();
                 break;
         }
+    }
+
+    private void requestData(String url, int scene) {
+        finalScene=scene;
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
     }
 
     /*
@@ -143,5 +158,27 @@ public class BusinessUnionActivity extends BaseNetWork4Activity implements Super
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        if(finalScene==0){
+            JSONObject obj = dataObj.optJSONObject("receivables");
+            String url = obj.optString("url");
+            Intent intent = new Intent(this, WebViewBaseActivity.class);
+            intent.putExtra("name", "收款");
+            intent.putExtra("url", url);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void handle404(String message) {
+        getDm().buildAlertDialog(message);
+    }
+
+    @Override
+    public void handleNoNetWork() {
+        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }

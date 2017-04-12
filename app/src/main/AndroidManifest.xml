@@ -220,7 +220,7 @@
         <activity
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.main_page.CityList"
             android:screenOrientation="portrait"
@@ -617,11 +617,13 @@
             android:name=".activities.BusinessUnionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.ProxyDetActivity"
+        <activity
+            android:name=".activities.ProxyDetActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle"></activity>
+        <activity android:name=".activities.BusiFlowRecordsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
     </application>
 
 </manifest>
