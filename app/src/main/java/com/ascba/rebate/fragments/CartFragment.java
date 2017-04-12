@@ -23,7 +23,9 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
@@ -69,7 +71,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
-    private boolean canClear;//是否能结算（是否有商品）
 
     public CartFragment() {
     }
@@ -105,81 +106,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         }
         executeNetWork(request, "请稍后");
         setCallback(this);
-    }
-
-    private String createClearIds() {
-
-        if (data.size() != 0) {
-            List<CartGoods> filter = new ArrayList<>();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < data.size(); i++) {
-                CartGoods cg = data.get(i);
-                if (!cg.isHeader && cg.isCheck()) {
-                    filter.add(cg);
-                }
-            }
-
-            for (int i = 0; i < filter.size(); i++) {
-                CartGoods cg = filter.get(i);
-                if (i == filter.size() - 1) {
-                    sb.append(cg.t.getCartId());
-                } else {
-                    sb.append(cg.t.getCartId());
-                    sb.append(",");
-                }
-            }
-            return sb.toString();
-        } else {
-            return null;
-        }
-
-    }
-
-    private String createIds() {
-        if (cgSelect == null) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < data.size(); i++) {
-                CartGoods cg = data.get(i);
-                if (!cg.isHeader) {
-                    if (i == data.size() - 1) {
-                        sb.append(cg.t.getCartId());
-                    } else {
-                        sb.append(cg.t.getCartId());
-                        sb.append(",");
-                    }
-                }
-            }
-            return sb.toString();
-        } else {
-            if (!cgSelect.isHeader) {
-                return cgSelect.t.getCartId();
-            } else {
-                StringBuilder sb = new StringBuilder();
-                List<CartGoods> filter = new ArrayList<>();
-                for (int i = 0; i < data.size(); i++) {
-                    CartGoods cg = data.get(i);
-                    if (!cg.isHeader) {
-                        if (cg.getId() == (cgSelect.getId())) {
-                            filter.add(cg);
-                        }
-
-                    }
-
-                }
-                for (int i = 0; i < filter.size(); i++) {
-                    CartGoods cg = filter.get(i);
-                    if (i == filter.size() - 1) {
-                        sb.append(cg.t.getCartId());
-                    } else {
-                        sb.append(cg.t.getCartId());
-                        sb.append(",");
-                    }
-                }
-
-                return sb.toString();
-            }
-
-        }
     }
 
     private void initViews(View view) {
@@ -231,10 +157,12 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 int id = view.getId();
                 if (id == R.id.edit_standard) {//选择规格
                     //showDialog();
-                }else if(id == R.id.tv_go_shop){
+                }else if(id == R.id.tv_go_shop){//点击进店
                     Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
                     intent.putExtra("store_id", cartGoods.getId());
                     startActivity(intent);
+                }else if(id==R.id.cart_goods_title){//点击购物车商品title,进去商品页
+                    GoodsDetailsActivity.startIntent(getActivity(),cartGoods.t.getTitleId());
                 }
             }
         });
@@ -245,109 +173,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         tvCostNum.setOnClickListener(this);
     }
 
-
-    private void initAttrsData(List<GoodsAttr> gas) {
-        for (int i = 0; i < 5; i++) {
-            if (i == 0) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 3; j++) {
-                    if (j == 2) {
-                        strs.add(ga.new Attrs(1,"红色/白色", 2, false));
-                    } else {
-                        strs.add(ga.new Attrs(1,"红色/白色", 0, false));
-                    }
-                }
-                ga.setTitle("颜色分类");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 1) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 15; j++) {
-                    if (j == 10) {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 2, false));
-                    } else {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0, false));
-                    }
-
-                }
-                ga.setTitle("鞋码");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 2) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs(1,"方形" + i, 0, false));
-                }
-                ga.setTitle("其他分类");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 3) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 15; j++) {
-                    if (j == 10) {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 2, false));
-                    } else {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0, false));
-                    }
-
-                }
-                ga.setTitle("鞋码");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 4) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs(1,"方形" + i, 0, false));
-                }
-                ga.setTitle("其他分类");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-        }
-    }
-
-    private void initData() {
-        for (int i = 0; i < 4; i++) {
-            if (i == 0) {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 3; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            } else if (i == 1) {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 4; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            } else if (i == 2) {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 1; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            } else {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 2; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            }
-        }
-    }
 
     @Override
     public void onRefresh() {
@@ -493,6 +318,10 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         goods.setImgUrl(goods_img);
                         goods.setGoodsStandard(spec_names);
                         goods.setCartId(cart_id);
+                        if(!StringUtils.isEmpty(goods_id)){
+                            goods.setTitleId(Integer.parseInt(goods_id));
+                        }
+
                         int sele = Integer.parseInt(selected);
                         CartGoods dg = new CartGoods(goods, Integer.parseInt(store_id), sele != 0);
                         data.add(dg);
@@ -611,7 +440,14 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         super.onResume();
 
     }
-
+    //调用show,hide会回调的方法
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            requestNetwork(UrlUtils.shoppingCart, 0);
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -633,7 +469,85 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                     a.getShopTabs().statusChaByPosition(0,2);
                     a.getShopTabs().setFilPos(0);
                 }
+            }else {
+                requestNetwork(UrlUtils.shoppingCart, 0);
             }
+        }
+
+    }
+
+    private String createClearIds() {
+
+        if (data.size() != 0) {
+            List<CartGoods> filter = new ArrayList<>();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.size(); i++) {
+                CartGoods cg = data.get(i);
+                if (!cg.isHeader && cg.isCheck()) {
+                    filter.add(cg);
+                }
+            }
+
+            for (int i = 0; i < filter.size(); i++) {
+                CartGoods cg = filter.get(i);
+                if (i == filter.size() - 1) {
+                    sb.append(cg.t.getCartId());
+                } else {
+                    sb.append(cg.t.getCartId());
+                    sb.append(",");
+                }
+            }
+            return sb.toString();
+        } else {
+            return null;
+        }
+
+    }
+
+    private String createIds() {
+        if (cgSelect == null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.size(); i++) {
+                CartGoods cg = data.get(i);
+                if (!cg.isHeader) {
+                    if (i == data.size() - 1) {
+                        sb.append(cg.t.getCartId());
+                    } else {
+                        sb.append(cg.t.getCartId());
+                        sb.append(",");
+                    }
+                }
+            }
+            return sb.toString();
+        } else {
+            if (!cgSelect.isHeader) {
+                return cgSelect.t.getCartId();
+            } else {
+                StringBuilder sb = new StringBuilder();
+                List<CartGoods> filter = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    CartGoods cg = data.get(i);
+                    if (!cg.isHeader) {
+                        if (cg.getId() == (cgSelect.getId())) {
+                            filter.add(cg);
+                        }
+
+                    }
+
+                }
+                for (int i = 0; i < filter.size(); i++) {
+                    CartGoods cg = filter.get(i);
+                    if (i == filter.size() - 1) {
+                        sb.append(cg.t.getCartId());
+                    } else {
+                        sb.append(cg.t.getCartId());
+                        sb.append(",");
+                    }
+                }
+
+                return sb.toString();
+            }
+
         }
     }
 

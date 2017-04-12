@@ -368,8 +368,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             }
 
             @Override
-            public void clkOther(View v) {
-
+            public void clkOther(View v) {//购物车
+                finish();
             }
         });
 
@@ -1141,7 +1141,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private void requestNetwork(String url,int scene) {
         finalScene=scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        if(scene==0){
+        if(scene==0){//把商品加入购物车
 
             //request.add("session_id", cookie.getValue());
             request.add("store_id",store_id);
@@ -1150,7 +1150,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             request.add("spec_keys",goodsSelect.getSpecKeys());
             request.add("spec_names",goodsSelect.getSpecNames());
 
-        }else if(scene==1){
+        }else if(scene==1){//结算
             request.add("cart_ids", goodsSelect.getCartId());
         }
         executeNetWork(request,"请稍后");

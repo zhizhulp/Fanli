@@ -89,6 +89,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
         helper.setText(R.id.cart_price, goods.getGoodsPrice());
         helper.addOnClickListener(R.id.edit_standard);
+        helper.addOnClickListener(R.id.cart_goods_title);
         initNumberButton(helper,goods);
         final CheckBox cb = helper.getView(R.id.cb_cart_child);
         cb.setChecked(item.isCheck());
