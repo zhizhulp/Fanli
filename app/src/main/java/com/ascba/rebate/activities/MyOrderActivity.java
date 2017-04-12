@@ -73,7 +73,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
             @Override
             public void clkMsg(View v) {
                 //消息中心
-              ShopMessageActivity.startIntent(context);
+                ShopMessageActivity.startIntent(context);
             }
 
             @Override
@@ -83,6 +83,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         });
         slidingtablayout = (SlidingTabLayout) findViewById(R.id.slidingtablayout);
         mViewPager = (ViewPager) findViewById(R.id.activity_order_vp);
+        mViewPager.setOffscreenPageLimit(5);
         initViewpagerView();
     }
 
@@ -142,6 +143,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
             }
         }
         slidingtablayout.setCurrentTab(index);
+
     }
 
     public class Bean {
