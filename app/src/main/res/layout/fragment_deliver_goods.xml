@@ -5,32 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/empty_order" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="您还没有相关的订单~"
-            android:textColor="@color/shop_normal_text_color"
-            android:textSize="15sp" />
-
-    </LinearLayout>
 </FrameLayout>
