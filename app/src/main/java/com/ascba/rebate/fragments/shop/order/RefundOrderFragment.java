@@ -32,10 +32,10 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
- * 待发货
+ * 退货退款
  */
 
-public class DeliverOrderFragment extends Base2Fragment {
+public class RefundOrderFragment extends Base2Fragment {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -68,7 +68,7 @@ public class DeliverOrderFragment extends Base2Fragment {
    */
     private void requstData() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
-        jsonRequest.add("status", "wait_deliver");
+        jsonRequest.add("status", "wait_refund");
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override

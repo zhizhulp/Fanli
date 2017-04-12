@@ -12,11 +12,12 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
-import com.ascba.rebate.fragments.TypeFragment;
 import com.ascba.rebate.fragments.shop.order.AllOrderFragment;
 import com.ascba.rebate.fragments.shop.order.DeliverOrderFragment;
 import com.ascba.rebate.fragments.shop.order.EvaluateOrderFragment;
 import com.ascba.rebate.fragments.shop.order.PayOrderFragment;
+import com.ascba.rebate.fragments.shop.order.RefundOrderFragment;
+import com.ascba.rebate.fragments.shop.order.TakeOrderFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.widget.MsgView;
@@ -39,6 +40,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
     private List<Bean> mTitleList = new ArrayList<>();//页卡标题集合
     private List<Fragment> fragmentList = new ArrayList<>();//页卡视图集合
     private int index = 0;
+    private int[] orderMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +52,10 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         initView();
     }
 
-    public static void startIntent(Context context, int index) {
+    public static void startIntent(Context context, int index, int[] orderMsg) {
         Intent intent = new Intent(context, MyOrderActivity.class);
         intent.putExtra("index", index);
+        intent.putExtra("msg", orderMsg);
         context.startActivity(intent);
     }
 
@@ -60,6 +63,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         Intent intent = getIntent();
         if (intent != null) {
             index = intent.getIntExtra("index", 0);
+            orderMsg = intent.getIntArrayExtra("msg");
         }
     }
 
@@ -107,25 +111,30 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         fragmentList.add(goodsFragment);
 
         //待收货
-        TypeFragment fragment3 = new TypeFragment();
-        fragmentList.add(fragment3);
+        TakeOrderFragment takeOrderFragment = new TakeOrderFragment();
+        fragmentList.add(takeOrderFragment);
 
         //待评价
         EvaluateOrderFragment evaluateOrderFragment = new EvaluateOrderFragment();
         fragmentList.add(evaluateOrderFragment);
+
+        //退货退款
+        RefundOrderFragment refundOrderFragment = new RefundOrderFragment();
+        fragmentList.add(refundOrderFragment);
 
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
 
 
         //添加页卡标题
-        mTitleList.add(new Bean("全部", 456));
-        mTitleList.add(new Bean("待付款", 59));
-        mTitleList.add(new Bean("待发货", 55));
-        mTitleList.add(new Bean("待收货", 5));
-        mTitleList.add(new Bean("待评价", 7));
+        mTitleList.add(new Bean("全部", orderMsg[0]));
+        mTitleList.add(new Bean("待付款", orderMsg[1]));
+        mTitleList.add(new Bean("待发货", orderMsg[2]));
+        mTitleList.add(new Bean("待收货", orderMsg[3]));
+        mTitleList.add(new Bean("待评价", orderMsg[4]));
+        mTitleList.add(new Bean("退货退款", orderMsg[5]));
 
-        String[] title = new String[]{"全部", "待付款", "待发货", "待收货", "待评价"};
+        String[] title = new String[]{"全部", "待付款", "待发货", "待收货", "待评价", "退货退款"};
         slidingtablayout.setViewPager(mViewPager, title);
 
         /**

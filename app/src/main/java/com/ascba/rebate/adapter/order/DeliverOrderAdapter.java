@@ -1,4 +1,4 @@
-package com.ascba.rebate.adapter;
+package com.ascba.rebate.adapter.order;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -19,14 +19,14 @@ import java.util.List;
  * 待发货订单
  */
 
-public class DeliverGoodsAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseViewHolder> {
+public class DeliverOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseViewHolder> {
 
     private Context context;
     public static final int TYPE1 = 1;//订单头
     public static final int TYPE2 = 2;//订单商品
     public static final int TYPE3 = 3;//订单尾
 
-    public DeliverGoodsAdapter(List<OrderBean> data, Context context) {
+    public DeliverOrderAdapter(List<OrderBean> data, Context context) {
         super(data);
         this.context = context;
         if (data != null && data.size() > 0) {

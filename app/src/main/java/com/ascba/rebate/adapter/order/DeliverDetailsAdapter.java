@@ -1,4 +1,4 @@
-package com.ascba.rebate.adapter;
+package com.ascba.rebate.adapter.order;
 
 import android.content.Context;
 import android.view.View;
