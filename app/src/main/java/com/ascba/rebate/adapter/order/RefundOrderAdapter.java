@@ -43,8 +43,12 @@ public class RefundOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, Bas
                 /**
                  * 订单头部信息
                  */
-                helper.setText(R.id.item_goods_order_time, item.getTime());
-                helper.setText(R.id.item_goods_order_state, item.getState());
+                try {
+                    helper.setText(R.id.item_goods_order_time, item.getTime());
+                    helper.setText(R.id.item_goods_order_state, item.getState());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case TYPE2:
                 /**

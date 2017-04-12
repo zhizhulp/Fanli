@@ -49,7 +49,7 @@
         android:layout_height="42dp">
 
         <TextView
-            android:id="@+id/item_goods_order_total_evalute"
+            android:id="@+id/item_goods_order_total_pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -61,38 +61,35 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="5dp"
-            android:text="评价"
+            android:text="付款"
             android:textColor="#DD0E0E"
             android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/item_goods_order_total_after"
+            android:id="@+id/item_goods_order_total_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="11.5dp"
-            android:layout_toLeftOf="@id/item_goods_order_total_evalute"
+            android:layout_toLeftOf="@id/item_goods_order_total_pay"
             android:background="@drawable/gray_bg"
             android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:text="售后"
+            android:padding="5dp"
+            android:text="取消订单"
             android:textColor="@color/textgray"
             android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/item_goods_order_total_delete"
+            android:id="@+id/item_goods_order_total_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="11.5dp"
-            android:layout_toLeftOf="@id/item_goods_order_total_refund"
+            android:layout_toLeftOf="@id/item_goods_order_total_cancel"
             android:background="@drawable/gray_bg"
             android:gravity="center"
             android:padding="5dp"
-            android:text="删除订单"
+            android:text="联系卖家"
             android:textColor="@color/textgray"
             android:textSize="13sp" />
     </RelativeLayout>

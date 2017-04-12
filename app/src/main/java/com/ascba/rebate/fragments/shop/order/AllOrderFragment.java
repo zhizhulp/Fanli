@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.DeliverDetailsActivity;
-import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
+import com.ascba.rebate.adapter.order.AllOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -43,10 +42,11 @@ public class AllOrderFragment extends Base2Fragment {
     /**
      * 每笔订单中的商品列表
      */
-    private List<Goods> goodsList;
     private List<OrderBean> beanArrayList = new ArrayList<>();
-    private DeliverOrderAdapter adapter;
+    private AllOrderAdapter adapter;
     private View view;
+    private String orderStatus;//订单状态：0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;
+    private String orderId;//订单id
 
 
     @Override
@@ -111,15 +111,39 @@ public class AllOrderFragment extends Base2Fragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
+
+                //订单id
+                orderId = object.optString("order_id");
+                //订单状态
+                orderStatus = object.optString("order_status");
+
                 //头部信息
                 String time = object.optString("add_time");//时间
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, time, "等待卖家发货");
+                OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, time);
+                beanHead.setId(orderId);
+
+                if (orderStatus.equals("10")) {
+                    //等待卖家付款
+                    beanHead.setState("等待买家付款");
+                } else if (orderStatus.equals("0")) {
+                    //交易关闭
+                    beanHead.setState("交易关闭");
+                } else if (orderStatus.equals("20")) {
+                    //交易关闭
+                    beanHead.setState("等待卖家发货");
+                } else if (orderStatus.equals("30")) {
+                    //交易关闭
+                    beanHead.setState("等待买家收货");
+                } else if (orderStatus.equals("40")) {
+                    //交易关闭
+                    beanHead.setState("交易成功");
+                }
                 beanArrayList.add(beanHead);
 
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
-                Log.d("DeliverOrderFragment", "goodsArray.length():" + goodsArray.length());
+
                 if (goodsArray != null && goodsArray.length() > 0) {
 
                     for (int j = 0; j < goodsArray.length(); j++) {
@@ -136,7 +160,10 @@ public class AllOrderFragment extends Base2Fragment {
                             good.setUserQuy(num);//购买数量
                             good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
                             good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
-                            beanArrayList.add(new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, good));
+
+                            OrderBean orderBean = new OrderBean(AllOrderAdapter.TYPE_GOODS, R.layout.item_goods, good);
+                            orderBean.setId(orderId);
+                            beanArrayList.add(orderBean);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -147,7 +174,25 @@ public class AllOrderFragment extends Base2Fragment {
                 String orderAmount = object.optString("order_amount");//订单总价
                 String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + orderAmount, shippingFee);
+
+                OrderBean beadFoot = null;
+                if (orderStatus.equals("10")) {
+                    //等待卖家付款
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE1, R.layout.item_order_pay1_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                } else if (orderStatus.equals("0")) {
+                    //交易关闭
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE2, R.layout.item_order_pay2_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                } else if (orderStatus.equals("20")) {
+                    //等待卖家发货
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                } else if (orderStatus.equals("30")) {
+                    //等待买家收货
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE4, R.layout.item_order_take_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                } else if (orderStatus.equals("40")) {
+                    //交易成功
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE5, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                }
+                beadFoot.setId(orderId);
                 beanArrayList.add(beadFoot);
             }
         }
@@ -158,107 +203,55 @@ public class AllOrderFragment extends Base2Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        adapter = new DeliverOrderAdapter(beanArrayList, context);
+        adapter = new AllOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
-        View emptyView=LayoutInflater.from(context).inflate(R.layout.empty_order,null);
+        View emptyView = LayoutInflater.from(context).inflate(R.layout.empty_order, null);
         adapter.setEmptyView(emptyView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                String orderId = beanArrayList.get(position).getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
                         Intent intent = new Intent(context, DeliverDetailsActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.item_goods_order_total_pay:
+                        //付款
+                        break;
+                    case R.id.item_goods_order_total_cancel:
+                        //取消订单
+
+                        break;
+                    case R.id.item_goods_order_total_call:
+                        //联系卖家
+
+                        break;
+                    case R.id.item_goods_order_total_delete:
+                        //删除订单
+                        break;
+                    case R.id.item_goods_order_total_refund:
+                        //退款
+                        break;
+
+                    case R.id.item_goods_order_total_logistics:
+                        //查看物流
+                        break;
+                    case R.id.item_goods_order_total_take:
+                        //确认收货
+                        break;
+                    case R.id.item_goods_order_total_after:
+                        //售后
+                        break;
+                    case R.id.item_goods_order_total_evalute:
+                        //评价
+                        break;
                 }
             }
         });
-    }
-
-    /*
-     * 商品数据
-     */
-    private List<OrderBean> getData() {
-        List<OrderBean> beanArrayList = new ArrayList<>();
-
-        String imgUrl = "http://image1+8-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
-        String title = "RCC男装 春夏 设计师款修身尖领翻领免烫薄长袖寸衫 韩国代购 2色";
-        String standard = "颜色:深蓝色;尺码:S";
-        String price = "368";
-        String priceOld = "468";
-        int num = 1;
-
-
-        /**
-         * 订单1：一个商品
-         */
-        //订单一；头部信息
-        OrderBean beanHead1 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, "2016-01-27", "等待卖家发货");
-        beanArrayList.add(beanHead1);
-
-        //订单一；商品信息
-        goodsList = new ArrayList<>();
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        /**
-         * 遍历商品列表并添加
-         */
-        for (Goods goods : goodsList) {
-            OrderBean beanGoods1 = new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, goods);
-            beanArrayList.add(beanGoods1);
-        }
-
-        //订单一；尾部信息
-        String goodsNum = "共" + goodsList.size() + "件商品";//商品数量
-        String freight = "(包含15.00运费)";
-        /**
-         * 遍历商品列表计算总价
-         */
-        double orderPrcie = 0.00;
-        for (Goods goods : goodsList) {
-            double goodsPrice = Double.valueOf(goods.getGoodsPrice()) * Double.valueOf(goods.getUserQuy());
-            orderPrcie = orderPrcie + goodsPrice;
-        }
-        OrderBean beadFoot1 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + String.valueOf(orderPrcie), freight);
-        beanArrayList.add(beadFoot1);
-
-
-        /**
-         * 订单2：两个个商品
-         */
-        //订单2；头部信息
-        OrderBean beanHead2 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, "2016-01-27", "等待卖家发货");
-        beanArrayList.add(beanHead2);
-
-        //订单2；商品信息
-        goodsList = new ArrayList<>();
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        /**
-         * 遍历商品列表并添加
-         */
-        for (Goods goods : goodsList) {
-            OrderBean beanGoods2 = new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, goods);
-            beanArrayList.add(beanGoods2);
-        }
-
-        //订单2；尾部信息
-        String goodsNum2 = "共" + goodsList.size() + "件商品";//商品数量
-        String freight2 = "(包含15.00运费)";
-        /**
-         * 遍历商品列表计算总价
-         */
-        double orderPrcie2 = 0.00;
-        for (Goods goods : goodsList) {
-            double goodsPrice = Double.valueOf(goods.getGoodsPrice()) * Double.valueOf(goods.getUserQuy());
-            orderPrcie2 = orderPrcie2 + goodsPrice;
-        }
-        OrderBean beadFoot2 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum2, "￥" + String.valueOf(orderPrcie2), freight2);
-        beanArrayList.add(beadFoot2);
-
-        return beanArrayList;
     }
 
 }

@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.DeliverDetailsActivity;
-import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
 import com.ascba.rebate.adapter.order.EvaluateOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -47,6 +45,7 @@ public class EvaluateOrderFragment extends Base2Fragment {
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private EvaluateOrderAdapter adapter;
     private View view;
+    private String orderId;//订单id
 
 
     @Override
@@ -111,15 +110,19 @@ public class EvaluateOrderFragment extends Base2Fragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
+
+                //订单id
+                orderId = object.optString("order_id");
+
                 //头部信息
                 String time = object.optString("add_time");//时间
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, time, "交易成功");
+                OrderBean beanHead = new OrderBean(EvaluateOrderAdapter.TYPE1, R.layout.item_order_head, time, "交易成功");
+                beanHead.setId(orderId);
                 beanArrayList.add(beanHead);
 
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
-                Log.d("DeliverOrderFragment", "goodsArray.length():" + goodsArray.length());
                 if (goodsArray != null && goodsArray.length() > 0) {
 
                     for (int j = 0; j < goodsArray.length(); j++) {
@@ -136,7 +139,10 @@ public class EvaluateOrderFragment extends Base2Fragment {
                             good.setUserQuy(num);//购买数量
                             good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
                             good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
-                            beanArrayList.add(new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, good));
+
+                            OrderBean orderBean = new OrderBean(EvaluateOrderAdapter.TYPE2, R.layout.item_goods, good);
+                            orderBean.setId(orderId);
+                            beanArrayList.add(orderBean);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -147,7 +153,8 @@ public class EvaluateOrderFragment extends Base2Fragment {
                 String orderAmount = object.optString("order_amount");//订单总价
                 String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                OrderBean beadFoot = new OrderBean(EvaluateOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                beadFoot.setId(orderId);
                 beanArrayList.add(beadFoot);
             }
         }
@@ -161,17 +168,27 @@ public class EvaluateOrderFragment extends Base2Fragment {
         adapter = new EvaluateOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
-        View emptyView=LayoutInflater.from(context).inflate(R.layout.empty_order,null);
+        View emptyView = LayoutInflater.from(context).inflate(R.layout.empty_order, null);
         adapter.setEmptyView(emptyView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                String orderId = beanArrayList.get(position).getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
                         Intent intent = new Intent(context, DeliverDetailsActivity.class);
                         startActivity(intent);
+                        break;
+                    case R.id.item_goods_order_total_after:
+                        //售后
+                        break;
+                    case R.id.item_goods_order_total_evalute:
+                        //评价
+                        break;
+                    case R.id.item_goods_order_total_delete:
+                        //删除订单
                         break;
                 }
             }

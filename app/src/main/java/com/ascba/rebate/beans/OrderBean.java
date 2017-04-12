@@ -33,6 +33,12 @@ public class OrderBean implements MultiItemEntity {
         this.state = state;
     }
 
+    public OrderBean(int type, int layout, String time) {
+        this.type = type;
+        this.layout = layout;
+        this.time = time;
+    }
+
     public OrderBean(int type, int layout, Goods goods) {
         this.type = type;
         this.layout = layout;

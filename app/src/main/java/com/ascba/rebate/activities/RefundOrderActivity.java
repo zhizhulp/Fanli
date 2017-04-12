@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
-import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
 import com.ascba.rebate.adapter.order.RefundOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -103,7 +102,7 @@ public class RefundOrderActivity extends BaseNetWork4Activity {
                 //头部信息
                 String time = object.optString("add_time");//时间
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, time, "退款中");
+                OrderBean beanHead = new OrderBean(RefundOrderAdapter.TYPE1, R.layout.item_order_head, time, "退款中");
                 beanArrayList.add(beanHead);
 
                 //商品信息
@@ -125,7 +124,7 @@ public class RefundOrderActivity extends BaseNetWork4Activity {
                             good.setUserQuy(num);//购买数量
                             good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
                             good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
-                            beanArrayList.add(new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, good));
+                            beanArrayList.add(new OrderBean(RefundOrderAdapter.TYPE2, R.layout.item_goods, good));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -136,7 +135,7 @@ public class RefundOrderActivity extends BaseNetWork4Activity {
                 String orderAmount = object.optString("order_amount");//订单总价
                 String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_refund_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                OrderBean beadFoot = new OrderBean(RefundOrderAdapter.TYPE3, R.layout.item_order_refund_foot, goodsNum, "￥" + orderAmount, shippingFee);
                 beanArrayList.add(beadFoot);
             }
         }

@@ -16,17 +16,18 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
- * 待评价订单
+ * 待发货订单
  */
 
-public class EvaluateOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseViewHolder> {
+public class PayOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseViewHolder> {
 
     private Context context;
     public static final int TYPE1 = 1;//订单头
     public static final int TYPE2 = 2;//订单商品
-    public static final int TYPE3 = 3;//订单尾
+    public static final int TYPE3 = 3;//订单尾——等待卖家发货
+    public static final int TYPE4 = 4;//订单尾——交易关闭
 
-    public EvaluateOrderAdapter(List<OrderBean> data, Context context) {
+    public PayOrderAdapter(List<OrderBean> data, Context context) {
         super(data);
         this.context = context;
         if (data != null && data.size() > 0) {
@@ -37,18 +38,14 @@ public class EvaluateOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderBean item) {
+    protected void convert(BaseViewHolder helper, final OrderBean item) {
         switch (helper.getItemViewType()) {
             case TYPE1:
                 /**
                  * 订单头部信息
                  */
-                try {
-                    helper.setText(R.id.item_goods_order_time, item.getTime());
-                    helper.setText(R.id.item_goods_order_state, item.getState());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                helper.setText(R.id.item_goods_order_time, item.getTime());
+                helper.setText(R.id.item_goods_order_state, item.getState());
                 break;
             case TYPE2:
                 /**
@@ -81,13 +78,22 @@ public class EvaluateOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 break;
             case TYPE3:
                 /**
-                 * 订单尾部信息
+                 * 订单尾部信息——等待卖家付款
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
                 helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
-                helper.addOnClickListener(R.id.item_goods_order_total_after);//售后
-                helper.addOnClickListener(R.id.item_goods_order_total_evalute);//评价
+                helper.addOnClickListener(R.id.item_goods_order_total_pay);//付款
+                helper.addOnClickListener(R.id.item_goods_order_total_cancel);//取消订单
+                helper.addOnClickListener(R.id.item_goods_order_total_call);//联系卖家
+                break;
+            case TYPE4:
+                /**
+                 * 订单尾部信息——交易关闭
+                 */
+                helper.setText(R.id.item_goods_order_freight, item.getFreight());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_delete);//删除订单
                 break;
         }
