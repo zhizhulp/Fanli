@@ -625,6 +625,9 @@
             android:name=".activities.RefundOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity android:name=".activities.BusiFlowRecordsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
     </application>
 
 </manifest>
