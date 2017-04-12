@@ -192,7 +192,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@id/me_icon_go"
-                    android:text="未实名"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -237,10 +236,51 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@id/me_icon_go_02"
-                    android:text="未实名"
                     android:textSize="15sp" />
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/me_lat_dlzq"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_marginBottom="0.5dp"
+                android:background="@color/white"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp">
 
+                <ImageView
+                    android:id="@+id/me_icon_06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/me_sjlm" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@id/me_icon_06"
+                    android:text="代理专区"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/me_icon_go_06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/me_right_go" />
+
+                <TextView
+                    android:id="@+id/me_tv_dlzq_sta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@id/me_icon_go_06"
+                    android:textSize="15sp" />
+            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/me_lat_msg"
                 android:layout_width="match_parent"

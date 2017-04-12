@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.ascba.rebate.view.MoneyBar
-        android:id="@+id/mb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:barBg="#f43b3b"
-        app:needComplete="true"
-        app:textTitle="代理专区" />
+
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"

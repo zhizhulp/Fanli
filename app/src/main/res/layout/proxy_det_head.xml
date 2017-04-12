@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="127dp"
+    android:layout_height="180dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <LinearLayout
-        android:gravity="center"
-        android:layout_height="77dp"
+    <RelativeLayout
         android:background="@mipmap/me_head_bg"
         android:layout_width="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_rec_all_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="9dp"
-            android:text="白菜帮子(精英代理)"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
+        android:layout_height="130dp">
+        <com.ascba.rebate.view.MoneyBar
+            android:id="@+id/mb"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:barBg="@color/transparent"
+            app:needComplete="true"
+            app:textTitle="代理专区" />
+        <LinearLayout
+            android:layout_below="@id/mb"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_rec_all_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="9dp"
+                android:text="白菜帮子(精英代理)"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/money_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="代理区域:安徽省滁州市琅琊区"
-            android:textColor="@color/white"
-            android:textSize="13sp" />
+            <TextView
+                android:id="@+id/money_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="代理区域:安徽省滁州市琅琊区"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
 
-    </LinearLayout>
-
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
