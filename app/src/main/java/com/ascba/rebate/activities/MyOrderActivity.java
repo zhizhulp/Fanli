@@ -12,8 +12,11 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
-import com.ascba.rebate.fragments.DeliverGoodsFragment;
 import com.ascba.rebate.fragments.TypeFragment;
+import com.ascba.rebate.fragments.shop.order.AllOrderFragment;
+import com.ascba.rebate.fragments.shop.order.DeliverOrderFragment;
+import com.ascba.rebate.fragments.shop.order.EvaluateOrderFragment;
+import com.ascba.rebate.fragments.shop.order.PayOrderFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.widget.MsgView;
@@ -91,22 +94,25 @@ public class MyOrderActivity extends BaseNetWork4Activity {
      * 初始化Viewpager
      */
     private void initViewpagerView() {
+        //全部
+        AllOrderFragment allOrderFragment = new AllOrderFragment();
+        fragmentList.add(allOrderFragment);
 
-        TypeFragment fragment1 = new TypeFragment();
-        fragmentList.add(fragment1);
-
-        TypeFragment fragment2 = new TypeFragment();
-        fragmentList.add(fragment2);
+        //代付款
+        PayOrderFragment payOrderFragment = new PayOrderFragment();
+        fragmentList.add(payOrderFragment);
 
         //待发货
-        DeliverGoodsFragment goodsFragment = new DeliverGoodsFragment();
+        DeliverOrderFragment goodsFragment = new DeliverOrderFragment();
         fragmentList.add(goodsFragment);
 
+        //待收货
         TypeFragment fragment3 = new TypeFragment();
         fragmentList.add(fragment3);
 
-        TypeFragment fragment4 = new TypeFragment();
-        fragmentList.add(fragment4);
+        //待评价
+        EvaluateOrderFragment evaluateOrderFragment = new EvaluateOrderFragment();
+        fragmentList.add(evaluateOrderFragment);
 
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器

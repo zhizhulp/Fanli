@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.shop.order;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,10 +32,10 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
- * 待发货
+ * 全部订单
  */
 
-public class DeliverGoodsFragment extends Base2Fragment {
+public class AllOrderFragment extends Base2Fragment {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -68,7 +68,7 @@ public class DeliverGoodsFragment extends Base2Fragment {
    */
     private void requstData() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
-        jsonRequest.add("status", "wait_deliver");
+        jsonRequest.add("status", "all");
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override
@@ -79,9 +79,6 @@ public class DeliverGoodsFragment extends Base2Fragment {
                 } else {
                     adapter.notifyDataSetChanged();
                 }
-
-
-
             }
 
             @Override
@@ -122,7 +119,7 @@ public class DeliverGoodsFragment extends Base2Fragment {
 
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
-                Log.d("DeliverGoodsFragment", "goodsArray.length():" + goodsArray.length());
+                Log.d("DeliverOrderFragment", "goodsArray.length():" + goodsArray.length());
                 if (goodsArray != null && goodsArray.length() > 0) {
 
                     for (int j = 0; j < goodsArray.length(); j++) {
