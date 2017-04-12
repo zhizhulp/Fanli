@@ -48,7 +48,7 @@ public class ProxyDetActivity extends BaseNetWork4Activity implements MoneyBar.C
     private void initRecyclerView() {
         rv = ((RecyclerView) findViewById(R.id.rv));
         rv.setLayoutManager(new GridLayoutManager(this, 2));
-        rv.addItemDecoration(new SpaceItemDecoration(this,2, 2));
+        rv.addItemDecoration(new SpaceItemDecoration());
         getData();
         adapter = new ProxyDetAdapter(R.layout.proxy_det_item, data);
         View inflate = getLayoutInflater().inflate(R.layout.proxy_det_head, null);
