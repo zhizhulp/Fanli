@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessUnionActivity;
+import com.ascba.rebate.activities.ProxyDetActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -82,6 +83,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     private static final int REQUEST_LOGIN = 2;
     private TextView tvUserName;
     private View qrView;
+    private View viewDlZq;
 
     public MeFragment() {
     }
@@ -120,10 +122,13 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
         tvSmrz = ((TextView) view.findViewById(R.id.me_tv_smrz_sta));
         viewSmrz = view.findViewById(R.id.me_lat_smrz);
         viewSmrz.setOnClickListener(this);
-        //商户中心
+        //商家联盟
         tvSjlm = ((TextView) view.findViewById(R.id.me_tv_sjlm_sta));
         viewSjlm = view.findViewById(R.id.me_lat_sjlm);
         viewSjlm.setOnClickListener(this);
+        //代理专区
+        viewDlZq = view.findViewById(R.id.me_lat_dlzq);
+        viewDlZq.setOnClickListener(this);
         //消息
         viewMsg = view.findViewById(R.id.me_lat_msg);
         viewMsg.setOnClickListener(this);
@@ -183,6 +188,10 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 break;
             case R.id.me_lat_sjlm://商户中心
                 requestData(UrlUtils.getCompany, 1);
+                break;
+            case R.id.me_lat_dlzq://代理专区
+                Intent intent6=new Intent(getActivity(), ProxyDetActivity.class);
+                startActivity(intent6);
                 break;
             case R.id.me_lat_msg://消息
                 ShopMessageActivity.startIntent(getActivity());
