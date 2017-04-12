@@ -534,15 +534,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 requestNetwork(UrlUtils.shoppingCart, 0);
             }
         }
-        /*if(data!=null){
-            switch (requestCode) {
-                case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
-                    if (resultCode == Activity.RESULT_OK) {
 
-                    }
-                    break;
-            }
-        }*/
     }
 
 }

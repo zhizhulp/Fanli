@@ -149,6 +149,8 @@ public class ShopMainFragment extends Base2Fragment implements
                 if (view.getId() == R.id.goods_list_cart) {
                     ImageView addCart = (ImageView) view;
                     bezierCurveAnimater.addCart(addCart);
+
+
                 }
             }
         });
