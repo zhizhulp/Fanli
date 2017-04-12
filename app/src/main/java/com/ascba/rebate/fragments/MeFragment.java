@@ -57,12 +57,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
 
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
     private SuperSwipeRefreshLayout refreshLayout;
     private CircleImageView userIcon;
     private LinearLayout imgsLat;
@@ -247,6 +241,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                     requestData(UrlUtils.user, 3);
                 }
                 break;
+
 
         }
     }
@@ -436,4 +431,5 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             MyApplication.isPersonalData = false;
         }*/
     }
+
 }

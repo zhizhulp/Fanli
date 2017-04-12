@@ -20,6 +20,7 @@ import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
@@ -43,7 +44,6 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         Base2Fragment.Callback {
     private Context context;
     private View view;
-    private DialogManager dm;
     private RecyclerView pc_RecyclerView;
     private PCMultipleItemAdapter pcMultipleItemAdapter;
     private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
@@ -66,7 +66,6 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
        获取me数据
      */
     private void getMeData() {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.myPageInfo, 0, true);
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
@@ -283,7 +282,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     @Override
     public void handle404(String message) {
         refreshLat.setRefreshing(false);
-        dm.buildAlertDialog(message);
+        getDm().buildAlertDialog(message);
     }
 
     @Override
@@ -294,7 +293,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     @Override
     public void handleNoNetWork() {
         refreshLat.setRefreshing(false);
-        dm.buildAlertDialog(getString(R.string.no_network));
+        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
     @Override
@@ -317,6 +316,8 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
                     a.getShopTabs().statusChaByPosition(0, 3);
                     a.getShopTabs().setFilPos(0);
                 }
+            } else {
+                getMeData();
             }
         }
     }

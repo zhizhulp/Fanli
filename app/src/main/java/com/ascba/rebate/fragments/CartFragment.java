@@ -24,6 +24,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
@@ -69,7 +70,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
-    private boolean canClear;//是否能结算（是否有商品）
 
     public CartFragment() {
     }
@@ -245,109 +245,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         tvCostNum.setOnClickListener(this);
     }
 
-
-    private void initAttrsData(List<GoodsAttr> gas) {
-        for (int i = 0; i < 5; i++) {
-            if (i == 0) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 3; j++) {
-                    if (j == 2) {
-                        strs.add(ga.new Attrs(1,"红色/白色", 2, false));
-                    } else {
-                        strs.add(ga.new Attrs(1,"红色/白色", 0, false));
-                    }
-                }
-                ga.setTitle("颜色分类");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 1) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 15; j++) {
-                    if (j == 10) {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 2, false));
-                    } else {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0, false));
-                    }
-
-                }
-                ga.setTitle("鞋码");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 2) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs(1,"方形" + i, 0, false));
-                }
-                ga.setTitle("其他分类");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 3) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 15; j++) {
-                    if (j == 10) {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 2, false));
-                    } else {
-                        strs.add(ga.new Attrs(1,(40 + j + 0.5) + "", 0, false));
-                    }
-
-                }
-                ga.setTitle("鞋码");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-            if (i == 4) {
-                List<GoodsAttr.Attrs> strs = new ArrayList<>();
-                GoodsAttr ga = new GoodsAttr();
-                for (int j = 0; j < 3; j++) {
-                    strs.add(ga.new Attrs(1,"方形" + i, 0, false));
-                }
-                ga.setTitle("其他分类");
-                ga.setStrs(strs);
-                gas.add(ga);
-            }
-        }
-    }
-
-    private void initData() {
-        for (int i = 0; i < 4; i++) {
-            if (i == 0) {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 3; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            } else if (i == 1) {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 4; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            } else if (i == 2) {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 1; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            } else {
-                data.add(new CartGoods(true, "RCC男装" + i, i, false));
-                for (int j = 0; j < 2; j++) {
-                    Goods goods = new Goods("http://image18-c.poco.cn/mypoco/myphoto/20170301/16/18505011120170301161107098_640.jpg",
-                            "RCC男装 春夏 设计师修身尖领翻领免烫薄长衫寸袖 韩国代购1", "颜色:贪色;尺码:S", "￥ 368.00", 2, i);
-                    data.add(new CartGoods(goods, i, false));
-                }
-            }
-        }
-    }
 
     @Override
     public void onRefresh() {
@@ -633,8 +530,19 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                     a.getShopTabs().statusChaByPosition(0,2);
                     a.getShopTabs().setFilPos(0);
                 }
+            }else {
+                requestNetwork(UrlUtils.shoppingCart, 0);
             }
         }
+        /*if(data!=null){
+            switch (requestCode) {
+                case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
+                    if (resultCode == Activity.RESULT_OK) {
+
+                    }
+                    break;
+            }
+        }*/
     }
 
 }
