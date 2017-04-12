@@ -34,7 +34,7 @@ import java.util.List;
  * 待评价
  */
 
-public class EvaluateOrderFragment extends Base2Fragment {
+public class EvaluateOrderFragment extends Base2Fragment implements Base2Fragment.Callback {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -46,6 +46,7 @@ public class EvaluateOrderFragment extends Base2Fragment {
     private EvaluateOrderAdapter adapter;
     private View view;
     private String orderId;//订单id
+    private int flag = 0;//0——获取数据，1——删除订单
 
 
     @Override
@@ -59,46 +60,31 @@ public class EvaluateOrderFragment extends Base2Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        requstData();
+        requstListData();
     }
 
+
     /*
-     获取数据
-   */
-    private void requstData() {
+      获取列表数据
+    */
+    private void requstListData() {
+        flag = 0;
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
         jsonRequest.add("status", "wait_evaluate");
         executeNetWork(jsonRequest, "请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) {
-                initData(dataObj);
-                if (adapter == null) {
-                    initRecylerView();
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void handleReqFailed() {
-            }
-
-            @Override
-            public void handle404(String message) {
-                getDm().buildAlertDialog(message);
-            }
-
-            @Override
-            public void handleReLogin() {
-            }
-
-            @Override
-            public void handleNoNetWork() {
-                getDm().buildAlertDialog("请检查网络！");
-            }
-        });
+        setCallback(this);
     }
+
+
+    private void requstData(int flag, String url, String order_id) {
+        this.flag = flag;
+        Request<JSONObject> jsonRequest = null;
+        jsonRequest = buildNetRequest(url, 0, true);
+        jsonRequest.add("order_id", order_id);
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(this);
+    }
+
 
     /*
     初始化数据
@@ -189,9 +175,50 @@ public class EvaluateOrderFragment extends Base2Fragment {
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
+                        requstData(1, UrlUtils.delOrder, orderId);
                         break;
                 }
             }
         });
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        switch (flag) {
+            case 0:
+                //获取数据
+                initData(dataObj);
+                break;
+            case 1:
+                //删除订单,成功后刷新数据
+                requstListData();
+                break;
+        }
+
+        if (adapter == null) {
+            initRecylerView();
+        } else {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void handleReqFailed() {
+        getDm().buildAlertDialog("加载数据失败！");
+    }
+
+    @Override
+    public void handle404(String message) {
+        getDm().buildAlertDialog(message);
+    }
+
+    @Override
+    public void handleReLogin() {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+        getDm().buildAlertDialog("请检查网络！");
     }
 }

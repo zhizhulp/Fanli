@@ -34,7 +34,7 @@ import java.util.List;
  * 全部订单
  */
 
-public class AllOrderFragment extends Base2Fragment {
+public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Callback {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -47,6 +47,7 @@ public class AllOrderFragment extends Base2Fragment {
     private View view;
     private String orderStatus;//订单状态：0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;
     private String orderId;//订单id
+    private int flag = 0;//0——获取数据，1——取消订单,2——删除订单
 
 
     @Override
@@ -60,45 +61,28 @@ public class AllOrderFragment extends Base2Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        requstData();
+        requstListData();
     }
 
     /*
-     获取数据
+     获取列表数据
    */
-    private void requstData() {
+    private void requstListData() {
+        flag = 0;
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
         jsonRequest.add("status", "all");
         executeNetWork(jsonRequest, "请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) {
-                initData(dataObj);
-                if (adapter == null) {
-                    initRecylerView();
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-            }
+        setCallback(this);
+    }
 
-            @Override
-            public void handleReqFailed() {
-            }
 
-            @Override
-            public void handle404(String message) {
-                getDm().buildAlertDialog(message);
-            }
-
-            @Override
-            public void handleReLogin() {
-            }
-
-            @Override
-            public void handleNoNetWork() {
-                getDm().buildAlertDialog("请检查网络！");
-            }
-        });
+    private void requstData(int flag, String url, String order_id) {
+        this.flag = flag;
+        Request<JSONObject> jsonRequest = null;
+        jsonRequest = buildNetRequest(url, 0, true);
+        jsonRequest.add("order_id", order_id);
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(this);
     }
 
     /*
@@ -224,7 +208,7 @@ public class AllOrderFragment extends Base2Fragment {
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
-
+                        requstData(1, UrlUtils.cancelOrder, orderId);
                         break;
                     case R.id.item_goods_order_total_call:
                         //联系卖家
@@ -232,6 +216,7 @@ public class AllOrderFragment extends Base2Fragment {
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
+                        requstData(2, UrlUtils.delOrder, orderId);
                         break;
                     case R.id.item_goods_order_total_refund:
                         //退款
@@ -254,4 +239,47 @@ public class AllOrderFragment extends Base2Fragment {
         });
     }
 
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        switch (flag) {
+            case 0:
+                //获取数据
+                initData(dataObj);
+                break;
+            case 1:
+                //取消订单,成功后刷新数据
+                requstListData();
+                break;
+            case 2:
+                //删除订单,成功后刷新数据
+                requstListData();
+                break;
+        }
+
+        if (adapter == null) {
+            initRecylerView();
+        } else {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void handleReqFailed() {
+        getDm().buildAlertDialog("加载数据失败！");
+    }
+
+    @Override
+    public void handle404(String message) {
+        getDm().buildAlertDialog(message);
+    }
+
+    @Override
+    public void handleReLogin() {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+        getDm().buildAlertDialog("请检查网络！");
+    }
 }

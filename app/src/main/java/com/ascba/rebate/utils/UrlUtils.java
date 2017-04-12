@@ -153,6 +153,13 @@ public class UrlUtils {
 
     //获取订单数据
     public static final String getOrderList = urlPrefix + "getOrderList";
+
+    //取消订单
+    public static final String cancelOrder = urlPrefix + "cancelOrder";
+
+    //删除订单
+    public static final String delOrder = urlPrefix + "delOrder";
+
     //添加商品到购物车
     public static final String cartAddGoods=urlPrefix + "cartAddGoods";
 }
