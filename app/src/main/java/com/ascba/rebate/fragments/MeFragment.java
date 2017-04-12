@@ -400,7 +400,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override
@@ -413,7 +413,9 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
 
     @Override
     public void handleNoNetWork() {
-
+        if (refreshLayout != null && refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

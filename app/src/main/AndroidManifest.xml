@@ -55,12 +55,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="4E8pe2i48Sb3pQvSXRpWvvnDV0GwLFxu" />
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="11d31c62f7f344c66c4f0fc80a15c4ce" />
@@ -223,9 +220,7 @@
         <activity
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle"></activity>
         <activity
             android:name=".activities.main_page.CityList"
             android:screenOrientation="portrait"
@@ -494,7 +489,7 @@
         <activity
             android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.supermaket.TypeMarketActivity"
             android:screenOrientation="portrait"
@@ -503,12 +498,10 @@
             android:name=".activities.milk.TypeMilkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.BeginnerGuideActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.AllEvaluationActivity"
             android:screenOrientation="portrait"
@@ -551,7 +544,7 @@
         <activity
             android:name=".activities.FilterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.BusinessShopActivity"
             android:screenOrientation="portrait"
@@ -559,7 +552,7 @@
         <activity
             android:name=".activities.shop.ShopActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.ASKCollegeActivity"
             android:screenOrientation="portrait"
@@ -571,7 +564,7 @@
         <activity
             android:name=".activities.MemCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.clothes.TypeClothActivity"
             android:screenOrientation="portrait"
@@ -583,8 +576,7 @@
         <activity
             android:name=".activities.me_page.MyRecActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
-
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.me_page.MyAwardActivity"
             android:screenOrientation="portrait"
@@ -593,17 +585,14 @@
             android:name=".activities.PlayVideoActivity"
             android:screenOrientation="landscape"
             android:theme="@style/NotitleTheme" />
-
         <activity
             android:name=".activities.ShopMessageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.MessageDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.TransactionRecordsActivity"
             android:screenOrientation="portrait"
@@ -612,7 +601,6 @@
             android:name=".activities.MessageLatestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.CommissionActivity"
             android:screenOrientation="portrait"
@@ -625,12 +613,15 @@
             android:name=".activities.SelectAddrssActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-
         <activity
             android:name=".activities.BusinessUnionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-    </application>
+        <activity android:name=".activities.ProxyDetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle">
 
+        </activity>
+    </application>
 
 </manifest>

@@ -20,6 +20,7 @@ import com.ascba.rebate.fragments.HomePageFragment;
 import com.ascba.rebate.fragments.MeFragment;
 import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.SideFragment;
+import com.ascba.rebate.fragments.TypeFragment;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
@@ -72,6 +73,7 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
     private Fragment mMoneyFragment;
     private  Fragment mMeFragment;
     private AppTabs appTabs;
+    private TypeFragment typeFragment;
 
     public AppTabs getAppTabs() {
         return appTabs;
@@ -108,22 +110,9 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
         mMoneyFragment = new MoneyFragment();
         mMeFragment = new MeFragment();
 
-
-        fgts.add(mHomePageFragment);
-        fgts.add(mSideFragment);
-
-        addAllFrgsToContai();
-    }
-
-    private void addAllFrgsToContai() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        ft.add(R.id.fl_change, mHomePageFragment);
-        ft.add(R.id.fl_change, mSideFragment);
-        ft.commit();
         selFrgByPos(0);
     }
+
 
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
@@ -290,6 +279,10 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
         FragmentTransaction ft = fm.beginTransaction();
         switch (position) {
             case 0:
+                if(!fgts.contains(mHomePageFragment)){
+                    ft.add(R.id.fl_change,mHomePageFragment);
+                    fgts.add(mHomePageFragment);
+                }
                 for (int i = 0; i < fgts.size(); i++) {
                     Fragment fragment = fgts.get(i);
                     if (fragment instanceof HomePageFragment) {
@@ -297,10 +290,15 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
                     } else {
                         ft.hide(fragment);
                     }
+
                 }
                 ft.commit();
                 break;
             case 1:
+                if(!fgts.contains(mSideFragment)){
+                    ft.add(R.id.fl_change,mSideFragment);
+                    fgts.add(mSideFragment);
+                }
                 for (int i = 0; i < fgts.size(); i++) {
                     Fragment fragment = fgts.get(i);
                     if (fragment instanceof SideFragment) {
@@ -308,6 +306,7 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
                     } else {
                         ft.hide(fragment);
                     }
+
                 }
                 ft.commit();
                 break;

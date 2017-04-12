@@ -294,7 +294,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     @Override
     public void handleNoNetWork() {
         refreshLat.setRefreshing(false);
-        dm.buildAlertDialog("请检查网络！");
+        dm.buildAlertDialog(getString(R.string.no_network));
     }
 
     @Override
