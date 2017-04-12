@@ -1,24 +1,23 @@
-package com.ascba.rebate.fragments.shop.order;
+package com.ascba.rebate.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.DeliverDetailsActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
+import com.ascba.rebate.adapter.order.RefundOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
-import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.ShopABarText;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yolanda.nohttp.rest.Request;
@@ -35,32 +34,28 @@ import java.util.List;
  * 退货退款
  */
 
-public class RefundOrderFragment extends Base2Fragment {
+public class RefundOrderActivity extends BaseNetWork4Activity {
 
     private RecyclerView recyclerView;
     private Context context;
-
     /**
      * 每笔订单中的商品列表
      */
-    private List<Goods> goodsList;
     private List<OrderBean> beanArrayList = new ArrayList<>();
-    private DeliverOrderAdapter adapter;
-    private View view;
-
+    private RefundOrderAdapter adapter;
+    private ShopABarText aBarText;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        context = getActivity();
-        return inflater.inflate(R.layout.fragment_orders, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_refund_order);
+        context = this;
+        requstData();
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.view = view;
-        requstData();
+    public static void startIntent(Context context) {
+        Intent intent = new Intent(context, RefundOrderActivity.class);
+        context.startActivity(intent);
     }
 
     /*
@@ -81,18 +76,12 @@ public class RefundOrderFragment extends Base2Fragment {
                 }
             }
 
-            @Override
-            public void handleReqFailed() {
-            }
 
             @Override
             public void handle404(String message) {
                 getDm().buildAlertDialog(message);
             }
 
-            @Override
-            public void handleReLogin() {
-            }
 
             @Override
             public void handleNoNetWork() {
@@ -114,7 +103,7 @@ public class RefundOrderFragment extends Base2Fragment {
                 //头部信息
                 String time = object.optString("add_time");//时间
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_goods_order_head, time, "等待卖家发货");
+                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, time, "退款中");
                 beanArrayList.add(beanHead);
 
                 //商品信息
@@ -147,21 +136,32 @@ public class RefundOrderFragment extends Base2Fragment {
                 String orderAmount = object.optString("order_amount");//订单总价
                 String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_refund_foot, goodsNum, "￥" + orderAmount, shippingFee);
                 beanArrayList.add(beadFoot);
             }
         }
     }
 
     private void initRecylerView() {
+        aBarText = (ShopABarText) findViewById(R.id.shopBar);
+        aBarText.setCallback(new ShopABarText.Callback() {
+            @Override
+            public void back(View v) {
+                finish();
+            }
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
+            @Override
+            public void clkBtn(View v) {
+
+            }
+        });
+        recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        adapter = new DeliverOrderAdapter(beanArrayList, context);
+        adapter = new RefundOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
-        View emptyView=LayoutInflater.from(context).inflate(R.layout.empty_order,null);
+        View emptyView = LayoutInflater.from(context).inflate(R.layout.empty_order, null);
         adapter.setEmptyView(emptyView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -177,88 +177,4 @@ public class RefundOrderFragment extends Base2Fragment {
             }
         });
     }
-
-    /*
-     * 商品数据
-     */
-    private List<OrderBean> getData() {
-        List<OrderBean> beanArrayList = new ArrayList<>();
-
-        String imgUrl = "http://image1+8-c.poco.cn/mypoco/myphoto/20170315/10/18505011120170315100507017_640.jpg";
-        String title = "RCC男装 春夏 设计师款修身尖领翻领免烫薄长袖寸衫 韩国代购 2色";
-        String standard = "颜色:深蓝色;尺码:S";
-        String price = "368";
-        String priceOld = "468";
-        int num = 1;
-
-
-        /**
-         * 订单1：一个商品
-         */
-        //订单一；头部信息
-        OrderBean beanHead1 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_goods_order_head, "2016-01-27", "等待卖家发货");
-        beanArrayList.add(beanHead1);
-
-        //订单一；商品信息
-        goodsList = new ArrayList<>();
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        /**
-         * 遍历商品列表并添加
-         */
-        for (Goods goods : goodsList) {
-            OrderBean beanGoods1 = new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, goods);
-            beanArrayList.add(beanGoods1);
-        }
-
-        //订单一；尾部信息
-        String goodsNum = "共" + goodsList.size() + "件商品";//商品数量
-        String freight = "(包含15.00运费)";
-        /**
-         * 遍历商品列表计算总价
-         */
-        double orderPrcie = 0.00;
-        for (Goods goods : goodsList) {
-            double goodsPrice = Double.valueOf(goods.getGoodsPrice()) * Double.valueOf(goods.getUserQuy());
-            orderPrcie = orderPrcie + goodsPrice;
-        }
-        OrderBean beadFoot1 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum, "￥" + String.valueOf(orderPrcie), freight);
-        beanArrayList.add(beadFoot1);
-
-
-        /**
-         * 订单2：两个个商品
-         */
-        //订单2；头部信息
-        OrderBean beanHead2 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_goods_order_head, "2016-01-27", "等待卖家发货");
-        beanArrayList.add(beanHead2);
-
-        //订单2；商品信息
-        goodsList = new ArrayList<>();
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        goodsList.add(new Goods(imgUrl, title, standard, price, priceOld, num));
-        /**
-         * 遍历商品列表并添加
-         */
-        for (Goods goods : goodsList) {
-            OrderBean beanGoods2 = new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, goods);
-            beanArrayList.add(beanGoods2);
-        }
-
-        //订单2；尾部信息
-        String goodsNum2 = "共" + goodsList.size() + "件商品";//商品数量
-        String freight2 = "(包含15.00运费)";
-        /**
-         * 遍历商品列表计算总价
-         */
-        double orderPrcie2 = 0.00;
-        for (Goods goods : goodsList) {
-            double goodsPrice = Double.valueOf(goods.getGoodsPrice()) * Double.valueOf(goods.getUserQuy());
-            orderPrcie2 = orderPrcie2 + goodsPrice;
-        }
-        OrderBean beadFoot2 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum2, "￥" + String.valueOf(orderPrcie2), freight2);
-        beanArrayList.add(beadFoot2);
-
-        return beanArrayList;
-    }
-
 }

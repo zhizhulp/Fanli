@@ -16,7 +16,6 @@ import com.ascba.rebate.fragments.shop.order.AllOrderFragment;
 import com.ascba.rebate.fragments.shop.order.DeliverOrderFragment;
 import com.ascba.rebate.fragments.shop.order.EvaluateOrderFragment;
 import com.ascba.rebate.fragments.shop.order.PayOrderFragment;
-import com.ascba.rebate.fragments.shop.order.RefundOrderFragment;
 import com.ascba.rebate.fragments.shop.order.TakeOrderFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -118,10 +117,6 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         EvaluateOrderFragment evaluateOrderFragment = new EvaluateOrderFragment();
         fragmentList.add(evaluateOrderFragment);
 
-        //退货退款
-        RefundOrderFragment refundOrderFragment = new RefundOrderFragment();
-        fragmentList.add(refundOrderFragment);
-
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
 
@@ -132,9 +127,8 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         mTitleList.add(new Bean("待发货", orderMsg[2]));
         mTitleList.add(new Bean("待收货", orderMsg[3]));
         mTitleList.add(new Bean("待评价", orderMsg[4]));
-        mTitleList.add(new Bean("退货退款", orderMsg[5]));
 
-        String[] title = new String[]{"全部", "待付款", "待发货", "待收货", "待评价", "退货退款"};
+        String[] title = new String[]{"全部", "待付款", "待发货", "待收货", "待评价"};
         slidingtablayout.setViewPager(mViewPager, title);
 
         /**

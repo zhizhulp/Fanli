@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
+import com.ascba.rebate.adapter.order.TakeOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -45,7 +46,7 @@ public class TakeOrderFragment extends Base2Fragment {
      */
     private List<Goods> goodsList;
     private List<OrderBean> beanArrayList = new ArrayList<>();
-    private DeliverOrderAdapter adapter;
+    private TakeOrderAdapter adapter;
     private View view;
 
 
@@ -114,7 +115,7 @@ public class TakeOrderFragment extends Base2Fragment {
                 //头部信息
                 String time = object.optString("add_time");//时间
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_goods_order_head, time, "等待卖家发货");
+                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, time, "等待买家收货");
                 beanArrayList.add(beanHead);
 
                 //商品信息
@@ -147,7 +148,7 @@ public class TakeOrderFragment extends Base2Fragment {
                 String orderAmount = object.optString("order_amount");//订单总价
                 String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_take_foot, goodsNum, "￥" + orderAmount, shippingFee);
                 beanArrayList.add(beadFoot);
             }
         }
@@ -158,7 +159,7 @@ public class TakeOrderFragment extends Base2Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        adapter = new DeliverOrderAdapter(beanArrayList, context);
+        adapter = new TakeOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
         View emptyView=LayoutInflater.from(context).inflate(R.layout.empty_order,null);
@@ -196,7 +197,7 @@ public class TakeOrderFragment extends Base2Fragment {
          * 订单1：一个商品
          */
         //订单一；头部信息
-        OrderBean beanHead1 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_goods_order_head, "2016-01-27", "等待卖家发货");
+        OrderBean beanHead1 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, "2016-01-27", "等待卖家发货");
         beanArrayList.add(beanHead1);
 
         //订单一；商品信息
@@ -221,7 +222,7 @@ public class TakeOrderFragment extends Base2Fragment {
             double goodsPrice = Double.valueOf(goods.getGoodsPrice()) * Double.valueOf(goods.getUserQuy());
             orderPrcie = orderPrcie + goodsPrice;
         }
-        OrderBean beadFoot1 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum, "￥" + String.valueOf(orderPrcie), freight);
+        OrderBean beadFoot1 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + String.valueOf(orderPrcie), freight);
         beanArrayList.add(beadFoot1);
 
 
@@ -229,7 +230,7 @@ public class TakeOrderFragment extends Base2Fragment {
          * 订单2：两个个商品
          */
         //订单2；头部信息
-        OrderBean beanHead2 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_goods_order_head, "2016-01-27", "等待卖家发货");
+        OrderBean beanHead2 = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, "2016-01-27", "等待卖家发货");
         beanArrayList.add(beanHead2);
 
         //订单2；商品信息
@@ -255,7 +256,7 @@ public class TakeOrderFragment extends Base2Fragment {
             double goodsPrice = Double.valueOf(goods.getGoodsPrice()) * Double.valueOf(goods.getUserQuy());
             orderPrcie2 = orderPrcie2 + goodsPrice;
         }
-        OrderBean beadFoot2 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_goods_order_foot, goodsNum2, "￥" + String.valueOf(orderPrcie2), freight2);
+        OrderBean beadFoot2 = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum2, "￥" + String.valueOf(orderPrcie2), freight2);
         beanArrayList.add(beadFoot2);
 
         return beanArrayList;

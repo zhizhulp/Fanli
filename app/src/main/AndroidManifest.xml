@@ -617,11 +617,14 @@
             android:name=".activities.BusinessUnionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.ProxyDetActivity"
+        <activity
+            android:name=".activities.ProxyDetActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
-
-        </activity>
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.RefundOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>

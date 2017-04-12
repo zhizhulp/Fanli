@@ -16,17 +16,17 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
- * 待发货订单
+ * 待收货订单
  */
 
-public class DeliverOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseViewHolder> {
+public class TakeOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseViewHolder> {
 
     private Context context;
     public static final int TYPE1 = 1;//订单头
     public static final int TYPE2 = 2;//订单商品
     public static final int TYPE3 = 3;//订单尾
 
-    public DeliverOrderAdapter(List<OrderBean> data, Context context) {
+    public TakeOrderAdapter(List<OrderBean> data, Context context) {
         super(data);
         this.context = context;
         if (data != null && data.size() > 0) {
@@ -83,7 +83,7 @@ public class DeliverOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, Ba
                 helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
-                helper.addOnClickListener(R.id.item_goods_order_total_logistics);//查看物流
+                helper.addOnClickListener(R.id.item_goods_order_total_take);//确认收货
                 break;
         }
     }
