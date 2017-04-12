@@ -47,7 +47,6 @@ public class DeliverGoodsFragment extends Base2Fragment {
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private DeliverGoodsAdapter adapter;
     private View view;
-    private View emptyView;
 
 
     @Override
@@ -81,11 +80,7 @@ public class DeliverGoodsFragment extends Base2Fragment {
                     adapter.notifyDataSetChanged();
                 }
 
-                if (beanArrayList.size() == 0) {
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    emptyView.setVisibility(View.GONE);
-                }
+
 
             }
 
@@ -129,6 +124,7 @@ public class DeliverGoodsFragment extends Base2Fragment {
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
                 Log.d("DeliverGoodsFragment", "goodsArray.length():" + goodsArray.length());
                 if (goodsArray != null && goodsArray.length() > 0) {
+
                     for (int j = 0; j < goodsArray.length(); j++) {
                         try {
                             JSONObject goodsObject = goodsArray.getJSONObject(j);
@@ -161,13 +157,15 @@ public class DeliverGoodsFragment extends Base2Fragment {
     }
 
     private void initRecylerView() {
-        emptyView = view.findViewById(R.id.empty_view);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new DeliverGoodsAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
+
+        View emptyView=LayoutInflater.from(context).inflate(R.layout.empty_order,null);
+        adapter.setEmptyView(emptyView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override

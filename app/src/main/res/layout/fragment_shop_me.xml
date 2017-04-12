@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ascba.rebate.view.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh_layout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_pc"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15.5dp"
+        android:layout_marginRight="9.5dp"
+        android:layout_marginTop="10dp">
+
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:id="@+id/activity_pc_item_head_message"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15.5dp"
-            android:layout_marginRight="9.5dp"
-            android:layout_marginTop="10dp">
-
-            <RelativeLayout
-                android:id="@+id/activity_pc_item_head_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/activity_pc_item_head_xiaoxi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/pc_xiaoxi" />
-
-                <ImageView
-                    android:id="@+id/activity_pc_item_head_xiaoxi_notify"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_marginLeft="-8dp"
-                    android:layout_toRightOf="@+id/activity_pc_item_head_xiaoxi"
-                    android:background="@drawable/notify_img" />
-            </RelativeLayout>
-
+            android:layout_alignParentRight="true"
+            android:padding="5dp">
 
             <ImageView
-                android:id="@+id/activity_pc_item_head_back"
+                android:id="@+id/activity_pc_item_head_xiaoxi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:src="@mipmap/abar_back_white" />
+                android:src="@mipmap/pc_xiaoxi" />
+
+            <ImageView
+                android:id="@+id/activity_pc_item_head_xiaoxi_notify"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginLeft="-8dp"
+                android:layout_toRightOf="@+id/activity_pc_item_head_xiaoxi"
+                android:background="@drawable/notify_img" />
         </RelativeLayout>
-    </FrameLayout>
-</com.ascba.rebate.view.SuperSwipeRefreshLayout>
+
+
+        <ImageView
+            android:id="@+id/activity_pc_item_head_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@mipmap/abar_back_white" />
+    </RelativeLayout>
+</FrameLayout>
