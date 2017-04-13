@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -49,6 +48,7 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
     private String orderStatus;//订单状态：0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;
     private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单
+    private View emptyView;
 
 
     @Override
@@ -191,8 +191,7 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
         adapter = new AllOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
-        View emptyView = LayoutInflater.from(context).inflate(R.layout.empty_order, null);
-        adapter.setEmptyView(emptyView);
+        emptyView = view.findViewById(R.id.empty_view);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
@@ -260,7 +259,14 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
         if (adapter == null) {
             initRecylerView();
         } else {
-            adapter.notifyDataSetChanged();
+            adapter = new AllOrderAdapter(beanArrayList, context);
+            recyclerView.setAdapter(adapter);
+        }
+
+        if (beanArrayList.size() > 0) {
+            emptyView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
         }
     }
 

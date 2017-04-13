@@ -17,6 +17,7 @@
     </com.ascba.rebate.view.SuperSwipeRefreshLayout>
 
     <RelativeLayout
+        android:id="@+id/head_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15.5dp"

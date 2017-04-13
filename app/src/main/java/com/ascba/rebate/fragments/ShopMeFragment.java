@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
@@ -21,12 +20,10 @@ import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.Base2Fragment;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -50,6 +47,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
     private SuperSwipeRefreshLayout refreshLat;
     private int[] orderMsg;
+    private View headView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,7 +75,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     初始化UI
      */
     private void initView(View view) {
-
+        headView=view.findViewById(R.id.head_view);
         //返回
         view.findViewById(R.id.activity_pc_item_head_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +173,11 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
     @Override
     public void onPullDistance(int distance) {
-
+        if (distance>0){
+            headView.setVisibility(View.INVISIBLE);
+        }else {
+            headView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
