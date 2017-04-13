@@ -62,12 +62,11 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        requstListData();
     }
 
     /*
-     获取列表数据
-   */
+          获取列表数据
+        */
     private void requstListData() {
         flag = 0;
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);

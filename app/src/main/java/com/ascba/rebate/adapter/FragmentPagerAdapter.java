@@ -9,7 +9,7 @@ import java.util.List;
  * Created by 李鹏 on 2017/03/14 0014.
  */
 
-public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter{
+public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
     private List<Fragment> fragmentList;
 
@@ -27,4 +27,5 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
     public int getCount() {
         return fragmentList.size();
     }
+
 }
