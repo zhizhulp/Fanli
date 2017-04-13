@@ -96,8 +96,8 @@
     <!--普通文字颜色-->
     <color name="main_text_normal">#595959</color><!--深色-->
     <color name="main_text_gary">#a0a0a0</color><!--浅色-->
-    <!--actionbar文字颜色-->
-    <color name="main_action_bar_text">#959595</color>
+    <!--导航栏文字颜色-->
+    <color name="main_navigation_bar_text">#959595</color>
     <!--线的颜色-->
     <color name="main_line_deep_gray">#d2d2d2</color><!--深色-->
     <color name="main_line_light_gray">#ececec</color><!--浅色-->

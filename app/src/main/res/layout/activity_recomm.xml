@@ -15,8 +15,10 @@
             android:id="@+id/mb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:barBg="@color/transparent"
-            app:textTitle="推荐奖励" />
+            app:backImg="@mipmap/money_bar_back"
+            app:barBg="#f64545"
+            app:titleColor="#fff"
+            app:textTitle="我的奖励" />
 
         <RadioGroup
             android:id="@+id/rec_rg"

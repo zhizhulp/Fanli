@@ -32,6 +32,8 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private CallBack callBack;
     private View bgView;
     private int color;
+    private int titleTextColor;
+    private int backImgId;
 
     public MoneyBar(Context context){
         super(context);
@@ -52,11 +54,9 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
 
     //初始化
     private void initView(Context context,AttributeSet attrs){
-        /*if(Build.VERSION.SDK_INT >=19){
-            LayoutInflater.from(context).inflate(R.layout.money_bar_layout_status, this,true);
-        }else{*/
-            LayoutInflater.from(context).inflate(R.layout.money_bar_layout_no_status, this,true);
-//        }
+
+        LayoutInflater.from(context).inflate(R.layout.money_bar_layout_no_status, this,true);
+
         mTextView= (TextView) findViewById(R.id.money_bar_title);
         mImageView= (ImageView) findViewById(R.id.money_bar_back);
         tailIcon = ((ImageView) findViewById(R.id.money_bar_tail_icon));
@@ -64,12 +64,18 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         bgView = findViewById(R.id.money_bar_parent);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MoneyBar);
-        color = ta.getColor(R.styleable.MoneyBar_barBg,getResources().getColor(R.color.moneyBarColor));
+        color = ta.getColor(R.styleable.MoneyBar_barBg,getResources().getColor(R.color.white));
         title = ta.getString(R.styleable.MoneyBar_textTitle);
+        titleTextColor = ta.getColor(R.styleable.MoneyBar_titleColor,getResources().getColor(R.color.main_text_normal));
         needBack = ta.getBoolean(R.styleable.MoneyBar_needBack, true);
         needTailIcon= ta.getBoolean(R.styleable.MoneyBar_needTailIcon,false);
         tailIconId = ta.getResourceId(R.styleable.MoneyBar_tailIcon,R.mipmap.ic_search);
+        backImgId = ta.getResourceId(R.styleable.MoneyBar_backImg,R.mipmap.abar_back);
         needComplete = ta.getBoolean(R.styleable.MoneyBar_needComplete,false);
+        //设置title字体颜色
+        mTextView.setTextColor(titleTextColor);
+        //设置返回图标
+        mImageView.setImageResource(backImgId);
         //设置背景
         bgView.setBackgroundDrawable(new ColorDrawable(color));
         //设置是否需要完成选项

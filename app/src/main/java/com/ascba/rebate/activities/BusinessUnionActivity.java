@@ -101,7 +101,9 @@ public class BusinessUnionActivity extends BaseNetWork4Activity implements Super
                 break;
             case R.id.business_data:
                 //商家资料
-                getData();
+                //getData();
+                Intent intent1 = new Intent(context, BusinessDataActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
@@ -122,8 +124,8 @@ public class BusinessUnionActivity extends BaseNetWork4Activity implements Super
             String dataIntentStringExtra = dataIntent.getStringExtra("json");
             JSONObject dataObj = new JSONObject(dataIntentStringExtra);
             JSONObject company = dataObj.optJSONObject("company");
-            int seller_enable_time = dataObj.optInt("seller_enable_time");
-            String seller_enable_tip = dataObj.optString("seller_enable_tip");
+            String submit_status = company.optString("submit_status");
+            String submit_tip = company.optString("submit_tip");
 
             String seller_name = company.optString("seller_name");
             String seller_cover_logo = company.optString("seller_cover_logo");
@@ -152,8 +154,8 @@ public class BusinessUnionActivity extends BaseNetWork4Activity implements Super
             intent.putExtra("seller_return_ratio", seller_return_ratio);
             intent.putExtra("seller_return_ratio_tip", seller_return_ratio_tip);
             intent.putExtra("seller_description", seller_description);
-            intent.putExtra("seller_enable_time", seller_enable_time);
-            intent.putExtra("seller_enable_tip", seller_enable_tip);
+            intent.putExtra("submit_status", submit_status);
+            intent.putExtra("submit_tip", submit_tip);
             startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();

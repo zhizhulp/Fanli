@@ -23,6 +23,7 @@
         android:textSize="@dimen/shop_title" />
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/abar_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

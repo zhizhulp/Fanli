@@ -1,5 +1,6 @@
 package com.ascba.rebate.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -19,6 +20,7 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
     private ImageView imMsg;
     private ImageView imOther;
     private Callback callback;
+    private Context context;
     public ShopABar(Context context) {
         super(context);
     }
@@ -31,6 +33,7 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
         initViews(context, attrs);
     }
     private void initViews(Context context,AttributeSet attrs) {
+        this.context=context;
         LayoutInflater.from(context).inflate(R.layout.shop_abar,this,true);
 
         imBack = ((ImageView) findViewById(R.id.abar_im_back));//返回图标
@@ -91,6 +94,9 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.abar_im_back:
+                if(context instanceof Activity){
+                    ((Activity) context).finish();
+                }
                 if(callback!=null){
                     callback.back(v);
                 }
