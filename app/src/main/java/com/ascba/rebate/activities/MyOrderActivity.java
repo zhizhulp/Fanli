@@ -89,7 +89,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         });
         slidingtablayout = (SlidingTabLayout) findViewById(R.id.slidingtablayout);
         mViewPager = (ViewPager) findViewById(R.id.activity_order_vp);
-        mViewPager.setOffscreenPageLimit(5);
+        mViewPager.setOffscreenPageLimit(4);
         initViewpagerView();
     }
 
