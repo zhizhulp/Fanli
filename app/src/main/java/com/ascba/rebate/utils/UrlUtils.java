@@ -161,5 +161,8 @@ public class UrlUtils {
     public static final String delOrder = urlPrefix + "delOrder";
 
     //添加商品到购物车
-    public static final String cartAddGoods=urlPrefix + "cartAddGoods";
+    public static final String cartAddGoods = urlPrefix + "cartAddGoods";
+
+    //首页—更多新闻
+    public static final String moreNews = urlPrefix + "moreNews";
 }
