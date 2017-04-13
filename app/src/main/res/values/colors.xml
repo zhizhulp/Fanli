@@ -104,8 +104,8 @@
     <!--通用红色-->
     <color name="main_red_normal">#f63c3c</color><!--浅色-->
     <color name="main_bg">#f4f4f4</color><!--背景颜色-->
-
-
+    <!--money_bar颜色-->
+    <color name="main_money_bar_bg">#f1f1f1</color><!--浅色-->
     <!--ShopActivity颜色管理-->
 
 </resources>
