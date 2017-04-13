@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.DeliverDetailsActivity;
@@ -16,6 +15,7 @@ import com.ascba.rebate.adapter.order.EvaluateOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -34,7 +34,7 @@ import java.util.List;
  * 待评价
  */
 
-public class EvaluateOrderFragment extends Base2Fragment implements Base2Fragment.Callback {
+public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Fragment.Callback {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -50,17 +50,27 @@ public class EvaluateOrderFragment extends Base2Fragment implements Base2Fragmen
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        context = getActivity();
-        return inflater.inflate(R.layout.fragment_orders, container, false);
+    protected int setContentView() {
+        return R.layout.fragment_orders;
+    }
+
+
+    @Override
+    protected void lazyLoad() {
+        requstListData();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        context = getActivity();
         this.view = view;
-        requstListData();
+    }
+
+    @Override
+    protected void stopLoad() {
+        super.stopLoad();
+        cancelNetWork();
     }
 
 

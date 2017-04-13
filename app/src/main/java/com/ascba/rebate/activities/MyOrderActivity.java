@@ -89,7 +89,6 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         });
         slidingtablayout = (SlidingTabLayout) findViewById(R.id.slidingtablayout);
         mViewPager = (ViewPager) findViewById(R.id.activity_order_vp);
-        mViewPager.setOffscreenPageLimit(4);
         initViewpagerView();
     }
 
@@ -118,6 +117,7 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         fragmentList.add(evaluateOrderFragment);
 
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
 
 

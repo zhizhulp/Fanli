@@ -19,23 +19,22 @@
     <RelativeLayout
         android:id="@+id/head_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15.5dp"
-        android:layout_marginRight="9.5dp"
-        android:layout_marginTop="10dp">
+        android:layout_height="48dp"
+        android:paddingTop="10dp">
 
         <RelativeLayout
             android:id="@+id/activity_pc_item_head_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="9.5dp"
             android:padding="5dp">
 
             <ImageView
                 android:id="@+id/activity_pc_item_head_xiaoxi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/pc_xiaoxi" />
+                android:src="@mipmap/shop_no_msg" />
 
             <ImageView
                 android:id="@+id/activity_pc_item_head_xiaoxi_notify"
@@ -46,12 +45,20 @@
                 android:background="@drawable/notify_img" />
         </RelativeLayout>
 
-
         <ImageView
             android:id="@+id/activity_pc_item_head_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15.5dp"
             android:padding="5dp"
-            android:src="@mipmap/abar_back_white" />
+            android:src="@mipmap/abar_back" />
+
+        <View
+            android:id="@+id/head_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:alpha="0"
+            android:background="@color/cutting_line" />
     </RelativeLayout>
 </FrameLayout>

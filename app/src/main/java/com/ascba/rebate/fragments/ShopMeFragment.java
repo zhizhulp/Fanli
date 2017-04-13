@@ -4,6 +4,7 @@ package com.ascba.rebate.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -48,6 +49,8 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     private SuperSwipeRefreshLayout refreshLat;
     private int[] orderMsg;
     private View headView;
+    private View headViewLine;
+    private int mDistanceY = 0;//下拉刷新滑动距离
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +78,8 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     初始化UI
      */
     private void initView(View view) {
-        headView=view.findViewById(R.id.head_view);
+        headView = view.findViewById(R.id.head_view);
+        headViewLine = view.findViewById(R.id.head_view_line);
         //返回
         view.findViewById(R.id.activity_pc_item_head_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +151,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
                     case 19:
                         Intent phone = new Intent();
                         phone.setAction(Intent.ACTION_DIAL);
-                        phone.setData(Uri.parse("tel:"+item.getContenRight()));
+                        phone.setData(Uri.parse("tel:" + item.getContenRight()));
                         startActivity(phone);
                         break;
                 }
@@ -164,6 +168,27 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
+
+        /**
+         * 滑动标题栏渐变
+         */
+        pc_RecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //滑动的距离
+                mDistanceY += dy;
+                //toolbar的高度
+                int toolbarHeight = headView.getBottom();
+                float maxAlpha = 229.5f;//最大透明度80%
+                //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
+                if (mDistanceY <= toolbarHeight) {
+                    float scale = (float) mDistanceY / toolbarHeight;
+                    float alpha = scale * maxAlpha;
+                    headView.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+                    headViewLine.setAlpha(alpha);
+                }
+            }
+        });
     }
 
 
@@ -174,9 +199,9 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
     @Override
     public void onPullDistance(int distance) {
-        if (distance>0){
+        if (distance > 0) {
             headView.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             headView.setVisibility(View.VISIBLE);
         }
     }
