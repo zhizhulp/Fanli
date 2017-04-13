@@ -47,7 +47,7 @@
     </style>
 
     <style name="AppStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">#ff000000</item>
+        <item name="colorPrimaryDark">#ff000000</item><!--action_bar颜色-->
     </style>
 
     <style name="NotitleTheme" parent="Theme.AppCompat.NoActionBar">

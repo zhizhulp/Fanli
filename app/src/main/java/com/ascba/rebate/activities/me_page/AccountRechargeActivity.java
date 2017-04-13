@@ -45,7 +45,6 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     private DialogManager dm = new DialogManager(this);
     private int select;//选择支付方式 0 微信支付 1 支付宝支付
     private IWXAPI api;
-
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -54,9 +53,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
                 case SDK_PAY_FLAG: {
                     @SuppressWarnings("unchecked")
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    /**
-                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                     */
+                    //对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
@@ -75,7 +72,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
                         }
                     } else if(TextUtils.equals(resultStatus, "6002")) {
                         dm.buildAlertDialog("网络有问题");
-                    }  else if(TextUtils.equals(resultStatus, "6001")) {
+                    } else if(TextUtils.equals(resultStatus, "6001")) {
                         dm.buildAlertDialog("您已经取消支付");
                     } else {
                         dm.buildAlertDialog("支付失败");
@@ -94,20 +91,16 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     private EditTextWithCustomHint edMoney;
     private ImageView imAli;
     private ImageView imWx;
-    private View wxClick;
-    private View aliClick;
-    private MoneyBar moneyBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_recharge);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
 
     private void initViews() {
-        moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
+        MoneyBar moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
         moneyBar.setTailTitle(getString(R.string.inoutcome_record));
         moneyBar.setCallBack(new MoneyBar.CallBack() {
             @Override
@@ -125,8 +118,8 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         imAli = ((ImageView) findViewById(R.id.alipay_circle));
         imWx = ((ImageView) findViewById(R.id.wxpay_circle));
 
-        wxClick = findViewById(R.id.wx_click);
-        aliClick = findViewById(R.id.ali_click);
+        View wxClick = findViewById(R.id.wx_click);
+        View aliClick = findViewById(R.id.ali_click);
 
         imAli.setImageResource(R.mipmap.unselect);
         imWx.setImageResource(R.mipmap.select);
@@ -187,7 +180,6 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
             String payInfo = dataObj.optString("payInfo");
             requestForAli(payInfo);//发起支付宝支付请求
         } else if (select == 0) {
-
             requestForWX(dataObj);//发起微信支付请求
         }
 
@@ -259,40 +251,5 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         }
 
     }
-
-    /*public void testWX(View view) {
-        Request<String> request= NoHttp.createStringRequest("http://123.57.20.120:8050/native-pay/unifyPay", RequestMethod.POST);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("saruLruid", "6000000002");// 商户号
-        map.put("total_fee", "1");// 交易金额 单位为分 整数
-        map.put("out_trade_no", "QLQW143631399159");// 订单号 不可重复
-        map.put("body", "test");// 商品信息
-        map.put("notify_url","http://api.qlqwp2p.com/v1/wxpayTest");// 通知地址 需外网可以访问的到
-        map.put("mch_create_ip","192.168.50.18");// 通知地址 需外网可以访问的到
-        request.add(map);
-
-        MyApplication.getRequestQueue().add(0, request, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-                Log.d("AccountRechargeActivity", "onStart what:" + what);
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                Log.d("AccountRechargeActivity", "onSucceed response:" + response.toString());
-
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-                Log.d("AccountRechargeActivity", "onFailed response:" + response.toString());
-            }
-
-            @Override
-            public void onFinish(int what) {
-                Log.d("AccountRechargeActivity", "onFinish what:" + what);
-            }
-        });
-    }*/
 }
 
