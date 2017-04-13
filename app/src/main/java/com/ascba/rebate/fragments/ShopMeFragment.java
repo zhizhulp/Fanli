@@ -108,6 +108,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                PCMultipleItem item = pcMultipleItems.get(position);
                 switch (position) {
                     case 1:
                         //全部订单
@@ -146,7 +147,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
                     case 19:
                         Intent phone = new Intent();
                         phone.setAction(Intent.ACTION_DIAL);
-                        phone.setData(Uri.parse("tel:15206292150"));
+                        phone.setData(Uri.parse("tel:"+item.getContenRight()));
                         startActivity(phone);
                         break;
                 }

@@ -27,7 +27,9 @@ public class ReceiveAddressAdapter extends BaseQuickAdapter<ReceiveAddressBean, 
 
         //隐藏手机号中间4位
         String phone = item.getPhone();
-        phone = phone.substring(0, 3) + "****" + phone.substring(7, 11);
+        if(phone!=null && phone.length()==11){
+            phone = phone.substring(0, 3) + "****" + phone.substring(7, 11);
+        }
         helper.setText(R.id.item_receive_address_phone, phone);
 
         //地址
