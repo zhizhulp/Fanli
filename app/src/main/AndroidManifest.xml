@@ -625,9 +625,22 @@
             android:name=".activities.RefundOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.BusiFlowRecordsActivity"
+        <activity
+            android:name=".activities.BusiFlowRecordsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
+        <activity
+            android:name=".activities.shop.order.EvaluateDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.shop.order.TakeDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.shop.order.PayDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>

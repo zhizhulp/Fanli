@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
- * 全部订单
+ * 待收货订单
  */
 
 public class TakeOrderFragment extends LazyLoadFragment {
@@ -186,7 +186,7 @@ public class TakeOrderFragment extends LazyLoadFragment {
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                        Intent intent = new Intent(context, TakeDetailsActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.item_goods_order_total_refund:

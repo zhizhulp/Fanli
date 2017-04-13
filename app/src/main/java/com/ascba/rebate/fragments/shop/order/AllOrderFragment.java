@@ -10,6 +10,9 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
+import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
+import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -115,6 +118,7 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
                 OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, time);
                 beanHead.setId(orderId);
+                beanHead.setStateCode(orderStatus);
 
                 if (orderStatus.equals("10")) {
                     //等待卖家付款
@@ -208,8 +212,28 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent();
+                        String orderStatus=beanArrayList.get(position).getStateCode();
+                        if (orderStatus.equals("10")) {
+                            //等待卖家付款
+                            intent.setClass(context, PayDetailsActivity.class);
+                        } else if (orderStatus.equals("0")) {
+                            //交易关闭
+                            intent=null;
+                        } else if (orderStatus.equals("20")) {
+                            //等待卖家发货
+                            intent.setClass(context, DeliverDetailsActivity.class);
+                        } else if (orderStatus.equals("30")) {
+                            //等待买家收货
+                            intent.setClass(context, TakeDetailsActivity.class);
+                        } else if (orderStatus.equals("40")) {
+                            //交易成功
+                            intent.setClass(context, EvaluateDetailsActivity.class);
+                        }
+
+                        if (intent!=null){
+                            startActivity(intent);
+                        }
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款

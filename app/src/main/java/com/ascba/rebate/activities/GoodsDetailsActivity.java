@@ -337,7 +337,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 if (scrollY > 0 && scrollY <= toolbarHeight) {
                     float scale = (float) scrollY / toolbarHeight;
                     float alpha = scale * maxAlpha;
-                    Log.d("GoodsDetailsActivity", "alpha" + alpha);
                     shopABar.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
                 }
             }

@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.adapter.order.EvaluateOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -174,7 +174,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Frag
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                        Intent intent = new Intent(context, EvaluateDetailsActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.item_goods_order_total_after:
