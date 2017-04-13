@@ -11,9 +11,10 @@ public class NewsBean {
     private String time;
     private String img;
 
-
     public NewsBean() {
     }
+
+
 
     public NewsBean(String id, String title, String time) {
         this.title = title;
@@ -62,5 +63,13 @@ public class NewsBean {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

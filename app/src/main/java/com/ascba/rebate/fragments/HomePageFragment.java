@@ -23,7 +23,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
@@ -47,10 +46,8 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yolanda.nohttp.rest.Request;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,6 +235,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
                 switch (position) {
                     case 10:
+                        //最新动态——更多
                         MessageLatestActivity.startIntent(context);
                         break;
                 }
@@ -339,6 +337,9 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
 
             //消息数量
             int messageNum = dataObj.optInt("msg_tip_count");
+            if (messageNum > 0) {
+            } else {
+            }
 
         /*String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";
         String video2  = "http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal";
@@ -371,8 +372,6 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             intent.putExtra("url", url);
             startActivity(intent);
         }
-
-
     }
 
     /*

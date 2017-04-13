@@ -20,6 +20,6 @@ public class MessageLatestAdapter extends BaseQuickAdapter<NewsBean,BaseViewHold
     @Override
     protected void convert(BaseViewHolder helper, NewsBean item) {
         helper.setText(R.id.latest_title,item.getTitle());
-        helper.setText(R.id.latest_time,item.getImg());
+        helper.setText(R.id.latest_time,item.getTime());
     }
 }

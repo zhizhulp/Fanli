@@ -15,6 +15,8 @@
         android:layout_marginLeft="9dp"
         android:layout_marginRight="9dp"
         android:layout_marginTop="6dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:text="关于钱来钱往2017年发布通知"
         android:textColor="@color/shop_normal_text_color"
         android:textSize="13sp" />

@@ -17,9 +17,14 @@
 
     <TextView
         android:id="@+id/money_bar_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:maxLines="1"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

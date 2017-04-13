@@ -20,7 +20,6 @@ import com.ascba.rebate.fragments.HomePageFragment;
 import com.ascba.rebate.fragments.MeFragment;
 import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.SideFragment;
-import com.ascba.rebate.fragments.TypeFragment;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
@@ -73,7 +72,6 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
     private Fragment mMoneyFragment;
     private  Fragment mMeFragment;
     private AppTabs appTabs;
-    private TypeFragment typeFragment;
 
     public AppTabs getAppTabs() {
         return appTabs;
