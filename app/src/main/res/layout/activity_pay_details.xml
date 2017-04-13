@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#FFF3F3"
-            app:abar_title="待发货" />
+            app:abar_title="待付款" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19dp"
                 android:gravity="center"
-                android:text="买家已付款，等待卖家发货"
+                android:text="请在29分27秒内完成支付，超时订单自动关闭"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="14sp" />
 
@@ -39,11 +39,10 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:text="常见问题>"
+                android:text="支付问题>"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
-
 
     <RelativeLayout
         android:id="@+id/deliver_details_bottom"
@@ -65,9 +64,9 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/red_bg2"
             android:gravity="center"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="查看物流"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:text="付款"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
@@ -82,9 +81,9 @@
             android:layout_toLeftOf="@id/deliver_details_btn_logistics"
             android:background="@drawable/gray_bg"
             android:gravity="center"
-            android:paddingLeft="22dp"
-            android:paddingRight="22dp"
-            android:text="退款"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="删除订单"
             android:textSize="15sp" />
     </RelativeLayout>
 
@@ -151,6 +150,15 @@
                         android:layout_toRightOf="@id/deliver_details_location"
                         android:text="北京北京市丰台区光彩路建邦华府底商钱来钱往网络科技有限公司"
                         android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_alignBottom="@id/deliver_details_address"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:textSize="13sp"
+                        android:text="修改收货地址>"
+                        android:textColor="@color/fragment_money_red"
+                        android:layout_height="wrap_content" />
                 </RelativeLayout>
 
                 <include layout="@layout/goods_details_cuttingline_wide" />

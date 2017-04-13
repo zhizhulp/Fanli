@@ -8,14 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,10 +30,10 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/14 0014.
- * 全部订单
+ * 待收货订单
  */
 
-public class TakeOrderFragment extends Base2Fragment {
+public class TakeOrderFragment extends LazyLoadFragment {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -49,17 +48,26 @@ public class TakeOrderFragment extends Base2Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        context = getActivity();
-        return inflater.inflate(R.layout.fragment_orders, container, false);
+    protected int setContentView() {
+        return R.layout.fragment_orders;
+    }
+
+    @Override
+    protected void lazyLoad() {
+        requstData();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        context = getActivity();
         this.view = view;
-        requstData();
+    }
+
+    @Override
+    protected void stopLoad() {
+        super.stopLoad();
+        cancelNetWork();
     }
 
     /*
@@ -178,7 +186,7 @@ public class TakeOrderFragment extends Base2Fragment {
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                        Intent intent = new Intent(context, TakeDetailsActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.item_goods_order_total_refund:

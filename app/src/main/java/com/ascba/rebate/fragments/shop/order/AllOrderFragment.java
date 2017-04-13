@@ -6,16 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
+import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
+import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -34,7 +36,7 @@ import java.util.List;
  * 全部订单
  */
 
-public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Callback {
+public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.Callback {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -50,23 +52,33 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单
     private View emptyView;
 
+    @Override
+    protected int setContentView() {
+        return R.layout.fragment_orders;
+    }
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        context = getActivity();
-        return inflater.inflate(R.layout.fragment_orders, container, false);
+    protected void lazyLoad() {
+        requstListData();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        context = getActivity();
         this.view = view;
     }
 
+    @Override
+    protected void stopLoad() {
+        super.stopLoad();
+        cancelNetWork();
+    }
+
     /*
-          获取列表数据
-        */
+              获取列表数据
+            */
     private void requstListData() {
         flag = 0;
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
@@ -106,6 +118,7 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
                 OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, time);
                 beanHead.setId(orderId);
+                beanHead.setStateCode(orderStatus);
 
                 if (orderStatus.equals("10")) {
                     //等待卖家付款
@@ -199,8 +212,28 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent();
+                        String orderStatus=beanArrayList.get(position).getStateCode();
+                        if (orderStatus.equals("10")) {
+                            //等待卖家付款
+                            intent.setClass(context, PayDetailsActivity.class);
+                        } else if (orderStatus.equals("0")) {
+                            //交易关闭
+                            intent=null;
+                        } else if (orderStatus.equals("20")) {
+                            //等待卖家发货
+                            intent.setClass(context, DeliverDetailsActivity.class);
+                        } else if (orderStatus.equals("30")) {
+                            //等待买家收货
+                            intent.setClass(context, TakeDetailsActivity.class);
+                        } else if (orderStatus.equals("40")) {
+                            //交易成功
+                            intent.setClass(context, EvaluateDetailsActivity.class);
+                        }
+
+                        if (intent!=null){
+                            startActivity(intent);
+                        }
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款

@@ -74,6 +74,7 @@ public class PullUpToLoadMoreView extends ViewGroup {
                     public void onScroll(int scrollY) {
                         topScrollViewIsBottom = false;
                         onCurrPosition.currPosition(currPosition, topScrollViewIsTop);
+                        onCurrPosition.topScrollView(scrollY);
                     }
 
                     @Override
@@ -272,6 +273,7 @@ public class PullUpToLoadMoreView extends ViewGroup {
 
     public interface OnCurrPosition {
         void currPosition(int currPosition, boolean isTop);
+        void topScrollView(int scrollY);
     }
 
     public int getCurrPosition() {

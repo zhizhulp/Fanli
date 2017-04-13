@@ -4,46 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/head_view"
+    <com.ascba.rebate.view.ShopABarText
+        android:id="@+id/shopbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <com.ascba.rebate.view.ShopABarText
-            android:id="@+id/shopbar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="#FFF3F3"
-            app:abar_title="待发货" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFF3F3"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/deliver_details_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="19dp"
-                android:gravity="center"
-                android:text="买家已付款，等待卖家发货"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/deliver_details_problem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="常见问题>"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
-
+        android:layout_height="48dp"
+        app:abar_title="待评价" />
 
     <RelativeLayout
         android:id="@+id/deliver_details_bottom"
@@ -55,7 +20,7 @@
         <include layout="@layout/goods_details_cuttingline" />
 
         <TextView
-            android:id="@+id/deliver_details_btn_logistics"
+            android:id="@+id/evaluate_details_btn_logistics"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -65,27 +30,43 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/red_bg2"
             android:gravity="center"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="查看物流"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:text="评价"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/deliver_details_btn_refund"
+            android:id="@+id/evaluate_details_btn_refund"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@id/deliver_details_btn_logistics"
+            android:layout_toLeftOf="@id/evaluate_details_btn_logistics"
             android:background="@drawable/gray_bg"
             android:gravity="center"
             android:paddingLeft="22dp"
             android:paddingRight="22dp"
             android:text="退款"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/evaluate_details_btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/evaluate_details_btn_refund"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gray_bg"
+            android:gravity="center"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:text="删除订单"
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
@@ -93,11 +74,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/deliver_details_bottom"
-        android:layout_below="@id/head_view">
+        android:layout_below="@id/shopbar">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:scrollbars="none">
 
             <LinearLayout
@@ -105,7 +87,6 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:orientation="vertical">
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"

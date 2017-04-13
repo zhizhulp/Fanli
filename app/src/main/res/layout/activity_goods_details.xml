@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,18 +7,11 @@
         android:id="@+id/activity_goods_details_shopping_in"
         layout="@layout/activity_goods_details_shopping" />
 
-    <com.ascba.rebate.view.ShopABar
-        android:id="@+id/shopbar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white" />
-
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/activity_goods_details_pl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/activity_goods_details_shopping_in"
-        android:layout_below="@id/shopbar">
+        android:layout_above="@id/activity_goods_details_shopping_in">
 
         <com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView
             android:id="@+id/activity_goods_details_pv"
@@ -94,8 +86,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:background="@color/white"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
 
                     <ProgressBar
                         android:layout_width="wrap_content"
@@ -112,4 +104,44 @@
 
     </com.ascba.rebate.view.SuperSwipeRefreshLayout>
 
+    <RelativeLayout
+        android:id="@+id/shopbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/abar_im_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="55dp"
+            android:src="@mipmap/abar_back" />
+
+        <ImageView
+            android:id="@+id/abar_im_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="12dp"
+            android:src="@mipmap/shop_no_msg" />
+
+        <ImageView
+            android:id="@+id/abar_im_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/abar_im_msg"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@mipmap/icon_cart_black" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/lighter_gray" />
+    </RelativeLayout>
 </RelativeLayout>

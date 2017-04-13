@@ -234,7 +234,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                 }
 
                 switch (position) {
-                    case 10:
+                    case 8:
                         //最新动态——更多
                         MessageLatestActivity.startIntent(context);
                         break;
@@ -326,10 +326,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
             //宽分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
-            //ASK资讯
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "ASK资讯"));
-            //分割线
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+
             //视频
             initVideoTurn(dataObj);
 
@@ -415,6 +412,10 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     private void initVideoTurn(JSONObject dataObj) {
         JSONArray video_list = dataObj.optJSONArray("video_list");
         if (video_list != null && video_list.length() != 0) {
+            //ASK资讯
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "ASK资讯"));
+            //分割线
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);

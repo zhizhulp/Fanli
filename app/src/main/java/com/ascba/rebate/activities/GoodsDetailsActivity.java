@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,6 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.IntegralValueAdapter;
-import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
@@ -51,18 +51,15 @@ import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.beans.IntegralValueItem;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ImageViewDialog;
-import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.rest.Request;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -72,12 +69,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpCookie;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Cookie;
 
 /**
  * Created by 李鹏 on 2017/03/02 0002.
@@ -108,7 +102,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     /*
      * 导航栏
      */
-    private ShopABar shopABar;
+    private View shopABar;
 
     private DialogManager dm;
 
@@ -158,6 +152,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private TextView shopAll;//全部宝贝
     private TextView shopRecomm;//达人推荐
 
+    private int indence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +211,11 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         TextView shopSpeed = (TextView) findViewById(R.id.goods_details_shop_text_speed);
         shopSpeed.setText(String.valueOf(4.8));
 
+
+        shopABar = findViewById(R.id.shopbar);
+        findViewById(R.id.abar_im_back).setOnClickListener(this);
+        findViewById(R.id.abar_im_msg).setOnClickListener(this);
+        findViewById(R.id.abar_im_cart).setOnClickListener(this);
     }
 
     /*
@@ -319,6 +319,26 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 } else {
                     ptrLayout.setEnabled(false);
                 }
+
+                if (currPosition==0){
+                    shopABar.setVisibility(View.VISIBLE);
+                }else {
+                    shopABar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void topScrollView(int scrollY) {
+                indence = +scrollY;
+                //toolbar的高度
+                int toolbarHeight = shopABar.getBottom();
+                float maxAlpha = 229.5f;//最大透明度80%
+                //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
+                if (scrollY > 0 && scrollY <= toolbarHeight) {
+                    float scale = (float) scrollY / toolbarHeight;
+                    float alpha = scale * maxAlpha;
+                    shopABar.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+                }
             }
         });
     }
@@ -346,8 +366,16 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                     }
                 });
             }
+
             @Override
             public void onPullDistance(int distance) {
+
+                if (distance > 0) {
+                    shopABar.setVisibility(View.GONE);
+                } else {
+                    shopABar.setVisibility(View.VISIBLE);
+                }
+
                 if (distance > (header.getHeight() + 10)) {
                     if (footIsObjAnmatitor) {
                         footIsObjAnmatitor = false;
@@ -402,28 +430,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      * 初始化UI
      */
     private void InitView() {
-
-        /**
-         * bar
-         */
-        shopABar = (ShopABar) findViewById(R.id.shopbar);
-        shopABar.setImageOther(R.mipmap.icon_cart_black);
-        shopABar.setCallback(new ShopABar.Callback() {
-            @Override
-            public void back(View v) {
-                finish();
-            }
-
-            @Override
-            public void clkMsg(View v) {
-                ShopMessageActivity.startIntent(context);
-            }
-
-            @Override
-            public void clkOther(View v) {//购物车
-                finish();
-            }
-        });
 
         /**
          * viewPager
@@ -708,6 +714,16 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                     Intent intent2=new Intent(this, LoginActivity.class);
                     startActivityForResult(intent2,REQUEST_STD_LOGIN);
                 }
+                break;
+
+            case R.id.abar_im_back:
+                finish();
+                break;
+            case R.id.abar_im_msg:
+                ShopMessageActivity.startIntent(context);
+                break;
+            case R.id.abar_im_cart:
+                //购物车
                 break;
         }
     }

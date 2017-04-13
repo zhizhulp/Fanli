@@ -12,6 +12,7 @@ public class OrderBean implements MultiItemEntity {
     private Goods goods;//订单商品列表
     private String time;//订单时间
     private String state;//订单状态
+    private String stateCode;//订单状态码  0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;
     private String goodsNum;//订单商品数量
     private String orderPrice;//订单总价
     private String freight;//运费
@@ -129,5 +130,13 @@ public class OrderBean implements MultiItemEntity {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
     }
 }
