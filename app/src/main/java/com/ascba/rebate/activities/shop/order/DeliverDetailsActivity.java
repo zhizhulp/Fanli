@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities;
+package com.ascba.rebate.activities.shop.order;
 
 import android.content.Context;
 import android.os.Bundle;

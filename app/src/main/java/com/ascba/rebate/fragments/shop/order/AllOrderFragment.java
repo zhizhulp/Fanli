@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;

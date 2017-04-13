@@ -523,7 +523,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.DeliverDetailsActivity"
+            android:name=".activities.shop.order.DeliverDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity

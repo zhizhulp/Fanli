@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,6 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.IntegralValueAdapter;
-import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
@@ -51,18 +51,15 @@ import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.beans.IntegralValueItem;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ImageViewDialog;
-import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.rest.Request;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -72,12 +69,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpCookie;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Cookie;
 
 /**
  * Created by 李鹏 on 2017/03/02 0002.
@@ -324,6 +318,12 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                     ptrLayout.setEnabled(true);
                 } else {
                     ptrLayout.setEnabled(false);
+                }
+
+                if (currPosition==0){
+                    shopABar.setVisibility(View.VISIBLE);
+                }else {
+                    shopABar.setVisibility(View.GONE);
                 }
             }
 
