@@ -140,7 +140,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      */
     private ImageAdapter imageAdapter;
     private ViewPager viewPager;
-    private int store_id;
+    private int store_id;//
+    private String phone;//客服电话
 
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
     boolean footIsObjAnmatitor = true;
@@ -148,9 +149,10 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private int finalScene;
 
     private Goods goodsSelect;
-    private boolean isAll;
+    private boolean isAll;//是否可以加入购物车
     private StdDialog sd;
     private NumberButton nb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +215,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-
+                LogUtils.PrintLog("GoodsDetailsActivity","json-->"+dataObj);
                 dataObj = dataObj.optJSONObject("mallgoods");
 
                 //广告轮播数据
@@ -224,6 +226,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
                 //店铺推荐
                 getStoreComm(dataObj);
+
+                //店铺
 
                 //详情页地址
                 webUrl = dataObj.optString("details");
