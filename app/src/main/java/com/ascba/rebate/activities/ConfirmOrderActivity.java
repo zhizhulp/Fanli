@@ -317,13 +317,13 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("extra_data", message);
         jsonRequest.add("member_address_id", receiveId);//用户收货地址id
-        jsonRequest.add("payment_type", "balance");//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
-
+        jsonRequest.add("payment_type", "wxpay");//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
                 showToast(message);
+                //发起支付
             }
 
             @Override
@@ -337,6 +337,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             }
         });
     }
+
 
     @Override
     public void onClick(View v) {

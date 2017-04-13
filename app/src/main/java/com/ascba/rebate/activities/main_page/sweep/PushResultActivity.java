@@ -111,7 +111,6 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
         request.add("order_number", order_number);
         request.add("seller", seller);
         request.add("customer", customer);
-//      request.add("region_id",);
         request.add("money", money);
         request.add("pay_password", pay_password);
         request.add("pay_type", pay_type);

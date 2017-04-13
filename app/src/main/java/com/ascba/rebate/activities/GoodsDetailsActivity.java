@@ -153,6 +153,11 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private StdDialog sd;
     private NumberButton nb;
 
+    private ImageView imgLogo;//店铺logo
+    private TextView shopName;//店名
+    private TextView shopAll;//全部宝贝
+    private TextView shopRecomm;//达人推荐
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +184,38 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
         findViewById(R.id.det_tv_shop).setOnClickListener(this);
         findViewById(R.id.det_tv_phone).setOnClickListener(this);
+
+        /**
+         *店铺
+         */
+
+        //logo
+        String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
+        imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
+        Picasso.with(context).load(logo).into(imgLogo);
+
+        //店名
+        shopName = (TextView) findViewById(R.id.goods_details_shop_text_name);
+        shopName.setText("New Balance专卖店");
+
+        //全部宝贝
+        shopAll = (TextView) findViewById(R.id.goods_details_shop_text_all);
+
+        //大人推荐
+        shopRecomm = (TextView) findViewById(R.id.goods_details_shop_img_recomm);
+
+        //描述相符
+        TextView shopDesc = (TextView) findViewById(R.id.goods_details_shop_text_desc);
+        shopDesc.setText(String.valueOf(4.8));
+
+        //服务态度
+        TextView shopmService = (TextView) findViewById(R.id.goods_details_shop_img_service);
+        shopmService.setText(String.valueOf(4.8));
+
+        //发货速度
+        TextView shopSpeed = (TextView) findViewById(R.id.goods_details_shop_text_speed);
+        shopSpeed.setText(String.valueOf(4.8));
+
     }
 
     /*
@@ -228,7 +265,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 getStoreComm(dataObj);
 
                 //店铺
-
+                getStore(dataObj);
                 //详情页地址
                 webUrl = dataObj.optString("details");
 
@@ -250,6 +287,17 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 dm.buildAlertDialog("请检查网络！");
             }
         });
+    }
+
+    private void getStore(JSONObject dataObj) {
+        JSONObject obj = dataObj.optJSONObject("mallStore");
+        String store_name = obj.optString("store_name");
+        String store_logo = UrlUtils.baseWebsite + obj.optString("store_logo");
+        phone  = obj.optString("store_phone");
+        int goods_count = obj.optInt("goods_count");
+        Picasso.with(this).load(store_logo).placeholder(R.mipmap.busi_loading).into(imgLogo);
+        shopName.setText(store_name);
+        shopAll.setText(goods_count+"");
     }
 
 
@@ -498,38 +546,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             }
         });
 
-        /**
-         *店铺
-         */
-
-        //logo
-        String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
-        ImageView imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
-        Picasso.with(context).load(logo).into(imgLogo);
-
-        //店名
-        TextView shopName = (TextView) findViewById(R.id.goods_details_shop_text_name);
-        shopName.setText("New Balance专卖店");
-
-        //全部宝贝
-        TextView shopAll = (TextView) findViewById(R.id.goods_details_shop_text_all);
-        shopAll.setText(String.valueOf(102));
-
-        //大人推荐
-        TextView shopRecomm = (TextView) findViewById(R.id.goods_details_shop_img_recomm);
-        shopRecomm.setText(String.valueOf(18));
-
-        //描述相符
-        TextView shopDesc = (TextView) findViewById(R.id.goods_details_shop_text_desc);
-        shopDesc.setText(String.valueOf(4.8));
-
-        //服务态度
-        TextView shopmService = (TextView) findViewById(R.id.goods_details_shop_img_service);
-        shopmService.setText(String.valueOf(4.8));
-
-        //发货速度
-        TextView shopSpeed = (TextView) findViewById(R.id.goods_details_shop_text_speed);
-        shopSpeed.setText(String.valueOf(4.8));
 
         /**
          * 商品1
@@ -681,7 +697,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             case R.id.det_tv_phone://打电话
                 Intent intent1 = new Intent();
                 intent1.setAction(Intent.ACTION_DIAL);
-                intent1.setData(Uri.parse("tel:15206292150"));
+                intent1.setData(Uri.parse("tel:"+phone));
                 startActivity(intent1);
                 break;
             case R.id.goods_details_choose_rl:
