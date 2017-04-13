@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/money_bar_parent"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="@color/moneyBarColor">
+    android:layout_height="48dp">
 
     <ImageView
         android:id="@+id/money_bar_back"
@@ -13,9 +12,10 @@
         android:paddingLeft="15dp"
         android:paddingRight="55dp"
         android:scaleType="center"
-        android:src="@mipmap/money_bar_back" />
+        android:src="@mipmap/abar_back" />
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/money_bar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:maxLines="1"
-        android:textColor="@color/white"
+        android:textColor="@color/main_text_normal"
         android:textSize="16sp" />
 
     <ImageView
@@ -47,6 +47,11 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:text="完成"
-        android:textColor="@color/white"
+        android:textColor="@color/main_text_normal"
         android:visibility="gone" />
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="@color/view_line_new"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"/>
 </RelativeLayout>

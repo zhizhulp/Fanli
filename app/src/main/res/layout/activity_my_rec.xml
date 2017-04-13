@@ -12,7 +12,9 @@
         android:id="@+id/mb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:backImg="@mipmap/money_bar_back"
         app:barBg="#f64545"
+        app:titleColor="#fff"
         app:textTitle="我的推荐" />
 
     <LinearLayout

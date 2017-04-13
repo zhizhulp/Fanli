@@ -29,6 +29,7 @@ import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity;
@@ -269,15 +270,21 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 startActivity(intent1);
             }
         } else if (finalScene == 1) {
-            //点击商户中心
             JSONObject company = dataObj.optJSONObject("company");
-            int merchant = company.optInt("status");
-            if (merchant == 3) {//申请成功
-                BusinessUnionActivity.startIntent(getActivity(), dataObj.toString());
-            } else if (merchant == 0) {//填写申请资料
+            int status = company.optInt("status");
+            if (status == 3) {//申请成功
+                int submit_status = company.optInt("submit_status");
+                //0 提交 1资料有误 2等待审核中
+                if(submit_status==0 || submit_status==1 ||submit_status==2){//第一次设置商家资料
+                    Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
+                    startActivity(intent);
+                }else if(submit_status==3) {//3可以营业了
+                    BusinessUnionActivity.startIntent(getActivity(), dataObj.toString());
+                }
+            } else if (status == 0) {//填写申请资料
                 Intent intent = new Intent(getActivity(), BCProcessActivity.class);
                 startActivityForResult(intent, REQUEST_APPLY);
-            } else if (merchant == 1) {//资料审核中
+            } else if (status == 1) {//资料审核中
                 Intent intent = new Intent(getActivity(), BusinessCenterActivity.class);
                 String name = company.optString("name");
                 String oper_name = company.optString("oper_name");
@@ -301,7 +308,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 intent.putExtra("is_oper_name", is_oper_name);
                 intent.putExtra("chartered", chartered);
                 startActivity(intent);
-            } else if (merchant == 2) {//资料有误
+            } else if (status == 2) {//资料有误
                 Intent intent = new Intent(getActivity(), BusinessCenterActivity.class);
                 String name = company.optString("name");
                 String oper_name = company.optString("oper_name");

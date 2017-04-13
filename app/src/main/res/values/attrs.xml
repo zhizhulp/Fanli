@@ -7,6 +7,8 @@
         <attr name="needTailIcon" format="boolean"/>
         <attr name="needComplete" format="boolean"/>
         <attr name="barBg" format="color"/>
+        <attr name="titleColor" format="color"/>
+        <attr name="backImg" format="reference|integer"/>
     </declare-styleable>
     <declare-styleable name="EditTextWithCustomHint">
         <attr name="hintSize" format="dimension"/>
@@ -63,5 +65,6 @@
         <attr name="dashOrientation" format="integer"/>
 
     </declare-styleable>
+
 
 </resources>

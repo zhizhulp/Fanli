@@ -84,19 +84,27 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     };
     private int type;
     private Button btnCommit;
-    private int btnEnable;
+    private String btnEnable;
     private static final String noMdf="暂时不可修改！";
     private TextView tvLocDet;
     private String backRate;
+    private int finalScene;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_data);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
-        getDataFromIntent();
+        /*getDataFromIntent();*/
+        finalScene=0;
+        requestNetwork(UrlUtils.getCompany);
+    }
+
+    private void requestNetwork(String url) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        executeNetWork(request, "请稍候");
+        setCallback(this);
     }
 
     private void getDataFromIntent() {
@@ -132,17 +140,19 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
             if(!StringUtils.isEmpty(seller_return_ratio_tip)){
                 tvRate.setText(getHandleStr(seller_return_ratio_tip));
             }
-            String tip=intent.getStringExtra("seller_enable_tip");
-            btnEnable=intent.getIntExtra("seller_enable_time",0);
+            String tip=intent.getStringExtra("submit_tip");
+            btnEnable=intent.getStringExtra("submit_status");
             btnCommit.setText(tip);
-            if(btnEnable==0){//可以提交
+            if(btnEnable.equals("0")){//可以提交
                 btnCommit.setEnabled(true);
-            }else if(btnEnable==1) {//等待审核
+            }else if(btnEnable.equals("2")) {//等待审核
                 btnCommit.setEnabled(false);
                 btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
-            }else if(btnEnable==2) {//距离修改时间
+            }else if(btnEnable.equals("3")) {//距离修改时间
                 btnCommit.setEnabled(false);
                 btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+            }else if(btnEnable.equals("1")){//资料有误
+                btnCommit.setEnabled(true);
             }
 
         }
@@ -171,7 +181,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         btnCommit = ((Button) findViewById(R.id.btn_commit));
     }
     public void goBusinessName(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             Intent intent=new Intent(this,BusinessNameActivity.class);
             if(seller_name!=null){
                 intent.putExtra("seller_name",seller_name);
@@ -184,7 +194,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     public void goBusinessTag(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
 
             Intent intent=new Intent(this,BusinessTagActivity.class);
             if(seller_taglib!=null){
@@ -197,7 +207,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     public void goBusinessLocation(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             //商家地理位置，此处接入高德地图
             Intent intent=new Intent(this,GaoDeSearchUpdate.class);
             intent.putExtra("lon",lon);
@@ -211,7 +221,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     public void goBusinessPhone(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             Intent intent=new Intent(this,BusinessPhoneActivity.class);
             if(seller_tel!=null){
                 intent.putExtra("seller_tel",seller_tel);
@@ -224,7 +234,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     public void goBusinessTime(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             Intent intent=new Intent(this,BusinessTimeActivity.class);
             if(seller_business_hours!=null){
                 intent.putExtra("seller_business_hours",seller_business_hours);
@@ -237,7 +247,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     public void goBusinessRate(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             Intent intent=new Intent(this,EmployeeRateActivity.class);
             if(!tvRate.getText().toString().equals("")){
                 intent.putExtra("seller_return_ratio",seller_return_ratio);
@@ -250,7 +260,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
     //详细地址的页面
     public void goBusinessLocationDetails(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             Intent intent=new Intent(this,BusLocDetActivity.class);
             if(!tvLocDet.getText().toString().equals("")){
                 intent.putExtra("seller_localhost",tvLocDet.getText().toString());
@@ -262,7 +272,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     public void goBusinessDetail(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             Intent intent=new Intent(this,BusinessDescriptionActivity.class);
             if(desc!=null){
                 intent.putExtra("desc",desc);
@@ -275,7 +285,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
     //商家店招
     public void goBusinessPic(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             type=0;
             checkPermission();
 
@@ -286,7 +296,7 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
     }
     //商家logo
     public void goBusinessLogo(View view) {
-        if(btnEnable==0){
+        if(btnEnable.equals("0") ||btnEnable.equals("1")){
             type=1;
             checkPermission();
         }else {
@@ -512,12 +522,64 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         }
         executeNetWork(objRequest,"请稍后");
         setCallback(this);
+        finalScene=1;
     }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        dm.buildAlertDialog(message);
-        finish();
+        if(finalScene==0){//界面数据
+            JSONObject company = dataObj.optJSONObject("company");
+            btnEnable = company.optString("submit_status");
+            String submit_tip = company.optString("submit_tip");
+            String seller_name = company.optString("seller_name");
+            String seller_cover_logo = company.optString("seller_cover_logo");
+            String seller_image = company.optString("seller_image");
+            String seller_taglib = company.optString("seller_taglib");
+            String seller_address = company.optString("seller_address");
+            String seller_localhost = company.optString("seller_localhost");
+            String seller_lon = company.optString("seller_lon");
+            String seller_lat = company.optString("seller_lat");
+            seller_tel = company.optString("seller_tel");
+            seller_business_hours = company.optString("seller_business_hours");
+            seller_return_ratio = company.optString("seller_return_ratio");
+            String seller_return_ratio_tip = company.optString("seller_return_ratio_tip");
+            desc = company.optString("seller_description");
+
+            if(!StringUtils.isEmpty(seller_lon)){
+                lon = Double.parseDouble(seller_lon);
+            }
+            if(!StringUtils.isEmpty(seller_lat)){
+                lat = Double.parseDouble(seller_lat);
+            }
+            tvName.setText(seller_name);
+            Picasso.with(this).load(UrlUtils.baseWebsite+seller_cover_logo).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusLogo);
+            Picasso.with(this).load(UrlUtils.baseWebsite+seller_image).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusPic);
+            tvType.setText(seller_taglib);
+            tvLocation.setText(seller_address);
+            tvLocDet.setText(StringUtils.isEmpty(seller_localhost)?null:seller_localhost);
+            tvPhone.setText(seller_tel);
+            tvTime.setText(seller_business_hours);
+            if(!StringUtils.isEmpty(seller_return_ratio_tip)){
+                tvRate.setText(getHandleStr(seller_return_ratio_tip));
+            }
+            btnCommit.setText(submit_tip);
+            if(btnEnable.equals("0")){//可以提交
+                btnCommit.setEnabled(true);
+            }else if(btnEnable.equals("2")) {//等待审核
+                btnCommit.setEnabled(false);
+                btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+            }else if(btnEnable.equals("3")) {//距离修改时间
+                btnCommit.setEnabled(false);
+                btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+            }else if(btnEnable.equals("1")){//资料有误
+                btnCommit.setEnabled(true);
+            }
+
+        }else if(finalScene==1){
+            dm.buildAlertDialog(message);
+            finish();
+        }
+
     }
     public File getDiskCacheDir() {
         File file;
