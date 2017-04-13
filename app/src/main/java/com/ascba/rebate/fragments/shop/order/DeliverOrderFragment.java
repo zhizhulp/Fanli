@@ -95,7 +95,7 @@ public class DeliverOrderFragment extends Base2Fragment {
 
             @Override
             public void handleNoNetWork() {
-                getDm().buildAlertDialog("请检查网络！");
+                getDm().buildAlertDialog(getString(R.string.no_network));
             }
         });
     }

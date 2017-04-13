@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -265,7 +266,6 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
 
     @Override
     public void handleReqFailed() {
-        getDm().buildAlertDialog("加载数据失败！");
     }
 
     @Override
@@ -280,6 +280,6 @@ public class AllOrderFragment extends Base2Fragment implements Base2Fragment.Cal
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog("请检查网络！");
+        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }

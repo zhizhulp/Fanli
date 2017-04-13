@@ -204,7 +204,7 @@ public class EvaluateOrderFragment extends Base2Fragment implements Base2Fragmen
 
     @Override
     public void handleReqFailed() {
-        getDm().buildAlertDialog("加载数据失败！");
+
     }
 
     @Override
@@ -219,6 +219,6 @@ public class EvaluateOrderFragment extends Base2Fragment implements Base2Fragmen
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog("请检查网络！");
+        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }

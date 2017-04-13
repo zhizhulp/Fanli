@@ -110,7 +110,6 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(getActivity(), "position:" + Integer.toString(position), Toast.LENGTH_SHORT).show();
                 switch (position) {
                     case 1:
                         //全部订单

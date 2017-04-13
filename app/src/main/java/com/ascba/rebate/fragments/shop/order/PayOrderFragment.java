@@ -16,6 +16,7 @@ import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -177,7 +178,7 @@ public class PayOrderFragment extends Base2Fragment implements Base2Fragment.Cal
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                String orderId = beanArrayList.get(position).getId();
+                final String orderId = beanArrayList.get(position).getId();
                 showToast("orderId:" + orderId);
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
@@ -190,7 +191,13 @@ public class PayOrderFragment extends Base2Fragment implements Base2Fragment.Cal
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
-                        requstData(1, UrlUtils.cancelOrder, orderId);
+                        getDm().buildAlertDialog1("您确定要取消订单吗？");
+                        getDm().setCallback(new DialogManager2.Callback() {
+                            @Override
+                            public void handleSure() {
+                                requstData(1, UrlUtils.cancelOrder, orderId);
+                            }
+                        });
                         break;
                     case R.id.item_goods_order_total_call:
                         //联系卖家
@@ -198,7 +205,13 @@ public class PayOrderFragment extends Base2Fragment implements Base2Fragment.Cal
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
-                        requstData(2, UrlUtils.delOrder, orderId);
+                        getDm().buildAlertDialog1("您确定要删除订单吗？");
+                        getDm().setCallback(new DialogManager2.Callback() {
+                            @Override
+                            public void handleSure() {
+                                requstData(2, UrlUtils.delOrder, orderId);
+                            }
+                        });
                         break;
                 }
             }
@@ -231,7 +244,6 @@ public class PayOrderFragment extends Base2Fragment implements Base2Fragment.Cal
 
     @Override
     public void handleReqFailed() {
-        getDm().buildAlertDialog("加载数据失败！");
     }
 
     @Override
@@ -246,6 +258,6 @@ public class PayOrderFragment extends Base2Fragment implements Base2Fragment.Cal
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog("请检查网络！");
+        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }

@@ -74,7 +74,10 @@ public class DialogManager2 {
         });
         return this;
     }
-    //创建提示对话框1
+
+    /**
+     *可以处理确定和取消的情况
+     */
     public DialogManager2 buildAlertDialog1(String message) {
         final Dialog dialog=new Dialog(context,R.style.AlertDialog);
         dialogList.add(dialog);
@@ -98,6 +101,29 @@ public class DialogManager2 {
             public void onClick(View v) {
                 dialog.dismiss();
                 dialogList.remove(dialog);
+            }
+        });
+        return this;
+    }
+
+    /**
+     *只处理确定情况的dialog
+     */
+    public DialogManager2 buildAlertDialog2(String message) {
+        final Dialog dialog=new Dialog(context,R.style.AlertDialog);
+        dialogList.add(dialog);
+        View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
+        TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
+        tvMsg.setText(message);
+        dialog.setContentView(alertView);
+        dialog.show();
+        TextView btSure = (TextView) alertView.findViewById(R.id.tv_alert_sure);//确定按钮
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(callback!=null){
+                    callback.handleSure();
+                }
             }
         });
         return this;
