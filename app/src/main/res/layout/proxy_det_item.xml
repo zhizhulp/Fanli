@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="137dp"
-    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -16,14 +15,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:textColor="@color/shop_normal_text_color"
-        android:textSize="14sp" />
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_14" />
 
     <TextView
         android:id="@+id/proxy_item_tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/shop_red_text_color"
-        android:textSize="17sp" />
+        android:textColor="@color/main_red_normal"
+        android:textSize="@dimen/main_text_17" />
 </LinearLayout>

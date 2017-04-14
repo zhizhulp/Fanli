@@ -47,6 +47,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:onClick="loginPassword"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -60,7 +61,8 @@
             android:src="@mipmap/main_business_category"/>
         <TextView
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_02"
             android:layout_width="wrap_content"

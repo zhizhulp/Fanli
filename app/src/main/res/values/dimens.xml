@@ -49,4 +49,7 @@
     <dimen name="main_text_23">23sp</dimen>
     <dimen name="main_text_17">17sp</dimen>
     <dimen name="main_text_29">29sp</dimen>
+    <dimen name="main_text_25">25sp</dimen>
+    <dimen name="main_text_50">50sp</dimen>
+    <dimen name="main_text_19">19sp</dimen>
 </resources>

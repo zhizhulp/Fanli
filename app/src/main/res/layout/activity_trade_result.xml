@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:background="@color/main_content_bg"
     tools:context="com.ascba.rebate.activities.main_page.sweep.TradeResultActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="交易结果"
@@ -24,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="交易成功"
-        android:textColor="@color/moneyBarColor"
-        android:textSize="18sp" />
+        android:textColor="@color/main_red_normal"
+        android:textSize="@dimen/main_text_17" />
 
     <TextView
         android:visibility="gone"
@@ -63,9 +64,11 @@
     <View
         android:visibility="gone"
         style="@style/viewStyleMargin"/>
+
     <Button
-        android:onClick="goComplete"
-        android:text="完成"
+        android:id="@+id/button"
+        style="@style/btnNormal"
         android:layout_marginTop="30dp"
-        style="@style/btnNormal"/>
+        android:onClick="goComplete"
+        android:text="完成" />
 </LinearLayout>

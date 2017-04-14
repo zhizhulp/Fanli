@@ -2,4 +2,4 @@
 <com.ascba.rebate.view.PhotoViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/viewpager"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"></com.ascba.rebate.view.PhotoViewPager>
+    android:layout_height="match_parent"/>

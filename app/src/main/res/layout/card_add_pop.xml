@@ -7,6 +7,8 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
     <TextView
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_14"
         android:id="@+id/card_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,6 +16,8 @@
     <View
         style="@style/viewStyleMatch"/>
     <TextView
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_14"
         android:id="@+id/card_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

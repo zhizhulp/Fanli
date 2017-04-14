@@ -6,6 +6,7 @@
     tools:context="com.ascba.rebate.fragments.recommend.BaseRecFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:background="@color/main_content_bg"
         android:id="@+id/recommend_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

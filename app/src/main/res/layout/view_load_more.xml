@@ -25,8 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_4"
             android:text="@string/loading"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/sp_14"/>
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_14"/>
     </LinearLayout>
 
     <FrameLayout

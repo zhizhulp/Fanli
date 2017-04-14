@@ -20,26 +20,24 @@
         android:layout_height="60dp"
         android:orientation="horizontal">
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/tv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <View
-        android:background="@color/view_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
     <LinearLayout
 
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
-            android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:text="白积分总额"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -53,19 +51,20 @@
     </LinearLayout>
 
     <View
-        android:background="@color/view_line"
+        android:background="@color/main_bg"
         android:layout_width="match_parent"
         android:layout_height="7dp"/>
     <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space"
         android:orientation="horizontal">
         <TextView
-            android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:text="兑现券积分"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -80,27 +79,30 @@
     <View
         style="@style/viewStyleMatch"/>
     <TextView
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:layout_marginTop="15dp"
         android:text="兑换金额"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="75dp"
         android:orientation="horizontal">
         <!--<ImageView
             android:src="@color/colorAccent"
             android:layout_width="25dp"
             android:layout_height="25dp" />-->
         <TextView
-            android:textSize="25sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_25"
             android:text="¥"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
@@ -108,7 +110,7 @@
             android:id="@+id/tv_money"
             android:layout_marginLeft="7dp"
             android:textColor="@color/black"
-            android:textSize="50dp"
+            android:textSize="@dimen/main_text_50"
             android:text="0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -116,15 +118,14 @@
     <View
         style="@style/viewStyleMargin"/>
     <TextView
+        android:background="@color/main_content_bg"
         android:id="@+id/tv_max_money"
-        android:textSize="15sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
+        android:padding="15dp"
         android:text="本次兑换最大额度为0元"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
     <View
         style="@style/viewStyleMatch"/>
     <Button

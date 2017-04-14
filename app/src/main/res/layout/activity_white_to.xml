@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:id="@+id/no_ticket_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -58,10 +59,11 @@
             android:background="@drawable/ticket_no_shop_bg"/>
     </RelativeLayout>
     <ListView
+        android:background="@color/main_content_bg"
         android:scrollbars="none"
         android:layout_margin="15dp"
         android:id="@+id/cash_ticket_list"
-        android:divider="@color/ticket_activity_bg"
+        android:divider="@color/main_line_light_gray"
         android:dividerHeight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

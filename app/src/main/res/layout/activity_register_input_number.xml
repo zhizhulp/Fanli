@@ -21,9 +21,9 @@
     </LinearLayout>
 
     <TextView
-        android:textColor="@color/black"
         android:layout_marginTop="40dp"
-        android:textSize="16sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_17"
         android:layout_centerHorizontal="true"
         android:id="@+id/register_input_number_text"
         android:layout_width="wrap_content"
@@ -39,8 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:textColor="@color/transText"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/register_country_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,8 +82,8 @@
         android:layout_alignTop="@+id/register_line_01">
         <TextView
             android:layout_gravity="center_vertical"
-            android:textColor="@color/transText"
             android:textSize="15sp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+86"/>
@@ -93,11 +93,13 @@
             android:layout_height="match_parent"
             android:background="@color/view_line"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textColorHint="@color/textgray"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:id="@+id/ed_input_number"
             android:maxLines="1"
             android:padding="15dp"
-            app:hintSize="15sp"
             android:hint="请填写您的手机号码"
             android:background="@null"
             android:inputType="phone"
@@ -115,7 +117,7 @@
     <Button
         android:onClick="goRegisterCode"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="@dimen/main_text_15"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="27dp"
@@ -127,9 +129,9 @@
 
     <TextView
         android:onClick="goServerProtocol"
-        android:textSize="12sp"
+        android:textColor="@color/main_text_blue"
+        android:textSize="@dimen/main_text_12"
         android:id="@+id/register_agree_text"
-        android:textColor="#3A7AFE"
         android:layout_marginBottom="21dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
@@ -138,10 +140,11 @@
         android:text="《钱来钱往软件许可及服务协议》"/>
     <TextView
         android:layout_marginTop="3dp"
-        android:textSize="12sp"
+        android:textColor="@color/main_text_gary"
+        android:textSize="@dimen/main_text_12"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/register_agree_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="轻触上面的“注册按钮，即表示你同意”"/>
+        android:text="轻触上面的注册按钮，即表示你同意"/>
 </RelativeLayout>
