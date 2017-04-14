@@ -65,7 +65,7 @@ public class ShufflingVideoAdapter extends PagerAdapter {
                 }
             }
         });
-        Picasso.with(mContext).load(beanList.get(position).getImgUrl()).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
+        Picasso.with(mContext).load(beanList.get(position).getImgUrl()).placeholder(R.mipmap.video_loading).error(R.mipmap.video_loading).into(imageView);
         title.setText(beanList.get(position).getImgTitle());
         container.addView(view);
         return view;

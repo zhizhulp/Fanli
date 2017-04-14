@@ -6,8 +6,9 @@ import android.view.MotionEvent;
 import android.widget.ScrollView;
 
 public class NickScrollView extends ScrollView {
-	
-	private ScrollListener mScrollListener;
+
+    private ScrollListener mScrollListener;
+    private OnScollChangedListener onScollChangedListener;
 
     public void setScrollListener(ScrollListener scrollListener) {
         this.mScrollListener = scrollListener;
@@ -28,24 +29,24 @@ public class NickScrollView extends ScrollView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-        switch (ev.getAction()){
+        switch (ev.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if(mScrollListener != null){
+                if (mScrollListener != null) {
                     int contentHeight = getChildAt(0).getHeight();
-                    int scrollHeight = getHeight();    
+                    int scrollHeight = getHeight();
 
                     int scrollY = getScrollY();
                     mScrollListener.onScroll(scrollY);
 
-                    if(scrollY + scrollHeight >= contentHeight||contentHeight <= scrollHeight){
+                    if (scrollY + scrollHeight >= contentHeight || contentHeight <= scrollHeight) {
                         mScrollListener.onScrollToBottom();
-                    }else {
+                    } else {
                         mScrollListener.notBottom();
                     }
 
                     if (scrollY <= 0) {
                         mScrollListener.onScrollToTop();
-                    }else {
+                    } else {
                         mScrollListener.noTop();
                     }
 
@@ -59,11 +60,33 @@ public class NickScrollView extends ScrollView {
         return result;
     }
 
-    public interface ScrollListener{
+    public interface ScrollListener {
         void onScrollToBottom();
+
         void onScrollToTop();
+
         void onScroll(int scrollY);
+
         void notBottom();
+
         void noTop();
+    }
+
+    public void setOnScollChangedListener(OnScollChangedListener onScollChangedListener) {
+        this.onScollChangedListener = onScollChangedListener;
+    }
+
+    @Override
+    protected void onScrollChanged(int x, int y, int oldx, int oldy) {
+        super.onScrollChanged(x, y, oldx, oldy);
+        if (onScollChangedListener != null) {
+            onScollChangedListener.onScrollChanged(this, x, y, oldx, oldy);
+        }
+    }
+
+    public interface OnScollChangedListener {
+
+        void onScrollChanged(NickScrollView scrollView, int x, int y, int oldx, int oldy);
+
     }
 }

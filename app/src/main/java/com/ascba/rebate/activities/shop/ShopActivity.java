@@ -1,11 +1,9 @@
 package com.ascba.rebate.activities.shop;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -28,6 +26,10 @@ import java.util.ArrayList;
  */
 public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callback {
 
+    public static final int HOMEPAGE = 0;
+    public static final int CLASSIFY = 1;
+    public static final int CART = 2;
+    public static final int ME = 3;
     private static final int REQUEST_LOGIN_CART = 0;
     private static final int REQUEST_LOGIN_ME = 1;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
@@ -36,26 +38,9 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
     private CartFragment mThirdFragment = new CartFragment();
     private ShopMeFragment mFourthFragment = new ShopMeFragment();
     private ShopTabs shopTabs;
-
-    public ArrayList<Fragment> getmFragments() {
-        return mFragments;
-    }
-
-    public ShopMainFragment getmFirstFragment() {
-        return mFirstFragment;
-    }
-
-    public TypeFragment getmSecondFragment() {
-        return mSecondFragment;
-    }
-
-    public CartFragment getmThirdFragment() {
-        return mThirdFragment;
-    }
-
-    public ShopMeFragment getmFourthFragment() {
-        return mFourthFragment;
-    }
+    private int currIndex = HOMEPAGE;//当前位置
+    private static int index;
+    private Fragment[] fragments;
 
     public ShopTabs getShopTabs() {
         return shopTabs;
@@ -73,40 +58,52 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
         findViews();
     }
 
-    private void findViews() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (currIndex != index) {
+            getShopTabs().statusChaByPosition(index, currIndex);
+            getShopTabs().setFilPos(index);
+            selFrgByPos(index);
+        }
+    }
 
+    private void findViews() {
         shopTabs = ((ShopTabs) findViewById(R.id.shop_tabs));
         shopTabs.setCallback(this);
-        selFrgByPos(0, mFirstFragment);
+        fragments = new Fragment[]{mFirstFragment, mSecondFragment, mThirdFragment, mFourthFragment};
+        selFrgByPos(currIndex);
     }
 
     //首页
     @Override
     public void clickZero(View v) {
-        selFrgByPos(0, mFirstFragment);
+        selFrgByPos(HOMEPAGE);
     }
 
     //分类
     @Override
     public void clickOne(View v) {
-        selFrgByPos(1, mSecondFragment);
+        selFrgByPos(CLASSIFY);
     }
 
     //购物车
     @Override
     public void clickThree(View v) {
-        selFrgByPos(2, mThirdFragment);
+        selFrgByPos(CART);
     }
 
     //我
     @Override
     public void clickFour(View v) {
-        selFrgByPos(3, mFourthFragment);
+        selFrgByPos(ME);
     }
 
-    public void selFrgByPos(int position, Fragment fragt) {
+    public void selFrgByPos(int position) {
+        index = currIndex = position;
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        Fragment fragt = fragments[position];
         if (!mFragments.contains(fragt)) {
             if (fragt instanceof CartFragment && AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -125,7 +122,7 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
         }
         for (int i = 0; i < mFragments.size(); i++) {
             Fragment fragment = mFragments.get(i);
-            if (fragt== fragment) {
+            if (fragt == fragment) {
                 ft.show(fragment);
             } else {
                 ft.hide(fragment);
@@ -139,14 +136,14 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null) {
-            switch (requestCode){
+            switch (requestCode) {
                 case REQUEST_LOGIN_CART:
-                    selFrgByPos(0, getmFirstFragment());
+                    selFrgByPos(HOMEPAGE);
                     getShopTabs().statusChaByPosition(0, 2);
                     getShopTabs().setFilPos(0);
                     break;
                 case REQUEST_LOGIN_ME:
-                    selFrgByPos(0, getmFirstFragment());
+                    selFrgByPos(HOMEPAGE);
                     getShopTabs().statusChaByPosition(0, 3);
                     getShopTabs().setFilPos(0);
                     break;
@@ -156,25 +153,28 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
             switch (requestCode) {
                 case REQUEST_LOGIN_CART:
                     if (resultCode == RESULT_OK) {
-                        selFrgByPos(2,mThirdFragment);
-                    }else {
-                        selFrgByPos(0, mFirstFragment);
+                        selFrgByPos(CART);
+                    } else {
+                        selFrgByPos(HOMEPAGE);
                         getShopTabs().statusChaByPosition(0, 2);
                         getShopTabs().setFilPos(0);
                     }
                     break;
                 case REQUEST_LOGIN_ME:
                     if (resultCode == RESULT_OK) {
-                        selFrgByPos(3,mFourthFragment);
-                    }else {
-                        selFrgByPos(0, mFirstFragment);
+                        selFrgByPos(CART);
+                    } else {
+                        selFrgByPos(HOMEPAGE);
                         getShopTabs().statusChaByPosition(0, 3);
                         getShopTabs().setFilPos(0);
                     }
                     break;
-
             }
         }
+    }
+
+    public static void setIndex(int position) {
+        index = position;
     }
 }
 

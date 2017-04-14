@@ -109,9 +109,9 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 JSONObject object = jsonArray.optJSONObject(i);
 
                 //订单id
-                orderId = object.optString("order_id");
+                orderId = object.optString("order_id").trim();
                 //订单状态
-                orderStatus = object.optString("order_status");
+                orderStatus = object.optString("order_status").trim();
 
                 //头部信息
                 String time = object.optString("add_time");//时间
@@ -127,13 +127,13 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                     //交易关闭
                     beanHead.setState("交易关闭");
                 } else if (orderStatus.equals("20")) {
-                    //交易关闭
+                    //等待卖家发货
                     beanHead.setState("等待卖家发货");
                 } else if (orderStatus.equals("30")) {
-                    //交易关闭
+                    //等待买家收货
                     beanHead.setState("等待买家收货");
                 } else if (orderStatus.equals("40")) {
-                    //交易关闭
+                    //交易成功
                     beanHead.setState("交易成功");
                 }
                 beanArrayList.add(beanHead);
@@ -160,6 +160,7 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
 
                             OrderBean orderBean = new OrderBean(AllOrderAdapter.TYPE_GOODS, R.layout.item_goods, good);
                             orderBean.setId(orderId);
+                            orderBean.setStateCode(orderStatus);
                             beanArrayList.add(orderBean);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -190,6 +191,7 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                     beadFoot = new OrderBean(AllOrderAdapter.TYPE5, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
                 }
                 beadFoot.setId(orderId);
+                beadFoot.setStateCode(orderStatus);
                 beanArrayList.add(beadFoot);
             }
         }
@@ -212,26 +214,25 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent();
-                        String orderStatus=beanArrayList.get(position).getStateCode();
+                        String orderStatus = beanArrayList.get(position).getStateCode();
                         if (orderStatus.equals("10")) {
                             //等待卖家付款
-                            intent.setClass(context, PayDetailsActivity.class);
+                            if (orderId != null)
+                                PayDetailsActivity.startIntent(context, orderId);
                         } else if (orderStatus.equals("0")) {
                             //交易关闭
-                            intent=null;
+
                         } else if (orderStatus.equals("20")) {
                             //等待卖家发货
-                            intent.setClass(context, DeliverDetailsActivity.class);
+                            Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                            startActivity(intent);
                         } else if (orderStatus.equals("30")) {
                             //等待买家收货
-                            intent.setClass(context, TakeDetailsActivity.class);
+                            Intent intent = new Intent(context, TakeDetailsActivity.class);
+                            startActivity(intent);
                         } else if (orderStatus.equals("40")) {
                             //交易成功
-                            intent.setClass(context, EvaluateDetailsActivity.class);
-                        }
-
-                        if (intent!=null){
+                            Intent intent = new Intent(context, EvaluateDetailsActivity.class);
                             startActivity(intent);
                         }
                         break;

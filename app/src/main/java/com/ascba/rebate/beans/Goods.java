@@ -63,6 +63,14 @@ public class Goods implements MultiItemEntity {
         this.userQuy = userQuy;
     }
 
+    public Goods(String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, int userQuy) {
+        this.imgUrl = imgUrl;
+        this.goodsTitle = goodsTitle;
+        this.goodsStandard = goodsStandard;
+        this.goodsPrice = goodsPrice;
+        this.userQuy = userQuy;
+    }
+
     public Goods(int type, int layout, String imgUrl, String goodsTitle, String goodsStandard, String goodsPrice, String goodsPriceOld, int userQuy) {
         this.type = type;
         this.layout = layout;
