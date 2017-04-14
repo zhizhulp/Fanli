@@ -34,6 +34,8 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private int color;
     private int titleTextColor;
     private int backImgId;
+    private View line;
+    private boolean needLine;
 
     public MoneyBar(Context context){
         super(context);
@@ -62,6 +64,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         tailIcon = ((ImageView) findViewById(R.id.money_bar_tail_icon));
         completeText = ((TextView) findViewById(R.id.money_bar_ok));
         bgView = findViewById(R.id.money_bar_parent);
+        line = findViewById(R.id.money_bar_line);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MoneyBar);
         color = ta.getColor(R.styleable.MoneyBar_barBg,getResources().getColor(R.color.white));
@@ -72,6 +75,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         tailIconId = ta.getResourceId(R.styleable.MoneyBar_tailIcon,R.mipmap.ic_search);
         backImgId = ta.getResourceId(R.styleable.MoneyBar_backImg,R.mipmap.abar_back);
         needComplete = ta.getBoolean(R.styleable.MoneyBar_needComplete,false);
+        needLine = ta.getBoolean(R.styleable.MoneyBar_needLine,true);
         //设置title字体颜色
         mTextView.setTextColor(titleTextColor);
         //设置返回图标
@@ -101,6 +105,12 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
                     callBack.clickImage(v);
                 }
             });
+        }
+        //设置是否有底部的横线
+        if(needLine){
+            line.setVisibility(VISIBLE);
+        }else {
+            line.setVisibility(GONE);
         }
         ta.recycle();
     }

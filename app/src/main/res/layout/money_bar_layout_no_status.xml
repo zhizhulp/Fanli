@@ -26,7 +26,7 @@
         android:layout_marginRight="40dp"
         android:maxLines="1"
         android:textColor="@color/main_text_normal"
-        android:textSize="16sp" />
+        android:textSize="@dimen/main_text_16" />
 
     <ImageView
         android:id="@+id/money_bar_tail_icon"
@@ -47,11 +47,12 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:text="完成"
-        android:textColor="@color/main_text_normal"
+        android:textColor="@color/main_text_blue"
         android:visibility="gone" />
     <View
+        android:id="@+id/money_bar_line"
         android:layout_alignParentBottom="true"
-        android:background="@color/view_line_new"
+        android:background="@color/main_line_deep_gray"
         android:layout_width="match_parent"
-        android:layout_height="0.8dp"/>
+        android:layout_height="0.5dp"/>
 </RelativeLayout>

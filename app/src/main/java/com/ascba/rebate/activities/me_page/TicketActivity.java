@@ -31,12 +31,12 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
     private View noTv;
     private Button btnTicket;
     private MoneyBar moneyBar;
+    private View noView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestServer(UrlUtils.getVoucherList);
     }
@@ -65,8 +65,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
             }
         });
 
-        noIv = findViewById(R.id.no_ticket_icon);
-        noTv = findViewById(R.id.no_ticket_text);
+        noView = findViewById(R.id.no_ticket_view);
         btnTicket = ((Button) findViewById(R.id.ticket_btn));
         btnTicket.setOnClickListener(this);
     }
@@ -80,18 +79,6 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
 
     private void initData() {
         mList=new ArrayList<>();
-        /*for (int i = 0; i < 7; i++) {
-            if(i%3==0){
-                Ticket ticket=new Ticket(0,500,"有效期  2016.12.13-2016-12.14","商城代金券",0);
-                mList.add(ticket);
-            }else if(i%3==1){
-                Ticket ticket=new Ticket(1,100,"有效期  2016.12.13-2016-12.14","商城代金券",0);
-                mList.add(ticket);
-            }else if(i%3==2){
-                Ticket ticket=new Ticket(2,50,"有效期  2016.12.13-2016-12.14","商城代金券",0);
-                mList.add(ticket);
-            }
-        }*/
     }
 
 
@@ -100,8 +87,7 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
         int is_shop = dataObj.optInt("is_shop");
         JSONArray list = dataObj.optJSONArray("voucher_list");
         if(list!=null && list.length()!=0){
-            noIv.setVisibility(View.GONE);
-            noTv.setVisibility(View.GONE);
+            noView.setVisibility(View.GONE);
             for (int i = 0; i < list.length(); i++) {
                 JSONObject jsonObject = list.optJSONObject(i);
                 int id = jsonObject.optInt("id");
@@ -117,13 +103,11 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
             ticketAdapter.notifyDataSetChanged();
             btnTicket.setText("前往商城");
             if(is_shop==0){
-                //btnTicket.setBackgroundColor(0xffc0c0c0);
                 btnTicket.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
                 btnTicket.setEnabled(false);
             }
         }else{
-            noIv.setVisibility(View.VISIBLE);
-            noTv.setVisibility(View.VISIBLE);
+            noView.setVisibility(View.VISIBLE);
             btnTicket.setText("兑换代金券");
         }
     }

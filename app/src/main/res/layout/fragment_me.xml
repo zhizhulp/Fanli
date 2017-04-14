@@ -194,6 +194,41 @@
                     android:layout_toLeftOf="@id/me_icon_go"
                     android:textSize="15sp" />
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/setting_my_qr"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                android:onClick="settingMyQRCode"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <ImageView
+                    android:id="@+id/safe_setting_img_04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/setting_qr_code" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/safe_setting_img_04"
+                    android:text="我的推广码"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="19dp"
+                    android:src="@mipmap/me_right_go" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/me_lat_sjlm"
@@ -316,42 +351,6 @@
                     android:src="@mipmap/me_right_go" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/setting_my_qr"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:background="@color/white"
-                android:onClick="settingMyQRCode"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/safe_setting_img_04"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/setting_qr_code" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@id/safe_setting_img_04"
-                    android:text="商家二维码"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="19dp"
-                    android:src="@mipmap/me_right_go" />
-            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"

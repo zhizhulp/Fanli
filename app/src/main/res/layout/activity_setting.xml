@@ -8,11 +8,13 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.me_page.settings.child.SafeSettingActivity">
     <com.ascba.rebate.view.MoneyBar
+        app:needLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textTitle="设置"/>
 
     <RelativeLayout
+        android:background="@color/white"
         android:onClick="settingPersonalDataClick"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -45,8 +47,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:layout_height="0.5dp"
+        android:background="@color/main_line_light_gray"/>
 
     <RelativeLayout
         android:visibility="gone"
@@ -124,6 +126,7 @@
         android:background="@color/view_line"/>
 
     <RelativeLayout
+        android:background="@color/white"
         android:onClick="settingSafeSetting"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -156,7 +159,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:background="@color/main_line_light_gray"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

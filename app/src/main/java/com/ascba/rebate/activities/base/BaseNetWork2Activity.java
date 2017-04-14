@@ -2,11 +2,14 @@ package com.ascba.rebate.activities.base;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
@@ -49,7 +52,13 @@ public class BaseNetWork2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((MyApplication) getApplication()).addActivity(this);
         setStatusBar();
-        //StatusBarUtil.setColor(this, 0xffe52020);
+        setBackGround();
+    }
+
+    private void setBackGround() {
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.color.main_bg);
+        this.getWindow().setBackgroundDrawable(drawable);
     }
 
     @Override

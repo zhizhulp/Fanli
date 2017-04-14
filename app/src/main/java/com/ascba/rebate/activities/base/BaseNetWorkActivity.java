@@ -1,7 +1,9 @@
 package com.ascba.rebate.activities.base;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -51,6 +53,13 @@ public class BaseNetWorkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApplication) getApplication()).addActivity(this);
+        setBackGround();
+    }
+
+    private void setBackGround() {
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.color.main_bg);
+        this.getWindow().setBackgroundDrawable(drawable);
     }
 
     @Override

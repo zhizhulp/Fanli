@@ -26,6 +26,7 @@
                 android:src="@mipmap/ic_locate" />
 
             <TextView
+                android:textSize="@dimen/main_text_14"
                 android:id="@+id/side_tv_locate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +92,7 @@
                 android:paddingRight="20dp"
                 android:text="搜索"
                 android:textColor="@color/white"
-                android:textSize="13sp" />
+                android:textSize="@dimen/main_text_14" />
         </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
@@ -103,6 +104,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
+            android:background="@color/white"
             android:id="@+id/bus_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
