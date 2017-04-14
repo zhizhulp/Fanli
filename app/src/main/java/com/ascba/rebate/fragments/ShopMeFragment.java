@@ -346,7 +346,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
             FragmentActivity activity = getActivity();
             if (activity instanceof ShopActivity) {
                 ShopActivity a = (ShopActivity) activity;
-                a.selFrgByPos(0, a.getmFirstFragment());
+                a.selFrgByPos(ShopActivity.HOMEPAGE);
                 a.getShopTabs().statusChaByPosition(0, 3);
                 a.getShopTabs().setFilPos(0);
             }
@@ -355,7 +355,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
                 FragmentActivity activity = getActivity();
                 if (activity instanceof ShopActivity) {
                     ShopActivity a = (ShopActivity) activity;
-                    a.selFrgByPos(0, a.getmFirstFragment());
+                    a.selFrgByPos(ShopActivity.HOMEPAGE);
                     a.getShopTabs().statusChaByPosition(0, 3);
                     a.getShopTabs().setFilPos(0);
                 }

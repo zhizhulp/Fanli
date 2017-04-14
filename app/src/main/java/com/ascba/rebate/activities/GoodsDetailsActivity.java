@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.IntegralValueAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -723,6 +724,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 break;
             case R.id.abar_im_cart:
                 //购物车
+                ShopActivity.setIndex(ShopActivity.CART);
+                finish();
                 break;
         }
     }

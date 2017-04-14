@@ -2,6 +2,7 @@ package com.ascba.rebate.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +16,10 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.ProfileAdapter;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.cart_btn.NumberButton;
-import com.yolanda.nohttp.NoHttp;
 
 import java.util.List;
 
@@ -63,8 +62,9 @@ public class StdDialog extends Dialog {
         this.tvAddToCart = tvAddToCart;
     }
 
-    public interface Listener{
+    public interface Listener {
         void getSelectGoods(Goods gs);
+
         void isSelectAll(boolean isAll);
     }
 
@@ -78,9 +78,9 @@ public class StdDialog extends Dialog {
 
     public StdDialog(@NonNull Context context, List<GoodsAttr> gas, List<Goods> goodses) {
         super(context);
-        this.gas=gas;
-        this.goodses=goodses;
-        init(context,gas);
+        this.gas = gas;
+        this.goodses = goodses;
+        init(context, gas);
     }
 
     private void init(Context context, final List<GoodsAttr> gas) {
@@ -112,13 +112,13 @@ public class StdDialog extends Dialog {
         nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nb.setCurrentNumber(nb.getNumber()+1);
+                nb.setCurrentNumber(nb.getNumber() + 1);
             }
         });
         nb.getSubButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nb.setCurrentNumber(nb.getNumber()-1);
+                nb.setCurrentNumber(nb.getNumber() - 1);
             }
         });
         adapter.addFooterView(view1, 0);
@@ -127,25 +127,34 @@ public class StdDialog extends Dialog {
         adapter.setCallback(new ProfileAdapter.Callback() {
             @Override
             public void click(GoodsAttr.Attrs s, GoodsAttr item) {
-                boolean isAllSelect=true;
+                boolean isAllSelect = true;
                 for (int i = 0; i < gas.size(); i++) {
                     GoodsAttr goodsAttr = gas.get(i);
-                    if(!goodsAttr.isSelect()){
-                        isAllSelect=false;
+                    if (!goodsAttr.isSelect()) {
+                        isAllSelect = false;
                         break;
                     }
                 }
-                if(listener!=null){
+                if (listener != null) {
                     listener.isSelectAll(isAllSelect);
                 }
-                if(isAllSelect){//所有选择完毕
+                if (isAllSelect) {//所有选择完毕
                     setTitleText();
                 }
 
             }
         });
+        //去除Holo主题的蓝色线条
+        try {
+            int dividerID = context.getResources().getIdentifier("android:id/titleDivider", null, null);
+            View divider = findViewById(dividerID);
+            divider.setBackgroundColor(Color.TRANSPARENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    public void showMyDialog(){
+
+    public void showMyDialog() {
         show();
         Window window = getWindow();
         if (window != null) {
@@ -160,42 +169,38 @@ public class StdDialog extends Dialog {
     }
 
 
-    private  void setTitleText() {
-        if(gas!=null && gas.size()!=0){
-            StringBuilder sb=new StringBuilder();
+    private void setTitleText() {
+        if (gas != null && gas.size() != 0) {
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < gas.size(); i++) {
                 GoodsAttr goodsAttr = gas.get(i);
                 List<GoodsAttr.Attrs> strs = goodsAttr.getStrs();
                 for (int j = 0; j < strs.size(); j++) {
                     GoodsAttr.Attrs attrs = strs.get(j);
-                    if(attrs.isHasCheck()){
-                        if(i==gas.size()-1){
+                    if (attrs.isHasCheck()) {
+                        if (i == gas.size() - 1) {
                             sb.append(attrs.getItemId());
-                        }else {
+                        } else {
                             sb.append(attrs.getItemId());
                             sb.append("_");
                         }
                     }
                 }
             }
-            LogUtils.PrintLog("369","拼接字符串-->"+sb.toString());
+            LogUtils.PrintLog("369", "拼接字符串-->" + sb.toString());
             for (int i = 0; i < goodses.size(); i++) {
                 Goods goods = goodses.get(i);
-                LogUtils.PrintLog("369","当前字符串-->"+goods.getSpecKeys());
-                if(sb.toString().equals(goods.getSpecKeys())){
+                LogUtils.PrintLog("369", "当前字符串-->" + goods.getSpecKeys());
+                if (sb.toString().equals(goods.getSpecKeys())) {
                     nb.setInventory(goods.getInventory());
-                    tvInv.setText("库存"+goods.getInventory());
-                    tvUnitPrice.setText("￥"+goods.getGoodsPrice());
+                    tvInv.setText("库存" + goods.getInventory());
+                    tvUnitPrice.setText("￥" + goods.getGoodsPrice());
                     tvListener.setText(goods.getSpecNames());
-                    if(listener!=null){
+                    if (listener != null) {
                         listener.getSelectGoods(goods);
                     }
                 }
             }
-
-
         }
-
     }
-
 }

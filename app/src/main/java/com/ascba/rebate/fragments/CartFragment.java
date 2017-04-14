@@ -2,20 +2,15 @@ package com.ascba.rebate.fragments;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,14 +20,10 @@ import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.CartAdapter;
-import com.ascba.rebate.adapter.PayTypeAdapter;
-import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.StringUtils;
@@ -241,7 +232,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                     @Override
                     public void onClick(View v) {
                         ShopActivity a = (ShopActivity) getActivity();
-                        a.selFrgByPos(0,a.getmFirstFragment());
+                        a.selFrgByPos(ShopActivity.HOMEPAGE);
                         a.getShopTabs().statusChaByPosition(0,2);
                         a.getShopTabs().setFilPos(0);
                     }
@@ -456,7 +447,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             FragmentActivity activity = getActivity();
             if (activity instanceof ShopActivity) {
                 ShopActivity a = (ShopActivity) activity;
-                a.selFrgByPos(0, a.getmFirstFragment());
+                a.selFrgByPos(ShopActivity.HOMEPAGE);
                 a.getShopTabs().statusChaByPosition(0,2);
                 a.getShopTabs().setFilPos(0);
             }
@@ -465,7 +456,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 FragmentActivity activity = getActivity();
                 if (activity instanceof ShopActivity) {
                     ShopActivity a = (ShopActivity) activity;
-                    a.selFrgByPos(0, a.getmFirstFragment());
+                    a.selFrgByPos(ShopActivity.HOMEPAGE);
                     a.getShopTabs().statusChaByPosition(0,2);
                     a.getShopTabs().setFilPos(0);
                 }
