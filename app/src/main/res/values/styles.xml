@@ -31,6 +31,7 @@
     </style>
 
     <style name="btnNormal">
+        <item name="android:textSize">@dimen/main_text_15</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/register_btn_bg</item>
         <item name="android:layout_marginLeft">15dp</item>

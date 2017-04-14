@@ -11,19 +11,19 @@
         app:textTitle="添加银行卡"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <View
-        android:layout_marginTop="20dp"
-        style="@style/viewStyleMatch"/>
+
     <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_height="46dp">
         <TextView
             android:layout_centerVertical="true"
             android:id="@+id/hold_car_man"
-            android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="持卡人"/>
@@ -40,26 +40,29 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         android:layout_height="46dp">
         <TextView
             android:id="@+id/card_number_id"
             android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="卡号"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColor="@color/main_text_normal"
+            android:textColorHint="@color/main_text_gary"
             android:layout_centerVertical="true"
             android:inputType="number"
             android:background="@null"
             android:id="@+id/ed_add_card_number"
             android:maxLines="1"
-            app:hintSize="14sp"
-            android:textSize="14sp"
+            app:hintSize="@dimen/main_text_14"
+            android:textSize="@dimen/main_text_14"
             android:hint="请输入持卡人银行卡号码"
             android:layout_marginLeft="70dp"
             android:layout_width="match_parent"
@@ -74,8 +77,8 @@
         style="@style/btnNormal" />
     <TextView
         android:onClick="goCardProtocol"
-        android:textSize="13sp"
-        android:textColor="@color/text_blue"
+        android:textSize="@dimen/main_text_14"
+        android:textColor="@color/main_text_blue"
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/bank_card_protocol"

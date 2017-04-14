@@ -6,18 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/main_content_bg"
     tools:context="com.ascba.rebate.activities.register.RegisterAfterReceiveCodeActivity">
     <com.ascba.rebate.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView
-        android:textColor="@color/black"
         android:lineSpacingExtra="13dp"
         android:gravity="center"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="30dp"
-        android:textSize="18sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="短信验证码已发送，请填写您的验证码"/>
@@ -29,14 +30,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:textColor="@color/black"
             android:layout_weight="1"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="手机号"/>
         <TextView
-            android:textSize="15sp"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/tv_phone_number"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
@@ -57,19 +59,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:textColor="@color/black"
-
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_weight="1"
-            android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="验证码"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textColorHint="@color/textgray"
-            android:textSize="15sp"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:id="@+id/confirm_code"
             android:maxLines="1"
-            app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
@@ -92,20 +94,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:textColor="@color/black"
-
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_weight="1"
-            android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="密码"/>
 
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textColorHint="@color/textgray"
-            android:textSize="15sp"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:inputType="textPassword"
             android:maxLines="1"
-            app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
@@ -128,21 +130,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:textColor="@color/black"
-
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_weight="1"
-            android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="确认密码"/>
 
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textColorHint="@color/textgray"
-            android:textSize="15sp"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:inputType="textPassword"
             android:id="@+id/confirm_repassword"
             android:maxLines="1"
-            app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
@@ -166,19 +168,20 @@
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_weight="1"
-            android:textSize="15sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="推荐码"
             android:id="@+id/textView3" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textColorHint="@color/textgray"
-            android:textSize="15sp"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:id="@+id/confirm_recommend_man"
-            app:hintSize="14sp"
             android:layout_weight="3"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
@@ -193,8 +196,9 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <Button
-        android:onClick="goMain2"
         android:textColor="@color/white"
+        android:textSize="@dimen/main_text_15"
+        android:onClick="goMain2"
         android:text="注册"
         android:layout_marginTop="29dp"
         android:layout_marginLeft="15dp"

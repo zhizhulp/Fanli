@@ -15,12 +15,14 @@
     <RelativeLayout
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:onClick="userIconClick"
         android:layout_width="match_parent"
         android:layout_height="64dp">
         <TextView
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="账户头像"/>
@@ -42,20 +44,24 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:background="@color/main_line_light_gray"/>
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录账号"
             android:layout_alignParentTop="true" />
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/personal_data_mobile"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -64,8 +70,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:background="@color/main_line_light_gray"/>
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:onClick="personalNickNameChange"
@@ -73,7 +80,8 @@
         android:layout_height="46dp">
         <TextView
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称"/>
@@ -85,6 +93,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/personal_data_nickname"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -95,9 +105,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:background="@color/main_line_light_gray"/>
 
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:onClick="personalSexChange"
@@ -105,7 +116,8 @@
         android:layout_height="46dp">
         <TextView
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="性别"/>
@@ -117,6 +129,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/show_sex"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -128,8 +142,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:background="@color/main_line_light_gray"/>
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:onClick="personalAgeChange"
@@ -137,7 +152,8 @@
         android:layout_height="46dp">
         <TextView
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="年龄"/>
@@ -149,6 +165,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_go"/>
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/personal_data_age"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -159,8 +177,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:background="@color/main_line_light_gray"/>
     <RelativeLayout
+        android:background="@color/main_content_bg"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:onClick="personalLocationChange"
@@ -168,7 +187,8 @@
         android:layout_height="46dp">
         <TextView
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="所在地区"
@@ -182,6 +202,8 @@
             android:src="@mipmap/ic_go"/>
 
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/personal_data_location"
             android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
@@ -194,9 +216,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_line"/>
+        android:background="@color/main_line_light_gray"/>
 
     <Button
+        android:textSize="@dimen/main_text_15"
         android:onClick="saveData"
         android:textColor="@color/white"
         android:text="保存"

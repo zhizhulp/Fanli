@@ -16,6 +16,8 @@
         app:textTitle="商家标签" />
 
     <TextView
+        android:textColor="@color/main_text_gary"
+        android:textSize="@dimen/main_text_15"
         android:id="@+id/ed_business_data_type"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space"
@@ -37,6 +39,8 @@
         android:orientation="vertical">
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_eat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,6 +48,8 @@
             android:text="餐饮" />
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,6 +57,8 @@
             android:text="娱乐" />
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_rest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +66,8 @@
             android:text="休闲" />
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_cloth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,6 +76,8 @@
 
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_house"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,6 +85,8 @@
             android:text="家居" />
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_medicine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,6 +95,8 @@
 
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_toy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,6 +104,8 @@
             android:text="玩具" />
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_soft_eat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,6 +113,8 @@
             android:text="轻工食品" />
 
         <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/rb_office"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

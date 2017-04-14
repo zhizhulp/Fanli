@@ -21,6 +21,7 @@
         android:layout_marginTop="30dp"
         style="@style/btnNormal" />
     <WebView
+        android:background="@color/main_content_bg"
         android:layout_below="@id/mb"
         android:layout_above="@id/btn"
         android:id="@+id/webView"

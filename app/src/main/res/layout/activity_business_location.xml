@@ -14,19 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
-            android:textSize="16sp"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="地区"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textSize="14sp"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:id="@+id/ed_city"
             android:maxLines="1"
             android:background="@null"
@@ -38,19 +42,23 @@
     <View
         style="@style/viewStyleMatch"/>
     <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
-            android:textSize="16sp"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="地址"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textSize="14sp"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:id="@+id/ed_locate"
             android:maxLines="1"
             android:background="@null"

@@ -14,6 +14,10 @@
         android:layout_height="wrap_content"
         app:textTitle="详细地址"/>
     <com.ascba.rebate.view.EditTextWithCustomHint
+        android:textSize="@dimen/main_text_15"
+        app:hintSize="@dimen/main_text_14"
+        android:textColor="@color/main_text_normal"
+        android:textColorHint="@color/main_text_gary"
         android:id="@+id/ed_bus_det_loc"
         android:ellipsize="end"
         android:maxLines="1"

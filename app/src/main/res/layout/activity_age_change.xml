@@ -14,19 +14,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
+        android:background="@color/main_content_bg"
         android:gravity="center_vertical"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space"
         android:orientation="horizontal">
         <TextView
-            android:textSize="@dimen/activity_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
             android:text="年龄"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textColorHint="@color/textgray"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
             android:id="@+id/et_age"
             android:layout_marginLeft="20dp"
             android:background="@null"
@@ -34,6 +39,4 @@
             android:layout_height="wrap_content" 
             android:hint="请输入您的年龄"/>
     </LinearLayout>
-    <View
-        style="@style/viewStyleMatch"/>
 </LinearLayout>

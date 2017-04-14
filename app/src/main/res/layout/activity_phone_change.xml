@@ -16,17 +16,18 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space"
         android:orientation="horizontal"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg">
         <TextView
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:text="原手机号"
-            android:textSize="@dimen/activity_text_normal"/>
+            android:text="原手机号"/>
         <TextView
-            android:textColor="@color/black"
-            android:textSize="@dimen/activity_text_normal"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_marginLeft="21dp"
             android:text="18311011381"
             android:layout_width="wrap_content"
@@ -36,20 +37,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg">
         <TextView
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_centerVertical="true"
             android:id="@+id/phone_change_confirm_text"
-            android:textSize="@dimen/activity_text_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="短信验证"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:background="@null"
             android:layout_marginLeft="21dp"
-            app:hintSize="@dimen/activity_text_normal"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/phone_change_confirm_text"
             android:layout_width="wrap_content"
@@ -58,14 +63,14 @@
         <TextView
             android:id="@+id/phone_change_code_tv"
             android:layout_centerVertical="true"
-            android:textColor="@color/moneyBarColor"
-            android:textSize="@dimen/activity_text_title"
+            android:textColor="@color/main_red_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="获取验证码"/>
         <View
-            android:background="@color/view_line"
+            android:background="@color/main_line_light_gray"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/phone_change_code_tv"
             android:layout_width="1dp"

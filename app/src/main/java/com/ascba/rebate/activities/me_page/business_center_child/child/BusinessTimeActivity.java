@@ -2,6 +2,8 @@ package com.ascba.rebate.activities.me_page.business_center_child.child;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TimePicker;
@@ -18,9 +20,15 @@ public class BusinessTimeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_time);
+        setBackGround();
         initViews();
-        //StatusBarUtil.setColor(this, 0xffe52020);
+
         getDataFromIntent();
+    }
+    private void setBackGround() {
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.color.main_bg);
+        this.getWindow().setBackgroundDrawable(drawable);
     }
 
     private void getDataFromIntent() {

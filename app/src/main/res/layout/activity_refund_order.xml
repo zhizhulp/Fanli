@@ -9,7 +9,7 @@
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
         android:layout_height="47dp"
-        app:abar_title="退款/售后"></com.ascba.rebate.view.ShopABarText>
+        app:abar_title="退款/售后"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_recyclerView"

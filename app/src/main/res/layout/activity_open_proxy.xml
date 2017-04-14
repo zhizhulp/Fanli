@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/main_content_bg"
     tools:context="com.ascba.rebate.activities.me_page.user_update_child.OpenProxyActivity">
     <com.ascba.rebate.view.MoneyBar
         app:needComplete="true"
@@ -28,17 +29,19 @@
             android:id="@+id/ed_proxy_area"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
+
         <TextView
-            android:textColor="@color/white"
-            android:background="@color/moneyBarColor"
-            android:gravity="center"
-            android:layout_weight="0.7"
-            android:layout_toRightOf="@id/ed_proxy_area"
             android:id="@+id/check_btn"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@id/ed_proxy_area"
+            android:layout_weight="0.7"
+            android:background="@color/main_red_normal"
+            android:gravity="center"
             android:onClick="checkCity"
             android:text="搜索"
-            android:layout_width="0dp"
-            android:layout_height="30dp" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/main_text_14"/>
     </LinearLayout>
     <View
         style="@style/viewStyleMatch"/>
@@ -50,12 +53,14 @@
         android:layout_height="@dimen/line_space"
         android:orientation="horizontal">
         <TextView
-            android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:text="代理名称"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/proxy_proxy_name"
             android:layout_marginLeft="120dp"
             android:layout_width="wrap_content"
@@ -71,12 +76,14 @@
         android:layout_height="@dimen/line_space"
         android:orientation="horizontal">
         <TextView
-            android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:text="代理权金额"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/proxy_money"
             android:layout_marginLeft="120dp"
             android:layout_width="wrap_content"
@@ -92,8 +99,9 @@
         android:layout_width="match_parent"
         android:layout_height="32dp">
         <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_centerVertical="true"
-            android:textSize="15sp"
             android:text="推荐人"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -132,11 +140,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:text="推荐人姓名"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/proxy_name"
             android:layout_marginLeft="120dp"
             android:layout_width="wrap_content"
@@ -153,11 +164,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
-            android:textSize="15sp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:text="推荐人号码"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/proxy_phone"
             android:layout_marginLeft="120dp"
             android:layout_width="wrap_content"
@@ -183,10 +197,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
         <TextView
+            android:textColor="@color/main_text_blue"
+            android:textSize="@dimen/main_text_14"
             android:id="@+id/tv_proxy_name"
             android:onClick="goProxyProtocol"
             android:gravity="center"
-            android:textColor="@color/text_blue"
             android:text="我同意《代理协议》"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
@@ -214,8 +229,8 @@
                 <TextView
                     android:layout_marginLeft="7dp"
                     android:text="客服"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -246,9 +261,9 @@
             <TextView
                 android:onClick="goOpenProxy"
                 android:gravity="center"
-                android:background="@color/moneyBarColor"
+                android:background="@color/main_red_normal"
                 android:textColor="@color/white"
-                android:textSize="15sp"
+                android:textSize="@dimen/main_text_15"
                 android:text="确认开通"
                 android:layout_weight="1"
                 android:layout_width="0dp"

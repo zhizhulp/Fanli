@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="实名信息"
@@ -20,39 +21,44 @@
         android:layout_height="wrap_content" />
     <TextView
         android:layout_marginTop="24dp"
-        android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_17"
         android:text="实名认证成功！"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_marginTop="39dp"
         android:id="@+id/user_name"
-        android:textSize="15sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_marginTop="19dp"
         android:id="@+id/user_age"
-        android:textSize="15sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_marginTop="19dp"
         android:id="@+id/user_sex"
-        android:textSize="15sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_marginTop="19dp"
         android:id="@+id/user_id_card"
-        android:textSize="15sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:layout_marginTop="19dp"
         android:id="@+id/user_address"
-        android:textSize="15sp"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

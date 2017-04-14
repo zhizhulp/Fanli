@@ -44,4 +44,9 @@
     <dimen name="main_text_16">16sp</dimen>
     <dimen name="main_text_15">15sp</dimen>
     <dimen name="main_text_14">14sp</dimen>
+    <dimen name="main_text_12">12sp</dimen>
+    <dimen name="main_text_13">13sp</dimen>
+    <dimen name="main_text_23">23sp</dimen>
+    <dimen name="main_text_17">17sp</dimen>
+    <dimen name="main_text_29">29sp</dimen>
 </resources>
