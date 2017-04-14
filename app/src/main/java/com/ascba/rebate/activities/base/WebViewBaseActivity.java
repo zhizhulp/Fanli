@@ -24,7 +24,6 @@ public class WebViewBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view_base);
         ((MyApplication) getApplication()).addActivity(this);
-        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
         getMsgFromBefore();
     }

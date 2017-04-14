@@ -15,9 +15,10 @@
         android:layout_height="wrap_content"
         app:textTitle="充值" />
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/wx_click"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <ImageView
@@ -27,6 +28,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp" />
         <TextView
+            android:textColor="@color/main_text_normal"
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:textSize="14sp"
@@ -45,11 +47,12 @@
     <View
         style="@style/viewStyleMargin"/>
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/ali_click"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="46dp">
+        android:layout_height="53dp">
         <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/alipay_icon"
@@ -57,6 +60,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp" />
         <TextView
+            android:textColor="@color/main_text_normal"
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:textSize="14sp"
@@ -73,29 +77,24 @@
             android:background="@mipmap/unselect"/>
     </RelativeLayout>
 
-
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="7dp"
-        android:background="@color/view_line" />
-
     <TextView
-        android:layout_width="wrap_content"
+        android:paddingTop="7dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_marginTop="7dp"
         android:text="充值金额"
-        android:textColor="@color/black" />
+        android:textColor="@color/main_text_normal"/>
 
     <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
         android:orientation="horizontal">
 
         <TextView
@@ -105,7 +104,7 @@
             android:textColor="@color/black" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
-            android:textColorHint="@color/textgray"
+            android:textColorHint="@color/main_text_gary"
             android:id="@+id/ed_recharge_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,13 +114,10 @@
             android:inputType="numberDecimal"
             android:textColor="@color/black"
             android:textSize="37sp"
-            app:hintSize="15sp" />
+            app:hintSize="@dimen/main_text_15" />
     </LinearLayout>
-
-    <View
-        style="@style/viewStyleMargin"
-        android:layout_marginTop="7dp" />
     <Button
+        android:textSize="@dimen/main_text_15"
         style="@style/btnNormal"
         android:layout_marginTop="29dp"
         android:onClick="goRechargeActivity"

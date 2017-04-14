@@ -22,6 +22,7 @@ import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
+import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
@@ -127,7 +128,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
         //消息
         viewMsg = view.findViewById(R.id.me_lat_msg);
         viewMsg.setOnClickListener(this);
-        //商家二维码
+        //我的推广码
         qrView = view.findViewById(R.id.setting_my_qr);
         qrView.setOnClickListener(this);
         //设置
@@ -191,9 +192,8 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             case R.id.me_lat_msg://消息
                 ShopMessageActivity.startIntent(getActivity());
                 break;
-            case R.id.setting_my_qr:
-                Intent intent3 = new Intent(getActivity(), QRCodeActivity.class);
-                startActivity(intent3);
+            case R.id.setting_my_qr://我的推广码
+                startActivity(new Intent(getActivity(), RecQRActivity.class));
                 break;
             case R.id.me_lat_setting://设置
                 Intent intent2 = new Intent(getActivity(), SettingActivity.class);

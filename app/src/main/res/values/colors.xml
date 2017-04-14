@@ -99,13 +99,13 @@
     <!--导航栏文字颜色-->
     <color name="main_navigation_bar_text">#959595</color>
     <!--线的颜色-->
-    <color name="main_line_deep_gray">#d2d2d2</color><!--深色-->
+    <color name="main_line_deep_gray">#d2d2d2</color><!--深色--> <!--money_bar颜色-->
     <color name="main_line_light_gray">#ececec</color><!--浅色-->
     <!--通用红色-->
-    <color name="main_red_normal">#f63c3c</color><!--浅色-->
-    <color name="main_bg">#f4f4f4</color><!--背景颜色-->
-    <!--money_bar颜色-->
-    <color name="main_money_bar_bg">#f1f1f1</color><!--浅色-->
+    <color name="main_red_normal">#f63c3c</color><!--字体和按钮背景和导航文字-->
+    <color name="main_bg">#f4f4f4</color><!--背景颜色和粗线颜色-->
+    <!--通用字体蓝色-->
+    <color name="main_text_blue">#2e82ff</color>
     <!--ShopActivity颜色管理-->
 
 </resources>

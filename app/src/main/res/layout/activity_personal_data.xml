@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:onClick="userIconClick"
         android:layout_width="match_parent"
         android:layout_height="64dp">
@@ -44,8 +44,8 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="46dp">
@@ -66,8 +66,8 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:onClick="personalNickNameChange"
         android:layout_width="match_parent"
         android:layout_height="46dp">
@@ -98,8 +98,8 @@
         android:background="@color/view_line"/>
 
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:onClick="personalSexChange"
         android:layout_width="match_parent"
         android:layout_height="46dp">
@@ -130,8 +130,8 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:onClick="personalAgeChange"
         android:layout_width="match_parent"
         android:layout_height="46dp">
@@ -161,8 +161,8 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:onClick="personalLocationChange"
         android:layout_width="match_parent"
         android:layout_height="46dp">

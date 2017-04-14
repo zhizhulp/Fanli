@@ -2,6 +2,8 @@ package com.ascba.rebate.activities.base;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -80,6 +82,12 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
         if (dm == null) {
             dm = new DialogManager2(this);
         }
+        setBackGround();
+    }
+    private void setBackGround() {
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.color.main_bg);
+        this.getWindow().setBackgroundDrawable(drawable);
     }
     public void checkAndRequestAllPermission(String [] permissions) {
         if(permissions==null){

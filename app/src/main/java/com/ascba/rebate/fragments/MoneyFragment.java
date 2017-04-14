@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.CommissionActivity;
+import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
@@ -158,14 +159,16 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
                 startActivityForResult(intent3, REQUEST_RED);
                 break;
-            case R.id.me_lat_jiaoyi:
+            case R.id.me_lat_jiaoyi://交易记录
+                Intent intent6=new Intent(getActivity(),TransactionRecordsActivity.class);
+                startActivity(intent6);
                 break;
             case R.id.me_lat_djq:
                 Intent intent8 = new Intent(getActivity(), TicketActivity.class);
                 startActivity(intent8);
                 break;
             case R.id.me_lat_grzh://提现
-                /*requestMyData(3);//检查是否实名*/
+                requestMyData(3);//检查是否实名
                 break;
             case R.id.me_lat_fyzh://返佣账户
                 Intent intent4=new Intent(getActivity(), CommissionActivity.class);
@@ -255,7 +258,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 });
             } else {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
-                Intent intent = new Intent(getActivity(), CommissionActivity.class);
+                Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
                 startActivityForResult(intent, REQUEST_CASH_GET);
