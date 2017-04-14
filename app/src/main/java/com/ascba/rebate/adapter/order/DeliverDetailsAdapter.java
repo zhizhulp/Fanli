@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.utils.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -33,7 +34,12 @@ public class DeliverDetailsAdapter extends BaseQuickAdapter<Goods, BaseViewHolde
         helper.setText(R.id.item_goods_name, item.getGoodsTitle());
         helper.setText(R.id.item_goods_standard, item.getGoodsStandard());
         helper.setText(R.id.item_goods_price, "￥" + item.getGoodsPrice());
-        helper.getView(R.id.item_goods_price_old).setVisibility(View.INVISIBLE);
+        if (StringUtils.isEmpty(item.getGoodsPriceOld())) {
+            helper.getView(R.id.item_goods_price_old).setVisibility(View.INVISIBLE);
+        } else {
+            helper.getView(R.id.item_goods_price_old).setVisibility(View.VISIBLE);
+            helper.setText(R.id.item_goods_price_old, item.getGoodsPriceOld());
+        }
         helper.setText(R.id.item_goods_price_num, "x" + item.getUserQuy());
     }
 }

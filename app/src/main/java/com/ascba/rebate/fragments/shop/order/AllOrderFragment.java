@@ -109,9 +109,9 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 JSONObject object = jsonArray.optJSONObject(i);
 
                 //订单id
-                orderId = object.optString("order_id");
+                orderId = object.optString("order_id").trim();
                 //订单状态
-                orderStatus = object.optString("order_status");
+                orderStatus = object.optString("order_status").trim();
 
                 //头部信息
                 String time = object.optString("add_time");//时间
@@ -214,25 +214,25 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        String orderStatus=beanArrayList.get(position).getStateCode();
+                        String orderStatus = beanArrayList.get(position).getStateCode();
                         if (orderStatus.equals("10")) {
                             //等待卖家付款
-                            Intent intent=new Intent(context, PayDetailsActivity.class);
-                            startActivity(intent);
+                            if (orderId != null)
+                                PayDetailsActivity.startIntent(context, orderId);
                         } else if (orderStatus.equals("0")) {
                             //交易关闭
 
                         } else if (orderStatus.equals("20")) {
                             //等待卖家发货
-                            Intent intent=new Intent(context, DeliverDetailsActivity.class);
+                            Intent intent = new Intent(context, DeliverDetailsActivity.class);
                             startActivity(intent);
                         } else if (orderStatus.equals("30")) {
                             //等待买家收货
-                            Intent intent=new Intent(context, TakeDetailsActivity.class);
+                            Intent intent = new Intent(context, TakeDetailsActivity.class);
                             startActivity(intent);
                         } else if (orderStatus.equals("40")) {
                             //交易成功
-                            Intent intent=new Intent(context, EvaluateDetailsActivity.class);
+                            Intent intent = new Intent(context, EvaluateDetailsActivity.class);
                             startActivity(intent);
                         }
                         break;

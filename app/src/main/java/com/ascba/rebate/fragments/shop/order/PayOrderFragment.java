@@ -1,7 +1,6 @@
 package com.ascba.rebate.fragments.shop.order;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -193,8 +192,8 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, PayDetailsActivity.class);
-                        startActivity(intent);
+                        if (orderId != null)
+                            PayDetailsActivity.startIntent(context, orderId);
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款
