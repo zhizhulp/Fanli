@@ -10,11 +10,17 @@ public class NewsBean {
     private String title;
     private String time;
     private String img;
+    private String url;
 
     public NewsBean() {
     }
 
-
+    public NewsBean(String id, String title, String time, String url) {
+        this.id = id;
+        this.title = title;
+        this.time = time;
+        this.url = url;
+    }
 
     public NewsBean(String id, String title, String time) {
         this.title = title;
@@ -71,5 +77,13 @@ public class NewsBean {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

@@ -155,6 +155,16 @@ public class MyOrderActivity extends BaseNetWork4Activity {
 
     }
 
+    public void setMsg(int position, int num) {
+        if (num > 0) {
+            slidingtablayout.showMsg(position, num);
+            MsgView msgView = slidingtablayout.getMsgView(position);
+            int msgNum = Integer.parseInt(msgView.getText().toString());
+        } else {
+            slidingtablayout.hideMsg(position);
+        }
+    }
+
     public class Bean {
         private String title;
         private int num;

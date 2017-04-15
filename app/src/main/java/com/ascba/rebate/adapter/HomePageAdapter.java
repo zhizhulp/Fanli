@@ -68,7 +68,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 /**
                  * 券购商城
                  */
-                helper.setText(R.id.homepage_text_title, item.getTitle());
+                helper.addOnClickListener(R.id.homepage_text_more_shop);
                 break;
 
             case HomePageMultiItemItem.TYPE6:
@@ -114,7 +114,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                  * 最新动态
                  */
                 helper.setText(R.id.homepage_text_title, item.getTitle());
-                helper.addOnClickListener(R.id.homepage_text_more);
+                helper.addOnClickListener(R.id.homepage_text_more_news);
                 break;
 
             /**

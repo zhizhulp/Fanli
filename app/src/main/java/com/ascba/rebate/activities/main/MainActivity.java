@@ -50,10 +50,18 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_SET_ALIAS:
-                    JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
+                    try {
+                        JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case MSG_SET_TAGS:
-                    JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
+                    try {
+                        JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     break;
