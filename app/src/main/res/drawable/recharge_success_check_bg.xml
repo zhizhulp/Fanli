@@ -3,5 +3,5 @@
     <corners android:radius="3dp"/>
     <padding android:bottom="4dp" android:top="4dp"
         android:left="12dp" android:right="12dp"/>
-    <stroke android:color="@color/moneyBarColor" android:width="0.5dp"/>
+    <stroke android:color="@color/main_red_normal" android:width="0.5dp"/>
 </shape>

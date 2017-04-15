@@ -31,7 +31,6 @@ public class EmployeeRateActivity extends BaseNetWork3Activity implements BaseNe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_rate);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         requestNet();
     }

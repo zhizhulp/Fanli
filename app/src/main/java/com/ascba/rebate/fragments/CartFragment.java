@@ -20,6 +20,7 @@ import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.beans.CartGoods;
@@ -48,6 +49,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         View.OnClickListener, Base2Fragment.Callback, CartAdapter.CallBack {
 
 
+    private static final int REQUEST_CLEAR_SUCCESS = 0;
     private ShopABar sab;
     private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView rv;
@@ -261,7 +263,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         } else if (finalScene == 4) {//商品结算
             Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
-            startActivity(intent);
+            startActivityForResult(intent,REQUEST_CLEAR_SUCCESS);
         }
 
 
@@ -443,7 +445,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
+        if (data == null) {//处理登录超时
             FragmentActivity activity = getActivity();
             if (activity instanceof ShopActivity) {
                 ShopActivity a = (ShopActivity) activity;
@@ -452,17 +454,26 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 a.getShopTabs().setFilPos(0);
             }
         } else {
-            if (resultCode != Activity.RESULT_OK) {
-                FragmentActivity activity = getActivity();
-                if (activity instanceof ShopActivity) {
-                    ShopActivity a = (ShopActivity) activity;
-                    a.selFrgByPos(ShopActivity.HOMEPAGE);
-                    a.getShopTabs().statusChaByPosition(0,2);
-                    a.getShopTabs().setFilPos(0);
-                }
-            }else {
-                requestNetwork(UrlUtils.shoppingCart, 0);
+            switch (requestCode){
+                case BaseNetWork4Activity.REQUEST_LOGIN://处理登录超时
+                    if (resultCode != Activity.RESULT_OK) {
+                        FragmentActivity activity = getActivity();
+                        if (activity instanceof ShopActivity) {
+                            ShopActivity a = (ShopActivity) activity;
+                            a.selFrgByPos(ShopActivity.HOMEPAGE);
+                            a.getShopTabs().statusChaByPosition(0,2);
+                            a.getShopTabs().setFilPos(0);
+                        }
+                    }else {
+                        requestNetwork(UrlUtils.shoppingCart, 0);
+                    }
+                    break;
+                case REQUEST_CLEAR_SUCCESS:
+                    if(resultCode==Activity.RESULT_OK){
+                        requestNetwork(UrlUtils.shoppingCart, 0);
+                    }
             }
+
         }
 
     }

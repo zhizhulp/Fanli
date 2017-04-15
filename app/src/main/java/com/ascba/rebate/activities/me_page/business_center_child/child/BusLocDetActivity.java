@@ -1,6 +1,8 @@
 package com.ascba.rebate.activities.me_page.business_center_child.child;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,9 +23,15 @@ public class BusLocDetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_loc_det);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
+        setBackGround();
         initViews();
         getDataFromIntent();
+    }
+
+    private void setBackGround() {
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.color.main_bg);
+        this.getWindow().setBackgroundDrawable(drawable);
     }
 
     private void getDataFromIntent() {

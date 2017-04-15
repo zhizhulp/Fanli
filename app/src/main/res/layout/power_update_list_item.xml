@@ -19,14 +19,15 @@
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_power_update_type"
-            android:textSize="@dimen/activity_text_normal"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_power_update_fee"
             android:layout_marginTop="7dp"
-            android:textSize="@dimen/activity_text_normal"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -44,16 +45,17 @@
             android:ellipsize="end"
             android:text="暂未开通"
             android:id="@+id/tv_power_update_open"
-            android:textSize="@dimen/activity_text_normal"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:id="@+id/tv_power_update_region"
-            android:textColor="@color/black"
             android:layout_marginTop="7dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="哈哈哈哈"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

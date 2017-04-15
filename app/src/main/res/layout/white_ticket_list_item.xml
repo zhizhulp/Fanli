@@ -27,6 +27,7 @@
             android:gravity="center"
             android:lineSpacingExtra="5dp"
             android:text="兑现券"
+            android:textSize="@dimen/main_text_14"
             android:textColor="@color/white" />
     </FrameLayout>
 
@@ -56,8 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="90000"
-                android:textColor="#ff6f6f"
-                android:textSize="17sp" />
+                android:textColor="@color/white2cash_color"
+                android:textSize="@dimen/main_text_17" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,11 +70,13 @@
             android:orientation="vertical">
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="本券为一次性使用券"
-                android:textSize="11sp" />
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_11" />
 
             <TextView
                 android:id="@+id/tv_create_time"
@@ -82,7 +85,8 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="1"
                 android:text="获得日期："
-                android:textSize="11sp" />
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_11" />
 
             <TextView
                 android:id="@+id/tv_left_time"
@@ -92,7 +96,8 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="距使用时间："
-                android:textSize="11sp" />
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_11" />
         </LinearLayout>
     </LinearLayout>
 
@@ -113,9 +118,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/white_ticket_9_over"
+            android:background="@drawable/white_ticket_exchange_bg"
             android:text="立即兑现"
             android:textColor="@color/white2cash_color"
-            android:textSize="12sp" />
+            android:textSize="@dimen/main_text_12" />
     </FrameLayout>
 </LinearLayout>

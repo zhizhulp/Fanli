@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:textTitle="商家照片"/>
     <TextView
+        android:textColor="@color/main_text_normal"
         android:textSize="@dimen/activity_text_normal"
         android:paddingLeft="15dp"
         android:gravity="center_vertical"

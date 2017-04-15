@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         app:textTitle="营业时间"/>
     <LinearLayout
-        android:layout_marginTop="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -24,9 +25,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/black"
                 android:text="开始时间"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TimePicker
@@ -41,7 +43,8 @@
             android:orientation="vertical">
             <TextView
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_14"
                 android:text="打烊时间"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

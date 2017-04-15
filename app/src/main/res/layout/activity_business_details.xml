@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="去那儿"
-                android:textSize="@dimen/activity_text_title" />
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_15" />
         </LinearLayout>
 
         <View
@@ -61,7 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="联系他"
-                android:textSize="@dimen/activity_text_title" />
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_15" />
         </LinearLayout>
     </LinearLayout>
 
@@ -116,7 +118,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -130,6 +132,8 @@
                         android:stepSize="1" />
 
                     <TextView
+                        android:textColor="@color/main_text_gary"
+                        android:textSize="@dimen/main_text_14"
                         android:id="@+id/tv_busi_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,7 +144,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="14dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -150,6 +154,8 @@
                         android:src="@mipmap/business_detail_type" />
 
                     <TextView
+                        android:textColor="@color/main_text_gary"
+                        android:textSize="@dimen/main_text_14"
                         android:id="@+id/tv_busi_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,7 +166,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="7.5dp"
-                android:background="@color/view_line" />
+                android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -176,6 +182,8 @@
                     android:src="@mipmap/business_detail_location" />
 
                 <TextView
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_14"
                     android:id="@+id/tv_busi_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,6 +205,8 @@
                     android:src="@mipmap/business_detail_phone" />
 
                 <TextView
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_14"
                     android:id="@+id/tv_busi_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -219,6 +229,8 @@
                     android:src="@mipmap/business_detail_time" />
 
                 <TextView
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_14"
                     android:id="@+id/tv_busi_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -240,6 +252,8 @@
                     android:src="@mipmap/business_detail_desc" />
 
                 <TextView
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -259,7 +273,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="7dp"
-                android:background="@color/view_line" />
+                android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -274,6 +288,8 @@
                     android:src="@mipmap/business_detail_rate" />
 
                 <TextView
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_14"
                     android:id="@+id/tv_busi_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

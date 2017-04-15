@@ -43,14 +43,14 @@
 
 
                 <TextView
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/main_text_15"
                     android:id="@+id/me_tv_nick_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/me_user_img_fl"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:textColor="#fff"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="15dp" />
 
                 <LinearLayout
                     android:id="@+id/container_imgs"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -89,14 +89,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="我的推荐"
-                        android:textColor="@color/shop_normal_text_color" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_14"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="17dp"
-                    android:background="@color/view_line_new" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/main_line_light_gray" />
 
                 <LinearLayout
                     android:id="@+id/me_lat_jiangli"
@@ -118,14 +120,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="我的奖励"
-                        android:textColor="@color/shop_normal_text_color" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_14" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="17dp"
-                    android:background="@color/view_line_new" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/main_line_light_gray" />
 
                 <LinearLayout
                     android:id="@+id/me_lat_power"
@@ -147,7 +151,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="会员特权"
-                        android:textColor="@color/shop_normal_text_color" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_14" />
                 </LinearLayout>
             </LinearLayout>
             <!--实名认证-->
@@ -156,7 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_marginBottom="0.5dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
 
@@ -174,8 +179,8 @@
                     android:layout_marginLeft="14dp"
                     android:layout_toRightOf="@id/me_icon_01"
                     android:text="实名认证"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15" />
 
                 <ImageView
                     android:id="@+id/me_icon_go"
@@ -192,13 +197,15 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@id/me_icon_go"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_gary"
+                    android:textSize="@dimen/main_text_15" />
             </RelativeLayout>
             <RelativeLayout
+                android:layout_marginBottom="0.5dp"
                 android:id="@+id/setting_my_qr"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:onClick="settingMyQRCode"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
@@ -217,8 +224,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/safe_setting_img_04"
                     android:text="我的推广码"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -235,7 +242,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_marginBottom="0.5dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
 
@@ -253,8 +260,8 @@
                     android:layout_marginLeft="14dp"
                     android:layout_toRightOf="@id/me_icon_02"
                     android:text="商家联盟"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15" />
 
                 <ImageView
                     android:id="@+id/me_icon_go_02"
@@ -271,14 +278,15 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@id/me_icon_go_02"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_gary"
+                    android:textSize="@dimen/main_text_15"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/me_lat_dlzq"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_marginBottom="0.5dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
 
@@ -292,12 +300,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@id/me_icon_06"
                     android:text="代理专区"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15"
+                    android:layout_alignTop="@+id/me_icon_06"
+                    android:layout_toRightOf="@+id/me_icon_06"
+                    android:layout_toEndOf="@+id/me_icon_06"
+                    android:layout_marginStart="14dp" />
 
                 <ImageView
                     android:id="@+id/me_icon_go_06"
@@ -321,7 +331,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_marginBottom="0.5dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
 
@@ -339,8 +349,8 @@
                     android:layout_marginLeft="14dp"
                     android:layout_toRightOf="@id/me_icon_03"
                     android:text="我的消息"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15" />
 
                 <ImageView
                     android:id="@+id/me_icon_go_03"
@@ -355,14 +365,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="9dp"
-                android:background="@color/view_line_new" />
+                android:background="@color/main_bg" />
 
             <RelativeLayout
                 android:id="@+id/me_lat_setting"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_marginBottom="0.5dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
 
@@ -380,8 +390,8 @@
                     android:layout_marginLeft="14dp"
                     android:layout_toRightOf="@id/me_icon_04"
                     android:text="设置"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15" />
 
                 <ImageView
                     android:id="@+id/me_icon_go_04"
@@ -396,7 +406,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:background="@color/white"
+                android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
 
@@ -414,8 +424,8 @@
                     android:layout_marginLeft="14dp"
                     android:layout_toRightOf="@id/me_icon_05"
                     android:text="联系我们"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_15" />
 
                 <TextView
                     android:id="@+id/me_tv_phone"

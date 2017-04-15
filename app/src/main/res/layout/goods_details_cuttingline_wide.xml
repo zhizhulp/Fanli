@@ -3,6 +3,6 @@
     android:id="@+id/goods_details_cuttingline_view"
     android:layout_width="match_parent"
     android:layout_height="10dp"
-    android:background="@color/cutting_line">
+    android:background="@color/main_bg">
 
 </View>

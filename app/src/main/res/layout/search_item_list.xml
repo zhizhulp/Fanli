@@ -32,8 +32,8 @@
             android:ellipsize="marquee"
             android:maxLines="1"
             android:id="@+id/search_name"
-            android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -41,7 +41,8 @@
             android:maxLines="1"
             android:id="@+id/search_address"
             android:layout_marginTop="8dp"
-            android:textSize="14sp"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

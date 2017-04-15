@@ -6,11 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <!--<com.ascba.rebate.view.ShopABarText
-        android:id="@+id/shopBar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:abar_title="转出佣金"></com.ascba.rebate.view.ShopABarText>-->
     <com.ascba.rebate.view.MoneyBar
         app:needComplete="true"
         android:id="@+id/mb"
@@ -22,7 +17,7 @@
         android:id="@+id/slidingtablayout"
         android:layout_width="match_parent"
         android:layout_height="47dp"
-        android:background="#FBFBFB"
+        android:background="@color/main_content_bg"
         app:tl_indicator_color="#DD0E0E"
         app:tl_indicator_height="2dp"
         app:tl_indicator_width_equal_title="false"
@@ -36,5 +31,5 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"/>
 </LinearLayout>

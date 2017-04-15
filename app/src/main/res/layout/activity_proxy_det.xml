@@ -21,6 +21,9 @@
                 android:background="@mipmap/me_head_bg">
 
                 <com.ascba.rebate.view.MoneyBar
+                    app:needLine="false"
+                    app:titleColor="@color/white"
+                    app:backImg="@mipmap/money_bar_back"
                     android:id="@+id/mb"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -43,7 +46,7 @@
                         android:layout_marginTop="9dp"
                         android:text="白菜帮子(精英代理)"
                         android:textColor="@color/white"
-                        android:textSize="17sp" />
+                        android:textSize="@dimen/main_text_17"/>
 
                     <TextView
                         android:id="@+id/money_money"
@@ -53,7 +56,7 @@
                         android:layout_marginTop="10dp"
                         android:text="代理区域:安徽省滁州市琅琊区"
                         android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        android:textSize="@dimen/main_text_13" />
 
                 </LinearLayout>
             </RelativeLayout>
@@ -78,7 +81,7 @@
                         android:maxLines="1"
                         android:text="复投次数"
                         android:textColor="@color/white"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/main_text_12" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -88,7 +91,7 @@
                         android:maxLines="1"
                         android:text="0次"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/main_text_15" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -105,7 +108,7 @@
                         android:maxLines="1"
                         android:text="区域人数"
                         android:textColor="@color/white"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/main_text_12" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -115,12 +118,13 @@
                         android:maxLines="1"
                         android:text="21/500人"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/main_text_15" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:background="@color/main_content_bg"
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

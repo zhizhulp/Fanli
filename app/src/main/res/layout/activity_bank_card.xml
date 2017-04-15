@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
@@ -35,8 +36,9 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
@@ -58,8 +60,9 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
@@ -82,8 +85,9 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
@@ -105,8 +109,9 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
@@ -130,8 +135,9 @@
     <View
         style="@style/viewStyleMatch"/>
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="46dp">
         <TextView
@@ -169,8 +175,6 @@
             android:layout_height="match_parent"
             android:background="@color/view_line"/>
     </RelativeLayout>
-    <View
-        style="@style/viewStyleMatch"/>
     <Button
         android:onClick="bankCardConfirm"
         android:layout_marginTop="30dp"

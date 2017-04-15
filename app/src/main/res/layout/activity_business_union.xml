@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
-    android:background="@color/lighter_gray"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -21,6 +20,8 @@
                 android:background="@mipmap/me_head_bg">
 
                 <com.ascba.rebate.view.MoneyBar
+                    app:backImg="@mipmap/money_bar_back"
+                    app:titleColor="@color/white"
                     android:id="@+id/moneyBar"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
@@ -48,7 +49,7 @@
                             android:drawableTop="@mipmap/business_union_code"
                             android:text="立即收款"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/main_text_14"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -65,7 +66,7 @@
                             android:drawableTop="@mipmap/business_union_account"
                             android:text="流水记录"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/main_text_14" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -82,7 +83,7 @@
                             android:drawableTop="@mipmap/business_union_data"
                             android:text="商家资料"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/main_text_14"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -108,12 +109,13 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/textView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
                         android:text="累计交易金额"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="12sp" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_12" />
                 </LinearLayout>
 
                 <View
@@ -121,7 +123,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="11dp"
                     android:layout_marginTop="11dp"
-                    android:background="@color/lighter_gray" />
+                    android:background="@color/main_line_light_gray" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -142,8 +144,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
                         android:text="累计增值"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="12sp" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_12" />
                 </LinearLayout>
 
                 <View
@@ -151,7 +153,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="11dp"
                     android:layout_marginTop="11dp"
-                    android:background="@color/lighter_gray" />
+                    android:background="@color/main_line_light_gray" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -172,8 +174,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
                         android:text="累计交易次数"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="12sp" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_12" />
                 </LinearLayout>
 
 
@@ -182,7 +184,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/lighter_gray" />
+                android:background="@color/main_bg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -210,8 +212,8 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="13dp"
                         android:text="今日交易金额"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="13sp" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_13" />
                 </LinearLayout>
 
                 <TextView
@@ -219,8 +221,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:text="0.00"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="23sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_23" />
 
             </LinearLayout>
 
@@ -252,8 +254,8 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="13dp"
                         android:text="今日增值积分"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="13sp" />
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_13" />
                 </LinearLayout>
 
                 <TextView
@@ -261,8 +263,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:text="0"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="23sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_23" />
 
             </LinearLayout>
 
@@ -295,7 +297,7 @@
                         android:layout_marginTop="13dp"
                         android:text="今日交易次数"
                         android:textColor="@color/shop_normal_text_color"
-                        android:textSize="13sp" />
+                        android:textSize="@dimen/main_text_13" />
                 </LinearLayout>
 
                 <TextView
@@ -303,8 +305,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:text="0"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="23sp" />
+                    android:textColor="@color/main_text_normal"
+                    android:textSize="@dimen/main_text_23" />
 
             </LinearLayout>
 

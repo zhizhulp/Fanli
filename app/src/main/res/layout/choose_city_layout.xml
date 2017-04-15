@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="取消"
-            android:textColor="@color/c7"
-            android:textSize="16sp"/>
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"/>
 
         <TextView
             android:id="@+id/confirm_button"
@@ -28,8 +28,8 @@
             android:padding="10dp"
             android:layout_alignParentRight="true"
             android:text="确定"
-            android:textColor="@color/c9"
-            android:textSize="16sp" />
+            android:textColor="@color/main_red_normal"
+            android:textSize="@dimen/main_text_15" />
     </RelativeLayout>
 
     <LinearLayout

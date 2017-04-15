@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <WebView
+        android:background="@color/main_content_bg"
         android:scrollbars="none"
         android:id="@+id/webView"
         android:layout_width="match_parent"

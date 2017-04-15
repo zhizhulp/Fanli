@@ -12,29 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
-            android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
             android:text="公司全称"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.ascba.rebate.view.EditTextWithCustomHint
             android:background="@null"
             android:id="@+id/company_name"
-            android:textSize="15sp"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:hint="举例：北京钱来钱往网络科技有限公司"
             android:layout_marginLeft="18dp"
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-    <View
-        style="@style/viewStyleMatch"/>
     <Button
         android:onClick="goNext"
         android:text="下一步"

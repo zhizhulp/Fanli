@@ -6,6 +6,7 @@
     <View
         style="@style/viewStyleMatch"/>
     <ListView
+        android:background="@color/main_content_bg"
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

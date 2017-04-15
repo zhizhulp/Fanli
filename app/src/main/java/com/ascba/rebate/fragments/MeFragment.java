@@ -394,11 +394,11 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             tvUserName.setText(infoObj.optString("nickname"));
             tvSjlm.setText(infoObj.optInt("merchant") < 3 ? infoObj.optString("merchant_tip") : infoObj.optString("seller_status_tip"));
             tvPhone.setText(infoObj.optString("telephone"));
-            if (infoObj.optInt("seller_status") == 2) {
+            /*if (infoObj.optInt("seller_status") == 2) {
                 qrView.setVisibility(View.VISIBLE);
             } else {
                 qrView.setVisibility(View.GONE);
-            }
+            }*/
         }
     }
 

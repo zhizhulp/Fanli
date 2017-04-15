@@ -10,7 +10,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_gravity="center_vertical"
-        android:text="haha"
         android:gravity="center_vertical"
         android:id="@+id/tv_power_update_title"
         android:textColor="@color/black"

@@ -14,6 +14,10 @@
         android:layout_height="wrap_content"
         app:textTitle="联系电话"/>
     <com.ascba.rebate.view.EditTextWithCustomHint
+        android:textSize="@dimen/main_text_15"
+        android:textColor="@color/main_text_normal"
+        app:hintSize="@dimen/main_text_14"
+        android:textColorHint="@color/main_text_gary"
         android:id="@+id/ed_business_data_phone"
         android:maxLines="1"
         android:inputType="phone"

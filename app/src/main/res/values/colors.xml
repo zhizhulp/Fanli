@@ -106,6 +106,8 @@
     <color name="main_bg">#f4f4f4</color><!--背景颜色和粗线颜色-->
     <!--通用字体蓝色-->
     <color name="main_text_blue">#2e82ff</color>
+    <!--内容区域背景颜色-->
+    <color name="main_content_bg">#fff</color>
     <!--ShopActivity颜色管理-->
 
 </resources>

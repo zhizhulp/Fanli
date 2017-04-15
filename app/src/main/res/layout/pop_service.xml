@@ -7,8 +7,8 @@
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/service_phone"
-        android:textSize="16sp"
-        android:textColor="@color/text_blue"
+        android:textColor="@color/main_text_blue"
+        android:textSize="@dimen/main_text_16"
         android:gravity="center"
         android:text="400-900-6639"
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
         style="@style/viewStyleMargin"/>
     <TextView
         android:id="@+id/tv_cancel"
-        android:textSize="16sp"
-        android:textColor="@color/text_blue"
+        android:textColor="@color/main_text_blue"
+        android:textSize="@dimen/main_text_16"
         android:gravity="center"
         android:text="取消"
         android:layout_width="match_parent"

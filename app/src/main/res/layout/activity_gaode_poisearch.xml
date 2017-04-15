@@ -11,10 +11,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!-- <com.amap.api.maps.MapView
-             android:id="@+id/map"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" />-->
         <fragment
             class="com.amap.api.maps.SupportMapFragment"
             android:id="@+id/map"

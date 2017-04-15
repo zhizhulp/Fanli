@@ -14,13 +14,14 @@
         android:layout_height="wrap_content"/>
     <RelativeLayout
         android:id="@+id/select_man"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
-            android:textColor="@color/black"
-            android:textSize="@dimen/activity_text_normal"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,13 +37,14 @@
     <ImageView style="@style/viewStyleMatch"/>
     <RelativeLayout
         android:id="@+id/select_woman"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
-            android:textColor="@color/black"
-            android:textSize="@dimen/activity_text_normal"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,13 +61,14 @@
     <ImageView style="@style/viewStyleMatch"/>
     <RelativeLayout
         android:id="@+id/select_pri"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space">
         <TextView
-            android:textColor="@color/black"
-            android:textSize="@dimen/activity_text_normal"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

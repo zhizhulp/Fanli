@@ -17,19 +17,23 @@
         android:layout_width="match_parent"
         android:layout_height="200dp">
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
             android:id="@+id/ed_msg"
-            android:textSize="15sp"
             android:gravity="left"
             android:layout_marginTop="15dp"
             android:paddingTop="15dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            app:hintSize="15sp"
             android:hint="请输入您要反馈的意见"
             android:background="@color/view_line"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
             android:layout_margin="15dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
