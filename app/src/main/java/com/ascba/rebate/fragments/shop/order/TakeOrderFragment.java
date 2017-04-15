@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -44,6 +43,7 @@ public class TakeOrderFragment extends LazyLoadFragment {
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private TakeOrderAdapter adapter;
     private View view;
+    private View emptyView;
     private String orderId;//订单id
 
 
@@ -112,7 +112,9 @@ public class TakeOrderFragment extends LazyLoadFragment {
     初始化数据
      */
     private void initData(JSONObject dataObj) {
-        beanArrayList.clear();
+        if (beanArrayList.size() > 0) {
+            beanArrayList.clear();
+        }
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -166,6 +168,19 @@ public class TakeOrderFragment extends LazyLoadFragment {
                 beanArrayList.add(beadFoot);
             }
         }
+
+        if (adapter == null) {
+            initRecylerView();
+        } else {
+            adapter = new TakeOrderAdapter(beanArrayList, context);
+            recyclerView.setAdapter(adapter);
+        }
+
+        if (beanArrayList.size() > 0) {
+            emptyView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initRecylerView() {
@@ -175,9 +190,6 @@ public class TakeOrderFragment extends LazyLoadFragment {
 
         adapter = new TakeOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
-
-        View emptyView = LayoutInflater.from(context).inflate(R.layout.empty_order, null);
-        adapter.setEmptyView(emptyView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override

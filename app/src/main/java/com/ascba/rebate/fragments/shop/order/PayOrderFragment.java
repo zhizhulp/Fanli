@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -46,6 +45,7 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private PayOrderAdapter adapter;
     private View view;
+    private View emptyView;
     private String orderStatus;//订单状态
     private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单
@@ -101,7 +101,10 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
     初始化数据
      */
     private void initData(JSONObject dataObj) {
-        beanArrayList.clear();
+        if (beanArrayList.size() > 0) {
+            beanArrayList.clear();
+        }
+
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -177,7 +180,14 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
         if (adapter == null) {
             initRecylerView();
         } else {
-            adapter.notifyDataSetChanged();
+            adapter = new PayOrderAdapter(beanArrayList, context);
+            recyclerView.setAdapter(adapter);
+        }
+
+        if (beanArrayList.size() > 0) {
+            emptyView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -188,8 +198,7 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
         adapter = new PayOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
-        View emptyView = LayoutInflater.from(context).inflate(R.layout.empty_order, null);
-        adapter.setEmptyView(emptyView);
+        emptyView = view.findViewById(R.id.empty_view);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
