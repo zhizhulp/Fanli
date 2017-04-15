@@ -33,8 +33,6 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yolanda.nohttp.FileBinary;
 import com.yolanda.nohttp.rest.Request;
@@ -354,8 +352,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
             int sex = userInfo.optInt("sex");
             int age = userInfo.optInt("age");
             String location = userInfo.optString("location");
-            Picasso.with(PersonalDataActivity.this).load(UrlUtils.baseWebsite + avatar).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(userIconView);
+            Picasso.with(PersonalDataActivity.this).load(UrlUtils.baseWebsite + avatar).error(R.mipmap.logo).noPlaceholder().into(userIconView);
             tvMobile.setText(mobile);
             tvNickname.setText(nickname);
             if (sex == 0) {
