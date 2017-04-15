@@ -1,12 +1,15 @@
 package com.ascba.rebate.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -15,9 +18,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
+import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -25,12 +32,17 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.beans.ReceiveAddressBean;
+import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.ascba.rebate.view.pay.PayResult;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yolanda.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -40,6 +52,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 李鹏 on 2017/03/15 0015.
@@ -49,7 +62,48 @@ import java.util.List;
 public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
 
     private SuperSwipeRefreshLayout refreshLat;
-    private Handler handler = new Handler();
+    private static final int SDK_PAY_FLAG = 1;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    //对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        Toast.makeText(ConfirmOrderActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject jObj = new JSONObject(resultInfo);
+                            JSONObject trObj = jObj.optJSONObject("alipay_trade_app_pay_response");
+                            String total_amount = trObj.optString("total_amount");
+                            /*Intent intent = new Intent(ConfirmOrderActivity.this, RechaSuccActivity.class);
+                            intent.putExtra("money", total_amount + "元");
+                            startActivityForResult(intent, FourthFragment.REQUEST_PAY);*/
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else if(TextUtils.equals(resultStatus, "6002")) {
+                        dm.buildAlertDialog("网络有问题");
+                    } else if(TextUtils.equals(resultStatus, "6001")) {
+                        dm.buildAlertDialog("您已经取消支付");
+                    } else {
+                        dm.buildAlertDialog("支付失败");
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+
+        ;
+    };
     private Context context;
     private ShopABarText shopABarText;
     private RecyclerView recyclerView;
@@ -296,12 +350,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
 
     @Override
     public void onRefresh() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLat.setRefreshing(false);
-            }
-        }, 1000);
+
     }
 
     @Override
@@ -317,7 +366,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     /*
      * 创建订单
      */
-    private void creatOrder(String receiveId, String message,String payType) {
+    private void creatOrder(String receiveId, String message, final String payType) {
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
@@ -330,8 +379,17 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             public void handle200Data(JSONObject dataObj, String message) {
                 //创建并支付订单成功
                 showToast(message);
-                setResult(RESULT_OK,getIntent());
-                finish();
+                /*setResult(RESULT_OK,getIntent());
+                finish();*/
+
+                if("balance".equals(payType)){
+                    showToast("暂未开放");
+                }else if("alipay".equals(payType)){
+                    requestForAli(dataObj);//发起支付宝支付请求
+                }else if("wxpay".equals(payType)){
+                    requestForWX(dataObj);
+                }
+
             }
 
             @Override
@@ -407,7 +465,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     }
     //选择支付方式页面
     private void showFinalDialog() {
-        final String[] type = {null};
+        final String[] type = {"balance"};
         final Dialog dialog = new Dialog(this, R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_pay_pop);
         //关闭对话框
@@ -449,6 +507,46 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             wlp.gravity = Gravity.BOTTOM;
             window.setAttributes(wlp);
         }
+    }
+    //调起支付宝
+    private void requestForAli(JSONObject dataObj) {
+        JSONObject object = dataObj.optJSONObject("payreturn_data");
+        JSONObject object1 = object.optJSONObject("data");
+        final String payInfo = object1.optString("payInfo");
+        Runnable payRunnable = new Runnable() {
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(ConfirmOrderActivity.this);
+                Map<String, String> result = alipay.payV2(payInfo, true);
+                Message msg = new Message();
+                msg.what = SDK_PAY_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+    //调起微信
+    private void requestForWX(JSONObject dataObj) {
+        try {
+            JSONObject object = dataObj.optJSONObject("payreturn_data");
+            JSONObject object1 = object.optJSONObject("data");
+            JSONObject wxpay = object1.getJSONObject("wxpay");
+            PayReq req = new PayReq();
+            req.appId = wxpay.getString("appid");
+            req.nonceStr = wxpay.getString("noncestr");
+            req.packageValue = wxpay.getString("package");
+            req.partnerId = wxpay.getString("partnerid");
+            req.prepayId = wxpay.getString("prepayid");
+            req.timeStamp = wxpay.getInt("timestamp")+"";
+            req.sign = wxpay.getString("sign");
+            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+            WXAPIFactory.createWXAPI(this, IDsUtils.WX_PAY_APP_ID).sendReq(req);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
