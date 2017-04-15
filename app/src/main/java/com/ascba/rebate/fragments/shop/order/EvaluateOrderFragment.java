@@ -154,6 +154,11 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Frag
                 beanArrayList.add(beadFoot);
             }
         }
+        if (adapter == null) {
+            initRecylerView();
+        } else {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void initRecylerView() {
@@ -203,12 +208,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Frag
                 //删除订单,成功后刷新数据
                 requstListData();
                 break;
-        }
-
-        if (adapter == null) {
-            initRecylerView();
-        } else {
-            adapter.notifyDataSetChanged();
         }
     }
 

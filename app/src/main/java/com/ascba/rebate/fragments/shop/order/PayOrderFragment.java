@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments.shop.order;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -172,6 +173,12 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 beanArrayList.add(beadFoot);
             }
         }
+
+        if (adapter == null) {
+            initRecylerView();
+        } else {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void initRecylerView() {
@@ -192,8 +199,11 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        if (orderId != null)
-                            PayDetailsActivity.startIntent(context, orderId);
+                        if (orderId != null) {
+                            Intent intent = new Intent(context, PayDetailsActivity.class);
+                            intent.putExtra("order_id", orderId);
+                            startActivityForResult(intent, 1);
+                        }
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款
@@ -244,11 +254,6 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 break;
         }
 
-        if (adapter == null) {
-            initRecylerView();
-        } else {
-            adapter.notifyDataSetChanged();
-        }
     }
 
     @Override
@@ -268,5 +273,13 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
     @Override
     public void handleNoNetWork() {
         getDm().buildAlertDialog(getString(R.string.no_network));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            requstListData();
+        }
     }
 }

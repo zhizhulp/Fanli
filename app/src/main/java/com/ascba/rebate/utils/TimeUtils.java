@@ -185,7 +185,7 @@ public class TimeUtils {
      * 注意SimpleDateFormat不是线程安全的
      */
     public static final SimpleDateFormat DEFAULT_SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-    public static final SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     /**
      * 将时间戳转为时间字符串
@@ -224,7 +224,6 @@ public class TimeUtils {
     /**
      * 将时间字符串转为时间戳
      * <p>格式为yyyy-MM-dd</p>
-     *
      */
     public static String milli2String(long milliseconds) {
         return simpleDateFormat.format(new Date(milliseconds));
@@ -654,5 +653,55 @@ public class TimeUtils {
         Calendar cal = Calendar.getInstance();
         cal.setTime(time);
         return cal.get(Calendar.WEEK_OF_YEAR);
+    }
+
+
+    /**
+     * 计算时间差:时间差小于30分钟
+     **/
+    public static int[] timeDifference(String time) {
+        int timeDiff[] = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String systemTime = sdf.format(new Date()).toString();
+        System.out.println(systemTime);
+
+        /** */
+        /** 将截取到的时间字符串转化为时间格式的字符串 **/
+        Date begin = null;
+        Date end = null;
+        try {
+            begin = sdf.parse(time);
+            end = sdf.parse(systemTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int between = (int) (end.getTime() - begin.getTime()) / 1000;// 除以1000是为了转换成秒
+
+        int day = between / (24 * 3600);
+        int hour = between % (24 * 3600) / 3600;
+        int minute = between % 3600 / 60;
+        int second = between % 60;
+
+        if ((hour == 0) && (day == 0) && (minute <= 30)) {
+            timeDiff = new int[]{day, hour, minute, second};
+        }
+        return timeDiff;
+    }
+
+    /**
+     * 倒计时
+     *
+     * @param maxTime   倒计时长-秒
+     * @param orderTime 订单创建时间
+     * @return 剩余秒数
+     */
+    public static int countdownTime(int maxTime, String orderTime) {
+        int timeDiff[] = timeDifference(orderTime);
+        if (timeDiff == null) {
+            return 0;
+        }
+        int second = maxTime - (timeDiff[2] * 60 + timeDiff[3]);//倒计时秒
+        return second;
     }
 }
