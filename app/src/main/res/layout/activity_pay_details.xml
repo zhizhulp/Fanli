@@ -24,23 +24,61 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/deliver_details_state"
+            <RelativeLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="19dp"
-                android:gravity="center"
-                android:text="请在29分27秒内完成支付，超时订单自动关闭"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp" />
+                android:layout_marginTop="19dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_countdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="请在"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tx_countdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="\?分\?秒"
+                        android:textColor="@color/fragment_money_red"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="内完成支付，超时订单自动关闭"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tx_close_order"
+                    android:layout_width="match_parent"
+                    android:text="支付超时，订单自动关闭！"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/deliver_details_problem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp"
                 android:gravity="center"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
                 android:text="支付问题>"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -309,8 +347,8 @@
                     android:id="@+id/contact_store"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -406,7 +444,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:text="46484546485231"
                         android:textColor="@color/shop_normal_text_color"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -435,7 +472,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:text="2017-01-27"
                         android:textColor="@color/shop_normal_text_color"
                         android:textSize="14sp" />
                 </RelativeLayout>

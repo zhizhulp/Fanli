@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
@@ -77,8 +78,8 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
     }
 
     /*
-              获取列表数据
-            */
+      获取列表数据
+    */
     private void requstListData() {
         flag = 0;
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
@@ -101,7 +102,10 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
     初始化数据
      */
     private void initData(JSONObject dataObj) {
-        beanArrayList.clear();
+        if (beanArrayList.size() > 0) {
+            beanArrayList.clear();
+        }
+
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -150,6 +154,7 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                             good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
                             good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
                             good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
+                            good.setTitleId(Integer.parseInt(goodsObject.optString("goods_id")));
 
                             int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
                             totalNum = num + totalNum;
@@ -195,6 +200,19 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 beanArrayList.add(beadFoot);
             }
         }
+
+        if (adapter == null) {
+            initRecylerView();
+        } else {
+            adapter = new AllOrderAdapter(beanArrayList, context);
+            recyclerView.setAdapter(adapter);
+        }
+
+        if (beanArrayList.size() > 0) {
+            emptyView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initRecylerView() {
@@ -213,27 +231,33 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 String orderId = beanArrayList.get(position).getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
-                        //点击商品查看订单详情
-                        String orderStatus = beanArrayList.get(position).getStateCode();
-                        if (orderStatus.equals("10")) {
-                            //等待卖家付款
-                            if (orderId != null)
-                                PayDetailsActivity.startIntent(context, orderId);
-                        } else if (orderStatus.equals("0")) {
-                            //交易关闭
+                        if (orderId != null) {
+                            Intent intent = new Intent();
+                            //点击商品查看订单详情
+                            String orderStatus = beanArrayList.get(position).getStateCode();
+                            if (orderStatus.equals("10")) {
+                                //等待卖家付款
+                                intent.setClass(context, PayDetailsActivity.class);
+                            } else if (orderStatus.equals("0")) {
+                                //交易关闭,查看商品详情
+                                intent = null;
+                                int goodId = beanArrayList.get(position).getGoods().getTitleId();
+                                GoodsDetailsActivity.startIntent(getActivity(), goodId);
+                            } else if (orderStatus.equals("20")) {
+                                //等待卖家发货
+                                intent.setClass(context, DeliverDetailsActivity.class);
+                            } else if (orderStatus.equals("30")) {
+                                //等待买家收货
+                                intent.setClass(context, TakeDetailsActivity.class);
+                            } else if (orderStatus.equals("40")) {
+                                //交易成功
+                                intent.setClass(context, EvaluateDetailsActivity.class);
+                            }
 
-                        } else if (orderStatus.equals("20")) {
-                            //等待卖家发货
-                            Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                            startActivity(intent);
-                        } else if (orderStatus.equals("30")) {
-                            //等待买家收货
-                            Intent intent = new Intent(context, TakeDetailsActivity.class);
-                            startActivity(intent);
-                        } else if (orderStatus.equals("40")) {
-                            //交易成功
-                            Intent intent = new Intent(context, EvaluateDetailsActivity.class);
-                            startActivity(intent);
+                            if (intent != null) {
+                                intent.putExtra("order_id", orderId);
+                                startActivityForResult(intent, 1);
+                            }
                         }
                         break;
                     case R.id.item_goods_order_total_pay:
@@ -245,7 +269,6 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                         break;
                     case R.id.item_goods_order_total_call:
                         //联系卖家
-
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
@@ -288,19 +311,6 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                 requstListData();
                 break;
         }
-
-        if (adapter == null) {
-            initRecylerView();
-        } else {
-            adapter = new AllOrderAdapter(beanArrayList, context);
-            recyclerView.setAdapter(adapter);
-        }
-
-        if (beanArrayList.size() > 0) {
-            emptyView.setVisibility(View.GONE);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -320,5 +330,13 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
     @Override
     public void handleNoNetWork() {
         getDm().buildAlertDialog(getString(R.string.no_network));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            requstListData();
+        }
     }
 }

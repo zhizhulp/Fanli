@@ -162,7 +162,7 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
                     break;
                 case REQUEST_LOGIN_ME:
                     if (resultCode == RESULT_OK) {
-                        selFrgByPos(CART);
+                        selFrgByPos(ME);
                     } else {
                         selFrgByPos(HOMEPAGE);
                         getShopTabs().statusChaByPosition(0, 3);

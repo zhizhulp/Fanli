@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,10 +35,10 @@ import java.util.List;
  * 待付款订单详情
  */
 
-public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
+public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetWork4Activity.Callback {
 
     private SuperSwipeRefreshLayout refreshLat;
-    private Handler handler = new Handler();
+
     private Context context;
     private ShopABarText shopABarText;
     private RecyclerView recyclerView;
@@ -48,11 +49,35 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
     private String storePhone;//商家电话
     //收货地址
     private RelativeLayout addressView;
-    private LinearLayout contactStoreTx;
+    private LinearLayout contactStoreTx, countdownView;
     private TextView phoneTx, nameTx, addressTx;
     private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
-    private TextView payTx, deleteTx;
+    private TextView payTx, deleteTx, countdownTx, closeOrderTx;
+
+    //倒计时
+    private int maxTime = 10;//单位——秒
+    private Handler handler = new Handler();
+    private int countdownSecond;
+    private boolean isCountdown;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (countdownSecond > 0) {
+                countdownTx.setText(countdownSecond / 60 + "分" + countdownSecond % 60 + "秒");
+                countdownSecond--;
+                handler.postDelayed(this, 1000);
+            } else {
+                countdownView.setVisibility(View.INVISIBLE);
+                closeOrderTx.setVisibility(View.VISIBLE);
+                handler.removeCallbacks(runnable);
+                requstData(UrlUtils.cancelOrder, 1);
+            }
+        }
+    };
+
+    private int flag = 0;//0-获取数据，1-取消订单
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +133,18 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
         payTx.setOnClickListener(this);
         deleteTx = (TextView) findViewById(R.id.tx_delete);
         deleteTx.setOnClickListener(this);
+        countdownTx = (TextView) findViewById(R.id.tx_countdown);
+        closeOrderTx = (TextView) findViewById(R.id.tx_close_order);
+        countdownView = (LinearLayout) findViewById(R.id.ll_countdown);
     }
 
-    public static void startIntent(Context context, String orderId) {
-        Intent intent = new Intent(context, PayDetailsActivity.class);
-        intent.putExtra("order_id", orderId);
-        context.startActivity(intent);
-    }
 
     private void getOrderId() {
         Intent intent = getIntent();
         if (intent != null) {
             orderId = intent.getStringExtra("order_id");
             if (orderId != null) {
-                requstListData();
+                requstData(UrlUtils.waitPayOrder, 0);
             } else {
                 showToast(getString(R.string.no_data_txt));
                 finish();
@@ -131,34 +154,13 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
 
     /*
      获取列表数据
-   */
-    private void requstListData() {
-        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.waitPayOrder, 0, true);
+    */
+    private void requstData(String url, int flag) {
+        this.flag = flag;
+        Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", orderId);
         executeNetWork(jsonRequest, "请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) {
-                //收货地址
-                getAddress(dataObj);
-
-                //商家信息
-                getStoreInfo(dataObj);
-
-                //订单信息
-                getGoodsInfo(dataObj);
-            }
-
-            @Override
-            public void handle404(String message) {
-                getDm().buildAlertDialog(message);
-            }
-
-            @Override
-            public void handleNoNetWork() {
-                getDm().buildAlertDialog(getString(R.string.no_network));
-            }
-        });
+        setCallback(this);
     }
 
     /*
@@ -213,8 +215,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
     }
 
     /*
-        订单信息
-
+       订单信息
      */
     private void getGoodsInfo(JSONObject dataObject) {
         try {
@@ -226,7 +227,17 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
             String goodsAmount = orderObject.optString("goods_amount");//商品价格
             String orderAmount = orderObject.optString("order_amount");//订单价格
             String orderTime = orderObject.optString("add_time");//订单时间
-            orderTime = TimeUtils.milli2String(Long.parseLong(orderTime) * 1000);
+            orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
+
+            /*
+               开始支付倒计时
+             */
+            if (!isCountdown) {
+                //时间差
+                countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
+                isCountdown = handler.postDelayed(runnable, 1000);
+                Log.d("PayDetailsActivity", "isCountdown:" + isCountdown);
+            }
 
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
@@ -254,12 +265,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
 
     @Override
     public void onRefresh() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLat.setRefreshing(false);
-            }
-        }, 1000);
+        requstData(UrlUtils.waitPayOrder, 0);
     }
 
     @Override
@@ -290,5 +296,44 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
                 //删除订单
                 break;
         }
+    }
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        switch (flag) {
+            case 0:
+                /*
+                获取订单数据
+                */
+                refreshLat.setRefreshing(false);
+                //收货地址
+                getAddress(dataObj);
+
+                //商家信息
+                getStoreInfo(dataObj);
+
+                //订单信息
+                getGoodsInfo(dataObj);
+                break;
+            case 1:
+                /*
+                订单超时，自动关闭
+                */
+                getDm().buildAlertDialog("支付超时，订单自动关闭！");
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void handle404(String message) {
+        refreshLat.setRefreshing(false);
+        getDm().buildAlertDialog(message);
+    }
+
+    @Override
+    public void handleNoNetWork() {
+        refreshLat.setRefreshing(false);
+        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }

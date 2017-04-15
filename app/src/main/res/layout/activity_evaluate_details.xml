@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <com.ascba.rebate.view.ShopABarText
@@ -14,7 +15,6 @@
         android:id="@+id/deliver_details_bottom"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/white"
         android:layout_alignParentBottom="true">
 
         <include layout="@layout/goods_details_cuttingline" />
