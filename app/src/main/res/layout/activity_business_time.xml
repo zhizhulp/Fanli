@@ -15,7 +15,7 @@
         app:textTitle="营业时间"/>
     <LinearLayout
         android:background="@color/main_content_bg"
-        android:layout_marginTop="15dp"
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

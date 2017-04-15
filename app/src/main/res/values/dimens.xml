@@ -52,4 +52,5 @@
     <dimen name="main_text_25">25sp</dimen>
     <dimen name="main_text_50">50sp</dimen>
     <dimen name="main_text_19">19sp</dimen>
+    <dimen name="main_text_11">11sp</dimen>
 </resources>
