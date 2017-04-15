@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.GoodsAttr;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.view.RadioGroupEx;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,20 +41,22 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
         final List<GoodsAttr.Attrs> strs = item.getStrs();
         for (final GoodsAttr.Attrs s : strs) {
             final RadioButton rb=new RadioButton(mContext);
-            rb.setChecked(s.isHasCheck());
+            rb.setChecked(s.getTextStatus() == 1);
             rb.setTextColor(s.getTextStatus());
 
             rb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    s.setHasCheck(rb.isChecked());
+                    long startTime = System.currentTimeMillis();
+                    LogUtils.PrintLog("ProfileAdapter","start_time-->"+startTime);
+                    //s.setHasCheck(rb.isChecked());
                     s.setTextStatus(1);
                     for (int i = 0; i < strs.size(); i++) {
                         GoodsAttr.Attrs attrs = strs.get(i);
                         if(attrs.getTextStatus()!=2){
                             if(attrs.getTextStatus()==1 && attrs!=s){
                                 attrs.setTextStatus(0);
-                                attrs.setHasCheck(false);
+                                //attrs.setHasCheck(false);
                             }
                         }
                     }
@@ -64,10 +67,14 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
                         callback.click(s,item);
                     }
                     notifyItemChanged(helper.getAdapterPosition());
+                    long endTime = System.currentTimeMillis();
+                    LogUtils.PrintLog("ProfileAdapter","end_time-->"+endTime);
+                    LogUtils.PrintLog("ProfileAdapter","exe_time-->"+(endTime-startTime));
                 }
             });
             rb.setButtonDrawable(new ColorDrawable());//去掉圆圈
             rb.setText(s.getContent());
+            rb.setTextSize(13);
             int textStatus = s.getTextStatus();
             if(textStatus==0){//未选择
                 rb.setEnabled(true);

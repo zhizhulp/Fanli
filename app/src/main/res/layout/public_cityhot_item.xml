@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:id="@+id/public_cityhot_item"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
@@ -22,7 +23,7 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/city_list_item_height"
         android:layout_below="@id/alpha"
-        android:background="@drawable/city_item_bg"
+        android:background="@color/main_content_bg"
         android:paddingLeft="@dimen/city_list_margin_left_dimen"
         android:paddingRight="@dimen/city_list_margin_right_dimen">
 

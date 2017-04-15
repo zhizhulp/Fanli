@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +8,10 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,9 +19,11 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
+import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.StringUtils;
@@ -311,19 +317,21 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     /*
      * 创建订单
      */
-    private void creatOrder(String receiveId, String message) {
+    private void creatOrder(String receiveId, String message,String payType) {
         dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("extra_data", message);
         jsonRequest.add("member_address_id", receiveId);//用户收货地址id
-        jsonRequest.add("payment_type", "wxpay");//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
+        jsonRequest.add("payment_type", payType);//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
+                //创建并支付订单成功
                 showToast(message);
-                //发起支付
+                setResult(RESULT_OK,getIntent());
+                finish();
             }
 
             @Override
@@ -357,7 +365,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             case R.id.confir_order_btn_commit:
                 //提交订单
                 if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
-                    creatOrder(defaultAddressBean.getId(), jsonMessage.toString());
+                    showFinalDialog();
                 } else {
                     showToast("请先填写收货地址");
                 }
@@ -391,4 +399,56 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         super.onDestroy();
         MyApplication.addressId = null;
     }
+
+    private void initPayTypesData(List<PayType> types) {
+        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付","balance"));
+        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡","alipay"));
+        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡","wxpay"));
+    }
+    //选择支付方式页面
+    private void showFinalDialog() {
+        final String[] type = {null};
+        final Dialog dialog = new Dialog(this, R.style.AlertDialog);
+        dialog.setContentView(R.layout.layout_pay_pop);
+        //关闭对话框
+        dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //去付款
+        dialog.findViewById(R.id.go_pay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                creatOrder(defaultAddressBean.getId(), jsonMessage.toString(),type[0]);
+            }
+        });
+        //列表
+        RecyclerView rvTypes = (RecyclerView) dialog.findViewById(R.id.pay_type_list);
+        List<PayType> types = new ArrayList<>();
+        initPayTypesData(types);
+        PayTypeAdapter pt = new PayTypeAdapter(R.layout.pay_type_item, types);
+        pt.setCallback(new PayTypeAdapter.Callback() {
+            @Override
+            public void onClicked(String payType) {
+                type[0] =payType;
+            }
+        });
+        rvTypes.setLayoutManager(new LinearLayoutManager(this));
+        rvTypes.setAdapter(pt);
+        //显示对话框
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setWindowAnimations(R.style.goods_profile_anim);
+            //window.setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams wlp = window.getAttributes();
+            Display d = window.getWindowManager().getDefaultDisplay();
+            wlp.width = d.getWidth();
+            wlp.gravity = Gravity.BOTTOM;
+            window.setAttributes(wlp);
+        }
+    }
+
 }

@@ -9,12 +9,22 @@ public class PayType {
     private int icon;
     private String title;
     private String content;
+    private String type;
 
-    public PayType(boolean isSelect, int icon, String title, String content) {
+    public PayType(boolean isSelect, int icon, String title, String content,String type) {
         this.isSelect = isSelect;
         this.icon = icon;
         this.title = title;
         this.content = content;
+        this.type=type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public boolean isSelect() {

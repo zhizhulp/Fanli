@@ -18,7 +18,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 
 import java.util.List;
@@ -177,7 +176,7 @@ public class StdDialog extends Dialog {
                 List<GoodsAttr.Attrs> strs = goodsAttr.getStrs();
                 for (int j = 0; j < strs.size(); j++) {
                     GoodsAttr.Attrs attrs = strs.get(j);
-                    if (attrs.isHasCheck()) {
+                    if (attrs.getTextStatus()==1) {
                         if (i == gas.size() - 1) {
                             sb.append(attrs.getItemId());
                         } else {
@@ -187,10 +186,8 @@ public class StdDialog extends Dialog {
                     }
                 }
             }
-            LogUtils.PrintLog("369", "拼接字符串-->" + sb.toString());
             for (int i = 0; i < goodses.size(); i++) {
                 Goods goods = goodses.get(i);
-                LogUtils.PrintLog("369", "当前字符串-->" + goods.getSpecKeys());
                 if (sb.toString().equals(goods.getSpecKeys())) {
                     nb.setInventory(goods.getInventory());
                     tvInv.setText("库存" + goods.getInventory());

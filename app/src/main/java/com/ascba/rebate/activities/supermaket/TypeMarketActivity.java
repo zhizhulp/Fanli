@@ -269,6 +269,7 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
             //商城首页导航栏
             initShoopNave(dataObj);
 
+
             //商品列表
             initGoodsList(dataObj);
 
@@ -323,6 +324,7 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }
+            data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_MAX, R.layout.shop_line, 4));
         }
     }
 

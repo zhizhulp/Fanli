@@ -274,11 +274,11 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             int status = company.optInt("status");
             if (status == 3) {//申请成功
                 int submit_status = company.optInt("submit_status");
-                //0 提交 1资料有误 2等待审核中
+                //0 提交 1资料有误 2等待审核中 //3可以营业了
                 if(submit_status==0 || submit_status==1 ||submit_status==2){//第一次设置商家资料
                     Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
                     startActivity(intent);
-                }else if(submit_status==3) {//3可以营业了
+                }else if(submit_status==3) {
                     BusinessUnionActivity.startIntent(getActivity(), dataObj.toString());
                 }
             } else if (status == 0) {//填写申请资料

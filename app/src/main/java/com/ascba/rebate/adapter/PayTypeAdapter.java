@@ -17,18 +17,32 @@ import java.util.List;
  */
 
 public class PayTypeAdapter extends BaseQuickAdapter<PayType,BaseViewHolder> {
+    private Callback callback;
+    private List<PayType> data;
+    public interface Callback{
+        void onClicked(String payType);
+    }
+
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
     public PayTypeAdapter(int layoutResId, List<PayType> data) {
         super(layoutResId, data);
+        this.data=data;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final PayType item) {
+    protected void convert(final BaseViewHolder helper, final PayType item) {
         helper.setChecked(R.id.pay_type_cb,item.isSelect());
         helper.setOnClickListener(R.id.pay_type_cb, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item.setSelect(true);
-                List<PayType> data = getData();
                 if(data!=null && data.size()!=0){
                     for (int i = 0; i < data.size(); i++) {
                         PayType payType = data.get(i);
@@ -39,6 +53,9 @@ public class PayTypeAdapter extends BaseQuickAdapter<PayType,BaseViewHolder> {
 
                 }
                 notifyDataSetChanged();
+                if(callback!=null){
+                    callback.onClicked(item.getType());
+                }
             }
         });
         helper.setImageResource(R.id.pay_icon,item.getIcon());

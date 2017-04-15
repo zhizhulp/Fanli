@@ -212,11 +212,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         return  hasCheck;
     }
 
-    private void initPayTypesData(List<PayType> types) {
-        types.add(new PayType(false, R.mipmap.pay_left, "账户余额支付", "快捷支付"));
-        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡"));
-        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡"));
-    }
+
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
@@ -447,7 +443,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) {//处理登录超时
             FragmentActivity activity = getActivity();
-            if (activity instanceof ShopActivity) {
+            if (requestCode==BaseNetWork4Activity.REQUEST_LOGIN && activity instanceof ShopActivity) {
                 ShopActivity a = (ShopActivity) activity;
                 a.selFrgByPos(ShopActivity.HOMEPAGE);
                 a.getShopTabs().statusChaByPosition(0,2);

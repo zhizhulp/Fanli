@@ -5,7 +5,7 @@
     android:layout_marginRight="17dp"
     android:layout_width="match_parent"
     android:minHeight="58dp"
-    android:layout_height="wrap_content">
+    android:layout_height="58dp">
     <TextView
         android:layout_centerVertical="true"
         android:text="购买数量"
@@ -21,23 +21,9 @@
         android:layout_centerVertical="true"
         android:layout_width="100dp"
         android:layout_height="30dp"/>
-    <!--<LinearLayout
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:scaleType="center"
-            android:src="@mipmap/cart_btn_jian"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
-        <com.ascba.rebate.view.EditTextWithCustomHint
-            android:text="1"
-            android:inputType="number"
-            android:background="@null"
-            android:maxLines="1"
-            android:layout_width="35dp"
-            android:layout_height="30dp" />
-    </LinearLayout>-->
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/view_line_new"/>
 </RelativeLayout>
