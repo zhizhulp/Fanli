@@ -193,6 +193,7 @@ public class DeliverOrderFragment extends LazyLoadFragment {
 
                     case R.id.item_goods_order_total_logistics:
                         //查看物流
+
                         break;
                 }
             }

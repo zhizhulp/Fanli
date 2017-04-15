@@ -23,6 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
@@ -44,10 +45,12 @@ import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yolanda.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +59,7 @@ import java.util.List;
  * 首页
  */
 
-public class HomePageFragment extends Base2Fragment implements View.OnClickListener, Base2Fragment.Callback {
+public class HomePageFragment extends Base2Fragment implements Base2Fragment.Callback {
 
     private static final int REQUEST_LOGIN = 0;
     private static final int POLICY = 1;
@@ -207,9 +210,22 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                 }
             }
         });
-        recylerview.addOnItemTouchListener(new OnItemChildClickListener() {
+
+        recylerview.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                HomePageMultiItemItem item = items.get(position);
+                //新闻详情
+                if (item.getItemType() == HomePageMultiItemItem.TYPE12) {
+                    Intent intent = new Intent(context, WebViewBaseActivity.class);
+                    intent.putExtra("name", item.getBean().getTitle());
+                    intent.putExtra("url", item.getBean().getUrl());
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.homepage_btn_speedmon:
                         startActivity(new Intent(getActivity(), ShopActivity.class));
@@ -231,10 +247,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                         Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
                         startActivity(college);
                         break;
-                }
-
-                switch (position) {
-                    case 8:
+                    case R.id.homepage_text_more_news:
                         //最新动态——更多
                         MessageLatestActivity.startIntent(context);
                         break;
@@ -243,14 +256,11 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
         });
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     /*
      * 弹窗
      */
+
     private void showPopWindow() {
         if (popupWindow == null) {
             View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
@@ -319,7 +329,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
             //分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //券购商城
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_title, "券购商城"));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "券购商城"));
             //分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //全球券购 天天特价 品牌精选
@@ -377,7 +387,7 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
     private void initNews(JSONObject dataObj) {
 
         //最新动态
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE10, R.layout.home_page_title, "最新动态"));
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE10, R.layout.home_page_more_news, "最新动态"));
         //分割线
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
 //        //新闻
@@ -398,7 +408,8 @@ public class HomePageFragment extends Base2Fragment implements View.OnClickListe
                     String id = jsonObject.optString("id");
                     String time = jsonObject.optString("create_time");
                     time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
-                    items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12, new NewsBean(id, title, time), R.layout.home_page_news2));
+                    String url = jsonObject.optString("article_url");
+                    items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12, new NewsBean(id, title, time, url), R.layout.home_page_news2));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
