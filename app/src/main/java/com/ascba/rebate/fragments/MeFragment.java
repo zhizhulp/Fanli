@@ -4,8 +4,6 @@ package com.ascba.rebate.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -33,7 +31,6 @@ import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterA
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
-import com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -363,8 +360,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 refreshLayout.setRefreshing(false);
             }
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
-            Picasso.with(getActivity()).load(UrlUtils.baseWebsite + infoObj.optString("avatar")).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(userIcon);
+            Picasso.with(getActivity()).load(UrlUtils.baseWebsite + infoObj.optString("avatar")).error(R.mipmap.logo).noPlaceholder().into(userIcon);
             JSONArray group_type = infoObj.optJSONArray("group_type");
             if (group_type == null || group_type.length() == 0) {
                 return;

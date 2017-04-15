@@ -56,7 +56,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
     private TextView payTx, deleteTx, countdownTx, closeOrderTx;
 
     //倒计时
-    private int maxTime = 10;//单位——秒
+    private int maxTime = 10;//单位—秒
     private Handler handler = new Handler();
     private int countdownSecond;
     private boolean isCountdown;
@@ -293,7 +293,11 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
                 //付款
                 break;
             case R.id.tx_delete:
-                //删除订单
+                //取消订单
+                countdownView.setVisibility(View.INVISIBLE);
+                closeOrderTx.setVisibility(View.VISIBLE);
+                handler.removeCallbacks(runnable);
+                requstData(UrlUtils.cancelOrder, 1);
                 break;
         }
     }
@@ -319,7 +323,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
                 /*
                 订单超时，自动关闭
                 */
-                getDm().buildAlertDialog("支付超时，订单自动关闭！");
+                getDm().buildAlertDialog("订单已取消!");
                 finish();
                 break;
         }

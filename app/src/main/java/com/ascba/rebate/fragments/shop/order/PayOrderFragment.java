@@ -118,7 +118,7 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
 
                 //头部信息
                 String time = object.optString("add_time");//时间
-                time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
+                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
                 OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, time);
                 beanHead.setId(orderId);
 
