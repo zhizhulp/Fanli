@@ -23,8 +23,6 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
-import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -32,7 +30,6 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.beans.ReceiveAddressBean;
-import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.utils.StringUtils;
@@ -95,6 +92,10 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                     } else {
                         dm.buildAlertDialog("支付失败");
                     }
+                    finish();
+                    if(dialog!=null && dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                     break;
                 }
                 default:
@@ -119,6 +120,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     private List<Goods> goodsList = new ArrayList<>();
     private JSONObject jsonMessage = new JSONObject();//留言信息
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -378,7 +380,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
                 //创建并支付订单成功
-                showToast(message);
+                //showToast(message);
                 /*setResult(RESULT_OK,getIntent());
                 finish();*/
 
@@ -466,7 +468,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
     //选择支付方式页面
     private void showFinalDialog() {
         final String[] type = {"balance"};
-        final Dialog dialog = new Dialog(this, R.style.AlertDialog);
+        dialog = new Dialog(this, R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_pay_pop);
         //关闭对话框
         dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
@@ -542,7 +544,14 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             req.timeStamp = wxpay.getInt("timestamp")+"";
             req.sign = wxpay.getString("sign");
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-            WXAPIFactory.createWXAPI(this, IDsUtils.WX_PAY_APP_ID).sendReq(req);
+            boolean hasWXApp = WXAPIFactory.createWXAPI(this, IDsUtils.WX_PAY_APP_ID).sendReq(req);
+            if(!hasWXApp){
+                showToast("您可能没有安装微信客户端");
+            }
+            if(dialog!=null && dialog.isShowing()){
+                dialog.dismiss();
+            }
+            finish();
         } catch (JSONException e) {
             e.printStackTrace();
         }

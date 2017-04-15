@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,8 @@ import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCInputNameActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -38,6 +41,8 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.Base3Fragment;
+import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.TimeUtils;
@@ -59,7 +64,7 @@ import java.util.List;
  * 首页
  */
 
-public class HomePageFragment extends Base2Fragment implements Base2Fragment.Callback {
+public class HomePageFragment extends Base3Fragment implements Base3Fragment.Callback {
 
     private static final int REQUEST_LOGIN = 0;
     private static final int POLICY = 1;
@@ -486,9 +491,36 @@ public class HomePageFragment extends Base2Fragment implements Base2Fragment.Cal
     }
 
     @Override
-    public void handle404(String message) {
-        stopRefresh();
-        getDm().buildAlertDialog(message);
+    public void handle404(String message,JSONObject dataObj) {
+
+        if(finalScene==1){
+            int tip_status = dataObj.optInt("tip_status");
+            if(tip_status==2){//打电话
+                final String tel = dataObj.optString("tel");
+                getDm().buildAlertDialog2(message);
+                getDm().setCallback(new DialogManager2.Callback() {
+                    @Override
+                    public void handleSure() {
+                        getDm().dismissDialog();
+                        Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+tel));
+                        startActivity(intent);
+                    }
+                });
+            }else if(tip_status==1){//未开通
+                getDm().buildAlertDialog2(message);
+                getDm().setCallback(new DialogManager2.Callback() {
+                    @Override
+                    public void handleSure() {
+                        getDm().dismissDialog();
+                        Intent intent=new Intent(getActivity(), BCProcessActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }else {
+            stopRefresh();
+            getDm().buildAlertDialog(message);
+        }
     }
 
     @Override
