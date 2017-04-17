@@ -96,7 +96,6 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_data);
         initViews();
-        /*getDataFromIntent();*/
         finalScene=0;
         requestNetwork(UrlUtils.getCompany);
     }
@@ -105,57 +104,6 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         executeNetWork(request, "请稍候");
         setCallback(this);
-    }
-
-    private void getDataFromIntent() {
-        Intent intent = getIntent();
-        if(intent!=null){
-            seller_name = intent.getStringExtra("seller_name");
-            String seller_cover_logo = intent.getStringExtra("seller_cover_logo");
-            String seller_image = intent.getStringExtra("seller_image");
-            seller_taglib = intent.getStringExtra("seller_taglib");
-            String seller_address = intent.getStringExtra("seller_address");
-            String seller_localhost = intent.getStringExtra("seller_localhost");//详细地址
-            String seller_lon = intent.getStringExtra("seller_lon");
-            String seller_lat = intent.getStringExtra("seller_lat");
-            if(!StringUtils.isEmpty(seller_lon)){
-                lon = Double.parseDouble(seller_lon);
-            }
-            if(!StringUtils.isEmpty(seller_lat)){
-                lat = Double.parseDouble(seller_lat);
-            }
-            seller_tel = intent.getStringExtra("seller_tel");
-            seller_business_hours = intent.getStringExtra("seller_business_hours");
-            seller_return_ratio = intent.getStringExtra("seller_return_ratio");
-            String seller_return_ratio_tip = intent.getStringExtra("seller_return_ratio_tip");
-            desc = intent.getStringExtra("seller_description");
-            tvName.setText(seller_name);
-            Picasso.with(this).load(UrlUtils.baseWebsite+seller_cover_logo).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusLogo);
-            Picasso.with(this).load(UrlUtils.baseWebsite+seller_image).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusPic);
-            tvType.setText(seller_taglib);
-            tvLocation.setText(seller_address);
-            tvLocDet.setText(StringUtils.isEmpty(seller_localhost)?null:seller_localhost);
-            tvPhone.setText(seller_tel);
-            tvTime.setText(seller_business_hours);
-            if(!StringUtils.isEmpty(seller_return_ratio_tip)){
-                tvRate.setText(getHandleStr(seller_return_ratio_tip));
-            }
-            String tip=intent.getStringExtra("submit_tip");
-            btnEnable=intent.getStringExtra("submit_status");
-            btnCommit.setText(tip);
-            if(btnEnable.equals("0")){//可以提交
-                btnCommit.setEnabled(true);
-            }else if(btnEnable.equals("2")) {//等待审核
-                btnCommit.setEnabled(false);
-                btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
-            }else if(btnEnable.equals("3")) {//距离修改时间
-                btnCommit.setEnabled(false);
-                btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
-            }else if(btnEnable.equals("1")){//资料有误
-                btnCommit.setEnabled(true);
-            }
-
-        }
     }
 
     private String getHandleStr(String str) {

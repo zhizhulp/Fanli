@@ -12,9 +12,18 @@ public class Business {
     private int bCategoryIcon;
     private String goodComm;//评论数量
     private String distance;//距离
+    private boolean isNew;//是否是新店
 
     public Business() {
 
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
     }
 
     public int getId() {
@@ -25,13 +34,14 @@ public class Business {
         this.id = id;
     }
 
-    public Business(String logo, String bName, String bCategory, int bCategoryIcon, String goodComm, String distance) {
+    public Business(String logo, String bName, String bCategory, int bCategoryIcon, String goodComm, String distance ,boolean isNew) {
         this.logo = logo;
         this.bName = bName;
         this.bCategory = bCategory;
         this.bCategoryIcon = bCategoryIcon;
         this.goodComm = goodComm;
         this.distance = distance;
+        this.isNew=isNew;
     }
 
     public String getLogo() {

@@ -111,8 +111,10 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(this,LoginActivity.class);
+        /*Intent intent=new Intent(this,LoginActivity.class);
         startActivity(intent);
+        finish();*/
+        setResult(RESULT_OK,getIntent());
         finish();
     }
 
