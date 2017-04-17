@@ -464,7 +464,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         requestNetwork(UrlUtils.shoppingCart, 0);
                     }
                     break;
-                case REQUEST_CLEAR_SUCCESS:
+                case REQUEST_CLEAR_SUCCESS://结算完成
                     if(resultCode==Activity.RESULT_OK){
                         requestNetwork(UrlUtils.shoppingCart, 0);
                     }

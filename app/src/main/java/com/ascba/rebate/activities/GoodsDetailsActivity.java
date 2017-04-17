@@ -154,6 +154,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     private TextView shopRecomm;//达人推荐
 
     private int indence;
+    private int has_spec;//是否有规格
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,10 +252,13 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         jsonRequest.add("id", goodsId);
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
+
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
                 LogUtils.PrintLog("GoodsDetailsActivity", "json-->" + dataObj);
                 dataObj = dataObj.optJSONObject("mallgoods");
+                //是否有规格
+                has_spec = dataObj.optInt("has_spec");
 
                 //广告轮播数据
                 getPagerList(dataObj);
@@ -692,8 +696,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivityForResult(intent, REQUEST_STD_LOGIN);
                 }
-
-                //showDialog();
                 break;
             case R.id.det_tv_shop://进入店铺
                 Intent intent = new Intent(this, BusinessShopActivity.class);
@@ -779,6 +781,8 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         goods.setWeight(goodsObject.optInt("weight"));
         //运费
         goods.setFreightPrice(fnum.format(goodsObject.optInt("freight_price")));
+        //是否有规格
+        goods.setHasStandard(goodsObject.optInt("has_spec")==1);
     }
 
     /*
@@ -1012,30 +1016,35 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
     获取规格数据
      */
     private void selectSpecification() {
-        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsSpec, 0, true);
-        jsonRequest.add("goods_id", goodsId);
-        executeNetWork(jsonRequest, "请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) {
-                Log.d("GoodsDetailsActivity", dataObj.toString());
-                JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
+        if(has_spec==0){//无规格
+            requestNetwork(UrlUtils.cartAddGoods, 0);
+        }else {//有规格
+            Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsSpec, 0, true);
+            jsonRequest.add("goods_id", goodsId);
+            executeNetWork(jsonRequest, "请稍后");
+            setCallback(new Callback() {
+                @Override
+                public void handle200Data(JSONObject dataObj, String message) {
+                    Log.d("GoodsDetailsActivity", dataObj.toString());
+                    JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
 
-                JSONArray array = dataObj.optJSONArray("spec_goods_price");
+                    JSONArray array = dataObj.optJSONArray("spec_goods_price");
 
-                showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array));
-            }
+                    showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array));
+                }
 
-            @Override
-            public void handle404(String message) {
-                getDm().buildAlertDialog(message);
-            }
+                @Override
+                public void handle404(String message) {
+                    getDm().buildAlertDialog(message);
+                }
 
-            @Override
-            public void handleNoNetWork() {
-                getDm().buildAlertDialog(getString(R.string.no_network));
-            }
-        });
+                @Override
+                public void handleNoNetWork() {
+                    getDm().buildAlertDialog(getString(R.string.no_network));
+                }
+            });
+        }
+
     }
 
     private List<Goods> parseSpecGoodsPrice(JSONArray array) {
@@ -1107,7 +1116,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         return gas;
 
     }
-
+    //商品规格选择
     private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses) {
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
@@ -1133,7 +1142,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
 
         sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//立即购买
                 if (isAll) {
                     requestNetwork(UrlUtils.cartAccount, 1);
                 } else {
@@ -1181,10 +1190,9 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if (scene == 0) {//把商品加入购物车
 
-            //request.add("session_id", cookie.getValue());
             request.add("store_id", store_id);
             request.add("goods_id", goodsSelect.getTitleId());
-            request.add("goods_num", nb.getNumber());
+            request.add("goods_num", has_spec ==0 ? 1: nb.getNumber());
             request.add("spec_keys", goodsSelect.getSpecKeys());
             request.add("spec_names", goodsSelect.getSpecNames());
 

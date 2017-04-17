@@ -343,7 +343,7 @@ public class TypeMarketActivity extends BaseNetWork4Activity implements
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite + imgUrl, title, shop_price, "");
+                        , UrlUtils.baseWebsite + imgUrl, title, shop_price, "",false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 data.add(shopBaseItem);
             }
