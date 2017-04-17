@@ -151,17 +151,18 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 Intent intent = new Intent(getActivity(), AllAccountActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.me_lat_daifan:
-                Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivityForResult(intent1, WhiteScoreActivity.REQUEST_EXCHANGE);
+            case R.id.me_lat_daifan://白积分
+
                 break;
             case R.id.me_lat_duihuan:
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
                 startActivityForResult(intent3, REQUEST_RED);
                 break;
-            case R.id.me_lat_jiaoyi://交易记录
-                Intent intent6=new Intent(getActivity(),TransactionRecordsActivity.class);
-                startActivity(intent6);
+            case R.id.me_lat_jiaoyi://兑现券
+                Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
+                startActivityForResult(intent1, WhiteScoreActivity.REQUEST_EXCHANGE);
+
+
                 break;
             case R.id.me_lat_djq:
                 Intent intent8 = new Intent(getActivity(), TicketActivity.class);
@@ -171,8 +172,10 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 requestMyData(3);//检查是否实名
                 break;
             case R.id.me_lat_fyzh://返佣账户
-                Intent intent4=new Intent(getActivity(), CommissionActivity.class);
-                startActivity(intent4);
+                /*Intent intent4=new Intent(getActivity(), CommissionActivity.class);
+                startActivity(intent4);*/
+                Intent intent6=new Intent(getActivity(),TransactionRecordsActivity.class);
+                startActivity(intent6);
                 break;
             case R.id.me_lat_chongzhi:
                 Intent intent2 = new Intent(getActivity(), AccountRechargeActivity.class);

@@ -278,7 +278,6 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 if(seller_status==3){
                     Intent intent=new Intent(getActivity(),BusinessUnionActivity.class);
                     startActivity(intent);
-                    /*BusinessUnionActivity.startIntent(getActivity(), dataObj.toString());*/
                 }else {
                     Intent intent=new Intent(getActivity(),BusinessDataActivity.class);
                     startActivity(intent);
@@ -287,69 +286,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 Intent intent=new Intent(getActivity(),BusinessDataActivity.class);
                 startActivity(intent);
             }
-            /*JSONObject company = dataObj.optJSONObject("company");
-            int status = company.optInt("status");
-            if (status == 3) {//申请成功
-                int submit_status = company.optInt("submit_status");
-                //0 提交 1资料有误 2等待审核中 //3可以营业了
-                if(submit_status==0 || submit_status==1 ||submit_status==2){//第一次设置商家资料
-                    Intent intent=new Intent(getActivity(), BusinessDataActivity.class);
-                    startActivity(intent);
-                }else if(submit_status==3) {
-                    BusinessUnionActivity.startIntent(getActivity(), dataObj.toString());
-                }
-            } else if (status == 0) {//填写申请资料
-                Intent intent = new Intent(getActivity(), BCProcessActivity.class);
-                startActivityForResult(intent, REQUEST_APPLY);
-            } else if (status == 1) {//资料审核中
-                Intent intent = new Intent(getActivity(), BusinessCenterActivity.class);
-                String name = company.optString("name");
-                String oper_name = company.optString("oper_name");
-                String regist_capi = company.optString("regist_capi");
-                String company_status = company.optString("company_status");
-                String chartered = company.optString("chartered");//营业执照图片地址
-                String scope = company.optString("scope");
-                int is_oper_name = company.optInt("is_oper_name");
-                if (is_oper_name == 1) {//与法人姓名不一致
-                    String clientele_name = company.optString("clientele_name");//授权人姓名
-                    String warrant = company.optString("warrant");//授权书图片地址
-                    intent.putExtra("clientele_name", clientele_name);
-                    intent.putExtra("warrant", warrant);
-                }
-                intent.putExtra("type", 0);
-                intent.putExtra("name", name);
-                intent.putExtra("oper_name", oper_name);
-                intent.putExtra("regist_capi", regist_capi);
-                intent.putExtra("company_status", company_status);
-                intent.putExtra("scope", scope);
-                intent.putExtra("is_oper_name", is_oper_name);
-                intent.putExtra("chartered", chartered);
-                startActivity(intent);
-            } else if (status == 2) {//资料有误
-                Intent intent = new Intent(getActivity(), BusinessCenterActivity.class);
-                String name = company.optString("name");
-                String oper_name = company.optString("oper_name");
-                String regist_capi = company.optString("regist_capi");
-                String company_status = company.optString("company_status");
-                String chartered = company.optString("chartered");//营业执照图片地址
-                String scope = company.optString("scope");
-                int is_oper_name = company.optInt("is_oper_name");
-                if (is_oper_name == 1) {//与法人姓名不一致
-                    String clientele_name = company.optString("clientele_name");//授权人姓名
-                    String warrant = company.optString("warrant");//授权书图片地址
-                    intent.putExtra("clientele_name", clientele_name);
-                    intent.putExtra("warrant", warrant);
-                }
-                intent.putExtra("type", 1);
-                intent.putExtra("name", name);
-                intent.putExtra("oper_name", oper_name);
-                intent.putExtra("regist_capi", regist_capi);
-                intent.putExtra("company_status", company_status);
-                intent.putExtra("scope", scope);
-                intent.putExtra("is_oper_name", is_oper_name);
-                intent.putExtra("chartered", chartered);
-                startActivity(intent);
-            }*/
+
         } else if (finalScene == 2) {//检查是否实名，点击银行卡前
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
@@ -443,8 +380,6 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     @Override
     public void onResume() {
         super.onResume();
-        //// TODO: 2017/4/17 0017  
-        //requestData(UrlUtils.user, 3);
     }
 
 }

@@ -544,7 +544,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             req.packageValue = wxpay.getString("package");
             req.partnerId = wxpay.getString("partnerid");
             req.prepayId = wxpay.getString("prepayid");
-            req.timeStamp = wxpay.getInt("timestamp")+"";
+            req.timeStamp = wxpay.getLong("timestamp")+"";
             req.sign = wxpay.getString("sign");
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
             boolean hasWXApp = WXAPIFactory.createWXAPI(this, IDsUtils.WX_PAY_APP_ID).sendReq(req);
