@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="MoneyBar">
-        <attr name="textTitle" format="string"/>
-        <attr name="needBack" format="boolean"/>
-        <attr name="tailIcon" format="reference|integer"/>
-        <attr name="needTailIcon" format="boolean"/>
-        <attr name="needComplete" format="boolean"/>
-        <attr name="barBg" format="color"/>
-        <attr name="titleColor" format="color"/>
-        <attr name="backImg" format="reference|integer"/>
-        <attr name="needLine" format="boolean"/>
+        <attr name="textTitle" format="string" />
+        <attr name="needBack" format="boolean" />
+        <attr name="tailIcon" format="reference|integer" />
+        <attr name="needTailIcon" format="boolean" />
+        <attr name="needComplete" format="boolean" />
+        <attr name="barBg" format="color" />
+        <attr name="titleColor" format="color" />
+        <attr name="backImg" format="reference|integer" />
+        <attr name="needLine" format="boolean" />
     </declare-styleable>
     <declare-styleable name="EditTextWithCustomHint">
-        <attr name="hintSize" format="dimension"/>
+        <attr name="hintSize" format="dimension" />
     </declare-styleable>
     <declare-styleable name="ShopABar">
-        <attr name="abar_title" format="string|reference"/>
-        <attr name="abar_icon" format="integer|reference"/>
+        <attr name="abar_title" format="string|reference" />
+        <attr name="abar_icon" format="integer|reference" />
+        <attr name="abar_bg" format="color|reference" />
     </declare-styleable>
 
     <declare-styleable name="MultiViewPager">
@@ -36,15 +37,15 @@
         <attr name="ptr_keep_header_when_refresh" format="boolean" />
     </declare-styleable>
     <declare-styleable name="NumberButton">
-        <attr name="editable" format="boolean"/>
+        <attr name="editable" format="boolean" />
         <attr name="buttonWidth" format="dimension" />
         <attr name="textWidth" format="dimension" />
-        <attr name="textSize" format="dimension"/>
-        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="SuspendLayout">
-        <attr name="showPercent" format="float"/>
+        <attr name="showPercent" format="float" />
     </declare-styleable>
 
     <attr name="borderRadius" format="dimension" />
@@ -59,11 +60,11 @@
     </declare-styleable>
 
     <declare-styleable name="DashView">
-        <attr name="dashWidth" format="dimension"/>
-        <attr name="lineWidth" format="dimension"/>
-        <attr name="lineHeight" format="dimension"/>
-        <attr name="lineColor" format="color"/>
-        <attr name="dashOrientation" format="integer"/>
+        <attr name="dashWidth" format="dimension" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="lineHeight" format="dimension" />
+        <attr name="lineColor" format="color" />
+        <attr name="dashOrientation" format="integer" />
 
     </declare-styleable>
 

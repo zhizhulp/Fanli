@@ -14,7 +14,7 @@
             android:id="@+id/shopbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="#FFF3F3"
+            app:abar_bg="#FFF3F3"
             app:abar_title="待付款" />
 
         <LinearLayout
@@ -23,9 +23,7 @@
             android:background="#FFF3F3"
             android:orientation="vertical">
 
-
             <RelativeLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19dp">
@@ -63,12 +61,12 @@
                 <TextView
                     android:id="@+id/tx_close_order"
                     android:layout_width="match_parent"
-                    android:text="订单已取消!"
-                    android:gravity="center"
-                    android:visibility="invisible"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="订单已取消!"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
             </RelativeLayout>
 
 

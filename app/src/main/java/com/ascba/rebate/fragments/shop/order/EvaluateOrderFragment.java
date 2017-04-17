@@ -174,7 +174,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Frag
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
+        emptyView = view.findViewById(R.id.empty_view);
         adapter = new EvaluateOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 

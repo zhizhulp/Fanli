@@ -187,6 +187,7 @@ public class TakeOrderFragment extends LazyLoadFragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        emptyView = view.findViewById(R.id.empty_view);
 
         adapter = new TakeOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);

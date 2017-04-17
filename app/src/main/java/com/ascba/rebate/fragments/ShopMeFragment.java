@@ -96,6 +96,8 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         });
 
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
+        final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
+        pc_RecyclerView.setLayoutManager(manager);
 
         pc_RecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
@@ -209,9 +211,7 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     }
 
     private void initDat(JSONObject Object) {
-        if (pcMultipleItems.size() > 0) {
-            pcMultipleItems.clear();
-        }
+        pcMultipleItems.clear();
 
         //头信息
         JSONObject meObject = Object.optJSONObject("member_info");
@@ -302,20 +302,14 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
 
 
-        if (pcMultipleItemAdapter == null) {
-            pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
-            final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
-            pc_RecyclerView.setLayoutManager(manager);
-            pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                    return pcMultipleItems.get(position).getSpanSize();
-                }
-            });
-            pc_RecyclerView.setAdapter(pcMultipleItemAdapter);
-        } else {
-            pcMultipleItemAdapter.notifyDataSetChanged();
-        }
+        pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
+        pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                return pcMultipleItems.get(position).getSpanSize();
+            }
+        });
+        pc_RecyclerView.setAdapter(pcMultipleItemAdapter);
     }
 
     @Override
