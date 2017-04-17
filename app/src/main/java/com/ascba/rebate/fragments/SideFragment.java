@@ -346,6 +346,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 business.setbName(jsonObject.optString("seller_name"));
                 business.setId(jsonObject.optInt("id"));
                 int distance = jsonObject.optInt("earth_radius");
+                int is_new = jsonObject.optInt("is_news");
                 if (distance >= 1000) {
                     double a = distance / 1000.0;
                     DecimalFormat f = new DecimalFormat("##0.0");
@@ -355,6 +356,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                     business.setDistance((distance + "m"));
                 }
                 business.setbCategory(jsonObject.optString("seller_taglib"));
+                business.setNew(is_new==1);
                 data.add(business);
             }
         } else {

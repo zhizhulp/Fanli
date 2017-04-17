@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+    private static final int REQUEST_PASSWORD = 0;
     private EditText edLossNumber;
     private String phone;
     private DialogManager dm;
@@ -58,7 +59,7 @@ public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNet
         Intent intent=new Intent(PasswordLossActivity.this, PasswordLossWithCodeActivity.class);
         intent.putExtra("loss_phone",phone);
         /*intent.putExtra("sms_code",sms_code);*/
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_PASSWORD);
         finish();
     }
 
@@ -66,4 +67,18 @@ public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNet
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        switch (requestCode){
+            case REQUEST_PASSWORD:
+                if(resultCode==RESULT_OK){
+                    finish();
+                }
+                break;
+        }
+    }
 }

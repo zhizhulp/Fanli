@@ -497,7 +497,7 @@ public class HomePageFragment extends Base3Fragment implements Base3Fragment.Cal
             int tip_status = dataObj.optInt("tip_status");
             if(tip_status==2){//打电话
                 final String tel = dataObj.optString("tel");
-                getDm().buildAlertDialog2(message);
+                getDm().buildAlertDialog1(message);
                 getDm().setCallback(new DialogManager2.Callback() {
                     @Override
                     public void handleSure() {
@@ -507,7 +507,7 @@ public class HomePageFragment extends Base3Fragment implements Base3Fragment.Cal
                     }
                 });
             }else if(tip_status==1){//未开通
-                getDm().buildAlertDialog2(message);
+                getDm().buildAlertDialog1(message);
                 getDm().setCallback(new DialogManager2.Callback() {
                     @Override
                     public void handleSure() {

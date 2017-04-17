@@ -178,7 +178,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                         String seller_taglib = busObj.optString("seller_taglib");
                         String seller_name = busObj.optString("seller_name");
                         int id = busObj.optInt("id");
-                        Business b = new Business(UrlUtils.baseWebsite + bus_icon, seller_name, seller_taglib, 0, "0个评论", "0m");
+                        Business b = new Business(UrlUtils.baseWebsite + bus_icon, seller_name, seller_taglib, 0, "0个评论", "0m",false);
                         b.setId(id);
                         mList.add(b);
                     }

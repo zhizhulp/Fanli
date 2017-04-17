@@ -29,5 +29,6 @@ public class BusAdapter extends BaseQuickAdapter<Business,BaseViewHolder> {
         helper.setText(R.id.tv_main_business_category,item.getbCategory());
         //helper.setText(R.id.tv_main_business_goodjob,item.getGoodComm());
         helper.setText(R.id.tv_main_business_distance,item.getDistance());
+        helper.setVisible(R.id.iv_main_business_logo_angle,item.isNew());
     }
 }

@@ -35,6 +35,7 @@ import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -180,7 +181,8 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 requestData(UrlUtils.checkCardId, 0);
                 break;
             case R.id.me_lat_sjlm://商户中心
-                requestData(UrlUtils.getCompany, 1);
+                //requestData(UrlUtils.getCompany, 1);
+                requestData(UrlUtils.user, 1);
                 break;
             case R.id.me_lat_dlzq://代理专区
                 Intent intent6=new Intent(getActivity(), ProxyDetActivity.class);
@@ -267,7 +269,25 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 startActivity(intent1);
             }
         } else if (finalScene == 1) {
-            JSONObject company = dataObj.optJSONObject("company");
+
+            JSONObject infoObj = dataObj.optJSONObject("myInfo");
+            LogUtils.PrintLog("MeFragment","data-->"+infoObj);
+            int seller_status = infoObj.optInt("seller_status");
+            int merchant = infoObj.optInt("merchant");
+            if(merchant==3){
+                if(seller_status==3){
+                    Intent intent=new Intent(getActivity(),BusinessUnionActivity.class);
+                    startActivity(intent);
+                    /*BusinessUnionActivity.startIntent(getActivity(), dataObj.toString());*/
+                }else {
+                    Intent intent=new Intent(getActivity(),BusinessDataActivity.class);
+                    startActivity(intent);
+                }
+            }else {
+                Intent intent=new Intent(getActivity(),BusinessDataActivity.class);
+                startActivity(intent);
+            }
+            /*JSONObject company = dataObj.optJSONObject("company");
             int status = company.optInt("status");
             if (status == 3) {//申请成功
                 int submit_status = company.optInt("submit_status");
@@ -329,7 +349,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 intent.putExtra("is_oper_name", is_oper_name);
                 intent.putExtra("chartered", chartered);
                 startActivity(intent);
-            }
+            }*/
         } else if (finalScene == 2) {//检查是否实名，点击银行卡前
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
@@ -390,11 +410,6 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             tvUserName.setText(infoObj.optString("nickname"));
             tvSjlm.setText(infoObj.optInt("merchant") < 3 ? infoObj.optString("merchant_tip") : infoObj.optString("seller_status_tip"));
             tvPhone.setText(infoObj.optString("telephone"));
-            /*if (infoObj.optInt("seller_status") == 2) {
-                qrView.setVisibility(View.VISIBLE);
-            } else {
-                qrView.setVisibility(View.GONE);
-            }*/
         }
     }
 
@@ -428,11 +443,8 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     @Override
     public void onResume() {
         super.onResume();
-        // TODO: 2017/3/28 0028  
-        /*if (MyApplication.isPersonalData) {
-            requestData(UrlUtils.user, 3);
-            MyApplication.isPersonalData = false;
-        }*/
+        //// TODO: 2017/4/17 0017  
+        //requestData(UrlUtils.user, 3);
     }
 
 }
