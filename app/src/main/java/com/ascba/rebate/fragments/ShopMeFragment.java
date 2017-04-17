@@ -61,12 +61,27 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
-        getMeData();
+    }
+
+
+    //调用show,hide会回调的方法
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            getMeData();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     /*
-       获取me数据
-     */
+               获取me数据
+             */
     private void getMeData() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.myPageInfo, 0, true);
         executeNetWork(jsonRequest, "请稍后");

@@ -25,7 +25,6 @@ import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -427,8 +426,8 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     @Override
     public void onResume() {
         super.onResume();
-
     }
+
     //调用show,hide会回调的方法
     @Override
     public void onHiddenChanged(boolean hidden) {
