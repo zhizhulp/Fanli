@@ -42,7 +42,6 @@ import java.util.List;
 public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
         Base2Fragment.Callback {
     private Context context;
-    private View view;
     private RecyclerView pc_RecyclerView;
     private PCMultipleItemAdapter pcMultipleItemAdapter;
     private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
@@ -61,8 +60,8 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
+        initView(view);
         getMeData();
-        this.view = view;
     }
 
     /*
@@ -97,16 +96,6 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         });
 
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
-        pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
-        final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
-        pc_RecyclerView.setLayoutManager(manager);
-        pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return pcMultipleItems.get(position).getSpanSize();
-            }
-        });
-        pc_RecyclerView.setAdapter(pcMultipleItemAdapter);
 
         pc_RecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
@@ -191,7 +180,6 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         });
     }
 
-
     @Override
     public void onRefresh() {
         getMeData();
@@ -215,19 +203,16 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     public void handle200Data(JSONObject dataObj, String message) {
         JSONObject jsonObject = dataObj.optJSONObject("my_page_info");
         initDat(jsonObject);
-        if (pcMultipleItemAdapter == null) {
-            //初次获取数据
-            initView(view);
-        } else {
-            //刷新数据
+        if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
-            pcMultipleItemAdapter.notifyDataSetChanged();
         }
-
     }
 
     private void initDat(JSONObject Object) {
-        pcMultipleItems.clear();
+        if (pcMultipleItems.size() > 0) {
+            pcMultipleItems.clear();
+        }
+
         //头信息
         JSONObject meObject = Object.optJSONObject("member_info");
         String headImg = UrlUtils.baseWebsite + meObject.optString("avatar");
@@ -315,27 +300,51 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
 
         //粗分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
+
+
+        if (pcMultipleItemAdapter == null) {
+            pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
+            final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
+            pc_RecyclerView.setLayoutManager(manager);
+            pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                    return pcMultipleItems.get(position).getSpanSize();
+                }
+            });
+            pc_RecyclerView.setAdapter(pcMultipleItemAdapter);
+        } else {
+            pcMultipleItemAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void handleReqFailed() {
-        refreshLat.setRefreshing(false);
+        if (refreshLat.isRefreshing()) {
+            refreshLat.setRefreshing(false);
+        }
     }
 
     @Override
     public void handle404(String message) {
-        refreshLat.setRefreshing(false);
+        if (refreshLat.isRefreshing()) {
+            refreshLat.setRefreshing(false);
+        }
         getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleReLogin() {
-        refreshLat.setRefreshing(false);
+        if (refreshLat.isRefreshing()) {
+            refreshLat.setRefreshing(false);
+        }
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLat.setRefreshing(false);
+        if (refreshLat.isRefreshing()) {
+            refreshLat.setRefreshing(false);
+        }
         getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
