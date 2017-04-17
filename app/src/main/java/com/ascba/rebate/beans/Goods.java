@@ -2,6 +2,8 @@ package com.ascba.rebate.beans;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import org.w3c.dom.ProcessingInstruction;
+
 import java.util.List;
 
 /**
@@ -33,6 +35,8 @@ public class Goods implements MultiItemEntity {
     private int type;
     private int layout;
     private String messageCart;//买家留言，购物车id信息拼接字符串
+    private boolean hasStandard;//是否有规格
+
 
 
     public Goods() {
@@ -89,6 +93,14 @@ public class Goods implements MultiItemEntity {
         this.goodsPrice = goodsPrice;
         this.userQuy = userQuy;
         this.titleId = titleId;
+    }
+
+    public boolean isHasStandard() {
+        return hasStandard;
+    }
+
+    public void setHasStandard(boolean hasStandard) {
+        this.hasStandard = hasStandard;
     }
 
     public String getSpecNames() {

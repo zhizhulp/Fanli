@@ -33,6 +33,7 @@ import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BezierCurveAnimater;
@@ -318,6 +319,7 @@ public class ShopMainFragment extends Base2Fragment implements
             getDm().buildAlertDialog(message);
             sd.dismiss();
         } else if(finalScene==2){//规格数据
+            LogUtils.PrintLog("ShopMainFragment","data-->"+dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
 
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
@@ -390,7 +392,9 @@ public class ShopMainFragment extends Base2Fragment implements
      * @param dataObj
      */
     private void initGoodsList(JSONObject dataObj) {
+
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
+        LogUtils.PrintLog("ShopMainFragment","data-->"+mallGoodsAy);
         if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
             for (int i = 0; i < mallGoodsAy.length(); i++) {
                 JSONObject gObj = mallGoodsAy.optJSONObject(i);
@@ -399,7 +403,7 @@ public class ShopMainFragment extends Base2Fragment implements
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "");
+                        , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "",false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 data.add(shopBaseItem);
             }

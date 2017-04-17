@@ -26,6 +26,7 @@ public class ShopBaseItem implements MultiItemEntity {
     private List<String> titles;
     private List<String> contents;
     private List<String> descs;
+    private boolean hasStandard;//是否有规格
 
     public ShopBaseItem(int itemType, int spanSize, int resLat, List<String> titles, List<String> contents, List<String> descs, List<String> pagerUrls) {
         this(itemType, spanSize, resLat);
@@ -142,11 +143,12 @@ public class ShopBaseItem implements MultiItemEntity {
      * @param desc     描述
      * @param saled    描述
      */
-    public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String title, String desc, String saled) {
+    public ShopBaseItem(int itemType, int spanSize, int resLat, String url, String title, String desc, String saled , boolean hasStandard) {
         this(itemType, spanSize, resLat, url);
         this.title = title;
         this.desc = desc;
         this.saled = saled;
+        this.hasStandard=hasStandard;
     }
 
     /**
@@ -281,5 +283,13 @@ public class ShopBaseItem implements MultiItemEntity {
 
     public void setDescs(List<String> descs) {
         this.descs = descs;
+    }
+
+    public boolean isHasStandard() {
+        return hasStandard;
+    }
+
+    public void setHasStandard(boolean hasStandard) {
+        this.hasStandard = hasStandard;
     }
 }

@@ -82,6 +82,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                             /*Intent intent = new Intent(ConfirmOrderActivity.this, RechaSuccActivity.class);
                             intent.putExtra("money", total_amount + "元");
                             startActivityForResult(intent, FourthFragment.REQUEST_PAY);*/
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -92,6 +93,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
                     } else {
                         dm.buildAlertDialog("支付失败");
                     }
+                    setResult(RESULT_OK,getIntent());
                     finish();
                     if(dialog!=null && dialog.isShowing()){
                         dialog.dismiss();
@@ -470,6 +472,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
         final String[] type = {"balance"};
         dialog = new Dialog(this, R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_pay_pop);
+        ((TextView) dialog.findViewById(R.id.dlg_tv_total_cash)).setText(tvTotal.getText());
         //关闭对话框
         dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
