@@ -24,7 +24,6 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.pay.PayResult;
-import com.ascba.rebate.wxapi.WXPayEntryActivity;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -64,9 +63,9 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    } else if(TextUtils.equals(resultStatus, "6002")) {
+                    } else if (TextUtils.equals(resultStatus, "6002")) {
                         dm.buildAlertDialog("网络有问题");
-                    } else if(TextUtils.equals(resultStatus, "6001")) {
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
                         dm.buildAlertDialog("您已经取消支付");
                     } else {
                         dm.buildAlertDialog("支付失败");
@@ -157,10 +156,10 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
             executeNetWork(objRequest, "请稍后");
             setCallback(this);
         } else if (select == 0) {
-            AppConfig.getInstance().putString("wx_pay_money",money);
+            AppConfig.getInstance().putString("wx_pay_money", money);
             Request<JSONObject> objRequest = buildNetRequest(UrlUtils.wxpay, 0, true);
             Double v = Double.parseDouble(money);
-            objRequest.add("total_fee", (int)(v*100));
+            objRequest.add("total_fee", (int) (v * 100));
             executeNetWork(objRequest, "请稍后");
             setCallback(this);
         }
@@ -183,18 +182,13 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
 
         try {
             JSONObject wxpay = dataObj.getJSONObject("wxpay");
-            PayReq req = new PayReq() {
-                @Override
-                public int getType() {
-                    return WXPayEntryActivity.TYPE_RECHARGE;
-                }
-            };
+            PayReq req = new PayReq();
             req.appId = wxpay.getString("appid");
             req.nonceStr = wxpay.getString("noncestr");
             req.packageValue = wxpay.getString("package");
             req.partnerId = wxpay.getString("partnerid");
             req.prepayId = wxpay.getString("prepayid");
-            req.timeStamp = wxpay.getInt("timestamp")+"";
+            req.timeStamp = wxpay.getInt("timestamp") + "";
             req.sign = wxpay.getString("sign");
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
             api.sendReq(req);
@@ -240,12 +234,12 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         int res_code = intent.getIntExtra("res_code", -1);
-        if(res_code==0){//支付成功
-            setResult(RESULT_OK,intent);
+        if (res_code == 0) {//支付成功
+            setResult(RESULT_OK, intent);
             finish();
-        }else if(res_code==-1){//出现错误
+        } else if (res_code == -1) {//出现错误
             dm.buildAlertDialog("支付失败");
-        }else {//支付取消
+        } else {//支付取消
             dm.buildAlertDialog("您已经取消支付");
         }
 
