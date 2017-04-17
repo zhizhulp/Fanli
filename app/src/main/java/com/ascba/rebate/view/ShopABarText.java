@@ -21,6 +21,7 @@ public class ShopABarText extends RelativeLayout implements View.OnClickListener
     private TextView tvBtn;
     private Callback callback;
     private Context context;
+    private RelativeLayout layout;
 
     public ShopABarText(Context context) {
         super(context);
@@ -29,13 +30,13 @@ public class ShopABarText extends RelativeLayout implements View.OnClickListener
     public ShopABarText(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViews(context, attrs);
-        this.context=context;
+        this.context = context;
     }
 
     public ShopABarText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initViews(context, attrs);
-        this.context=context;
+        this.context = context;
     }
 
     private void initViews(Context context, AttributeSet attrs) {
@@ -44,12 +45,14 @@ public class ShopABarText extends RelativeLayout implements View.OnClickListener
         imBack = ((ImageView) findViewById(R.id.abar_im_back));//返回图标
         tvTitle = ((TextView) findViewById(R.id.abar_tv_title));//标题
         tvBtn = (TextView) findViewById(R.id.abar_btn);//按钮
+        layout= (RelativeLayout) findViewById(R.id.abar_rl);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ShopABar);
         String title = ta.getString(R.styleable.ShopABar_abar_title);//自定义标题
+        int bgColor = ta.getColor(R.styleable.ShopABar_abar_bg, getResources().getColor(R.color.white));
 
         ta.recycle();
-
+        layout.setBackgroundColor(bgColor);
         imBack.setOnClickListener(this);
         tvBtn.setOnClickListener(this);
         tvTitle.setText(title);
@@ -88,7 +91,7 @@ public class ShopABarText extends RelativeLayout implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.abar_im_back:
-                if(context instanceof Activity){
+                if (context instanceof Activity) {
                     ((Activity) context).finish();
                 }
                 if (callback != null) {

@@ -56,7 +56,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
     private TextView payTx, deleteTx, countdownTx, closeOrderTx;
 
     //倒计时
-    private int maxTime = 10;//单位—秒
+    private int maxTime = 30 * 60;//单位—秒
     private Handler handler = new Handler();
     private int countdownSecond;
     private boolean isCountdown;
@@ -309,7 +309,9 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
                 /*
                 获取订单数据
                 */
-                refreshLat.setRefreshing(false);
+                if (refreshLat.isRefreshing()) {
+                    refreshLat.setRefreshing(false);
+                }
                 //收货地址
                 getAddress(dataObj);
 
@@ -331,13 +333,17 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
 
     @Override
     public void handle404(String message) {
-        refreshLat.setRefreshing(false);
+        if (refreshLat.isRefreshing()) {
+            refreshLat.setRefreshing(false);
+        }
         getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLat.setRefreshing(false);
+        if (refreshLat.isRefreshing()) {
+            refreshLat.setRefreshing(false);
+        }
         getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }

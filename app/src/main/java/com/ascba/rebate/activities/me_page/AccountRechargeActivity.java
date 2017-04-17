@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,7 +17,6 @@ import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.appconfig.AppConfig;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.IDsUtils;
@@ -26,19 +24,15 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.pay.PayResult;
+import com.ascba.rebate.wxapi.WXPayEntryActivity;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class AccountRechargeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback, View.OnClickListener {
@@ -189,7 +183,12 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
 
         try {
             JSONObject wxpay = dataObj.getJSONObject("wxpay");
-            PayReq req = new PayReq();
+            PayReq req = new PayReq() {
+                @Override
+                public int getType() {
+                    return WXPayEntryActivity.TYPE_RECHARGE;
+                }
+            };
             req.appId = wxpay.getString("appid");
             req.nonceStr = wxpay.getString("noncestr");
             req.packageValue = wxpay.getString("package");

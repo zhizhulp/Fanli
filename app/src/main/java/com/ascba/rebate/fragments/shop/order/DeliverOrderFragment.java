@@ -194,7 +194,8 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
                         Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                        startActivity(intent);
+                        intent.putExtra("order_id", orderId);
+                        startActivityForResult(intent, 1);
                         break;
                     case R.id.item_goods_order_total_refund:
                         //退款
@@ -207,5 +208,10 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
