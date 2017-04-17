@@ -135,7 +135,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
      */
     private ImageAdapter imageAdapter;
     private ViewPager viewPager;
-    private int store_id;//
     private String phone;//客服电话
 
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
@@ -607,7 +606,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BusinessShopActivity.class);
-                intent.putExtra("store_id", store_id);
+                intent.putExtra("store_id", goods.getStoreId());
                 startActivity(intent);
             }
         });
@@ -699,7 +698,7 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
                 break;
             case R.id.det_tv_shop://进入店铺
                 Intent intent = new Intent(this, BusinessShopActivity.class);
-                intent.putExtra("store_id", store_id);
+                intent.putExtra("store_id", goods.getStoreId());
                 startActivity(intent);
                 break;
             case R.id.det_tv_phone://打电话
@@ -766,7 +765,6 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         goods.setGoodsNumber(goodsObject.optString("goods_number"));
         //店铺id
         goods.setStoreId(goodsObject.optInt("store_id"));
-        store_id = goodsObject.optInt("store_id");
         //商品缩略图
         goods.setImgUrl(UrlUtils.baseWebsite + "/" + goodsObject.optString("img"));
         //品牌id
@@ -1190,11 +1188,11 @@ public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.O
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if (scene == 0) {//把商品加入购物车
 
-            request.add("store_id", store_id);
-            request.add("goods_id", goodsSelect.getTitleId());
+            request.add("store_id", goods.getStoreId());
+            request.add("goods_id", has_spec ==0 ? goods.getStoreId(): goodsSelect.getTitleId());
             request.add("goods_num", has_spec ==0 ? 1: nb.getNumber());
-            request.add("spec_keys", goodsSelect.getSpecKeys());
-            request.add("spec_names", goodsSelect.getSpecNames());
+            request.add("spec_keys", has_spec ==0 ? null : goodsSelect.getSpecKeys());
+            request.add("spec_names",has_spec ==0 ? null : goodsSelect.getSpecNames());
 
         } else if (scene == 1) {//结算
             request.add("cart_ids", goodsSelect.getCartId());

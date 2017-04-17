@@ -554,6 +554,7 @@ public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperS
             if(dialog!=null && dialog.isShowing()){
                 dialog.dismiss();
             }
+            MyApplication.payType=1;
             finish();
         } catch (JSONException e) {
             e.printStackTrace();

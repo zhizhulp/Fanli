@@ -10,6 +10,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.jaeger.library.StatusBarUtil;
@@ -58,22 +59,31 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler,M
 	public void onResp(BaseResp resp) {
 		int errCode = resp.errCode;
 		finalErrorCode=errCode;
-		Intent intent=new Intent(this,AccountRechargeActivity.class);
-		intent.putExtra("res_code",finalErrorCode);
 
-		if(errCode==0){//成功
-			tvResult.setText("支付成功");
-			tvMoney.setText(AppConfig.getInstance().getString("wx_pay_money","0.00")+"元");
+        switch (MyApplication.payType){
+            case 0://充值
+                Intent intent=new Intent(this,AccountRechargeActivity.class);
+                intent.putExtra("res_code",finalErrorCode);
 
-		}else if(errCode==-1){//错误
-			tvResult.setText("出现错误");
-			startActivity(intent);
-			finish();
-		}else if(errCode==-2){//用户取消
-			tvResult.setText("取消支付");
-			startActivity(intent);
-			finish();
-		}
+                if(errCode==0){//成功
+                    tvResult.setText("支付成功");
+                    tvMoney.setText(AppConfig.getInstance().getString("wx_pay_money","0.00")+"元");
+
+                }else if(errCode==-1){//错误
+                    tvResult.setText("出现错误");
+                    startActivity(intent);
+                    finish();
+                }else if(errCode==-2){//用户取消
+                    tvResult.setText("取消支付");
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+            case 1:
+
+                break;
+        }
+
 	}
 
 	//进入查看账单页面

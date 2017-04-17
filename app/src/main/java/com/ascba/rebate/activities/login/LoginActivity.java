@@ -34,21 +34,11 @@ public class LoginActivity extends BaseNetWork3Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
-        Intent intent = getIntent();
         initViews();
-        //autoLogin();
         backFirstPhone();//传回注册成功的手机账号
         backLossPhone();//密码找回成功
     }
 
-    private void autoLogin() {
-        int uuid = AppConfig.getInstance().getInt("uuid",-1000);
-        if (uuid != -1000) {//如果有登录数据，则自动跳转到主界面
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 
     private void backLossPhone() {
         String loss_password = getIntent().getStringExtra("loss_password");
@@ -122,9 +112,9 @@ public class LoginActivity extends BaseNetWork3Activity {
                 AppConfig.getInstance().putString("token",token);
                 AppConfig.getInstance().putLong("expiring_time",exTime);
                 AppConfig.getInstance().putString("login_phone",loginPhone);
-                AppConfig.getInstance().putString("login_password","");
 
                 setResult(RESULT_OK,getIntent());
+                MyApplication.isPersonalData = true;
                 finish();
             }
 
