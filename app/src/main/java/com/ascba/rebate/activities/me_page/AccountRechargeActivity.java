@@ -17,6 +17,7 @@ import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.IDsUtils;
@@ -175,6 +176,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         } else if (select == 0) {
             requestForWX(dataObj);//发起微信支付请求
         }
+        MyApplication.payType=0;
 
     }
 

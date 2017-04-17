@@ -32,7 +32,8 @@ public class MyApplication extends MultiDexApplication {
      */
     public static boolean isPersonalData;
 
-    public static boolean isLogined=true;
+    //支付类型
+    public static int payType=0;//0 充值 1商城支付
 
     public static MyApplication getInstance() {
         return app;
