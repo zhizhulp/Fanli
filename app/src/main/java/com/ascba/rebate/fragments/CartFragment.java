@@ -1,16 +1,13 @@
 package com.ascba.rebate.fragments;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,12 +17,13 @@ import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.CartAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.LazyFragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
@@ -44,7 +42,7 @@ import java.util.List;
 /**
  * 购物车
  */
-public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
+public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
         View.OnClickListener, Base2Fragment.Callback, CartAdapter.CallBack {
 
 
@@ -69,17 +67,21 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_cart, container, false);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        requestNetwork(UrlUtils.shoppingCart, 0);
+    }
+
+    @Override
+    protected int setContentView() {
+        return R.layout.fragment_cart;
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (MyApplication.isLoad) {
+            requestNetwork(UrlUtils.shoppingCart, 0);
+        }
     }
 
     private void requestNetwork(String url, int scene) {
@@ -149,12 +151,12 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                 int id = view.getId();
                 if (id == R.id.edit_standard) {//选择规格
                     //showDialog();
-                }else if(id == R.id.tv_go_shop){//点击进店
+                } else if (id == R.id.tv_go_shop) {//点击进店
                     Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
                     intent.putExtra("store_id", cartGoods.getId());
                     startActivity(intent);
-                }else if(id==R.id.cart_goods_title){//点击购物车商品title,进去商品页
-                    GoodsDetailsActivity.startIntent(getActivity(),cartGoods.t.getTitleId());
+                } else if (id == R.id.cart_goods_title) {//点击购物车商品title,进去商品页
+                    GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
                 }
             }
         });
@@ -185,18 +187,19 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cart_tv_cost_total_count://点击结算
-                if(canClearCart()){
+                if (canClearCart()) {
                     requestNetwork(UrlUtils.cartAccount, 4);
-                }else {
+                } else {
                     getDm().buildAlertDialog("请先选择商品");
                 }
                 break;
         }
     }
+
     //购物车是否有选择的商品
     private boolean canClearCart() {
-        boolean hasCheck=false;
-        if(data.size()!=0) {
+        boolean hasCheck = false;
+        if (data.size() != 0) {
             for (int i = 0; i < data.size(); i++) {
                 CartGoods cartGoods = data.get(i);
                 if (!cartGoods.isHeader) {
@@ -208,9 +211,8 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
             }
         }
 
-        return  hasCheck;
+        return hasCheck;
     }
-
 
 
     @Override
@@ -230,7 +232,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                     public void onClick(View v) {
                         ShopActivity a = (ShopActivity) getActivity();
                         a.selFrgByPos(ShopActivity.HOMEPAGE);
-                        a.getShopTabs().statusChaByPosition(0,2);
+                        a.getShopTabs().statusChaByPosition(0, 2);
                         a.getShopTabs().setFilPos(0);
                     }
                 });
@@ -258,7 +260,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         } else if (finalScene == 4) {//商品结算
             Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
-            startActivityForResult(intent,REQUEST_CLEAR_SUCCESS);
+            startActivityForResult(intent, REQUEST_CLEAR_SUCCESS);
         }
 
 
@@ -306,7 +308,7 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
                         goods.setImgUrl(goods_img);
                         goods.setGoodsStandard(spec_names);
                         goods.setCartId(cart_id);
-                        if(!StringUtils.isEmpty(goods_id)){
+                        if (!StringUtils.isEmpty(goods_id)) {
                             goods.setTitleId(Integer.parseInt(goods_id));
                         }
 
@@ -423,55 +425,6 @@ public class CartFragment extends Base2Fragment implements SuperSwipeRefreshLayo
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    //调用show,hide会回调的方法
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if(!hidden){
-            requestNetwork(UrlUtils.shoppingCart, 0);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {//处理登录超时
-            FragmentActivity activity = getActivity();
-            if (requestCode==BaseNetWork4Activity.REQUEST_LOGIN && activity instanceof ShopActivity) {
-                ShopActivity a = (ShopActivity) activity;
-                a.selFrgByPos(ShopActivity.HOMEPAGE);
-                a.getShopTabs().statusChaByPosition(0,2);
-                a.getShopTabs().setFilPos(0);
-            }
-        } else {
-            switch (requestCode){
-                case BaseNetWork4Activity.REQUEST_LOGIN://处理登录超时
-                    if (resultCode != Activity.RESULT_OK) {
-                        FragmentActivity activity = getActivity();
-                        if (activity instanceof ShopActivity) {
-                            ShopActivity a = (ShopActivity) activity;
-                            a.selFrgByPos(ShopActivity.HOMEPAGE);
-                            a.getShopTabs().statusChaByPosition(0,2);
-                            a.getShopTabs().setFilPos(0);
-                        }
-                    }else {
-                        requestNetwork(UrlUtils.shoppingCart, 0);
-                    }
-                    break;
-                case REQUEST_CLEAR_SUCCESS://结算完成
-                    if(resultCode==Activity.RESULT_OK){
-                        requestNetwork(UrlUtils.shoppingCart, 0);
-                    }
-            }
-
-        }
-
-    }
 
     private String createClearIds() {
 

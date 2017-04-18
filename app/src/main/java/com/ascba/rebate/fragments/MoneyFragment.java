@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.CommissionActivity;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
@@ -309,11 +308,11 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 case REQUEST_RED:
                     requestMyData(0);
                     break;
-                case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
-                    if (resultCode == Activity.RESULT_OK) {
-                        requestMyData(0);
-                    }
-                    break;
+//                case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
+//                    if (resultCode == Activity.RESULT_OK) {
+//                        requestMyData(0);
+//                    }
+//                    break;
             }
 
         }

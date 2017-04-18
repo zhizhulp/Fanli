@@ -204,7 +204,7 @@ public class Base2Fragment extends Fragment {
                 } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     AppConfig.getInstance().putInt("uuid", -1000);
-                    startActivityForResult(intent, BaseNetWork4Activity.REQUEST_LOGIN);
+                    getActivity().startActivityForResult(intent, BaseNetWork4Activity.REQUEST_LOGIN);
                     if (callback != null) {//重新登录的处理
                         callback.handleReLogin();
                     }

@@ -17,7 +17,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessUnionActivity;
 import com.ascba.rebate.activities.ProxyDetActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
@@ -26,8 +25,6 @@ import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
@@ -236,11 +233,11 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                     requestData(UrlUtils.user, 3);
                 }
                 break;
-            case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
-                if (resultCode == Activity.RESULT_OK) {
-                    requestData(UrlUtils.user, 3);
-                }
-                break;
+//            case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
+//                if (resultCode == Activity.RESULT_OK) {
+//                    requestData(UrlUtils.user, 3);
+//                }
+//                break;
 
 
         }

@@ -2,21 +2,22 @@ package com.ascba.rebate.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork3Activity;
-import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yolanda.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
 /**
@@ -45,7 +46,7 @@ public class LoginActivity extends BaseNetWork3Activity {
         if (loss_password != null) {
             Toast.makeText(this, "密码找回成功", Toast.LENGTH_SHORT).show();
             edPassword.setText("");
-            AppConfig.getInstance().putString("login_password","");
+            AppConfig.getInstance().putString("login_password", "");
         }
     }
 
@@ -60,11 +61,11 @@ public class LoginActivity extends BaseNetWork3Activity {
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
+        dm = new DialogManager(this);
         edPhone = (EditText) findViewById(R.id.login_phone_ed);
         edPassword = (EditText) findViewById(R.id.login_password_ed);
         String login_phone = AppConfig.getInstance().getString("login_phone", "");
-        if(!"".equals(login_phone)){
+        if (!"".equals(login_phone)) {
             edPhone.setText(login_phone);
             edPassword.requestFocusFromTouch();
         }
@@ -88,7 +89,8 @@ public class LoginActivity extends BaseNetWork3Activity {
         Intent intent = new Intent(this, RegisterInputNumberActivity.class);
         startActivity(intent);
     }
-    private void loginRequest(){
+
+    private void loginRequest() {
         loginPhone = edPhone.getText().toString();
         loginPassword = edPassword.getText().toString();
         if (loginPhone.equals("") || loginPassword.equals("")) {
@@ -96,10 +98,10 @@ public class LoginActivity extends BaseNetWork3Activity {
             return;
         }
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.login, 0, false);
-        jsonRequest.add("sign",UrlEncodeUtils.createSign(UrlUtils.login));
-        jsonRequest.add("loginId",loginPhone);
-        jsonRequest.add("password",loginPassword);
-        executeNetWork(jsonRequest,"请稍后");
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.login));
+        jsonRequest.add("loginId", loginPhone);
+        jsonRequest.add("password", loginPassword);
+        executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
@@ -108,12 +110,14 @@ public class LoginActivity extends BaseNetWork3Activity {
                 String token = dataObj.optString("token");
                 Long exTime = dataObj.optLong("expiring_time");
 
-                AppConfig.getInstance().putInt("uuid",uuid);
-                AppConfig.getInstance().putString("token",token);
-                AppConfig.getInstance().putLong("expiring_time",exTime);
-                AppConfig.getInstance().putString("login_phone",loginPhone);
+                AppConfig.getInstance().putInt("uuid", uuid);
+                AppConfig.getInstance().putString("token", token);
+                AppConfig.getInstance().putLong("expiring_time", exTime);
+                AppConfig.getInstance().putString("login_phone", loginPhone);
 
-                setResult(RESULT_OK,getIntent());
+                setResult(RESULT_OK, getIntent());
+                MyApplication.isLoad=true;
+
                 MyApplication.isPersonalData = true;
                 finish();
             }
@@ -125,4 +129,22 @@ public class LoginActivity extends BaseNetWork3Activity {
         });
     }
 
+    /**
+     * 监听Back键按下事件,方法2:
+     * 注意:
+     * 返回值表示:是否能完全处理该事件
+     * 在此处返回false,所以会继续传播该事件.
+     * 在具体项目中此处的返回值视情况而定.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            MyApplication.isLoad=false;
+            setResult(RESULT_CANCELED, getIntent());
+            finish();
+            return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
 }

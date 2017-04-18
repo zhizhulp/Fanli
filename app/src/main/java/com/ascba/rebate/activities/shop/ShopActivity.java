@@ -13,6 +13,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.CartFragment;
 import com.ascba.rebate.fragments.ShopMeFragment;
 import com.ascba.rebate.fragments.TypeFragment;
@@ -91,12 +92,16 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
     @Override
     public void clickThree(View v) {
         selFrgByPos(CART);
+        setRequestCode(REQUEST_LOGIN_CART);
+        MyApplication.isLoad = true;
     }
 
     //我
     @Override
     public void clickFour(View v) {
         selFrgByPos(ME);
+        setRequestCode(REQUEST_LOGIN_ME);
+        MyApplication.isLoad = true;
     }
 
     public void selFrgByPos(int position) {
@@ -115,10 +120,8 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
                 startActivityForResult(intent, REQUEST_LOGIN_ME);
                 return;
             }
-
             ft.add(R.id.fl_change, fragt);
             mFragments.add(fragt);
-
         }
         for (int i = 0; i < mFragments.size(); i++) {
             Fragment fragment = mFragments.get(i);
@@ -135,41 +138,24 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data == null) {
-            switch (requestCode) {
-                case REQUEST_LOGIN_CART:
-                    selFrgByPos(HOMEPAGE);
-                    getShopTabs().statusChaByPosition(0, 2);
-                    getShopTabs().setFilPos(0);
-                    break;
-                case REQUEST_LOGIN_ME:
-                    selFrgByPos(HOMEPAGE);
-                    getShopTabs().statusChaByPosition(0, 3);
-                    getShopTabs().setFilPos(0);
-                    break;
-            }
+        //取消登陆
+        if (resultCode == RESULT_CANCELED) {
+            index = HOMEPAGE;
+            getShopTabs().statusChaByPosition(index, currIndex);
+            getShopTabs().setFilPos(index);
+            selFrgByPos(index);
+        }
 
-        } else {
-            switch (requestCode) {
-                case REQUEST_LOGIN_CART:
-                    if (resultCode == RESULT_OK) {
-                        selFrgByPos(CART);
-                    } else {
-                        selFrgByPos(HOMEPAGE);
-                        getShopTabs().statusChaByPosition(0, 2);
-                        getShopTabs().setFilPos(0);
-                    }
-                    break;
-                case REQUEST_LOGIN_ME:
-                    if (resultCode == RESULT_OK) {
-                        selFrgByPos(ME);
-                    } else {
-                        selFrgByPos(HOMEPAGE);
-                        getShopTabs().statusChaByPosition(0, 3);
-                        getShopTabs().setFilPos(0);
-                    }
-                    break;
-            }
+        //点击我的，登陆成功
+        if (requestCode == REQUEST_LOGIN_ME && resultCode == RESULT_OK) {
+            index = ME;
+            selFrgByPos(index);
+        }
+
+        //点击购物车，登陆成功
+        if (requestCode == REQUEST_LOGIN_CART && resultCode == RESULT_OK) {
+            index = CART;
+            selFrgByPos(index);
         }
     }
 

@@ -33,7 +33,7 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isPersonalData;
 
     //支付类型
-    public static int payType=0;//0 充值 1商城支付
+    public static int payType = 0;//0 充值 1商城支付
 
     public static MyApplication getInstance() {
         return app;
@@ -44,6 +44,8 @@ public class MyApplication extends MultiDexApplication {
     }
 
     public static String addressId;//当前收货地址id
+
+    public static boolean isLoad = true;
 
     @Override
     protected void attachBaseContext(Context base) {

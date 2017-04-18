@@ -30,13 +30,13 @@ import org.json.JSONObject;
 /**
  * 网络界面的基类
  */
-public class BaseNetWork4Activity extends AppCompatActivity  {
-    public static final int REQUEST_LOGIN = 2017;
+public class BaseNetWork4Activity extends AppCompatActivity {
+    public static int REQUEST_LOGIN;
     private DialogManager2 dm;
     private Callback callback;
     private PermissionCallback pCallback;
-    public static final int LOAD_MORE_END = 2017*2;
-    public static final int LOAD_MORE_ERROR = 2017*2+1;
+    public static final int LOAD_MORE_END = 2017 * 2;
+    public static final int LOAD_MORE_ERROR = 2017 * 2 + 1;
 
     public PermissionCallback getpCallback() {
         return pCallback;
@@ -63,7 +63,8 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
 
 
     }
-    public interface PermissionCallback{
+
+    public interface PermissionCallback {
         void requestPermissionAndBack(boolean isOk);
     }
 
@@ -84,13 +85,15 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
         }
         setBackGround();
     }
+
     private void setBackGround() {
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.color.main_bg);
         this.getWindow().setBackgroundDrawable(drawable);
     }
-    public void checkAndRequestAllPermission(String [] permissions) {
-        if(permissions==null){
+
+    public void checkAndRequestAllPermission(String[] permissions) {
+        if (permissions == null) {
             return;
         }
         if (Build.VERSION.SDK_INT >= 23) {
@@ -108,6 +111,7 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
         }
 
     }
+
     //申请权限的回调
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] per,
@@ -122,7 +126,7 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
         if (!isAll) {
             Toast.makeText(this, getResources().getString(R.string.no_permission), Toast.LENGTH_SHORT).show();
         }
-        if(pCallback!=null){
+        if (pCallback != null) {
             pCallback.requestPermissionAndBack(isAll);//isAll 用户是否拒绝
         }
         super.onRequestPermissionsResult(requestCode, per, grantResults);
@@ -157,6 +161,7 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
 
     /**
      * 建立网络请求
+     *
      * @param url          请求网址
      * @param method       请求方式 0 post 1 get
      * @param defaultParam 是否有默认请求参数
@@ -204,7 +209,7 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
                 } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                     Intent intent = new Intent(BaseNetWork4Activity.this, LoginActivity.class);
                     AppConfig.getInstance().putInt("uuid", -1000);
-                    startActivityForResult(intent,REQUEST_LOGIN);
+                    startActivityForResult(intent, REQUEST_LOGIN);
                     ((MyApplication) getApplication()).exit();
                 } else if (status == 404) {
                     if (callback != null) {
@@ -242,6 +247,10 @@ public class BaseNetWork4Activity extends AppCompatActivity  {
 
     protected void showToast(int content) {
         Toast.makeText(this, String.valueOf(content), Toast.LENGTH_SHORT).show();
+    }
+
+    public static void setRequestCode(int requestLogin) {
+        REQUEST_LOGIN = requestLogin;
     }
 }
 

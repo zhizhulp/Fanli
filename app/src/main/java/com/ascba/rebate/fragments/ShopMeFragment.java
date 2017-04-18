@@ -1,19 +1,15 @@
 package com.ascba.rebate.fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
@@ -21,10 +17,11 @@ import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.LazyFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -39,7 +36,7 @@ import java.util.List;
 /**
  * 商城设置
  */
-public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
+public class ShopMeFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
         Base2Fragment.Callback {
     private Context context;
     private RecyclerView pc_RecyclerView;
@@ -51,10 +48,6 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
     private View headViewLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_shop_me, container, false);
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -63,25 +56,21 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         initView(view);
     }
 
-
-    //调用show,hide会回调的方法
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
+    protected int setContentView() {
+        return R.layout.fragment_shop_me;
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (MyApplication.isLoad) {
             getMeData();
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
     /*
-               获取me数据
-             */
+      获取me数据
+      */
     private void getMeData() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.myPageInfo, 0, true);
         executeNetWork(jsonRequest, "请稍后");
@@ -357,29 +346,4 @@ public class ShopMeFragment extends Base2Fragment implements SuperSwipeRefreshLa
         getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            FragmentActivity activity = getActivity();
-            if (activity instanceof ShopActivity) {
-                ShopActivity a = (ShopActivity) activity;
-                a.selFrgByPos(ShopActivity.HOMEPAGE);
-                a.getShopTabs().statusChaByPosition(0, 3);
-                a.getShopTabs().setFilPos(0);
-            }
-        } else {
-            if (resultCode != Activity.RESULT_OK) {
-                FragmentActivity activity = getActivity();
-                if (activity instanceof ShopActivity) {
-                    ShopActivity a = (ShopActivity) activity;
-                    a.selFrgByPos(ShopActivity.HOMEPAGE);
-                    a.getShopTabs().statusChaByPosition(0, 3);
-                    a.getShopTabs().setFilPos(0);
-                }
-            } else {
-                getMeData();
-            }
-        }
-    }
 }
