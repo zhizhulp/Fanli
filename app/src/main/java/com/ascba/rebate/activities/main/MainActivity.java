@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.HomePageFragment;
 import com.ascba.rebate.fragments.MeFragment;
 import com.ascba.rebate.fragments.MoneyFragment;
@@ -33,15 +35,27 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
+import static com.ascba.rebate.activities.shop.ShopActivity.CART;
+
+
 /**
  * 主界面
  */
 public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callback {
+    private int currIndex = HOMEPAGE;//当前位置
+    private static int index;
+    public static final int HOMEPAGE = 0;
+    public static final int SLIDE = 1;
+    public static final int SHOP = 2;
+    public static final int CAIFU = 3;
+    public static final int ME = 4;
+
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
+    private static final int REQUEST_LOGIN_SHOP = 2015;
     private static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
-    private static final int REQUEST_SHOP = 0;
+
     private List<Fragment> fgts = new ArrayList<>();
     private DialogManager2 dm;
     private final Handler mHandler = new Handler() {
@@ -78,12 +92,9 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
     private Fragment mHomePageFragment;
     private Fragment mSideFragment;
     private Fragment mMoneyFragment;
-    private  Fragment mMeFragment;
+    private Fragment mMeFragment;
     private AppTabs appTabs;
 
-    public AppTabs getAppTabs() {
-        return appTabs;
-    }
 
     public DialogManager2 getDm() {
         return dm;
@@ -102,6 +113,7 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
         findViews();
         checkAndRequestAllPermission(permissions);
     }
+
     private void findViews() {
         dm = new DialogManager2(this);
         initFragments();
@@ -116,7 +128,7 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
         mMoneyFragment = new MoneyFragment();
         mMeFragment = new MeFragment();
 
-        selFrgByPos(0);
+        selFrgByPos(currIndex);
     }
 
 
@@ -147,10 +159,6 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void onPause() {
@@ -160,31 +168,32 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_LOGIN_CAIFU://第一次登录回调财富
-                if (resultCode == RESULT_OK) {
-                    selFrgByPos(3);
-                } else {
-                    appTabs.statusChaByPosition(0,3);
-                    appTabs.setFilPos(0);
-                    selFrgByPos(0);
+        //取消登陆
+        if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME || requestCode == REQUEST_LOGIN_CAIFU)) {
+            Log.d("MainActivity", "currIndex:" + currIndex);
 
-                }
-                break;
-            case REQUEST_LOGIN_ME://第一次登录回调个人中心
-                if (resultCode == RESULT_OK) {
-                    selFrgByPos(4);
-                } else {
-                    appTabs.statusChaByPosition(0,4);
-                    appTabs.setFilPos(0);
-                    selFrgByPos(0);
-                }
-                break;
-            case REQUEST_SHOP:
-                appTabs.statusChaByPosition(0,2);
-                appTabs.setFilPos(0);
-                selFrgByPos(0);
-                break;
+            index = HOMEPAGE;
+            appTabs.statusChaByPosition(index, currIndex);
+            appTabs.setFilPos(index);
+            selFrgByPos(index);
+        }
+
+        //点击我的，登陆成功
+        if (requestCode == REQUEST_LOGIN_ME && resultCode == RESULT_OK) {
+            index = ME;
+            selFrgByPos(index);
+        }
+
+        //点击购物车，登陆成功
+        if (requestCode == REQUEST_LOGIN_CAIFU && resultCode == RESULT_OK) {
+            index = CART;
+            selFrgByPos(index);
+        }
+
+        //商城返回
+        if (requestCode == REQUEST_LOGIN_SHOP) {
+            appTabs.statusChaByPosition(index, currIndex);
+            appTabs.setFilPos(index);
         }
     }
 
@@ -238,29 +247,32 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
     //首页
     @Override
     public void clickZero(View v) {
-        selFrgByPos(0);
+        selFrgByPos(HOMEPAGE);
     }
 
     //周边
     @Override
     public void clickOne(View v) {
-        selFrgByPos(1);
+        selFrgByPos(SLIDE);
     }
 
     //商城
     @Override
     public void clickTwo(View v) {
+        currIndex = SHOP;
         Intent intent = new Intent(this, ShopActivity.class);
-        startActivityForResult(intent,REQUEST_SHOP);
+        startActivityForResult(intent, REQUEST_LOGIN_SHOP);
     }
-
 
 
     //财富
     @Override
     public void clickThree(View v) {
+        currIndex = CAIFU;
         if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
-            selFrgByPos(3);
+            selFrgByPos(CAIFU);
+            setRequestCode(REQUEST_LOGIN_CAIFU);
+            MyApplication.isLoad = true;
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN_CAIFU);
@@ -270,8 +282,11 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
     //我
     @Override
     public void clickFour(View v) {
+        currIndex = ME;
         if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
-            selFrgByPos(4);
+            selFrgByPos(ME);
+            setRequestCode(REQUEST_LOGIN_ME);
+            MyApplication.isLoad = true;
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN_ME);
@@ -281,12 +296,13 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
 
     //根据位置切换相应碎片
     public void selFrgByPos(int position) {
+        index = currIndex = position;
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         switch (position) {
             case 0:
-                if(!fgts.contains(mHomePageFragment)){
-                    ft.add(R.id.fl_change,mHomePageFragment);
+                if (!fgts.contains(mHomePageFragment)) {
+                    ft.add(R.id.fl_change, mHomePageFragment);
                     fgts.add(mHomePageFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {
@@ -301,8 +317,8 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
                 ft.commit();
                 break;
             case 1:
-                if(!fgts.contains(mSideFragment)){
-                    ft.add(R.id.fl_change,mSideFragment);
+                if (!fgts.contains(mSideFragment)) {
+                    ft.add(R.id.fl_change, mSideFragment);
                     fgts.add(mSideFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {
@@ -320,8 +336,8 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
 
                 break;
             case 3:
-                if(!fgts.contains(mMoneyFragment)){
-                    ft.add(R.id.fl_change,mMoneyFragment);
+                if (!fgts.contains(mMoneyFragment)) {
+                    ft.add(R.id.fl_change, mMoneyFragment);
                     fgts.add(mMoneyFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {
@@ -331,13 +347,12 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
                     } else {
                         ft.hide(fragment);
                     }
-
                 }
                 ft.commit();
                 break;
             case 4:
-                if(!fgts.contains(mMeFragment)){
-                    ft.add(R.id.fl_change,mMeFragment);
+                if (!fgts.contains(mMeFragment)) {
+                    ft.add(R.id.fl_change, mMeFragment);
                     fgts.add(mMeFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {

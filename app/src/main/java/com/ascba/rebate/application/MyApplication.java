@@ -47,6 +47,8 @@ public class MyApplication extends MultiDexApplication {
 
     public static boolean isLoad = true;
 
+    public static boolean isSignOut = false;
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
