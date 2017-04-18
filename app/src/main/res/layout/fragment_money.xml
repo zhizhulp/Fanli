@@ -202,6 +202,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -346,7 +347,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="交易记录"
+                            android:text="提现券"
                             android:textColor="@color/main_text_normal"
                             android:textSize="@dimen/main_text_14" />
 
@@ -355,13 +356,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="0"
-                            android:visibility="invisible"
+                            android:text="0张"
                             android:textColor="@color/main_text_gary"
                             android:textSize="@dimen/main_text_13" />
                     </LinearLayout>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -532,7 +533,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="返佣账户"
+                            android:text="消费增值"
                             android:textColor="@color/main_text_normal"
                             android:textSize="@dimen/main_text_14" />
 
@@ -548,6 +549,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

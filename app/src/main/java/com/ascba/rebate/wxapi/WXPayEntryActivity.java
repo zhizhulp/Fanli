@@ -33,8 +33,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler,M
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wx_pay_result);
-		StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
-
 		tvResult = ((TextView) findViewById(R.id.pay_result));
 		tvMoney = ((TextView) findViewById(R.id.tv_money));
 		mb = ((MoneyBar) findViewById(R.id.mb));
@@ -80,7 +78,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler,M
                 }
                 break;
             case 1:
-
+				if(errCode==0){//成功
+					tvResult.setText("支付成功");
+				}else if(errCode==-1){//错误
+					tvResult.setText("出现错误");
+				}else if(errCode==-2){//用户取消
+					tvResult.setText("取消支付");
+				}
                 break;
         }
 
