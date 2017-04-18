@@ -10,7 +10,7 @@
         android:id="@+id/add_address_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="新增地址"></com.ascba.rebate.view.ShopABarText>
+        app:abar_title="新增地址"/>
 
     <View
         android:layout_width="match_parent"
@@ -121,6 +121,7 @@
         android:background="@color/cutting_line" />
 
     <RelativeLayout
+        android:onClick="selectPosition"
         android:layout_width="match_parent"
         android:layout_height="42dp">
 
@@ -134,6 +135,7 @@
             android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/right_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -141,6 +143,16 @@
             android:layout_marginRight="14dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/right2_arrow" />
+
+        <TextView
+            android:id="@+id/tv_locate"
+            android:layout_marginRight="8dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/right_icon"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <View
@@ -149,6 +161,7 @@
         android:background="@color/cutting_line" />
 
     <RelativeLayout
+        android:onClick="selectStreet"
         android:layout_width="match_parent"
         android:layout_height="42dp">
 
@@ -162,6 +175,7 @@
             android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/right_icon_02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -169,6 +183,15 @@
             android:layout_marginRight="14dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/right2_arrow" />
+        <TextView
+            android:id="@+id/tv_street"
+            android:layout_marginRight="8dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/right_icon_02"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <View

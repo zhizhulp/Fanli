@@ -9,8 +9,8 @@
     <ImageView
         android:scaleType="fitCenter"
         android:id="@+id/activity_pc_item3_img"
-        android:layout_width="23dp"
-        android:layout_height="23dp"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
         android:paddingTop="6dp"
         android:layout_centerHorizontal="true"
         />

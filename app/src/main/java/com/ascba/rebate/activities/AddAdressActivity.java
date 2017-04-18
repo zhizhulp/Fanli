@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -46,6 +47,8 @@ public class AddAdressActivity extends BaseNetWork4Activity {
     private EditText name, phone, address;
     private CheckBox chbDefault;
     private DialogManager dm;
+    private TextView tvLocate;
+    private TextView tvStreet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,10 @@ public class AddAdressActivity extends BaseNetWork4Activity {
         phone = (EditText) findViewById(R.id.address_phone);
         address = (EditText) findViewById(R.id.address);
         chbDefault = (CheckBox) findViewById(R.id.chb_default);
+
+        //地区和街道
+        tvLocate = ((TextView) findViewById(R.id.tv_locate));
+        tvStreet = ((TextView) findViewById(R.id.tv_street));
     }
 
     /**
@@ -159,9 +166,6 @@ public class AddAdressActivity extends BaseNetWork4Activity {
 
     /**
      * 获取联系人数据
-     *
-     * @param uri
-     * @return
      */
     private String[] getPhoneContacts(Uri uri) {
         String[] contact = new String[2];
@@ -225,5 +229,18 @@ public class AddAdressActivity extends BaseNetWork4Activity {
                 dm.buildAlertDialog("请检查网络！");
             }
         });
+    }
+
+    /**
+     *点击选择地区
+     */
+    public void selectPosition(View view) {
+
+    }
+    /**
+     *点击选择街道
+     */
+    public void selectStreet(View view) {
+
     }
 }
