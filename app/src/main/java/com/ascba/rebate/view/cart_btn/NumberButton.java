@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,22 +42,22 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private int mBuyMax = Integer.MAX_VALUE;
     private EditText mCount;
     private OnWarnListener mOnWarnListener;
-    private TextView addButton;
-    private TextView subButton;
+    private ImageView addButton;
+    private ImageView subButton;
 
-    public TextView getAddButton() {
+    public ImageView getAddButton() {
         return addButton;
     }
 
-    public void setAddButton(TextView addButton) {
+    public void setAddButton(ImageView addButton) {
         this.addButton = addButton;
     }
 
-    public TextView getSubButton() {
+    public ImageView getSubButton() {
         return subButton;
     }
 
-    public void setSubButton(TextView subButton) {
+    public void setSubButton(ImageView subButton) {
         this.subButton = subButton;
     }
 
@@ -68,50 +69,19 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         super(context, attrs);
         init(context, attrs);
     }
-//
-//    public NumberButton(Context context, AttributeSet attrs, int defStyleAttr) {
-//        super(context, attrs, defStyleAttr);
-//    }
 
     private void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.cart_btn_layout, this);
 
-        addButton = (TextView) findViewById(R.id.button_add);
+        addButton = (ImageView) findViewById(R.id.button_add);
         //addButton.setOnClickListener(this);
-        subButton = (TextView) findViewById(R.id.button_sub);
+        subButton = (ImageView) findViewById(R.id.button_sub);
         //subButton.setOnClickListener(this);
 
         mCount = ((EditText) findViewById(R.id.text_count));
         mCount.addTextChangedListener(this);
         mCount.setOnClickListener(this);
         mCount.setCursorVisible(false);
-
-
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NumberButton);
-        boolean editable = typedArray.getBoolean(R.styleable.NumberButton_editable, false);
-        int buttonWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_buttonWidth, -1);
-        int textWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textWidth, -1);
-        int textSize = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textSize, -1);
-        int textColor = typedArray.getColor(R.styleable.NumberButton_textColor, 0xff707070);
-        typedArray.recycle();
-
-        setEditable(editable);
-        mCount.setTextColor(textColor);
-        subButton.setTextColor(textColor);
-        addButton.setTextColor(textColor);
-
-        if (textSize > 0)
-            mCount.setTextSize(textSize);
-
-        if (buttonWidth > 0) {
-            LayoutParams textParams = new LayoutParams(buttonWidth, LayoutParams.MATCH_PARENT);
-            subButton.setLayoutParams(textParams);
-            addButton.setLayoutParams(textParams);
-        }
-        if (textWidth > 0) {
-            LayoutParams textParams = new LayoutParams(textWidth, LayoutParams.MATCH_PARENT);
-            mCount.setLayoutParams(textParams);
-        }
     }
 
     public int getNumber() {
