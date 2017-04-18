@@ -15,7 +15,7 @@
             android:id="@+id/shopbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="#FFF3F3"
+            app:abar_bg="#FFF3F3"
             app:abar_title="待收货" />
 
         <LinearLayout
@@ -111,17 +111,17 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/deliver_details_phone"
+                        android:id="@+id/address_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:layout_marginTop="15dp"
-                        android:text="18311011381"
                         android:textSize="13sp" />
 
                     <ImageView
@@ -135,25 +135,24 @@
                         android:src="@mipmap/icon_location_black" />
 
                     <TextView
-                        android:id="@+id/deliver_details_username"
+                        android:id="@+id/address_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
                         android:layout_toRightOf="@id/deliver_details_location"
-                        android:text="纸灰机"
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/deliver_details_address"
+                        android:id="@+id/address_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/deliver_details_username"
+                        android:layout_below="@id/address_name"
                         android:layout_marginBottom="13.5dp"
                         android:layout_marginTop="10dp"
-                        android:layout_toLeftOf="@id/deliver_details_phone"
+                        android:layout_toLeftOf="@id/address_phone"
                         android:layout_toRightOf="@id/deliver_details_location"
-                        android:text="北京北京市丰台区光彩路建邦华府底商钱来钱往网络科技有限公司"
                         android:textSize="13sp" />
+
                 </RelativeLayout>
 
                 <include layout="@layout/goods_details_cuttingline_wide" />
@@ -181,13 +180,12 @@
                         android:src="@mipmap/business_detail_desc" />
 
                     <TextView
-                        android:id="@+id/deliver_details_shop"
+                        android:id="@+id/store_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="7dp"
-                        android:layout_toRightOf="@id/deliver_details_img_bus"
-                        android:text="RCC韩国代购-男装" />
+                        android:layout_toRightOf="@id/deliver_details_img_bus" />
 
                     <View
                         android:layout_width="match_parent"
@@ -220,6 +218,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/order_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -241,6 +240,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/shipping_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -262,6 +262,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/vouchers_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -284,6 +285,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/order_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -295,16 +297,25 @@
                     <include layout="@layout/goods_details_cuttingline" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/contact_store"
+                    android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@mipmap/icon_call_blue"
-                    android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:text="联系商家"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@mipmap/icon_call_blue"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:text="联系商家"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
 
                 <include layout="@layout/goods_details_cuttingline_wide" />
 
@@ -352,6 +363,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/value_add_way"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -380,12 +392,12 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/order_sn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:text="46484546485231"
                         android:textColor="@color/shop_normal_text_color"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -408,12 +420,12 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/order_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:text="2017-01-27"
                         android:textColor="@color/shop_normal_text_color"
                         android:textSize="14sp" />
                 </RelativeLayout>

@@ -44,7 +44,7 @@ public class DeliverDetailsActivity extends BaseNetWork4Activity implements Supe
     private DeliverDetailsAdapter adapter;
     //收货地址
     private RelativeLayout addressView;
-    private LinearLayout contactStoreTx, countdownView;
+    private LinearLayout contactStoreTx;
     private TextView phoneTx, nameTx, addressTx;
     private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
@@ -107,7 +107,7 @@ public class DeliverDetailsActivity extends BaseNetWork4Activity implements Supe
         if (intent != null) {
             orderId = intent.getStringExtra("order_id");
             if (orderId != null) {
-                requstData(UrlUtils.waitPayOrder, 0);
+                requstData(UrlUtils.viewOrder, 0);
             } else {
                 showToast(getString(R.string.no_data_txt));
                 finish();
@@ -129,7 +129,7 @@ public class DeliverDetailsActivity extends BaseNetWork4Activity implements Supe
 
     @Override
     public void onRefresh() {
-        requstData(UrlUtils.waitPayOrder, 0);
+        requstData(UrlUtils.viewOrder, 0);
     }
 
     @Override

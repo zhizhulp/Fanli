@@ -160,8 +160,8 @@ public class UrlUtils {
     //删除订单
     public static final String delOrder = urlPrefix + "delOrder";
 
-    //待支付订单
-    public static final String waitPayOrder = urlPrefix + "waitPayOrder";
+    //订单详情
+    public static final String viewOrder = urlPrefix + "viewOrder";
 
     //添加商品到购物车
     public static final String cartAddGoods = urlPrefix + "cartAddGoods";

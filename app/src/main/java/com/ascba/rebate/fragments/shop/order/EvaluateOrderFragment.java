@@ -185,8 +185,11 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Frag
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, EvaluateDetailsActivity.class);
-                        startActivity(intent);
+                        if (orderId != null) {
+                            Intent intent = new Intent(context, EvaluateDetailsActivity.class);
+                            intent.putExtra("order_id", orderId);
+                            startActivityForResult(intent, 1);
+                        }
                         break;
                     case R.id.item_goods_order_total_after:
                         //售后
