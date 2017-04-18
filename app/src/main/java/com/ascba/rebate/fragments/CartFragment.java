@@ -260,10 +260,8 @@ public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayou
         } else if (finalScene == 4) {//商品结算
             Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
-            startActivityForResult(intent, REQUEST_CLEAR_SUCCESS);
+            startActivity(intent);
         }
-
-
     }
 
     private void getData(JSONObject dataObj) {
