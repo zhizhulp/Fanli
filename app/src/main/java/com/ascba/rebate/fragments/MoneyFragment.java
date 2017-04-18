@@ -161,8 +161,6 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
             case R.id.me_lat_jiaoyi://兑现券
                 Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
                 startActivityForResult(intent1, WhiteScoreActivity.REQUEST_EXCHANGE);
-
-
                 break;
             case R.id.me_lat_djq:
                 Intent intent8 = new Intent(getActivity(), TicketActivity.class);
