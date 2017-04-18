@@ -1,19 +1,13 @@
 package com.ascba.rebate.fragments;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.CommissionActivity;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
@@ -24,7 +18,9 @@ import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.LazyFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -36,17 +32,10 @@ import org.json.JSONObject;
 /**
  * 财富
  */
-public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
+public class MoneyFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
         , Base2Fragment.Callback {
 
-
     private SuperSwipeRefreshLayout refreshLayout;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
     private TextView tvAllCash;
     private TextView tvRed;
     private TextView tvWhite;
@@ -59,20 +48,18 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
     private TextView tvSjzh;
     private TextView tvBank;
     private View accountView;
-    private static final int REQUEST_RED = 5;
-    private static final int REQUEST_PAY = 2;
-    private static final int REQUEST_CASH_GET = 4;
     private int finalScene;
 
-    public MoneyFragment() {
-
+    @Override
+    protected int setContentView() {
+        return R.layout.fragment_money;
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_money, container, false);
+    protected void lazyLoad() {
+        if (MyApplication.isLoad) {
+            requestMyData(0);
+        }
     }
 
     @Override
@@ -130,7 +117,6 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
             refreshLayout.setRefreshing(false);
             getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
         }
-
     }
 
     @Override
@@ -155,11 +141,11 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 break;
             case R.id.me_lat_duihuan:
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
-                startActivityForResult(intent3, REQUEST_RED);
+                startActivity(intent3);
                 break;
             case R.id.me_lat_jiaoyi://兑现券
                 Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivityForResult(intent1, WhiteScoreActivity.REQUEST_EXCHANGE);
+                startActivity(intent1);
                 break;
             case R.id.me_lat_djq:
                 Intent intent8 = new Intent(getActivity(), TicketActivity.class);
@@ -176,7 +162,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 break;
             case R.id.me_lat_chongzhi:
                 Intent intent2 = new Intent(getActivity(), AccountRechargeActivity.class);
-                startActivityForResult(intent2, REQUEST_PAY);
+                startActivity(intent2);
                 break;
             case R.id.me_lat_bank:
                 requestMyData(2);//检查是否实名
@@ -261,7 +247,7 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
                 Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
-                startActivityForResult(intent, REQUEST_CASH_GET);
+                startActivity(intent);
             }
         }
     }
@@ -290,32 +276,4 @@ public class MoneyFragment extends Base2Fragment implements SuperSwipeRefreshLay
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            switch (requestCode) {
-                case REQUEST_PAY:
-                    if (Activity.RESULT_OK == resultCode) {
-                        requestMyData(0);
-                    }
-                    break;
-                case REQUEST_CASH_GET:
-                    requestMyData(0);
-                    break;
-                case WhiteScoreActivity.REQUEST_EXCHANGE:
-                    requestMyData(0);
-                    break;
-                case REQUEST_RED:
-                    requestMyData(0);
-                    break;
-//                case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
-//                    if (resultCode == Activity.RESULT_OK) {
-//                        requestMyData(0);
-//                    }
-//                    break;
-            }
-
-        }
-    }
 }

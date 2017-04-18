@@ -11,7 +11,7 @@ import com.ascba.rebate.activities.me_page.settings.child.PasswordProtect2Activi
 import com.ascba.rebate.activities.me_page.settings.child.PayPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.SafeSettingActivity;
-import com.ascba.rebate.fragments.MeFragment;
+import com.ascba.rebate.application.MyApplication;
 
 public class SettingActivity extends BaseNetWorkActivity  {
 
@@ -57,6 +57,8 @@ public class SettingActivity extends BaseNetWorkActivity  {
                 .putString("login_phone", "")
                 .putString("login_password", "").apply();
         setResult(RESULT_OK, getIntent());
+        MyApplication.isLoad=false;
+        MyApplication.isSignOut=true;
         finish();
     }
 

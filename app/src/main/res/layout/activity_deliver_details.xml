@@ -148,7 +148,7 @@
                         android:layout_below="@id/address_name"
                         android:layout_marginBottom="13.5dp"
                         android:layout_marginTop="10dp"
-                        android:layout_toLeftOf="@id/address_phone"
+                        android:layout_marginRight="15dp"
                         android:layout_toRightOf="@id/deliver_details_location"
                         android:textSize="13sp" />
 

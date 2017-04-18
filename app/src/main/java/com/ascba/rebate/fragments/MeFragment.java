@@ -1,14 +1,10 @@
 package com.ascba.rebate.fragments;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,8 +13,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessUnionActivity;
 import com.ascba.rebate.activities.ProxyDetActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.MyAwardActivity;
@@ -30,13 +24,14 @@ import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.LazyFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.AppTabs;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -51,7 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * 个人中心
  */
-public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
+public class MeFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
 
 
     private SuperSwipeRefreshLayout refreshLayout;
@@ -69,21 +64,26 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
     private TextView tvPhone;
     private int finalScene;
 
-    private static final int REQUEST_APPLY = 0;
-    private static final int REQUEST_CLOSE = 1;
-    private static final int REQUEST_LOGIN = 2;
     private TextView tvUserName;
     private View qrView;
     private View viewDlZq;
 
-    public MeFragment() {
-    }
-
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_me, container, false);
+    protected int setContentView() {
+        return R.layout.fragment_me;
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (MyApplication.isLoad) {
+            requestData(UrlUtils.user, 3);
+        }
+
+        if (MyApplication.isSignOut) {
+            MyApplication.isSignOut = false;
+            requestData(UrlUtils.user, 3);
+        }
     }
 
     @Override
@@ -182,7 +182,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 requestData(UrlUtils.user, 1);
                 break;
             case R.id.me_lat_dlzq://代理专区
-                Intent intent6=new Intent(getActivity(), ProxyDetActivity.class);
+                Intent intent6 = new Intent(getActivity(), ProxyDetActivity.class);
                 startActivity(intent6);
                 break;
             case R.id.me_lat_msg://消息
@@ -193,7 +193,7 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
                 break;
             case R.id.me_lat_setting://设置
                 Intent intent2 = new Intent(getActivity(), SettingActivity.class);
-                startActivityForResult(intent2, REQUEST_CLOSE);
+                startActivity(intent2);
                 break;
 
         }
@@ -204,43 +204,6 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         executeNetWork(request, "请稍候");
         setCallback(this);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_APPLY:
-                requestData(UrlUtils.user, 3);
-                break;
-            case REQUEST_CLOSE://设置传来的
-                if (resultCode == Activity.RESULT_OK) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    //MyApplication.isPersonalData = true;
-                    startActivityForResult(intent, REQUEST_LOGIN);
-                }
-                break;
-            case REQUEST_LOGIN://登录传来的
-                if (resultCode != Activity.RESULT_OK) {//登录不成功
-                    FragmentActivity activity = getActivity();
-                    if (activity instanceof MainActivity) {
-                        ((MainActivity) activity).selFrgByPos(0);
-                        AppTabs appTabs = ((MainActivity) activity).getAppTabs();
-                        appTabs.setFilPos(0);
-                        appTabs.statusChaByPosition(0, 4);
-                    }
-                } else {//登录成功，刷新界面
-                    requestData(UrlUtils.user, 3);
-                }
-                break;
-//            case BaseNetWork4Activity.REQUEST_LOGIN://被挤掉或登录超时
-//                if (resultCode == Activity.RESULT_OK) {
-//                    requestData(UrlUtils.user, 3);
-//                }
-//                break;
-
-
-        }
     }
 
     @Override
@@ -268,19 +231,19 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
         } else if (finalScene == 1) {
 
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
-            LogUtils.PrintLog("MeFragment","data-->"+infoObj);
+            LogUtils.PrintLog("MeFragment", "data-->" + infoObj);
             int seller_status = infoObj.optInt("seller_status");
             int merchant = infoObj.optInt("merchant");
-            if(merchant==3){
-                if(seller_status==3){
-                    Intent intent=new Intent(getActivity(),BusinessUnionActivity.class);
+            if (merchant == 3) {
+                if (seller_status == 3) {
+                    Intent intent = new Intent(getActivity(), BusinessUnionActivity.class);
                     startActivity(intent);
-                }else {
-                    Intent intent=new Intent(getActivity(),BusinessDataActivity.class);
+                } else {
+                    Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
                     startActivity(intent);
                 }
-            }else {
-                Intent intent=new Intent(getActivity(),BusinessDataActivity.class);
+            } else {
+                Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
                 startActivity(intent);
             }
 
@@ -373,10 +336,4 @@ public class MeFragment extends Base2Fragment implements SuperSwipeRefreshLayout
             refreshLayout.setRefreshing(false);
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
 }

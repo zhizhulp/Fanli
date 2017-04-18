@@ -32,7 +32,6 @@ import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BCInputNameActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
@@ -40,8 +39,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
-import com.ascba.rebate.fragments.base.Base2Fragment;
-import com.ascba.rebate.fragments.base.Base3Fragment;
+import com.ascba.rebate.fragments.base.BaseCacheFragment;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -64,7 +62,7 @@ import java.util.List;
  * 首页
  */
 
-public class HomePageFragment extends Base3Fragment implements Base3Fragment.Callback {
+public class HomePageFragment extends BaseCacheFragment implements BaseCacheFragment.Callback {
 
     private static final int REQUEST_LOGIN = 0;
     private static final int POLICY = 1;
