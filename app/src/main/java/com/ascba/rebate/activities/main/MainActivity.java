@@ -207,7 +207,6 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0://成功
-                    LogUtils.PrintLog("123", "alias设置成功");
                     break;
                 case 6002://失败，重试
                     if (ExampleUtil.isConnected(getApplicationContext())) {
@@ -226,7 +225,6 @@ public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callba
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0:
-                    LogUtils.PrintLog("123", "tag设置成功:");
                     break;
 
                 case 6002:

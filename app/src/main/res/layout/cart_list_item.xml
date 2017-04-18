@@ -125,8 +125,7 @@
                     android:layout_height="23dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginBottom="10dp"
-                    qinc:editable="false" />
+                    android:layout_marginBottom="10dp" />
             </RelativeLayout>
         </LinearLayout>
         <View

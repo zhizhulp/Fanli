@@ -64,6 +64,9 @@ public class ShopMeFragment extends LazyFragment implements SuperSwipeRefreshLay
     @Override
     protected void lazyLoad() {
         if (MyApplication.isLoad) {
+            mDistanceY = 0;
+            headView.setBackgroundColor(Color.argb(0, 255, 255, 255));
+            headViewLine.setAlpha(0);
             getMeData();
         }
     }

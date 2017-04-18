@@ -42,44 +42,40 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
         for (final GoodsAttr.Attrs s : strs) {
             final RadioButton rb=new RadioButton(mContext);
             rb.setChecked(s.getTextStatus() == 1);
-            rb.setTextColor(s.getTextStatus());
-
+            rb.setTextColor(s.getTextStatus()==1 ? mContext.getResources().getColor(R.color.white) :mContext.getResources().getColor(R.color.shop_normal_text_color) );
             rb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long startTime = System.currentTimeMillis();
-                    LogUtils.PrintLog("ProfileAdapter","start_time-->"+startTime);
-                    //s.setHasCheck(rb.isChecked());
-                    s.setTextStatus(1);
-                    for (int i = 0; i < strs.size(); i++) {
-                        GoodsAttr.Attrs attrs = strs.get(i);
-                        if(attrs.getTextStatus()!=2){
-                            if(attrs.getTextStatus()==1 && attrs!=s){
-                                attrs.setTextStatus(0);
-                                //attrs.setHasCheck(false);
+                    if(s.getTextStatus()!=1){
+                        s.setTextStatus(1);
+                        rb.setTextColor(mContext.getResources().getColor(R.color.white));
+                        for (int i = 0; i < strs.size(); i++) {
+                            GoodsAttr.Attrs attrs = strs.get(i);
+                            if(attrs.getTextStatus()!=2){
+                                if(attrs.getTextStatus()==1 && attrs!=s){
+                                    attrs.setTextStatus(0);
+                                }
                             }
                         }
+                        //父类置true
+                        item.setSelect(true);
+                        notifyItemChanged(helper.getAdapterPosition());
                     }
-                    //父类置true
-                    item.setSelect(true);
-
                     if(callback!=null){
                         callback.click(s,item);
                     }
-                    notifyItemChanged(helper.getAdapterPosition());
-                    long endTime = System.currentTimeMillis();
-                    LogUtils.PrintLog("ProfileAdapter","end_time-->"+endTime);
-                    LogUtils.PrintLog("ProfileAdapter","exe_time-->"+(endTime-startTime));
+
                 }
             });
             rb.setButtonDrawable(new ColorDrawable());//去掉圆圈
+            rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.goods_standrad_bg));
             rb.setText(s.getContent());
             rb.setTextSize(13);
-            int textStatus = s.getTextStatus();
+            /*int textStatus = s.getTextStatus();
             if(textStatus==0){//未选择
                 rb.setEnabled(true);
                 rb.setTextColor(mContext.getResources().getColor(R.color.shop_normal_text_color));
-                rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.sta_no_press_shape));
+                rb.setBackgroundDrawable();
             }else if(textStatus==1){//选择
                 rb.setEnabled(true);
                 rb.setTextColor(mContext.getResources().getColor(R.color.white));
@@ -88,7 +84,7 @@ public class ProfileAdapter extends BaseQuickAdapter<GoodsAttr,BaseViewHolder> {
                 rb.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.sta_no_press_shape));
                 rb.setEnabled(false);
                 rb.setTextColor(0xffd1d1d1);
-            }
+            }*/
             RadioGroup.LayoutParams lp = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
             lp.setMargins(0,ScreenDpiUtils.dip2px(mContext,14),ScreenDpiUtils.dip2px(mContext,11),0);
             rb.setLayoutParams(lp );

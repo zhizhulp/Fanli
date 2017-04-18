@@ -97,26 +97,13 @@ public class GoodsAttr implements MultiItemEntity {
     public class Attrs {
         private String content;
         private int textStatus;
-        private boolean hasCheck;
         private int itemId;
 
-        public boolean isHasCheck() {
-            return hasCheck;
-        }
 
-        public void setHasCheck(boolean hasCheck) {
-            this.hasCheck = hasCheck;
-        }
-
-        public Attrs() {
-
-        }
-
-        public Attrs(int itemId,String content, int textStatus,boolean hasCheck) {
+        public Attrs(int itemId,String content, int textStatus) {
             this.itemId=itemId;
             this.content = content;
             this.textStatus = textStatus;
-            this.hasCheck=hasCheck;
         }
 
         public String getContent() {

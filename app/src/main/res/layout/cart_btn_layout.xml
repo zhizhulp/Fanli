@@ -7,18 +7,17 @@
     android:orientation="horizontal"
     android:showDividers="middle">
 
-    <Button
+    <ImageView
+        android:padding="8dp"
+        android:src="@mipmap/btn_substract"
         android:id="@+id/button_sub"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
-        android:background="@drawable/bg_button_left"
-        android:gravity="center"
-        android:text="—"
-        android:textColor="@color/shop_normal_text_color"
-        android:textSize="18sp" />
+        android:background="@drawable/bg_button_left" />
 
     <EditText
+        android:editable="false"
         android:id="@+id/text_count"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -37,15 +36,12 @@
         android:textColor="@color/shop_normal_text_color"
         android:textCursorDrawable="@null"
         android:textSize="13sp" />
-
-    <Button
+    <ImageView
+        android:padding="8dp"
+        android:src="@mipmap/btn_plus"
         android:id="@+id/button_add"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
-        android:background="@drawable/bg_button_right"
-        android:gravity="center"
-        android:text="+"
-        android:textColor="@color/shop_normal_text_color"
-        android:textSize="18sp" />
+        android:background="@drawable/bg_button_left" />
 </LinearLayout>

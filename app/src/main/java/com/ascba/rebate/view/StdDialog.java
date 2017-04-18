@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by 李平 on 2017/4/8 0008.15:37
+ * 规格选择dialog
  */
 
 public class StdDialog extends Dialog {
