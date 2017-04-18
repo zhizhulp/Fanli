@@ -144,7 +144,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
         if (intent != null) {
             orderId = intent.getStringExtra("order_id");
             if (orderId != null) {
-                requstData(UrlUtils.waitPayOrder, 0);
+                requstData(UrlUtils.viewOrder, 0);
             } else {
                 showToast(getString(R.string.no_data_txt));
                 finish();
@@ -265,7 +265,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
 
     @Override
     public void onRefresh() {
-        requstData(UrlUtils.waitPayOrder, 0);
+        requstData(UrlUtils.viewOrder, 0);
     }
 
     @Override

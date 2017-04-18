@@ -139,7 +139,7 @@ public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callb
         super.onActivityResult(requestCode, resultCode, data);
 
         //取消登陆
-        if (resultCode == RESULT_CANCELED) {
+        if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME || requestCode == REQUEST_LOGIN_CART)) {
             index = HOMEPAGE;
             getShopTabs().statusChaByPosition(index, currIndex);
             getShopTabs().setFilPos(index);
