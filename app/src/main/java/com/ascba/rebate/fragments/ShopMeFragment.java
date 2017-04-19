@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
@@ -20,20 +21,22 @@ import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.Base2Fragment;
-import com.ascba.rebate.fragments.base.LazyFragment;
+import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 商城设置
  */
-public class ShopMeFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
+public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
         Base2Fragment.Callback {
     private Context context;
     private RecyclerView pc_RecyclerView;

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -35,7 +34,6 @@ public class MyOrderActivity extends BaseNetWork4Activity {
     private Context context;
     private SlidingTabLayout slidingtablayout;
     private ViewPager mViewPager;
-    private LayoutInflater mInflater;
     private List<Bean> mTitleList = new ArrayList<>();//页卡标题集合
     private List<Fragment> fragmentList = new ArrayList<>();//页卡视图集合
     private int index = 0;
@@ -46,7 +44,6 @@ public class MyOrderActivity extends BaseNetWork4Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order);
         context = this;
-        mInflater = LayoutInflater.from(context);
         getIndex();
         initView();
     }

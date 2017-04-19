@@ -23,7 +23,7 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.fragments.base.Base2Fragment;
-import com.ascba.rebate.fragments.base.LazyFragment;
+import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
@@ -31,6 +31,7 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,7 +42,7 @@ import java.util.List;
 /**
  * 购物车
  */
-public class CartFragment extends LazyFragment implements
+public class CartFragment extends LazyBaseFragment implements
         View.OnClickListener, Base2Fragment.Callback, CartAdapter.CallBack {
 
     private ShopABar sab;

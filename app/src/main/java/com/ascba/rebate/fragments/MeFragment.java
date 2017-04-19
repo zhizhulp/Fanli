@@ -25,7 +25,7 @@ import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
-import com.ascba.rebate.fragments.base.LazyFragment;
+import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
@@ -44,7 +44,7 @@ import org.json.JSONObject;
 /**
  * 个人中心
  */
-public class MeFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
+public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
 
 
     private SuperSwipeRefreshLayout refreshLayout;

@@ -20,18 +20,19 @@ import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
-import com.ascba.rebate.fragments.base.LazyFragment;
+import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
 /**
  * 财富
  */
-public class MoneyFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
+public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
         , Base2Fragment.Callback {
 
     private SuperSwipeRefreshLayout refreshLayout;

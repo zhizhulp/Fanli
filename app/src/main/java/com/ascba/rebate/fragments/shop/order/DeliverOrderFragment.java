@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
@@ -18,9 +19,11 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,17 +58,17 @@ public class DeliverOrderFragment extends LazyLoadFragment {
     }
 
     @Override
+    protected void stopLoad() {
+        cancelNetWork();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         this.view = view;
     }
 
-    @Override
-    protected void stopLoad() {
-        super.stopLoad();
-        cancelNetWork();
-    }
 
     /*
      获取数据

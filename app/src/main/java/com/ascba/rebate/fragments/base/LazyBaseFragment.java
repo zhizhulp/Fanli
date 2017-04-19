@@ -13,43 +13,58 @@ import android.view.ViewGroup;
  * 2.切换到其他页面时停止加载数据（可选）
  */
 
-public abstract class LazyFragment extends Base2Fragment {
+public abstract class LazyBaseFragment extends Base2Fragment {
     /**
      * 视图是否已经初初始化
      */
-    protected boolean isOnResume = false;
-    protected boolean isShow = false;
+    protected boolean isLoad = false;
     private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(setContentView(), container, false);
+        /**初始化的时候去加载数据**/
         return view;
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (isShow && !hidden) {
-            lazyLoad();
+        if (!hidden) {
+            isCanLoad();
+        }else {
+            isLoad = false;
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        lazyLoad();
-        isOnResume = true;
-        isShow = true;
+        isCanLoad();
+    }
+
+    private void isCanLoad() {
+        if (!isLoad) {
+            lazyLoad();
+            isLoad = true;
+        }
+    }
+
+
+    /**
+     * 视图销毁的时候讲Fragment是否初始化的状态变为false
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isLoad = false;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        isOnResume = false;
-        isShow = false;
+        isLoad = false;
     }
 
     /**
@@ -69,8 +84,26 @@ public abstract class LazyFragment extends Base2Fragment {
     }
 
     /**
+     * 找出对应的控件
+     *
+     * @param id
+     * @param <T>
+     * @return
+     */
+    protected <T extends View> T findViewById(int id) {
+
+        return (T) getContentView().findViewById(id);
+    }
+
+    /**
      * 当视图初始化并且对用户可见的时候去真正的加载数据
      */
     protected abstract void lazyLoad();
+
+    /**
+     * 当视图已经对用户不可见并且加载过数据，如果需要在切换到其他页面时停止加载数据，可以覆写此方法
+     */
+    protected void stopLoad() {
+    }
 }
 
