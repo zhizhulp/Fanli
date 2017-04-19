@@ -13,13 +13,13 @@
         app:abar_title="购物车" />
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/cart_clear"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/cart_cb_total"
@@ -39,9 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/cart_cb_total"
             android:maxLines="1"
-            android:layout_marginLeft="20dp"
             android:text="共计："
             android:textColor="@color/shop_normal_text_color"
             android:textSize="14sp" />
@@ -50,9 +50,9 @@
             android:id="@+id/cart_tv_cost_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:layout_toRightOf="@id/cart_tv_cost_total_text"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/cart_tv_cost_total_text"
+            android:maxLines="1"
             android:textColor="@color/shop_red_text_color"
             android:textSize="16sp" />
 
@@ -60,26 +60,22 @@
             android:id="@+id/cart_tv_cost_total_count"
             android:layout_width="119dp"
             android:layout_height="match_parent"
-            android:background="@color/moneyBarColor"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/moneyBarColor"
             android:gravity="center"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <com.ascba.rebate.view.SuperSwipeRefreshLayout
-        android:id="@+id/refresh_layout"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cart_goods_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/cart_clear"
-        android:layout_below="@id/sab">
+        android:layout_below="@id/sab" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/cart_goods_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
 
 </RelativeLayout>

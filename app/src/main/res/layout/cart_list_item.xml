@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:swipe="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="107dp"
     swipe:ios="false"
     swipe:leftSwipe="true"
     swipe:swipeEnable="true"
-    xmlns:qinc="http://schemas.android.com/apk/res-auto"
     xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:minHeight="107dp">
     <RelativeLayout
@@ -73,6 +71,7 @@
                     android:paddingTop="10dp">
 
                     <TextView
+                        android:paddingBottom="8dp"
                         android:id="@+id/cart_goods_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -88,8 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingTop="8dp">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:maxLines="1"

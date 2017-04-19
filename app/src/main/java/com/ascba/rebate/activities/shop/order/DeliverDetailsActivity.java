@@ -185,22 +185,22 @@ public class DeliverDetailsActivity extends BaseNetWork4Activity implements Supe
        收货地址
        "id":"23",
        "member_id":"681",
-       "consignee":"波波",
+       "reciver_name":"波波",
        "province":"1",
        "city":"710682",
        "district":"1106",
        "twon":"1158",
-       "address":"北京市大兴区石榴庄钱来钱往",
-       "mobile":"18832919903",
+       "reciver_address":"北京市大兴区石榴庄钱来钱往",
+       "reciver_mobile":"18832919903",
        "default":"1"
     */
     private void getAddress(JSONObject dataObject) {
         try {
             JSONObject addressObject = dataObject.getJSONObject("order_member_address");
             String member_id = dataObject.optString("member_id");
-            String name = addressObject.optString("consignee");//收货人姓名
-            String phone = addressObject.optString("mobile");//手机号
-            String address = addressObject.optString("address");//收货地址
+            String name = addressObject.optString("reciver_name");//收货人姓名
+            String phone = addressObject.optString("reciver_mobile");//手机号
+            String address = addressObject.optString("reciver_address");//收货地址
             String defaultAddress = addressObject.optString("default");//是否是默认地址：1——是，0——不是
             String province = addressObject.optString("province");
             String city = addressObject.optString("city");

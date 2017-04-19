@@ -101,7 +101,7 @@
                 android:background="@color/view_line_new" />
 
             <android.support.v7.widget.RecyclerView
-                android:paddingBottom="15dp"
+                android:layout_marginBottom="15dp"
                 android:id="@+id/goods_profile_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

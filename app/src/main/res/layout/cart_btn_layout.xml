@@ -8,7 +8,7 @@
     android:showDividers="middle">
 
     <ImageView
-        android:padding="8dp"
+        android:padding="5dp"
         android:src="@mipmap/btn_substract"
         android:id="@+id/button_sub"
         android:layout_width="0dp"
@@ -37,7 +37,7 @@
         android:textCursorDrawable="@null"
         android:textSize="13sp" />
     <ImageView
-        android:padding="8dp"
+        android:padding="5dp"
         android:src="@mipmap/btn_plus"
         android:id="@+id/button_add"
         android:layout_width="0dp"

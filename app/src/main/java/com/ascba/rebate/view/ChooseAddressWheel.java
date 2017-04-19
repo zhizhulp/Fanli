@@ -74,9 +74,9 @@ public class ChooseAddressWheel implements MyOnWheelChangedListener {
             }
         });
 
-        provinceWheel.setVisibleItems(7);
-        cityWheel.setVisibleItems(7);
-        districtWheel.setVisibleItems(7);
+        provinceWheel.setVisibleItems(5);
+        cityWheel.setVisibleItems(5);
+        districtWheel.setVisibleItems(5);
 
         provinceWheel.addChangingListener(this);
         cityWheel.addChangingListener(this);

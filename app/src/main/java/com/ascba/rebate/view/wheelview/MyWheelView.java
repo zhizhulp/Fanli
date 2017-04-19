@@ -15,6 +15,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import com.ascba.rebate.R;
+import com.ascba.rebate.utils.LogUtils;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -460,10 +462,14 @@ public class MyWheelView extends View {
 	 */
 	private void drawCenterRect(Canvas canvas) {
 		int center = getHeight() / 2;
+        LogUtils.PrintLog("MyWheelView","center-->"+ center);
 		int offset = (int) (getItemHeight() / 2 * 1.2);
+        LogUtils.PrintLog("MyWheelView","offset-->"+ offset);
 		Paint paint = new Paint();
 		paint.setColor(Color.parseColor("#c9c9c9"));
 		paint.setStrokeWidth((float) 2);
+        LogUtils.PrintLog("MyWheelView","y1-->("+ (center - offset)+","+ (center - offset)+")");
+        LogUtils.PrintLog("MyWheelView","y2-->("+ (center + offset)+","+ (center + offset)+")");
 		canvas.drawLine(0, center - offset, getWidth(), center - offset, paint);
 		canvas.drawLine(0, center + offset, getWidth(), center + offset, paint);
 	}
