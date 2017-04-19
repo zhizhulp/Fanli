@@ -1,31 +1,24 @@
 package com.ascba.rebate.activities.base;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.rest.OnResponseListener;
-import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.Response;
-
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 /**
  * 网络界面的基类
@@ -76,7 +69,7 @@ public class BaseNetWork3Activity extends AppCompatActivity {
     }
 
     //执行网络请求
-    public void executeNetWork(Request<JSONObject> jsonRequest,String message) {
+    public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
         if(dm==null){
             dm=new DialogManager(this);
         }

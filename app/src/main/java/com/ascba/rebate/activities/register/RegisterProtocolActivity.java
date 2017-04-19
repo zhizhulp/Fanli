@@ -2,11 +2,10 @@ package com.ascba.rebate.activities.register;
 
 import android.os.Bundle;
 import android.webkit.WebView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
-import com.jaeger.library.StatusBarUtil;
+
 
 public class RegisterProtocolActivity extends BaseNetWorkActivity {
 

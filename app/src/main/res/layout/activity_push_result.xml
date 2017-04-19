@@ -19,11 +19,12 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="80dp">
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.ascba.rebate.view.RoundImageView
             android:id="@+id/usericon"
             android:layout_marginLeft="15dp"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            app:type="circle"/>
         <LinearLayout
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"

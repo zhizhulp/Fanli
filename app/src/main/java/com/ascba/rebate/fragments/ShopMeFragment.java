@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
@@ -26,10 +25,8 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

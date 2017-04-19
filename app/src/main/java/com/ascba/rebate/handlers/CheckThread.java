@@ -1,15 +1,10 @@
 package com.ascba.rebate.handlers;
 
-import android.app.ProgressDialog;
-import android.os.Looper;
 import android.os.Message;
-
-import com.ascba.rebate.R;
-import com.yolanda.nohttp.rest.OnResponseListener;
-import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.RequestQueue;
-import com.yolanda.nohttp.rest.Response;
-
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.rest.Response;
 import org.json.JSONObject;
 
 /**

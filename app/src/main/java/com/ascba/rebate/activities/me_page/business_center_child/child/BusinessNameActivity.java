@@ -7,7 +7,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
+
 
 public class BusinessNameActivity extends BaseNetWorkActivity {
 

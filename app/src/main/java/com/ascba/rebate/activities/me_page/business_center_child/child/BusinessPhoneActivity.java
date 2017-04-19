@@ -3,12 +3,10 @@ package com.ascba.rebate.activities.me_page.business_center_child.child;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 
 public class BusinessPhoneActivity extends BaseNetWorkActivity {
     private EditTextWithCustomHint edPhone;

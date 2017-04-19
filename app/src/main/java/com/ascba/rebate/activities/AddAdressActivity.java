@@ -27,7 +27,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 

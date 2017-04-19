@@ -1,6 +1,5 @@
 package com.ascba.rebate.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,16 +31,15 @@ import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.RoundImageView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 个人中心
@@ -50,7 +48,7 @@ public class MeFragment extends LazyFragment implements SuperSwipeRefreshLayout.
 
 
     private SuperSwipeRefreshLayout refreshLayout;
-    private CircleImageView userIcon;
+    private RoundImageView userIcon;
     private LinearLayout imgsLat;
     private View viewTuiGuang;
     private View viewJiangLi;
@@ -96,7 +94,7 @@ public class MeFragment extends LazyFragment implements SuperSwipeRefreshLayout.
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLayout.setOnPullRefreshListener(this);
         //用户头像
-        userIcon = ((CircleImageView) view.findViewById(R.id.me_user_img));
+        userIcon = ((RoundImageView) view.findViewById(R.id.me_user_img));
         userIcon.setOnClickListener(this);
 
         tvUserName = ((TextView) view.findViewById(R.id.me_tv_nick_name));

@@ -5,20 +5,17 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.view.WindowManager;
-
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.IDsUtils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.URLConnectionNetworkExecutor;
-import com.yolanda.nohttp.cookie.DBCookieStore;
-import com.yolanda.nohttp.rest.RequestQueue;
-
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
+import com.yanzhenjie.nohttp.cookie.DBCookieStore;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.jpush.android.api.JPushInterface;
 
 
@@ -76,7 +73,6 @@ public class MyApplication extends MultiDexApplication {
     }
 
     private void initNohttp() {
-        //NoHttp.initialize(this);
         NoHttp.initialize(this, new NoHttp.Config()
                         // 设置全局连接超时时间，单位毫秒，默认10s。
 //                .setConnectTimeout(30 * 1000)
@@ -91,7 +87,7 @@ public class MyApplication extends MultiDexApplication {
                                 new DBCookieStore(this).setEnable(true) // 如果不维护cookie，设置false禁用。
                         )
                         // 配置网络层，默认使用URLConnection，如果想用OkHttp：OkHttpNetworkExecutor。
-                        .setNetworkExecutor(new URLConnectionNetworkExecutor())
+                        .setNetworkExecutor(new OkHttpNetworkExecutor())
         );
     }
 

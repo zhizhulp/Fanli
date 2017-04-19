@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.adapter.TuiGAdapter;
@@ -15,11 +14,9 @@ import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
