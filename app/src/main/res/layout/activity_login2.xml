@@ -17,10 +17,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:orientation="horizontal">
         <ImageView
             android:layout_width="wrap_content"
@@ -33,32 +34,33 @@
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:hintSize="@dimen/activity_text_normal"
             android:hint="请输入您的手机号"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:singleLine="false" />
+            android:maxLines="1" />
     </LinearLayout>
     <View
         android:background="#d5d5d5"
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:layout_width="match_parent"
-        android:layout_height="0.3dp"
-        android:layout_marginTop="9dp" />
+        android:layout_height="0.3dp" />
     <LinearLayout
-        android:layout_marginTop="25dp"
+        android:paddingTop="10dp"
+        android:gravity="center_vertical"
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:orientation="horizontal">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/login_password"/>
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:maxLines="1"
             android:textSize="15sp"
             android:textColorHint="#949494"
             android:id="@+id/login_password_ed"
@@ -67,7 +69,7 @@
             android:textColor="@color/white"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:hintSize="@dimen/activity_text_normal"
             android:hint="请输入您的密码"/>
     </LinearLayout>
@@ -76,8 +78,7 @@
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:layout_width="match_parent"
-        android:layout_height="0.3dp"
-        android:layout_marginTop="9dp" />
+        android:layout_height="0.3dp" />
     <Button
         android:textColor="#cc0505"
         android:layout_marginLeft="38dp"
@@ -114,5 +115,4 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
 </LinearLayout>

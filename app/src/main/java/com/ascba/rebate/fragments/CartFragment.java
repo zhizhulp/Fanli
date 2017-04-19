@@ -41,11 +41,9 @@ import java.util.List;
 /**
  * 购物车
  */
-public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
+public class CartFragment extends LazyFragment implements
         View.OnClickListener, Base2Fragment.Callback, CartAdapter.CallBack {
 
-
-    private static final int REQUEST_CLEAR_SUCCESS = 0;
     private ShopABar sab;
     private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView rv;
@@ -129,7 +127,6 @@ public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayou
         });
         //初始化刷新控件
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
-        refreshLayout.setOnPullRefreshListener(this);
         //初始化recyclerView
         rv = ((RecyclerView) view.findViewById(R.id.cart_goods_list));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -166,21 +163,6 @@ public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayou
         tvCostNum.setOnClickListener(this);
     }
 
-
-    @Override
-    public void onRefresh() {
-        requestNetwork(UrlUtils.shoppingCart, 0);
-    }
-
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -265,7 +247,6 @@ public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayou
 
     private void getData(JSONObject dataObj) {
         JSONArray array = dataObj.optJSONArray("shoppingCar");
-        stopRefresh();
         if (data.size() != 0) {
             data.clear();
         }
@@ -330,8 +311,6 @@ public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayou
 
     @Override
     public void handleReqFailed() {
-        stopRefresh();
-
     }
 
 
@@ -342,20 +321,13 @@ public class CartFragment extends LazyFragment implements SuperSwipeRefreshLayou
 
     @Override
     public void handleReLogin() {
-        stopRefresh();
     }
 
     @Override
     public void handleNoNetWork() {
-        stopRefresh();
         getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
-    private void stopRefresh() {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
-    }
 
     @Override
     public void onClickedChild(boolean isChecked, int position) {

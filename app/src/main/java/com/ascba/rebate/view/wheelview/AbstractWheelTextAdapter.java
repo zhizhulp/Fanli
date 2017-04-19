@@ -1,11 +1,13 @@
 package com.ascba.rebate.view.wheelview;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -169,14 +171,16 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
             if (convertView == null) {
                 convertView = getView(itemResourceId, parent);
             }
-            TextView textView = getTextView(convertView, itemTextResourceId);
+           // TextView textView = getTextView(convertView, itemTextResourceId);
+            TextView textView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, null);
+
+
             if (textView != null) {
                 CharSequence text = getItemText(index);
                 if (text == null) {
                     text = "";
                 }
                 textView.setText(text);
-    
                 if (itemResourceId == TEXT_VIEW_ITEM_RESOURCE) {
                     configureTextView(textView);
                 }
@@ -208,8 +212,8 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
         view.setTextSize(textSize);
         view.setEllipsize(TextUtils.TruncateAt.END);
         view.setLines(1);
-//        view.setCompoundDrawablePadding(20);
-//        view.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+        view.setCompoundDrawablePadding(20);
+        view.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
     }
     
     /**
@@ -218,22 +222,22 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
      * @param textResource the text resource Id in layout
      * @return the loaded text view
      */
-    private TextView getTextView(View view, int textResource) {
-    	TextView text = null;
-    	try {
-            if (textResource == NO_RESOURCE && view instanceof TextView) {
-                text = (TextView) view;
-            } else if (textResource != NO_RESOURCE) {
-                text = (TextView) view.findViewById(textResource);
-            }
-        } catch (ClassCastException e) {
-            Log.e("AbstractWheelAdapter", "You must supply a resource ID for a TextView");
-            throw new IllegalStateException(
-                    "AbstractWheelAdapter requires the resource ID to be a TextView", e);
-        }
-        
-        return text;
-    }
+//    private TextView getTextView(View view, int textResource) {
+//    	TextView text = null;
+//    	try {
+//            if (textResource == NO_RESOURCE && view instanceof TextView) {
+//                text = (TextView) view;
+//            } else if (textResource != NO_RESOURCE) {
+//                text = (TextView) view.findViewById(textResource);
+//            }
+//        } catch (ClassCastException e) {
+//            Log.e("AbstractWheelAdapter", "You must supply a resource ID for a TextView");
+//            throw new IllegalStateException(
+//                    "AbstractWheelAdapter requires the resource ID to be a TextView", e);
+//        }
+//
+//        return text;
+//    }
     
     /**
      * Loads view from resources
