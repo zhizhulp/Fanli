@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by 李平 on 2017/4/12 0012.18:10
- * 商家流水适配器
+ * 商家流水记录适配器
  */
 
 public class FlowRecordsAdapter extends BaseQuickAdapter<CashAccount,BaseViewHolder> {

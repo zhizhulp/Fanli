@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="MoneyBar">
         <attr name="textTitle" format="string" />
+        <attr name="textTail" format="string" />
         <attr name="needBack" format="boolean" />
         <attr name="tailIcon" format="reference|integer" />
         <attr name="needTailIcon" format="boolean" />

@@ -1,25 +1,34 @@
 package com.ascba.rebate.activities;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.FlowRecordsAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
+/**
+ * 流水记录
+ */
 public class BusiFlowRecordsActivity extends BaseNetWork4Activity implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
         ,ShopABarText.Callback{
-
     private SuperSwipeRefreshLayout refreshLat;
     private RecyclerView rv;
     private FlowRecordsAdapter adapter;
@@ -27,6 +36,7 @@ public class BusiFlowRecordsActivity extends BaseNetWork4Activity implements
     private ShopABarText sb;
     private TextView tvTime;
     private TextView tvMoney;
+    Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +72,55 @@ public class BusiFlowRecordsActivity extends BaseNetWork4Activity implements
     private void initHeadView(View view) {
         tvTime = ((TextView) view.findViewById(R.id.tv_flow_time));
         tvMoney = ((TextView) view.findViewById(R.id.tv_flow_money));
+        //点击头部显示时间控件
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDataPickerDialog();
+            }
+        });
+    }
+
+    private void showDataPickerDialog() {
+        DatePickerDialog dateDlg = new DatePickerDialog(this,R.style.dialog,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        showToast("当前选择"+ year +"年"+ (month+1)+"月");
+                    }
+                },
+                dateAndTime.get(Calendar.YEAR),
+                dateAndTime.get(Calendar.MONTH),
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        dateDlg.show();
+
+        DatePicker dp = findDatePicker((ViewGroup) dateDlg.getWindow().getDecorView());
+        if (dp != null) {
+            ((ViewGroup)((ViewGroup) dp.getChildAt(0)).getChildAt(0)).getChildAt(2).setVisibility(View.GONE);
+        }
+
+        Window window = dateDlg.getWindow();
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        Display d = window.getWindowManager().getDefaultDisplay();
+        wlp.width = (int) (d.getWidth() * 0.8f);
+        window.setAttributes(wlp);
+    }
+
+    private DatePicker findDatePicker(ViewGroup group){
+        if (group != null) {
+            for (int i = 0, j = group.getChildCount(); i < j; i++) {
+                View child = group.getChildAt(i);
+                if (child instanceof DatePicker) {
+                    return (DatePicker) child;
+                } else if (child instanceof ViewGroup) {
+                    DatePicker result = findDatePicker((ViewGroup) child);
+                    if (result != null)
+                        return result;
+                }
+            }
+        }
+        return null;
     }
 
     private void getData() {

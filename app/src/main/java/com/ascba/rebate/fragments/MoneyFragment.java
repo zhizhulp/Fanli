@@ -15,6 +15,7 @@ import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.CashGetActivity;
 import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
 import com.ascba.rebate.activities.me_page.TicketActivity;
+import com.ascba.rebate.activities.me_page.WhiteBillActivity;
 import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
@@ -137,7 +138,8 @@ public class MoneyFragment extends LazyFragment implements SuperSwipeRefreshLayo
                 startActivity(intent);
                 break;
             case R.id.me_lat_daifan://白积分
-
+                Intent intent4=new Intent(getActivity(), WhiteBillActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.me_lat_duihuan:
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
