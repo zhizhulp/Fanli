@@ -10,14 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.beans.CashAccountType;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CashAccountFragment extends BaseFragment implements BaseFragment.Callback,View.OnClickListener {
+public class CashAccountFragment extends BaseNetFragment implements BaseNetFragment.Callback,View.OnClickListener {
 
     private ArrayList<CashAccount> mList;
     private View empView;
@@ -286,6 +289,21 @@ public class CashAccountFragment extends BaseFragment implements BaseFragment.Ca
     }
     @Override
     public void handleReqFailed() {
+
+    }
+
+    @Override
+    public void handle404(String message, JSONObject dataObj) {
+
+    }
+
+    @Override
+    public void handleReLogin() {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
 
     }
 }

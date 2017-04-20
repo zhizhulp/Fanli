@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PasswordProtect2Activity;
 import com.ascba.rebate.activities.me_page.settings.child.PayPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.SafeSettingActivity;
 import com.ascba.rebate.application.MyApplication;
 
-public class SettingActivity extends BaseNetWorkActivity  {
+public class SettingActivity extends BaseNetActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

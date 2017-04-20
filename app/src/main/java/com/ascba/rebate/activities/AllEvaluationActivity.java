@@ -7,12 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.AllEvaluationAdapter;
 import com.ascba.rebate.beans.EvaluationBean;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ import java.util.List;
  * 全部评价
  */
 
-public class AllEvaluationActivity extends BaseNetWork4Activity {
+public class AllEvaluationActivity extends BaseNetActivity {
 
     private ShopABar shopABar;
     private RecyclerView recyclerView;

@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
-public class CardDataActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class CardDataActivity extends BaseNetActivity implements BaseNetActivity.Callback {
     private TextView tvCard;
     private TextView tvSex;
     private TextView tvAge;
@@ -107,5 +107,15 @@ public class CardDataActivity extends BaseNetWorkActivity implements BaseNetWork
         intent.putExtra("location",tvLocation.getText().toString());
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

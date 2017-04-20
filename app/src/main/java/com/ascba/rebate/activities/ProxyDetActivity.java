@@ -6,7 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ProxyDetAdapter;
 import com.ascba.rebate.beans.ProxyDet;
 import com.ascba.rebate.view.MoneyBar;
@@ -15,7 +15,7 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProxyDetActivity extends BaseNetWork4Activity implements MoneyBar.CallBack
+public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBack
         ,SuperSwipeRefreshLayout.OnPullRefreshListener{
 
     private MoneyBar mb;

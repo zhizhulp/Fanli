@@ -17,7 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.PopRecAdapter;
 import com.ascba.rebate.beans.RecType;
 import com.ascba.rebate.fragments.recommend.FirstReccFragment;
@@ -30,10 +30,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyRecActivity extends BaseNetWork4Activity implements
+public class MyRecActivity extends BaseNetActivity implements
         AdapterView.OnItemClickListener,
         View.OnClickListener,
-        BaseNetWork4Activity.Callback {
+        BaseNetActivity.Callback {
 
     private RadioGroup recRg;
     private RadioButton rbOne;

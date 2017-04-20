@@ -13,8 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.BusinessShopAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -27,10 +28,13 @@ import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 
@@ -39,9 +43,12 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  * 商家店铺
  */
 
-public class BusinessShopActivity extends BaseNetWork4Activity implements
+public class BusinessShopActivity extends BaseNetActivity implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
-        , BaseNetWork4Activity.Callback {
+        , BaseNetActivity.Callback {
+
+    private static final int LOAD_MORE_END = 1;
+    private static final int LOAD_MORE_ERROR = 0;
 
     private SuperSwipeRefreshLayout refreshLat;
     @SuppressLint("HandlerLeak")

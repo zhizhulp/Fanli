@@ -38,7 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
@@ -76,8 +76,8 @@ import java.util.List;
  * 商品详情页
  */
 @SuppressLint("SetTextI18n")
-public class GoodsDetailsActivity extends BaseNetWork4Activity implements View.OnClickListener
-        , BaseNetWork4Activity.Callback {
+public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClickListener
+        , BaseNetActivity.Callback {
 
     private static final int REQUEST_STD_LOGIN = 0;
     private static final int REQUEST_ADD_TO_CART_LOGIN = 1;

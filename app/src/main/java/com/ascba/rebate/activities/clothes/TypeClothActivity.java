@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
@@ -20,7 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeClothActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener,ShopABar.Callback {
+public class TypeClothActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener,ShopABar.Callback {
 
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;

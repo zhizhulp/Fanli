@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 
 public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
     private TextView tvMoney;

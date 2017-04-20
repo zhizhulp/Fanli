@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * 一级推荐碎片
  */
-public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Callback
+public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.Callback
         , SuperSwipeRefreshLayout.OnPullRefreshListener {
 
 
@@ -141,7 +141,7 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
     }
 
     @Override
-    public void handle404(String message) {
+    public void handle404(String message, JSONObject dataObj) {
         dm.buildAlertDialog(message);
     }
 

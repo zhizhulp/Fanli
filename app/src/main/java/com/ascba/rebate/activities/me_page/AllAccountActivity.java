@@ -6,13 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.fragments.account.CashAccountFragment;
 import com.ascba.rebate.fragments.account.WhiteAccountFragment;
 import com.ascba.rebate.view.SwitchButton;
-import com.jaeger.library.StatusBarUtil;
 
-public class AllAccountActivity extends BaseNetWorkActivity implements View.OnClickListener {
+public class AllAccountActivity extends BaseNetActivity implements View.OnClickListener {
 
     private CashAccountFragment cash;
     private WhiteAccountFragment white;

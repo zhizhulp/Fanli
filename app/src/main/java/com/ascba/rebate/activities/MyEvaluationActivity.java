@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.CurriculumAdapter;
 import com.ascba.rebate.adapter.MyEvaluationAdapter;
 import com.ascba.rebate.beans.CurriculumBean;
@@ -22,7 +22,7 @@ import java.util.List;
  * 我的课程
  */
 
-public class MyEvaluationActivity extends BaseNetWork4Activity {
+public class MyEvaluationActivity extends BaseNetActivity {
 
     private ShopABarText shopBar;
     private SuperSwipeRefreshLayout refreshLayout;

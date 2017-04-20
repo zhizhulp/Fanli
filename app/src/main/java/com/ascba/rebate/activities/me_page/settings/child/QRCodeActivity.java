@@ -1,6 +1,5 @@
 package com.ascba.rebate.activities.me_page.settings.child;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,12 +11,10 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.QrUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.jaeger.library.StatusBarUtil;
@@ -27,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class QRCodeActivity extends BaseNetWorkActivity {
+public class QRCodeActivity extends BaseNetActivity {
 
 
     private ImageView qrImg;

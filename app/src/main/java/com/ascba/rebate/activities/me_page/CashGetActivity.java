@@ -15,7 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.cash_get_child.CashGetSuccActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * 财富-现金账户-提现
  */
-public class CashGetActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback
+public class CashGetActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.Callback
 ,MoneyBar.CallBack{
 
     private View cardView;
@@ -256,6 +256,16 @@ public class CashGetActivity extends BaseNetWorkActivity implements View.OnClick
             Intent intent=new Intent(this,CashGetSuccActivity.class);
             startActivityForResult(intent, FourthFragment.REQUEST_CASH_GET);
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     private String getTail4Num(String bank_card) {

@@ -15,12 +15,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork2Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
@@ -30,10 +31,12 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
+
 import java.io.File;
 
-public class BusinessDetailsActivity extends BaseNetWork2Activity implements BaseNetWork2Activity.Callback {
+public class BusinessDetailsActivity extends BaseNetActivity implements BaseNetActivity.Callback {
     // 起点位置
     double mLat1 = 39.915291;
     double mLon1 = 116.403857;
@@ -207,6 +210,16 @@ public class BusinessDetailsActivity extends BaseNetWork2Activity implements Bas
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     private String handleStr(String str) {

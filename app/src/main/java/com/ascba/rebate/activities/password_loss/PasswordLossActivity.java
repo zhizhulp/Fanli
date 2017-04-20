@@ -4,16 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
-public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class PasswordLossActivity extends BaseNetActivity implements BaseNetActivity.Callback {
     private static final int REQUEST_PASSWORD = 0;
     private EditText edLossNumber;
     private String phone;
@@ -52,13 +53,23 @@ public class PasswordLossActivity extends BaseNetWorkActivity implements BaseNet
     }
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+    public void handle200Data(JSONObject dataObj, String message) {
         /*String sms_code = dataObj.getString("sms_code");*/
         Intent intent=new Intent(PasswordLossActivity.this, PasswordLossWithCodeActivity.class);
         intent.putExtra("loss_phone",phone);
         /*intent.putExtra("sms_code",sms_code);*/
         startActivityForResult(intent,REQUEST_PASSWORD);
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     public void goBack(View view) {

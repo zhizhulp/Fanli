@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.beans.AddressDtailsEntity;
 import com.ascba.rebate.beans.AddressModel;
 import com.ascba.rebate.utils.JsonUtil;
@@ -13,9 +13,8 @@ import com.ascba.rebate.utils.Utils;
 import com.ascba.rebate.view.ChooseAddressWheel;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.listener.OnAddressChangeListener;
-import com.jaeger.library.StatusBarUtil;
 
-public class LocationActivity extends BaseNetWorkActivity implements OnAddressChangeListener,MoneyBar.CallBack {
+public class LocationActivity extends BaseNetActivity implements OnAddressChangeListener,MoneyBar.CallBack {
     private ChooseAddressWheel chooseAddressWheel = null;
     private TextView tvLocation;
     private MoneyBar mb;

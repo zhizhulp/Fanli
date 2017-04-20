@@ -10,10 +10,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.fragments.award.FirstAwardFragment;
 import com.ascba.rebate.fragments.award.SecAwardFragment;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
@@ -23,13 +23,13 @@ import org.json.JSONObject;
  * 推荐奖励
  */
 
-public class MyAwardActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback {
+public class MyAwardActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.Callback {
 
     private RadioGroup recRg;
     private RadioButton rbOne;
     private RadioButton rbTwo;
-    private Base2Fragment fragsOne;
-    private Base2Fragment fragsTwo;
+    private BaseNetFragment fragsOne;
+    private BaseNetFragment fragsTwo;
     private ImageView imgOne, imgTwo;
     private TextView tvAll;
 
@@ -100,5 +100,15 @@ public class MyAwardActivity extends BaseNetWorkActivity implements View.OnClick
         tvAll.setText(cashing_money);
         rbOne.setText(p_referee_count + "笔奖励\n一级推广");
         rbTwo.setText(pp_referee_count + "笔奖励\n二级级推广");
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

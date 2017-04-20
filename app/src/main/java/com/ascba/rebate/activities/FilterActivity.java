@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.view.ShopABarText;
@@ -15,7 +15,7 @@ import com.ascba.rebate.view.ShopABarText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterActivity extends BaseNetWork4Activity implements View.OnClickListener, ShopABarText.Callback {
+public class FilterActivity extends BaseNetActivity implements View.OnClickListener, ShopABarText.Callback {
 
     private RecyclerView filterRV;
     private Button btnReset;

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.RoundImageView;
@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback, MoneyBar.CallBack {
+public class PushResultActivity extends BaseNetActivity implements BaseNetActivity.Callback, MoneyBar.CallBack {
 
     private TextView tvPushMsg;
     private TextView tvSellerName;
@@ -120,10 +120,20 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
 
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+    public void handle200Data(JSONObject dataObj, String message) {
         Intent intent = new Intent(this, TradeResultActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     @Override

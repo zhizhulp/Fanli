@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -41,7 +41,7 @@ import static com.ascba.rebate.activities.shop.ShopActivity.CART;
 /**
  * 主界面
  */
-public class MainActivity extends BaseNetWork4Activity implements AppTabs.Callback {
+public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private int currIndex = HOMEPAGE;//当前位置
     private static int index;
     public static final int HOMEPAGE = 0;

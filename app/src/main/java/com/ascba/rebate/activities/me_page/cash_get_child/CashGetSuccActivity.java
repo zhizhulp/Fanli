@@ -8,7 +8,6 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 
 public class CashGetSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
 

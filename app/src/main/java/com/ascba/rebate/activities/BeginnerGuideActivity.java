@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.BGExpandablItemAdapter;
 import com.ascba.rebate.beans.BGExpandableLevel;
 import com.ascba.rebate.beans.BGExpandableLevel0Item;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * 新手指南
  */
 
-public class BeginnerGuideActivity extends BaseNetWork4Activity {
+public class BeginnerGuideActivity extends BaseNetActivity {
 
     private ShopABar shopABar;
 

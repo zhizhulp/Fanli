@@ -6,11 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
-import com.jaeger.library.StatusBarUtil;
 
-public class SexChangeActivity extends BaseNetWorkActivity implements View.OnClickListener {
+public class SexChangeActivity extends BaseNetActivity implements View.OnClickListener {
 
     private View manParent;
     private View womanParent;

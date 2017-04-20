@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.jaeger.library.StatusBarUtil;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 
-public class PhoneChangeActivity extends BaseNetWorkActivity {
+public class PhoneChangeActivity extends BaseNetActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

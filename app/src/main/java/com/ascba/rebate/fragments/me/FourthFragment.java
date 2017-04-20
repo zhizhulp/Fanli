@@ -30,7 +30,7 @@ import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessD
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -49,7 +49,7 @@ import org.json.JSONObject;
 /**
  * 我的中心
  */
-public class FourthFragment extends BaseFragment implements View.OnClickListener, BaseFragment.Callback {
+public class FourthFragment extends BaseNetFragment implements View.OnClickListener, BaseNetFragment.Callback {
 
     public static final int REQUEST_PAY = 3;
     private static final int REQUEST_CLOSE = 4;
@@ -215,7 +215,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.go_white_score_account:
                 Intent intent = new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivityForResult(intent,WhiteScoreActivity.REQUEST_EXCHANGE);
+                startActivityForResult(intent, WhiteScoreActivity.REQUEST_EXCHANGE);
                 break;
             case R.id.me_go_card:
                 requestMyData(2);//检查是否实名
@@ -493,5 +493,20 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
         if(refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void handle404(String message, JSONObject dataObj) {
+
+    }
+
+    @Override
+    public void handleReLogin() {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

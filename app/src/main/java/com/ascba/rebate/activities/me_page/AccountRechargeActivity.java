@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
@@ -29,11 +29,13 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Map;
 
-public class AccountRechargeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback, View.OnClickListener {
+public class AccountRechargeActivity extends BaseNetActivity implements BaseNetActivity.Callback, View.OnClickListener {
     private DialogManager dm = new DialogManager(this);
     private int select;//选择支付方式 0 微信支付 1 支付宝支付
     private IWXAPI api;
@@ -175,6 +177,16 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
             requestForWX(dataObj);//发起微信支付请求
         }
         MyApplication.payType = 0;
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
 
     }
 

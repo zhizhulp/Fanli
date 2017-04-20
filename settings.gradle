@@ -1,1 +1,2 @@
-include ':app', ':android-expandpoptab-library', ':ijkplayerlibrary', ':superplayerlibrary'
+include ':app', ':android-expandpoptab-library', ':ijkplayerlibrary', ':superplayerlibrary', ':stickey_head_recyclerview'
+

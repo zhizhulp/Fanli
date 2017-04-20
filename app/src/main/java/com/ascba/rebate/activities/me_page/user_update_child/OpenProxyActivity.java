@@ -17,7 +17,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.message.MessageActivity;
@@ -33,8 +33,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpenProxyActivity extends BaseNetWorkActivity implements
-        AdapterView.OnItemClickListener,BaseNetWorkActivity.Callback,
+public class OpenProxyActivity extends BaseNetActivity implements
+        AdapterView.OnItemClickListener,BaseNetActivity.Callback,
         MoneyBar.CallBack {
     private static final int REQUEST_CITY = 1;
     private static final int REQUEST_MESSAGE = 2;
@@ -420,6 +420,16 @@ public class OpenProxyActivity extends BaseNetWorkActivity implements
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     @Override

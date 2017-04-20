@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.BusPicGVAdapter;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BusinessPicActivity extends BaseNetWorkActivity {
+public class BusinessPicActivity extends BaseNetActivity {
     private List<String> urls;
     private GridView busPicGridView;
     private BusPicGVAdapter busPicGVAdapter;

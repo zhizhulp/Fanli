@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.superplayer.library.SuperPlayer;
 
 /**
@@ -14,7 +14,7 @@ import com.superplayer.library.SuperPlayer;
  * 视频播放
  */
 
-public class PlayVideoActivity extends BaseNetWork4Activity implements SuperPlayer.OnNetChangeListener {
+public class PlayVideoActivity extends BaseNetActivity implements SuperPlayer.OnNetChangeListener {
 
     private SuperPlayer player;
     private String videoUrl = null;

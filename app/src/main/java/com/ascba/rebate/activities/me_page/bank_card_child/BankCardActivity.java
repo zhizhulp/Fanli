@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
@@ -13,7 +13,7 @@ import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
-public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class BankCardActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private TextView tvName;
     private TextView tvCard;
@@ -119,5 +119,15 @@ public class BankCardActivity extends BaseNetWorkActivity implements BaseNetWork
             edCode.setText(sms_code);
             edCode.setSelection(sms_code.length());*/
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

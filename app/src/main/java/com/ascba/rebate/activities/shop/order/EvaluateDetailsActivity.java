@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.StringUtils;
@@ -31,7 +31,7 @@ import java.util.List;
  * 待评价订单详情
  */
 
-public class EvaluateDetailsActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetWork4Activity.Callback, View.OnClickListener {
+public class EvaluateDetailsActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetActivity.Callback, View.OnClickListener {
 
     private SuperSwipeRefreshLayout refreshLat;
     private List<Goods> goodsList = new ArrayList<>();

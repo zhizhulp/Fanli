@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.red_score_child.RedScSuccActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
@@ -18,7 +18,7 @@ import org.json.JSONObject;
 /**
  * 财富——红积分
  */
-public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetActivity.Callback {
     private int finalScene;
     private TextView tvMax;
     private TextView tvCash;
@@ -89,6 +89,16 @@ public class RedScoreUpdateActivity extends BaseNetWorkActivity implements BaseN
             Intent intent = new Intent(this, RedScSuccActivity.class);
             startActivityForResult(intent, FourthFragment.REQUEST_RED);
         }
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
 
     }
 

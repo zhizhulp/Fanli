@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
@@ -20,7 +20,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
 
-public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class PayActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
 
     private int bus_uuid;
@@ -115,5 +115,15 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
         //校验成功
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

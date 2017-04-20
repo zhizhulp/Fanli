@@ -1,9 +1,9 @@
-package com.ascba.rebate.fragments.base;
+package com.ascba.rebate.activities.base;
 
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -12,20 +12,16 @@ import com.ascba.rebate.R;
  * Created by 李鹏 on 2017/04/20 0020.
  */
 
-public class BaseFragment extends Fragment {
+public class BaseActivity extends AppCompatActivity {
 
     private PermissionCallback requestPermissionAndBack;
 
     protected void showToast(String content) {
-        Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
     }
 
     protected void showToast(int content) {
-        Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
-    }
-
-    public void setRequestPermissionAndBack(PermissionCallback requestPermissionAndBack) {
-        this.requestPermissionAndBack = requestPermissionAndBack;
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
     }
 
     public interface PermissionCallback {
@@ -60,6 +56,7 @@ public class BaseFragment extends Fragment {
             requestPermissions(permissions, 1);
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] per,

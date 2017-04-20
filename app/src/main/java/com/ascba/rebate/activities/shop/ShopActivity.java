@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * 主界面
  */
-public class ShopActivity extends BaseNetWork4Activity implements ShopTabs.Callback {
+public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
 
     public static final int HOMEPAGE = 0;
     public static final int CLASSIFY = 1;

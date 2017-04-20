@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PasswordProtect2Activity;
 import com.ascba.rebate.activities.me_page.settings.child.PayPasswordChangeActivity;
 
-public class PasswordProtectActivity extends BaseNetWorkActivity {
+public class PasswordProtectActivity extends BaseNetActivity {
     public static final int answerToPassPro=0x02;
     private int type;
 

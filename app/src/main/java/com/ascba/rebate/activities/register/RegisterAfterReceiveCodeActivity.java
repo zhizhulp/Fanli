@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -20,7 +20,7 @@ import org.json.JSONObject;
  * 短信验证码已经发送
  */
 
-public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class RegisterAfterReceiveCodeActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private TextView tvPhone;
     private EditText confirmCode;//验证码
@@ -133,6 +133,16 @@ public class RegisterAfterReceiveCodeActivity extends BaseNetWorkActivity implem
         intent.putExtra("phone_number",phone_number);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
 }

@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.RefundOrderAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -31,7 +31,7 @@ import java.util.List;
  * 退货退款
  */
 
-public class RefundOrderActivity extends BaseNetWork4Activity {
+public class RefundOrderActivity extends BaseNetActivity {
 
     private RecyclerView recyclerView;
     private Context context;

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.ascba.rebate.activities.main_page.sweep.PushResultActivity;
-import com.ascba.rebate.activities.main.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

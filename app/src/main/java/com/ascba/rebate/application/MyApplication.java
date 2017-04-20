@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.view.WindowManager;
+
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.IDsUtils;

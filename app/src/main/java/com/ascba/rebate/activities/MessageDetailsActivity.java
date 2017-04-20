@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.MessageOrderAdapter;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.view.ShopABarText;
@@ -23,7 +23,7 @@ import java.util.List;
  * 消息详情
  */
 
-public class MessageDetailsActivity extends BaseNetWork4Activity {
+public class MessageDetailsActivity extends BaseNetActivity {
 
     private ShopABarText shopBar;
     private Context context;

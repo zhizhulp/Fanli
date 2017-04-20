@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ViewpagerFragmentAdapter;
 import com.ascba.rebate.fragments.TypeFragment;
 import com.ascba.rebate.fragments.college.AllCurriculumFragment;
@@ -23,7 +23,7 @@ import java.util.List;
  * ASK商学院
  */
 
-public class ASKCollegeActivity extends BaseNetWork4Activity {
+public class ASKCollegeActivity extends BaseNetActivity {
 
     private ShopABar shopABar;
     private SlidingTabLayout slidingtablayout;

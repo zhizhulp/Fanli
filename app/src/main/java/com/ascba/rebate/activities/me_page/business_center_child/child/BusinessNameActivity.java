@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
 
 
-public class BusinessNameActivity extends BaseNetWorkActivity {
+public class BusinessNameActivity extends BaseNetActivity {
 
     private EditTextWithCustomHint edName;
 

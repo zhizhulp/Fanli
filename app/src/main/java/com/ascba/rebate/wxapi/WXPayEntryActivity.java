@@ -13,7 +13,6 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;

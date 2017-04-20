@@ -28,7 +28,7 @@ import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.adapter.BusAdapter;
 import com.ascba.rebate.beans.Business;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -54,7 +54,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 /**
  * 周边
  */
-public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, Base2Fragment.Callback {
+public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetFragment.Callback {
 
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
@@ -387,11 +387,11 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
     }
 
-
     @Override
-    public void handle404(String message) {
+    public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
+
 
 
     @Override
@@ -414,7 +414,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         if (Build.VERSION.SDK_INT >= 23) {
             String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
             checkAndRequestAllPermission(permissions);
-            setpCallback(new PermissionCallback() {
+            setRequestPermissionAndBack(new PermissionCallback() {
                 @Override
                 public void requestPermissionAndBack(boolean isOk) {
                     finalScene=0;

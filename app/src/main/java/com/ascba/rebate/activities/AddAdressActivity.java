@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
@@ -36,7 +36,7 @@ import org.json.JSONObject;
  * 新增地址
  */
 
-public class AddAdressActivity extends BaseNetWork4Activity {
+public class AddAdressActivity extends BaseNetActivity {
 
     private ShopABarText bar;
     private RelativeLayout btn_contact;

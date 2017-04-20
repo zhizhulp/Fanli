@@ -6,7 +6,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
@@ -14,7 +14,7 @@ import com.ascba.rebate.utils.UrlUtils;
 /**
  * 商户中心，入驻流程
  */
-public class BCProcessActivity extends BaseNetWorkActivity {
+public class BCProcessActivity extends BaseNetActivity {
 
     private WebView webview;
     private DialogManager dm;

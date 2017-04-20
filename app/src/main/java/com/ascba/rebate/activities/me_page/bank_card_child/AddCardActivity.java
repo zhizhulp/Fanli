@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
@@ -13,7 +13,7 @@ import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
-public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class AddCardActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private TextView tvName;
     private EditTextWithCustomHint edCardNumber;
@@ -94,5 +94,15 @@ public class AddCardActivity extends BaseNetWorkActivity implements BaseNetWorkA
         intent.putExtra("info",info);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

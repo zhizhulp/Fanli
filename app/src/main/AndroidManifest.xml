@@ -415,10 +415,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.base.BaseNetWorkActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -443,10 +439,6 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.main_page.sweep.TradeResultActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.base.BaseNetWork2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity

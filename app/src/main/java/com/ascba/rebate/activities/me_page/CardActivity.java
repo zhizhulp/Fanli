@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.adapter.CardListAdapter;
 import com.ascba.rebate.beans.Card;
@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,SwipeMenuListView.OnMenuItemClickListener {
+public class CardActivity extends BaseNetActivity implements BaseNetActivity.Callback,SwipeMenuListView.OnMenuItemClickListener {
 
     private SwipeMenuListView2 cardListView;
     private CardListAdapter cardListAdapter;
@@ -135,6 +135,16 @@ public class CardActivity extends BaseNetWorkActivity implements BaseNetWorkActi
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     @Override

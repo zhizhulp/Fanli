@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork3Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
-public class WSExchangeActivity extends BaseNetWork3Activity implements BaseNetWork3Activity.Callback{
+public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivity.Callback{
     private DialogManager dm;
     private View noView;
     private TextView tvTips;
@@ -122,6 +124,11 @@ public class WSExchangeActivity extends BaseNetWork3Activity implements BaseNetW
         dm.buildAlertDialog(message);
         btnGo.setEnabled(false);
         btnGo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     @Override

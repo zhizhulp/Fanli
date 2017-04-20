@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.adapter.ShufflingViewPagerAdapter;
 import com.ascba.rebate.adapter.ViewPagerAdapter;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
-import com.ascba.rebate.adapter.ShufflingViewPagerAdapter;
 import com.flyco.tablayout.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
  * 商学院报名
  */
 
-public class CollegeEnrollmentActivity extends BaseNetWork4Activity {
+public class CollegeEnrollmentActivity extends BaseNetActivity {
 
     private ShopABar shopABar;
     private SlidingTabLayout slidingtablayout;

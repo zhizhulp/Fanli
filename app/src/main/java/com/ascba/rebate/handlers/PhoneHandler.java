@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
+
 import com.ascba.rebate.activities.login.LoginActivity;
+
 import org.json.JSONObject;
 import static android.content.Context.MODE_PRIVATE;
 

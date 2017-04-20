@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ReceiveAddressAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
@@ -32,7 +32,7 @@ import java.util.List;
  * 售货地址管理
  */
 
-public class ReceiveAddressActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
 
     private ShopABar shopABar;
     private RecyclerView recyclerView;

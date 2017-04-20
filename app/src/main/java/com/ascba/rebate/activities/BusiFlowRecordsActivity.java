@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FlowRecordsAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.view.ShopABarText;
@@ -27,7 +26,8 @@ import java.util.Locale;
 /**
  * 流水记录
  */
-public class BusiFlowRecordsActivity extends BaseNetWork4Activity implements
+
+public class BusiFlowRecordsActivity extends BaseNetActivity implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
         ,ShopABarText.Callback{
     private SuperSwipeRefreshLayout refreshLat;

@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.MemMsgAdapter;
 import com.ascba.rebate.beans.MemMsg;
 import com.ascba.rebate.view.ShopABarText;
@@ -17,7 +17,7 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemCardActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class MemCardActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
 
     private SuperSwipeRefreshLayout sLayout;
     private Handler handler = new Handler() {

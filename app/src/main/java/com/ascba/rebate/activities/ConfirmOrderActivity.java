@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -41,9 +41,11 @@ import com.ascba.rebate.view.pay.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +56,7 @@ import java.util.Map;
  * 确认订单
  */
 
-public class ConfirmOrderActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
+public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
 
     private SuperSwipeRefreshLayout refreshLat;
     private static final int SDK_PAY_FLAG = 1;

@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.MoneyBar;
 
-public class MessageActivity extends BaseNetWorkActivity {
+public class MessageActivity extends BaseNetActivity {
     private EditTextWithCustomHint edMsg;
     private MoneyBar mbMsg;
 

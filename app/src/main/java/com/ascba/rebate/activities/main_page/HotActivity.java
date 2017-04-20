@@ -9,13 +9,12 @@ import android.widget.ListView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.beans.ConfigAreaDTO;
 import com.ascba.rebate.beans.ConfigsDTO;
 import com.ascba.rebate.beans.ConfigsMessageDTO;
 import com.ascba.rebate.fragments.main.RecBusinessAdapter;
-import com.jaeger.library.StatusBarUtil;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
@@ -26,7 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotActivity extends BaseNetWorkActivity {
+public class HotActivity extends BaseNetActivity {
 
     private ExpandPopTabView expandTabView;
     private List<KeyValueBean> mParentLists = new ArrayList<>();

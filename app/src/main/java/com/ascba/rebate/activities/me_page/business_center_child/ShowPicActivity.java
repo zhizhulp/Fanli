@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.UrlUtils;
-import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-public class ShowPicActivity extends BaseNetWorkActivity {
+public class ShowPicActivity extends BaseNetActivity {
     private ImageView imageView;
 
     @Override

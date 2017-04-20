@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.safe_setting_child.LoginPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.safe_setting_child.PasswordProtectActivity;
 import com.ascba.rebate.activities.me_page.settings.child.safe_setting_child.PhoneChangeActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.jaeger.library.StatusBarUtil;
 
-public class SafeSettingActivity extends BaseNetWorkActivity {
+public class SafeSettingActivity extends BaseNetActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

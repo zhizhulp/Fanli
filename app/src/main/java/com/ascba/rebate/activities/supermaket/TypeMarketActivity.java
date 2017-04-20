@@ -15,7 +15,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.GoodsListActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
@@ -33,8 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
-public class TypeMarketActivity extends BaseNetWork4Activity implements
-        SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetWork4Activity.Callback {
+public class TypeMarketActivity extends BaseNetActivity implements
+        SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetActivity.Callback {
 
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;

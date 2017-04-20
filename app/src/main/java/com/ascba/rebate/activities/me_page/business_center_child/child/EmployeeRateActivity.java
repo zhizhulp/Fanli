@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork3Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
-public class EmployeeRateActivity extends BaseNetWork3Activity implements BaseNetWork3Activity.Callback{
+public class EmployeeRateActivity extends BaseNetActivity implements BaseNetActivity.Callback{
 
     private RadioGroup rgRate;
     private RadioButton rbRate1;
@@ -88,7 +89,7 @@ public class EmployeeRateActivity extends BaseNetWork3Activity implements BaseNe
     }
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message) throws JSONException {
+    public void handle200Data(JSONObject dataObj, String message) {
         JSONObject system_charging = dataObj.optJSONObject("system_charging");
         handleString(system_charging);
     }
@@ -96,6 +97,11 @@ public class EmployeeRateActivity extends BaseNetWork3Activity implements BaseNe
     @Override
     public void handle404(String message) {
         finish();
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     private void handleString(JSONObject rates) {

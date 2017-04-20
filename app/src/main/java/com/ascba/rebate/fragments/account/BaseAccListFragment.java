@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.WhiteAccountAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.beans.CashAccountType;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ import java.util.List;
  * Use the {@link BaseAccListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BaseAccListFragment extends BaseFragment {
+public class BaseAccListFragment extends BaseNetFragment {
     private ListView cashAccountListView;
     private WhiteAccountAdapter adapter;
     private ArrayList<CashAccount> selectList;

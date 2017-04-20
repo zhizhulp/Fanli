@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
@@ -39,7 +39,7 @@ import java.io.IOException;
 /**
  * 商户中心 商户资料提交页面
  */
-public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class BusinessCenterActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private TextView tvName;
     private TextView tvOperName;
@@ -220,6 +220,17 @@ public class BusinessCenterActivity extends BaseNetWorkActivity implements BaseN
         authPicView.setEnabled(false);
         btnCommit.setEnabled(false);
     }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
+    }
+
     //提交商家资料
     public void goCommit(View view) {
         if(finalType==-1){//提交商家资料

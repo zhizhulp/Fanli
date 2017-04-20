@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.utils.UrlUtils;
@@ -14,7 +14,7 @@ import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
-public class LoginPasswordChangeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class LoginPasswordChangeActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private EditTextWithCustomHint edOldPassword;
     private EditTextWithCustomHint edNewPassword;
@@ -69,5 +69,15 @@ public class LoginPasswordChangeActivity extends BaseNetWorkActivity implements 
         AppConfig.getInstance().putInt("uuid",-1000);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

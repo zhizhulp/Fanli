@@ -15,7 +15,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.CollegeEnrollmentActivity;
 import com.ascba.rebate.adapter.CurriculumAdapter;
 import com.ascba.rebate.beans.CurriculumBean;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -28,7 +28,7 @@ import java.util.List;
  * 全部课程
  */
 
-public class AllCurriculumFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class AllCurriculumFragment extends BaseNetFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
 
 
     public AllCurriculumFragment() {

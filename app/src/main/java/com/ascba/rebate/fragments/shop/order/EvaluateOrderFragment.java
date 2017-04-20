@@ -13,7 +13,7 @@ import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.adapter.order.EvaluateOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -33,7 +33,7 @@ import java.util.List;
  * 待评价
  */
 
-public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Fragment.Callback {
+public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -224,9 +224,10 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Frag
     }
 
     @Override
-    public void handle404(String message) {
+    public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
+
 
     @Override
     public void handleReLogin() {

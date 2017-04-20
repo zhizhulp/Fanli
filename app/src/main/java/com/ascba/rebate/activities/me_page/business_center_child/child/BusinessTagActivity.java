@@ -8,11 +8,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 
-public class BusinessTagActivity extends BaseNetWorkActivity {
+public class BusinessTagActivity extends BaseNetActivity {
     private TextView edType;
     private RadioGroup rg;
     private RadioButton rbEat;

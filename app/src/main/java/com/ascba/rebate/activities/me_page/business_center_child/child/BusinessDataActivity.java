@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -37,7 +37,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class BusinessDataActivity extends BaseNetActivity implements BaseNetActivity.Callback {
     public static final int REQUEST_BUSINESS_NAME=0;
     public static final int REQUEST_BUSINESS_TAG=1;
     public static final int REQUEST_BUSINESS_LOCATION=2;
@@ -523,6 +523,17 @@ public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNet
         }
 
     }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
+    }
+
     public File getDiskCacheDir() {
         File file;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {

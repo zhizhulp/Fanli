@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.StringUtils;
@@ -32,7 +32,7 @@ import java.util.List;
  * 待付款订单详情
  */
 
-public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetWork4Activity.Callback {
+public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
 
     private SuperSwipeRefreshLayout refreshLat;
 
@@ -53,7 +53,7 @@ public class PayDetailsActivity extends BaseNetWork4Activity implements SuperSwi
     private TextView payTx, deleteTx, countdownTx, closeOrderTx;
 
     //倒计时
-    private int maxTime = 900 * 60;//单位—秒
+    private int maxTime = 30 * 60;//单位—秒
     private Handler handler = new Handler();
     private int countdownSecond;
     private boolean isCountdown;

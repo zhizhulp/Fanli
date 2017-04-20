@@ -11,7 +11,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 二级推广
  */
-public class SecReccFragment extends BaseReccFragment implements Base2Fragment.Callback,SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class SecReccFragment extends BaseReccFragment implements BaseNetFragment.Callback,SuperSwipeRefreshLayout.OnPullRefreshListener {
     private RecyclerView rvSec;
     private SuperSwipeRefreshLayout refreshLatSec;
     private TuiGAdapter adapterSec;
@@ -105,8 +105,7 @@ public class SecReccFragment extends BaseReccFragment implements Base2Fragment.C
     }
 
     @Override
-    public void handle404(String message) {
-        refreshLatSec.setRefreshing(false);
+    public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
 

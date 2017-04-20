@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 财富-白积分
  */
-public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private ListView listView;
     private List<WhiteTicket> mList;
@@ -125,6 +125,16 @@ public class WhiteScoreActivity extends BaseNetWorkActivity implements BaseNetWo
             }
             wta.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     private String formatTime(SimpleDateFormat sdf, Long time) {

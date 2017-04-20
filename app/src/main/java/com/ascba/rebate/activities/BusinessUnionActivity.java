@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
 /**
@@ -20,8 +22,8 @@ import org.json.JSONObject;
  * 我——商家联盟——审核通过
  */
 
-public class BusinessUnionActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
-            ,BaseNetWork4Activity.Callback{
+public class BusinessUnionActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
+            ,BaseNetActivity.Callback{
 
     private Context context;
     private SuperSwipeRefreshLayout refreshLayout;

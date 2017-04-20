@@ -3,7 +3,6 @@ package com.ascba.rebate.fragments.award;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,7 @@ import android.view.ViewGroup;
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.AwardAdapter;
 import com.ascba.rebate.beans.FirstRec;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * 奖励基类
  */
-public class BaseAwardFragment extends Base2Fragment {
+public class BaseAwardFragment extends BaseNetFragment {
 
 
     private RecyclerView rv;

@@ -19,14 +19,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
 /**
@@ -34,7 +36,7 @@ import org.json.JSONObject;
  * 编辑收货地址
  */
 
-public class EditAdressActivity extends BaseNetWork4Activity {
+public class EditAdressActivity extends BaseNetActivity {
 
     private ShopABarText bar;
     private RelativeLayout btn_contact;

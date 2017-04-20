@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.AgeChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.LocationActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity;
@@ -45,7 +45,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class PersonalDataActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback {
+public class PersonalDataActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.Callback {
     public static final int nickNameRequest = 0x06;
     public static final int sexRequest = 0x05;
     public static final int locationRequest = 0x04;
@@ -368,6 +368,16 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
         } else if (finalScene == 1) {//修改成功的提示
             Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
 
     }
 

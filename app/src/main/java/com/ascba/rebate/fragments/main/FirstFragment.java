@@ -30,7 +30,7 @@ import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.activities.main_page.HotActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.beans.Business;
-import com.ascba.rebate.fragments.base.BaseFragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.NetUtils;
@@ -62,7 +62,7 @@ import java.util.List;
 /**
  * 扫一扫主页
  */
-public class FirstFragment extends BaseFragment implements ViewPager.OnTouchListener {
+public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchListener {
 
     private float pointDownX, pointUpX;
     private List<ImageView> imageList;
@@ -190,6 +190,21 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
                 if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }
+            }
+
+            @Override
+            public void handle404(String message, JSONObject dataObj) {
+
+            }
+
+            @Override
+            public void handleReLogin() {
+
+            }
+
+            @Override
+            public void handleNoNetWork() {
+
             }
         });
     }

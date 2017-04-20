@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
 import com.ascba.rebate.fragments.shop.order.AllOrderFragment;
 import com.ascba.rebate.fragments.shop.order.DeliverOrderFragment;
@@ -28,7 +28,7 @@ import java.util.List;
  * 我的订单页面
  */
 
-public class MyOrderActivity extends BaseNetWork4Activity {
+public class MyOrderActivity extends BaseNetActivity {
 
     private ShopABar shopABar;
     private Context context;

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.CardDataActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
@@ -14,7 +14,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-public class RealNameCofirmActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
+public class RealNameCofirmActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private EditText edId;
     private DialogManager dm;
@@ -62,5 +62,15 @@ public class RealNameCofirmActivity extends BaseNetWorkActivity implements BaseN
         intent.putExtra("location",location);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

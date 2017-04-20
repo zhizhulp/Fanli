@@ -6,11 +6,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 
-public class AgeChangeActivity extends BaseNetWorkActivity implements MoneyBar.CallBack {
+public class AgeChangeActivity extends BaseNetActivity implements MoneyBar.CallBack {
 
     private EditText edAge;
     private MoneyBar mb;

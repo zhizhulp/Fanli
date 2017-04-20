@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.jaeger.library.StatusBarUtil;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 
-public class RealNameSuccessActivity extends BaseNetWorkActivity {
+public class RealNameSuccessActivity extends BaseNetActivity {
 
     private TextView tvName;
     private TextView tvAge;

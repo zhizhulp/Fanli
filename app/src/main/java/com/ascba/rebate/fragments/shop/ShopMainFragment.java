@@ -30,7 +30,7 @@ import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -53,9 +53,9 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  * 商城
  */
 
-public class ShopMainFragment extends Base2Fragment implements
+public class ShopMainFragment extends BaseNetFragment implements
         SuperSwipeRefreshLayout.OnPullRefreshListener
-        , Base2Fragment.Callback {
+        , BaseNetFragment.Callback {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REQUEST_ADD_TO_CART_LOGIN = 2;
@@ -433,9 +433,10 @@ public class ShopMainFragment extends Base2Fragment implements
     }
 
     @Override
-    public void handle404(String message) {
+    public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
+
 
     @Override
     public void handleReLogin() {

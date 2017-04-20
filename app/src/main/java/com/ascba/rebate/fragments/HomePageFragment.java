@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
@@ -39,7 +39,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
-import com.ascba.rebate.fragments.base.BaseCacheFragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -52,7 +52,6 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +60,7 @@ import java.util.List;
  * 首页
  */
 
-public class HomePageFragment extends BaseCacheFragment implements BaseCacheFragment.Callback {
+public class HomePageFragment extends BaseNetFragment implements BaseNetFragment.Callback {
 
     private static final int REQUEST_LOGIN = 0;
     private static final int POLICY = 1;
@@ -258,7 +257,6 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
         });
     }
 
-
     /*
      * 弹窗
      */
@@ -318,6 +316,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        Log.d("HomePageFragment", message);
         if (finalScene == 0) {
             clearData();
             stopRefresh();
@@ -487,9 +486,9 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
         stopRefresh();
     }
 
+
     @Override
     public void handle404(String message,JSONObject dataObj) {
-
         if(finalScene==1){
             int tip_status = dataObj.optInt("tip_status");
             if(tip_status==2){//打电话

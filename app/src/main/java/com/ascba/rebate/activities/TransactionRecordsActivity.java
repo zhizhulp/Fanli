@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
 import com.ascba.rebate.fragments.IncomeFragment;
 import com.ascba.rebate.fragments.OutcomeFragment;
@@ -22,7 +22,7 @@ import static com.ascba.rebate.R.id.shopBar;
  * 收支记录
  */
 
-public class TransactionRecordsActivity extends BaseNetWork4Activity {
+public class TransactionRecordsActivity extends BaseNetActivity {
 
     private ShopABarText shopABar;
     private Context context;

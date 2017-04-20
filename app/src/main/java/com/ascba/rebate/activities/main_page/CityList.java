@@ -17,7 +17,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.cityList.CityModel;
 import com.ascba.rebate.view.cityList.ContactsHelper;
 import com.ascba.rebate.view.cityList.DBManager;
@@ -25,7 +25,6 @@ import com.ascba.rebate.view.cityList.HotCityGridAdapter;
 import com.ascba.rebate.view.cityList.MyLetterListView;
 import com.ascba.rebate.view.cityList.Setting;
 import com.ascba.rebate.view.cityList.searchactivity;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,7 @@ import java.util.List;
  *
  * @author gugalor
  */
-public class CityList extends BaseNetWorkActivity {
+public class CityList extends BaseNetActivity {
     private BaseAdapter adapter;
     private ListView mCityLit;
     private TextView overlay, citysearch;

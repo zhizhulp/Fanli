@@ -24,7 +24,7 @@ import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
@@ -44,7 +44,7 @@ import org.json.JSONObject;
 /**
  * 个人中心
  */
-public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, Base2Fragment.Callback {
+public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetFragment.Callback {
 
 
     private SuperSwipeRefreshLayout refreshLayout;
@@ -316,7 +316,7 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
     }
 
     @Override
-    public void handle404(String message) {
+    public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
 

@@ -3,9 +3,9 @@ package com.ascba.rebate.activities.me_page.settings.child;
 import android.os.Bundle;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 
-public class PasswordProtect2Activity extends BaseNetWorkActivity {
+public class PasswordProtect2Activity extends BaseNetActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

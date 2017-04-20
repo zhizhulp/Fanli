@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.user_update_child.OpenProxyActivity;
 import com.ascba.rebate.adapter.PowerUpdateAdapter;
@@ -23,9 +23,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class UserUpdateActivity extends BaseNetWorkActivity implements
+public class UserUpdateActivity extends BaseNetActivity implements
         AdapterView.OnItemClickListener,
-        BaseNetWorkActivity.Callback,
+        BaseNetActivity.Callback,
         SuperSwipeRefreshLayout.OnPullRefreshListener {
 
     private ScrollViewWithListView updateListView;
@@ -161,6 +161,16 @@ public class UserUpdateActivity extends BaseNetWorkActivity implements
             intent.putExtra("group",proxy.getGroup());
             startActivity(intent);
         }
+
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
 
     }
 

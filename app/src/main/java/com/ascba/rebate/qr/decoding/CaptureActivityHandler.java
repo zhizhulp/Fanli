@@ -54,7 +54,7 @@ public final class CaptureActivityHandler extends Handler {
   }
 
   public CaptureActivityHandler(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats,
-      String characterSet) {
+                                String characterSet) {
     this.activity = activity;
     decodeThread = new DecodeThread(activity, decodeFormats, characterSet,
         new ViewfinderResultPointCallback(activity.getViewfinderView()));

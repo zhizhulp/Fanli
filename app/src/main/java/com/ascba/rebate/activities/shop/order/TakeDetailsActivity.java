@@ -3,14 +3,16 @@ package com.ascba.rebate.activities.shop.order;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.StringUtils;
@@ -19,9 +21,11 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +34,7 @@ import java.util.List;
  * 待收货订单详情
  */
 
-public class TakeDetailsActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetWork4Activity.Callback, View.OnClickListener {
+public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetActivity.Callback, View.OnClickListener {
 
     private SuperSwipeRefreshLayout refreshLat;
     private List<Goods> goodsList = new ArrayList<>();
@@ -41,13 +45,33 @@ public class TakeDetailsActivity extends BaseNetWork4Activity implements SuperSw
     private DeliverDetailsAdapter adapter;
     //收货地址
     private RelativeLayout addressView;
-    private LinearLayout contactStoreTx;
+    private LinearLayout contactStoreTx,countdownView;
     private TextView phoneTx, nameTx, addressTx;
     private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
     private TextView payTx, deleteTx, countdownTx, closeOrderTx;
     private int flag = 0;//0-获取数据
     private String storePhone;
+
+    //倒计时
+    private int maxTime = 604800;//单位—秒 7天
+    private Handler handler = new Handler();
+    private int countdownSecond;
+    private boolean isCountdown;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (countdownSecond > 0) {
+                countdownTx.setText(countdownSecond / 86400 + "天" + countdownSecond / 3600 + "时");
+                countdownSecond--;
+                handler.postDelayed(this, 1000);
+            } else {
+                countdownView.setVisibility(View.INVISIBLE);
+                closeOrderTx.setVisibility(View.VISIBLE);
+                handler.removeCallbacks(runnable);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +116,9 @@ public class TakeDetailsActivity extends BaseNetWork4Activity implements SuperSw
         shippingFeeTx = (TextView) findViewById(R.id.shipping_fee);
         vouchersFeeTx = (TextView) findViewById(R.id.vouchers_fee);
         orderPriceTx = (TextView) findViewById(R.id.order_price);
+        countdownTx = (TextView) findViewById(R.id.tx_countdown);
+        closeOrderTx = (TextView) findViewById(R.id.tx_close_order);
+        countdownView = (LinearLayout) findViewById(R.id.ll_countdown);
 
         //recyclerView
         recyclerView = (RecyclerView) findViewById(R.id.deliver_details_rv);
@@ -244,6 +271,15 @@ public class TakeDetailsActivity extends BaseNetWork4Activity implements SuperSw
             String orderAmount = orderObject.optString("order_amount");//订单价格
             String orderTime = orderObject.optString("add_time");//订单时间
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
+
+             /*
+               开始支付倒计时
+             */
+            if (!isCountdown) {
+                //时间差
+                countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
+                isCountdown = handler.postDelayed(runnable, 1000);
+            }
 
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);

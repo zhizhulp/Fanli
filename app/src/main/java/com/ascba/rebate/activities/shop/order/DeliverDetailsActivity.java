@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.StringUtils;
@@ -19,6 +20,7 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +33,7 @@ import java.util.List;
  * 待发货订单详情
  */
 
-public class DeliverDetailsActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetWork4Activity.Callback, View.OnClickListener {
+public class DeliverDetailsActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
 
     private SuperSwipeRefreshLayout refreshLat;
     private List<Goods> goodsList = new ArrayList<>();

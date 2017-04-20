@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.adapter.MessageLatestAdapter;
 import com.ascba.rebate.beans.NewsBean;
@@ -35,7 +35,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  * 消息-最新公告
  */
 
-public class MessageLatestActivity extends BaseNetWork4Activity implements BaseNetWork4Activity.Callback, SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class MessageLatestActivity extends BaseNetActivity implements BaseNetActivity.Callback, SuperSwipeRefreshLayout.OnPullRefreshListener {
 
     private ShopABarText shopBar;
     private Context context;

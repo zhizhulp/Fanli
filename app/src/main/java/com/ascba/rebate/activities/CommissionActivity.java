@@ -1,14 +1,13 @@
 package com.ascba.rebate.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
 import com.ascba.rebate.fragments.GoBalanceFragment;
 import com.ascba.rebate.fragments.GoBankCardFragment;
@@ -19,14 +18,12 @@ import com.flyco.tablayout.SlidingTabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ascba.rebate.R.id.shopBar;
-
 /**
  * Created by 李鹏 on 2017/04/01 0001.
  * 财富-返佣账户
  */
 
-public class CommissionActivity extends BaseNetWork4Activity implements MoneyBar.CallBack {
+public class CommissionActivity extends BaseNetActivity implements MoneyBar.CallBack {
 
     private ShopABarText shopABar;
     private Context context;

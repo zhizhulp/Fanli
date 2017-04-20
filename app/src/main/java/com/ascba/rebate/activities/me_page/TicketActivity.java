@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.TicketAdapter;
 import com.ascba.rebate.beans.Ticket;
 import com.ascba.rebate.utils.UrlUtils;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback,View.OnClickListener {
+public class TicketActivity extends BaseNetActivity implements BaseNetActivity.Callback,View.OnClickListener {
 
     private ScrollViewWithListView ticketListView;
     private TicketAdapter ticketAdapter;
@@ -107,6 +107,16 @@ public class TicketActivity extends BaseNetWorkActivity implements BaseNetWorkAc
             noView.setVisibility(View.VISIBLE);
             btnTicket.setText("兑换代金券");
         }
+    }
+
+    @Override
+    public void handle404(String message) {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 
     @Override
