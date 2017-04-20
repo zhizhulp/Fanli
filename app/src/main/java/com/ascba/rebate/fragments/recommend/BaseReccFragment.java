@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 推广基类
  */
-public class BaseReccFragment extends Base2Fragment {
+public class BaseReccFragment extends BaseNetFragment {
     private RecyclerView rv;
     private SuperSwipeRefreshLayout refreshLat;
     private List<FirstRec> data=new ArrayList<>();

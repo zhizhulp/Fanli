@@ -22,7 +22,7 @@ import com.ascba.rebate.activities.me_page.cash_get_child.CashGetSuccActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.adapter.BankAdapter;
 import com.ascba.rebate.beans.Card;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -39,7 +39,7 @@ import java.util.List;
  * 财富-返佣账户-转到银行卡
  */
 
-public class GoBankCardFragment extends Base2Fragment implements Base2Fragment.Callback,
+public class GoBankCardFragment extends BaseNetFragment implements BaseNetFragment.Callback,
         View.OnClickListener{
     private View cardView;
     private View noCardView;
@@ -288,7 +288,7 @@ public class GoBankCardFragment extends Base2Fragment implements Base2Fragment.C
     }
 
     @Override
-    public void handle404(String message) {
+    public void handle404(String message, JSONObject dataObj) {
 
     }
 

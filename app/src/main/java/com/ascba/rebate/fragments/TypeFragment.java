@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.fragments.base.BaseNetFragment3;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -17,7 +17,7 @@ import org.json.JSONObject;
 /**
  * 商城分类
  */
-public class TypeFragment extends BaseNetFragment3 {
+public class TypeFragment extends BaseNetFragment {
 
     private TextView develop;
 

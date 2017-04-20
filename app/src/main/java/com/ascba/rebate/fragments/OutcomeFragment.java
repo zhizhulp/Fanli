@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.InOutComeAdapter;
 import com.ascba.rebate.beans.CashAccount;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  * 交易记录——支出
  */
 
-public class OutcomeFragment extends Base2Fragment{
+public class OutcomeFragment extends BaseNetFragment {
     private Context context;
     private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;

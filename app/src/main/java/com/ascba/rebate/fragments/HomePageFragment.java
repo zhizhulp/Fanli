@@ -39,7 +39,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
-import com.ascba.rebate.fragments.base.BaseNetFragment3;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -60,7 +60,7 @@ import java.util.List;
  * 首页
  */
 
-public class HomePageFragment extends BaseNetFragment3 implements BaseNetFragment3.Callback {
+public class HomePageFragment extends BaseNetFragment implements BaseNetFragment.Callback {
 
     private static final int REQUEST_LOGIN = 0;
     private static final int POLICY = 1;

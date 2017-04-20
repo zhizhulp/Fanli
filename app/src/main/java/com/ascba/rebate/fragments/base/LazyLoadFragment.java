@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  * 2.切换到其他页面时停止加载数据（可选）
  */
 
-public abstract class LazyLoadFragment extends Base2Fragment {
+public abstract class LazyLoadFragment extends BaseNetFragment {
     /**
      * 视图是否已经初初始化
      */

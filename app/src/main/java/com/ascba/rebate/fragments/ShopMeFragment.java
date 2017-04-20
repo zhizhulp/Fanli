@@ -20,7 +20,7 @@ import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -37,7 +37,7 @@ import java.util.List;
  * 商城设置
  */
 public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
-        Base2Fragment.Callback {
+        BaseNetFragment.Callback {
     private Context context;
     private RecyclerView pc_RecyclerView;
     private PCMultipleItemAdapter pcMultipleItemAdapter;
@@ -327,10 +327,7 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
     }
 
     @Override
-    public void handle404(String message) {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
-        }
+    public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
 

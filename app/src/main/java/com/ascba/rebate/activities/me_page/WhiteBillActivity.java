@@ -1,25 +1,21 @@
 package com.ascba.rebate.activities.me_page;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusiFlowRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.BillAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.view.BillTypeDialog;
@@ -33,7 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class WhiteBillActivity extends BaseNetWork4Activity implements SuperSwipeRefreshLayout.OnPullRefreshListener
+public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener
         ,MoneyBar.CallBack{
 
     private SuperSwipeRefreshLayout refreshLat;

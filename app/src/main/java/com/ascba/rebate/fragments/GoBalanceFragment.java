@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 /**
@@ -19,7 +19,7 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
  * 财富-返佣账户-转到余额
  */
 
-public class GoBalanceFragment extends Base2Fragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class GoBalanceFragment extends BaseNetFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
 
     private Context context;
     private SuperSwipeRefreshLayout refreshLayout;

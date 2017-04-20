@@ -20,7 +20,7 @@ import org.json.JSONObject;
  * Created by 李鹏 on 2017/04/20 0020.
  */
 
-public abstract class BaseNetFragment2 extends BaseNetFragment {
+public abstract class BaseFragmentNet extends BaseFragment {
 
     private DialogManager2 dialogManager;
     private NetResponseListener netResponseListener = new NetResponseListener();

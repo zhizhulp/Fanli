@@ -22,7 +22,7 @@ import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -43,7 +43,7 @@ import java.util.List;
  * 购物车
  */
 public class CartFragment extends LazyBaseFragment implements
-        View.OnClickListener, Base2Fragment.Callback, CartAdapter.CallBack {
+        View.OnClickListener, BaseNetFragment.Callback, CartAdapter.CallBack {
 
     private ShopABar sab;
     private SuperSwipeRefreshLayout refreshLayout;
@@ -314,11 +314,11 @@ public class CartFragment extends LazyBaseFragment implements
     public void handleReqFailed() {
     }
 
-
     @Override
-    public void handle404(String message) {
+    public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
+
 
     @Override
     public void handleReLogin() {

@@ -1,64 +1,188 @@
 package com.ascba.rebate.fragments.base;
 
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.appconfig.AppConfig;
+
+import org.json.JSONObject;
+
 
 /**
  * Created by 李鹏 on 2017/04/20 0020.
  */
 
-public class BaseNetFragment extends Fragment {
+public abstract class BaseNetFragment extends BaseFragmentNet {
 
-    private PermissionCallback requestPermissionAndBack;
+    private Callback callback;
+    private CallbackWhat callbackWhat;
+    private View view;
 
-    protected void showToast(String content) {
-        Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(setContentView(), container, false);
+        return view;
     }
 
-    protected void showToast(int content) {
-        Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
-    }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-    public interface PermissionCallback {
-        void requestPermissionAndBack(boolean isOk);
     }
 
     /**
-     * 申请权限
+     * 设置Fragment要显示的布局
      *
-     * @param permissions
+     * @return 布局的layoutId
      */
-    protected void checkAndRequestAllPermission(String[] permissions, PermissionCallback requestPermissionAndBack) {
-        this.requestPermissionAndBack = requestPermissionAndBack;
-        if (permissions == null) {
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= 23) {
-            requestPermissions(permissions, 1);
+    protected int setContentView() {
+        return 0;
+    }
+
+    /**
+     * 获取设置的布局
+     *
+     * @return
+     */
+    protected View getContentView() {
+        return view;
+    }
+
+    /**
+     * 找出对应的控件
+     *
+     * @param id
+     * @param <T>
+     * @return
+     */
+    protected <T extends View> T findViewById(int id) {
+
+        return (T) getContentView().findViewById(id);
+    }
+
+
+    @Override
+    protected void requstSuccess(int what, JSONObject jObj) {
+        try {
+            int status = jObj.optInt("status");
+            String message = jObj.optString("msg");
+            JSONObject dataObj = jObj.optJSONObject("data");
+            if (status == 200) {
+                int update_status = dataObj.optInt("update_status");
+                if (update_status == 1) {
+                    AppConfig.getInstance().putString("token", dataObj.optString("token"));
+                    AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
+                }
+                if (callback != null) {//对于200额外的处理
+                    callback.handle200Data(dataObj, message);
+                }
+
+                if (callbackWhat != null) {
+                    callbackWhat.handle200Data(what, dataObj, message);
+                }
+
+                mhandle200Data(what, jObj, dataObj, message);
+            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                AppConfig.getInstance().putInt("uuid", -1000);
+                getActivity().startActivityForResult(intent, BaseNetActivity.REQUEST_LOGIN);
+            } else if (status == 404) {
+                if (callback != null) {
+                    callback.handle404(message, dataObj);
+                }
+                if (callbackWhat != null) {
+                    callbackWhat.handle404(what, message, dataObj);
+                }
+                mhandle404(what, message, dataObj);
+            } else if (status == 500) {
+                getDm().buildAlertDialog(message);
+            } else if (status == 6) {
+                getDm().buildAlertDialog(message);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] per,
-                                           @NonNull int[] grantResults) {
-        boolean isAll = true;
-        for (int i = 0; i < per.length; i++) {
-            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                isAll = false;
-                break;
+    protected void requstFailed(int what, Exception e) {
+        mhandleFailed(what, e);
+    }
+
+    @Override
+    protected void requstFinish(int what) {
+        try {
+            if (getDm() != null) {
+                getDm().dismissDialog();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mhandleFinish(what);
+    }
+
+    @Override
+    protected void isNetWork(boolean isNetWork) {
+        if (!isNetWork) {
+            //没网
+            if (callback != null) {
+                callback.handleNoNetWork();
+            }
+            if (callbackWhat != null) {
+                callbackWhat.handleNoNetWork();
             }
         }
-        if (!isAll) {
-            showToast(getResources().getString(R.string.no_permission));
-        }
-        if (requestPermissionAndBack != null) {
-            requestPermissionAndBack.requestPermissionAndBack(isAll);//isAll 用户是否拥有所有权限
-        }
-        super.onRequestPermissionsResult(requestCode, per, grantResults);
     }
+
+    protected void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public interface Callback {
+        void handle200Data(JSONObject dataObj, String message);//数据请求成功
+
+        void handleReqFailed();//请求服务器失败
+
+        void handle404(String message, JSONObject dataObj);
+
+        void handleReLogin();
+
+        void handleNoNetWork();
+    }
+
+    protected void setCallbackWhat(CallbackWhat callbackWhat) {
+        this.callbackWhat = callbackWhat;
+    }
+
+    protected interface CallbackWhat {
+        void handle200Data(int what, JSONObject dataObj, String message);//数据请求成功
+
+        void handleReqFailed(int what);//请求服务器失败
+
+        void handle404(int what, String message, JSONObject dataObj);
+
+        void handleReLogin();
+
+        void handleNoNetWork();
+    }
+
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+    }
+
+    protected void mhandle404(int what, String message, JSONObject object) {
+    }
+
+
+    protected void mhandleFinish(int what) {
+    }
+
+    protected void mhandleFailed(int what, Exception e) {
+    }
+
 }

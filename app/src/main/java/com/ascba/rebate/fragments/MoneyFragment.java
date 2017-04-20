@@ -15,11 +15,12 @@ import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.CashGetActivity;
 import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
 import com.ascba.rebate.activities.me_page.TicketActivity;
+import com.ascba.rebate.activities.me_page.WhiteBillActivity;
 import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.NetUtils;
@@ -33,7 +34,7 @@ import org.json.JSONObject;
  * 财富
  */
 public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
-        , Base2Fragment.Callback {
+        , BaseNetFragment.Callback {
 
     private SuperSwipeRefreshLayout refreshLayout;
     private TextView tvAllCash;
@@ -261,8 +262,8 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
     }
 
     @Override
-    public void handle404(String message) {
-
+    public void handle404(String message, JSONObject dataObj) {
+        getDm().buildAlertDialog(message);
     }
 
     @Override

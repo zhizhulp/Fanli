@@ -13,7 +13,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.fragments.award.FirstAwardFragment;
 import com.ascba.rebate.fragments.award.SecAwardFragment;
-import com.ascba.rebate.fragments.base.Base2Fragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
@@ -28,8 +28,8 @@ public class MyAwardActivity extends BaseNetActivity implements View.OnClickList
     private RadioGroup recRg;
     private RadioButton rbOne;
     private RadioButton rbTwo;
-    private Base2Fragment fragsOne;
-    private Base2Fragment fragsTwo;
+    private BaseNetFragment fragsOne;
+    private BaseNetFragment fragsTwo;
     private ImageView imgOne, imgTwo;
     private TextView tvAll;
 

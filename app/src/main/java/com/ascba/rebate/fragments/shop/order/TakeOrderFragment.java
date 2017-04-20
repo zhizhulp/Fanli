@@ -92,7 +92,7 @@ public class TakeOrderFragment extends LazyLoadFragment {
             }
 
             @Override
-            public void handle404(String message) {
+            public void handle404(String message, JSONObject dataObj) {
                 getDm().buildAlertDialog(message);
             }
 
