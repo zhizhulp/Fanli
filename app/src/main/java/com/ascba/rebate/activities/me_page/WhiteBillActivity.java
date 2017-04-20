@@ -2,25 +2,22 @@ package com.ascba.rebate.activities.me_page;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
-import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusiFlowRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.BillAdapter;
+import com.ascba.rebate.beans.BillType;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.view.BillTypeDialog;
 import com.ascba.rebate.view.MoneyBar;
@@ -43,6 +40,7 @@ public class WhiteBillActivity extends BaseNetWork4Activity implements SuperSwip
     private StickyRecyclerHeadersDecoration headerDecor;
     private MoneyBar mb;
     Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
+    private int position;//记录筛选位置
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +91,8 @@ public class WhiteBillActivity extends BaseNetWork4Activity implements SuperSwip
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        showToast("当前选择"+ year +"年"+ (month+1)+"月");
+                        Intent intent=new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
+                        startActivity(intent);
                     }
                 },
                 dateAndTime.get(Calendar.YEAR),
@@ -187,15 +186,32 @@ public class WhiteBillActivity extends BaseNetWork4Activity implements SuperSwip
      */
     @Override
     public void clickComplete(View tv) {
-        final BillTypeDialog bt=new BillTypeDialog(this);
+
+        final BillTypeDialog bt=new BillTypeDialog(this, initTypeData(position));
         bt.showMyDialog();
         bt.setCallback(new BillTypeDialog.Callback() {
             @Override
-            public void onClick(BillTypeDialog.BillType a) {
+            public void onClick(BillType a,int position) {
+                WhiteBillActivity.this.position=position;
                 bt.dismiss();
-                Intent intent=new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
-                startActivity(intent);
+
             }
         });
+    }
+
+    private List<BillType> initTypeData(int position) {
+        List<BillType> data=new ArrayList<>();
+        data.add(new BillType(false,"全部","123"));
+        data.add(new BillType(false,"奖励","234"));
+        data.add(new BillType(false,"消费","235"));
+        data.add(new BillType(false,"兑换","369"));
+        for (int i = 0; i < data.size(); i++) {
+            if(i==position){
+                data.get(i).hasSelect=true;
+            }else {
+                data.get(i).hasSelect=false;
+            }
+        }
+        return data;
     }
 }

@@ -2,6 +2,7 @@ package com.ascba.rebate.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -143,7 +144,12 @@ public class BusiFlowRecordsActivity extends BaseNetWork4Activity implements
 
     @Override
     public void onRefresh() {
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLat.setRefreshing(false);
+            }
+        },1000);
     }
 
     @Override

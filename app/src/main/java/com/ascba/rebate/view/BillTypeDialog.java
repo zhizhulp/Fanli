@@ -14,10 +14,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.beans.BillType;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ public class BillTypeDialog extends Dialog {
     private BillTypeAdapter adapter;
     private List<BillType> data;
     public interface Callback{
-        void onClick(BillType bt);
+        void onClick(BillType bt,int position);
     }
 
     private Callback callback;//选择回调
@@ -40,41 +40,32 @@ public class BillTypeDialog extends Dialog {
         this.callback = callback;
     }
 
-    public BillTypeDialog(@NonNull Context context) {
+    public BillTypeDialog(@NonNull Context context,List<BillType> data) {
         super(context);
+        this.data=data;
         init();
     }
 
     public BillTypeDialog(@NonNull Context context, @StyleRes int themeResId) {
         super(context, themeResId);
-        init();
+
     }
 
     protected BillTypeDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
-        init();
     }
 
     private void init() {
         setContentView(R.layout.bill_dialog);
-        initData();
         initViews();
     }
 
-    private void initData() {
-        data=new ArrayList<>();
-        data.add(new BillType(true,"全部","123"));
-        data.add(new BillType(false,"奖励","234"));
-        data.add(new BillType(false,"消费","235"));
-        data.add(new BillType(false,"兑换","369"));
-    }
 
     private void initViews() {
         rv = ((RecyclerView) findViewById(R.id.rv));
         adapter = new BillTypeAdapter(R.layout.bill_dialog_item,data);
         rv.setLayoutManager(new GridLayoutManager(getContext(),3));
         rv.setAdapter(adapter);
-
         initCancel();
     }
 
@@ -121,12 +112,12 @@ public class BillTypeDialog extends Dialog {
             //背景色
             helper.setBackgroundColor(R.id.bill_lat,item.hasSelect? getColorId(R.color.main_red_normal) :
                     getColorId(R.color.main_line_light_gray));
-            helper.setOnClickListener(R.id.bill_lat,createOnClickListener(item,this));
+            helper.setOnClickListener(R.id.bill_lat,createOnClickListener(item,this,helper));
 
         }
     }
 
-    private View.OnClickListener createOnClickListener(final BillType item, final BillTypeAdapter adapter) {
+    private View.OnClickListener createOnClickListener(final BillType item, final BillTypeAdapter adapter, final BaseViewHolder helper) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +131,7 @@ public class BillTypeDialog extends Dialog {
                     adapter.notifyDataSetChanged();
                 }
                 if(callback!=null){
-                    callback.onClick(item);
+                    callback.onClick(item,helper.getPosition());
                 }
             }
         };
@@ -150,17 +141,5 @@ public class BillTypeDialog extends Dialog {
         return getContext().getResources().getColor(color);
     }
 
-    public class BillType {
-        public BillType(boolean hasSelect, String title, String count) {
-            this.hasSelect = hasSelect;
-            this.title = title;
-            this.count = count;
-        }
-        public BillType() {
-        }
-        boolean hasSelect;//是否被选择
-        String title;//类型
-        String count;//账单数量
 
-    }
 }
