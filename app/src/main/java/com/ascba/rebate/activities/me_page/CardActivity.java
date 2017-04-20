@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.adapter.CardListAdapter;
 import com.ascba.rebate.beans.Card;
 import com.ascba.rebate.handlers.DialogManager;
@@ -18,8 +18,8 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.jaeger.library.StatusBarUtil;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

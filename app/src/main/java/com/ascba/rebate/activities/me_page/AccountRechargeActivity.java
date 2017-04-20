@@ -28,11 +28,9 @@ import com.ascba.rebate.view.pay.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Map;
 
 public class AccountRechargeActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback, View.OnClickListener {
@@ -176,7 +174,7 @@ public class AccountRechargeActivity extends BaseNetWorkActivity implements Base
         } else if (select == 0) {
             requestForWX(dataObj);//发起微信支付请求
         }
-        MyApplication.payType=0;
+        MyApplication.payType = 0;
 
     }
 

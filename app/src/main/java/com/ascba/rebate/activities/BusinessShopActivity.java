@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -27,14 +26,11 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 

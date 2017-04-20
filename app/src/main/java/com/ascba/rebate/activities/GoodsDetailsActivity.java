@@ -37,7 +37,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -61,15 +60,13 @@ import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.dropDownMultiPager.DropDownMultiPagerView;
 import com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;

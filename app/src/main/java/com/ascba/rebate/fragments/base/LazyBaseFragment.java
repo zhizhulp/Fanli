@@ -13,54 +13,44 @@ import android.view.ViewGroup;
  * 2.切换到其他页面时停止加载数据（可选）
  */
 
-public abstract class LazyLoadFragment extends Base2Fragment {
+public abstract class LazyBaseFragment extends Base2Fragment {
     /**
      * 视图是否已经初初始化
      */
-    protected boolean isInit = false;
     protected boolean isLoad = false;
-    protected final String TAG = "LazyLoadFragment";
     private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(setContentView(), container, false);
-        isInit = true;
         /**初始化的时候去加载数据**/
-        isCanLoadData();
         return view;
     }
 
-    /**
-     * 视图是否已经对用户可见，系统的方法
-     */
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        isCanLoadData();
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            isCanLoad();
+        }else {
+            isLoad = false;
+        }
     }
 
-    /**
-     * 是否可以加载数据
-     * 可以加载数据的条件：
-     * 1.视图已经初始化
-     * 2.视图对用户可见
-     */
-    private void isCanLoadData() {
-        if (!isInit) {
-            return;
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        isCanLoad();
+    }
 
-        if (getUserVisibleHint()) {
+    private void isCanLoad() {
+        if (!isLoad) {
             lazyLoad();
             isLoad = true;
-        } else {
-            if (isLoad) {
-                stopLoad();
-            }
         }
     }
+
 
     /**
      * 视图销毁的时候讲Fragment是否初始化的状态变为false
@@ -68,7 +58,12 @@ public abstract class LazyLoadFragment extends Base2Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        isInit = false;
+        isLoad = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         isLoad = false;
     }
 
@@ -110,6 +105,5 @@ public abstract class LazyLoadFragment extends Base2Fragment {
      */
     protected void stopLoad() {
     }
-
 }
 

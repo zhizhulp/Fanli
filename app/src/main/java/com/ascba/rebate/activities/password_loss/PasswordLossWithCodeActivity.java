@@ -8,12 +8,10 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
-import com.jaeger.library.StatusBarUtil;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
 
@@ -24,18 +22,7 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
     private EditTextWithCustomHint edPassword;
     private EditTextWithCustomHint edRepassword;
     private String loss_phone;
-    /*@SuppressLint("HandlerLeak")
-    Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            if (msg.what == 1)
-            {
-                edCode.setText(msg.obj.toString());
-            }
-        }
-    };*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +32,15 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
         initViews();
         getPhoneFromBefore();//获取上个界面传来的手机号码
     }
-    /*private void obServeSms() {
-        SMSContentObserver smsContentObserver = new SMSContentObserver(this, handler);
 
-        getContentResolver().registerContentObserver(
-                Uri.parse("content://sms/"), true, smsContentObserver);
-    }*/
 
     private void getPhoneFromBefore() {
         Intent intent = getIntent();
         loss_phone = intent.getStringExtra("loss_phone");
-        /*String sms_code = intent.getStringExtra("sms_code");*/
+
         if(loss_phone!=null){
             tvLossPhone.setText(loss_phone);
-            /*edCode.setText(sms_code);
-            edCode.setSelection(sms_code.length());*/
+
         }
     }
 
@@ -111,9 +92,6 @@ public class PasswordLossWithCodeActivity extends BaseNetWorkActivity implements
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        /*Intent intent=new Intent(this,LoginActivity.class);
-        startActivity(intent);
-        finish();*/
         setResult(RESULT_OK,getIntent());
         finish();
     }

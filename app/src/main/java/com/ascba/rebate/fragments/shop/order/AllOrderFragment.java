@@ -23,7 +23,7 @@ import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,17 +65,17 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
     }
 
     @Override
+    protected void stopLoad() {
+        cancelNetWork();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         this.view = view;
     }
 
-    @Override
-    protected void stopLoad() {
-        super.stopLoad();
-        cancelNetWork();
-    }
 
     /*
       获取列表数据
@@ -97,6 +97,7 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
+
 
     /*
     初始化数据
@@ -339,4 +340,5 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
             requstListData();
         }
     }
+
 }

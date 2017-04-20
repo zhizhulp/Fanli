@@ -3,20 +3,12 @@ package com.ascba.rebate.activities.me_page.business_center_child.child;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork3Activity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
-import com.google.gson.JsonObject;
-import com.jaeger.library.StatusBarUtil;
-import com.yolanda.nohttp.rest.Request;
-
-import org.json.JSONArray;
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
 

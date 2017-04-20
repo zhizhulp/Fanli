@@ -1,12 +1,7 @@
 package com.ascba.rebate.qr;
 
-import java.io.IOException;
-import java.util.Vector;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -21,25 +16,23 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork3Activity;
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.main_page.sweep.PayActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
 import com.ascba.rebate.qr.view.ViewfinderView;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.jaeger.library.StatusBarUtil;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.IOException;
+import java.util.Vector;
 
 public class CaptureActivity extends BaseNetWork3Activity implements Callback,BaseNetWork3Activity.Callback {
 	private CaptureActivityHandler handler;

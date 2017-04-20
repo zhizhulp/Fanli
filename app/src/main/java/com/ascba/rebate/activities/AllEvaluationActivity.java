@@ -7,14 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.AllEvaluationAdapter;
 import com.ascba.rebate.beans.EvaluationBean;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 

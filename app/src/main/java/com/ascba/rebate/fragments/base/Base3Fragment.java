@@ -21,19 +21,19 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.error.NetworkError;
-import com.yolanda.nohttp.rest.OnResponseListener;
-import com.yolanda.nohttp.rest.Request;
-import com.yolanda.nohttp.rest.Response;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.error.NetworkError;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Response;
 
 import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Base3Fragment extends Fragment {
+public abstract class Base3Fragment extends Fragment {
     private Callback callback;
     private DialogManager2 dm;
     private PermissionCallback pCallback;
@@ -63,11 +63,28 @@ public class Base3Fragment extends Fragment {
 
         void handleReqFailed();//请求服务器失败
 
-        void handle404(String message,JSONObject dataObj);
+        void handle404(String message, JSONObject dataObj);
 
         void handleReLogin();
 
         void handleNoNetWork();
+    }
+
+    //数据请求成功
+    protected void mhandle200Data(int what, JSONObject dataObj, String message) {
+    }
+
+    //请求服务器失败
+    protected void mhandleReqFailed(int what) {
+    }
+
+    protected void mhandle404(int what, String message) {
+    }
+
+    protected void mhandleReLogin(int what) {
+    }
+
+    protected void mhandleNoNetWork(int what) {
     }
 
     public void checkAndRequestAllPermission(String[] permissions) {
@@ -122,11 +139,11 @@ public class Base3Fragment extends Fragment {
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
         FragmentActivity activity = getActivity();
-        if(activity instanceof MainActivity){
+        if (activity instanceof MainActivity) {
             dm = ((MainActivity) activity).getDm();
-        }else {
-            if(dm==null){
-                dm=new DialogManager2(getActivity());
+        } else {
+            if (dm == null) {
+                dm = new DialogManager2(getActivity());
             }
         }
 
@@ -138,6 +155,29 @@ public class Base3Fragment extends Fragment {
             return;
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, new NetResponseListener());
+        dm.buildWaitDialog(message);
+    }
+
+    //执行网络请求
+    public void executeNetWork(int what, Request<JSONObject> jsonRequest, String message) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            dm = ((MainActivity) activity).getDm();
+        } else {
+            if (dm == null) {
+                dm = new DialogManager2(getActivity());
+            }
+        }
+
+        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+        if (!netAva) {
+            if (callback != null) {
+                callback.handleNoNetWork();
+            }
+            mhandleNoNetWork(what);
+            return;
+        }
+        MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
         dm.buildWaitDialog(message);
     }
 
@@ -201,6 +241,7 @@ public class Base3Fragment extends Fragment {
                     if (callback != null) {//对于200额外的处理
                         callback.handle200Data(dataObj, message);
                     }
+                    mhandle200Data(what, dataObj, message);
                 } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     AppConfig.getInstance().putInt("uuid", -1000);
@@ -208,10 +249,12 @@ public class Base3Fragment extends Fragment {
                     if (callback != null) {//重新登录的处理
                         callback.handleReLogin();
                     }
+                    mhandleReLogin(what);
                 } else if (status == 404) {
                     if (callback != null) {//对于404额外的处理
-                        callback.handle404(message,dataObj);
+                        callback.handle404(message, dataObj);
                     }
+                    mhandle404(what, message);
                 } else if (status == 500) {
                     dm.buildAlertDialog(message);
                 }
@@ -232,6 +275,7 @@ public class Base3Fragment extends Fragment {
                 if (callback != null) {
                     callback.handleReqFailed();
                 }
+                mhandleReqFailed(what);
                 dm.buildAlertDialog("请求失败");
             }
         }

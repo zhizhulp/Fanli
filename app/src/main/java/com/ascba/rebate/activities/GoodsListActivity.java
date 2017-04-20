@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.GoodsListAdapter;
@@ -23,7 +22,6 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
-
 import java.util.ArrayList;
 import java.util.List;
 

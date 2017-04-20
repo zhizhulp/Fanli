@@ -8,13 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.InOutComeAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 

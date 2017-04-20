@@ -14,9 +14,8 @@ import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.fragments.award.FirstAwardFragment;
 import com.ascba.rebate.fragments.award.SecAwardFragment;
 import com.ascba.rebate.fragments.base.Base2Fragment;
-import com.ascba.rebate.fragments.recommend.BaseRecFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
 /**

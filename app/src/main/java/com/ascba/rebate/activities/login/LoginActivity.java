@@ -6,7 +6,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork3Activity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
@@ -16,8 +15,7 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
 /**

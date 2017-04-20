@@ -15,7 +15,7 @@
  */
 package com.ascba.rebate.beans;
 
-import com.yolanda.nohttp.rest.Response;
+import com.yanzhenjie.nohttp.rest.Response;
 
 /**
  * <p>接受回调结果.</p>

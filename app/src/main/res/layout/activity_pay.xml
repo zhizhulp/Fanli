@@ -10,7 +10,8 @@
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="扫一扫支付"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+       />
     <LinearLayout
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
@@ -19,10 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="98dp"
         android:orientation="horizontal">
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.ascba.rebate.view.RoundImageView
             android:id="@+id/imageView"
             android:layout_width="70dp"
-            android:layout_height="70dp"/>
+            android:layout_height="70dp"
+            app:type="circle"/>
         <LinearLayout
             android:onClick="clickSelectPayType"
             android:layout_marginLeft="15dp"

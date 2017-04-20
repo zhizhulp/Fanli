@@ -33,9 +33,10 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.RoundImageView;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.FileBinary;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.FileBinary;
+import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
@@ -44,8 +45,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class PersonalDataActivity extends BaseNetWorkActivity implements View.OnClickListener, BaseNetWorkActivity.Callback {
     public static final int nickNameRequest = 0x06;
     public static final int sexRequest = 0x05;
@@ -53,7 +52,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
     public static final int ageRequest = 0x03;
     private static final int GO_CAMERA = 0x01;
     private static final int GO_ALBUM = 0x02;
-    private CircleImageView userIconView;
+    private RoundImageView userIconView;
     private PopupWindow popupWindow;
     private TextView sexShow;
     private TextView tvMobile;
@@ -80,7 +79,7 @@ public class PersonalDataActivity extends BaseNetWorkActivity implements View.On
 
     private void initViews() {
         dm = new DialogManager(this);
-        userIconView = ((CircleImageView) findViewById(R.id.head_icon));
+        userIconView = ((RoundImageView) findViewById(R.id.head_icon));
         tvMobile = ((TextView) findViewById(R.id.personal_data_mobile));
         tvNickname = ((TextView) findViewById(R.id.personal_data_nickname));
         sexShow = ((TextView) findViewById(R.id.show_sex));

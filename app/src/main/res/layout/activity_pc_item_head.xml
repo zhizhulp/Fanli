@@ -23,11 +23,12 @@
                 android:alpha="0.5"
                 android:background="@drawable/bg_circle" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.ascba.rebate.view.RoundImageView
                 android:id="@+id/me_user_img"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
+                app:type="circle"
                 android:scaleType="centerCrop" />
         </FrameLayout>
 

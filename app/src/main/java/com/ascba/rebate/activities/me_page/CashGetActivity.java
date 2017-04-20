@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
@@ -27,11 +26,9 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

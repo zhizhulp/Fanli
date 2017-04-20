@@ -1,4 +1,5 @@
 package com.ascba.rebate.activities.main_page;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -29,10 +29,8 @@ import com.baidu.mapapi.utils.OpenClientUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
-
 import java.io.File;
 
 public class BusinessDetailsActivity extends BaseNetWork2Activity implements BaseNetWork2Activity.Callback {

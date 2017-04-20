@@ -20,28 +20,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
-import com.jaeger.library.StatusBarUtil;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.FileBinary;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.FileBinary;
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class BusinessDataActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
     public static final int REQUEST_BUSINESS_NAME=0;

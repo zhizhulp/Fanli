@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
@@ -22,12 +21,10 @@ import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

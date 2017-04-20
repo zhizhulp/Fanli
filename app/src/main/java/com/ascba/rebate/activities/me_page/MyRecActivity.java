@@ -16,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.adapter.PopRecAdapter;
@@ -25,11 +24,9 @@ import com.ascba.rebate.fragments.recommend.FirstReccFragment;
 import com.ascba.rebate.fragments.recommend.SecReccFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

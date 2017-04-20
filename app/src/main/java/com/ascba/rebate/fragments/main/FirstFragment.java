@@ -1,7 +1,6 @@
 package com.ascba.rebate.fragments.main;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -39,19 +38,19 @@ import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-import com.yolanda.nohttp.Headers;
-import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.download.DownloadListener;
-import com.yolanda.nohttp.download.DownloadQueue;
-import com.yolanda.nohttp.download.DownloadRequest;
-import com.yolanda.nohttp.error.NetworkError;
-import com.yolanda.nohttp.error.ServerError;
-import com.yolanda.nohttp.error.StorageReadWriteError;
-import com.yolanda.nohttp.error.StorageSpaceNotEnoughError;
-import com.yolanda.nohttp.error.TimeoutError;
-import com.yolanda.nohttp.error.URLError;
-import com.yolanda.nohttp.error.UnKnownHostError;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.download.DownloadListener;
+import com.yanzhenjie.nohttp.download.DownloadQueue;
+import com.yanzhenjie.nohttp.download.DownloadRequest;
+import com.yanzhenjie.nohttp.error.NetworkError;
+import com.yanzhenjie.nohttp.error.ServerError;
+import com.yanzhenjie.nohttp.error.StorageReadWriteError;
+import com.yanzhenjie.nohttp.error.StorageSpaceNotEnoughError;
+import com.yanzhenjie.nohttp.error.TimeoutError;
+import com.yanzhenjie.nohttp.error.URLError;
+import com.yanzhenjie.nohttp.error.UnKnownHostError;
+import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -452,6 +451,11 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         }
 
         @Override
+        public void onProgress(int what, int progress, long fileCount, long speed) {
+            pD.setProgress(progress);
+        }
+
+        @Override
         public void onDownloadError(int what, Exception exception) {
 
             if (exception instanceof ServerError) {
@@ -471,11 +475,6 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
             } else {
                 Toast.makeText(getActivity(), "未知错误", Toast.LENGTH_SHORT).show();
             }
-        }
-
-        @Override
-        public void onProgress(int what, int progress, long fileCount) {
-            pD.setProgress(progress);
         }
 
         @Override

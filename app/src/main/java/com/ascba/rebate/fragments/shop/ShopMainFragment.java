@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import android.widget.RelativeLayout;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
@@ -43,14 +41,11 @@ import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.yolanda.nohttp.rest.Request;
-
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static android.app.Activity.RESULT_OK;
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 

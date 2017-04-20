@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.user_update_child.OpenProxyActivity;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
+import com.ascba.rebate.activities.me_page.user_update_child.OpenProxyActivity;
 import com.ascba.rebate.adapter.PowerUpdateAdapter;
 import com.ascba.rebate.beans.Proxy;
 import com.ascba.rebate.beans.UpdateTitle;
@@ -16,11 +15,9 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
-import com.jaeger.library.StatusBarUtil;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;

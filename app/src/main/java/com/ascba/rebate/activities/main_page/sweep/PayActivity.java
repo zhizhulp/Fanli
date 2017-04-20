@@ -13,12 +13,11 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
-import com.jaeger.library.StatusBarUtil;
+import com.ascba.rebate.view.RoundImageView;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.rest.Request;
-import org.json.JSONObject;
+import com.yanzhenjie.nohttp.rest.Request;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import org.json.JSONObject;
 
 
 public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback {
@@ -31,7 +30,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
     private TextView tvTpye;
     private DialogManager dm;
     private String avatar;
-    private CircleImageView imageView;
+    private RoundImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class PayActivity extends BaseNetWorkActivity implements BaseNetWorkActiv
         dm=new DialogManager(this);
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.sweep_money));
         tvTpye = ((TextView) findViewById(R.id.tv_pay_type));
-        imageView = ((CircleImageView) findViewById(R.id.imageView));
+        imageView = ((RoundImageView) findViewById(R.id.imageView));
     }
 
     //获取支付方式，选择支付界面

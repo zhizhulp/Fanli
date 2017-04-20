@@ -72,7 +72,5 @@ public abstract class LazyFragment extends Base2Fragment {
      * 当视图初始化并且对用户可见的时候去真正的加载数据
      */
     protected abstract void lazyLoad();
-
-
 }
 

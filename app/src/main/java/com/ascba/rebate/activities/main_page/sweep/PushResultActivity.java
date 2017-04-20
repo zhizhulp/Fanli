@@ -9,15 +9,14 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetWorkActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
+import com.ascba.rebate.view.RoundImageView;
 import com.squareup.picasso.Picasso;
-import com.yolanda.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWorkActivity.Callback, MoneyBar.CallBack {
 
@@ -37,7 +36,7 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
     private String buy_time;//订单时间
     private String money;//订单金额
     private String pay_password;//订单密码
-    private CircleImageView imageView;
+    private RoundImageView imageView;
     private MoneyBar mb;
 
     @Override
@@ -96,7 +95,7 @@ public class PushResultActivity extends BaseNetWorkActivity implements BaseNetWo
         mb = ((MoneyBar) findViewById(R.id.mb));
         mb.setTailTitle("取消");
         mb.setCallBack(this);
-        imageView = ((CircleImageView) findViewById(R.id.usericon));
+        imageView = ((RoundImageView) findViewById(R.id.usericon));
         tvSellerName = ((TextView) findViewById(R.id.tv_seller_name));
         tvSellerAddress = ((TextView) findViewById(R.id.tv_seller_address));
         tvNo = ((TextView) findViewById(R.id.tv_trade_no));
