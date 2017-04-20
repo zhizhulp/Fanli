@@ -1047,7 +1047,7 @@ public class GoodsDetailsWorkActivity extends BaseNetWorkActivity implements Vie
         if (array != null && array.length() != 0) {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
-                int id = obj.optInt("id");
+                int id = obj.optInt("id");//商品规格id
                 int goods_id = obj.optInt("goods_id");
                 String goods_number = obj.optString("goods_number");
                 String spec_keys = obj.optString("spec_keys");
@@ -1188,8 +1188,9 @@ public class GoodsDetailsWorkActivity extends BaseNetWorkActivity implements Vie
             request.add("store_id", goods.getStoreId());
             request.add("goods_id", has_spec ==0 ? goods.getStoreId(): goodsSelect.getTitleId());
             request.add("goods_num", has_spec ==0 ? 1: nb.getNumber());
-            request.add("spec_keys", has_spec ==0 ? null : goodsSelect.getSpecKeys());
-            request.add("spec_names",has_spec ==0 ? null : goodsSelect.getSpecNames());
+            request.add("goods_spec_id", has_spec ==0 ? null: goodsSelect.getCartId());
+            /*request.add("spec_keys", has_spec ==0 ? null : goodsSelect.getSpecKeys());
+            request.add("spec_names",has_spec ==0 ? null : goodsSelect.getSpecNames());*/
 
         } else if (scene == 1) {//结算
             request.add("cart_ids", goodsSelect.getCartId());

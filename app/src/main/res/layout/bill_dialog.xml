@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/main_content_bg"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:gravity="center"
+        android:text="选择类型"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_line_height_normal"
+        android:background="@color/main_line_light_gray"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="10dp"
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_line_height_high"
+        android:background="@color/main_line_deep_gray"/>
+    <Button
+        android:id="@+id/btn_cancel"
+        android:background="@color/main_content_bg"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
+        android:text="取消"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+</LinearLayout>

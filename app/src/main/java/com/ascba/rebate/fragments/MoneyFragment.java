@@ -137,7 +137,8 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
                 startActivity(intent);
                 break;
             case R.id.me_lat_daifan://白积分
-
+                Intent intent4=new Intent(getActivity(), WhiteBillActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.me_lat_duihuan:
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateWorkActivity.class);

@@ -69,6 +69,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.MoneyBar);
         color = ta.getColor(R.styleable.MoneyBar_barBg,getResources().getColor(R.color.white));
         title = ta.getString(R.styleable.MoneyBar_textTitle);
+        String tail = ta.getString(R.styleable.MoneyBar_textTail);
         titleTextColor = ta.getColor(R.styleable.MoneyBar_titleColor,getResources().getColor(R.color.main_text_normal));
         needBack = ta.getBoolean(R.styleable.MoneyBar_needBack, true);
         needTailIcon= ta.getBoolean(R.styleable.MoneyBar_needTailIcon,false);
@@ -86,6 +87,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         if(needComplete){
             completeText.setVisibility(VISIBLE);
             completeText.setOnClickListener(this);
+            completeText.setText(tail);
         }
         //设置是否需要返回图标
         if( !needBack){

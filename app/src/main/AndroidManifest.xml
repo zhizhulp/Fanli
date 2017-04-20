@@ -221,7 +221,7 @@
         <activity
             android:name=".activities.TestWorkActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.main_page.CityList"
             android:screenOrientation="portrait"
@@ -621,7 +621,7 @@
         <activity
             android:name=".activities.BusiFlowRecordsWorkActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.shop.order.EvaluateDetailsWorkActivity"
             android:screenOrientation="portrait"
@@ -634,6 +634,10 @@
             android:name=".activities.shop.order.PayDetailsWorkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity android:name=".activities.me_page.WhiteBillActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"
+            />
     </application>
 
 </manifest>

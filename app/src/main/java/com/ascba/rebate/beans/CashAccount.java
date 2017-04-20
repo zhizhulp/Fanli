@@ -14,23 +14,11 @@ public class CashAccount implements Parcelable {
     private String filterText;//农业银行-提现
     private String status;//24小时内到账
     private int imgId;//图片
+    private String month;//账单所在月份
+
     private CashAccountType type;
 
-    public CashAccountType getType() {
-        return type;
-    }
 
-    public void setType(CashAccountType type) {
-        this.type = type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public CashAccount() {
     }
@@ -92,7 +80,21 @@ public class CashAccount implements Parcelable {
         this.time = time;
     }
 
+    public CashAccountType getType() {
+        return type;
+    }
 
+    public void setType(CashAccountType type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getMoney() {
         return money;
@@ -113,6 +115,14 @@ public class CashAccount implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
     }
 
     @Override

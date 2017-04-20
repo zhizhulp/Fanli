@@ -158,7 +158,7 @@ public class StdDialog extends Dialog {
         show();
         Window window = getWindow();
         if (window != null) {
-            //window.setWindowAnimations(R.style.goods_profile_anim);
+            window.setWindowAnimations(R.style.goods_profile_anim);
             window.setBackgroundDrawableResource(android.R.color.transparent);
             WindowManager.LayoutParams wlp = window.getAttributes();
             Display d = window.getWindowManager().getDefaultDisplay();

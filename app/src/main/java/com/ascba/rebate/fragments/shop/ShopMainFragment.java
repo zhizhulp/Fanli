@@ -212,8 +212,9 @@ public class ShopMainFragment extends Base2Fragment implements
             request = buildNetRequest(url, 0, true);
             request.add("goods_id",goodsSelect.getTitleId());
             request.add("goods_num",nb.getNumber());
-            request.add("spec_keys",goodsSelect.getSpecKeys());
-            request.add("spec_names",goodsSelect.getSpecNames());
+            request.add("goods_spec_id",goodsSelect.getTitleId());
+            /*request.add("spec_keys",goodsSelect.getSpecKeys());
+            request.add("spec_names",goodsSelect.getSpecNames());*/
         }else if(scene==2){//规格数据
             request = buildNetRequest(url, 0, true);
             request.add("goods_id", goodsId);
