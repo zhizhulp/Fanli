@@ -29,7 +29,7 @@ import org.json.JSONObject;
 /**
  * 网络界面的基类
  */
-public class BaseNetWork4Activity extends AppCompatActivity {
+public abstract class BaseNetWork4Activity extends AppCompatActivity {
     public static int REQUEST_LOGIN;
     private DialogManager2 dm;
     private Callback callback;
@@ -59,9 +59,17 @@ public class BaseNetWork4Activity extends AppCompatActivity {
         void handle404(String message);
 
         void handleNoNetWork();
-
-
     }
+
+    protected void mhandle200Data(int what, JSONObject dataObj, String message) {
+    }
+
+    protected void mhandle404(int what, String message) {
+    }
+
+    protected void mhandleNoNetWork(int what) {
+    }
+
 
     public interface PermissionCallback {
         void requestPermissionAndBack(boolean isOk);
@@ -153,6 +161,22 @@ public class BaseNetWork4Activity extends AppCompatActivity {
         dm.buildWaitDialog(message);
     }
 
+    //执行网络请求
+    public void executeNetWork(int what,Request<JSONObject> jsonRequest, String message) {
+
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if (!netAva) {
+            dm.buildAlertDialog(getResources().getString(R.string.no_network));
+            if (callback != null) {
+                callback.handleNoNetWork();
+            }
+            mhandleNoNetWork(what);
+            return;
+        }
+        MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
+        dm.buildWaitDialog(message);
+    }
+
     //取消执行网络请求
     public void cancelNetWork() {
         MyApplication.getRequestQueue().cancelAll();
@@ -205,6 +229,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
                     if (callback != null) {//对于200额外的处理
                         callback.handle200Data(dataObj, message);
                     }
+                    mhandle200Data(what,dataObj,message);
                 } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                     Intent intent = new Intent(BaseNetWork4Activity.this, LoginActivity.class);
                     AppConfig.getInstance().putInt("uuid", -1000);
@@ -214,6 +239,7 @@ public class BaseNetWork4Activity extends AppCompatActivity {
                     if (callback != null) {
                         callback.handle404(message);
                     }
+                    mhandle404(what,message);
                 } else if (status == 500) {
                     dm.buildAlertDialog(message);
                 } else if (status == 6) {

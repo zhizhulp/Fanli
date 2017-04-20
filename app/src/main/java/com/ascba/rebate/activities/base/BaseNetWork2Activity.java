@@ -22,20 +22,24 @@ import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * 网络界面的基类
  */
-public class BaseNetWork2Activity extends AppCompatActivity {
+public abstract class BaseNetWork2Activity extends AppCompatActivity {
     private DialogManager dm;
     private Callback callback;
     private int count;
 
 
-    public interface Callback{
+    public interface Callback {
         void handle200Data(JSONObject dataObj, String message) throws JSONException, Exception;
+    }
+
+    protected void mhandle200Data(int what, JSONObject dataObj, String message) {
     }
 
     public Callback getCallback() {
@@ -73,17 +77,32 @@ public class BaseNetWork2Activity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
     }
+
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
-        if(dm==null){
-            dm=new DialogManager(this);
+        if (dm == null) {
+            dm = new DialogManager(this);
         }
         boolean netAva = NetUtils.isNetworkAvailable(this);
-        if(!netAva){
+        if (!netAva) {
             dm.buildAlertDialog("请打开网络！");
             return;
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, new NetResponseListener());
+        dm.buildWaitDialog(message).showDialog();
+    }
+
+    //执行网络请求
+    public void executeNetWork(int what,Request<JSONObject> jsonRequest, String message) {
+        if (dm == null) {
+            dm = new DialogManager(this);
+        }
+        boolean netAva = NetUtils.isNetworkAvailable(this);
+        if (!netAva) {
+            dm.buildAlertDialog("请打开网络！");
+            return;
+        }
+        MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
         dm.buildWaitDialog(message).showDialog();
     }
 
@@ -94,14 +113,15 @@ public class BaseNetWork2Activity extends AppCompatActivity {
 
     /**
      * 建立网络请求
-     * @param url 请求网址
-     * @param method 请求方式 0 post 1 get
+     *
+     * @param url          请求网址
+     * @param method       请求方式 0 post 1 get
      * @param defaultParam 是否有默认请求参数
      * @return
      */
     public Request<JSONObject> buildNetRequest(String url, int method, boolean defaultParam) {
         Request<JSONObject> jsonRequest = NoHttp.createJsonObjectRequest(url, method == 0 ? RequestMethod.POST : RequestMethod.GET);
-        if(defaultParam){
+        if (defaultParam) {
             int uuid = AppConfig.getInstance().getInt("uuid", -1000);
             String token = AppConfig.getInstance().getString("token", "");
             long expiring_time = AppConfig.getInstance().getLong("expiring_time", -2000);
@@ -118,52 +138,53 @@ public class BaseNetWork2Activity extends AppCompatActivity {
 
         @Override
         public void onStart(int what) {
-            LogUtils.PrintLog("123","onStart"+count);
+            LogUtils.PrintLog("123", "onStart" + count);
             count++;
 
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            LogUtils.PrintLog("123","onSucceed"+count);
+            LogUtils.PrintLog("123", "onSucceed" + count);
             count++;
-            if(dm!=null){
+            if (dm != null) {
                 dm.dismissDialog();
             }
             JSONObject jObj = response.get();
             int status = jObj.optInt("status");
             String message = jObj.optString("msg");
-            if(status==200){
+            if (status == 200) {
                 JSONObject dataObj = jObj.optJSONObject("data");
                 int update_status = dataObj.optInt("update_status");
                 if (update_status == 1) {
                     AppConfig.getInstance().putString("token", dataObj.optString("token"));
                     AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
                 }
-                if(callback!=null){//对于200额外的处理
+                if (callback != null) {//对于200额外的处理
                     try {
-                        callback.handle200Data(dataObj,message);
+                        callback.handle200Data(dataObj, message);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-            } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                Intent intent = new Intent(BaseNetWork2Activity.this,LoginActivity.class);
-                AppConfig.getInstance().putInt("uuid",-1000);
+                mhandle200Data(what,dataObj,message);
+            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+                Intent intent = new Intent(BaseNetWork2Activity.this, LoginActivity.class);
+                AppConfig.getInstance().putInt("uuid", -1000);
                 startActivity(intent);
                 ((MyApplication) getApplication()).exit();
-            } else if(status==404){
+            } else if (status == 404) {
                 dm.buildAlertDialog(message);
-            } else if(status==500){
+            } else if (status == 500) {
                 dm.buildAlertDialog(message);
             }
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            LogUtils.PrintLog("123","onFailed"+count);
+            LogUtils.PrintLog("123", "onFailed" + count);
             count++;
-            if(dm!=null){
+            if (dm != null) {
                 dm.dismissDialog();
             }
             //请求失败的信息
@@ -174,9 +195,9 @@ public class BaseNetWork2Activity extends AppCompatActivity {
 
         @Override
         public void onFinish(int what) {
-            LogUtils.PrintLog("123","onFinish"+count);
+            LogUtils.PrintLog("123", "onFinish" + count);
             count++;
-            if(dm!=null){
+            if (dm != null) {
                 dm.dismissDialog();
             }
         }

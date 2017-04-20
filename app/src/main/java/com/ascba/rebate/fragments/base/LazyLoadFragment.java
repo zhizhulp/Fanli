@@ -2,11 +2,9 @@ package com.ascba.rebate.fragments.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 /**
  * Created by 李鹏 on 2017/04/13 0013.
@@ -72,14 +70,6 @@ public abstract class LazyLoadFragment extends Base2Fragment {
         super.onDestroyView();
         isInit = false;
         isLoad = false;
-
-    }
-
-    protected void showToast(String message) {
-        if (!TextUtils.isEmpty(message)) {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     /**
@@ -120,5 +110,6 @@ public abstract class LazyLoadFragment extends Base2Fragment {
      */
     protected void stopLoad() {
     }
+
 }
 

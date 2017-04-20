@@ -76,6 +76,7 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
         this.view = view;
     }
 
+
     /*
       获取列表数据
     */
@@ -96,6 +97,7 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
+
 
     /*
     初始化数据
@@ -338,4 +340,5 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
             requstListData();
         }
     }
+
 }
