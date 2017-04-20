@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.ascba.rebate.activities.main_page.RecQRWorkActivity">
+    tools:context="com.ascba.rebate.activities.main_page.RecQRActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="推广码"
         android:id="@+id/mb_rec_qr"

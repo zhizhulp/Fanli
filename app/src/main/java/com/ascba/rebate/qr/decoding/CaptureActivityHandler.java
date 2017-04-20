@@ -27,7 +27,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.ascba.rebate.qr.CaptureWorkActivity;
+import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.qr.MessageIDs;
 import com.ascba.rebate.qr.view.ViewfinderResultPointCallback;
 import com.google.zxing.BarcodeFormat;
@@ -43,7 +43,7 @@ public final class CaptureActivityHandler extends Handler {
 
   private static final String TAG = CaptureActivityHandler.class.getSimpleName();
 
-  private final CaptureWorkActivity activity;
+  private final CaptureActivity activity;
   private final DecodeThread decodeThread;
   private State state;
 
@@ -53,7 +53,7 @@ public final class CaptureActivityHandler extends Handler {
     DONE
   }
 
-  public CaptureActivityHandler(CaptureWorkActivity activity, Vector<BarcodeFormat> decodeFormats,
+  public CaptureActivityHandler(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats,
                                 String characterSet) {
     this.activity = activity;
     decodeThread = new DecodeThread(activity, decodeFormats, characterSet,

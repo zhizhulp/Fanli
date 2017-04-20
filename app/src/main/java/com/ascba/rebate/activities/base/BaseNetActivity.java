@@ -1,20 +1,10 @@
 package com.ascba.rebate.activities.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.content.Intent;
 
-import com.ascba.rebate.R;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.utils.NetUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.CacheMode;
-import com.yanzhenjie.nohttp.rest.OnResponseListener;
-import com.yanzhenjie.nohttp.rest.Request;
-import com.yanzhenjie.nohttp.rest.Response;
 
 import org.json.JSONObject;
 
@@ -22,128 +12,123 @@ import org.json.JSONObject;
  * Created by 李鹏 on 2017/04/20 0020.
  */
 
-public abstract class BaseNetActivity extends BaseActivity {
-
-    private DialogManager2 dialogManager;
+public abstract class BaseNetActivity extends BaseActivityNet {
+    public static int REQUEST_LOGIN;
+    private Callback callback;
+    private CallbackWhat callbackWhat;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (dialogManager == null) {
-            dialogManager = new DialogManager2(this);
+    protected void requstSuccess(int what, JSONObject jObj) {
+        try {
+            int status = jObj.optInt("status");
+            String message = jObj.optString("msg");
+            JSONObject dataObj = jObj.optJSONObject("data");
+            if (status == 200) {
+                int update_status = dataObj.optInt("update_status");
+                if (update_status == 1) {
+                    AppConfig.getInstance().putString("token", dataObj.optString("token"));
+                    AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
+                }
+                if (callback != null) {//对于200额外的处理
+                    callback.handle200Data(dataObj, message);
+                }
+                if (callbackWhat != null) {
+                    callbackWhat.handle200Data(what, dataObj, message);
+                }
+
+                mhandle200Data(what, jObj, dataObj, message);
+
+            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+                Intent intent = new Intent(this, LoginActivity.class);
+                AppConfig.getInstance().putInt("uuid", -1000);
+                startActivityForResult(intent, REQUEST_LOGIN);
+                ((MyApplication) getApplication()).exit();
+            } else if (status == 404) {
+                if (callback != null) {
+                    callback.handle404(message);
+                }
+                if (callbackWhat != null) {
+                    callbackWhat.handle404(what, message);
+                }
+                mhandle404(what, dataObj, message);
+            } else if (status == 500) {
+                getDm().buildAlertDialog(message);
+            } else if (status == 6) {
+                getDm().buildAlertDialog(message);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    //数据请求成功
-    protected abstract void requstSuccess(int what, JSONObject object);
-
-    //请求服务器失败
-    protected abstract void requstFailed(int what, Exception e);
-
-    //请求完成
-    protected abstract void requstFinish(int what);
-
-    protected abstract void isNetWork(boolean isNetWork);
-
-    /**
-     * 建立网络请求
-     *
-     * @param url          请求网址
-     * @param method       请求方式 0 post 1 get
-     * @param defaultParam 是否有默认请求参数
-     */
-    protected Request<JSONObject> buildNetRequest(String url, int method, boolean defaultParam) {
-        Request<JSONObject> jsonRequest = NoHttp.createJsonObjectRequest(url, method == 0 ? RequestMethod.POST : RequestMethod.GET);
-
-        if (hasCache()) {
-            jsonRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
-        }
-
-        if (defaultParam) {
-            int uuid = AppConfig.getInstance().getInt("uuid", -1000);
-            String token = AppConfig.getInstance().getString("token", "");
-            long expiring_time = AppConfig.getInstance().getLong("expiring_time", -2000);
-            jsonRequest.add("sign", UrlEncodeUtils.createSign(url));
-            jsonRequest.add("uuid", uuid);
-            jsonRequest.add("token", token);
-            jsonRequest.add("expiring_time", expiring_time);
-        }
-        return jsonRequest;
+    @Override
+    protected void requstFailed(int what, Exception e) {
+        mhandleFailed(what, e);
     }
 
-    //执行网络请求
-    protected void executeNetWork(int what, Request<JSONObject> jsonRequest, String message) {
-        boolean netAva = NetUtils.isNetworkAvailable(this);
-        isNetWork(netAva);
-        if (!netAva) {
-            dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
-            return;
+    @Override
+    protected void requstFinish(int what) {
+        try {
+            if (getDm() != null) {
+                getDm().dismissDialog();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
-        dialogManager.buildWaitDialog(message);
+        mhandleFinish(what);
     }
 
-    //执行网络请求
-    protected void executeNetWork(Request<JSONObject> jsonRequest, String message) {
-        boolean netAva = NetUtils.isNetworkAvailable(this);
-        isNetWork(netAva);
-        if (!netAva) {
-            dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
-            return;
-        }
-        MyApplication.getRequestQueue().add(0, jsonRequest, new NetResponseListener());
-        dialogManager.buildWaitDialog(message);
-    }
-
-
-    protected class NetResponseListener implements OnResponseListener<JSONObject> {
-        @Override
-        public void onStart(int what) {
-
-        }
-
-        @Override
-        public void onSucceed(int what, Response<JSONObject> response) {
-            requstSuccess(what, response.get());
-        }
-
-        @Override
-        public void onFailed(int what, Response<JSONObject> response) {
-            requstFailed(what, response.getException());
-        }
-
-        @Override
-        public void onFinish(int what) {
-            requstFinish(what);
+    @Override
+    protected void isNetWork(boolean isNetWork) {
+        if (!isNetWork) {
+            //没网
+            if (callback != null) {
+                callback.handleNoNetWork();
+            }
+            if (callbackWhat != null) {
+                callbackWhat.handleNoNetWork();
+            }
         }
     }
 
-    /**
-     * 获取DialogManager
-     *
-     * @return
-     */
-    public DialogManager2 getDm() {
-        if (dialogManager == null) {
-            dialogManager = new DialogManager2(this);
-        }
-        dialogManager.dismissDialog();
-        return dialogManager;
+    protected void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
-    /**
-     * 取消执行网络请求
-     */
-    protected void cancelNetWork() {
-        MyApplication.getRequestQueue().cancelAll();
+    public interface Callback {
+        void handle200Data(JSONObject dataObj, String message);
+
+        void handle404(String message);
+
+        void handleNoNetWork();
     }
 
-    /**
-     * 是否启用缓存
-     *
-     * @return
-     */
-    protected boolean hasCache() {
-        return false;
+    protected void setCallbackWhat(CallbackWhat callbackWhat) {
+        this.callbackWhat = callbackWhat;
+    }
+
+    protected interface CallbackWhat {
+        void handle200Data(int what, JSONObject dataObj, String message);
+
+        void handle404(int what, String message);
+
+        void handleNoNetWork();
+    }
+
+
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+    }
+
+    protected void mhandle404(int what, JSONObject object, String message) {
+    }
+
+    protected void mhandleFinish(int what) {
+    }
+
+    protected void mhandleFailed(int what, Exception e) {
+    }
+
+    public static void setRequestCode(int requestLogin) {
+        REQUEST_LOGIN = requestLogin;
     }
 }

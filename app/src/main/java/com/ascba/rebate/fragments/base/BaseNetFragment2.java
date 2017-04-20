@@ -2,7 +2,7 @@ package com.ascba.rebate.fragments.base;
 
 import android.support.v4.app.FragmentActivity;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.main.MainWorkActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager2;
@@ -66,8 +66,8 @@ public abstract class BaseNetFragment2 extends BaseNetFragment {
     protected void executeNetWork(int what, Request<JSONObject> jsonRequest, String message) {
 
         FragmentActivity activity = getActivity();
-        if (activity instanceof MainWorkActivity) {
-            dialogManager = ((MainWorkActivity) activity).getDm();
+        if (activity instanceof MainActivity) {
+            dialogManager = ((MainActivity) activity).getDm();
         } else {
             if (dialogManager == null) {
                 dialogManager = new DialogManager2(getActivity());
@@ -87,8 +87,8 @@ public abstract class BaseNetFragment2 extends BaseNetFragment {
     //执行网络请求
     protected void executeNetWork(Request<JSONObject> jsonRequest, String message) {
         FragmentActivity activity = getActivity();
-        if (activity instanceof MainWorkActivity) {
-            dialogManager = ((MainWorkActivity) activity).getDm();
+        if (activity instanceof MainActivity) {
+            dialogManager = ((MainActivity) activity).getDm();
         } else {
             if (dialogManager == null) {
                 dialogManager = new DialogManager2(getActivity());

@@ -9,20 +9,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.BusinessUnionWorkActivity;
-import com.ascba.rebate.activities.ProxyDetWorkActivity;
-import com.ascba.rebate.activities.ShopMessageWorkActivity;
-import com.ascba.rebate.activities.main_page.RecQRWorkActivity;
-import com.ascba.rebate.activities.me_page.CardWorkActivity;
-import com.ascba.rebate.activities.me_page.MyAwardWorkActivity;
-import com.ascba.rebate.activities.me_page.MyRecWorkActivity;
-import com.ascba.rebate.activities.me_page.UserUpdateWorkActivity;
-import com.ascba.rebate.activities.me_page.bank_card_child.AddCardWorkActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataWorkActivity;
-import com.ascba.rebate.activities.me_page.settings.SettingWorkActivity;
-import com.ascba.rebate.activities.me_page.settings.child.PersonalDataWorkActivity;
-import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmWorkActivity;
-import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessWorkActivity;
+import com.ascba.rebate.activities.BusinessUnionActivity;
+import com.ascba.rebate.activities.ProxyDetActivity;
+import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.activities.me_page.CardActivity;
+import com.ascba.rebate.activities.me_page.MyAwardActivity;
+import com.ascba.rebate.activities.me_page.MyRecActivity;
+import com.ascba.rebate.activities.me_page.UserUpdateActivity;
+import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
+import com.ascba.rebate.activities.me_page.settings.SettingActivity;
+import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
+import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
+import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
@@ -157,19 +157,19 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.me_user_img://用户头像
-                Intent intent = new Intent(getActivity(), PersonalDataWorkActivity.class);
+                Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
                 startActivity(intent);
                 break;
             case R.id.me_lat_tuiguang://推广
-                Intent intent4 = new Intent(getActivity(), MyRecWorkActivity.class);
+                Intent intent4 = new Intent(getActivity(), MyRecActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.me_lat_jiangli://奖励
-                Intent intent5 = new Intent(getActivity(), MyAwardWorkActivity.class);
+                Intent intent5 = new Intent(getActivity(), MyAwardActivity.class);
                 startActivity(intent5);
                 break;
             case R.id.me_lat_power://会员特权
-                Intent intent1 = new Intent(getActivity(), UserUpdateWorkActivity.class);
+                Intent intent1 = new Intent(getActivity(), UserUpdateActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.me_lat_smrz://实名认证
@@ -180,17 +180,17 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
                 requestData(UrlUtils.user, 1);
                 break;
             case R.id.me_lat_dlzq://代理专区
-                Intent intent6 = new Intent(getActivity(), ProxyDetWorkActivity.class);
+                Intent intent6 = new Intent(getActivity(), ProxyDetActivity.class);
                 startActivity(intent6);
                 break;
             case R.id.me_lat_msg://消息
-                ShopMessageWorkActivity.startIntent(getActivity());
+                ShopMessageActivity.startIntent(getActivity());
                 break;
             case R.id.setting_my_qr://我的推广码
-                startActivity(new Intent(getActivity(), RecQRWorkActivity.class));
+                startActivity(new Intent(getActivity(), RecQRActivity.class));
                 break;
             case R.id.me_lat_setting://设置
-                Intent intent2 = new Intent(getActivity(), SettingWorkActivity.class);
+                Intent intent2 = new Intent(getActivity(), SettingActivity.class);
                 startActivity(intent2);
                 break;
 
@@ -209,7 +209,7 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
         if (finalScene == 0) {
             int isCardId = dataObj.optInt("isCardId");
             if (isCardId == 0) {
-                Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
+                Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                 startActivity(intent);
             } else {
                 JSONObject cardData = dataObj.optJSONObject("cardInfo");
@@ -218,7 +218,7 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
                 int sex = cardData.optInt("sex");
                 int age = cardData.optInt("age");
                 String location = cardData.optString("location");
-                Intent intent1 = new Intent(getActivity(), RealNameSuccessWorkActivity.class);
+                Intent intent1 = new Intent(getActivity(), RealNameSuccessActivity.class);
                 intent1.putExtra("realname", realname);
                 intent1.putExtra("cardid", cardid);
                 intent1.putExtra("sex", sex);
@@ -234,14 +234,14 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
             int merchant = infoObj.optInt("merchant");
             if (merchant == 3) {
                 if (seller_status == 3) {
-                    Intent intent = new Intent(getActivity(), BusinessUnionWorkActivity.class);
+                    Intent intent = new Intent(getActivity(), BusinessUnionActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(getActivity(), BusinessDataWorkActivity.class);
+                    Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
                     startActivity(intent);
                 }
             } else {
-                Intent intent = new Intent(getActivity(), BusinessDataWorkActivity.class);
+                Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
                 startActivity(intent);
             }
 
@@ -255,18 +255,18 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
                     @Override
                     public void handleSure() {
                         dm.dismissDialog();
-                        Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
+                        Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                         startActivity(intent);
                     }
                 });
             } else {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
                 if (isBankCard == 0) {
-                    Intent intent = new Intent(getActivity(), AddCardWorkActivity.class);
+                    Intent intent = new Intent(getActivity(), AddCardActivity.class);
                     intent.putExtra("realname", cardObj.optString("realname"));
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(getActivity(), CardWorkActivity.class);
+                    Intent intent = new Intent(getActivity(), CardActivity.class);
                     startActivity(intent);
                 }
             }

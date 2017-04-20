@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ascba.rebate.activities.base.BaseNetWorkActivity;
-import com.ascba.rebate.activities.login.LoginWorkActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 
 import org.json.JSONObject;
@@ -89,9 +89,9 @@ public abstract class BaseNetFragment3 extends BaseNetFragment2 {
 
                 mhandle200Data(what, jObj, dataObj, message);
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
-                Intent intent = new Intent(getActivity(), LoginWorkActivity.class);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 AppConfig.getInstance().putInt("uuid", -1000);
-                getActivity().startActivityForResult(intent, BaseNetWorkActivity.REQUEST_LOGIN);
+                getActivity().startActivityForResult(intent, BaseNetActivity.REQUEST_LOGIN);
             } else if (status == 404) {
                 if (callback != null) {
                     callback.handle404(message, dataObj);

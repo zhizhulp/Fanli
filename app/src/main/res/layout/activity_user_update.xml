@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.activities.me_page.UserUpdateWorkActivity">
+    tools:context="com.ascba.rebate.activities.me_page.UserUpdateActivity">
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/mb"
         android:layout_width="match_parent"

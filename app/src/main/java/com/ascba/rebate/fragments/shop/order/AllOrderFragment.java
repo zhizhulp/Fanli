@@ -9,11 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.GoodsDetailsWorkActivity;
-import com.ascba.rebate.activities.shop.order.DeliverDetailsWorkActivity;
-import com.ascba.rebate.activities.shop.order.EvaluateDetailsWorkActivity;
-import com.ascba.rebate.activities.shop.order.PayDetailsWorkActivity;
-import com.ascba.rebate.activities.shop.order.TakeDetailsWorkActivity;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
+import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
+import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
+import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -238,21 +238,21 @@ public class AllOrderFragment extends LazyLoadFragment implements Base2Fragment.
                             String orderStatus = beanArrayList.get(position).getStateCode();
                             if (orderStatus.equals("10")) {
                                 //等待卖家付款
-                                intent.setClass(context, PayDetailsWorkActivity.class);
+                                intent.setClass(context, PayDetailsActivity.class);
                             } else if (orderStatus.equals("0")) {
                                 //交易关闭,查看商品详情
                                 intent = null;
                                 int goodId = beanArrayList.get(position).getGoods().getTitleId();
-                                GoodsDetailsWorkActivity.startIntent(getActivity(), goodId);
+                                GoodsDetailsActivity.startIntent(getActivity(), goodId);
                             } else if (orderStatus.equals("20")) {
                                 //等待卖家发货
-                                intent.setClass(context, DeliverDetailsWorkActivity.class);
+                                intent.setClass(context, DeliverDetailsActivity.class);
                             } else if (orderStatus.equals("30")) {
                                 //等待买家收货
-                                intent.setClass(context, TakeDetailsWorkActivity.class);
+                                intent.setClass(context, TakeDetailsActivity.class);
                             } else if (orderStatus.equals("40")) {
                                 //交易成功
-                                intent.setClass(context, EvaluateDetailsWorkActivity.class);
+                                intent.setClass(context, EvaluateDetailsActivity.class);
                             }
 
                             if (intent != null) {

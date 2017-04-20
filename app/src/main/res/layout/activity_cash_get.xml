@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.rebate.activities.me_page.AccountRechargeWorkActivity">
+    tools:context="com.ascba.rebate.activities.me_page.AccountRechargeActivity">
     <com.ascba.rebate.view.MoneyBar
         app:needComplete="true"
         android:id="@+id/mb"

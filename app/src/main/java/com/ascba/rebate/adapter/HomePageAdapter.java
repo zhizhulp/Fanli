@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.PlayVideoWorkActivity;
+import com.ascba.rebate.activities.PlayVideoActivity;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingVideoPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
@@ -174,7 +174,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
         adapter.addOnClick(new ShufflingVideoAdapter.OnClick() {
             @Override
             public void OnClick(int position) {
-                PlayVideoWorkActivity.newIndexIntent(context, item.getVideoList().get(position).getVideoUrl());
+                PlayVideoActivity.newIndexIntent(context, item.getVideoList().get(position).getVideoUrl());
             }
         });
     }

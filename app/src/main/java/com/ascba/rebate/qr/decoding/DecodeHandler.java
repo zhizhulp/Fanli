@@ -24,7 +24,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.ascba.rebate.qr.CaptureWorkActivity;
+import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.qr.MessageIDs;
 import com.ascba.rebate.qr.camera.PlanarYUVLuminanceSource;
 import com.google.zxing.BinaryBitmap;
@@ -37,10 +37,10 @@ final class DecodeHandler extends Handler {
 
 	private static final String TAG = DecodeHandler.class.getSimpleName();
 
-	private final CaptureWorkActivity activity;
+	private final CaptureActivity activity;
 	private final MultiFormatReader multiFormatReader;
 
-	DecodeHandler(CaptureWorkActivity activity, Hashtable<DecodeHintType, Object> hints) {
+	DecodeHandler(CaptureActivity activity, Hashtable<DecodeHintType, Object> hints) {
 		multiFormatReader = new MultiFormatReader();
 		multiFormatReader.setHints(hints);
 		this.activity = activity;

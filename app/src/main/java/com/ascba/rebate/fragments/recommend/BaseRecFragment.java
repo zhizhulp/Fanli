@@ -67,7 +67,7 @@ public class BaseRecFragment extends Base2Fragment implements Base2Fragment.Call
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dm = new DialogManager(getActivity());
-        /*((MyRecWorkActivity) getActivity()).setListener(new MyRecWorkActivity.Listener() {
+        /*((MyRecActivity) getActivity()).setListener(new MyRecActivity.Listener() {
             @Override
             public void onDataTypeClick(int id, int type) {
                 classes = type;

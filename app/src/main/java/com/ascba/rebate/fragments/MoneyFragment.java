@@ -8,16 +8,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.TransactionRecordsWorkActivity;
-import com.ascba.rebate.activities.me_page.AccountRechargeWorkActivity;
-import com.ascba.rebate.activities.me_page.AllAccountWorkActivity;
-import com.ascba.rebate.activities.me_page.CardWorkActivity;
-import com.ascba.rebate.activities.me_page.CashGetWorkActivity;
-import com.ascba.rebate.activities.me_page.RedScoreUpdateWorkActivity;
-import com.ascba.rebate.activities.me_page.TicketWorkActivity;
-import com.ascba.rebate.activities.me_page.WhiteScoreWorkActivity;
-import com.ascba.rebate.activities.me_page.bank_card_child.AddCardWorkActivity;
-import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmWorkActivity;
+import com.ascba.rebate.activities.TransactionRecordsActivity;
+import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
+import com.ascba.rebate.activities.me_page.AllAccountActivity;
+import com.ascba.rebate.activities.me_page.CardActivity;
+import com.ascba.rebate.activities.me_page.CashGetActivity;
+import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
+import com.ascba.rebate.activities.me_page.TicketActivity;
+import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
+import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
+import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.Base2Fragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
@@ -133,7 +133,7 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.me_account:
-                Intent intent = new Intent(getActivity(), AllAccountWorkActivity.class);
+                Intent intent = new Intent(getActivity(), AllAccountActivity.class);
                 startActivity(intent);
                 break;
             case R.id.me_lat_daifan://白积分
@@ -141,28 +141,28 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
                 startActivity(intent4);
                 break;
             case R.id.me_lat_duihuan:
-                Intent intent3 = new Intent(getActivity(), RedScoreUpdateWorkActivity.class);
+                Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
                 startActivity(intent3);
                 break;
             case R.id.me_lat_jiaoyi://兑现券
-                Intent intent1 = new Intent(getActivity(), WhiteScoreWorkActivity.class);
+                Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.me_lat_djq:
-                Intent intent8 = new Intent(getActivity(), TicketWorkActivity.class);
+                Intent intent8 = new Intent(getActivity(), TicketActivity.class);
                 startActivity(intent8);
                 break;
             case R.id.me_lat_grzh://提现
                 requestMyData(3);//检查是否实名
                 break;
             case R.id.me_lat_fyzh://返佣账户
-                /*Intent intent4=new Intent(getActivity(), CommissionWorkActivity.class);
+                /*Intent intent4=new Intent(getActivity(), CommissionActivity.class);
                 startActivity(intent4);*/
-                Intent intent6=new Intent(getActivity(),TransactionRecordsWorkActivity.class);
+                Intent intent6=new Intent(getActivity(),TransactionRecordsActivity.class);
                 startActivity(intent6);
                 break;
             case R.id.me_lat_chongzhi:
-                Intent intent2 = new Intent(getActivity(), AccountRechargeWorkActivity.class);
+                Intent intent2 = new Intent(getActivity(), AccountRechargeActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.me_lat_bank:
@@ -200,18 +200,18 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
                     @Override
                     public void handleSure() {
                         dm.dismissDialog();
-                        Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
+                        Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                         startActivity(intent);
                     }
                 });
             } else {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
                 if (isBankCard == 0) {
-                    Intent intent = new Intent(getActivity(), AddCardWorkActivity.class);
+                    Intent intent = new Intent(getActivity(), AddCardActivity.class);
                     intent.putExtra("realname", cardObj.optString("realname"));
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(getActivity(), CardWorkActivity.class);
+                    Intent intent = new Intent(getActivity(), CardActivity.class);
                     startActivity(intent);
                 }
             }
@@ -239,13 +239,13 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
                     @Override
                     public void handleSure() {
                         dm.dismissDialog();
-                        Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
+                        Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                         startActivity(intent);
                     }
                 });
             } else {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
-                Intent intent = new Intent(getActivity(), CashGetWorkActivity.class);
+                Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
                 startActivity(intent);

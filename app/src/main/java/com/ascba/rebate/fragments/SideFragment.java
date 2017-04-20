@@ -24,7 +24,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.main_page.BusinessDetailsWorkActivity;
+import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.adapter.BusAdapter;
 import com.ascba.rebate.beans.Business;
@@ -126,7 +126,7 @@ public class SideFragment extends Base2Fragment implements SuperSwipeRefreshLayo
         busRV.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(getActivity(), BusinessDetailsWorkActivity.class);
+                Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
                 Business business = data.get(position);
                 intent.putExtra("business_id", business.getId());
                 startActivity(intent);

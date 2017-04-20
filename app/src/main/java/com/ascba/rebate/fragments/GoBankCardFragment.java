@@ -17,9 +17,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.bank_card_child.AddCardWorkActivity;
+import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.cash_get_child.CashGetSuccActivity;
-import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmWorkActivity;
+import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.adapter.BankAdapter;
 import com.ascba.rebate.beans.Card;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -159,7 +159,7 @@ public class GoBankCardFragment extends Base2Fragment implements Base2Fragment.C
                 getActivity().getWindow().setAttributes(params);
                 break;
             case R.id.when_no_card:
-                Intent intent = new Intent(getActivity(), AddCardWorkActivity.class);
+                Intent intent = new Intent(getActivity(), AddCardActivity.class);
                 intent.putExtra("realname", realname);
                 startActivity(intent);
                 break;
@@ -194,7 +194,7 @@ public class GoBankCardFragment extends Base2Fragment implements Base2Fragment.C
                     dm.setCallback(new DialogManager.Callback() {
                         @Override
                         public void handleSure() {
-                            Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
+                            Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                             startActivity(intent);
                             //finish();
                         }
@@ -207,7 +207,7 @@ public class GoBankCardFragment extends Base2Fragment implements Base2Fragment.C
                         @Override
                         public void handleSure() {
                             dm.dismissDialog();
-                            Intent intent = new Intent(getActivity(), AddCardWorkActivity.class);
+                            Intent intent = new Intent(getActivity(), AddCardActivity.class);
                             intent.putExtra("realname", realname);
                             startActivity(intent);
                             //finish();
@@ -263,7 +263,7 @@ public class GoBankCardFragment extends Base2Fragment implements Base2Fragment.C
                     @Override
                     public void handleSure() {
                         dm.dismissDialog();
-                        Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
+                        Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                         startActivity(intent);
                     }
                 });

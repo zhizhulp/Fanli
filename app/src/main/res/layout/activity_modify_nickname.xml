@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameWorkActivity">
+    tools:context="com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity">
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/mb"
         app:needComplete="true"

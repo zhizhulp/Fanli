@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.order.EvaluateDetailsWorkActivity;
+import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.adapter.order.EvaluateOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -184,7 +184,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements Base2Frag
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
                         if (orderId != null) {
-                            Intent intent = new Intent(context, EvaluateDetailsWorkActivity.class);
+                            Intent intent = new Intent(context, EvaluateDetailsActivity.class);
                             intent.putExtra("order_id", orderId);
                             startActivityForResult(intent, 1);
                         }

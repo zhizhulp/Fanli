@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.TicketWorkActivity;
+import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.view.MoneyBar;
 
 public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
@@ -39,7 +39,7 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
 
     //进入代金券列表
     public void goAcc(View view) {
-        Intent intent=new Intent(this,TicketWorkActivity.class);
+        Intent intent=new Intent(this,TicketActivity.class);
         startActivity(intent);
     }
 

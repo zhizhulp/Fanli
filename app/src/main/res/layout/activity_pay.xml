@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.rebate.activities.main_page.sweep.PayWorkActivity">
+    tools:context="com.ascba.rebate.activities.main_page.sweep.PayActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="扫一扫支付"
         android:layout_width="match_parent"

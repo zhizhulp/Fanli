@@ -10,7 +10,7 @@ import android.view.WindowManager;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.guide.GuideActivity;
-import com.ascba.rebate.activities.main.MainWorkActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 
 
@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
                     SplashActivity.this.finish();
                 } else {
-                    startActivity(new Intent(SplashActivity.this, MainWorkActivity.class));
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     SplashActivity.this.finish();
                 }
 

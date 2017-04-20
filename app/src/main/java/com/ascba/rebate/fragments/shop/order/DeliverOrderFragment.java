@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.order.DeliverDetailsWorkActivity;
+import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -193,7 +193,7 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsWorkActivity.class);
+                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
                         intent.putExtra("order_id", orderId);
                         startActivityForResult(intent, 1);
                         break;

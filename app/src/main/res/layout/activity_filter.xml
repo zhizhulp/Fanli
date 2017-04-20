@@ -5,7 +5,7 @@
     android:id="@+id/activity_filter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.activities.FilterWorkActivity">
+    tools:context="com.ascba.rebate.activities.FilterActivity">
     <com.ascba.rebate.view.ShopABarText
         app:abar_title="筛选"
         android:id="@+id/sab"

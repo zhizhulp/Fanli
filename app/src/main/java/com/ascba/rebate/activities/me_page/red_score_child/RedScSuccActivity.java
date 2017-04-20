@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.AllAccountWorkActivity;
+import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.view.MoneyBar;
 
@@ -36,7 +36,7 @@ public class RedScSuccActivity extends AppCompatActivity implements MoneyBar.Cal
     }
     //进入查看账单页面
     public void goAcc(View view) {
-        Intent intent=new Intent(this,AllAccountWorkActivity.class);
+        Intent intent=new Intent(this,AllAccountActivity.class);
         intent.putExtra("order",2);
         startActivity(intent);
     }

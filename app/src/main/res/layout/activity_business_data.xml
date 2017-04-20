@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataWorkActivity">
+    tools:context="com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="商家资料"
         android:layout_width="match_parent"

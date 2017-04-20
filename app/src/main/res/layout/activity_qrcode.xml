@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/my_qr_bg"
-    tools:context="com.ascba.rebate.activities.me_page.settings.child.QRCodeWorkActivity">
+    tools:context="com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity">
     <com.ascba.rebate.view.MoneyBar
         app:backImg="@mipmap/money_bar_back"
         app:titleColor="@color/white"

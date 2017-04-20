@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.AccountRechargeWorkActivity;
-import com.ascba.rebate.activities.me_page.AllAccountWorkActivity;
+import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
+import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.IDsUtils;
@@ -59,7 +59,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler,M
 
         switch (MyApplication.payType){
             case 0://充值
-                Intent intent=new Intent(this,AccountRechargeWorkActivity.class);
+                Intent intent=new Intent(this,AccountRechargeActivity.class);
                 intent.putExtra("res_code",finalErrorCode);
 
                 if(errCode==0){//成功
@@ -91,7 +91,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler,M
 
 	//进入查看账单页面
 	public void goAcc(View view) {
-		Intent intent=new Intent(this,AllAccountWorkActivity.class);
+		Intent intent=new Intent(this,AllAccountActivity.class);
 		intent.putExtra("order",3);
 		startActivity(intent);
 	}
@@ -103,7 +103,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler,M
 
 	@Override
 	public void clickComplete(View tv) {
-		Intent intent=new Intent(this,AccountRechargeWorkActivity.class);
+		Intent intent=new Intent(this,AccountRechargeActivity.class);
 		intent.putExtra("res_code",finalErrorCode);
 		startActivity(intent);
 	}

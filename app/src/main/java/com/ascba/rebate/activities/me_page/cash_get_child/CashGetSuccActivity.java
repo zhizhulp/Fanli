@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.AllAccountWorkActivity;
+import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.view.MoneyBar;
 
 public class CashGetSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
@@ -25,7 +25,7 @@ public class CashGetSuccActivity extends AppCompatActivity implements MoneyBar.C
     }
 
     public void goAcc(View view) {
-        Intent intent=new Intent(this,AllAccountWorkActivity.class);
+        Intent intent=new Intent(this,AllAccountActivity.class);
         intent.putExtra("order",1);
         startActivity(intent);
     }

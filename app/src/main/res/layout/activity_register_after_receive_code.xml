@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/main_content_bg"
-    tools:context="com.ascba.rebate.activities.register.RegisterAfterReceiveCodeWorkActivity">
+    tools:context="com.ascba.rebate.activities.register.RegisterAfterReceiveCodeActivity">
     <com.ascba.rebate.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

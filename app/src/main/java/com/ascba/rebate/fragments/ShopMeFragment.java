@@ -12,11 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.BeginnerGuideWorkActivity;
-import com.ascba.rebate.activities.MyOrderWorkActivity;
-import com.ascba.rebate.activities.ReceiveAddressWorkActivity;
-import com.ascba.rebate.activities.RefundOrderWorkActivity;
-import com.ascba.rebate.activities.ShopMessageWorkActivity;
+import com.ascba.rebate.activities.BeginnerGuideActivity;
+import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.ReceiveAddressActivity;
+import com.ascba.rebate.activities.RefundOrderActivity;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
@@ -98,7 +98,7 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
         view.findViewById(R.id.activity_pc_item_head_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShopMessageWorkActivity.startIntent(getActivity());
+                ShopMessageActivity.startIntent(getActivity());
             }
         });
 
@@ -114,36 +114,36 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
                 switch (position) {
                     case 1:
                         //全部订单
-                        MyOrderWorkActivity.startIntent(getActivity(), 0, orderMsg);
+                        MyOrderActivity.startIntent(getActivity(), 0, orderMsg);
                         break;
                     case 3:
                         //待付款
-                        MyOrderWorkActivity.startIntent(getActivity(), 1, orderMsg);
+                        MyOrderActivity.startIntent(getActivity(), 1, orderMsg);
                         break;
                     case 4:
                         //待发货
-                        MyOrderWorkActivity.startIntent(getActivity(), 2, orderMsg);
+                        MyOrderActivity.startIntent(getActivity(), 2, orderMsg);
                         break;
                     case 5:
                         //已成交
-                        MyOrderWorkActivity.startIntent(getActivity(), 3, orderMsg);
+                        MyOrderActivity.startIntent(getActivity(), 3, orderMsg);
                         break;
                     case 6:
                         //待评价
-                        MyOrderWorkActivity.startIntent(getActivity(), 4, orderMsg);
+                        MyOrderActivity.startIntent(getActivity(), 4, orderMsg);
                         break;
                     case 7:
                         //退货
-                        RefundOrderWorkActivity.startIntent(getActivity());
+                        RefundOrderActivity.startIntent(getActivity());
                         break;
                     case 9:
                         //新手指南
-                        Intent intent1 = new Intent(getContext(), BeginnerGuideWorkActivity.class);
+                        Intent intent1 = new Intent(getContext(), BeginnerGuideActivity.class);
                         startActivity(intent1);
                         break;
                     case 17:
                         //收货地址管理
-                        Intent intent = new Intent(getActivity(), ReceiveAddressWorkActivity.class);
+                        Intent intent = new Intent(getActivity(), ReceiveAddressActivity.class);
                         startActivity(intent);
                         break;
                     case 19:

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.ascba.rebate.activities.main_page.sweep.PushResultWorkActivity;
+import com.ascba.rebate.activities.main_page.sweep.PushResultActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +53,7 @@ public class MyReceiver extends BroadcastReceiver {
 				String from_msg_type = jObj.getString("from_msg_type");
 				if("notify".equals(from_msg_type)){
 					//打开自定义的Activity
-					Intent i = new Intent(context, PushResultWorkActivity.class);
+					Intent i = new Intent(context, PushResultActivity.class);
 					i.putExtras(bundle);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
 					context.startActivity(i);
@@ -90,7 +90,7 @@ public class MyReceiver extends BroadcastReceiver {
 		builder.setContentText(message);  //设置通知的正文
 
 		//获取点击通知之后需要跳转的Intent对象
-		Intent messageIntent = new Intent(context, PushResultWorkActivity.class);
+		Intent messageIntent = new Intent(context, PushResultActivity.class);
 		messageIntent.putExtra("title", title == null ? "Message From JPush" : title);
 		messageIntent.putExtra("content", message);
 		messageIntent.putExtra("extra", extra);
@@ -142,18 +142,18 @@ public class MyReceiver extends BroadcastReceiver {
 		return sb.toString();
 	}
 	
-	//send msg to MainWorkActivity
+	//send msg to MainActivity
 	/*private void processCustomMessage(Context context, Bundle bundle) {
-		if (MainWorkActivity.isForeground) {
+		if (MainActivity.isForeground) {
 			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-			Intent msgIntent = new Intent(MainWorkActivity.MESSAGE_RECEIVED_ACTION);
-			msgIntent.putExtra(MainWorkActivity.KEY_MESSAGE, message);
+			Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
+			msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
 			if (!isEmpty(extras)) {
 				try {
 					JSONObject extraJson = new JSONObject(extras);
 					if (null != extraJson && extraJson.length() > 0) {
-						msgIntent.putExtra(MainWorkActivity.KEY_EXTRAS, extras);
+						msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
 					}
 				} catch (JSONException e) {
 
