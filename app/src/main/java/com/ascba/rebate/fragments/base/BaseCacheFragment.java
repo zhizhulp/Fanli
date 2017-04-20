@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetWork4Activity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.main.MainActivity;
+import com.ascba.rebate.activities.base.BaseNetWorkActivity;
+import com.ascba.rebate.activities.login.LoginWorkActivity;
+import com.ascba.rebate.activities.main.MainWorkActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager2;
@@ -122,8 +122,8 @@ public class BaseCacheFragment extends Fragment {
     //执行网络请求
     public void executeNetWork(Request<JSONObject> jsonRequest, String message) {
         FragmentActivity activity = getActivity();
-        if (activity instanceof MainActivity) {
-            dm = ((MainActivity) activity).getDm();
+        if (activity instanceof MainWorkActivity) {
+            dm = ((MainWorkActivity) activity).getDm();
         } else {
             if (dm == null) {
                 dm = new DialogManager2(getActivity());
@@ -199,9 +199,9 @@ public class BaseCacheFragment extends Fragment {
                         callback.handle200Data(dataObj, message);
                     }
                 } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    Intent intent = new Intent(getActivity(), LoginWorkActivity.class);
                     AppConfig.getInstance().putInt("uuid", -1000);
-                    startActivityForResult(intent, BaseNetWork4Activity.REQUEST_LOGIN);
+                    startActivityForResult(intent, BaseNetWorkActivity.REQUEST_LOGIN);
                     if (callback != null) {//重新登录的处理
                         callback.handleReLogin();
                     }

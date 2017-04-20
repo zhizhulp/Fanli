@@ -17,11 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.GoodsDetailsActivity;
-import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.shop.ShopActivity;
-import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
+import com.ascba.rebate.activities.GoodsDetailsWorkActivity;
+import com.ascba.rebate.activities.ShopMessageWorkActivity;
+import com.ascba.rebate.activities.login.LoginWorkActivity;
+import com.ascba.rebate.activities.shop.ShopWorkActivity;
+import com.ascba.rebate.activities.supermaket.TypeMarketWorkActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -132,7 +132,7 @@ public class ShopMainFragment extends Base2Fragment implements
         messageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShopMessageActivity.startIntent(getActivity());
+                ShopMessageWorkActivity.startIntent(getActivity());
             }
         });
 
@@ -140,9 +140,9 @@ public class ShopMainFragment extends Base2Fragment implements
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
 
-        ShopActivity a = (ShopActivity) getActivity();
+        ShopWorkActivity a = (ShopWorkActivity) getActivity();
         //初始化加入购物车动画
-        bezierCurveAnimater = new BezierCurveAnimater(a, ((RelativeLayout) a.findViewById(R.id.second_rr)), ((ShopActivity) getActivity()).getShopTabs().getImThree());
+        bezierCurveAnimater = new BezierCurveAnimater(a, ((RelativeLayout) a.findViewById(R.id.second_rr)), ((ShopWorkActivity) getActivity()).getShopTabs().getImThree());
 
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -150,9 +150,9 @@ public class ShopMainFragment extends Base2Fragment implements
                 ShopBaseItem shopBaseItem = data.get(position);
                 if (data.size() != 0) {
                     if (shopBaseItem.getItemType() == ShopItemType.TYPE_GOODS) {
-                        GoodsDetailsActivity.startIntent(getActivity(), shopBaseItem.getColor());
+                        GoodsDetailsWorkActivity.startIntent(getActivity(), shopBaseItem.getColor());
                     } else if (shopBaseItem.getItemType() == ShopItemType.TYPE_NAVIGATION) {
-                        TypeMarketActivity.startIntent(getActivity(), shopBaseItem.getColor());
+                        TypeMarketWorkActivity.startIntent(getActivity(), shopBaseItem.getColor());
                     }
                 }
             }
@@ -169,7 +169,7 @@ public class ShopMainFragment extends Base2Fragment implements
                     if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
                         requestNetwork(UrlUtils.getGoodsSpec,2);
                     }else {
-                        Intent intent2=new Intent(getActivity(), LoginActivity.class);
+                        Intent intent2=new Intent(getActivity(), LoginWorkActivity.class);
                         startActivityForResult(intent2,REQUEST_STD_LOGIN);
                     }
 
@@ -463,7 +463,7 @@ public class ShopMainFragment extends Base2Fragment implements
                     if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
                         requestNetwork(UrlUtils.cartAddGoods,1);
                     }else {
-                        Intent intent=new Intent(getActivity(), LoginActivity.class);
+                        Intent intent=new Intent(getActivity(), LoginWorkActivity.class);
                         startActivityForResult(intent,REQUEST_ADD_TO_CART_LOGIN);
                     }
                 }else {

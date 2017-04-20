@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/login_bg"
-    tools:context="com.ascba.rebate.activities.login.LoginActivity">
+    tools:context="com.ascba.rebate.activities.login.LoginWorkActivity">
     <ImageView
         android:layout_gravity="center_horizontal"
         android:scaleType="fitCenter"

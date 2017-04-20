@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.CollegeEnrollmentActivity;
+import com.ascba.rebate.activities.CollegeEnrollmentWorkActivity;
 import com.ascba.rebate.adapter.CurriculumAdapter;
 import com.ascba.rebate.beans.CurriculumBean;
 import com.ascba.rebate.fragments.base.BaseFragment;
@@ -73,7 +73,7 @@ public class AllCurriculumFragment extends BaseFragment implements SuperSwipeRef
                 showToast("position" + position);
                 switch (position) {
                     case 2:
-                        Intent enrollment = new Intent(context, CollegeEnrollmentActivity.class);
+                        Intent enrollment = new Intent(context, CollegeEnrollmentWorkActivity.class);
                         startActivity(enrollment);
                         break;
                 }

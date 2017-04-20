@@ -16,7 +16,7 @@
 
 package com.ascba.rebate.qr.decoding;
 
-import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.qr.CaptureWorkActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
@@ -37,12 +37,12 @@ final class DecodeThread extends Thread {
 
   public static final String BARCODE_BITMAP = "barcode_bitmap";
 
-  private final CaptureActivity activity;
+  private final CaptureWorkActivity activity;
   private final Hashtable<DecodeHintType, Object> hints;
   private Handler handler;
   private final CountDownLatch handlerInitLatch;
 
-  DecodeThread(CaptureActivity activity,
+  DecodeThread(CaptureWorkActivity activity,
                Vector<BarcodeFormat> decodeFormats,
                String characterSet,
                ResultPointCallback resultPointCallback) {

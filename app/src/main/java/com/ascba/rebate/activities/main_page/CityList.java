@@ -25,7 +25,6 @@ import com.ascba.rebate.view.cityList.HotCityGridAdapter;
 import com.ascba.rebate.view.cityList.MyLetterListView;
 import com.ascba.rebate.view.cityList.Setting;
 import com.ascba.rebate.view.cityList.searchactivity;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -5,6 +5,7 @@
     tools:context="com.ascba.rebate.fragments.TypeFragment">
 
     <TextView
+        android:id="@+id/develop"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_width="match_parent"

@@ -25,14 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
+import com.ascba.rebate.activities.main_page.BusinessDetailsWorkActivity;
 import com.ascba.rebate.activities.main_page.CityList;
-import com.ascba.rebate.activities.main_page.HotActivity;
-import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.activities.main_page.HotWorkActivity;
+import com.ascba.rebate.activities.main_page.RecQRWorkActivity;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.qr.CaptureWorkActivity;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;
@@ -230,7 +230,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         imGoRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RecQRActivity.class);
+                Intent intent = new Intent(getActivity(), RecQRWorkActivity.class);
                 startActivity(intent);
             }
         });
@@ -241,7 +241,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         goSweepActiviIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getActivity(), CaptureActivity.class), 0);
+                startActivityForResult(new Intent(getActivity(), CaptureWorkActivity.class), 0);
             }
         });
     }
@@ -251,7 +251,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         goBusinessList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HotActivity.class);
+                Intent intent = new Intent(getActivity(), HotWorkActivity.class);
                 startActivity(intent);
             }
         });
@@ -301,7 +301,7 @@ public class FirstFragment extends BaseFragment implements ViewPager.OnTouchList
         recBusiness.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), BusinessDetailsWorkActivity.class);
                 Business business = mList.get(position);
                 intent.putExtra("business_id", business.getId());
                 startActivity(intent);

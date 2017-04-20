@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity">
+    tools:context="com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessWorkActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="实名信息"
         android:layout_width="match_parent"

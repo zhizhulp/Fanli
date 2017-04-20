@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ascba.rebate.activities.register.RegisterProtocolActivity">
+    tools:context="com.ascba.rebate.activities.register.RegisterProtocolWorkActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="注册协议"
         android:layout_width="match_parent"

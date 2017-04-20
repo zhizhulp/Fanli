@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.MyRecActivity;
+import com.ascba.rebate.activities.me_page.MyRecWorkActivity;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.Base2Fragment;
@@ -47,7 +47,7 @@ public class FirstReccFragment extends BaseReccFragment implements Base2Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
-        ((MyRecActivity) getActivity()).setListener1(new MyRecActivity.Listener1() {
+        ((MyRecWorkActivity) getActivity()).setListener1(new MyRecWorkActivity.Listener1() {
             @Override
             public void onDataTypeClick(int id) {
                 idAll=id;

@@ -13,11 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.BusinessShopActivity;
-import com.ascba.rebate.activities.ConfirmOrderActivity;
-import com.ascba.rebate.activities.GoodsDetailsActivity;
-import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.shop.ShopActivity;
+import com.ascba.rebate.activities.BusinessShopWorkActivity;
+import com.ascba.rebate.activities.ConfirmOrderWorkActivity;
+import com.ascba.rebate.activities.GoodsDetailsWorkActivity;
+import com.ascba.rebate.activities.ShopMessageWorkActivity;
+import com.ascba.rebate.activities.shop.ShopWorkActivity;
 import com.ascba.rebate.adapter.CartAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.CartGoods;
@@ -118,7 +118,7 @@ public class CartFragment extends LazyBaseFragment implements
 
             @Override
             public void clkMsg(View v) {
-                ShopMessageActivity.startIntent(getActivity());
+                ShopMessageWorkActivity.startIntent(getActivity());
             }
 
             @Override
@@ -149,11 +149,11 @@ public class CartFragment extends LazyBaseFragment implements
                 if (id == R.id.edit_standard) {//选择规格
                     //showDialog();
                 } else if (id == R.id.tv_go_shop) {//点击进店
-                    Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
+                    Intent intent = new Intent(getActivity(), BusinessShopWorkActivity.class);
                     intent.putExtra("store_id", cartGoods.getId());
                     startActivity(intent);
                 } else if (id == R.id.cart_goods_title) {//点击购物车商品title,进去商品页
-                    GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
+                    GoodsDetailsWorkActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
                 }
             }
         });
@@ -212,8 +212,8 @@ public class CartFragment extends LazyBaseFragment implements
                 goShop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ShopActivity a = (ShopActivity) getActivity();
-                        a.selFrgByPos(ShopActivity.HOMEPAGE);
+                        ShopWorkActivity a = (ShopWorkActivity) getActivity();
+                        a.selFrgByPos(ShopWorkActivity.HOMEPAGE);
                         a.getShopTabs().statusChaByPosition(0, 2);
                         a.getShopTabs().setFilPos(0);
                     }
@@ -240,7 +240,7 @@ public class CartFragment extends LazyBaseFragment implements
             calculateNumAndCost();
             requestNetwork(UrlUtils.shoppingCart, 0);
         } else if (finalScene == 4) {//商品结算
-            Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
+            Intent intent = new Intent(getActivity(), ConfirmOrderWorkActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
         }

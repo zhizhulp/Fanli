@@ -13,23 +13,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.me_page.AllAccountActivity;
-import com.ascba.rebate.activities.me_page.CardActivity;
-import com.ascba.rebate.activities.me_page.CashGetActivity;
-import com.ascba.rebate.activities.me_page.MyAwardActivity;
-import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
-import com.ascba.rebate.activities.me_page.TicketActivity;
-import com.ascba.rebate.activities.me_page.UserUpdateActivity;
-import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
-import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
-import com.ascba.rebate.activities.me_page.settings.SettingActivity;
-import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
-import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
+import com.ascba.rebate.activities.login.LoginWorkActivity;
+import com.ascba.rebate.activities.me_page.AccountRechargeWorkActivity;
+import com.ascba.rebate.activities.me_page.AllAccountWorkActivity;
+import com.ascba.rebate.activities.me_page.CardWorkActivity;
+import com.ascba.rebate.activities.me_page.CashGetWorkActivity;
+import com.ascba.rebate.activities.me_page.MyAwardWorkActivity;
+import com.ascba.rebate.activities.me_page.RedScoreUpdateWorkActivity;
+import com.ascba.rebate.activities.me_page.TicketWorkActivity;
+import com.ascba.rebate.activities.me_page.UserUpdateWorkActivity;
+import com.ascba.rebate.activities.me_page.WhiteScoreWorkActivity;
+import com.ascba.rebate.activities.me_page.bank_card_child.AddCardWorkActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCProcessWorkActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterWorkActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataWorkActivity;
+import com.ascba.rebate.activities.me_page.settings.SettingWorkActivity;
+import com.ascba.rebate.activities.me_page.settings.child.PersonalDataWorkActivity;
+import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmWorkActivity;
 import com.ascba.rebate.fragments.base.BaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.NetUtils;
@@ -90,7 +90,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
         mSettingText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                Intent intent = new Intent(getActivity(), SettingWorkActivity.class);
                 startActivityForResult(intent, REQUEST_CLOSE);
             }
         });
@@ -210,30 +210,30 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
         DialogManager dm = new DialogManager(getActivity());
         switch (id) {
             case R.id.me_user_img:
-                Intent intentUser = new Intent(getActivity(), PersonalDataActivity.class);
+                Intent intentUser = new Intent(getActivity(), PersonalDataWorkActivity.class);
                 startActivity(intentUser);
                 break;
             case R.id.go_white_score_account:
-                Intent intent = new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivityForResult(intent,WhiteScoreActivity.REQUEST_EXCHANGE);
+                Intent intent = new Intent(getActivity(), WhiteScoreWorkActivity.class);
+                startActivityForResult(intent, WhiteScoreWorkActivity.REQUEST_EXCHANGE);
                 break;
             case R.id.me_go_card:
                 requestMyData(2);//检查是否实名
                 break;
             case R.id.me_go_cash_account:
-                Intent intentCash = new Intent(getActivity(), AllAccountActivity.class);
+                Intent intentCash = new Intent(getActivity(), AllAccountWorkActivity.class);
                 startActivity(intentCash);
                 break;
             case R.id.me_pre_go_recharge:
-                Intent intent2 = new Intent(getActivity(), AccountRechargeActivity.class);
+                Intent intent2 = new Intent(getActivity(), AccountRechargeWorkActivity.class);
                 startActivityForResult(intent2, REQUEST_PAY);
                 break;
             case R.id.me_go_red_score:
-                Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
+                Intent intent3 = new Intent(getActivity(), RedScoreUpdateWorkActivity.class);
                 startActivityForResult(intent3, REQUEST_RED);
                 break;
             case R.id.me_go_vip:
-                Intent intent4 = new Intent(getActivity(), UserUpdateActivity.class);
+                Intent intent4 = new Intent(getActivity(), UserUpdateWorkActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.me_go_business_center:
@@ -243,11 +243,11 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 requestMyData(3);//检查是否实名
                 break;
             case R.id.me_go_recommend:
-                Intent intent7 = new Intent(getActivity(), MyAwardActivity.class);
+                Intent intent7 = new Intent(getActivity(), MyAwardWorkActivity.class);
                 startActivity(intent7);
                 break;
             case R.id.me_go_ticket:
-                Intent intent8 = new Intent(getActivity(), TicketActivity.class);
+                Intent intent8 = new Intent(getActivity(), TicketWorkActivity.class);
                 startActivity(intent8);
                 break;
             case R.id.me_go_proxy_center:
@@ -274,7 +274,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                     break;
                 case REQUEST_CLOSE:
                     getActivity().finish();
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    Intent intent = new Intent(getActivity(), LoginWorkActivity.class);
                     startActivity(intent);
                     break;
                 case REQUEST_APPLY:
@@ -283,7 +283,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 case REQUEST_CASH_GET:
                     requestMyData(0);
                     break;
-                case WhiteScoreActivity.REQUEST_EXCHANGE:
+                case WhiteScoreWorkActivity.REQUEST_EXCHANGE:
                     requestMyData(0);
                     break;
                 case REQUEST_RED:
@@ -370,7 +370,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 String seller_return_ratio = company.optString("seller_return_ratio");
                 String seller_return_ratio_tip = company.optString("seller_return_ratio_tip");
                 String seller_description = company.optString("seller_description");
-                Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
+                Intent intent = new Intent(getActivity(), BusinessDataWorkActivity.class);
                 intent.putExtra("seller_name", seller_name);
                 intent.putExtra("seller_cover_logo", seller_cover_logo);
                 intent.putExtra("seller_image", seller_image);
@@ -388,10 +388,10 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 intent.putExtra("seller_enable_tip", seller_enable_tip);
                 startActivity(intent);
             } else if (merchant == 0) {//填写申请资料
-                Intent intent = new Intent(getActivity(), BCProcessActivity.class);
+                Intent intent = new Intent(getActivity(), BCProcessWorkActivity.class);
                 startActivityForResult(intent, REQUEST_APPLY);
             } else if (merchant == 1) {//资料审核中
-                Intent intent = new Intent(getActivity(), BusinessCenterActivity.class);
+                Intent intent = new Intent(getActivity(), BusinessCenterWorkActivity.class);
                 String name = company.optString("name");
                 String oper_name = company.optString("oper_name");
                 String regist_capi = company.optString("regist_capi");
@@ -415,7 +415,7 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                 intent.putExtra("chartered", chartered);
                 startActivity(intent);
             } else if (merchant == 2) {//资料有误
-                Intent intent = new Intent(getActivity(), BusinessCenterActivity.class);
+                Intent intent = new Intent(getActivity(), BusinessCenterWorkActivity.class);
                 String name = company.optString("name");
                 String oper_name = company.optString("oper_name");
                 String regist_capi = company.optString("regist_capi");
@@ -449,18 +449,18 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                     @Override
                     public void handleSure() {
                         dm.dismissDialog();
-                        Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
+                        Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
                         startActivity(intent);
                     }
                 });
             } else {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
                 if (isBankCard == 0) {
-                    Intent intent = new Intent(getActivity(), AddCardActivity.class);
+                    Intent intent = new Intent(getActivity(), AddCardWorkActivity.class);
                     intent.putExtra("realname", cardObj.optString("realname"));
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(getActivity(), CardActivity.class);
+                    Intent intent = new Intent(getActivity(), CardWorkActivity.class);
                     startActivity(intent);
                 }
             }
@@ -474,13 +474,13 @@ public class FourthFragment extends BaseFragment implements View.OnClickListener
                     @Override
                     public void handleSure() {
                         dm.dismissDialog();
-                        Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
+                        Intent intent = new Intent(getActivity(), RealNameCofirmWorkActivity.class);
                         startActivity(intent);
                     }
                 });
             } else {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
-                Intent intent = new Intent(getActivity(), CashGetActivity.class);
+                Intent intent = new Intent(getActivity(), CashGetWorkActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
                 startActivityForResult(intent,REQUEST_CASH_GET);

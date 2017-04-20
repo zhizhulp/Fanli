@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,24 +25,23 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.ASKCollegeActivity;
-import com.ascba.rebate.activities.MessageLatestActivity;
-import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.ASKCollegeWorkActivity;
+import com.ascba.rebate.activities.MessageLatestWorkActivity;
+import com.ascba.rebate.activities.ShopMessageWorkActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.main_page.RecQRActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
-import com.ascba.rebate.activities.shop.ShopActivity;
+import com.ascba.rebate.activities.login.LoginWorkActivity;
+import com.ascba.rebate.activities.main_page.RecQRWorkActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCProcessWorkActivity;
+import com.ascba.rebate.activities.shop.ShopWorkActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
-import com.ascba.rebate.fragments.base.BaseCacheFragment;
+import com.ascba.rebate.fragments.base.BaseNetFragment3;
 import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.qr.CaptureWorkActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -52,7 +52,6 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +60,7 @@ import java.util.List;
  * 首页
  */
 
-public class HomePageFragment extends BaseCacheFragment implements BaseCacheFragment.Callback {
+public class HomePageFragment extends BaseNetFragment3 implements BaseNetFragment3.Callback {
 
     private static final int REQUEST_LOGIN = 0;
     private static final int POLICY = 1;
@@ -181,7 +180,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShopMessageActivity.startIntent(context);
+                ShopMessageWorkActivity.startIntent(context);
             }
         });
 
@@ -230,7 +229,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.homepage_btn_speedmon:
-                        startActivity(new Intent(getActivity(), ShopActivity.class));
+                        startActivity(new Intent(getActivity(), ShopWorkActivity.class));
                         break;
                     case R.id.homepage_btn_makemon:
                         Toast.makeText(context, "赚钱", Toast.LENGTH_SHORT).show();
@@ -240,24 +239,23 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
                         if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
                             requestData(UrlUtils.getDataUrl, 2);
                         } else {
-                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            Intent intent = new Intent(getActivity(), LoginWorkActivity.class);
                             startActivityForResult(intent, POLICY);
                         }
                         break;
                     case R.id.homepage_btn_college:
                         //ASK商学院
-                        Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
+                        Intent college = new Intent(getActivity(), ASKCollegeWorkActivity.class);
                         startActivity(college);
                         break;
                     case R.id.homepage_text_more_news:
                         //最新动态——更多
-                        MessageLatestActivity.startIntent(context);
+                        MessageLatestWorkActivity.startIntent(context);
                         break;
                 }
             }
         });
     }
-
 
     /*
      * 弹窗
@@ -272,7 +270,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), CaptureActivity.class));
+                    startActivity(new Intent(getActivity(), CaptureWorkActivity.class));
                     popupWindow.dismiss();
                 }
             });
@@ -286,7 +284,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
                     if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
                         requestData(UrlUtils.receivables, 1);
                     } else {
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        Intent intent = new Intent(getActivity(), LoginWorkActivity.class);
                         startActivityForResult(intent, REQUEST_LOGIN);
                     }
                 }
@@ -297,7 +295,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
             btnCode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), RecQRActivity.class));
+                    startActivity(new Intent(getActivity(), RecQRWorkActivity.class));
                     popupWindow.dismiss();
                 }
             });
@@ -318,6 +316,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        Log.d("HomePageFragment", message);
         if (finalScene == 0) {
             clearData();
             stopRefresh();
@@ -487,9 +486,9 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
         stopRefresh();
     }
 
+
     @Override
     public void handle404(String message,JSONObject dataObj) {
-
         if(finalScene==1){
             int tip_status = dataObj.optInt("tip_status");
             if(tip_status==2){//打电话
@@ -509,7 +508,7 @@ public class HomePageFragment extends BaseCacheFragment implements BaseCacheFrag
                     @Override
                     public void handleSure() {
                         getDm().dismissDialog();
-                        Intent intent=new Intent(getActivity(), BCProcessActivity.class);
+                        Intent intent=new Intent(getActivity(), BCProcessWorkActivity.class);
                         startActivity(intent);
                     }
                 });

@@ -18,12 +18,11 @@
             app:abar_bg="#FFF3F3"
             app:abar_title="待收货" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFF3F3"
             android:orientation="vertical">
-
 
             <TextView
                 android:id="@+id/deliver_details_state"
@@ -35,16 +34,49 @@
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/deliver_details_problem"
+            <LinearLayout
+                android:id="@+id/ll_countdown"
+                android:layout_below="@id/deliver_details_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:text="还剩5天6时自动确认"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="还剩"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tx_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="\?天\?时"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自动确认"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tx_close_order"
+                android:layout_below="@id/deliver_details_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="已自动确认收货"
                 android:textSize="12sp" />
-        </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -148,8 +180,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/address_name"
                         android:layout_marginBottom="13.5dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/deliver_details_location"
                         android:textSize="13sp" />
 

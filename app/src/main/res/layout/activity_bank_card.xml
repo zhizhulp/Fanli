@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.activities.me_page.bank_card_child.BankCardActivity">
+    tools:context="com.ascba.rebate.activities.me_page.bank_card_child.BankCardWorkActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="银行卡信息"
         android:layout_width="match_parent"

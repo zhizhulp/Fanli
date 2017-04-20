@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity">
+    tools:context="com.ascba.rebate.activities.me_page.settings.child.PersonalDataWorkActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="个人资料"
         android:layout_width="match_parent"

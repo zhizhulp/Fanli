@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
+import com.ascba.rebate.activities.shop.order.PayDetailsWorkActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -207,7 +207,7 @@ public class PayOrderFragment extends LazyLoadFragment implements Base2Fragment.
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
                         if (orderId != null) {
-                            Intent intent = new Intent(context, PayDetailsActivity.class);
+                            Intent intent = new Intent(context, PayDetailsWorkActivity.class);
                             intent.putExtra("order_id", orderId);
                             startActivityForResult(intent, 1);
                         }

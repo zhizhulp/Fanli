@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.AllAccountActivity;
+import com.ascba.rebate.activities.me_page.AllAccountWorkActivity;
 import com.ascba.rebate.view.MoneyBar;
-import com.jaeger.library.StatusBarUtil;
 
 public class RechaSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
 
@@ -43,7 +42,7 @@ public class RechaSuccActivity extends AppCompatActivity implements MoneyBar.Cal
 
     //进入查看账单页面
     public void goAcc(View view) {
-        Intent intent=new Intent(this,AllAccountActivity.class);
+        Intent intent=new Intent(this,AllAccountWorkActivity.class);
         intent.putExtra("order",3);
         startActivity(intent);
     }

@@ -4,45 +4,11 @@
     android:layout_height="wrap_content"
     android:fillViewport="true"
     android:orientation="vertical">
-    <com.ascba.rebate.view.FlowTagLayout
+
+    <TextView
+        android:id="@+id/test"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.ascba.rebate.view.FilterCheckBox
-            android:text="好开心啊"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </com.ascba.rebate.view.FlowTagLayout>
+        android:layout_height="wrap_content"
+        android:text="测试" />
 
 </LinearLayout>

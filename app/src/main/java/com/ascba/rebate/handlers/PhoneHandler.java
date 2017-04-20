@@ -7,7 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
-import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.login.LoginWorkActivity;
+
 import org.json.JSONObject;
 import static android.content.Context.MODE_PRIVATE;
 
@@ -67,7 +68,7 @@ public class PhoneHandler extends Handler {
                             .apply();
                 }
             } else if(status==1||status==2||status==3||status == 4||status==5){//缺少sign参数
-                Intent intent = new Intent(context, LoginActivity.class);
+                Intent intent = new Intent(context, LoginWorkActivity.class);
                 sf.edit().putInt("uuid", -1000).apply();
                 context.startActivity(intent);
                 ((Activity) context).finish();

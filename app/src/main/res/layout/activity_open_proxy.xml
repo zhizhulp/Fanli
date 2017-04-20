@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/main_content_bg"
-    tools:context="com.ascba.rebate.activities.me_page.user_update_child.OpenProxyActivity">
+    tools:context="com.ascba.rebate.activities.me_page.user_update_child.OpenProxyWorkActivity">
     <com.ascba.rebate.view.MoneyBar
         app:needComplete="true"
         android:id="@+id/mb_open_proxy"
