@@ -43,6 +43,10 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void setRequestPermissionAndBack(PermissionCallback requestPermissionAndBack) {
+        this.requestPermissionAndBack = requestPermissionAndBack;
+    }
+
     /**
      * 申请权限
      *

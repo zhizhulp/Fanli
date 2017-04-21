@@ -36,10 +36,10 @@ import org.json.JSONObject;
  * 编辑收货地址
  */
 
-public class EditAdressActivity extends BaseNetActivity {
+public class EditAdressActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.CallbackWhat {
 
     private ShopABarText bar;
-    private RelativeLayout btn_contact;
+    private RelativeLayout btn_contact, btn_selectPosition, btn_selectStreet;
     private Context context;
     private String[] permissions = new String[]{
             Manifest.permission.READ_CONTACTS,
@@ -106,6 +106,11 @@ public class EditAdressActivity extends BaseNetActivity {
         } else {
             chbDefault.setChecked(false);
         }
+
+        btn_selectPosition = (RelativeLayout) findViewById(R.id.rl_selectPosition);
+        btn_selectPosition.setOnClickListener(this);
+        btn_selectStreet = (RelativeLayout) findViewById(R.id.rl_selectStreet);
+        btn_selectStreet.setOnClickListener(this);
     }
 
     /**
@@ -226,24 +231,39 @@ public class EditAdressActivity extends BaseNetActivity {
         jsonRequest.add("twon", 1158);//乡镇ID
         jsonRequest.add("address", address.getText().toString().trim());//地址内容
         jsonRequest.add("default", chbDefault.isChecked() ? 1 : 0);//是否默认——1：是， 0——否
-        executeNetWork(jsonRequest, "请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) {
+        executeNetWork(1, jsonRequest, "请稍后");
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rl_selectStreet:
+                break;
+            case R.id.rl_selectPosition:
+                break;
+        }
+    }
+
+    @Override
+    public void handle200Data(int what, JSONObject dataObj, String message) {
+
+        switch (what) {
+            case 1:
                 Intent intent = new Intent();
                 setResult(2, intent);
                 dm.buildAlertDialog("保存成功");
-            }
+                break;
+        }
+    }
 
-            @Override
-            public void handle404(String message) {
-                dm.buildAlertDialog(message);
-            }
+    @Override
+    public void handle404(int what, String message) {
+        dm.buildAlertDialog(message);
+    }
 
-            @Override
-            public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
-            }
-        });
+    @Override
+    public void handleNoNetWork() {
+        dm.buildAlertDialog("请检查网络！");
     }
 }
