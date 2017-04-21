@@ -97,10 +97,11 @@ public class ShopMainFragment extends BaseNetFragment implements
     private BezierCurveAnimater bezierCurveAnimater;//加入购物车动画
     private int finalScene;
     private int goodsId;
-    private StdDialog sd;
-    private NumberButton nb;
-    private boolean isAll;
-    private Goods goodsSelect;
+    private StdDialog sd;//规格dialog
+    private NumberButton nb;//加减控件
+    private boolean isAll;//是否选择了所有的规格
+    private Goods goodsSelect;//选择的商品
+    private String attention="请先选择商品";//没选择完整规格的提醒
 
     @Nullable
     @Override
@@ -212,7 +213,7 @@ public class ShopMainFragment extends BaseNetFragment implements
             request = buildNetRequest(url, 0, true);
             request.add("goods_id",goodsSelect.getTitleId());
             request.add("goods_num",nb.getNumber());
-            request.add("goods_spec_id",goodsSelect.getTitleId());
+            request.add("goods_spec_id",goodsSelect.getCartId());
             /*request.add("spec_keys",goodsSelect.getSpecKeys());
             request.add("spec_names",goodsSelect.getSpecNames());*/
         }else if(scene==2){//规格数据
@@ -254,7 +255,6 @@ public class ShopMainFragment extends BaseNetFragment implements
                 if (now_page > total_page  && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-
                     requestNetwork(UrlUtils.shop,0);
                 }
             }
@@ -317,9 +317,7 @@ public class ShopMainFragment extends BaseNetFragment implements
         } else if(finalScene==2){//规格数据
             LogUtils.PrintLog("ShopMainFragment","data-->"+dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
-
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
-
             showStandardDialog( parseFilterSpec(filter_spec),parseSpecGoodsPrice(array));
         } else if(finalScene==3){//立即购买 成功
 
@@ -458,9 +456,10 @@ public class ShopMainFragment extends BaseNetFragment implements
         }
         sd=new StdDialog(getActivity(),gas,goodses);
         nb = sd.getNb();
+        //把商品加入购物车
         sd.getTvAddToCart().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//加入购物车
+            public void onClick(View v) {
                 if(isAll){//选择了完整的规格
                     if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
                         requestNetwork(UrlUtils.cartAddGoods,1);
@@ -469,34 +468,58 @@ public class ShopMainFragment extends BaseNetFragment implements
                         startActivityForResult(intent,REQUEST_ADD_TO_CART_LOGIN);
                     }
                 }else {
-                    getDm().buildAlertDialog("请先选择商品");
+                    getDm().buildAlertDialog(attention);
                 }
 
             }
         });
-
+        //点击购买
         sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
             @Override
             public void onClick(View v) {
                 if(isAll){
                     requestNetwork(UrlUtils.cartAccount, 3);
                 }else {
-                    getDm().buildAlertDialog("请先选择商品");
+                    getDm().buildAlertDialog(attention);
                 }
             }
         });
+        //监听商品规格
         sd.setListener(new StdDialog.Listener() {
             @Override
             public void getSelectGoods(Goods gs) {
+                nb.setInventory(gs.getInventory());
                 goodsSelect=gs;
             }
-
             @Override
             public void isSelectAll(boolean isAll) {
                 ShopMainFragment.this.isAll=isAll;
             }
         });
-
+        //点击加号
+        nb.getAddButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isAll){
+                    getDm().buildAlertDialog(attention);
+                }else {
+                    nb.setCurrentNumber(nb.getNumber()+1);
+                }
+            }
+        });
+        //点击减号
+        nb.getSubButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isAll){
+                    if(!isAll){
+                        getDm().buildAlertDialog(attention);
+                    }else {
+                        nb.setCurrentNumber(nb.getNumber()-1);
+                    }
+                }
+            }
+        });
         sd.showMyDialog();
     }
 

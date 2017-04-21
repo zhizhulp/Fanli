@@ -46,7 +46,6 @@ public class CartFragment extends LazyBaseFragment implements
         View.OnClickListener, BaseNetFragment.Callback, CartAdapter.CallBack {
 
     private ShopABar sab;
-    private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView rv;
     private List<CartGoods> data = new ArrayList<>();
     private CartAdapter adapter;
@@ -126,8 +125,6 @@ public class CartFragment extends LazyBaseFragment implements
 
             }
         });
-        //初始化刷新控件
-        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         //初始化recyclerView
         rv = ((RecyclerView) view.findViewById(R.id.cart_goods_list));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));

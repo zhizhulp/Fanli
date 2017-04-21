@@ -15,10 +15,7 @@ public class CashAccount implements Parcelable {
     private String status;//24小时内到账
     private int imgId;//图片
     private String month;//账单所在月份
-
-    private CashAccountType type;
-
-
+    private CashAccountType type;//账单类型
 
     public CashAccount() {
     }
@@ -124,6 +121,8 @@ public class CashAccount implements Parcelable {
     public void setMonth(String month) {
         this.month = month;
     }
+
+
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {

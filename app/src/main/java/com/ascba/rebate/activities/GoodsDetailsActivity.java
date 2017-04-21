@@ -151,6 +151,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
     private int indence;
     private int has_spec;//是否有规格
+    private String attention="请先选择商品";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1118,9 +1119,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         }
         sd = new StdDialog(this, gas, goodses);
         nb = sd.getNb();
+        //加入购物车
         sd.getTvAddToCart().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//加入购物车
+            public void onClick(View v) {
                 if (isAll) {//选择了完整的规格
                     if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
                         requestNetwork(UrlUtils.cartAddGoods, 0);
@@ -1134,10 +1136,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
             }
         });
-
+        //立即购买
         sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
             @Override
-            public void onClick(View v) {//立即购买
+            public void onClick(View v) {
                 if (isAll) {
                     requestNetwork(UrlUtils.cartAccount, 1);
                 } else {
@@ -1145,6 +1147,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 }
             }
         });
+        //监听规格选择
         sd.setListener(new StdDialog.Listener() {
             @Override
             public void getSelectGoods(Goods gs) {
@@ -1154,6 +1157,31 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             @Override
             public void isSelectAll(boolean isAll) {
                 GoodsDetailsActivity.this.isAll = isAll;
+            }
+        });
+
+        //点击加号
+        nb.getAddButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isAll){
+                    getDm().buildAlertDialog(attention);
+                }else {
+                    nb.setCurrentNumber(nb.getNumber()+1);
+                }
+            }
+        });
+        //点击减号
+        nb.getSubButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isAll){
+                    if(!isAll){
+                        getDm().buildAlertDialog(attention);
+                    }else {
+                        nb.setCurrentNumber(nb.getNumber()-1);
+                    }
+                }
             }
         });
 
@@ -1184,14 +1212,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         finalScene = scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if (scene == 0) {//把商品加入购物车
-
             request.add("store_id", goods.getStoreId());
             request.add("goods_id", has_spec ==0 ? goods.getStoreId(): goodsSelect.getTitleId());
             request.add("goods_num", has_spec ==0 ? 1: nb.getNumber());
             request.add("goods_spec_id", has_spec ==0 ? null: goodsSelect.getCartId());
-            /*request.add("spec_keys", has_spec ==0 ? null : goodsSelect.getSpecKeys());
-            request.add("spec_names",has_spec ==0 ? null : goodsSelect.getSpecNames());*/
-
         } else if (scene == 1) {//结算
             request.add("cart_ids", goodsSelect.getCartId());
         }

@@ -57,8 +57,31 @@ public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         CashAccount ca = data.get(position);
         HeaderViewHolder hvh = (HeaderViewHolder) holder;
-        hvh.headMonth.setText(ca.getMonth());
-        //hvh.imCalendar.setVisibility(s.isHasCalendar() ? View.VISIBLE : View.GONE);
+        if(position==0){
+            hvh.headMonth.setText(ca.getMonth());
+            hvh.type.setVisibility(View.VISIBLE);
+            hvh.imCalendar.setVisibility(View.VISIBLE);
+            switch (ca.getType()){
+                case ALL:
+                    hvh.type.setText("全部");
+                    break;
+                case AWARD:
+                    hvh.type.setText("奖励");
+                    break;
+                case COST:
+                    hvh.type.setText("消费");
+                    break;
+                case EXCHANGE:
+                    hvh.type.setText("兑换");
+                    break;
+            }
+
+        }else {
+            hvh.headMonth.setText(ca.getMonth());
+            hvh.type.setVisibility(View.GONE);
+            hvh.imCalendar.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -76,6 +99,7 @@ public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public long getItemId(int position) {
         return data.get(position).getDay().hashCode();
     }
+
 
     /**
      * 缓存item的viewHolder
@@ -102,10 +126,12 @@ public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
         TextView headMonth;
         ImageView imCalendar;
+        TextView type;
         private HeaderViewHolder(View itemView) {
             super(itemView);
             headMonth = (TextView) itemView.findViewById(R.id.tv_month);
             imCalendar = (ImageView) itemView.findViewById(R.id.im_calendar);
+            type = (TextView) itemView.findViewById(R.id.tv_desc);
         }
     }
 }
