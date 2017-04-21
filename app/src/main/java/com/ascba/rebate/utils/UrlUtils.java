@@ -118,6 +118,9 @@ public class UrlUtils {
     //添加收货地址
     public static final String memberAddressAdd = urlPrefix + "memberAddressAdd";
 
+    //所在地区——三级联动
+    public static final String cascadeRegion = urlPrefix + "cascadeRegion";
+
     //修改收货地址
     public static final String memberAddressEdit = urlPrefix + "memberAddressEdit";
 

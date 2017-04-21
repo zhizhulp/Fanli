@@ -10,7 +10,7 @@
         android:id="@+id/add_address_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="新增地址"/>
+        app:abar_title="新增地址" />
 
     <View
         android:layout_width="match_parent"
@@ -73,8 +73,8 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:maxLines="1"
-                    android:textSize="14sp"
-                    android:textColor="@color/shop_normal_text_color" />
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -104,11 +104,11 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:background="@null"
-                    android:textSize="14sp"
+                    android:inputType="phone"
                     android:maxLength="11"
                     android:maxLines="1"
-                    android:inputType="phone"
-                    android:textColor="@color/shop_normal_text_color" />
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -121,7 +121,7 @@
         android:background="@color/cutting_line" />
 
     <RelativeLayout
-        android:onClick="selectPosition"
+        android:id="@+id/rl_selectPosition"
         android:layout_width="match_parent"
         android:layout_height="42dp">
 
@@ -146,13 +146,13 @@
 
         <TextView
             android:id="@+id/tv_locate"
-            android:layout_marginRight="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/right_icon"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <View
@@ -161,9 +161,9 @@
         android:background="@color/cutting_line" />
 
     <RelativeLayout
-        android:onClick="selectStreet"
         android:layout_width="match_parent"
-        android:layout_height="42dp">
+        android:layout_height="42dp"
+        android:id="@+id/rl_selectStreet">
 
         <TextView
             android:layout_width="wrap_content"
@@ -183,15 +183,16 @@
             android:layout_marginRight="14dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/right2_arrow" />
+
         <TextView
             android:id="@+id/tv_street"
-            android:layout_marginRight="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/right_icon_02"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <View

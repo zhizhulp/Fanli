@@ -39,6 +39,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
                 mhandle200Data(what, jObj, dataObj, message);
 
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+                mhandleReLogin(what);
                 Intent intent = new Intent(this, LoginActivity.class);
                 AppConfig.getInstance().putInt("uuid", -1000);
                 startActivityForResult(intent, REQUEST_LOGIN);
@@ -80,6 +81,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
     @Override
     protected void isNetWork(boolean isNetWork) {
+        mhandleHasNetWord(isNetWork);
         if (!isNetWork) {
             //没网
             if (callback != null) {
@@ -88,6 +90,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
             if (callbackWhat != null) {
                 callbackWhat.handleNoNetWork();
             }
+            mhandleNoNetWord();
         }
     }
 
@@ -107,7 +110,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
         this.callbackWhat = callbackWhat;
     }
 
-    protected interface CallbackWhat {
+    public interface CallbackWhat {
         void handle200Data(int what, JSONObject dataObj, String message);
 
         void handle404(int what, String message);
@@ -130,5 +133,14 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
     public static void setRequestCode(int requestLogin) {
         REQUEST_LOGIN = requestLogin;
+    }
+
+    protected void mhandleReLogin(int what) {
+    }
+
+    protected void mhandleNoNetWord() {
+    }
+
+    protected void mhandleHasNetWord(boolean isNetWork) {
     }
 }
