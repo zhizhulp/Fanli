@@ -7,6 +7,7 @@ import android.widget.Button;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.TicketAdapter;
 import com.ascba.rebate.beans.Ticket;
 import com.ascba.rebate.utils.UrlUtils;
@@ -121,7 +122,7 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
 
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent(this,RedScoreUpdateActivity.class);
+        Intent intent=new Intent(this,ShopActivity.class);
         startActivity(intent);
         finish();
     }

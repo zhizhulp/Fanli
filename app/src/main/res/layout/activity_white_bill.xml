@@ -17,7 +17,11 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
+        <!--<android.support.v7.widget.RecyclerView
+            android:id="@+id/bill_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>-->
+        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
             android:id="@+id/bill_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
