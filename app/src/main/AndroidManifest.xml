@@ -111,10 +111,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.me_page.settings.child.personal_data_child.LocationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.me_page.settings.child.QRCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -224,10 +220,6 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.main_page.CityList"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.main_page.HotActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity android:name=".view.cityList.searchactivity" />

@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
-import com.ascba.rebate.activities.main_page.HotActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -266,8 +265,7 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
         goBusinessList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HotActivity.class);
-                startActivity(intent);
+
             }
         });
     }

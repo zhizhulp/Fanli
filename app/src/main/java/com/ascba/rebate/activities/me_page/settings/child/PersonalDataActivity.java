@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities.me_page.settings.child;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -26,13 +27,15 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.AgeChangeActivity;
-import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.LocationActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.SexChangeActivity;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.task.AddressPickTask;
+import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.AddressPickerView;
 import com.ascba.rebate.view.RoundImageView;
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.FileBinary;
@@ -44,6 +47,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import cn.qqtheme.framework.beans.Province;
 
 public class PersonalDataActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.Callback {
     public static final int nickNameRequest = 0x06;
@@ -68,13 +74,18 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private Bitmap bitmap;
+    private Province province = new Province();
+    private Province.City city = new Province.City();
+    private Province.City.District district = new Province.City.District();
+    private AddressPickerView pickerView;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_data);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
+        initRegion();
     }
 
     private void initViews() {
@@ -86,6 +97,54 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
         tvAge = ((TextView) findViewById(R.id.personal_data_age));
         tvLocation = ((TextView) findViewById(R.id.personal_data_location));
         requestPData(0);
+    }
+    /**
+     * 初始化地区数据
+     */
+    private void initRegion() {
+        InitAddressTask task = new InitAddressTask(this);
+        //task.setRegionId(Integer.parseInt(bean.getProvince()), Integer.parseInt(bean.getCity()), Integer.parseInt(bean.getDistrict()));
+        task.setInitData(new InitAddressTask.InitData() {
+            @Override
+            public void onSuccess(ArrayList<Province> data, Province argo, Province.City arg1, Province.City.District arg2) {
+                pickerView = new AddressPickerView(PersonalDataActivity.this, data);
+                if (argo == null) {
+                    //默认地区
+                    pickerView.setRegion("北京市", "北京市", "东城区");
+                } else {
+                    tvLocation.setText(argo.getName() + "-" + arg1.getName() + "-" + arg2.getName());
+                    pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
+                }
+                pickerView.setCallback(new AddressPickTask.Callback() {
+                    @Override
+                    public void onAddressInitFailed() {
+                        showToast("数据初始化失败");
+                    }
+
+                    @Override
+                    public void onAddressPicked(Province argo, Province.City arg1, Province.City.District arg2) {
+                        province = argo;
+                        city = arg1;
+                        district = arg2;
+                        tvLocation.setText(province.getName()  + city.getName() + district.getName());
+                    }
+                });
+
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    pickerView.showPicker();
+                }
+            }
+
+            @Override
+            public void onFailed() {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                showToast("数据初始化失败");
+            }
+        });
+        task.execute();
     }
 
     private void requestPData(int scene) {
@@ -142,8 +201,11 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
         if (isCardId == 1) {
             dm.buildAlertDialog("实名后不可修改地址");
         } else {
-            Intent intent = new Intent(this, LocationActivity.class);
-            startActivityForResult(intent, locationRequest);
+            if (pickerView == null) {
+                dialog = ProgressDialog.show(this, null, "正在初始化数据...", true, true);
+            } else {
+                pickerView.showPicker();
+            }
         }
     }
 
@@ -323,13 +385,6 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
                 }
                 String age = data.getStringExtra("age");
                 tvAge.setText(age);
-                break;
-            case locationRequest:
-                if (data == null) {
-                    return;
-                }
-                String location = data.getStringExtra("location");
-                tvLocation.setText(location);
                 break;
         }
     }
