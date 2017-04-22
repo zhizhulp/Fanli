@@ -274,7 +274,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
 
     /*
      初始化地区数据
-  */
+    */
     private void initRegion() {
         InitAddressTask task = new InitAddressTask(this);
         task.setInitData(new InitAddressTask.InitData() {
@@ -319,4 +319,5 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
         });
         task.execute();
     }
+
 }

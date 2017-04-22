@@ -34,7 +34,7 @@ public class LoginActivity extends BaseNetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login2);
+        setContentView(R.layout.activity_login);
         initViews();
         backFirstPhone();//传回注册成功的手机账号
         backLossPhone();//密码找回成功
@@ -116,7 +116,7 @@ public class LoginActivity extends BaseNetActivity {
                 AppConfig.getInstance().putString("login_phone", loginPhone);
 
                 setResult(RESULT_OK, getIntent());
-                MyApplication.isLoad=true;
+                MyApplication.isLoad = true;
 
                 MyApplication.isPersonalData = true;
                 finish();
@@ -144,7 +144,7 @@ public class LoginActivity extends BaseNetActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            MyApplication.isLoad=false;
+            MyApplication.isLoad = false;
             setResult(RESULT_CANCELED, getIntent());
             finish();
             return false;
