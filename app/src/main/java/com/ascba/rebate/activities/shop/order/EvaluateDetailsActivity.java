@@ -186,7 +186,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SuperSwi
        "consignee":"波波",
        "province":"1",
        "city":"710682",
-       "district":"1106",
+       "District":"1106",
        "twon":"1158",
        "address":"北京市大兴区石榴庄钱来钱往",
        "mobile":"18832919903",
@@ -202,7 +202,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SuperSwi
             String defaultAddress = addressObject.optString("default");//是否是默认地址：1——是，0——不是
             String province = addressObject.optString("province");
             String city = addressObject.optString("city");
-            String district = addressObject.optString("district");
+            String district = addressObject.optString("District");
             String twon = addressObject.optString("twon");
             phoneTx.setText(phone);
             nameTx.setText(name);

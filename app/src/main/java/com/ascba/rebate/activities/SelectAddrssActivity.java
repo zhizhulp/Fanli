@@ -181,7 +181,7 @@ public class SelectAddrssActivity extends BaseNetActivity {
                         addressBean.setAddress(object.optString("address"));
                         addressBean.setProvince(object.optString("province"));
                         addressBean.setCity(object.optString("city"));
-                        addressBean.setDistrict(object.optString("district"));
+                        addressBean.setDistrict(object.optString("District"));
                         addressBean.setTwon(object.optString("twon"));
                         String isSelected = object.optString("default");
                         addressBean.setIsDefault(isSelected);

@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -25,18 +26,24 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.task.AddressPickTask;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import cn.qqtheme.framework.beans.Province;
+
 /**
  * Created by 李鹏 on 2017/03/14 0014.
  * 编辑收货地址
  */
 
-public class EditAdressActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.CallbackWhat {
+public class EditAdressActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.Callback {
 
     private ShopABarText bar;
     private RelativeLayout btn_contact, btn_selectPosition, btn_selectStreet;
@@ -48,6 +55,11 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
     private CheckBox chbDefault;
     private DialogManager dm;
     private ReceiveAddressBean bean;
+    private TextView txProvince;
+    private Province province;
+    private Province.City city;
+    private Province.City.District district;
+    private  ArrayList<Province> regionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +74,17 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
         if (intent != null) {
             bean = intent.getParcelableExtra("address");
             initView();
+            initRegion();
         } else {
             showToast("发生错误！");
             finish();
         }
     }
+
+    private void initRegion() {
+
+    }
+
 
     private void initView() {
         bar = (ShopABarText) findViewById(R.id.add_address_bar);
@@ -80,7 +98,15 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
             @Override
             public void clkBtn(View v) {
                 //保存
-                submitData();
+                dm = new DialogManager(context);
+                if (!StringUtils.isEmpty(name.getText().toString())
+                        && !StringUtils.isEmpty(phone.getText().toString())
+                        && !StringUtils.isEmpty(address.getText().toString())
+                        && province != null) {
+                    submitData();
+                } else {
+                    showToast("请填写完整收货地址信息");
+                }
             }
         });
 
@@ -111,6 +137,8 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
         btn_selectPosition.setOnClickListener(this);
         btn_selectStreet = (RelativeLayout) findViewById(R.id.rl_selectStreet);
         btn_selectStreet.setOnClickListener(this);
+
+        txProvince = (TextView) findViewById(R.id.address_province);
     }
 
     /**
@@ -219,20 +247,19 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
      * 提交数据
      */
     private void submitData() {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressEdit, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("member_address_id", bean.getId());
         jsonRequest.add("consignee", name.getText().toString().trim());//收货人
         jsonRequest.add("mobile", phone.getText().toString().trim());//手机号
-        jsonRequest.add("province", 1);//省份ID
-        jsonRequest.add("city", 710682);//市ID
-        jsonRequest.add("district", 1106);//地区ID
+        jsonRequest.add("province", province.getId());//省份ID
+        jsonRequest.add("city", city.getId());//市ID
+        jsonRequest.add("district", district.getId());//地区ID
         jsonRequest.add("twon", 1158);//乡镇ID
         jsonRequest.add("address", address.getText().toString().trim());//地址内容
         jsonRequest.add("default", chbDefault.isChecked() ? 1 : 0);//是否默认——1：是， 0——否
-        executeNetWork(1, jsonRequest, "请稍后");
-
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(this);
     }
 
     @Override
@@ -241,29 +268,44 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
             case R.id.rl_selectStreet:
                 break;
             case R.id.rl_selectPosition:
+
+                AddressPickTask task = new AddressPickTask(this);
+                task.setHideProvince(false);
+                task.setHideCounty(false);
+                task.setCallback(new AddressPickTask.Callback() {
+                    @Override
+                    public void onAddressInitFailed() {
+                        showToast("数据初始化失败");
+                    }
+
+                    @Override
+                    public void onAddressPicked(Province argo, Province.City arg1, Province.City.District arg2) {
+                        province = argo;
+                        city = arg1;
+                        district = arg2;
+                        txProvince.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
+                    }
+                });
+                task.execute("北京市", "北京市", "朝阳区");
+
                 break;
         }
     }
 
     @Override
-    public void handle200Data(int what, JSONObject dataObj, String message) {
-
-        switch (what) {
-            case 1:
-                Intent intent = new Intent();
-                setResult(2, intent);
-                dm.buildAlertDialog("保存成功");
-                break;
-        }
+    public void handle200Data(JSONObject dataObj, String message) {
+        dm.buildAlertDialog("保存成功");
+        Intent intent = new Intent();
+        setResult(2, intent);
     }
 
     @Override
-    public void handle404(int what, String message) {
+    public void handle404(String message) {
         dm.buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-        dm.buildAlertDialog("请检查网络！");
+        dm.buildAlertDialog(getResources().getString(R.string.no_network));
     }
 }
