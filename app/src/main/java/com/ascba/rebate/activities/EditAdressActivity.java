@@ -15,6 +15,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -77,6 +78,7 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
         Intent intent = getIntent();
         if (intent != null) {
             bean = intent.getParcelableExtra("address");
+            Log.d("EditAdressActivity", bean.toString());
             initView();
             initRegion();
         } else {
@@ -95,7 +97,7 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
             @Override
             public void onSuccess(ArrayList<Province> data, Province argo, Province.City arg1, Province.City.District arg2) {
                 pickerView = new AddressPickerView(EditAdressActivity.this, data);
-                if (argo == null) {
+                if (argo == null || arg1 == null || arg2 == null) {
                     //默认地区
                     pickerView.setRegion("北京市", "北京市", "东城区");
                 } else {
