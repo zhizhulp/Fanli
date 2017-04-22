@@ -125,15 +125,6 @@
         android:layout_width="match_parent"
         android:layout_height="42dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="所在地区:"
-            android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp" />
-
         <ImageView
             android:id="@+id/right_icon"
             android:layout_width="wrap_content"
@@ -144,15 +135,32 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/right2_arrow" />
 
-        <TextView
-            android:id="@+id/tv_locate"
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/right_icon"
-            android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="所在地区:"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/address_province"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+
     </RelativeLayout>
 
     <View
@@ -161,9 +169,9 @@
         android:background="@color/cutting_line" />
 
     <RelativeLayout
+        android:id="@+id/rl_selectStreet"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:id="@+id/rl_selectStreet">
+        android:layout_height="42dp">
 
         <TextView
             android:layout_width="wrap_content"

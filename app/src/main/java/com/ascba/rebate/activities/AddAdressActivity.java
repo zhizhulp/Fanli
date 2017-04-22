@@ -25,21 +25,25 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.task.AddressPickTask;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
+import cn.qqtheme.framework.beans.Province;
+
 /**
  * Created by 李鹏 on 2017/03/14 0014.
  * 新增地址
  */
 
-public class AddAdressActivity extends BaseNetActivity {
+public class AddAdressActivity extends BaseNetActivity implements View.OnClickListener {
 
     private ShopABarText bar;
-    private RelativeLayout btn_contact;
+    private RelativeLayout btn_contact, btn_selectPosition, btn_selectStreet;
     private Context context;
     private String[] permissions = new String[]{
             Manifest.permission.READ_CONTACTS,
@@ -47,8 +51,10 @@ public class AddAdressActivity extends BaseNetActivity {
     private EditText name, phone, address;
     private CheckBox chbDefault;
     private DialogManager dm;
-    private TextView tvLocate;
-    private TextView tvStreet;
+    private TextView txProvince;
+    private Province province;
+    private Province.City city;
+    private Province.City.District district;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +77,15 @@ public class AddAdressActivity extends BaseNetActivity {
             @Override
             public void clkBtn(View v) {
                 //保存
-                submitData();
+                dm = new DialogManager(context);
+                if (!StringUtils.isEmpty(name.getText().toString())
+                        && !StringUtils.isEmpty(phone.getText().toString())
+                        && !StringUtils.isEmpty(address.getText().toString())
+                        && province != null) {
+                    submitData();
+                } else {
+                    showToast("请填写完整收货地址信息");
+                }
             }
         });
 
@@ -91,8 +105,12 @@ public class AddAdressActivity extends BaseNetActivity {
         chbDefault = (CheckBox) findViewById(R.id.chb_default);
 
         //地区和街道
-        tvLocate = ((TextView) findViewById(R.id.tv_locate));
-        tvStreet = ((TextView) findViewById(R.id.tv_street));
+        btn_selectPosition = (RelativeLayout) findViewById(R.id.rl_selectPosition);
+        btn_selectPosition.setOnClickListener(this);
+        btn_selectStreet = (RelativeLayout) findViewById(R.id.rl_selectStreet);
+        btn_selectStreet.setOnClickListener(this);
+
+        txProvince = (TextView) findViewById(R.id.address_province);
     }
 
     /**
@@ -198,14 +216,13 @@ public class AddAdressActivity extends BaseNetActivity {
      * 提交数据
      */
     private void submitData() {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressAdd, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("consignee", name.getText().toString().trim());//收货人
         jsonRequest.add("mobile", phone.getText().toString().trim());//手机号
-        jsonRequest.add("province", 1);//省份ID
-        jsonRequest.add("city", 710682);//市ID
-        jsonRequest.add("district", 1106);//地区ID
+        jsonRequest.add("province", province.getId());//省份ID
+        jsonRequest.add("city", city.getId());//市ID
+        jsonRequest.add("district", district.getId());//地区ID
         jsonRequest.add("twon", 1158);//乡镇ID
         jsonRequest.add("address", address.getText().toString().trim());//地址内容
         jsonRequest.add("default", chbDefault.isChecked() ? 1 : 0);//是否默认——1：是， 0——否
@@ -231,16 +248,32 @@ public class AddAdressActivity extends BaseNetActivity {
         });
     }
 
-    /**
-     *点击选择地区
-     */
-    public void selectPosition(View view) {
 
-    }
-    /**
-     *点击选择街道
-     */
-    public void selectStreet(View view) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rl_selectStreet:
+                break;
+            case R.id.rl_selectPosition:
+                AddressPickTask task = new AddressPickTask(this);
+                task.setHideProvince(false);
+                task.setHideCounty(false);
+                task.setCallback(new AddressPickTask.Callback() {
+                    @Override
+                    public void onAddressInitFailed() {
+                        showToast("数据初始化失败");
+                    }
 
+                    @Override
+                    public void onAddressPicked(Province argo, Province.City arg1, Province.City.District arg2) {
+                        province = argo;
+                        city = arg1;
+                        district = arg2;
+                        txProvince.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
+                    }
+                });
+                task.execute("北京市", "北京市", "朝阳区");
+                break;
+        }
     }
 }
