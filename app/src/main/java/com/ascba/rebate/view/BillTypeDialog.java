@@ -2,6 +2,7 @@ package com.ascba.rebate.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -28,6 +29,7 @@ public class BillTypeDialog extends Dialog {
     private RecyclerView rv;
     private BillTypeAdapter adapter;
     private List<BillType> data;
+    private Context context;
     public interface Callback{
         void onClick(BillType bt,int position);
     }
@@ -43,6 +45,7 @@ public class BillTypeDialog extends Dialog {
     public BillTypeDialog(@NonNull Context context,List<BillType> data) {
         super(context);
         this.data=data;
+        this.context=context;
         init();
     }
 
@@ -66,6 +69,14 @@ public class BillTypeDialog extends Dialog {
         adapter = new BillTypeAdapter(R.layout.bill_dialog_item,data);
         rv.setLayoutManager(new GridLayoutManager(getContext(),3));
         rv.setAdapter(adapter);
+        //去除Holo主题的蓝色线条
+        try {
+            int dividerID = context.getResources().getIdentifier("android:id/titleDivider", null, null);
+            View divider = findViewById(dividerID);
+            divider.setBackgroundColor(Color.TRANSPARENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initCancel();
     }
 

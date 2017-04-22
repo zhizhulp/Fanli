@@ -112,10 +112,17 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
     private void showDataPickerDialog() {
         DatePickerDialog dateDlg = new DatePickerDialog(this, R.style.dialog,
                 new DatePickerDialog.OnDateSetListener() {
+                    Boolean mFired = false;
+
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Intent intent = new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
-                        startActivity(intent);
+                        if (mFired == true) {
+                            return;
+                        } else {
+                            Intent intent = new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
+                            startActivity(intent);
+                            mFired = true;
+                        }
                     }
                 },
                 dateAndTime.get(Calendar.YEAR),
