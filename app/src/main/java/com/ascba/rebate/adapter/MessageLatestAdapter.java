@@ -21,5 +21,7 @@ public class MessageLatestAdapter extends BaseQuickAdapter<NewsBean,BaseViewHold
     protected void convert(BaseViewHolder helper, NewsBean item) {
         helper.setText(R.id.latest_title,item.getTitle());
         helper.setText(R.id.latest_time,item.getTime());
+        helper.setText(R.id.latest_date,item.getDate());
+        helper.setText(R.id.latest_content,item.getContent());
     }
 }

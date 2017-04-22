@@ -5,5 +5,6 @@ package com.ascba.rebate.beans;
  */
 
 public enum CashAccountType {
-    EMPLOYEE,CASH_GET,EXCHANGE,RECHARGE,COST
+
+    EMPLOYEE,CASH_GET,EXCHANGE,RECHARGE,COST,ALL,AWARD
 }

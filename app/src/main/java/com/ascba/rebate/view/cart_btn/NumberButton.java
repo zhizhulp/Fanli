@@ -48,23 +48,13 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     public ImageView getAddButton() {
         return addButton;
     }
-
-    public void setAddButton(ImageView addButton) {
-        this.addButton = addButton;
-    }
-
     public ImageView getSubButton() {
         return subButton;
-    }
-
-    public void setSubButton(ImageView subButton) {
-        this.subButton = subButton;
     }
 
     public NumberButton(Context context) {
         this(context, null);
     }
-
     public NumberButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);

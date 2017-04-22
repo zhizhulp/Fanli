@@ -19,6 +19,7 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.BillAdapter;
 import com.ascba.rebate.beans.BillType;
 import com.ascba.rebate.beans.CashAccount;
+import com.ascba.rebate.beans.CashAccountType;
 import com.ascba.rebate.view.BillTypeDialog;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -65,6 +66,11 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
         billRV.setLayoutManager(new LinearLayoutManager(this));
         initData();
         billAdapter = new BillAdapter(billData);
+        billAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headerDecor.invalidateHeaders();
+            }
+        });
         billRV.setAdapter(billAdapter);
         headerDecor = new StickyRecyclerHeadersDecoration(billAdapter);
         billRV.addItemDecoration(headerDecor);
@@ -86,6 +92,9 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
         billRV.addOnItemTouchListener(touchListener);
     }
 
+    /**
+     * 时间筛选
+     */
     private void showDataPickerDialog() {
         DatePickerDialog dateDlg = new DatePickerDialog(this,R.style.dialog,
                 new DatePickerDialog.OnDateSetListener() {
@@ -113,45 +122,33 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
         window.setAttributes(wlp);
     }
 
-    private DatePicker findDatePicker(ViewGroup group){
-        if (group != null) {
-            for (int i = 0, j = group.getChildCount(); i < j; i++) {
-                View child = group.getChildAt(i);
-                if (child instanceof DatePicker) {
-                    return (DatePicker) child;
-                } else if (child instanceof ViewGroup) {
-                    DatePicker result = findDatePicker((ViewGroup) child);
-                    if (result != null)
-                        return result;
-                }
-            }
-        }
-        return null;
-    }
+
 
     private void initData() {
         billData=new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            CashAccount ca=new CashAccount("2015.6.1","21.36",(200+i)+"","你管不着",null,R.mipmap.cash_cost);
+            CashAccount ca=new CashAccount(null,"21.36",(200+i)+"","你管不着",null,R.mipmap.cash_cost);
             if(i>=0 && i<=2){
                 ca.setMonth("一月");
                 ca.setDay("2015.01.15");
+                ca.setType(CashAccountType.ALL);
             }else if(i>=3 && i<=10){
                 ca.setMonth("三月");
                 ca.setDay("2015.03.15");
+                ca.setType(CashAccountType.EXCHANGE);
             }else if(i>=10 && i<=20){
                 ca.setMonth("五月");
                 ca.setDay("2015.05.15");
+                ca.setType(CashAccountType.AWARD);
             }else{
+                ca.setType(CashAccountType.COST);
                 ca.setMonth("七月");
                 ca.setDay("2015.07.15");
             }
             billData.add(ca);
         }
     }
-    /**
-     * 若使用recyclerview修改visibility
-     */
+
     private void initRefreshLayout() {
         refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
         refreshLat.setOnPullRefreshListener(this);
@@ -194,17 +191,18 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
             public void onClick(BillType a,int position) {
                 WhiteBillActivity.this.position=position;
                 bt.dismiss();
-
+                billData.get(0).setType(a.type);//修改首行标题  全部。奖励。消费。兑换
+                billAdapter.notifyDataSetChanged();
             }
         });
     }
 
     private List<BillType> initTypeData(int position) {
         List<BillType> data=new ArrayList<>();
-        data.add(new BillType(false,"全部","123"));
-        data.add(new BillType(false,"奖励","234"));
-        data.add(new BillType(false,"消费","235"));
-        data.add(new BillType(false,"兑换","369"));
+        data.add(new BillType(false,"全部","123",CashAccountType.ALL));
+        data.add(new BillType(false,"奖励","234",CashAccountType.AWARD));
+        data.add(new BillType(false,"消费","235",CashAccountType.COST));
+        data.add(new BillType(false,"兑换","369",CashAccountType.EXCHANGE));
         for (int i = 0; i < data.size(); i++) {
             if(i==position){
                 data.get(i).hasSelect=true;
@@ -213,5 +211,21 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
             }
         }
         return data;
+    }
+
+    private DatePicker findDatePicker(ViewGroup group){
+        if (group != null) {
+            for (int i = 0, j = group.getChildCount(); i < j; i++) {
+                View child = group.getChildAt(i);
+                if (child instanceof DatePicker) {
+                    return (DatePicker) child;
+                } else if (child instanceof ViewGroup) {
+                    DatePicker result = findDatePicker((ViewGroup) child);
+                    if (result != null)
+                        return result;
+                }
+            }
+        }
+        return null;
     }
 }

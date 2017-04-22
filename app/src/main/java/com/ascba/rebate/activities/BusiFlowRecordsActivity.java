@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -87,7 +88,8 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        showToast("当前选择"+ year +"年"+ (month+1)+"月");
+                        //刷新数据
+                        adapter.notifyDataSetChanged();
                     }
                 },
                 dateAndTime.get(Calendar.YEAR),

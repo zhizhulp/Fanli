@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
@@ -22,10 +23,14 @@ import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
@@ -135,9 +140,12 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
                     NewsBean bean = new NewsBean();
                     bean.setTitle(newsObject.optString("title"));
                     String time = newsObject.optString("create_time");
-                    time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
+                    time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
                     bean.setTime(time);
                     bean.setId(newsObject.optString("article_url"));
+                    String date = getDate((Long.parseLong(newsObject.optString("create_time")) * 1000));
+                    bean.setDate(date);
+                    bean.setContent(newsObject.optString("description"));
                     beanList.add(bean);
                 }
             }
@@ -231,5 +239,18 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
     private void getPageCount(JSONObject dataObj) {
         totalPage = dataObj.optInt("total_page");
         nowPage++;
+    }
+
+    private String getDate(long time) {
+        Date date = new Date(time);
+        // 获取日期实例
+        Calendar calendar = Calendar.getInstance();
+        // 将日历设置为指定的时间
+        calendar.setTime(date);
+        // 这里要注意，月份是从0开始。
+        int month = calendar.get(Calendar.MONTH) + 1;
+        // 获取天
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        return month + "月" + day + "日";
     }
 }

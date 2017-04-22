@@ -118,6 +118,7 @@
                 </LinearLayout>
 
                 <com.ascba.rebate.view.cart_btn.NumberButton
+                    android:visibility="gone"
                     android:id="@+id/number_button"
                     android:layout_width="84dp"
                     android:layout_height="23dp"
