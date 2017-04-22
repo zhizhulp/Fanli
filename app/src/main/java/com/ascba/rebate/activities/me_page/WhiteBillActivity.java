@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,11 +112,17 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
     private void showDataPickerDialog() {
         DatePickerDialog dateDlg = new DatePickerDialog(this, R.style.dialog,
                 new DatePickerDialog.OnDateSetListener() {
+                    Boolean mFired = false;
+
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Log.d("WhiteBillActivity", "onDateSet");
-                        Intent intent = new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
-                        startActivity(intent);
+                        if (mFired == true) {
+                            return;
+                        } else {
+                            Intent intent = new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
+                            startActivity(intent);
+                            mFired = true;
+                        }
                     }
                 },
                 dateAndTime.get(Calendar.YEAR),
