@@ -147,4 +147,20 @@ public class ReceiveAddressBean implements Parcelable {
             return new ReceiveAddressBean[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "ReceiveAddressBean{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", isDefault='" + isDefault + '\'' +
+                ", isSelect=" + isSelect +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", district='" + district + '\'' +
+                ", twon='" + twon + '\'' +
+                '}';
+    }
 }

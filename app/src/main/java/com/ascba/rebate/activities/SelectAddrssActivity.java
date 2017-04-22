@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.SelectAddressAdapter;
@@ -21,9 +22,11 @@ import com.ascba.rebate.view.ShopABarText;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -181,7 +184,7 @@ public class SelectAddrssActivity extends BaseNetActivity {
                         addressBean.setAddress(object.optString("address"));
                         addressBean.setProvince(object.optString("province"));
                         addressBean.setCity(object.optString("city"));
-                        addressBean.setDistrict(object.optString("District"));
+                        addressBean.setDistrict(object.optString("district"));
                         addressBean.setTwon(object.optString("twon"));
                         String isSelected = object.optString("default");
                         addressBean.setIsDefault(isSelected);

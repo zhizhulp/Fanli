@@ -21,6 +21,7 @@ public class AddressPickerView {
     private boolean hideProvince = false;
     private boolean hideCounty = false;
     private ArrayList<Province> result;
+    private AddressPicker picker;
 
     public void setHideProvince(boolean hideProvince) {
         this.hideProvince = hideProvince;
@@ -47,16 +48,18 @@ public class AddressPickerView {
 
     public void showPicker() {
         if (result.size() > 0) {
-            AddressPicker picker = new AddressPicker(activity, result);
-            picker.setHideProvince(hideProvince);
-            picker.setHideCounty(hideCounty);
-            if (hideCounty) {
-                picker.setColumnWeight(1 / 3.0, 2 / 3.0);//将屏幕分为3份，省级和地级的比例为1:2
-            } else {
-                picker.setColumnWeight(2 / 8.0, 3 / 8.0, 3 / 8.0);//省级、地级和县级的比例为2:3:3
+            if (picker == null) {
+                picker = new AddressPicker(activity, result);
+                picker.setHideProvince(hideProvince);
+                picker.setHideCounty(hideCounty);
+                if (hideCounty) {
+                    picker.setColumnWeight(1 / 3.0, 2 / 3.0);//将屏幕分为3份，省级和地级的比例为1:2
+                } else {
+                    picker.setColumnWeight(2 / 8.0, 3 / 8.0, 3 / 8.0);//省级、地级和县级的比例为2:3:3
+                }
             }
-            picker.setSelectedItem(selectedProvince, selectedCity, selectedCounty);
             picker.setOnAddressPickListener(callback);
+            picker.setSelectedItem(selectedProvince, selectedCity, selectedCounty);
             picker.show();
         } else {
             callback.onAddressInitFailed();

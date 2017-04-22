@@ -2,6 +2,7 @@ package com.ascba.rebate.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,12 +27,16 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.task.AddressPickTask;
+import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.AddressPickerView;
 import com.ascba.rebate.view.ShopABarText;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import cn.qqtheme.framework.beans.Province;
 
@@ -55,6 +60,8 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
     private Province province;
     private Province.City city;
     private Province.City.District district;
+    private AddressPickerView pickerView;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
         setContentView(R.layout.activity_add_address);
         context = this;
         initView();
+        initRegion();
     }
 
 
@@ -81,7 +89,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
                 if (!StringUtils.isEmpty(name.getText().toString())
                         && !StringUtils.isEmpty(phone.getText().toString())
                         && !StringUtils.isEmpty(address.getText().toString())
-                        && province != null) {
+                        && province != null && province.getId() != 0) {
                     submitData();
                 } else {
                     showToast("请填写完整收货地址信息");
@@ -255,10 +263,32 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
             case R.id.rl_selectStreet:
                 break;
             case R.id.rl_selectPosition:
-                AddressPickTask task = new AddressPickTask(this);
-                task.setHideProvince(false);
-                task.setHideCounty(false);
-                task.setCallback(new AddressPickTask.Callback() {
+                if (pickerView == null) {
+                    dialog = ProgressDialog.show(context, null, "正在初始化数据...", true, true);
+                } else {
+                    pickerView.showPicker();
+                }
+                break;
+        }
+    }
+
+    /*
+     初始化地区数据
+  */
+    private void initRegion() {
+        InitAddressTask task = new InitAddressTask(this);
+        task.setInitData(new InitAddressTask.InitData() {
+            @Override
+            public void onSuccess(ArrayList<Province> data, Province argo, Province.City arg1, Province.City.District arg2) {
+                pickerView = new AddressPickerView(AddAdressActivity.this, data);
+                if (argo == null) {
+                    //默认地区
+                    pickerView.setRegion("北京市", "北京市", "东城区");
+                } else {
+                    txProvince.setText(argo.getName() + "-" + arg1.getName() + "-" + arg2.getName());
+                    pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
+                }
+                pickerView.setCallback(new AddressPickTask.Callback() {
                     @Override
                     public void onAddressInitFailed() {
                         showToast("数据初始化失败");
@@ -272,8 +302,21 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
                         txProvince.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
                     }
                 });
-                task.execute("北京市", "北京市", "朝阳区");
-                break;
-        }
+
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    pickerView.showPicker();
+                }
+            }
+
+            @Override
+            public void onFailed() {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                showToast("数据初始化失败");
+            }
+        });
+        task.execute();
     }
 }

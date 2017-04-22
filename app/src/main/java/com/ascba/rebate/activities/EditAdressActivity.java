@@ -2,6 +2,7 @@ package com.ascba.rebate.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,8 +28,10 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.task.AddressPickTask;
+import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.AddressPickerView;
 import com.ascba.rebate.view.ShopABarText;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -56,10 +59,11 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
     private DialogManager dm;
     private ReceiveAddressBean bean;
     private TextView txProvince;
-    private Province province;
-    private Province.City city;
-    private Province.City.District district;
-    private  ArrayList<Province> regionList;
+    private Province province = new Province();
+    private Province.City city = new Province.City();
+    private Province.City.District district = new Province.City.District();
+    private AddressPickerView pickerView;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +85,54 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
         }
     }
 
+    /*
+        初始化地区数据
+     */
     private void initRegion() {
+        InitAddressTask task = new InitAddressTask(this);
+        task.setRegionId(Integer.parseInt(bean.getProvince()), Integer.parseInt(bean.getCity()), Integer.parseInt(bean.getDistrict()));
+        task.setInitData(new InitAddressTask.InitData() {
+            @Override
+            public void onSuccess(ArrayList<Province> data, Province argo, Province.City arg1, Province.City.District arg2) {
+                pickerView = new AddressPickerView(EditAdressActivity.this, data);
+                if (argo == null) {
+                    //默认地区
+                    pickerView.setRegion("北京市", "北京市", "东城区");
+                    txProvince.setText("北京市-北京市-东城区");
+                } else {
+                    txProvince.setText(argo.getName() + "-" + arg1.getName() + "-" + arg2.getName());
+                    pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
+                }
+                pickerView.setCallback(new AddressPickTask.Callback() {
+                    @Override
+                    public void onAddressInitFailed() {
+                        showToast("数据初始化失败");
+                    }
 
+                    @Override
+                    public void onAddressPicked(Province argo, Province.City arg1, Province.City.District arg2) {
+                        province = argo;
+                        city = arg1;
+                        district = arg2;
+                        txProvince.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
+                    }
+                });
+
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    pickerView.showPicker();
+                }
+            }
+
+            @Override
+            public void onFailed() {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                showToast("数据初始化失败");
+            }
+        });
+        task.execute();
     }
 
 
@@ -102,7 +152,7 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
                 if (!StringUtils.isEmpty(name.getText().toString())
                         && !StringUtils.isEmpty(phone.getText().toString())
                         && !StringUtils.isEmpty(address.getText().toString())
-                        && province != null) {
+                        && province != null && province.getId() != 0) {
                     submitData();
                 } else {
                     showToast("请填写完整收货地址信息");
@@ -269,24 +319,11 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
                 break;
             case R.id.rl_selectPosition:
 
-                AddressPickTask task = new AddressPickTask(this);
-                task.setHideProvince(false);
-                task.setHideCounty(false);
-                task.setCallback(new AddressPickTask.Callback() {
-                    @Override
-                    public void onAddressInitFailed() {
-                        showToast("数据初始化失败");
-                    }
-
-                    @Override
-                    public void onAddressPicked(Province argo, Province.City arg1, Province.City.District arg2) {
-                        province = argo;
-                        city = arg1;
-                        district = arg2;
-                        txProvince.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
-                    }
-                });
-                task.execute("北京市", "北京市", "朝阳区");
+                if (pickerView == null) {
+                    dialog = ProgressDialog.show(context, null, "正在初始化数据...", true, true);
+                } else {
+                    pickerView.showPicker();
+                }
 
                 break;
         }
