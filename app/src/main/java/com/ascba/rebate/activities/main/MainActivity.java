@@ -186,7 +186,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
         //点击购物车，登陆成功
         if (requestCode == REQUEST_LOGIN_CAIFU && resultCode == RESULT_OK) {
-            index = CART;
+            index = CAIFU;
             selFrgByPos(index);
         }
 
