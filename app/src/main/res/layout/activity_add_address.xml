@@ -155,10 +155,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="14sp" />
         </LinearLayout>
-
 
 
     </RelativeLayout>

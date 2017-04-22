@@ -36,11 +36,7 @@ public class InitAddressTask extends AsyncTask<Void, Void, ArrayList<Province>> 
     }
 
     public void setRegionId(int arg0, int arg1, int arg2) {
-        try {
-            regions = new int[]{arg0,arg1,arg2};
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        regions = new int[]{arg0,arg1,arg2};
     }
 
     @Override

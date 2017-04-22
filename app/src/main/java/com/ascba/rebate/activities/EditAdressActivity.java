@@ -98,7 +98,6 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
                 if (argo == null) {
                     //默认地区
                     pickerView.setRegion("北京市", "北京市", "东城区");
-                    txProvince.setText("北京市-北京市-东城区");
                 } else {
                     txProvince.setText(argo.getName() + "-" + arg1.getName() + "-" + arg2.getName());
                     pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
