@@ -74,6 +74,6 @@ dependencies {
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     testCompile 'junit:junit:4.12'
-    compile project(':stickey_head_recyclerview')
+    compile project(':sticky_listview')
     compile project(':wheelPicker')
 }
