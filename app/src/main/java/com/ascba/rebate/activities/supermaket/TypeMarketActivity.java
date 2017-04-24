@@ -22,6 +22,7 @@ import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -63,6 +64,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
     private RelativeLayout searchHead;//搜索头
     private View searchHeadLine;//分割线
     private int mDistanceY = 0;//下拉刷新滑动距离
+    private MsgView msgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
                 ShopMessageActivity.startIntent(context);
             }
         });
+        msgView= (MsgView) findViewById(R.id.head_img_xiaoxi);
 
         rv = ((RecyclerView) findViewById(R.id.list_market));
         refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));

@@ -24,12 +24,11 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
 
-        <ImageView
+        <com.ascba.rebate.view.MsgView
             android:id="@+id/head_img_xiaoxi"
             android:layout_width="17dp"
             android:layout_height="17dp"
-            android:layout_alignParentTop="true"
-            android:src="@mipmap/shop_no_msg" />
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:layout_width="wrap_content"
