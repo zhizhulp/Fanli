@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -64,9 +65,11 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,7 +154,12 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
     private int indence;
     private int has_spec;//是否有规格
-    private String attention="请先选择商品";
+    private String attention = "请先选择商品";
+
+    private TextView txDescNum, txDesc;//描述相符
+    private TextView txServiceNum, txService;//服务态度
+    private TextView txSpeedNum, txSpeed;//发货速度
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +191,18 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          *店铺
          */
 
+        //描述相符
+        txDescNum = (TextView) findViewById(R.id.text_desc_num);
+        txDesc = (TextView) findViewById(R.id.text_desc);
+
+        //服务态度
+        txServiceNum = (TextView) findViewById(R.id.text_service_num);
+        txService = (TextView) findViewById(R.id.text_service);
+
+        //发货速度
+        txSpeedNum = (TextView) findViewById(R.id.text_speed_num);
+        txSpeed = (TextView) findViewById(R.id.text_speed);
+
         //logo
         String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
         imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
@@ -197,19 +217,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
         //大人推荐
         shopRecomm = (TextView) findViewById(R.id.goods_details_shop_img_recomm);
-
-        //描述相符
-        TextView shopDesc = (TextView) findViewById(R.id.goods_details_shop_text_desc);
-        shopDesc.setText(String.valueOf(4.8));
-
-        //服务态度
-        TextView shopmService = (TextView) findViewById(R.id.goods_details_shop_img_service);
-        shopmService.setText(String.valueOf(4.8));
-
-        //发货速度
-        TextView shopSpeed = (TextView) findViewById(R.id.goods_details_shop_text_speed);
-        shopSpeed.setText(String.valueOf(4.8));
-
 
         shopABar = findViewById(R.id.shopbar);
         findViewById(R.id.abar_im_back).setOnClickListener(this);
@@ -291,15 +298,59 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         });
     }
 
+    /*
+        店铺推荐
+     */
     private void getStore(JSONObject dataObj) {
         JSONObject obj = dataObj.optJSONObject("mallStore");
+        String storeId = dataObj.optString("id");
         String store_name = obj.optString("store_name");
         String store_logo = UrlUtils.baseWebsite + obj.optString("store_logo");
         phone = obj.optString("store_phone");
         int goods_count = obj.optInt("goods_count");
         Picasso.with(this).load(store_logo).placeholder(R.mipmap.busi_loading).into(imgLogo);
         shopName.setText(store_name);
-        shopAll.setText(goods_count + "");
+        shopAll.setText(String.valueOf(goods_count));
+        shopRecomm.setText(String.valueOf(goods_count));
+
+        //描述相符
+        try {
+            float desc = Float.parseFloat(obj.optString("store_desccredit"));
+            txDescNum.setText(String.valueOf(desc));
+            if (desc > 2.5) {
+                txDesc.setText("高");
+            } else {
+                txDesc.setText("低");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //服务态度
+        try {
+            float service = Float.parseFloat(obj.optString("store_servicecredit"));
+            txServiceNum.setText(String.valueOf(service));
+            if (service > 3.0) {
+                txService.setText("高");
+            } else {
+                txDesc.setText("低");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //发货速度
+        try {
+            float speed = Float.parseFloat(obj.optString("store_deliverycredit"));
+            txSpeedNum.setText(String.valueOf(speed));
+            if (speed > 3.0) {
+                txSpeed.setText("高");
+            } else {
+                txSpeed.setText("低");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -553,7 +604,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             }
         });
 
-
         /**
          * 商品1
          */
@@ -778,7 +828,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         //运费
         goods.setFreightPrice(fnum.format(goodsObject.optInt("freight_price")));
         //是否有规格
-        goods.setHasStandard(goodsObject.optInt("has_spec")==1);
+        goods.setHasStandard(goodsObject.optInt("has_spec") == 1);
     }
 
     /*
@@ -1012,9 +1062,9 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     获取规格数据
      */
     private void selectSpecification() {
-        if(has_spec==0){//无规格
+        if (has_spec == 0) {//无规格
             requestNetwork(UrlUtils.cartAddGoods, 0);
-        }else {//有规格
+        } else {//有规格
             Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsSpec, 0, true);
             jsonRequest.add("goods_id", goodsId);
             executeNetWork(jsonRequest, "请稍后");
@@ -1112,6 +1162,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         return gas;
 
     }
+
     //商品规格选择
     private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses) {
         if (gas.size() == 0 || goodses.size() == 0) {
@@ -1164,10 +1215,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isAll){
+                if (!isAll) {
                     getDm().buildAlertDialog(attention);
-                }else {
-                    nb.setCurrentNumber(nb.getNumber()+1);
+                } else {
+                    nb.setCurrentNumber(nb.getNumber() + 1);
                 }
             }
         });
@@ -1175,11 +1226,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         nb.getSubButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isAll){
-                    if(!isAll){
+                if (isAll) {
+                    if (!isAll) {
                         getDm().buildAlertDialog(attention);
-                    }else {
-                        nb.setCurrentNumber(nb.getNumber()-1);
+                    } else {
+                        nb.setCurrentNumber(nb.getNumber() - 1);
                     }
                 }
             }
@@ -1213,9 +1264,9 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if (scene == 0) {//把商品加入购物车
             request.add("store_id", goods.getStoreId());
-            request.add("goods_id", has_spec ==0 ? goods.getStoreId(): goodsSelect.getTitleId());
-            request.add("goods_num", has_spec ==0 ? 1: nb.getNumber());
-            request.add("goods_spec_id", has_spec ==0 ? null: goodsSelect.getCartId());
+            request.add("goods_id", has_spec == 0 ? goods.getStoreId() : goodsSelect.getTitleId());
+            request.add("goods_num", has_spec == 0 ? 1 : nb.getNumber());
+            request.add("goods_spec_id", has_spec == 0 ? null : goodsSelect.getCartId());
         } else if (scene == 1) {//结算
             request.add("cart_ids", goodsSelect.getCartId());
         }

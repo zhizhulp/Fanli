@@ -26,6 +26,7 @@ import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -152,7 +153,15 @@ public class BusinessShopActivity extends BaseNetActivity implements
         tvShopName = ((TextView) headView.findViewById(R.id.shop_name));
         headImg = (ImageView) headView.findViewById(R.id.shop_img_head);
 
-
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ShopBaseItem shopBaseItem = goodsList.get(position);
+                if (goodsList.size() != 0) {
+                    GoodsDetailsActivity.startIntent(context, shopBaseItem.getColor());
+                }
+            }
+        });
     }
 
 
