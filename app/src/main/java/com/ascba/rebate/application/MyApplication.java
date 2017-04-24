@@ -25,11 +25,6 @@ public class MyApplication extends MultiDexApplication {
     private static MyApplication app;
     private List<Activity> activities = new ArrayList<>();
 
-    /**
-     * 刷新个人中心：修改个人信息后
-     */
-    public static boolean isPersonalData;
-
     //支付类型
     public static int payType = 0;//0 充值 1商城支付
 

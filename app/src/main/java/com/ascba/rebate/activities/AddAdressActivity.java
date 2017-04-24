@@ -26,7 +26,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.task.AddressPickTask;
 import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -288,7 +287,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
                     txProvince.setText(argo.getName() + "-" + arg1.getName() + "-" + arg2.getName());
                     pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
                 }
-                pickerView.setCallback(new AddressPickTask.Callback() {
+                pickerView.setCallback(new InitAddressTask.Callback() {
                     @Override
                     public void onAddressInitFailed() {
                         showToast("数据初始化失败");

@@ -117,8 +117,6 @@ public class LoginActivity extends BaseNetActivity {
 
                 setResult(RESULT_OK, getIntent());
                 MyApplication.isLoad = true;
-
-                MyApplication.isPersonalData = true;
                 finish();
             }
 

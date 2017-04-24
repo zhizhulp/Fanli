@@ -29,9 +29,7 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.AgeChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.SexChangeActivity;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.task.AddressPickTask;
 import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -115,7 +113,7 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
                     tvLocation.setText(argo.getName() + "-" + arg1.getName() + "-" + arg2.getName());
                     pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
                 }
-                pickerView.setCallback(new AddressPickTask.Callback() {
+                pickerView.setCallback(new InitAddressTask.Callback() {
                     @Override
                     public void onAddressInitFailed() {
                         showToast("数据初始化失败");
@@ -392,7 +390,6 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
     //上传个人资料
     public void saveData(View view) {
         requestPData(1);
-        MyApplication.isPersonalData = true;
     }
 
     @Override

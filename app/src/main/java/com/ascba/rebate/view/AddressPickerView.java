@@ -2,7 +2,7 @@ package com.ascba.rebate.view;
 
 import android.app.Activity;
 
-import com.ascba.rebate.task.AddressPickTask;
+import com.ascba.rebate.task.InitAddressTask;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ import cn.qqtheme.framework.picker.AddressPicker;
 public class AddressPickerView {
 
     private Activity activity;
-    private AddressPickTask.Callback callback;
+    private InitAddressTask.Callback callback;
     private String selectedProvince = null, selectedCity = null, selectedCounty = null;
     private boolean hideProvince = false;
     private boolean hideCounty = false;
@@ -31,7 +31,7 @@ public class AddressPickerView {
         this.hideCounty = hideCounty;
     }
 
-    public void setCallback(AddressPickTask.Callback callback) {
+    public void setCallback(InitAddressTask.Callback callback) {
         this.callback = callback;
     }
 
