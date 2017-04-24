@@ -21,14 +21,6 @@
         <attr name="abar_bg" format="color|reference" />
     </declare-styleable>
 
-    <declare-styleable name="ShopBarIndicator">
-        <attr name="bar_title" format="string|reference" />
-        <attr name="bar_img1" format="integer|reference" />
-        <attr name="bar_img1_indicator" format="boolean|reference" />
-        <attr name="bar_img2" format="integer|reference" />
-        <attr name="bar_img2_indicator" format="boolean|reference" />
-    </declare-styleable>
-
     <declare-styleable name="MsgView">
         <attr name="msg_img" format="integer|reference"></attr>
         <attr name="msg_indicator" format="boolean|reference" />
