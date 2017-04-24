@@ -2,16 +2,13 @@ package com.ascba.rebate.task;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-
 import com.ascba.rebate.utils.ConvertUtils;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.qqtheme.framework.beans.Province;
+import cn.qqtheme.framework.picker.AddressPicker;
 
 
 /**
@@ -107,5 +104,9 @@ public class InitAddressTask extends AsyncTask<Void, Void, ArrayList<Province>> 
             data.add(province);
         }
         return data;
+    }
+
+    public interface Callback extends AddressPicker.OnAddressPickListener {
+        void onAddressInitFailed();
     }
 }
