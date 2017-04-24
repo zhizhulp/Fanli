@@ -76,6 +76,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <View
+        android:background="@color/main_line_light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
     <TextView
         android:textColor="@color/main_text_normal"
         android:textSize="@dimen/main_text_15"
@@ -116,11 +120,13 @@
     <View
         style="@style/viewStyleMargin"/>
     <TextView
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:gravity="center_vertical"
         android:background="@color/main_content_bg"
         android:id="@+id/tv_max_money"
         android:textColor="@color/main_text_normal"
         android:textSize="@dimen/main_text_15"
-        android:padding="15dp"
         android:text="本次兑换最大额度为0元"
         android:layout_width="match_parent"
         android:layout_height="45dp" />

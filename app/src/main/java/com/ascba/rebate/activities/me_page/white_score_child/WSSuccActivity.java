@@ -17,7 +17,6 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wssucc);
-        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
     }
@@ -55,4 +54,10 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = getIntent();
+        setResult(RESULT_OK,intent);
+    }
 }

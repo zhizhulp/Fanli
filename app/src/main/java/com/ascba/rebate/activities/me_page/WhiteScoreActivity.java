@@ -73,6 +73,7 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
             @Override
             public void onExchangeClick(int position) {
                 WhiteTicket wt = mList.get(position);
+                LogUtils.PrintLog("是否是测试1是0不是","isTest-->"+wt.getTest());
                 if (wt.getTest() == 1) {
                     dm.buildAlertDialog("推荐用户为体验账户升级，兑现券暂未激活！");
                     return;
@@ -90,9 +91,9 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_EXCHANGE:
-                setResult(REQUEST_EXCHANGE, getIntent());
-                finish();
-                break;
+                if(resultCode==RESULT_OK){
+                    requestNetWork();
+                }
         }
     }
 

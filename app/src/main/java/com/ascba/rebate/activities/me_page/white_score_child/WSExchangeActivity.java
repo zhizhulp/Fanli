@@ -15,6 +15,8 @@ import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
+import static com.ascba.rebate.activities.me_page.WhiteScoreActivity.REQUEST_EXCHANGE;
+
 public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivity.Callback{
     private DialogManager dm;
     private View noView;
@@ -33,7 +35,6 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wsaccount);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }
@@ -115,7 +116,7 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
         }else if(finalScene==2){
             Intent intent=new Intent(this,WSSuccActivity.class);
             intent.putExtra("money",cashing_money);
-            startActivityForResult(intent, WhiteScoreActivity.REQUEST_EXCHANGE);
+            startActivityForResult(intent, REQUEST_EXCHANGE);
         }
     }
 
@@ -135,10 +136,13 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case WhiteScoreActivity.REQUEST_EXCHANGE:
-                setResult(RESULT_OK,getIntent());
-                finish();
-                break;
+            case REQUEST_EXCHANGE:
+                if(resultCode==RESULT_OK){
+                    setResult(REQUEST_EXCHANGE,getIntent());
+                    finish();
+                    break;
+                }
+
         }
     }
 }
