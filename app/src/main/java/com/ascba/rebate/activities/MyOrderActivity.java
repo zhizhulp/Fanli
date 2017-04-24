@@ -2,7 +2,6 @@ package com.ascba.rebate.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -131,23 +130,23 @@ public class MyOrderActivity extends BaseNetActivity {
         /**
          * 遍历添加消息
          */
-        for (int i = 0; i < mTitleList.size(); i++) {
-            Bean bean = mTitleList.get(i);
-            if (bean.getNum() > 0) {
-                slidingtablayout.showMsg(i, bean.getNum());
-                /**
-                 * position
-                 * 偏移量
-                 */
-                slidingtablayout.setMsgMargin(i, 3, 12);
-                MsgView msgView = slidingtablayout.getMsgView(i);
-                if (msgView != null) {
-                    msgView.setBackgroundColor(Color.parseColor("#ffffffff"));
-                    msgView.setTextColor(Color.parseColor("#DD0E0E"));
-                    msgView.setStrokeColor(Color.parseColor("#DD0E0E"));
-                }
-            }
-        }
+//        for (int i = 0; i < mTitleList.size(); i++) {
+//            Bean bean = mTitleList.get(i);
+//            if (bean.getNum() > 0) {
+//                slidingtablayout.showMsg(i, bean.getNum());
+//                /**
+//                 * position
+//                 * 偏移量
+//                 */
+//                slidingtablayout.setMsgMargin(i, 3, 12);
+//                MsgView msgView = slidingtablayout.getMsgView(i);
+//                if (msgView != null) {
+//                    msgView.setBackgroundColor(Color.parseColor("#ffffffff"));
+//                    msgView.setTextColor(Color.parseColor("#DD0E0E"));
+//                    msgView.setStrokeColor(Color.parseColor("#DD0E0E"));
+//                }
+//            }
+//        }
         slidingtablayout.setCurrentTab(index);
 
     }

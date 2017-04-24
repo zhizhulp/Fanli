@@ -25,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
@@ -41,17 +42,19 @@ import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +88,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private PopupWindow popupWindow;
     private int finalScene;
     private static final long newTime= 24 *60 *60 *1000;//新文章变为旧文章的时间(ms)
+    private MsgView msgView;
 
 
     @Override
@@ -184,6 +188,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 ShopMessageActivity.startIntent(context);
             }
         });
+        msgView= (MsgView) view.findViewById(R.id.msgView);
 
 
         /**
@@ -347,7 +352,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             //消息数量
             int messageNum = dataObj.optInt("msg_tip_count");
             if (messageNum > 0) {
+                msgView.setIsIndicator(true);
             } else {
+                msgView.setIsIndicator(false);
             }
 
         /*String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";

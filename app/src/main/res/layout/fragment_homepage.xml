@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.ascba.rebate.view.SuspendLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <com.ascba.rebate.view.SuperSwipeRefreshLayout
         android:id="@+id/refresh_layout"
@@ -36,12 +36,11 @@
                 android:scaleType="centerCrop"
                 android:src="@mipmap/icon_back" />
 
-            <ImageView
+            <com.ascba.rebate.view.MsgView
+                android:id="@+id/msgView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/shop_no_msg" />
+                android:layout_height="wrap_content" />
         </FrameLayout>
 
         <FrameLayout

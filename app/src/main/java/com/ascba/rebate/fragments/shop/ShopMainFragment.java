@@ -35,6 +35,7 @@ import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BezierCurveAnimater;
+import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.cart_btn.NumberButton;
@@ -102,6 +103,7 @@ public class ShopMainFragment extends BaseNetFragment implements
     private boolean isAll;//是否选择了所有的规格
     private Goods goodsSelect;//选择的商品
     private String attention="请先选择商品";//没选择完整规格的提醒
+    private MsgView msgView;
 
     @Nullable
     @Override
@@ -136,6 +138,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 ShopMessageActivity.startIntent(getActivity());
             }
         });
+        msgView= (MsgView) view.findViewById(R.id.head_img_xiaoxi);
 
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
