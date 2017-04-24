@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/abar_im_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="55dp"
+        android:src="@mipmap/abar_back" />
+
+    <TextView
+        android:id="@+id/abar_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="@dimen/shop_title" />
+
+    <RelativeLayout
+        android:id="@+id/abar_im1_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/abar_im1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/shop_no_msg" />
+
+        <ImageView
+            android:id="@+id/abar_im1_indicator"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="-8dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/abar_im1"
+            android:background="@drawable/notify_img" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/abar_im2_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/abar_im1_layout"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/abar_im2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_cart_black" />
+        <ImageView
+            android:id="@+id/abar_im2_indicator"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="-6dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/abar_im2"
+            android:background="@drawable/notify_img" />
+    </RelativeLayout>
+
+</RelativeLayout>

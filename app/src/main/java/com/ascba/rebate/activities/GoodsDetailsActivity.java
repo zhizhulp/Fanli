@@ -191,18 +191,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          *店铺
          */
 
-        //描述相符
-        txDescNum = (TextView) findViewById(R.id.text_desc_num);
-        txDesc = (TextView) findViewById(R.id.text_desc);
-
-        //服务态度
-        txServiceNum = (TextView) findViewById(R.id.text_service_num);
-        txService = (TextView) findViewById(R.id.text_service);
-
-        //发货速度
-        txSpeedNum = (TextView) findViewById(R.id.text_speed_num);
-        txSpeed = (TextView) findViewById(R.id.text_speed);
-
         //logo
         String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
         imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
@@ -303,7 +291,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
      */
     private void getStore(JSONObject dataObj) {
         JSONObject obj = dataObj.optJSONObject("mallStore");
-        String storeId = dataObj.optString("id");
+        String storeId=dataObj.optString("id");
         String store_name = obj.optString("store_name");
         String store_logo = UrlUtils.baseWebsite + obj.optString("store_logo");
         phone = obj.optString("store_phone");
@@ -319,7 +307,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             txDescNum.setText(String.valueOf(desc));
             if (desc > 2.5) {
                 txDesc.setText("高");
-            } else {
+            }else {
                 txDesc.setText("低");
             }
         } catch (Exception e) {
@@ -328,11 +316,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
         //服务态度
         try {
-            float service = Float.parseFloat(obj.optString("store_servicecredit"));
+            float service=Float.parseFloat(obj.optString("store_servicecredit"));
             txServiceNum.setText(String.valueOf(service));
             if (service > 3.0) {
                 txService.setText("高");
-            } else {
+            }else {
                 txDesc.setText("低");
             }
         } catch (Exception e) {
@@ -341,11 +329,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
         //发货速度
         try {
-            float speed = Float.parseFloat(obj.optString("store_deliverycredit"));
+            float speed=Float.parseFloat(obj.optString("store_deliverycredit"));
             txSpeedNum.setText(String.valueOf(speed));
             if (speed > 3.0) {
                 txSpeed.setText("高");
-            } else {
+            }else {
                 txSpeed.setText("低");
             }
         } catch (Exception e) {
@@ -603,6 +591,19 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 startActivity(intent);
             }
         });
+
+
+        //描述相符
+        txDescNum = (TextView) findViewById(R.id.text_desc_num);
+        txDesc = (TextView) findViewById(R.id.text_desc);
+
+        //服务态度
+        txServiceNum = (TextView) findViewById(R.id.text_service_num);
+        txService = (TextView) findViewById(R.id.text_service);
+
+        //发货速度
+        txSpeedNum = (TextView) findViewById(R.id.text_speed_num);
+        txSpeed = (TextView) findViewById(R.id.text_speed);
 
         /**
          * 商品1
