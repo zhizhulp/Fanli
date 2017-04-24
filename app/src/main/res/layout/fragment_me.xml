@@ -8,8 +8,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/view_line_new">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,7 +91,7 @@
                         android:layout_marginTop="4dp"
                         android:text="我的推荐"
                         android:textColor="@color/main_text_normal"
-                        android:textSize="@dimen/main_text_14"/>
+                        android:textSize="@dimen/main_text_13"/>
                 </LinearLayout>
 
                 <View
@@ -123,7 +122,7 @@
                         android:layout_marginTop="4dp"
                         android:text="我的奖励"
                         android:textColor="@color/main_text_normal"
-                        android:textSize="@dimen/main_text_14" />
+                        android:textSize="@dimen/main_text_13" />
                 </LinearLayout>
 
                 <View
@@ -154,7 +153,7 @@
                         android:layout_marginTop="4dp"
                         android:text="会员特权"
                         android:textColor="@color/main_text_normal"
-                        android:textSize="@dimen/main_text_14" />
+                        android:textSize="@dimen/main_text_13" />
                 </LinearLayout>
             </LinearLayout>
             <!--实名认证-->
@@ -169,20 +168,23 @@
 
                 <ImageView
                     android:id="@+id/me_icon_01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/me_smrz" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@id/me_icon_01"
+                    android:layout_marginLeft="15dp"
                     android:text="实名认证"
                     android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_15" />
+                    android:textSize="@dimen/main_text_14"
+                    android:layout_alignBaseline="@+id/me_tv_smrz_sta"
+                    android:layout_alignBottom="@+id/me_tv_smrz_sta"
+                    android:layout_toRightOf="@+id/me_icon_01"
+                    android:layout_toEndOf="@+id/me_icon_01"
+                    android:layout_marginStart="15dp" />
 
                 <ImageView
                     android:id="@+id/me_icon_go"
@@ -200,7 +202,7 @@
                     android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@id/me_icon_go"
                     android:textColor="@color/main_text_gary"
-                    android:textSize="@dimen/main_text_15" />
+                    android:textSize="@dimen/main_text_14" />
             </RelativeLayout>
             <RelativeLayout
                 android:layout_marginBottom="0.5dp"
@@ -209,15 +211,16 @@
                 android:layout_height="46dp"
                 android:background="@color/main_content_bg"
                 android:onClick="settingMyQRCode"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp">
 
                 <ImageView
                     android:id="@+id/safe_setting_img_04"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:src="@mipmap/setting_qr_code"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/setting_qr_code" />
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -227,7 +230,8 @@
                     android:layout_toRightOf="@id/safe_setting_img_04"
                     android:text="我的推广码"
                     android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_15" />
+                    android:textSize="@dimen/main_text_14"
+                    android:id="@+id/textView7" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -250,8 +254,8 @@
 
                 <ImageView
                     android:id="@+id/me_icon_02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/me_sjlm" />
 
@@ -263,7 +267,7 @@
                     android:layout_toRightOf="@id/me_icon_02"
                     android:text="商家联盟"
                     android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_15" />
+                    android:textSize="@dimen/main_text_14" />
 
                 <ImageView
                     android:id="@+id/me_icon_go_02"
@@ -281,7 +285,7 @@
                     android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@id/me_icon_go_02"
                     android:textColor="@color/main_text_gary"
-                    android:textSize="@dimen/main_text_15"/>
+                    android:textSize="@dimen/main_text_14"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/me_lat_dlzq"
@@ -294,10 +298,10 @@
 
                 <ImageView
                     android:id="@+id/me_icon_06"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/me_sjlm" />
+                    android:src="@mipmap/proxy_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -305,7 +309,7 @@
                     android:layout_marginLeft="14dp"
                     android:text="代理专区"
                     android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_15"
+                    android:textSize="@dimen/main_text_14"
                     android:layout_alignTop="@+id/me_icon_06"
                     android:layout_toRightOf="@+id/me_icon_06"
                     android:layout_toEndOf="@+id/me_icon_06"
@@ -326,7 +330,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@id/me_icon_go_06"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/main_text_14" />
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/me_lat_msg"
@@ -339,8 +343,8 @@
 
                 <ImageView
                     android:id="@+id/me_icon_03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/me_msg" />
 
@@ -352,7 +356,7 @@
                     android:layout_toRightOf="@id/me_icon_03"
                     android:text="我的消息"
                     android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_15" />
+                    android:textSize="@dimen/main_text_14" />
 
                 <ImageView
                     android:id="@+id/me_icon_go_03"
@@ -380,8 +384,8 @@
 
                 <ImageView
                     android:id="@+id/me_icon_04"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/me_sz" />
 
@@ -393,7 +397,7 @@
                     android:layout_toRightOf="@id/me_icon_04"
                     android:text="设置"
                     android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_15" />
+                    android:textSize="@dimen/main_text_14" />
 
                 <ImageView
                     android:id="@+id/me_icon_go_04"
@@ -406,6 +410,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/contact_us_lat"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:background="@color/main_content_bg"
@@ -414,8 +419,8 @@
 
                 <ImageView
                     android:id="@+id/me_icon_05"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/me_dianhua" />
 
@@ -427,15 +432,14 @@
                     android:layout_toRightOf="@id/me_icon_05"
                     android:text="联系我们"
                     android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_15" />
+                    android:textSize="@dimen/main_text_14" />
 
                 <TextView
                     android:id="@+id/me_tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="400-6611-781" />
+                    android:layout_centerVertical="true" />
 
             </RelativeLayout>
 

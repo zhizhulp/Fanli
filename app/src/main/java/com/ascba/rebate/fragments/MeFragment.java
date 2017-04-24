@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.RoundImageView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -65,6 +67,7 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
     private TextView tvUserName;
     private View qrView;
     private View viewDlZq;
+    private View viewPhone;
 
 
     @Override
@@ -129,6 +132,8 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
         viewSetting.setOnClickListener(this);
         //电话
         tvPhone = ((TextView) view.findViewById(R.id.me_tv_phone));
+        viewPhone = view.findViewById(R.id.contact_us_lat);
+        viewPhone.setOnClickListener(this);
 
         requestData(UrlUtils.user, 3);
     }
@@ -192,6 +197,14 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
             case R.id.me_lat_setting://设置
                 Intent intent2 = new Intent(getActivity(), SettingActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.contact_us_lat://联系我们
+                String s = tvPhone.getText().toString();
+                if(!StringUtils.isEmpty(s)){
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+s)));
+                }
+
+
                 break;
 
         }
