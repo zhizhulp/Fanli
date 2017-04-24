@@ -202,7 +202,6 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 final String orderId = beanArrayList.get(position).getId();
-                showToast("orderId:" + orderId);
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情

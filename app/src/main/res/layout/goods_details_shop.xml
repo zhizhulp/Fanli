@@ -144,7 +144,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/goods_details_shop_text_desc"
+                    android:id="@+id/text_desc_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -152,6 +152,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/text_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11.5dp"
@@ -179,7 +180,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/goods_details_shop_img_service"
+                    android:id="@+id/text_service_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -187,6 +188,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/text_service"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11.5dp"
@@ -215,7 +217,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/goods_details_shop_text_speed"
+                    android:id="@+id/text_speed_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -223,6 +225,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/text_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11.5dp"

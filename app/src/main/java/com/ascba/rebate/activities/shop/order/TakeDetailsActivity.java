@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.shop.order;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,7 +46,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRe
     private DeliverDetailsAdapter adapter;
     //收货地址
     private RelativeLayout addressView;
-    private LinearLayout contactStoreTx,countdownView;
+    private LinearLayout contactStoreTx, countdownView;
     private TextView phoneTx, nameTx, addressTx;
     private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
@@ -311,6 +312,10 @@ public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRe
             case R.id.contact_store:
                 //联系商家
                 if (!StringUtils.isEmpty(storePhone)) {
+                    Intent intent1 = new Intent();
+                    intent1.setAction(Intent.ACTION_DIAL);
+                    intent1.setData(Uri.parse("tel:" + storePhone));
+                    startActivity(intent1);
                 }
                 break;
         }
