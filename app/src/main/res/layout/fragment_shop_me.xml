@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,19 +31,13 @@
             android:layout_marginRight="9.5dp"
             android:padding="5dp">
 
-            <ImageView
-                android:id="@+id/activity_pc_item_head_xiaoxi"
+            <com.ascba.rebate.view.MsgView
+                android:id="@+id/shop_me_msg_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/shop_no_msg" />
+                app:msg_img="@mipmap/shop_no_msg"
+                app:msg_indicator="false" />
 
-            <ImageView
-                android:id="@+id/activity_pc_item_head_xiaoxi_notify"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_marginLeft="-8dp"
-                android:layout_toRightOf="@+id/activity_pc_item_head_xiaoxi"
-                android:background="@drawable/notify_img" />
         </RelativeLayout>
 
         <ImageView

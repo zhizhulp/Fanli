@@ -23,6 +23,7 @@ import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -47,6 +48,7 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
     private View headView;
     private View headViewLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
+    private MsgView msgView;
 
 
     @Override
@@ -95,7 +97,8 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
         });
 
         //消息
-        view.findViewById(R.id.activity_pc_item_head_message).setOnClickListener(new View.OnClickListener() {
+        msgView = (MsgView) view.findViewById(R.id.shop_me_msg_view);
+        msgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShopMessageActivity.startIntent(getActivity());

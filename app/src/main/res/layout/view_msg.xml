@@ -7,8 +7,7 @@
         android:id="@+id/view_msg_im"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/shop_no_msg" />
+        android:layout_centerInParent="true" />
 
     <ImageView
         android:id="@+id/view_msg_indicator"
