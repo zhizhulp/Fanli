@@ -30,6 +30,7 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
     private Button btnTicket;
     private MoneyBar moneyBar;
     private View noView;
+    private int status;//0 无兑换券 1 有兑换券，可以进入商城 2 有兑换券，不可以进入商城
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,11 +101,15 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
             Collections.sort(mList);
             ticketAdapter.notifyDataSetChanged();
             btnTicket.setText("前往商城");
-            if(is_shop==0){
+            if(is_shop==0){//不可以进商城
+                status=2;
                 btnTicket.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
                 btnTicket.setEnabled(false);
+            }else {//可以进商城
+                status=1;
             }
         }else{
+            status=0;
             noView.setVisibility(View.VISIBLE);
             btnTicket.setText("兑换代金券");
         }
@@ -122,8 +127,12 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
 
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent(this,ShopActivity.class);
-        startActivity(intent);
-        finish();
+        if(status==0){//进入兑换代金券页面
+            Intent intent=new Intent(this,RedScoreUpdateActivity.class);
+            startActivity(intent);
+        }else if(status==1){//进入商城
+            Intent intent=new Intent(this,ShopActivity.class);
+            startActivity(intent);
+        }
     }
 }

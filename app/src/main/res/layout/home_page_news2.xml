@@ -22,14 +22,15 @@
         android:textSize="14sp" />
 
     <TextView
+        android:gravity="left"
         android:id="@+id/item_news_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
-        android:layout_toLeftOf="@id/item_news_time"
         android:layout_toRightOf="@id/item_news_icon"
+        android:layout_toLeftOf="@id/item_news_time"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/shop_normal_text_color"

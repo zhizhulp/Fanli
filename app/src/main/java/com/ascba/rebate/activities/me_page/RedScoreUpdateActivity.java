@@ -31,7 +31,6 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_red_score_update);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestRedScore();
     }
@@ -94,7 +93,7 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override
@@ -120,35 +119,6 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
                 setCallback(RedScoreUpdateActivity.this);
             }
         });
-    }
-
-    //将带小数点专为比例
-    public String getMaxDivide_ab(double a, double b) {
-        if (a == b) {
-            return "当前兑换比例 1:1";
-        }
-        int value = 1;
-        double max;
-        double min;
-        int intA = (int) (a * 10);
-        int intB = (int) (b * 10);
-        if (intA > intB) {
-            max = intA;
-            min = intB;
-        } else {
-            max = intB;
-            min = intA;
-        }
-        for (int i = 2; i <= min; i++) {
-            if (0 == max % i && 0 == min % i) {
-                value = i;
-                break;
-            }
-
-        }
-        StringBuffer sb = new StringBuffer();
-        sb.append("今日兑换比例 ").append(intA / value).append(":").append(intB / value);
-        return sb.toString();
     }
 
     //去账单列表

@@ -11,6 +11,7 @@ import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -38,7 +39,6 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_to);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         requestNetWork();
     }
@@ -102,6 +102,7 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        LogUtils.PrintLog("兑现券列表","data-->"+dataObj);
         int is_cashing_list = dataObj.optInt("is_cashing_list");//是否有券
         if (is_cashing_list == 0) {//无券
             noView.setVisibility(View.VISIBLE);

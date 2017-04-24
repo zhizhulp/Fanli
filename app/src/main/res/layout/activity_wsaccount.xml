@@ -76,15 +76,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <View
-        style="@style/viewStyleMatch"/>
     <TextView
         android:textColor="@color/main_text_normal"
         android:textSize="@dimen/main_text_15"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:background="@color/main_content_bg"
-        android:layout_marginTop="15dp"
+        android:paddingTop="15dp"
         android:text="兑换金额"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -84,6 +84,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private List<HomePageMultiItemItem> items = new ArrayList<>();
     private PopupWindow popupWindow;
     private int finalScene;
+    private static final long newTime= 24 *60 *60 *1000;//新文章变为旧文章的时间(ms)
 
 
     @Override
@@ -265,15 +266,15 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         if (popupWindow == null) {
             View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
 
-            //付款
-            LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
+            //付款(暂时无扫一扫功能)
+            /*LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(getActivity(), CaptureActivity.class));
                     popupWindow.dismiss();
                 }
-            });
+            });*/
 
             //收款
             LinearLayout btnRece = (LinearLayout) view.findViewById(R.id.pop_hm_rece);
@@ -391,15 +392,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE10, R.layout.home_page_more_news, "最新动态"));
         //分割线
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
-//        //新闻
-//        List<NewsBean> newsBeen = new ArrayList<>();
-//        String img = "http://image18-c.poco.cn/mypoco/myphoto/20170311/13/18505011120170311135433013_640.jpg";
-//        newsBeen.add(new NewsBean("实时资讯", img));
-//        newsBeen.add(new NewsBean("创业动态", img));
-//        newsBeen.add(new NewsBean("官方公告", img));
-//        newsBeen.add(new NewsBean("官方公告", img));
-//        newsBeen.add(new NewsBean("帮助中心", img));
-//        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE11, newsBeen, R.layout.home_page_news1));
+
         JSONArray jsonArray = dataObj.optJSONArray("article_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -408,9 +401,12 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     String title = jsonObject.optString("title");
                     String id = jsonObject.optString("id");
                     String time = jsonObject.optString("create_time");
-                    time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
+                    long create_time = Long.parseLong(time);
+                    time = TimeUtils.milli2String((create_time * 1000));
                     String url = jsonObject.optString("article_url");
-                    items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12, new NewsBean(id, title, time, url), R.layout.home_page_news2));
+                    NewsBean newsBean = new NewsBean(id, title, time, url);
+                    newsBean.setIcon(System.currentTimeMillis() - create_time >= newTime);
+                    items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12,newsBean , R.layout.home_page_news2));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -23,6 +23,7 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -217,6 +218,7 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
                 }
             }
         } else if (finalScene == 0) {
+            LogUtils.PrintLog("财富数据","data-->"+dataObj);
             if (refreshLayout != null && refreshLayout.isRefreshing()) {
                 refreshLayout.setRefreshing(false);
             }

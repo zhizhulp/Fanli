@@ -10,7 +10,7 @@
     tools:context="com.ascba.rebate.activities.me_page.WhiteScoreActivity">
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/moneyBar"
-        app:textTitle="我的兑现券"
+        app:textTitle="我的提现券"
         app:needComplete="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
