@@ -45,6 +45,7 @@ import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.IntegralValueAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.GoodsDetailsItem;
@@ -165,6 +166,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
+        ((MyApplication) getApplication()).addActivity(this);
         context = this;
         initView();
         //获取商品详情

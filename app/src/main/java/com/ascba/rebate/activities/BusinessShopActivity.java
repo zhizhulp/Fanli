@@ -12,13 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.BusinessShopAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
@@ -140,7 +141,14 @@ public class BusinessShopActivity extends BaseNetActivity implements
 
             @Override
             public void clkOther(View v) {
-                Toast.makeText(context, "购物车", Toast.LENGTH_SHORT).show();
+                ShopActivity.setIndex(ShopActivity.CART);
+                MyApplication application = (MyApplication) getApplication();
+                application.removeActivity(BusinessShopActivity.this);
+                finish();
+                if (application.getActivities().contains(new GoodsDetailsActivity())) {
+                    application.removeActivity(new GoodsDetailsActivity());
+                    new GoodsDetailsActivity().finish();
+                }
             }
         });
 
