@@ -404,7 +404,6 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
 
         refreshLat.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
-        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 
     /**

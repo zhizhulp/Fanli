@@ -39,7 +39,7 @@ public class BCProcessActivity extends BaseNetActivity {
 
         });
         webview.loadUrl(UrlUtils.explain);
-        dm.buildWaitDialog("请稍后").showDialog();
+        dm.buildWaitDialog("请稍后");
     }
 
     //进入公司认证界面

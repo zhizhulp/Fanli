@@ -135,7 +135,7 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
         viewPhone = view.findViewById(R.id.contact_us_lat);
         viewPhone.setOnClickListener(this);
 
-        requestData(UrlUtils.user, 3);
+        //requestData(UrlUtils.user, 3);
     }
 
     @Override
