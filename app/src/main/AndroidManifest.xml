@@ -533,10 +533,12 @@
         <activity
             android:name=".activities.BusinessShopActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.shop.ShopActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.ASKCollegeActivity"

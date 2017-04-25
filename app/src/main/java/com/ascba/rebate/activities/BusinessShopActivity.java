@@ -141,12 +141,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
             @Override
             public void clkOther(View v) {
                 ShopActivity.setIndex(ShopActivity.CART);
-                finish();
-                try {
-                    GoodsDetailsActivity.context.finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                startActivity(new Intent(context, ShopActivity.class));
             }
         });
 

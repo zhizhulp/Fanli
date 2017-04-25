@@ -777,7 +777,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             case R.id.abar_im_cart:
                 //购物车
                 ShopActivity.setIndex(ShopActivity.CART);
-                finish();
+                startActivity(new Intent(context, ShopActivity.class));
                 break;
         }
     }
