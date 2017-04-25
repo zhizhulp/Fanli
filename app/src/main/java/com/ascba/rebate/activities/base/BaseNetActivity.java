@@ -2,9 +2,11 @@ package com.ascba.rebate.activities.base;
 
 import android.content.Intent;
 
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.utils.LogUtils;
 
 import org.json.JSONObject;
 
@@ -65,7 +67,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     @Override
     protected void requstFailed(int what, Exception e) {
         mhandleFailed(what, e);
-
+        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     @Override

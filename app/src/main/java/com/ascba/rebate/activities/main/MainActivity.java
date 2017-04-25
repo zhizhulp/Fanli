@@ -22,6 +22,7 @@ import com.ascba.rebate.fragments.HomePageFragment;
 import com.ascba.rebate.fragments.MeFragment;
 import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.SideFragment;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
@@ -57,7 +58,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private static final int REQUEST_LOGIN_ME = 2017;
 
     private List<Fragment> fgts = new ArrayList<>();
-    private DialogManager2 dm;
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -96,15 +96,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private AppTabs appTabs;
 
 
-    public DialogManager2 getDm() {
-        return dm;
-    }
-
-    public void setDm(DialogManager2 dm) {
-        this.dm = dm;
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +106,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     }
 
     private void findViews() {
-        dm = new DialogManager2(this);
         initFragments();
         appTabs = ((AppTabs) findViewById(R.id.tabs));
         appTabs.setCallback(this);
@@ -184,7 +174,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             selFrgByPos(index);
         }
 
-        //点击购物车，登陆成功
+        //点击财富，登陆成功
         if (requestCode == REQUEST_LOGIN_CAIFU && resultCode == RESULT_OK) {
             index = CAIFU;
             selFrgByPos(index);

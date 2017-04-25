@@ -283,7 +283,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
+                dm.buildAlertDialog(getString(R.string.no_network));
             }
         });
     }

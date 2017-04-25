@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.ascba.rebate.R;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -124,10 +125,10 @@ public abstract class BaseActivityNet extends BaseActivity {
      * @return
      */
     public DialogManager2 getDm() {
-        if (dialogManager == null) {
-            dialogManager = new DialogManager2(this);
+        /*if (dialogManager == null) {
+            dialogManager = new DialogManager(this);
         }
-        dialogManager.dismissDialog();
+        dialogManager.dismissDialog();*/
         return dialogManager;
     }
 
@@ -136,6 +137,12 @@ public abstract class BaseActivityNet extends BaseActivity {
      */
     protected void cancelNetWork() {
         MyApplication.getRequestQueue().cancelAll();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelNetWork();
     }
 
     /**
