@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.guide.GuideActivity;
@@ -20,6 +21,7 @@ import com.ascba.rebate.utils.SharedPreferencesUtil;
 public class SplashActivity extends Activity {
 
     private Handler handler = new Handler();
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,19 @@ public class SplashActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //设置无标题
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  //设置全屏
         setContentView(R.layout.activity_splash);
-        startMainActivity();
+        imageView = (ImageView) findViewById(R.id.iv_entry);
+
+        startSplashActivity();
+    }
+
+    private void startSplashActivity() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setImageResource(R.mipmap.start1);
+                startMainActivity();
+            }
+        }, 3000);
     }
 
     private void startMainActivity() {
@@ -43,7 +57,6 @@ public class SplashActivity extends Activity {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     SplashActivity.this.finish();
                 }
-
             }
         }, 2000);
     }
