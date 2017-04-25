@@ -113,6 +113,8 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
 
     @Override
     protected void requstFailed(int what, Exception e) {
+        getDm().dismissDialog();
+        getDm().buildAlertDialog(getString(R.string.no_response));
         mhandleFailed(what, e);
         if (callback != null) {
             callback.handleReqFailed();
@@ -120,18 +122,12 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
         if (callbackWhat != null) {
             callbackWhat.handleReqFailed(what);
         }
-        getDm().buildAlertDialog(getString(R.string.no_response));
+        showToast("请求失败");
     }
 
     @Override
     protected void requstFinish(int what) {
-        try {
-            if (getDm() != null) {
-                getDm().dismissDialog();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        getDm().dismissDialog();
         mhandleFinish(what);
     }
 
