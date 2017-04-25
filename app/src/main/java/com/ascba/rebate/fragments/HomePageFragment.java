@@ -412,7 +412,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     time = TimeUtils.milli2String((create_time * 1000));
                     String url = jsonObject.optString("article_url");
                     NewsBean newsBean = new NewsBean(id, title, time, url);
-                    newsBean.setIcon(System.currentTimeMillis() - create_time >= newTime);
+                    newsBean.setIcon((System.currentTimeMillis() - (create_time * 1000)) <= newTime);
                     items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12,newsBean , R.layout.home_page_news2));
                 } catch (Exception e) {
                     e.printStackTrace();
