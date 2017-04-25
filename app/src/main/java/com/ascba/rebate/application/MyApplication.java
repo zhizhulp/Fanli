@@ -124,6 +124,10 @@ public class MyApplication extends MultiDexApplication {
         //System.exit(0);
     }
 
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
     private WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
 
 

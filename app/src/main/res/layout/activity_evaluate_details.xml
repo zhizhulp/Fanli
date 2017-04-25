@@ -48,6 +48,7 @@
             android:background="@drawable/gray_bg"
             android:gravity="center"
             android:paddingLeft="22dp"
+            android:visibility="gone"
             android:paddingRight="22dp"
             android:text="退款"
             android:textSize="15sp" />
