@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.ProfileAdapter;
@@ -106,10 +107,9 @@ public class StdDialog extends Dialog {
         rvRule.setLayoutManager(new LinearLayoutManager(context));
         //添加尾部试图
         View view1 = LayoutInflater.from(context).inflate(R.layout.num_btn_layout, null);
-
         nb = (NumberButton) view1.findViewById(R.id.num_btn);
         nb.setCurrentNumber(1);//默认数量为1
-        nb.getAddButton().setOnClickListener(new View.OnClickListener() {
+        /*nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nb.setCurrentNumber(nb.getNumber() + 1);
@@ -119,6 +119,18 @@ public class StdDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 nb.setCurrentNumber(nb.getNumber() - 1);
+            }
+        });*/
+
+        nb.setOnWarnListener(new NumberButton.OnWarnListener() {
+            @Override
+            public void onWarningForInventory(int inventory) {
+                Toast.makeText(getContext(), "购买数量不能大于库存数量", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onWarningForBuyMax(int max) {
+
             }
         });
         adapter.addFooterView(view1, 0);
@@ -141,7 +153,6 @@ public class StdDialog extends Dialog {
                 if (isAllSelect) {//所有选择完毕
                     setTitleText();
                 }
-
             }
         });
         //去除Holo主题的蓝色线条
