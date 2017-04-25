@@ -30,7 +30,6 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec_qr);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         createQR();
         requestFromServer();
@@ -50,7 +49,7 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
         if(!p_id.equals("")||!p_url.equals("")){
             tvRecId.setText("推荐ID:"+p_id);
             tvRecNet.setText(p_url);
-            Bitmap qrCode = createQRCode(p_url, 200, 200);
+            Bitmap qrCode = createQRCode(p_url, 250, 250);
             imQR.setImageBitmap(qrCode);
         }
     }
@@ -61,28 +60,11 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
         setCallback(this);
     }
 
-
-
-    private void initMoneyBar() {
-        shareBar = ((MoneyBar) findViewById(R.id.mb_rec_qr));
-        shareBar.setCallBack(new MoneyBar.CallBack() {
-            @Override
-            public void clickImage(View im) {
-                //跳转第三方分享
-            }
-
-            @Override
-            public void clickComplete(View tv) {
-
-            }
-        });
-    }
-
     public Bitmap createQRCode(String content,int width,int height){
         int dpWidth = ScreenDpiUtils.dip2px(this, width);
         int dpHeight = ScreenDpiUtils.dip2px(this, height);
-
-        return QrUtils.createImage(content, dpWidth, dpHeight, BitmapFactory.decodeResource(getResources(), R.mipmap.logo));
+        return QrUtils.createQRImage(content,dpWidth,dpHeight);
+        //return QrUtils.createImage(content, dpWidth, dpHeight, BitmapFactory.decodeResource(getResources(), R.mipmap.logo));
     }
 
     public void copyText(View view) {
