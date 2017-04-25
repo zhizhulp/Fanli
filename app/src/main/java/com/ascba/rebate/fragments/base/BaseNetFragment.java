@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -119,7 +120,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
         if (callbackWhat != null) {
             callbackWhat.handleReqFailed(what);
         }
-
+        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     @Override

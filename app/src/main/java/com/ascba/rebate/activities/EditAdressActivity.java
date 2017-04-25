@@ -102,6 +102,9 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
                 } else {
                     txProvince.setText(argo.getName() + "-" + arg1.getName() + "-" + arg2.getName());
                     pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
+                    province=argo;
+                    city=arg1;
+                    district=arg2;
                 }
                 pickerView.setCallback(new InitAddressTask.Callback() {
                     @Override
