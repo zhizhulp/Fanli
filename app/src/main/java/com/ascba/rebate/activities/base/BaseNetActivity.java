@@ -65,6 +65,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     @Override
     protected void requstFailed(int what, Exception e) {
         mhandleFailed(what, e);
+
     }
 
     @Override

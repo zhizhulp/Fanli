@@ -113,6 +113,13 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
     @Override
     protected void requstFailed(int what, Exception e) {
         mhandleFailed(what, e);
+        if (callback != null) {
+            callback.handleReqFailed();
+        }
+        if (callbackWhat != null) {
+            callbackWhat.handleReqFailed(what);
+        }
+
     }
 
     @Override
