@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseActivityNet;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -19,6 +19,7 @@ import com.yanzhenjie.nohttp.rest.CacheMode;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
+
 import org.json.JSONObject;
 
 /**
@@ -54,15 +55,16 @@ public abstract class BaseFragmentNet extends BaseFragment {
         if (hasCache()) {
             jsonRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
         }
-
-        if (defaultParam) {
-            int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        if (defaultParam || uuid != -1000) {
             String token = AppConfig.getInstance().getString("token", "");
             long expiring_time = AppConfig.getInstance().getLong("expiring_time", -2000);
             jsonRequest.add("sign", UrlEncodeUtils.createSign(url));
             jsonRequest.add("uuid", uuid);
             jsonRequest.add("token", token);
             jsonRequest.add("expiring_time", expiring_time);
+        } else {
+            jsonRequest.add("sign", UrlEncodeUtils.createSign(url));
         }
         return jsonRequest;
     }

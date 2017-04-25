@@ -9,13 +9,27 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/item_message_img"
+        <RelativeLayout
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="14dp"
-            android:scaleType="centerCrop" />
+            android:layout_marginLeft="14dp">
+
+            <ImageView
+                android:id="@+id/item_message_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/item_message_img_indicator"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignRight="@id/item_message_img"
+                android:layout_alignTop="@id/item_message_img"
+                android:visibility="invisible"
+                android:background="@drawable/notify_img" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,12 +39,25 @@
             android:layout_marginRight="14dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/item_message_title"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#666666"
-                android:textSize="13sp" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/item_message_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/item_message_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/item_message_content"

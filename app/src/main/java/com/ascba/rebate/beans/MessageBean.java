@@ -5,25 +5,14 @@ package com.ascba.rebate.beans;
  */
 
 public class MessageBean {
-    private int drawable;
+    private String id;
+    private String img;
+    private String time;
     private String title;
     private  String content;
+    private int count;
 
     public MessageBean() {
-    }
-
-    public MessageBean(int drawable, String title, String content) {
-        this.drawable = drawable;
-        this.title = title;
-        this.content = content;
-    }
-
-    public int getDrawable() {
-        return drawable;
-    }
-
-    public void setDrawable(int drawable) {
-        this.drawable = drawable;
     }
 
     public String getTitle() {
@@ -40,5 +29,37 @@ public class MessageBean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

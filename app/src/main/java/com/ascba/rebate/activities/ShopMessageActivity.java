@@ -11,12 +11,21 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ShopMessageAdapter;
 import com.ascba.rebate.beans.MessageBean;
+import com.ascba.rebate.utils.TimeUtils;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.yanzhenjie.nohttp.rest.Request;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by 李鹏 on 2017/03/27 0027.
@@ -28,6 +37,8 @@ public class ShopMessageActivity extends BaseNetActivity {
     private ShopABarText bar;
     private RecyclerView recyclerView;
     private Context context;
+    private List<MessageBean> beanList = new ArrayList<>();
+    private ShopMessageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,7 @@ public class ShopMessageActivity extends BaseNetActivity {
         setContentView(R.layout.activity_shop_message);
         context = this;
         initView();
+        requstData();
     }
 
     public static void startIntent(Context context) {
@@ -58,7 +70,7 @@ public class ShopMessageActivity extends BaseNetActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        ShopMessageAdapter adapter = new ShopMessageAdapter(R.layout.item_message, getData());
+        adapter = new ShopMessageAdapter(context, R.layout.item_message, beanList);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -78,11 +90,42 @@ public class ShopMessageActivity extends BaseNetActivity {
         });
     }
 
-    public List<MessageBean> getData() {
-        List<MessageBean> beanList = new ArrayList<>();
-        beanList.add(new MessageBean(R.mipmap.icon_mess_sale, "最新公告", "关于钱来钱往2017年发布会通知"));
-        beanList.add(new MessageBean(R.mipmap.icon_mess_sys, "系统通知", "您的订单号：231541321321541321123还未支付"));
-        beanList.add(new MessageBean(R.mipmap.icon_mess_update, "升级提示", "app将于本月24号进行维护升级，带来的不便敬请谅解"));
-        return beanList;
+    private void requstData() {
+        Request<JSONObject> request = buildNetRequest(UrlUtils.getNoticeClass, 1, true);
+        executeNetWork(1, request, "请稍后");
+    }
+
+    @Override
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+        JSONArray newsArray = dataObj.optJSONArray("systemNotice");
+        if (newsArray != null && newsArray.length() > 0) {
+            for (int i = 0; i < newsArray.length(); i++) {
+                try {
+                    JSONObject newsObject = newsArray.getJSONObject(i);
+                    MessageBean bean = new MessageBean();
+                    String id = newsObject.optString("id");
+                    bean.setId(id);
+                    int count = newsObject.optInt("article_count");
+                    bean.setCount(count);
+                    String title = newsObject.optString("title");
+                    bean.setTitle(title);
+                    String img = UrlUtils.baseWebsite + newsObject.optString("pic");
+                    bean.setImg(img);
+                    JSONObject jsonObject = newsObject.optJSONObject("notice_index");
+                    if (jsonObject != null && jsonObject.length() > 0) {
+                        String timeUnix = jsonObject.optString("create_time");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd", Locale.getDefault());
+                        String time = TimeUtils.milliseconds2String(Long.parseLong(timeUnix) * 1000, simpleDateFormat);
+                        bean.setTime(time);
+                        String content = jsonObject.optString("title");
+                        bean.setContent(content);
+                    }
+                    beanList.add(bean);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
     }
 }

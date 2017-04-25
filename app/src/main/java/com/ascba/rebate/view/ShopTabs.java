@@ -30,9 +30,11 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
     private TextView tvFour;
     private View viewThree;
 
+    private TextView tvThreeNoty;
+
 
     private Callback callback;
-    private int filPos=0;//代表被选择的位置（默认）
+    private int filPos = 0;//代表被选择的位置（默认）
 
     public void setFilPos(int filPos) {
         this.filPos = filPos;
@@ -69,6 +71,7 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
         tvThree = ((TextView) findViewById(R.id.tv_tabs_three));
         tvFour = ((TextView) findViewById(R.id.tv_tabs_four));
 
+        tvThreeNoty = (TextView) findViewById(R.id.im_tabs_three_noty);
 
         View viewZero = findViewById(R.id.tabs_zero_par);
         View viewOne = findViewById(R.id.tabs_one_par);
@@ -106,35 +109,35 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.tabs_zero_par://首页
 
-                statusChaByPosition(0,filPos);
-                filPos=0;
+                statusChaByPosition(0, filPos);
+                filPos = 0;
                 callback.clickZero(v);
                 break;
             case R.id.tabs_one_par://周边
 
-                statusChaByPosition(1,filPos);
-                filPos=1;
+                statusChaByPosition(1, filPos);
+                filPos = 1;
                 callback.clickOne(v);
                 break;
 
             case R.id.tabs_three_par://财富
 
-                statusChaByPosition(2,filPos);
-                filPos=2;
+                statusChaByPosition(2, filPos);
+                filPos = 2;
                 callback.clickThree(v);
                 break;
             case R.id.tabs_four_par://我
 
-                statusChaByPosition(3,filPos);
-                filPos=3;
+                statusChaByPosition(3, filPos);
+                filPos = 3;
                 callback.clickFour(v);
                 break;
         }
     }
 
     public void statusChaByPosition(int currentPos, int beforePos) {
-        if(beforePos!=currentPos){
-            switch (beforePos){
+        if (beforePos != currentPos) {
+            switch (beforePos) {
                 case 0:
                     imZero.setImageResource(R.mipmap.tab_main);
                     tvZero.setTextColor(getResources().getColor(R.color.textgray));
@@ -154,7 +157,7 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
                 default:
                     break;
             }
-            switch (currentPos){
+            switch (currentPos) {
                 case 0:
                     tvZero.setTextColor(getResources().getColor(R.color.moneyBarColor));
                     imZero.setImageResource(R.mipmap.tab_main_select);
@@ -177,5 +180,17 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
         }
     }
 
+    public void setThreeNoty(int count) {
+        if (count > 0) {
+            tvThreeNoty.setVisibility(VISIBLE);
+        } else {
+            tvThreeNoty.setVisibility(GONE);
+        }
+        tvThreeNoty.setText(String.valueOf(count));
+    }
+
+    public int getThreeNotyNum() {
+        return Integer.parseInt(tvThreeNoty.getText().toString());
+    }
 
 }

@@ -27,7 +27,7 @@ import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+import com.ascba.rebate.view.ShopTabs;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -58,6 +58,7 @@ public class CartFragment extends LazyBaseFragment implements
     private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
+    private ShopTabs shopTabs;
 
     public CartFragment() {
     }
@@ -159,6 +160,9 @@ public class CartFragment extends LazyBaseFragment implements
         tvCost = ((TextView) view.findViewById(R.id.cart_tv_cost_total));
         tvCostNum = ((TextView) view.findViewById(R.id.cart_tv_cost_total_count));
         tvCostNum.setOnClickListener(this);
+
+        ShopActivity shopActivity = (ShopActivity) getActivity();
+        shopTabs = shopActivity.getShopTabs();
     }
 
 
@@ -232,6 +236,9 @@ public class CartFragment extends LazyBaseFragment implements
             calculateNumAndCost();
         } else if (finalScene == 3) {//删除商品
             //getDm().buildAlertDialog(message);
+            CartGoods cartGoods=data.get(position);
+            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() - cartGoods.t.getUserQuy());
+
             data.remove(position);
             adapter.notifyItemRemoved(position);
             calculateNumAndCost();
