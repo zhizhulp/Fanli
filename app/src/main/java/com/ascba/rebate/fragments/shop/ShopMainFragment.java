@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -36,6 +35,7 @@ import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BezierCurveAnimater;
 import com.ascba.rebate.view.MsgView;
+import com.ascba.rebate.view.ShopTabs;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.cart_btn.NumberButton;
@@ -43,10 +43,13 @@ import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static android.app.Activity.RESULT_OK;
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
@@ -102,8 +105,9 @@ public class ShopMainFragment extends BaseNetFragment implements
     private NumberButton nb;//加减控件
     private boolean isAll;//是否选择了所有的规格
     private Goods goodsSelect;//选择的商品
-    private String attention="请先选择商品";//没选择完整规格的提醒
+    private String attention = "请先选择商品";//没选择完整规格的提醒
     private MsgView msgView;
+    private ShopTabs shopTabs;
 
     @Nullable
     @Override
@@ -138,7 +142,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 ShopMessageActivity.startIntent(getActivity());
             }
         });
-        msgView= (MsgView) view.findViewById(R.id.head_img_xiaoxi);
+        msgView = (MsgView) view.findViewById(R.id.head_img_xiaoxi);
 
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
         refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
@@ -169,12 +173,12 @@ public class ShopMainFragment extends BaseNetFragment implements
                     /*ImageView addCart = (ImageView) view;
                     bezierCurveAnimater.addCart(addCart);*/
                     ShopBaseItem shopBaseItem = data.get(position);
-                    goodsId=shopBaseItem.getColor();
-                    if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
-                        requestNetwork(UrlUtils.getGoodsSpec,2);
-                    }else {
-                        Intent intent2=new Intent(getActivity(), LoginActivity.class);
-                        startActivityForResult(intent2,REQUEST_STD_LOGIN);
+                    goodsId = shopBaseItem.getColor();
+                    if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
+                        requestNetwork(UrlUtils.getGoodsSpec, 2);
+                    } else {
+                        Intent intent2 = new Intent(getActivity(), LoginActivity.class);
+                        startActivityForResult(intent2, REQUEST_STD_LOGIN);
                     }
 
                 }
@@ -202,27 +206,30 @@ public class ShopMainFragment extends BaseNetFragment implements
             }
         });
 
-        requestNetwork(UrlUtils.shop,0);
+        requestNetwork(UrlUtils.shop, 0);
+
+        ShopActivity shopActivity = (ShopActivity) getActivity();
+        shopTabs = shopActivity.getShopTabs();
     }
 
-    private void requestNetwork(String url,int scene) {
-        finalScene=scene;
-        Request<JSONObject> request=null;
-        if(scene==0){//商品列表
+    private void requestNetwork(String url, int scene) {
+        finalScene = scene;
+        Request<JSONObject> request = null;
+        if (scene == 0) {//商品列表
             request = buildNetRequest(url, 0, false);
             request.add("sign", UrlEncodeUtils.createSign(url));
             request.add("now_page", now_page);
-        }else if(scene==1){//添加商品到购物车
+        } else if (scene == 1) {//添加商品到购物车
             request = buildNetRequest(url, 0, true);
-            request.add("goods_id",goodsSelect.getTitleId());
-            request.add("goods_num",nb.getNumber());
-            request.add("goods_spec_id",goodsSelect.getCartId());
+            request.add("goods_id", goodsSelect.getTitleId());
+            request.add("goods_num", nb.getNumber());
+            request.add("goods_spec_id", goodsSelect.getCartId());
             /*request.add("spec_keys",goodsSelect.getSpecKeys());
             request.add("spec_names",goodsSelect.getSpecNames());*/
-        }else if(scene==2){//规格数据
+        } else if (scene == 2) {//规格数据
             request = buildNetRequest(url, 0, true);
             request.add("goods_id", goodsId);
-        }else if(scene==3){//立即购买
+        } else if (scene == 3) {//立即购买
             request = buildNetRequest(url, 0, true);
             request.add("cart_ids", goodsSelect.getCartId());
         }
@@ -239,7 +246,7 @@ public class ShopMainFragment extends BaseNetFragment implements
         if (data.size() != 0) {
             data.clear();
         }
-        requestNetwork(UrlUtils.shop,0);
+        requestNetwork(UrlUtils.shop, 0);
 
     }
 
@@ -255,15 +262,13 @@ public class ShopMainFragment extends BaseNetFragment implements
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (now_page > total_page  && total_page != 0) {
+                if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.shop,0);
+                    requestNetwork(UrlUtils.shop, 0);
                 }
             }
         });
-
-
     }
 
     @Override
@@ -283,7 +288,7 @@ public class ShopMainFragment extends BaseNetFragment implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(finalScene==0){
+        if (finalScene == 0) {
             refreshLat.setRefreshing(false);
             if (adapter != null) {
                 adapter.loadMoreComplete();
@@ -310,22 +315,27 @@ public class ShopMainFragment extends BaseNetFragment implements
                 initadapter();
 
                 initLoadMore();
+
+                //购物车标志
+                int mallcartNum = dataObj.optInt("mallcart_num");//购物车商品数量
+                shopTabs.setThreeNoty(mallcartNum);
+
             } else {//上拉加载
 
                 initGoodsList(dataObj);
             }
-        } else if(finalScene==1){//添加到购物车成功
+        } else if (finalScene == 1) {//添加到购物车成功
             getDm().buildAlertDialog(message);
             sd.dismiss();
-        } else if(finalScene==2){//规格数据
-            LogUtils.PrintLog("ShopMainFragment","data-->"+dataObj);
+            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + nb.getNumber());
+        } else if (finalScene == 2) {//规格数据
+            LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
-            showStandardDialog( parseFilterSpec(filter_spec),parseSpecGoodsPrice(array));
-        } else if(finalScene==3){//立即购买 成功
+            showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array));
+        } else if (finalScene == 3) {//立即购买 成功
 
         }
-
 
 
     }
@@ -391,7 +401,7 @@ public class ShopMainFragment extends BaseNetFragment implements
     private void initGoodsList(JSONObject dataObj) {
 
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
-        LogUtils.PrintLog("ShopMainFragment","data-->"+mallGoodsAy);
+        LogUtils.PrintLog("ShopMainFragment", "data-->" + mallGoodsAy);
         if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
             for (int i = 0; i < mallGoodsAy.length(); i++) {
                 JSONObject gObj = mallGoodsAy.optJSONObject(i);
@@ -400,7 +410,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "",false);
+                        , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 data.add(shopBaseItem);
             }
@@ -454,23 +464,23 @@ public class ShopMainFragment extends BaseNetFragment implements
 
     //购物车Dialog
     private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses) {
-        if(gas.size()==0||goodses.size()==0){
+        if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
-        sd=new StdDialog(getActivity(),gas,goodses);
+        sd = new StdDialog(getActivity(), gas, goodses);
         nb = sd.getNb();
         //把商品加入购物车
         sd.getTvAddToCart().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isAll){//选择了完整的规格
-                    if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
-                        requestNetwork(UrlUtils.cartAddGoods,1);
-                    }else {
-                        Intent intent=new Intent(getActivity(), LoginActivity.class);
-                        startActivityForResult(intent,REQUEST_ADD_TO_CART_LOGIN);
+                if (isAll) {//选择了完整的规格
+                    if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
+                        requestNetwork(UrlUtils.cartAddGoods, 1);
+                    } else {
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivityForResult(intent, REQUEST_ADD_TO_CART_LOGIN);
                     }
-                }else {
+                } else {
                     getDm().buildAlertDialog(attention);
                 }
 
@@ -480,9 +490,9 @@ public class ShopMainFragment extends BaseNetFragment implements
         sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
             @Override
             public void onClick(View v) {
-                if(isAll){
+                if (isAll) {
                     requestNetwork(UrlUtils.cartCheckout, 3);
-                }else {
+                } else {
                     getDm().buildAlertDialog(attention);
                 }
             }
@@ -491,11 +501,12 @@ public class ShopMainFragment extends BaseNetFragment implements
         sd.setListener(new StdDialog.Listener() {
             @Override
             public void getSelectGoods(Goods gs) {
-                goodsSelect=gs;
+                goodsSelect = gs;
             }
+
             @Override
             public void isSelectAll(boolean isAll) {
-                ShopMainFragment.this.isAll=isAll;
+                ShopMainFragment.this.isAll = isAll;
             }
         });
         /*//点击加号
@@ -528,7 +539,7 @@ public class ShopMainFragment extends BaseNetFragment implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data!=null){
+        if (data != null) {
             switch (requestCode) {
                 case REQUEST_ADD_TO_CART_LOGIN:
                     if (resultCode == RESULT_OK) {
@@ -536,8 +547,8 @@ public class ShopMainFragment extends BaseNetFragment implements
                     }
                     break;
                 case REQUEST_STD_LOGIN:
-                    if(resultCode==RESULT_OK){
-                        requestNetwork(UrlUtils.getGoodsSpec,2);
+                    if (resultCode == RESULT_OK) {
+                        requestNetwork(UrlUtils.getGoodsSpec, 2);
                     }
                     break;
             }
@@ -545,8 +556,8 @@ public class ShopMainFragment extends BaseNetFragment implements
     }
 
     private List<Goods> parseSpecGoodsPrice(JSONArray array) {
-        List<Goods> goodses=new ArrayList<Goods>();
-        if(array!=null && array.length()!=0){
+        List<Goods> goodses = new ArrayList<Goods>();
+        if (array != null && array.length() != 0) {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 int id = obj.optInt("id");
@@ -559,8 +570,8 @@ public class ShopMainFragment extends BaseNetFragment implements
                 int inventory = obj.optInt("inventory");
                 String weight = obj.optString("weight");
 
-                Goods goods=new Goods();
-                goods.setCartId(id+"");
+                Goods goods = new Goods();
+                goods.setCartId(id + "");
                 goods.setTitleId(goods_id);
                 goods.setGoodsNumber(goods_number);
                 goods.setSpecKeys(spec_keys);
@@ -577,24 +588,24 @@ public class ShopMainFragment extends BaseNetFragment implements
     }
 
     private List<GoodsAttr> parseFilterSpec(JSONArray filter_spec) {
-        List<GoodsAttr> gas=new ArrayList<GoodsAttr>();
-        if(filter_spec!=null && filter_spec.length()!=0){
+        List<GoodsAttr> gas = new ArrayList<GoodsAttr>();
+        if (filter_spec != null && filter_spec.length() != 0) {
             for (int i = 0; i < filter_spec.length(); i++) {
                 JSONObject jObj = filter_spec.optJSONObject(i);
-                if(jObj!= null){
-                    GoodsAttr ga=new GoodsAttr();
+                if (jObj != null) {
+                    GoodsAttr ga = new GoodsAttr();
                     String title = jObj.optString("title");
 
                     JSONArray item = jObj.optJSONArray("item");
-                    if(item!=null && item.length()!=0){
-                        List<GoodsAttr.Attrs> ats=new ArrayList<GoodsAttr.Attrs>();
+                    if (item != null && item.length() != 0) {
+                        List<GoodsAttr.Attrs> ats = new ArrayList<GoodsAttr.Attrs>();
                         for (int j = 0; j < item.length(); j++) {
                             JSONObject obj = item.optJSONObject(j);
-                            if(obj!=null){
+                            if (obj != null) {
 
                                 int item_id = obj.optInt("item_id");
                                 String item_value = obj.optString("item_value");
-                                GoodsAttr.Attrs as=ga.new Attrs(item_id,item_value,0);
+                                GoodsAttr.Attrs as = ga.new Attrs(item_id, item_value, 0);
 
                                 ats.add(as);
                             }

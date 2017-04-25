@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import com.ascba.rebate.R;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -60,14 +59,16 @@ public abstract class BaseActivityNet extends BaseActivity {
             jsonRequest.setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE);
         }
 
-        if (defaultParam) {
-            int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        if (defaultParam || uuid != -1000) {
             String token = AppConfig.getInstance().getString("token", "");
             long expiring_time = AppConfig.getInstance().getLong("expiring_time", -2000);
             jsonRequest.add("sign", UrlEncodeUtils.createSign(url));
             jsonRequest.add("uuid", uuid);
             jsonRequest.add("token", token);
             jsonRequest.add("expiring_time", expiring_time);
+        } else {
+            jsonRequest.add("sign", UrlEncodeUtils.createSign(url));
         }
         return jsonRequest;
     }
