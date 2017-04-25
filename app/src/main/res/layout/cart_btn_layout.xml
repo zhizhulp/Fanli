@@ -17,7 +17,7 @@
         android:background="@drawable/bg_button_left" />
 
     <EditText
-        android:editable="false"
+        android:enabled="false"
         android:id="@+id/text_count"
         android:layout_width="0dp"
         android:layout_height="match_parent"

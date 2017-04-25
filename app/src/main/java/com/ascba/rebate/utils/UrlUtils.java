@@ -143,7 +143,7 @@ public class UrlUtils {
     public static final String cartDeleteGoods = urlPrefix + "cartDeleteGoods";
 
     //购物车-结算
-    public static final String cartAccount = urlPrefix + "cartAccount";
+    public static final String cartCheckout = urlPrefix + "cartCheckout";
 
     //获取商品规格
     public static final String getGoodsSpec = urlPrefix + "getGoodsSpec";

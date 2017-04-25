@@ -84,16 +84,16 @@ public class CartFragment extends LazyBaseFragment implements
     private void requestNetwork(String url, int scene) {
         finalScene = scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        if (scene == 1) {
+        if (scene == 1) {//选种商品
             request.add("cart_ids", createIds());
-            request.add("status", (cgSelect != null) ? (cgSelect.isCheck() ? 1 : 0) : (cbTotal.isChecked() ? 1 : 0));
-        } else if (scene == 2) {
+            //request.add("status", (cgSelect != null) ? (cgSelect.isCheck() ? 1 : 0) : (cbTotal.isChecked() ? 1 : 0));
+        } else if (scene == 2) {//加减商品
             request.add("cart_id", data.get(position).t.getCartId());
             request.add("new_num", goodsCount);
-        } else if (scene == 3) {
+        } else if (scene == 3) {//删除商品
             request.add("cart_ids", data.get(position).t.getCartId());
-        } else if (scene == 4) {
-            request.add("cart_ids", createClearIds());
+        } else if (scene == 4) {//购物车结算
+            //request.add("cart_ids", createClearIds());
         }
         executeNetWork(request, "请稍后");
         setCallback(this);
@@ -167,7 +167,7 @@ public class CartFragment extends LazyBaseFragment implements
         switch (v.getId()) {
             case R.id.cart_tv_cost_total_count://点击结算
                 if (canClearCart()) {
-                    requestNetwork(UrlUtils.cartAccount, 4);
+                    requestNetwork(UrlUtils.cartCheckout, 4);
                 } else {
                     getDm().buildAlertDialog("请先选择商品");
                 }
@@ -309,13 +309,13 @@ public class CartFragment extends LazyBaseFragment implements
 
     @Override
     public void handleReqFailed() {
+        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
     }
-
 
     @Override
     public void handleReLogin() {
@@ -325,7 +325,6 @@ public class CartFragment extends LazyBaseFragment implements
     public void handleNoNetWork() {
         getDm().buildAlertDialog(getString(R.string.no_network));
     }
-
 
     @Override
     public void onClickedChild(boolean isChecked, int position) {

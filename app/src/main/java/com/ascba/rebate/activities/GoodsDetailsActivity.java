@@ -1195,7 +1195,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             @Override
             public void onClick(View v) {
                 if (isAll) {
-                    requestNetwork(UrlUtils.cartAccount, 1);
+                    requestNetwork(UrlUtils.cartCheckout, 1);
                 } else {
                     getDm().buildAlertDialog("请先选择商品");
                 }
@@ -1206,6 +1206,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             @Override
             public void getSelectGoods(Goods gs) {
                 goodsSelect = gs;
+                nb.setInventory(goodsSelect.getInventory());
             }
 
             @Override

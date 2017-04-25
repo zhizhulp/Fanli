@@ -166,8 +166,8 @@ public class ShopMainFragment extends BaseNetFragment implements
                 super.onItemChildClick(adapter, view, position);
                 //加入购物车动画
                 if (view.getId() == R.id.goods_list_cart) {
-                    ImageView addCart = (ImageView) view;
-                    bezierCurveAnimater.addCart(addCart);
+                    /*ImageView addCart = (ImageView) view;
+                    bezierCurveAnimater.addCart(addCart);*/
                     ShopBaseItem shopBaseItem = data.get(position);
                     goodsId=shopBaseItem.getColor();
                     if(AppConfig.getInstance().getInt("uuid",-1000)!=-1000){
@@ -481,7 +481,7 @@ public class ShopMainFragment extends BaseNetFragment implements
             @Override
             public void onClick(View v) {
                 if(isAll){
-                    requestNetwork(UrlUtils.cartAccount, 3);
+                    requestNetwork(UrlUtils.cartCheckout, 3);
                 }else {
                     getDm().buildAlertDialog(attention);
                 }
@@ -491,7 +491,6 @@ public class ShopMainFragment extends BaseNetFragment implements
         sd.setListener(new StdDialog.Listener() {
             @Override
             public void getSelectGoods(Goods gs) {
-                nb.setInventory(gs.getInventory());
                 goodsSelect=gs;
             }
             @Override
@@ -499,7 +498,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 ShopMainFragment.this.isAll=isAll;
             }
         });
-        //点击加号
+        /*//点击加号
         nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -522,7 +521,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                     }
                 }
             }
-        });
+        });*/
         sd.showMyDialog();
     }
 

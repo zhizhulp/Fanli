@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.utils.LogUtils;
 
 /**
  * 购物车商品数量、增加和减少控制按钮。
@@ -42,6 +43,8 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private int mBuyMax = Integer.MAX_VALUE;
     private EditText mCount;
     private OnWarnListener mOnWarnListener;
+
+
     private ImageView addButton;
     private ImageView subButton;
 
@@ -60,13 +63,17 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         init(context, attrs);
     }
 
+    public OnWarnListener getmOnWarnListener() {
+        return mOnWarnListener;
+    }
+
     private void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.cart_btn_layout, this);
 
         addButton = (ImageView) findViewById(R.id.button_add);
-        //addButton.setOnClickListener(this);
+        addButton.setOnClickListener(this);
         subButton = (ImageView) findViewById(R.id.button_sub);
-        //subButton.setOnClickListener(this);
+        subButton.setOnClickListener(this);
 
         mCount = ((EditText) findViewById(R.id.text_count));
         mCount.addTextChangedListener(this);

@@ -5,16 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
-
 import org.json.JSONObject;
-
 import static com.ascba.rebate.activities.me_page.WhiteScoreActivity.REQUEST_EXCHANGE;
 
 public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivity.Callback{
