@@ -171,4 +171,7 @@ public class UrlUtils {
 
     //首页—更多新闻
     public static final String moreNews = urlPrefix + "moreNews";
+
+    //消息列表
+    public static final String getNoticeClass = urlPrefix + "getNoticeClass";
 }

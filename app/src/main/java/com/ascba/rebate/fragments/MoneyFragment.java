@@ -108,7 +108,6 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
         View viewBank = view.findViewById(R.id.me_lat_bank);
         viewBank.setOnClickListener(this);
 
-        requestMyData(0);
     }
 
     @Override
