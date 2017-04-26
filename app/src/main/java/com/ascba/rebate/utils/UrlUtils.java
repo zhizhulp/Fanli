@@ -160,6 +160,9 @@ public class UrlUtils {
     //取消订单
     public static final String cancelOrder = urlPrefix + "cancelOrder";
 
+    //订单付款
+    public static final String orderPay = urlPrefix + "orderPay";
+
     //删除订单
     public static final String delOrder = urlPrefix + "delOrder";
 

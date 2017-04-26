@@ -36,9 +36,9 @@
 
             <LinearLayout
                 android:id="@+id/ll_countdown"
-                android:layout_below="@id/deliver_details_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/deliver_details_state"
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
@@ -66,15 +66,15 @@
 
             <TextView
                 android:id="@+id/tx_close_order"
-                android:layout_below="@id/deliver_details_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/deliver_details_state"
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:visibility="gone"
                 android:text="已自动确认收货"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -90,7 +90,7 @@
         <include layout="@layout/goods_details_cuttingline" />
 
         <TextView
-            android:id="@+id/deliver_details_btn_logistics"
+            android:id="@+id/btn_take"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -107,14 +107,14 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/deliver_details_btn_refund"
+            android:id="@+id/btn_refund"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@id/deliver_details_btn_logistics"
+            android:layout_toLeftOf="@id/btn_take"
             android:background="@drawable/gray_bg"
             android:gravity="center"
             android:paddingLeft="22dp"

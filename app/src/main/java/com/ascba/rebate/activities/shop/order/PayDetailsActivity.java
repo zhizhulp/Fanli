@@ -17,7 +17,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.utils.Pay;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -78,8 +77,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
         }
     };
 
-    private int flag = 0;//0-获取数据，1-取消订单
-    private String receiveId;
+    private int flag = 0;//0-获取数据，1-取消订单,2-付款
 
 
     @Override
@@ -162,6 +160,11 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", orderId);
+        switch (flag) {
+            case 2:
+                jsonRequest.add("pay_type", "balance");
+                break;
+        }
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
@@ -183,7 +186,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
         try {
             JSONObject addressObject = dataObject.getJSONObject("order_member_address");
             String member_id = dataObject.optString("member_id");
-            receiveId = member_id;
             String name = addressObject.optString("reciver_name");//收货人姓名
             String phone = addressObject.optString("reciver_mobile");//手机号
             String address = addressObject.optString("reciver_address");//收货地址
@@ -299,14 +301,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 break;
             case R.id.tx_pay:
                 //付款
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject("{\"12\":{\"message\":\"\",\"cart_ids\":\"138\"}}");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                /*Pay pay = new Pay(PayDetailsActivity.this, "￥1300.14", receiveId, jsonObject);
-                pay.showFinalDialog();*/
+                requstData(UrlUtils.orderPay, 2);
                 break;
             case R.id.tx_delete:
                 //取消订单
@@ -343,6 +338,9 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 */
                 getDm().buildAlertDialog("订单已取消!");
                 finish();
+                break;
+            case 2:
+                getDm().buildAlertDialog("订单付款成功");
                 break;
         }
     }
