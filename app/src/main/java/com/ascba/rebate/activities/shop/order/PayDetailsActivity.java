@@ -162,7 +162,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
         jsonRequest.add("order_id", orderId);
         switch (flag) {
             case 2:
-                jsonRequest.add("pay_type", "balance");
+                jsonRequest.add("pay_type", "alipay");
                 break;
         }
         executeNetWork(jsonRequest, "请稍后");

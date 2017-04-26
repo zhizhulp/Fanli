@@ -155,10 +155,7 @@ public class Pay {
     }
 
     //调起支付宝
-    public void requestForAli(JSONObject dataObj) {
-        JSONObject object = dataObj.optJSONObject("payreturn_data");
-        JSONObject object1 = object.optJSONObject("data");
-        final String payInfo = object1.optString("payInfo");
+    public void requestForAli(final String payInfo) {
         Runnable payRunnable = new Runnable() {
             @Override
             public void run() {
@@ -175,11 +172,8 @@ public class Pay {
     }
 
     //调起微信
-    public void requestForWX(JSONObject dataObj) {
+    public void requestForWX(JSONObject wxpay) {
         try {
-            JSONObject object = dataObj.optJSONObject("payreturn_data");
-            JSONObject object1 = object.optJSONObject("data");
-            JSONObject wxpay = object1.getJSONObject("wxpay");
             PayReq req = new PayReq();
             req.appId = wxpay.getString("appid");
             req.nonceStr = wxpay.getString("noncestr");

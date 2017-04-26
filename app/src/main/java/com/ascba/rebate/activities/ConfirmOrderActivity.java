@@ -314,12 +314,21 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
             public void handle200Data(JSONObject dataObj, String message) {
                 //创建并支付订单成功
 
-                if ("balance".equals(payType)) {
-                    showToast("暂未开放");
-                } else if ("alipay".equals(payType)) {
-                    pay.requestForAli(dataObj);//发起支付宝支付请求
-                } else if ("wxpay".equals(payType)) {
-                    pay.requestForWX(dataObj);
+                try {
+                    JSONObject object = dataObj.optJSONObject("payreturn_data");
+                    JSONObject object1 = object.optJSONObject("data");
+
+                    if ("balance".equals(payType)) {
+                        showToast("暂未开放");
+                    } else if ("alipay".equals(payType)) {
+                        String payInfo = object1.optString("payInfo");
+                        pay.requestForAli(payInfo);//发起支付宝支付请求
+                    } else if ("wxpay".equals(payType)) {
+                        JSONObject wxpay = object1.getJSONObject("wxpay");
+                        pay.requestForWX(wxpay);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
 
