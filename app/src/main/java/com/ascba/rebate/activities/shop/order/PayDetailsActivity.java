@@ -305,8 +305,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Pay pay = new Pay(PayDetailsActivity.this, "￥1300.14", receiveId, jsonObject);
-                pay.showFinalDialog();
+                /*Pay pay = new Pay(PayDetailsActivity.this, "￥1300.14", receiveId, jsonObject);
+                pay.showFinalDialog();*/
                 break;
             case R.id.tx_delete:
                 //取消订单

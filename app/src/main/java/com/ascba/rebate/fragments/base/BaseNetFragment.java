@@ -164,7 +164,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
         this.callbackWhat = callbackWhat;
     }
 
-    protected interface CallbackWhat {
+    public interface CallbackWhat {
         void handle200Data(int what, JSONObject dataObj, String message);//数据请求成功
 
         void handleReqFailed(int what);//请求服务器失败

@@ -7,12 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
+import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -32,10 +34,13 @@ import java.util.List;
  * 待收货订单
  */
 
-public class TakeOrderFragment extends LazyLoadFragment {
+public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragment.CallbackWhat{
 
+    private static final int NET_LIST = 1;//列表数据请求what
+    private static final int NET_RECEIVE_GOODS = 2;//点击收货接口请求what
     private RecyclerView recyclerView;
     private Context context;
+    private String orderGoodsId;
 
     /**
      * 每笔订单中的商品列表
@@ -44,7 +49,6 @@ public class TakeOrderFragment extends LazyLoadFragment {
     private TakeOrderAdapter adapter;
     private View view;
     private View emptyView;
-    private String orderId;//订单id
 
 
     @Override
@@ -54,7 +58,7 @@ public class TakeOrderFragment extends LazyLoadFragment {
 
     @Override
     protected void lazyLoad() {
-        requstData();
+        requstData(UrlUtils.getOrderList, NET_LIST);
     }
 
     @Override
@@ -72,39 +76,52 @@ public class TakeOrderFragment extends LazyLoadFragment {
     /*
      获取数据
    */
-    private void requstData() {
-        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
-        jsonRequest.add("status", "wait_take");
-        executeNetWork(jsonRequest, "请稍后");
-        setCallback(new Callback() {
-            @Override
-            public void handle200Data(JSONObject dataObj, String message) {
+    private void requstData(String url,int what) {
+        Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
+        if(what==NET_LIST){
+            jsonRequest.add("status", "wait_take");
+        }else if(what==NET_RECEIVE_GOODS){
+            jsonRequest.add("order_goods_id", orderGoodsId);
+        }
+
+        executeNetWork(what,jsonRequest, "请稍后");
+        setCallbackWhat(this);
+    }
+
+    @Override
+    public void handle200Data(int what, JSONObject dataObj, String message) {
+        switch (what){
+            case NET_LIST:
                 initData(dataObj);
                 if (adapter == null) {
                     initRecylerView();
                 } else {
                     adapter.notifyDataSetChanged();
                 }
-            }
+                break;
+            case NET_RECEIVE_GOODS:
+                requstData(UrlUtils.getOrderList,NET_LIST);
+                break;
+        }
 
-            @Override
-            public void handleReqFailed() {
-            }
+    }
 
-            @Override
-            public void handle404(String message, JSONObject dataObj) {
-                getDm().buildAlertDialog(message);
-            }
+    @Override
+    public void handleReqFailed(int what) {
+    }
 
-            @Override
-            public void handleReLogin() {
-            }
+    @Override
+    public void handle404(int what, String message, JSONObject dataObj) {
+        getDm().buildAlertDialog(message);
+    }
 
-            @Override
-            public void handleNoNetWork() {
-                getDm().buildAlertDialog(getString(R.string.no_network));
-            }
-        });
+    @Override
+    public void handleReLogin() {
+    }
+
+    @Override
+    public void handleNoNetWork() {
+        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
     /*
@@ -118,53 +135,50 @@ public class TakeOrderFragment extends LazyLoadFragment {
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
-                JSONObject object = jsonArray.optJSONObject(i);
-
-                //订单id
-                orderId = object.optString("order_id");
-
-                //头部信息
-                String time = object.optString("add_time");//时间
-                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(TakeOrderAdapter.TYPE1, R.layout.item_order_head, time, "等待买家收货");
-                beanHead.setId(orderId);
-                beanArrayList.add(beanHead);
-
                 //商品信息
-                JSONArray goodsArray = object.optJSONArray("orderGoods");
-                if (goodsArray != null && goodsArray.length() > 0) {
+                if (jsonArray != null && jsonArray.length() > 0) {
+                    try {
+                        JSONObject goodsObject = jsonArray.getJSONObject(i);
 
-                    for (int j = 0; j < goodsArray.length(); j++) {
-                        try {
-                            JSONObject goodsObject = goodsArray.getJSONObject(j);
-                            Goods good = new Goods();
-                            good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
-                            good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
-                            good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
+                        //订单id
+                        String orderId = goodsObject.optString("order_id");
+                        String order_goods_id = goodsObject.optString("order_goods_id");
+                        //头部信息
+                        String time = goodsObject.optString("create_time");//时间
+                        time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
+                        OrderBean beanHead = new OrderBean(TakeOrderAdapter.TYPE1, R.layout.item_order_head, time, "等待买家收货");
+                        beanHead.setId(order_goods_id);
+                        beanArrayList.add(beanHead);
 
-                            int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
-                            totalNum = num + totalNum;
+                        Goods good = new Goods();
+                        good.setTitleId(Integer.parseInt(goodsObject.optString("goods_id")));//商品id
+                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
+                        int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
+                        totalNum = num + totalNum;
 
-                            good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
-                            good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
+                        good.setUserQuy(num);//购买数量
+                        good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
+                        good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
 
-                            OrderBean orderBean = new OrderBean(TakeOrderAdapter.TYPE2, R.layout.item_goods, good);
-                            orderBean.setId(orderId);
-                            beanArrayList.add(orderBean);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        OrderBean orderBean = new OrderBean(TakeOrderAdapter.TYPE2, R.layout.item_goods, good);
+                        orderBean.setId(order_goods_id);
+                        beanArrayList.add(orderBean);
+
+                        //底部信息
+                        String orderAmount = goodsObject.optString("goods_pay_price");//订单总价
+                        //String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
+                        String goodsNum = "共" + totalNum + "件商品";//商品数量
+                        OrderBean beadFoot = new OrderBean(TakeOrderAdapter.TYPE3, R.layout.item_order_take_foot, goodsNum, "￥" + orderAmount, "暂无运费");
+                        beadFoot.setId(order_goods_id);
+                        beanArrayList.add(beadFoot);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+
                 }
 
-                //底部信息
-                String orderAmount = object.optString("order_amount");//订单总价
-                String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
-                String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(TakeOrderAdapter.TYPE3, R.layout.item_order_take_foot, goodsNum, "￥" + orderAmount, shippingFee);
-                beadFoot.setId(orderId);
-                beanArrayList.add(beadFoot);
+
             }
         }
 
@@ -192,9 +206,12 @@ public class TakeOrderFragment extends LazyLoadFragment {
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+
+
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                String orderId = beanArrayList.get(position).getId();
+                OrderBean orderBean = beanArrayList.get(position);
+                String orderId = orderBean.getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
@@ -208,6 +225,8 @@ public class TakeOrderFragment extends LazyLoadFragment {
                         //退款
                         break;
                     case R.id.item_goods_order_total_take:
+                        requstData(UrlUtils.orderReceive, NET_RECEIVE_GOODS);
+                        orderGoodsId = orderBean.getId();
                         //确认收货
                         break;
                 }

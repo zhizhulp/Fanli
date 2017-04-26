@@ -174,4 +174,6 @@ public class UrlUtils {
 
     //消息列表
     public static final String getNoticeClass = urlPrefix + "getNoticeClass";
+    //待收货-收货
+    public static final String orderReceive = urlPrefix + "orderReceive";
 }

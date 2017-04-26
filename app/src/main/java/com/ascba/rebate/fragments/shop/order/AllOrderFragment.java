@@ -19,6 +19,7 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -106,7 +107,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         if (beanArrayList.size() > 0) {
             beanArrayList.clear();
         }
-
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {

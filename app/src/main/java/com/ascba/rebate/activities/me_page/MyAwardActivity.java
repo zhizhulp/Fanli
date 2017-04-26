@@ -74,6 +74,7 @@ public class MyAwardActivity extends BaseNetActivity implements View.OnClickList
             case R.id.rec_gb_one:
                 imgOne.setVisibility(View.VISIBLE);
                 imgTwo.setVisibility(View.INVISIBLE);
+
                 ft.show(fragsOne).hide(fragsTwo).commit();
                 break;
             case R.id.rec_gb_two:
