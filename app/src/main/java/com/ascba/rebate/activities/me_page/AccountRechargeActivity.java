@@ -93,7 +93,7 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
 
     private void initViews() {
         MoneyBar moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
-        moneyBar.setTailTitle(getString(R.string.inoutcome_record));
+        moneyBar.setTailTitle("充值记录");
         moneyBar.setCallBack(new MoneyBar.CallBack() {
             @Override
             public void clickImage(View im) {

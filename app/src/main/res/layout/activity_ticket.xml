@@ -12,7 +12,6 @@
         android:id="@+id/moneyBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:needComplete="true"
         app:textTitle="代金券" />
 
     <Button
