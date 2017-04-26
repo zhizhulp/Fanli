@@ -12,8 +12,6 @@ import com.ascba.rebate.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ascba.rebate.R.style.dialog;
-
 /**
  * Created by 李鹏 on 2017/04/26 0026.
  */
@@ -37,7 +35,7 @@ public class DialogHome {
     //创建进度对话框
     public DialogHome buildWaitDialog(String message) {
         dismissDialog();
-        dialogProgress = new ProgressDialog(context, dialog);
+        dialogProgress = new ProgressDialog(context, R.style.dialog);
         dialogList.add(dialogProgress);
         dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
         dialogProgress.setCancelable(true);//返还键不可取消

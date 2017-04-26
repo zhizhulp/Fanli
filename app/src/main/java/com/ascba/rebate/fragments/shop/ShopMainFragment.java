@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,7 +38,6 @@ import com.ascba.rebate.view.BezierCurveAnimater;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.ShopTabs;
 import com.ascba.rebate.view.StdDialog;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -58,14 +58,13 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  */
 
 public class ShopMainFragment extends BaseNetFragment implements
-        SuperSwipeRefreshLayout.OnPullRefreshListener
+        SwipeRefreshLayout.OnRefreshListener
         , BaseNetFragment.Callback {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REQUEST_ADD_TO_CART_LOGIN = 2;
     private static final int REQUEST_STD_LOGIN = 3;
     private RecyclerView rv;
-    private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data = new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
@@ -147,8 +146,9 @@ public class ShopMainFragment extends BaseNetFragment implements
         msgView = (MsgView) view.findViewById(R.id.head_img_xiaoxi);
 
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
-        refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
+
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
 
         ShopActivity a = (ShopActivity) getActivity();
         //初始化加入购物车动画
@@ -178,13 +178,13 @@ public class ShopMainFragment extends BaseNetFragment implements
                     /*ImageView addCart = (ImageView) view;
                     bezierCurveAnimater.addCart(addCart);*/
                     ShopBaseItem shopBaseItem = data.get(position);
-                    sbi=shopBaseItem;
+                    sbi = shopBaseItem;
                     has_spec = shopBaseItem.isHasStandard();
                     goodsId = shopBaseItem.getColor();
                     if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
-                        if(!has_spec){//无规格
+                        if (!has_spec) {//无规格
                             requestNetwork(UrlUtils.cartAddGoods, 1);
-                        }else {//有规格
+                        } else {//有规格
                             requestNetwork(UrlUtils.getGoodsSpec, 2);
                         }
 
@@ -233,9 +233,9 @@ public class ShopMainFragment extends BaseNetFragment implements
             request.add("now_page", now_page);
         } else if (scene == 1) {//添加商品到购物车
             request = buildNetRequest(url, 0, true);
-            request.add("goods_id", has_spec?goodsSelect.getTitleId() : sbi.getColor());
-            request.add("goods_num", has_spec? nb.getNumber() : 1);
-            request.add("goods_spec_id", has_spec? goodsSelect.getCartId():null);
+            request.add("goods_id", has_spec ? goodsSelect.getTitleId() : sbi.getColor());
+            request.add("goods_num", has_spec ? nb.getNumber() : 1);
+            request.add("goods_spec_id", has_spec ? goodsSelect.getCartId() : null);
             /*request.add("spec_keys",goodsSelect.getSpecKeys());
             request.add("spec_names",goodsSelect.getSpecNames());*/
         } else if (scene == 2) {//规格数据
@@ -283,25 +283,11 @@ public class ShopMainFragment extends BaseNetFragment implements
         });
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-        //隐藏搜索栏
-        if (distance > 0) {
-            searchHead.setVisibility(View.GONE);
-        } else {
-            searchHead.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {
-            refreshLat.setRefreshing(false);
+            refreshLayout.setRefreshing(false);
             if (adapter != null) {
                 adapter.loadMoreComplete();
             }
@@ -339,7 +325,7 @@ public class ShopMainFragment extends BaseNetFragment implements
         } else if (finalScene == 1) {//添加到购物车成功
             getDm().buildAlertDialog(message);
             sd.dismiss();
-            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + (has_spec?nb.getNumber():1));
+            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + (has_spec ? nb.getNumber() : 1));
         } else if (finalScene == 2) {//规格数据
             LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
@@ -452,7 +438,7 @@ public class ShopMainFragment extends BaseNetFragment implements
 
     @Override
     public void handleReqFailed() {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
     }
 
@@ -464,15 +450,13 @@ public class ShopMainFragment extends BaseNetFragment implements
 
     @Override
     public void handleReLogin() {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
-        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 
     //购物车Dialog
@@ -561,9 +545,9 @@ public class ShopMainFragment extends BaseNetFragment implements
                     break;
                 case REQUEST_STD_LOGIN:
                     if (resultCode == RESULT_OK) {
-                        if(!has_spec){//无规格
+                        if (!has_spec) {//无规格
                             requestNetwork(UrlUtils.cartAddGoods, 1);
-                        }else {//有规格
+                        } else {//有规格
                             requestNetwork(UrlUtils.getGoodsSpec, 2);
                         }
                     }

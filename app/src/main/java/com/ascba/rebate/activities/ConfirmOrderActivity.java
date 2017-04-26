@@ -3,6 +3,7 @@ package com.ascba.rebate.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,7 +24,6 @@ import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -41,9 +41,8 @@ import static com.ascba.rebate.application.MyApplication.payType;
  * 确认订单
  */
 
-public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener {
+public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
-    private SuperSwipeRefreshLayout refreshLat;
     private Context context;
     private ShopABarText shopABarText;
     private RecyclerView recyclerView;
@@ -81,8 +80,9 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
 
     private void initUI() {
         //刷新
-        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
+
         //总金额
         tvTotal = ((TextView) findViewById(R.id.confir_order_text_total_price));
 
@@ -291,15 +291,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
 
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     /*
      * 创建订单

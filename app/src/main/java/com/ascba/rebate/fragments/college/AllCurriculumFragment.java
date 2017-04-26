@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import com.ascba.rebate.activities.CollegeEnrollmentActivity;
 import com.ascba.rebate.adapter.CurriculumAdapter;
 import com.ascba.rebate.beans.CurriculumBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 
@@ -28,13 +28,8 @@ import java.util.List;
  * 全部课程
  */
 
-public class AllCurriculumFragment extends BaseNetFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class AllCurriculumFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-
-    public AllCurriculumFragment() {
-    }
-
-    private SuperSwipeRefreshLayout refreshLat;
     private Handler handler = new Handler();
     private Context context;
     private RecyclerView recyclerView;
@@ -54,10 +49,8 @@ public class AllCurriculumFragment extends BaseNetFragment implements SuperSwipe
 
     private void initView(View view) {
         //刷新
-        refreshLat = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        View footView = LayoutInflater.from(context).inflate(R.layout.foot_view, null);
-        refreshLat.setFooterView(footView);
-        refreshLat.setOnPullRefreshListener(this);
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
 
         //recylerview
         recyclerView = (RecyclerView) view.findViewById(R.id.recylerview);
@@ -127,20 +120,9 @@ public class AllCurriculumFragment extends BaseNetFragment implements SuperSwipe
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                refreshLat.setRefreshing(false);
+                refreshLayout.setRefreshing(false);
             }
         }, 1000);
     }
-
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
-
 
 }

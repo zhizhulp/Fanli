@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -12,7 +13,6 @@ import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -22,11 +22,11 @@ import org.json.JSONObject;
  * 我——商家联盟——审核通过
  */
 
-public class BusinessUnionActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
-            ,BaseNetActivity.Callback{
+public class BusinessUnionActivity extends BaseNetActivity implements
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
+        , BaseNetActivity.Callback {
 
     private Context context;
-    private SuperSwipeRefreshLayout refreshLayout;
     private MoneyBar moneyBar;
     private Handler handler = new Handler();
     private int finalScene;
@@ -40,8 +40,8 @@ public class BusinessUnionActivity extends BaseNetActivity implements SuperSwipe
     }
 
     private void initVIew() {
-        refreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        refreshLayout.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
 
         moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
         moneyBar.setCallBack(new MoneyBar.CallBack() {
@@ -71,15 +71,6 @@ public class BusinessUnionActivity extends BaseNetActivity implements SuperSwipe
         }, 1000);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -90,7 +81,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements SuperSwipe
                 break;
             case R.id.business_account:
                 //流水记录
-                Intent intent=new Intent(this,BusiFlowRecordsActivity.class);
+                Intent intent = new Intent(this, BusiFlowRecordsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.business_data:
@@ -103,16 +94,16 @@ public class BusinessUnionActivity extends BaseNetActivity implements SuperSwipe
     }
 
     private void requestData(String url, int scene) {
-        finalScene=scene;
+        finalScene = scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        executeNetWork(request,"请稍后");
+        executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(finalScene==0){
+        if (finalScene == 0) {
             JSONObject obj = dataObj.optJSONObject("receivables");
             String url = obj.optString("url");
             Intent intent = new Intent(this, WebViewBaseActivity.class);
@@ -129,6 +120,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements SuperSwipe
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_network));
     }
+
+
 }

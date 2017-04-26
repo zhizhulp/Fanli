@@ -3,6 +3,7 @@ package com.ascba.rebate.activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,14 +13,12 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.MemMsgAdapter;
 import com.ascba.rebate.beans.MemMsg;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemCardActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class MemCardActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private SuperSwipeRefreshLayout sLayout;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -54,8 +53,8 @@ public class MemCardActivity extends BaseNetActivity implements SuperSwipeRefres
             }
         });
 
-        sLayout = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        sLayout.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
 
         msgRV = ((RecyclerView) findViewById(R.id.mem_msg_list));
         initData();
@@ -79,18 +78,9 @@ public class MemCardActivity extends BaseNetActivity implements SuperSwipeRefres
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                sLayout.setRefreshing(false);
+                refreshLayout.setRefreshing(false);
             }
         }, 1000);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 }

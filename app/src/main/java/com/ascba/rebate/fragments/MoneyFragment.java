@@ -1,12 +1,11 @@
 package com.ascba.rebate.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
@@ -26,7 +25,6 @@ import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -34,10 +32,9 @@ import org.json.JSONObject;
 /**
  * 财富
  */
-public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener
-        , BaseNetFragment.Callback {
+public class MoneyFragment extends LazyBaseFragment implements View.OnClickListener
+        , BaseNetFragment.Callback, SwipeRefreshLayout.OnRefreshListener {
 
-    private SuperSwipeRefreshLayout refreshLayout;
     private TextView tvAllCash;
     private TextView tvRed;
     private TextView tvWhite;
@@ -71,8 +68,8 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
     }
 
     private void initViews(View view) {
-        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
-        refreshLayout.setOnPullRefreshListener(this);
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
 
         accountView = view.findViewById(R.id.me_account);
         accountView.setOnClickListener(this);
@@ -120,15 +117,6 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
         }
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void onClick(View v) {

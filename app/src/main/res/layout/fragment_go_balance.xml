@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ascba.rebate.view.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
@@ -65,4 +66,4 @@
             android:text="提示：转出至余额的资金，若提现至银行卡将收取13%服务费" />
     </LinearLayout>
 
-</com.ascba.rebate.view.SuperSwipeRefreshLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

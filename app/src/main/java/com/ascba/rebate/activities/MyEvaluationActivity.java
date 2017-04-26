@@ -2,6 +2,7 @@ package com.ascba.rebate.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,7 +13,6 @@ import com.ascba.rebate.adapter.CurriculumAdapter;
 import com.ascba.rebate.adapter.MyEvaluationAdapter;
 import com.ascba.rebate.beans.CurriculumBean;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,9 @@ import java.util.List;
  * 我的课程
  */
 
-public class MyEvaluationActivity extends BaseNetActivity {
+public class MyEvaluationActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ShopABarText shopBar;
-    private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private Context context;
 
@@ -55,12 +54,13 @@ public class MyEvaluationActivity extends BaseNetActivity {
             }
         });
 
-        refreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         MyEvaluationAdapter myEvaluationAdapter = new MyEvaluationAdapter(initRecyclerViewData(), context);
         recyclerView.setAdapter(myEvaluationAdapter);
+
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
     }
 
     private List<CurriculumBean> initRecyclerViewData() {
@@ -93,5 +93,10 @@ public class MyEvaluationActivity extends BaseNetActivity {
         beanList.add(new CurriculumBean(CurriculumAdapter.TYPE2, R.layout.curriculum_content, img4, title4, state4));
 
         return beanList;
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }

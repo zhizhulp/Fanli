@@ -3,20 +3,23 @@ package com.ascba.rebate.fragments.recommend;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +27,8 @@ import java.util.List;
 /**
  * 二级推广
  */
-public class SecReccFragment extends BaseReccFragment implements BaseNetFragment.Callback,SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class SecReccFragment extends BaseReccFragment implements BaseNetFragment.Callback,SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView rvSec;
-    private SuperSwipeRefreshLayout refreshLatSec;
     private TuiGAdapter adapterSec;
     private List<FirstRec> dataSec;
     private View emptyView;
@@ -45,6 +47,7 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initRefreshLayout(view);
         initViews();
         ((MyRecActivity) getActivity()).setListener2(new MyRecActivity.Listener2() {
             @Override
@@ -66,8 +69,7 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
 
     private void initViews() {
         rvSec = getRv();
-        refreshLatSec = getRefreshLat();
-        refreshLatSec.setOnPullRefreshListener(this);
+        refreshLayout.setOnRefreshListener(this);
         adapterSec = getAdapter();
         dataSec = getData();
         emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view,null);
@@ -78,7 +80,7 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
         if(dataSec.size()!=0){
             dataSec.clear();
         }
-        refreshLatSec.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         JSONArray array = dataObj.optJSONArray("getSearchSpread");
         if (array == null || array.length() == 0) {
             adapterSec.setEmptyView(emptyView);
@@ -101,7 +103,7 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
 
     @Override
     public void handleReqFailed() {
-        refreshLatSec.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -111,13 +113,12 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
 
     @Override
     public void handleReLogin() {
-        refreshLatSec.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLatSec.setRefreshing(false);
-        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -125,14 +126,5 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
         requestData(idAll,UrlUtils.getSearchPpspread);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
 }

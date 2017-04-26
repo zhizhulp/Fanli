@@ -3,6 +3,7 @@ package com.ascba.rebate.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,17 +13,15 @@ import android.widget.EditText;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 /**
  * Created by 李鹏 on 2017/04/01 0001.
  * 财富-返佣账户-转到余额
  */
 
-public class GoBalanceFragment extends BaseNetFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class GoBalanceFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private Context context;
-    private SuperSwipeRefreshLayout refreshLayout;
     private EditText editText;
 
     @Override
@@ -38,7 +37,7 @@ public class GoBalanceFragment extends BaseNetFragment implements SuperSwipeRefr
     }
 
     private void initView(View view) {
-        refreshLayout = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+
         editText = (EditText) view.findViewById(R.id.go_balance_ed);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -57,7 +56,8 @@ public class GoBalanceFragment extends BaseNetFragment implements SuperSwipeRefr
             }
         });
 
-        refreshLayout.setOnPullRefreshListener(this);
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
     }
 
 
@@ -66,13 +66,4 @@ public class GoBalanceFragment extends BaseNetFragment implements SuperSwipeRefr
 
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 }

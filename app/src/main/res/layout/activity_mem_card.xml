@@ -12,7 +12,7 @@
         app:abar_title="学员证"
         android:layout_width="match_parent"
         android:layout_height="48dp"/>
-    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,5 +21,5 @@
             android:id="@+id/mem_msg_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

@@ -47,9 +47,6 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
         return shopTabs;
     }
 
-    public void setShopTabs(ShopTabs shopTabs) {
-        this.shopTabs = shopTabs;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

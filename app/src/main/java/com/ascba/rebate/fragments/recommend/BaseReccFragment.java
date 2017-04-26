@@ -12,7 +12,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class BaseReccFragment extends BaseNetFragment {
     private RecyclerView rv;
-    private SuperSwipeRefreshLayout refreshLat;
+
     private List<FirstRec> data=new ArrayList<>();
     private TuiGAdapter adapter;
 
@@ -39,7 +39,6 @@ public class BaseReccFragment extends BaseNetFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = ((RecyclerView) view.findViewById(R.id.recc_list));
-        refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new TuiGAdapter(data, R.layout.rec_list_item_rec);
         rv.setAdapter(adapter);
@@ -53,13 +52,6 @@ public class BaseReccFragment extends BaseNetFragment {
         this.rv = rv;
     }
 
-    public SuperSwipeRefreshLayout getRefreshLat() {
-        return refreshLat;
-    }
-
-    public void setRefreshLat(SuperSwipeRefreshLayout refreshLat) {
-        this.refreshLat = refreshLat;
-    }
 
     public List<FirstRec> getData() {
         return data;

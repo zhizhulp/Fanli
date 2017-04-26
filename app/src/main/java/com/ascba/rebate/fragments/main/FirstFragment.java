@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,7 +36,6 @@ import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadListener;
@@ -93,7 +93,6 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
     private ProgressDialog pD;
     private DownloadQueue downloadQueue;
     private TextView tvAllScore;
-    private SuperSwipeRefreshLayout refreshLayout;
     private TextView tvRedScore;
 
     @Nullable
@@ -139,10 +138,23 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
         goSweepActivity(view);//进入扫一扫的界面
         goRecommend(view);//进入推荐页面
         requestMainData();
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+                if (!netAva) {
+                    getDm().buildAlertDialog("请打开网络！");
+                    refreshLayout.setRefreshing(false);
+                    return;
+                }
+                requestMainData();
+                mList.clear();
+            }
+        });
     }
 
     private void requestMainData() {
-
         String version = getPackageVersion();
         Request<JSONObject> request = buildNetRequest(UrlUtils.index, 0, true);
         request.add("version_code", version);
@@ -172,7 +184,7 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
                         String seller_taglib = busObj.optString("seller_taglib");
                         String seller_name = busObj.optString("seller_name");
                         int id = busObj.optInt("id");
-                        Business b = new Business(UrlUtils.baseWebsite + bus_icon, seller_name, seller_taglib, 0, "0个评论", "0m",false);
+                        Business b = new Business(UrlUtils.baseWebsite + bus_icon, seller_name, seller_taglib, 0, "0个评论", "0m", false);
                         b.setId(id);
                         mList.add(b);
                     }
@@ -202,36 +214,6 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
 
             }
         });
-    }
-
-    private void initRefreshLayout(View view) {
-        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.main_superlayout));
-        refreshLayout
-                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
-
-                    @Override
-                    public void onRefresh() {
-                        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-                        if (!netAva) {
-                            getDm().buildAlertDialog("请打开网络！");
-                            refreshLayout.setRefreshing(false);
-                            return;
-                        }
-                        requestMainData();
-                        mList.clear();
-                    }
-
-                    @Override
-                    public void onPullDistance(int distance) {
-
-                    }
-
-                    @Override
-                    public void onPullEnable(boolean enable) {
-
-                    }
-                });
-
     }
 
 
@@ -492,12 +474,12 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
             pD.dismiss();
             if (filePath != null) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                if(Build.VERSION.SDK_INT>23){
-                    Uri uri= FileProvider.getUriForFile(getActivity(),"com.ascba.rebate.provider",new File(filePath));
+                if (Build.VERSION.SDK_INT > 23) {
+                    Uri uri = FileProvider.getUriForFile(getActivity(), "com.ascba.rebate.provider", new File(filePath));
                     i.setDataAndType(uri, "application/vnd.android.package-archive");
                     i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     getActivity().startActivity(i);
-                }else {
+                } else {
                     i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
                     getActivity().startActivity(i);
                 }

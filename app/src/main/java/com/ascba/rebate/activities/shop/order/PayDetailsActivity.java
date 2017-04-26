@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,7 +23,6 @@ import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -37,9 +37,7 @@ import java.util.List;
  * 待付款订单详情
  */
 
-public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
-
-    private SuperSwipeRefreshLayout refreshLat;
+public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
 
     private Context context;
     private ShopABarText shopABarText;
@@ -94,8 +92,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
 
     private void initView() {
         //刷新
-        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
 
         //导航栏
         shopABarText = (ShopABarText) findViewById(R.id.shopbar);
@@ -278,15 +276,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
         requstData(UrlUtils.viewOrder, 0);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -337,8 +326,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 /*
                 获取订单数据
                 */
-                if (refreshLat.isRefreshing()) {
-                    refreshLat.setRefreshing(false);
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.setRefreshing(false);
                 }
                 //收货地址
                 getAddress(dataObj);
@@ -377,16 +366,17 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
 
     @Override
     public void handle404(String message) {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
         getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
     }
+
 }

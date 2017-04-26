@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -41,13 +42,12 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.view.MsgView;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -70,7 +70,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private Context context;
 
     private RecyclerView recylerview;
-    private SuperSwipeRefreshLayout refreshLayout;//刷新
     private HomePageAdapter homePageAdapter;
 
     /*
@@ -87,7 +86,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private List<HomePageMultiItemItem> items = new ArrayList<>();
     private PopupWindow popupWindow;
     private int finalScene;
-    private static final long newTime= 24 *60 *60 *1000;//新文章变为旧文章的时间(ms)
+    private static final long newTime = 24 * 60 * 60 * 1000;//新文章变为旧文章的时间(ms)
     private MsgView msgView;
 
 
@@ -139,29 +138,12 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         /**
          * 刷新
          */
-        refreshLayout = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        //刷新
-        refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        initRefreshLayout(view);
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 requestData(UrlUtils.index, 0);
-            }
-
-            @Override
-            public void onPullDistance(int distance) {
-                /**
-                 * 刷新隐藏头部
-                 */
-                if (distance > 0) {
-                    homepage_head.setVisibility(View.GONE);
-                } else {
-                    homepage_head.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onPullEnable(boolean enable) {
-
             }
         });
 
@@ -188,7 +170,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 ShopMessageActivity.startIntent(context);
             }
         });
-        msgView= (MsgView) view.findViewById(R.id.msgView);
+        msgView = (MsgView) view.findViewById(R.id.msgView);
 
 
         /**
@@ -412,7 +394,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     String url = jsonObject.optString("article_url");
                     NewsBean newsBean = new NewsBean(id, title, time, url);
                     newsBean.setIcon((System.currentTimeMillis() - (create_time * 1000)) <= newTime);
-                    items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12,newsBean , R.layout.home_page_news2));
+                    items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE12, newsBean, R.layout.home_page_news2));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -490,28 +472,28 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
 
     @Override
-    public void handle404(String message,JSONObject dataObj) {
-        if(finalScene==1){
+    public void handle404(String message, JSONObject dataObj) {
+        if (finalScene == 1) {
             int tip_status = dataObj.optInt("tip_status");
-            if(tip_status==2){//打电话
+            if (tip_status == 2) {//打电话
                 final String tel = dataObj.optString("tel");
-                getDm().buildAlertDialogSure(message,new DialogHome.Callback() {
+                getDm().buildAlertDialogSure(message, new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+tel));
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tel));
                         startActivity(intent);
                     }
                 });
-            }else if(tip_status==1){//未开通
-                getDm().buildAlertDialogSure(message,new DialogHome.Callback() {
+            } else if (tip_status == 1) {//未开通
+                getDm().buildAlertDialogSure(message, new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        Intent intent=new Intent(getActivity(), BCProcessActivity.class);
+                        Intent intent = new Intent(getActivity(), BCProcessActivity.class);
                         startActivity(intent);
                     }
                 });
             }
-        }else {
+        } else {
             stopRefresh();
             getDm().buildAlertDialog(message);
         }
@@ -525,7 +507,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     @Override
     public void handleNoNetWork() {
         stopRefresh();
-        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 
     @Override
@@ -544,4 +525,5 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 break;
         }
     }
+
 }

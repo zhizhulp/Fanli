@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.beans.CashAccountType;
 import com.ascba.rebate.view.BillTypeDialog;
 import com.ascba.rebate.view.MoneyBar;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,11 +30,10 @@ import java.util.Locale;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener
+public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener
         , MoneyBar.CallBack, StickyListHeadersListView.OnHeaderClickListener
         , StickyListHeadersListView.OnStickyHeaderChangedListener {
 
-    private SuperSwipeRefreshLayout refreshLat;
     private StickyListHeadersListView billRV;
     private BillAdapter billAdapter;
     private List<CashAccount> billData;
@@ -52,6 +51,8 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
 
     private void initViews() {
         initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
+
         initRecyclerView();
         initMoneyBar();
     }
@@ -168,31 +169,16 @@ public class WhiteBillActivity extends BaseNetActivity implements SuperSwipeRefr
         }
     }
 
-    private void initRefreshLayout() {
-        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
-    }
 
     @Override
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                refreshLat.setRefreshing(false);
+                refreshLayout.setRefreshing(false);
             }
         }, 1000);
     }
-
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
-
 
     @Override
     public void clickImage(View im) {

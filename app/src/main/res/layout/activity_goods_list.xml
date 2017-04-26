@@ -83,8 +83,8 @@
 
     <include layout="@layout/goods_details_cuttingline" />
 
-    <com.ascba.rebate.view.SuperSwipeRefreshLayout
-        android:id="@+id/activity_goods_list_refresh_layout"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -92,5 +92,5 @@
             android:id="@+id/activity_goods_list_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

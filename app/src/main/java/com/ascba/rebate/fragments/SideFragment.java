@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -34,7 +36,6 @@ import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -43,8 +44,10 @@ import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
 import com.warmtel.expandtab.PopTwoListView;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,8 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 /**
  * 周边
  */
-public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetFragment.Callback {
+public class SideFragment extends BaseNetFragment implements
+        SwipeRefreshLayout.OnRefreshListener, BaseNetFragment.Callback {
 
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
@@ -68,7 +72,6 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
     private BusAdapter adapter;
     private int now_page = 1;//当前页数
     private int total_page;//总页数
-    private SuperSwipeRefreshLayout refreshLat;
     private CustomLoadMoreView loadMoreView;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -113,9 +116,8 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
     }
 
     private void initView(View view) {
-        refreshLat = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        refreshLat.setOnPullRefreshListener(this);
-
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
         /*popTab = ((ExpandPopTabView) view.findViewById(R.id.expandtab_view));
         initData();
         addItem(popTab, typeAll, "全部0", "全部0");
@@ -152,8 +154,8 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(StringUtils.isEmpty(s.toString())){
-                    finalScene=0;
+                if (StringUtils.isEmpty(s.toString())) {
+                    finalScene = 0;
                     clearData();
                     resetPage();
                     requestNetwork(0);
@@ -199,7 +201,7 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
             case REQUEST_LOCATE:
                 String city = data.getStringExtra("city");
                 if (!StringUtils.isEmpty(city)) {
-                    finalScene=0;
+                    finalScene = 0;
                     clearData();
                     resetPage();
                     region_name = city;
@@ -302,16 +304,6 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
 
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
-
 
     private void getPageCount(JSONObject dataObj) {
         total_page = dataObj.optInt("total_page");
@@ -344,18 +336,18 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
                     business.setDistance((distance + "m"));
                 }
                 business.setbCategory(jsonObject.optString("seller_taglib"));
-                business.setNew(is_new==1);
+                business.setNew(is_new == 1);
                 data.add(business);
             }
         } else {
-            adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无商家数据"));
+            adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(), "暂无商家数据"));
         }
 
     }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         if (adapter != null) {
             adapter.loadMoreComplete();
         }
@@ -375,7 +367,7 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
             adapter = new BusAdapter(R.layout.main_bussiness_list_item, data, getActivity());
             busRV.setLayoutManager(new LinearLayoutManager(getActivity()));
             busRV.setAdapter(adapter);
-            adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无商家信息"));
+            adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(), "暂无商家信息"));
         } else {
             adapter.notifyDataSetChanged();
         }
@@ -383,7 +375,7 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
 
     @Override
     public void handleReqFailed() {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
     }
 
@@ -393,16 +385,14 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
     }
 
 
-
     @Override
     public void handleReLogin() {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
     }
 
@@ -416,7 +406,7 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
             setRequestPermissionAndBack(new PermissionCallback() {
                 @Override
                 public void requestPermissionAndBack(boolean isOk) {
-                    finalScene=0;
+                    finalScene = 0;
                     if (isOk) {
                         initLocationListener();
                     } else {
@@ -424,7 +414,7 @@ public class SideFragment extends BaseNetFragment implements SuperSwipeRefreshLa
                     }
                 }
             });
-        }else {
+        } else {
             initLocationListener();
         }
 

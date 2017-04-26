@@ -60,7 +60,7 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -259,5 +259,5 @@
                 <include layout="@layout/goods_details_cuttingline_wide" />
             </LinearLayout>
         </ScrollView>
-    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -19,7 +19,6 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.GoodsListAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.view.ShopABar;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopOneListView;
@@ -45,7 +44,6 @@ public class GoodsListActivity extends BaseNetActivity implements View.OnClickLi
     private boolean isLinearLayout = true;
     private GoodsListAdapter goodsListAdapter;
 
-    private SuperSwipeRefreshLayout superSwipeRefreshLayout;
     private Handler handler = new Handler();
     Context context;
     private List<KeyValueBean> keyValueBeen = new ArrayList<>();
@@ -70,53 +68,19 @@ public class GoodsListActivity extends BaseNetActivity implements View.OnClickLi
     }
 
     private void InitRefresh() {
-        superSwipeRefreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.activity_goods_list_refresh_layout);
-        View view = LayoutInflater.from(context).inflate(R.layout.foot_view, null, false);
-        superSwipeRefreshLayout.setFooterView(view);
-
-        superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        superSwipeRefreshLayout.setRefreshing(false);
+                        refreshLayout.setRefreshing(false);
                     }
                 }, 1000);
             }
-
-            @Override
-            public void onPullDistance(int distance) {
-
-            }
-
-            @Override
-            public void onPullEnable(boolean enable) {
-
-            }
         });
 
-        superSwipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        superSwipeRefreshLayout.setLoadMore(false);
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onPushDistance(int distance) {
-
-            }
-
-            @Override
-            public void onPushEnable(boolean enable) {
-
-            }
-        });
     }
 
     private void InitBar() {

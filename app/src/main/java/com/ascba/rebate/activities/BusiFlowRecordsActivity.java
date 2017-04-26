@@ -1,9 +1,9 @@
 package com.ascba.rebate.activities;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -13,12 +13,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FlowRecordsAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -29,9 +30,8 @@ import java.util.Locale;
  */
 
 public class BusiFlowRecordsActivity extends BaseNetActivity implements
-        SuperSwipeRefreshLayout.OnPullRefreshListener
+        SwipeRefreshLayout.OnRefreshListener
         ,ShopABarText.Callback{
-    private SuperSwipeRefreshLayout refreshLat;
     private RecyclerView rv;
     private FlowRecordsAdapter adapter;
     private List<CashAccount> data;
@@ -49,9 +49,10 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
     }
 
     private void initViews() {
-        initRefreshLat();
+        initRefreshLayout();
         initRecyclerview();
         initShopBar();
+        refreshLayout.setOnRefreshListener(this);
     }
 
     private void initShopBar() {
@@ -139,29 +140,15 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
         data.add(new CashAccount("前天", "21:41", "+456.12", "推荐会员-佣金", null, R.mipmap.cash_cost));
     }
 
-    private void initRefreshLat() {
-        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
-    }
 
     @Override
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                refreshLat.setRefreshing(false);
+                refreshLayout.setRefreshing(false);
             }
         },1000);
-    }
-
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
     }
 
     @Override

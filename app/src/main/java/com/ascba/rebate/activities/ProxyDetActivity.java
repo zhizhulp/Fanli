@@ -2,27 +2,28 @@ package com.ascba.rebate.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ProxyDetAdapter;
 import com.ascba.rebate.beans.ProxyDet;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.SpaceItemDecoration;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBack
-        ,SuperSwipeRefreshLayout.OnPullRefreshListener{
+        ,SwipeRefreshLayout.OnRefreshListener {
 
     private MoneyBar mb;
     private RecyclerView rv;
     private ProxyDetAdapter adapter;
     private List<ProxyDet> data;
-    private SuperSwipeRefreshLayout refreshLat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,7 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
     private void initViews() {
         initRecyclerView();
         initRefreshLayout();
-
-    }
-
-    private void initRefreshLayout() {
-        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
+        refreshLayout.setOnRefreshListener(this);
     }
 
     private void initRecyclerView() {
@@ -85,18 +81,9 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                refreshLat.setRefreshing(false);
+                refreshLayout.setRefreshing(false);
             }
-        },1000);
+        }, 1000);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 }

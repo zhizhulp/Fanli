@@ -3,20 +3,23 @@ package com.ascba.rebate.fragments.recommend;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +27,8 @@ import java.util.List;
 /**
  * 一级推广
  */
-public class FirstReccFragment extends BaseReccFragment implements BaseNetFragment.Callback,SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class FirstReccFragment extends BaseReccFragment implements BaseNetFragment.Callback,SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView rvFirst;
-    private SuperSwipeRefreshLayout refreshLatFirst;
     private TuiGAdapter adapterFirst;
     private List<FirstRec> dataFirst;
     private View emptyView;
@@ -34,7 +36,6 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
 
     public FirstReccFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +47,7 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initRefreshLayout(view);
         initViews();
         ((MyRecActivity) getActivity()).setListener1(new MyRecActivity.Listener1() {
             @Override
@@ -67,8 +69,7 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
 
     private void initViews() {
         rvFirst = getRv();
-        refreshLatFirst = getRefreshLat();
-        refreshLatFirst.setOnPullRefreshListener(this);
+        refreshLayout.setOnRefreshListener(this);
         adapterFirst = getAdapter();
         dataFirst = getData();
         emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view,null);
@@ -79,7 +80,7 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
         if(dataFirst.size()!=0){
             dataFirst.clear();
         }
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         JSONArray array = dataObj.optJSONArray("getSearchSpread");
         if (array == null || array.length() == 0) {
             adapterFirst.setEmptyView(emptyView);
@@ -102,7 +103,7 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
 
     @Override
     public void handleReqFailed() {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -112,13 +113,12 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
 
     @Override
     public void handleReLogin() {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLatFirst.setRefreshing(false);
-        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -126,13 +126,5 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
         requestData(idAll,UrlUtils.getSearchPspread);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
 
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 }
