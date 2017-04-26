@@ -17,6 +17,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.utils.Pay;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -78,6 +79,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
     };
 
     private int flag = 0;//0-获取数据，1-取消订单,2-付款
+    private String payType;
+    private Pay pay;
 
 
     @Override
@@ -162,7 +165,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
         jsonRequest.add("order_id", orderId);
         switch (flag) {
             case 2:
-                jsonRequest.add("pay_type", "alipay");
+                //付款
+                jsonRequest.add("pay_type", payType);
                 break;
         }
         executeNetWork(jsonRequest, "请稍后");
@@ -301,7 +305,20 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 break;
             case R.id.tx_pay:
                 //付款
-                requstData(UrlUtils.orderPay, 2);
+                String price = orderAmountTx.getText().toString();
+                if (StringUtils.isEmpty(price)) {
+                    showToast("正在加载订单信息，请稍后");
+                } else {
+                    pay = new Pay(this, price);
+                    pay.showDialog(new Pay.OnCreatOrder() {
+                        @Override
+                        public void onCreatOrder(String arg) {
+                            payType = arg;
+                            requstData(UrlUtils.orderPay, 2);
+                        }
+                    });
+                }
+
                 break;
             case R.id.tx_delete:
                 //取消订单
@@ -340,7 +357,20 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 finish();
                 break;
             case 2:
-                getDm().buildAlertDialog("订单付款成功");
+                try {
+                    if ("balance".equals(payType)) {
+                        showToast("暂未开放");
+                    } else if ("alipay".equals(payType)) {
+                        String payInfo = dataObj.optString("payInfo");
+                        pay.requestForAli(payInfo);//发起支付宝支付请求
+                    } else if ("wxpay".equals(payType)) {
+                        JSONObject wxpay = dataObj.getJSONObject("wxpay");
+                        pay.requestForWX(wxpay);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 break;
         }
     }
@@ -358,6 +388,5 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
         if (refreshLat.isRefreshing()) {
             refreshLat.setRefreshing(false);
         }
-        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }

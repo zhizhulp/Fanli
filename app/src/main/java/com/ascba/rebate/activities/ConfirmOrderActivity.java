@@ -34,6 +34,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ascba.rebate.application.MyApplication.payType;
+
 /**
  * Created by 李鹏 on 2017/03/15 0015.
  * 确认订单
@@ -312,24 +314,8 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-                //创建并支付订单成功
-
-                try {
-                    JSONObject object = dataObj.optJSONObject("payreturn_data");
-                    JSONObject object1 = object.optJSONObject("data");
-
-                    if ("balance".equals(payType)) {
-                        showToast("暂未开放");
-                    } else if ("alipay".equals(payType)) {
-                        String payInfo = object1.optString("payInfo");
-                        pay.requestForAli(payInfo);//发起支付宝支付请求
-                    } else if ("wxpay".equals(payType)) {
-                        JSONObject wxpay = object1.getJSONObject("wxpay");
-                        pay.requestForWX(wxpay);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                //创建并支付订单成功,开始支付
+                payOrder(dataObj);
             }
 
             @Override
@@ -363,7 +349,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
             case R.id.confir_order_btn_commit:
                 //提交订单
                 if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
-
                     pay = new Pay(this, tvTotal.getText().toString());
                     pay.showDialog(new Pay.OnCreatOrder() {
                         @Override
@@ -404,6 +389,46 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.addressId = null;
+    }
+
+    /*
+        支付
+     */
+    private void payOrder(JSONObject dataObj) {
+        try {
+            JSONObject object = dataObj.optJSONObject("payreturn_data");
+            JSONObject object1 = object.optJSONObject("data");
+
+            if ("balance".equals(payType)) {
+                showToast("暂未开放");
+            } else if ("alipay".equals(payType)) {
+                String payInfo = object1.optString("payInfo");
+                pay.requestForAli(payInfo);//发起支付宝支付请求
+            } else if ("wxpay".equals(payType)) {
+                JSONObject wxpay = object1.getJSONObject("wxpay");
+                pay.requestForWX(wxpay);
+            }
+
+            pay.setPayCallBack(new Pay.onPayCallBack() {
+                @Override
+                public void onFinish(String payStype) {
+                    if ("balance".equals(payType)) {
+                        showToast("暂未开放");
+                    } else if ("alipay".equals(payType)) {
+                        //支付宝支付
+                        setResult(RESULT_OK, getIntent());
+                        finish();
+                    } else if ("wxpay".equals(payType)) {
+                        //微信支付
+                        MyApplication.payType = 1;
+                        finish();
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }
