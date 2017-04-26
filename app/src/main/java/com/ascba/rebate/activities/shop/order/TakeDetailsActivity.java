@@ -51,8 +51,9 @@ public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRe
     private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
     private TextView payTx, deleteTx, countdownTx, closeOrderTx;
-    private int flag = 0;//0-获取数据
+    private int flag = 0;//0-获取数据,1-确认收货
     private String storePhone;
+    private TextView btnTake, btnRefund;//确认收货、退款
 
     //倒计时
     private int maxTime = 604800;//单位—秒 7天
@@ -120,6 +121,10 @@ public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRe
         countdownTx = (TextView) findViewById(R.id.tx_countdown);
         closeOrderTx = (TextView) findViewById(R.id.tx_close_order);
         countdownView = (LinearLayout) findViewById(R.id.ll_countdown);
+        btnTake = (TextView) findViewById(R.id.btn_take);
+        btnTake.setOnClickListener(this);
+        btnRefund = (TextView) findViewById(R.id.btn_refund);
+        btnRefund.setOnClickListener(this);
 
         //recyclerView
         recyclerView = (RecyclerView) findViewById(R.id.deliver_details_rv);
@@ -147,7 +152,15 @@ public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRe
     private void requstData(String url, int flag) {
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
-        jsonRequest.add("order_id", orderId);
+        switch (flag) {
+            case 0:
+                jsonRequest.add("order_id", orderId);
+                break;
+            case 1:
+                jsonRequest.add("order_goods_id", orderId);
+                break;
+        }
+
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
@@ -187,6 +200,10 @@ public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRe
 
                 //订单信息
                 getGoodsInfo(dataObj);
+                break;
+            case 1:
+                //确认收货
+                getDm().buildAlertDialog("确认收货");
                 break;
         }
     }
@@ -317,6 +334,13 @@ public class TakeDetailsActivity extends BaseNetActivity implements SuperSwipeRe
                     intent1.setData(Uri.parse("tel:" + storePhone));
                     startActivity(intent1);
                 }
+                break;
+            case R.id.btn_take:
+                //确认收货
+                requstData(UrlUtils.orderReceive, 1);
+                break;
+            case R.id.btn_refund:
+                //退款
                 break;
         }
     }
