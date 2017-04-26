@@ -106,14 +106,15 @@ public abstract class BaseActivityNet extends BaseActivity {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            requstSuccess(what, response.get());
             dialogManager.dismissDialog();
+            requstSuccess(what, response.get());
+
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            requstFailed(what, response.getException());
             dialogManager.buildAlertDialog(getString(R.string.no_network));
+            requstFailed(what, response.getException());
         }
 
         @Override
