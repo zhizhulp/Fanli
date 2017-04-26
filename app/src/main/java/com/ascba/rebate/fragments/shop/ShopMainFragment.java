@@ -104,10 +104,12 @@ public class ShopMainFragment extends BaseNetFragment implements
     private StdDialog sd;//规格dialog
     private NumberButton nb;//加减控件
     private boolean isAll;//是否选择了所有的规格
-    private Goods goodsSelect;//选择的商品
+    private Goods goodsSelect;//选择的商品(有规格)
+    private ShopBaseItem sbi;//选择的商品（无规格）
     private String attention = "请先选择商品";//没选择完整规格的提醒
     private MsgView msgView;
     private ShopTabs shopTabs;
+    private boolean has_spec;//加入购物车的商品是否有规格
 
     @Nullable
     @Override
@@ -153,6 +155,8 @@ public class ShopMainFragment extends BaseNetFragment implements
         bezierCurveAnimater = new BezierCurveAnimater(a, ((RelativeLayout) a.findViewById(R.id.second_rr)), ((ShopActivity) getActivity()).getShopTabs().getImThree());
 
         rv.addOnItemTouchListener(new OnItemClickListener() {
+
+
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ShopBaseItem shopBaseItem = data.get(position);
@@ -168,14 +172,22 @@ public class ShopMainFragment extends BaseNetFragment implements
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
+
                 //加入购物车动画
                 if (view.getId() == R.id.goods_list_cart) {
                     /*ImageView addCart = (ImageView) view;
                     bezierCurveAnimater.addCart(addCart);*/
                     ShopBaseItem shopBaseItem = data.get(position);
+                    sbi=shopBaseItem;
+                    has_spec = shopBaseItem.isHasStandard();
                     goodsId = shopBaseItem.getColor();
                     if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
-                        requestNetwork(UrlUtils.getGoodsSpec, 2);
+                        if(!has_spec){//无规格
+                            requestNetwork(UrlUtils.cartAddGoods, 1);
+                        }else {//有规格
+                            requestNetwork(UrlUtils.getGoodsSpec, 2);
+                        }
+
                     } else {
                         Intent intent2 = new Intent(getActivity(), LoginActivity.class);
                         startActivityForResult(intent2, REQUEST_STD_LOGIN);
@@ -221,9 +233,9 @@ public class ShopMainFragment extends BaseNetFragment implements
             request.add("now_page", now_page);
         } else if (scene == 1) {//添加商品到购物车
             request = buildNetRequest(url, 0, true);
-            request.add("goods_id", goodsSelect.getTitleId());
-            request.add("goods_num", nb.getNumber());
-            request.add("goods_spec_id", goodsSelect.getCartId());
+            request.add("goods_id", has_spec?goodsSelect.getTitleId() : sbi.getColor());
+            request.add("goods_num", has_spec? nb.getNumber() : 1);
+            request.add("goods_spec_id", has_spec? goodsSelect.getCartId():null);
             /*request.add("spec_keys",goodsSelect.getSpecKeys());
             request.add("spec_names",goodsSelect.getSpecNames());*/
         } else if (scene == 2) {//规格数据
@@ -412,6 +424,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
                         , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
+                shopBaseItem.setHasStandard(gObj.optString("has_spec").equals("1"));
                 data.add(shopBaseItem);
             }
         }
@@ -548,7 +561,11 @@ public class ShopMainFragment extends BaseNetFragment implements
                     break;
                 case REQUEST_STD_LOGIN:
                     if (resultCode == RESULT_OK) {
-                        requestNetwork(UrlUtils.getGoodsSpec, 2);
+                        if(!has_spec){//无规格
+                            requestNetwork(UrlUtils.cartAddGoods, 1);
+                        }else {//有规格
+                            requestNetwork(UrlUtils.getGoodsSpec, 2);
+                        }
                     }
                     break;
             }
