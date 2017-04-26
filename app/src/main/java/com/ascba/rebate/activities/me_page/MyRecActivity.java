@@ -229,11 +229,12 @@ public class MyRecActivity extends BaseNetActivity implements
             rbTwo.setText("全部\n二级推荐");
         } else if (finalScene == 1) {
             JSONArray array;
-            if (position == 0) {
+            array = dataObj.optJSONArray("getMyPpspread_data");
+            /*if (position == 0) {
                 array = dataObj.optJSONArray("getMyPspread_data");
             } else {
                 array = dataObj.optJSONArray("getMyPpspread_data");
-            }
+            }*/
             if (array != null && array.length() != 0) {
                 List<RecType> popData = new ArrayList<>();
                 if (popData.size() != 0) {

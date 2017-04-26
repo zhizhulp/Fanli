@@ -227,8 +227,9 @@ public class MoneyFragment extends LazyBaseFragment implements SuperSwipeRefresh
             tvDuiHuan.setText(infoObj.optInt("red_score") + "");
             tvDjq.setText(infoObj.optInt("vouchers") + "张");
             tvGrzh.setText(infoObj.optString("money"));
-            tvSjzh.setText(infoObj.optString("account_money"));
+            tvSjzh.setText(infoObj.optString("monetary"));//本月消费
             tvBank.setText(infoObj.optInt("banks") + "张");
+            tvJiaoYi.setText(infoObj.optString("cashing_money")+ "张");//提现券
         } else if (finalScene == 3) {//检查是否实名，点击提现前
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");

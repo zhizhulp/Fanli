@@ -339,7 +339,7 @@ public class ShopMainFragment extends BaseNetFragment implements
         } else if (finalScene == 1) {//添加到购物车成功
             getDm().buildAlertDialog(message);
             sd.dismiss();
-            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + nb.getNumber());
+            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + (has_spec?nb.getNumber():1));
         } else if (finalScene == 2) {//规格数据
             LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
