@@ -235,10 +235,6 @@ public class CartFragment extends LazyBaseFragment implements
             adapter.notifyItemChanged(position);
             calculateNumAndCost();
         } else if (finalScene == 3) {//删除商品
-            //getDm().buildAlertDialog(message);
-            CartGoods cartGoods=data.get(position);
-            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() - cartGoods.t.getUserQuy());
-
             data.remove(position);
             adapter.notifyItemRemoved(position);
             calculateNumAndCost();
@@ -394,8 +390,10 @@ public class CartFragment extends LazyBaseFragment implements
             }
             tvCost.setText("￥" + totalCost);
             tvCostNum.setText("结算(" + totalCount + ")");
+            shopTabs.setThreeNoty(totalCount);
+        } else {
+            shopTabs.setThreeNoty(0);
         }
-
     }
 
 

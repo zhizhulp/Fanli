@@ -15,8 +15,8 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.handlers.DialogManager2;
+import com.ascba.rebate.utils.Pay;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -214,6 +214,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款
+
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
