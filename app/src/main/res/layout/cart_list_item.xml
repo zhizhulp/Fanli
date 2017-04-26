@@ -78,7 +78,6 @@
                         android:ellipsize="end"
                         android:lineSpacingExtra="3dp"
                         android:maxLines="2"
-                        android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
                         android:textColor="@color/shop_normal_text_color"
                         android:textSize="11sp" />
 
@@ -90,11 +89,11 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:ellipsize="end"
                             android:maxLines="1"
                             android:id="@+id/cart_goods_standard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="颜色:贪色;尺码:S"
                             android:textSize="11sp" />
 
                         <ImageView
@@ -115,7 +114,6 @@
                             android:layout_height="wrap_content"
                             android:paddingBottom="11dp"
                             android:paddingTop="9dp"
-                            android:text="￥ 368.00"
                             android:textColor="@color/shop_red_text_color"
                             android:textSize="16sp" />
                         <TextView

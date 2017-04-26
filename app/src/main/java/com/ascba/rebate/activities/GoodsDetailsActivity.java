@@ -1264,7 +1264,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if (scene == 0) {//把商品加入购物车
             request.add("store_id", goods.getStoreId());
-            request.add("goods_id", has_spec == 0 ? goods.getStoreId() : goodsSelect.getTitleId());
+            request.add("goods_id", has_spec == 0 ? goods.getTitleId() : goodsSelect.getTitleId());
             request.add("goods_num", has_spec == 0 ? 1 : nb.getNumber());
             request.add("goods_spec_id", has_spec == 0 ? null : goodsSelect.getCartId());
         } else if (scene == 1) {//结算

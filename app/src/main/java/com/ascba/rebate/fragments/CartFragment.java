@@ -85,7 +85,7 @@ public class CartFragment extends LazyBaseFragment implements
     private void requestNetwork(String url, int scene) {
         finalScene = scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        if (scene == 1) {//选种商品
+        if (scene == 1) {//选商品
             request.add("cart_ids", createIds());
             //request.add("status", (cgSelect != null) ? (cgSelect.isCheck() ? 1 : 0) : (cbTotal.isChecked() ? 1 : 0));
         } else if (scene == 2) {//加减商品
@@ -426,7 +426,22 @@ public class CartFragment extends LazyBaseFragment implements
     }
 
     private String createIds() {
-        if (cgSelect == null) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < data.size(); i++) {
+            CartGoods cg = data.get(i);
+            if(!cg.isHeader){
+                if(cg.isCheck()){
+                    sb.append(cg.t.getCartId());
+                    sb.append(",");
+                }
+            }
+        }
+        String ids = sb.toString();
+        if(ids.endsWith(",")){
+            ids= ids.substring(0,ids.length()-1);
+        }
+        return ids;
+        /*if (cgSelect == null) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < data.size(); i++) {
                 CartGoods cg = data.get(i);
@@ -469,7 +484,7 @@ public class CartFragment extends LazyBaseFragment implements
                 return sb.toString();
             }
 
-        }
+        }*/
     }
 
 }
