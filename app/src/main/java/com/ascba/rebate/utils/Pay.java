@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.PayTypeAdapter;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.view.pay.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -32,8 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
  * Created by 李鹏 on 2017/04/25 0025.
  */
@@ -44,6 +41,8 @@ public class Pay {
     private Activity context;
     private String price;//价格
     private DialogHome dialogHome;
+    private onPayCallBack payCallBack;
+    private String payType;
 
     private static final int SDK_PAY_FLAG = 1;
 
@@ -60,6 +59,10 @@ public class Pay {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
+
+                        if (payCallBack != null) {
+                            payCallBack.onSuccess(payType, resultStatus);
+                        }
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
                         try {
@@ -71,14 +74,24 @@ public class Pay {
                             e.printStackTrace();
                         }
                     } else if (TextUtils.equals(resultStatus, "6002")) {
+                        if (payCallBack != null) {
+                            payCallBack.onNetProblem(payType, resultStatus);
+                        }
                         dialogHome.buildAlertDialog("网络有问题");
                     } else if (TextUtils.equals(resultStatus, "6001")) {
+                        if (payCallBack != null) {
+                            payCallBack.onCancel(payType, resultStatus);
+                        }
                         dialogHome.buildAlertDialog("您已经取消支付");
                     } else {
+                        if (payCallBack != null) {
+                            payCallBack.onFailed(payType, resultStatus);
+                        }
                         dialogHome.buildAlertDialog("支付失败");
                     }
-                    context.setResult(RESULT_OK);
-                    context.finish();
+                    if (payCallBack != null) {
+                        payCallBack.onFinish(payType);
+                    }
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
                     }
@@ -101,10 +114,30 @@ public class Pay {
         void onCreatOrder(String payType);
     }
 
+    public void setPayCallBack(onPayCallBack payCallBack) {
+        this.payCallBack = payCallBack;
+    }
+
+    public static abstract class onPayCallBack {
+        public void onSuccess(String payStype, String resultStatus) {
+        }
+
+        public void onFailed(String payStype, String resultStatus) {
+        }
+
+        public abstract void onFinish(String payStype);
+
+        public void onCancel(String payStype, String resultStatus) {
+        }
+
+        public void onNetProblem(String payStype, String resultStatus) {
+        }
+
+    }
+
 
     //选择支付方式页面
     public void showDialog(final OnCreatOrder onCreatOrder) {
-        final String[] type = {"balance"};
         dialog = new Dialog(context, R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_pay_pop);
         ((TextView) dialog.findViewById(R.id.dlg_tv_total_cash)).setText(price);
@@ -119,7 +152,7 @@ public class Pay {
         dialog.findViewById(R.id.go_pay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCreatOrder.onCreatOrder(type[0]);
+                onCreatOrder.onCreatOrder(payType);
             }
         });
         //列表
@@ -129,8 +162,8 @@ public class Pay {
         PayTypeAdapter pt = new PayTypeAdapter(R.layout.pay_type_item, types);
         pt.setCallback(new PayTypeAdapter.Callback() {
             @Override
-            public void onClicked(String payType) {
-                type[0] = payType;
+            public void onClicked(String arg0) {
+                payType = arg0;
             }
         });
         rvTypes.setLayoutManager(new LinearLayoutManager(context));
@@ -190,11 +223,11 @@ public class Pay {
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
-            MyApplication.payType = 1;
-            context.finish();
+            if (payCallBack != null) {
+                payCallBack.onFinish(payType);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }
