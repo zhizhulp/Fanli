@@ -399,6 +399,9 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
             JSONObject object = dataObj.optJSONObject("payreturn_data");
             JSONObject object1 = object.optJSONObject("data");
 
+            /**
+             * 调起支付
+             */
             if ("balance".equals(payType)) {
                 showToast("暂未开放");
             } else if ("alipay".equals(payType)) {
@@ -408,27 +411,30 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
                 JSONObject wxpay = object1.getJSONObject("wxpay");
                 pay.requestForWX(wxpay);
             }
-
-            pay.setPayCallBack(new PayUtils.onPayCallBack() {
-                @Override
-                public void onFinish(String payStype) {
-                    if ("balance".equals(payType)) {
-                        showToast("暂未开放");
-                    } else if ("alipay".equals(payType)) {
-                        //支付宝支付
-                        setResult(RESULT_OK, getIntent());
-                        finish();
-                    } else if ("wxpay".equals(payType)) {
-                        //微信支付
-                        MyApplication.payType = 1;
-                        finish();
-                    }
-                }
-            });
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        /**
+         * 支付结果回调
+         */
+        pay.setPayCallBack(new PayUtils.onPayCallBack() {
+            @Override
+            public void onFinish(String payStype) {
+                if ("balance".equals(payType)) {
+                    showToast("暂未开放");
+                } else if ("alipay".equals(payType)) {
+                    //支付宝支付
+                    setResult(RESULT_OK, getIntent());
+                    finish();
+                } else if ("wxpay".equals(payType)) {
+                    //微信支付
+                    MyApplication.payType = 1;
+                    finish();
+                }
+            }
+        });
+
     }
 
 }
