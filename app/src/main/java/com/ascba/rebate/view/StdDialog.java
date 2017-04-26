@@ -43,25 +43,14 @@ public class StdDialog extends Dialog {
         return nb;
     }
 
-    public void setNb(NumberButton nb) {
-        this.nb = nb;
-    }
-
     public TextView getTvPurchase() {
         return tvPurchase;
-    }
-
-    public void setTvPurchase(TextView tvPurchase) {
-        this.tvPurchase = tvPurchase;
     }
 
     public TextView getTvAddToCart() {
         return tvAddToCart;
     }
 
-    public void setTvAddToCart(TextView tvAddToCart) {
-        this.tvAddToCart = tvAddToCart;
-    }
 
     public interface Listener {
         void getSelectGoods(Goods gs);
