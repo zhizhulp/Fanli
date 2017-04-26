@@ -16,7 +16,6 @@ import com.ascba.rebate.adapter.SelectAddressAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.ReceiveAddressBean;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,7 +39,6 @@ public class SelectAddrssActivity extends BaseNetActivity {
     private Context context;
     private ShopABarText shopbar;
     private RecyclerView recyclerview;
-    private DialogManager dm;
     private SelectAddressAdapter adapter;
     private LinearLayout btnAddAddress;
     private Handler handler = new Handler();
@@ -165,7 +163,6 @@ public class SelectAddrssActivity extends BaseNetActivity {
      * 获取收货地址数据
      */
     private void getData() {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         executeNetWork(jsonRequest, "请稍后");
@@ -207,12 +204,12 @@ public class SelectAddrssActivity extends BaseNetActivity {
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
+
             }
         });
     }

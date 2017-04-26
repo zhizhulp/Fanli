@@ -4,15 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.red_score_child.RedScSuccActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
-import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
 
 /**
@@ -23,7 +25,6 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     private TextView tvMax;
     private TextView tvCash;
     private TextView tvTicket;
-    private DialogManager dm;
     private TextView tvTodayRate;
     private MoneyBar moneyBar;
 
@@ -50,7 +51,6 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
             }
         });
 
-        dm = new DialogManager(this);
         tvMax = ((TextView) findViewById(R.id.total_red_score));
         tvCash = ((TextView) findViewById(R.id.tv_cash));
         tvTicket = ((TextView) findViewById(R.id.tv_ticket));
@@ -104,14 +104,13 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     //点击兑换红积分
     public void redChange(View view) {
         if ("0".equals(tvMax.getText().toString())) {
-            dm.buildAlertDialog("可兑换红积分不足");
+            getDm().buildAlertDialog("可兑换红积分不足");
             return;
         }
-        dm.buildAlertDialog1("您确定要兑换吗？");
-        dm.setCallback(new DialogManager.Callback() {
+        getDm().buildAlertDialog("您确定要兑换吗？");
+        getDm().setCallback(new DialogHome.Callback() {
             @Override
             public void handleSure() {
-                dm.dismissDialog();
                 finalScene = 2;
                 Request<JSONObject> request = buildNetRequest(UrlUtils.redIntegration, 0, true);
                 request.add("red_integration", tvMax.getText().toString());

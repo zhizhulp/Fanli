@@ -51,7 +51,6 @@ import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.beans.IntegralValueItem;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -105,8 +104,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
      * 导航栏
      */
     private View shopABar;
-
-    private DialogManager dm;
 
     /*
      * 商品实体类
@@ -253,7 +250,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
      * 获取商品详情数据
      */
     private void getdata() {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsArticle, 0, false);
         jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getGoodsArticle));
         jsonRequest.add("id", goodsId);
@@ -291,12 +287,12 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog(getString(R.string.no_network));
+
             }
         });
     }

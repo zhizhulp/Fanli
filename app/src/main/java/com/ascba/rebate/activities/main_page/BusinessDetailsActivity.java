@@ -22,7 +22,6 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -54,7 +53,6 @@ public class BusinessDetailsActivity extends BaseNetActivity implements BaseNetA
     private String seller_description;
     private String seller_tel;
     private AMapLocationClient locationClient = null;
-    private DialogManager dm;
     private double lon;
     private double lat;
     private String seller_name;
@@ -69,7 +67,6 @@ public class BusinessDetailsActivity extends BaseNetActivity implements BaseNetA
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         imBusiPic = ((ImageView) findViewById(R.id.im_busi_pic));
         tvName = ((TextView) findViewById(R.id.tv_busi_name));
         tvType = ((TextView) findViewById(R.id.tv_busi_type));
@@ -294,7 +291,7 @@ public class BusinessDetailsActivity extends BaseNetActivity implements BaseNetA
                 mLon1 = loc.getLongitude();
                 startGaodeSearch();
             } else {
-                dm.buildAlertDialog("定位失败，请稍后再试");
+                getDm().buildAlertDialog("定位失败，请稍后再试");
             }
         }
     };

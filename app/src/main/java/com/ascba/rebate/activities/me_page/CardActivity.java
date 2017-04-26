@@ -10,7 +10,7 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.adapter.CardListAdapter;
 import com.ascba.rebate.beans.Card;
-import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SwipeMenuListView2;
@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardActivity extends BaseNetActivity implements BaseNetActivity.Callback,SwipeMenuListView.OnMenuItemClickListener {
+public class CardActivity extends BaseNetActivity implements BaseNetActivity.Callback, SwipeMenuListView.OnMenuItemClickListener {
 
     private SwipeMenuListView2 cardListView;
     private CardListAdapter cardListAdapter;
@@ -34,7 +34,6 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
     private int positionL;
     private View noCardVeiw;
     private int finalScene;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +44,10 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
     }
 
     private void findView() {
-        dm=new DialogManager(this);
         noCardVeiw = findViewById(R.id.no_card_view);
         initListView();
     }
+
     private SwipeMenuCreator creator = new SwipeMenuCreator() {
         @Override
         public void create(SwipeMenu menu) {
@@ -56,7 +55,7 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
             SwipeMenuItem deleteItem = new SwipeMenuItem(
                     getApplicationContext());
             deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
-            deleteItem.setWidth(ScreenDpiUtils.dip2px(CardActivity.this,110));
+            deleteItem.setWidth(ScreenDpiUtils.dip2px(CardActivity.this, 110));
             deleteItem.setIcon(R.mipmap.bank_card_delete);
             menu.addMenuItem(deleteItem);
         }
@@ -66,30 +65,30 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
         cardListView = ((SwipeMenuListView2) findViewById(R.id.card_list));
         cardListView.setMenuCreator(creator);
         cardListView.setOnMenuItemClickListener(this);
-        mList=new ArrayList<>();
-        cardListAdapter = new CardListAdapter(mList,this);
+        mList = new ArrayList<>();
+        cardListAdapter = new CardListAdapter(mList, this);
         cardListView.setAdapter(cardListAdapter);
         netRequest(0);
     }
 
     private void netRequest(int scene) {
-        finalScene=scene;
-        if(finalScene==0){
+        finalScene = scene;
+        if (finalScene == 0) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.getBankList, 0, true);
-            executeNetWork(request,"请稍后");
+            executeNetWork(request, "请稍后");
             setCallback(this);
-        }else if(finalScene==1){
+        } else if (finalScene == 1) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.delBanks, 0, true);
-            StringBuilder sb=new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             Card card = mList.get(positionL);
-            sb.append(card.getId()+"");
-            request.add("bankIds",sb.toString());
-            executeNetWork(request,"请稍后");
+            sb.append(card.getId() + "");
+            request.add("bankIds", sb.toString());
+            executeNetWork(request, "请稍后");
             setCallback(this);
 
-        }else if(finalScene==2){
+        } else if (finalScene == 2) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.checkCardId, 0, true);
-            executeNetWork(request,"请稍后");
+            executeNetWork(request, "请稍后");
             setCallback(this);
         }
     }
@@ -102,9 +101,9 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(finalScene==0){
+        if (finalScene == 0) {
             JSONArray bank_list = dataObj.optJSONArray("bank_list");
-            if(bank_list!=null && bank_list.length()!=0){
+            if (bank_list != null && bank_list.length() != 0) {
                 noCardVeiw.setVisibility(View.GONE);
                 mList.clear();
                 for (int i = 0; i < bank_list.length(); i++) {
@@ -114,24 +113,24 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
                     String bank_card = jsonObject.optString("bank_card");
                     String type = jsonObject.optString("type");
                     //String bank_logo = jsonObject.optString("bank_logo");
-                    Card card=new Card(bank,type,bank_card);
+                    Card card = new Card(bank, type, bank_card);
                     card.setId(id);
                     mList.add(card);
                 }
                 cardListAdapter.notifyDataSetChanged();
-            }else{
+            } else {
                 noCardVeiw.setVisibility(View.VISIBLE);
             }
-        }else if(finalScene==1){
+        } else if (finalScene == 1) {
             deleteSuccess();
-            dm.buildAlertDialog(message);
-        }else if(finalScene==2){
+            getDm().buildAlertDialog(message);
+        } else if (finalScene == 2) {
             int isCardId = dataObj.optInt("isCardId");
-            if(isCardId==1){
+            if (isCardId == 1) {
                 JSONObject cardObj = dataObj.optJSONObject("cardInfo");
                 String realname = cardObj.optString("realname");
-                Intent intent=new Intent(CardActivity.this,AddCardActivity.class);
-                intent.putExtra("realname",realname);
+                Intent intent = new Intent(CardActivity.this, AddCardActivity.class);
+                intent.putExtra("realname", realname);
                 startActivity(intent);
             }
         }
@@ -149,14 +148,13 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
 
     @Override
     public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
-        switch (index){
+        switch (index) {
             case 0:
-                dm.buildAlertDialog1("确定要删除银行卡吗？");
-                dm.setCallback(new DialogManager.Callback() {
+                getDm().buildAlertDialog("确定要删除银行卡吗？");
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        dm.dismissDialog();
-                        positionL=position;
+                        positionL = position;
                         netRequest(1);
                     }
                 });
@@ -164,6 +162,7 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
         }
         return false;
     }
+
     //添加银行卡
     public void goAddCard(View view) {
         netRequest(2);

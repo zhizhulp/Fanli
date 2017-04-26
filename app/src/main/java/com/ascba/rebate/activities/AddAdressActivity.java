@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -54,7 +53,6 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
     };
     private EditText name, phone, address;
     private CheckBox chbDefault;
-    private DialogManager dm;
     private TextView txProvince;
     private Province province;
     private Province.City city;
@@ -84,7 +82,6 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
             @Override
             public void clkBtn(View v) {
                 //保存
-                dm = new DialogManager(context);
                 if (!StringUtils.isEmpty(name.getText().toString())
                         && !StringUtils.isEmpty(phone.getText().toString())
                         && !StringUtils.isEmpty(address.getText().toString())
@@ -240,17 +237,17 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
             public void handle200Data(JSONObject dataObj, String message) {
                 Intent intent = new Intent();
                 setResult(2, intent);
-                dm.buildAlertDialog("保存成功");
+                getDm().buildAlertDialog("保存成功");
             }
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
+                getDm().buildAlertDialog("请检查网络！");
             }
         });
     }

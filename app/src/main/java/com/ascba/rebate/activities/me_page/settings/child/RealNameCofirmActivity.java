@@ -8,7 +8,6 @@ import android.widget.EditText;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.CardDataActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -17,7 +16,6 @@ import org.json.JSONObject;
 public class RealNameCofirmActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private EditText edId;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +26,6 @@ public class RealNameCofirmActivity extends BaseNetActivity implements BaseNetAc
     }
 
     private void initView() {
-        dm=new DialogManager(this);
         edId = ((EditText) findViewById(R.id.editTextWithCustomHint2));
     }
 
@@ -39,7 +36,7 @@ public class RealNameCofirmActivity extends BaseNetActivity implements BaseNetAc
     private void requestCardInfo(String url) {
         String s = edId.getText().toString();
         if("".equals(s)){
-            dm.buildAlertDialog("请输入身份证号码");
+            getDm().buildAlertDialog("请输入身份证号码");
             return;
         }
         Request<JSONObject> objRequest = buildNetRequest(url, 0, true);

@@ -31,7 +31,7 @@ import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -68,7 +68,6 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
     private TextView tvRedScore;
     private TextView tvRecNum;
     private TextView tvBusiStatus;
-    private DialogManager dm;
 
     @Nullable
     @Override
@@ -163,7 +162,6 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
     }
 
     private void initViews(View view) {
-        dm=new DialogManager(getActivity());
         tvWhiteScore = ((TextView) view.findViewById(R.id.me_tv_white_score));
         tvNickName = ((TextView) view.findViewById(R.id.me_tv_nick_name));
         tvMoney = ((TextView) view.findViewById(R.id.me_tv_money));
@@ -183,7 +181,7 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
             public void onRefresh() {
                 boolean netAva = NetUtils.isNetworkAvailable(getActivity());
                 if(!netAva){
-                    dm.buildAlertDialog("请打开网络！");
+                    getDm().buildAlertDialog("请打开网络！");
                     refreshLayout.setRefreshing(false);
                     return;
                 }
@@ -207,7 +205,6 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
     public void onClick(View v) {
         String noOpen = "近期开放，工程师努力升级中";
         int id = v.getId();
-        DialogManager dm = new DialogManager(getActivity());
         switch (id) {
             case R.id.me_user_img:
                 Intent intentUser = new Intent(getActivity(), PersonalDataActivity.class);
@@ -251,13 +248,13 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
                 startActivity(intent8);
                 break;
             case R.id.me_go_proxy_center:
-                dm.buildAlertDialog(noOpen);
+                getDm().buildAlertDialog(noOpen);
                 break;
             case R.id.qlqw_car:
-                dm.buildAlertDialog("敬请期待！");
+                getDm().buildAlertDialog("敬请期待！");
                 break;
             case R.id.qlqw_house:
-                dm.buildAlertDialog("敬请期待！");
+                getDm().buildAlertDialog("敬请期待！");
                 break;
         }
     }
@@ -443,12 +440,10 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
             if (isCardId == 0) {
-                final DialogManager dm = new DialogManager(getActivity());
-                dm.buildAlertDialog1("暂未实名认证，是否立即实名认证？");
-                dm.setCallback(new DialogManager.Callback() {
+                getDm().buildAlertDialog("暂未实名认证，是否立即实名认证？");
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        dm.dismissDialog();
                         Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                         startActivity(intent);
                     }
@@ -468,12 +463,10 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
             if (isCardId == 0) {
-                final DialogManager dm = new DialogManager(getActivity());
-                dm.buildAlertDialog1("暂未实名认证，是否立即实名认证？");
-                dm.setCallback(new DialogManager.Callback() {
+                getDm().buildAlertDialog("暂未实名认证，是否立即实名认证？");
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        dm.dismissDialog();
                         Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                         startActivity(intent);
                     }

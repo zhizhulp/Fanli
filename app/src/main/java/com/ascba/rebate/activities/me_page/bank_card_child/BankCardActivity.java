@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -31,7 +30,6 @@ public class BankCardActivity extends BaseNetActivity implements BaseNetActivity
     private String logo;
     private String info;
     private int finalScene;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,6 @@ public class BankCardActivity extends BaseNetActivity implements BaseNetActivity
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         tvName = ((TextView) findViewById(R.id.bank_card_name));
         tvCard = ((TextView) findViewById(R.id.bank_card_number));
         tvType = ((TextView) findViewById(R.id.bank_card_type));
@@ -114,7 +111,7 @@ public class BankCardActivity extends BaseNetActivity implements BaseNetActivity
             startActivity(intent);
             finish();
         }else if(finalScene==1){
-            dm.buildAlertDialog(message);
+            getDm().buildAlertDialog(message);
             /*String sms_code = dataObj.optString("sms_code");
             edCode.setText(sms_code);
             edCode.setSelection(sms_code.length());*/

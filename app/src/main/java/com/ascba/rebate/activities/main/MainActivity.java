@@ -22,8 +22,6 @@ import com.ascba.rebate.fragments.HomePageFragment;
 import com.ascba.rebate.fragments.MeFragment;
 import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.SideFragment;
-import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
@@ -35,8 +33,6 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-
-import static com.ascba.rebate.activities.shop.ShopActivity.CART;
 
 
 /**

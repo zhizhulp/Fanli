@@ -41,12 +41,11 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -496,21 +495,20 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             int tip_status = dataObj.optInt("tip_status");
             if(tip_status==2){//打电话
                 final String tel = dataObj.optString("tel");
-                getDm().buildAlertDialog1(message);
-                getDm().setCallback(new DialogManager2.Callback() {
+                getDm().buildAlertDialog(message);
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        getDm().dismissDialog();
                         Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+tel));
                         startActivity(intent);
                     }
                 });
+
             }else if(tip_status==1){//未开通
-                getDm().buildAlertDialog1(message);
-                getDm().setCallback(new DialogManager2.Callback() {
+                getDm().buildAlertDialog(message);
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        getDm().dismissDialog();
                         Intent intent=new Intent(getActivity(), BCProcessActivity.class);
                         startActivity(intent);
                     }

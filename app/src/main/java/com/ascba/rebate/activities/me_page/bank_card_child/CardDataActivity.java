@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
@@ -23,7 +22,6 @@ public class CardDataActivity extends BaseNetActivity implements BaseNetActivity
     private String sex;
     private String age;
     private String location;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,6 @@ public class CardDataActivity extends BaseNetActivity implements BaseNetActivity
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         tvCard = ((TextView) findViewById(R.id.card));
         tvSex = ((TextView) findViewById(R.id.sex));
         tvAge = ((TextView) findViewById(R.id.age));
@@ -65,7 +62,7 @@ public class CardDataActivity extends BaseNetActivity implements BaseNetActivity
     private void requestVerifyCard(String url) {
         String s = etName.getText().toString();
         if("".equals(s)){
-            dm.buildAlertDialog("请输入姓名");
+            getDm().buildAlertDialog("请输入姓名");
             return;
         }
         Request<JSONObject> objRequest = buildNetRequest(url, 0, true);
@@ -101,7 +98,7 @@ public class CardDataActivity extends BaseNetActivity implements BaseNetActivity
         if(!"".equals(s)){
             intent.putExtra("age",Integer.parseInt(s));
         }else {
-            dm.buildAlertDialog("没有年龄参数");
+            getDm().buildAlertDialog("没有年龄参数");
             return;
         }
         intent.putExtra("location",tvLocation.getText().toString());

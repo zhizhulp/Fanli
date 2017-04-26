@@ -30,7 +30,6 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.beans.ReceiveAddressBean;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -86,16 +85,16 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    } else if(TextUtils.equals(resultStatus, "6002")) {
-                        dm.buildAlertDialog("网络有问题");
-                    } else if(TextUtils.equals(resultStatus, "6001")) {
-                        dm.buildAlertDialog("您已经取消支付");
+                    } else if (TextUtils.equals(resultStatus, "6002")) {
+                        getDm().buildAlertDialog("网络有问题");
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
+                        getDm().buildAlertDialog("您已经取消支付");
                     } else {
-                        dm.buildAlertDialog("支付失败");
+                        getDm().buildAlertDialog("支付失败");
                     }
-                    setResult(RESULT_OK,getIntent());
+                    setResult(RESULT_OK, getIntent());
                     finish();
-                    if(dialog!=null && dialog.isShowing()){
+                    if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
                     }
                     break;
@@ -110,7 +109,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
     private Context context;
     private ShopABarText shopABarText;
     private RecyclerView recyclerView;
-    private DialogManager dm;
     private ArrayList<ReceiveAddressBean> beanList = new ArrayList<>();//收货地址
     private ReceiveAddressBean defaultAddressBean;//默认收货地址
     private RelativeLayout receiveAddress, noReceiveAddress;
@@ -270,7 +268,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
      * 获取收货地址数据
      */
     private void getAddress() {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
         jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getMemberAddress));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
@@ -323,12 +320,11 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog(getString(R.string.no_network));
             }
         });
     }
@@ -371,7 +367,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
      * 创建订单
      */
     private void creatOrder(String receiveId, String message, final String payType) {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("extra_data", message);
@@ -386,11 +381,11 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
                 /*setResult(RESULT_OK,getIntent());
                 finish();*/
 
-                if("balance".equals(payType)){
+                if ("balance".equals(payType)) {
                     showToast("暂未开放");
-                }else if("alipay".equals(payType)){
+                } else if ("alipay".equals(payType)) {
                     requestForAli(dataObj);//发起支付宝支付请求
-                }else if("wxpay".equals(payType)){
+                } else if ("wxpay".equals(payType)) {
                     requestForWX(dataObj);
                 }
 
@@ -398,12 +393,12 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog(getString(R.string.no_network));
+
             }
         });
     }
@@ -463,10 +458,11 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
     }
 
     private void initPayTypesData(List<PayType> types) {
-        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付","balance"));
-        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡","alipay"));
-        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡","wxpay"));
+        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付", "balance"));
+        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡", "alipay"));
+        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡", "wxpay"));
     }
+
     //选择支付方式页面
     private void showFinalDialog() {
         final String[] type = {"balance"};
@@ -484,7 +480,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
         dialog.findViewById(R.id.go_pay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creatOrder(defaultAddressBean.getId(), jsonMessage.toString(),type[0]);
+                creatOrder(defaultAddressBean.getId(), jsonMessage.toString(), type[0]);
             }
         });
         //列表
@@ -495,7 +491,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
         pt.setCallback(new PayTypeAdapter.Callback() {
             @Override
             public void onClicked(String payType) {
-                type[0] =payType;
+                type[0] = payType;
             }
         });
         rvTypes.setLayoutManager(new LinearLayoutManager(this));
@@ -513,6 +509,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
             window.setAttributes(wlp);
         }
     }
+
     //调起支付宝
     private void requestForAli(JSONObject dataObj) {
         JSONObject object = dataObj.optJSONObject("payreturn_data");
@@ -532,6 +529,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
         Thread payThread = new Thread(payRunnable);
         payThread.start();
     }
+
     //调起微信
     private void requestForWX(JSONObject dataObj) {
         try {
@@ -544,17 +542,17 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
             req.packageValue = wxpay.getString("package");
             req.partnerId = wxpay.getString("partnerid");
             req.prepayId = wxpay.getString("prepayid");
-            req.timeStamp = wxpay.getLong("timestamp")+"";
+            req.timeStamp = wxpay.getLong("timestamp") + "";
             req.sign = wxpay.getString("sign");
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
             boolean hasWXApp = WXAPIFactory.createWXAPI(this, IDsUtils.WX_PAY_APP_ID).sendReq(req);
-            if(!hasWXApp){
+            if (!hasWXApp) {
                 showToast("您可能没有安装微信客户端");
             }
-            if(dialog!=null && dialog.isShowing()){
+            if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }
-            MyApplication.payType=1;
+            MyApplication.payType = 1;
             finish();
         } catch (JSONException e) {
             e.printStackTrace();

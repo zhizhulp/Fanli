@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
@@ -28,7 +27,6 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
     private EditTextWithCustomHint edMoney;
     private PayPopWindow popWindow;
     private TextView tvTpye;
-    private DialogManager dm;
     private String avatar;
     private RoundImageView imageView;
 
@@ -43,7 +41,6 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.sweep_money));
         tvTpye = ((TextView) findViewById(R.id.tv_pay_type));
         imageView = ((RoundImageView) findViewById(R.id.imageView));
@@ -57,7 +54,7 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
     private void initPop() {
         final String money = edMoney.getText().toString();
         if("".equals(money)){
-            dm.buildAlertDialog("请输入支付金额");
+            getDm().buildAlertDialog("请输入支付金额");
             return;
         }
         Request<JSONObject> objRequest = buildNetRequest(UrlUtils.confirmOrder, 0, true);

@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -17,7 +16,6 @@ public class AddCardActivity extends BaseNetActivity implements BaseNetActivity.
 
     private TextView tvName;
     private EditTextWithCustomHint edCardNumber;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +46,11 @@ public class AddCardActivity extends BaseNetActivity implements BaseNetActivity.
     }
 
     private void requestBankCard(String url) {
-        if(dm==null){
-            dm=new DialogManager(this);
-        }
+
         String name = tvName.getText().toString();
         String cardNumber = edCardNumber.getText().toString();
         if(name.equals("")||cardNumber.equals("")){
-            dm.buildAlertDialog("请输入持卡人银行卡号码");
+            getDm().buildAlertDialog("请输入持卡人银行卡号码");
             return;
         }
         Request<JSONObject> objRequest = buildNetRequest(url, 0, true);

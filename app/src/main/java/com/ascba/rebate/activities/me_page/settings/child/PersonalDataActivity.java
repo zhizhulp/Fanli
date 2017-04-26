@@ -29,7 +29,6 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.AgeChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.SexChangeActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -65,7 +64,6 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
     private TextView tvLocation;
     private int finalScene;
     private int isCardId;
-    private DialogManager dm;
     private String picturePath;
     private File file;
     private String[] permissions = new String[]{
@@ -87,7 +85,6 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
     }
 
     private void initViews() {
-        dm = new DialogManager(this);
         userIconView = ((RoundImageView) findViewById(R.id.head_icon));
         tvMobile = ((TextView) findViewById(R.id.personal_data_mobile));
         tvNickname = ((TextView) findViewById(R.id.personal_data_nickname));
@@ -185,7 +182,7 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
     //进入修改性别的页面
     public void personalSexChange(View view) {
         if (isCardId == 1) {
-            dm.buildAlertDialog("实名后不可修改性别");
+            getDm().buildAlertDialog("实名后不可修改性别");
         } else {
             Intent intent = new Intent(this, SexChangeActivity.class);
             CharSequence sex = sexShow.getText();
@@ -197,7 +194,7 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
     //进入修改地址的页面
     public void personalLocationChange(View view) {
         if (isCardId == 1) {
-            dm.buildAlertDialog("实名后不可修改地址");
+            getDm().buildAlertDialog("实名后不可修改地址");
         } else {
             if (pickerView == null) {
                 dialog = ProgressDialog.show(this, null, "正在初始化数据...", true, true);
@@ -210,7 +207,7 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
     //进入修改年龄的页面
     public void personalAgeChange(View view) {
         if (isCardId == 1) {
-            dm.buildAlertDialog("实名后不可修改年龄");
+            getDm().buildAlertDialog("实名后不可修改年龄");
         } else {
             Intent intent = new Intent(this, AgeChangeActivity.class);
             startActivityForResult(intent, ageRequest);

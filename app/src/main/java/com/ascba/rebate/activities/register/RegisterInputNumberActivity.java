@@ -7,7 +7,6 @@ import android.widget.EditText;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -23,19 +22,15 @@ public class RegisterInputNumberActivity extends BaseNetActivity implements Base
 
     private EditText phoneNumber;
     private String phone;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_input_number);
-//        StatusBarUtil.setColor(this, 0xffe52020);
-        initViews();
+
     }
 
-    private void initViews() {
-        dm = new DialogManager(this);
-    }
+
 
     //进入注册的下一个界面
     public void goRegisterCode(View view) {
@@ -43,11 +38,11 @@ public class RegisterInputNumberActivity extends BaseNetActivity implements Base
         phoneNumber = ((EditText) findViewById(R.id.ed_input_number));
         phone = phoneNumber.getText().toString();
         if (phone.equals("")) {
-            dm.buildAlertDialog("请输入手机号码");
+            getDm().buildAlertDialog("请输入手机号码");
             return;
         }
         if (!RegexUtils.isMobileExact(phone)) {
-            dm.buildAlertDialog("请输入正确的11位手机号码");
+            getDm().buildAlertDialog("请输入正确的11位手机号码");
             return;
         }
 

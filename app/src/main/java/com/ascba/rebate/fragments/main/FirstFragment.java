@@ -30,7 +30,6 @@ import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
@@ -96,8 +95,6 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
     private TextView tvAllScore;
     private SuperSwipeRefreshLayout refreshLayout;
     private TextView tvRedScore;
-    private DialogManager dm;
-
 
     @Nullable
     @Override
@@ -132,7 +129,6 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dm = new DialogManager(getActivity());
         tvAllScore = ((TextView) view.findViewById(R.id.score_all));
         tvRedScore = ((TextView) view.findViewById(R.id.tv_red_score));
         initRecBusiness(view);//初始化ListView
@@ -217,7 +213,7 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
                     public void onRefresh() {
                         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
                         if (!netAva) {
-                            dm.buildAlertDialog("请打开网络！");
+                            getDm().buildAlertDialog("请打开网络！");
                             refreshLayout.setRefreshing(false);
                             return;
                         }

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
@@ -22,13 +23,15 @@ import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity
 import com.ascba.rebate.adapter.BankAdapter;
 import com.ascba.rebate.beans.Card;
 import com.ascba.rebate.fragments.me.FourthFragment;
-import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,6 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
     private View noCardView;
     private String realname;
     private EditText edMoney;
-    private DialogManager dm;
     private int finalScene;
     private TextView tvLeftMoney;
     private TextView tvSeviFee;
@@ -69,7 +71,6 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
     private void initViews() {
         pop = new PopupWindow(this);
         mList = new ArrayList<>();
-        dm = new DialogManager(this);
         mb = ((MoneyBar) findViewById(R.id.mb));
         mb.setTailTitle(getString(R.string.inoutcome_record));
         mb.setCallBack(this);
@@ -158,7 +159,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
         //判断有没有绑定银行卡
         money = edMoney.getText().toString();
         if ("".equals(money)) {
-            dm.buildAlertDialog("请输入提现金额");
+            getDm().buildAlertDialog("请输入提现金额");
             return;
         }
         requestHasCard(1);
@@ -192,8 +193,8 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
             int isCardId = dataObj.optInt("isCardId");//是否实名认证
             if (isBankCard == 0) {
                 if (isCardId == 0) {
-                    dm.buildAlertDialog1("您还没有实名认证，是否立即实名？");
-                    dm.setCallback(new DialogManager.Callback() {
+                    getDm().buildAlertDialog("您还没有实名认证，是否立即实名？");
+                    getDm().setCallback(new DialogHome.Callback() {
                         @Override
                         public void handleSure() {
                             Intent intent = new Intent(CashGetActivity.this, RealNameCofirmActivity.class);
@@ -204,8 +205,8 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
                 } else {
                     JSONObject cardObj = dataObj.optJSONObject("cardInfo");
                     final String realname = cardObj.optString("realname");
-                    dm.buildAlertDialog1("暂未绑定银行卡，是否立即绑定？");
-                    dm.setCallback(new DialogManager.Callback() {
+                    getDm().buildAlertDialog("暂未绑定银行卡，是否立即绑定？");
+                    getDm().setCallback(new DialogHome.Callback() {
                         @Override
                         public void handleSure() {
                             Intent intent = new Intent(CashGetActivity.this, AddCardActivity.class);
@@ -217,12 +218,11 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
                 }
 
             } else {
-                dm.buildAlertDialog1("确定提现吗？");
+                getDm().buildAlertDialog("确定提现吗？");
                 /*dm.buildAlertDialog2("确定提现吗？");*/
-                dm.setCallback(new DialogManager.Callback() {
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        dm.dismissDialog();
                         requestHasCard(3);
                     }
                 });

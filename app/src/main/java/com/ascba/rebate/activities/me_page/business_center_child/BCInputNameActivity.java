@@ -7,7 +7,6 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -21,7 +20,6 @@ import org.json.JSONObject;
 public class BCInputNameActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
     private EditTextWithCustomHint edName;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +30,13 @@ public class BCInputNameActivity extends BaseNetActivity implements BaseNetActiv
     }
 
     private void initviews() {
-        dm = new DialogManager(this);
         edName = ((EditTextWithCustomHint) findViewById(R.id.company_name));
     }
 
     public void goNext(View view) {
         String s = edName.getText().toString();
         if ("".equals(s.trim())) {
-            dm.buildAlertDialog("公司名称不能为空");
+            getDm().buildAlertDialog("公司名称不能为空");
             return;
         }
         Request<JSONObject> request = buildNetRequest(UrlUtils.findCompany, 0, true);

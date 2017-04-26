@@ -5,11 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.DialogHome;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -19,8 +19,7 @@ import org.json.JSONObject;
  */
 public class TypeFragment extends BaseNetFragment {
 
-    private TextView develop;
-
+    private DialogHome dialogHome;
 
     @Nullable
     @Override
@@ -31,8 +30,39 @@ public class TypeFragment extends BaseNetFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        develop = (TextView) view.findViewById(R.id.develop);
-        //initRequst();
+        dialogHome = new DialogHome(getActivity());
+        view.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogHome.buildWaitDialog("buildWaitDialog");
+            }
+        });
+        view.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogHome.buildAlertDialog("buildAlertDialog");
+            }
+        });
+        view.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogHome.buildAlertDialogSure("buildAlertDialogSure", new DialogHome.Callback() {
+                    @Override
+                    public void handleSure() {
+                        showToast("确定了");
+                    }
+
+                    @Override
+                    public void handleCancel() {
+                        showToast("取消了");
+
+                    }
+
+                });
+            }
+        });
+
+
     }
 
     @Override
