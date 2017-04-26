@@ -533,7 +533,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="消费增值"
+                            android:text="本月消费"
                             android:textColor="@color/main_text_normal"
                             android:textSize="@dimen/main_text_14" />
 
@@ -543,7 +543,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="0.00"
-                            android:visibility="invisible"
                             android:textColor="@color/main_text_gary"
                             android:textSize="@dimen/main_text_13" />
                     </LinearLayout>

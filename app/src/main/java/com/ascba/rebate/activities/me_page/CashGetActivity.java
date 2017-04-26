@@ -63,7 +63,6 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_get);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }
@@ -72,7 +71,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
         pop = new PopupWindow(this);
         mList = new ArrayList<>();
         mb = ((MoneyBar) findViewById(R.id.mb));
-        mb.setTailTitle(getString(R.string.inoutcome_record));
+        mb.setTailTitle("提现记录");
         mb.setCallBack(this);
         edMoney = ((EditText) findViewById(R.id.money));
         cardView = findViewById(R.id.when_has_card);

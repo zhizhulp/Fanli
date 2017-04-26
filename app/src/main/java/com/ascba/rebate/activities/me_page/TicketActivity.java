@@ -51,7 +51,7 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
         initListView();
 
         moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
-        moneyBar.setTailTitle(getString(R.string.inoutcome_record));
+        //moneyBar.setTailTitle(getString(R.string.inoutcome_record));
         moneyBar.setCallBack(new MoneyBar.CallBack() {
             @Override
             public void clickImage(View im) {
@@ -60,7 +60,7 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
 
             @Override
             public void clickComplete(View tv) {
-                TransactionRecordsActivity.startIntent(TicketActivity.this);
+                //TransactionRecordsActivity.startIntent(TicketActivity.this);
             }
         });
 

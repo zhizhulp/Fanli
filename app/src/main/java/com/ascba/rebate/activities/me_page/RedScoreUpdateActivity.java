@@ -38,7 +38,7 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
 
     private void initViews() {
         moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
-        moneyBar.setTailTitle(getString(R.string.inoutcome_record));
+        //moneyBar.setTailTitle(getString(R.string.inoutcome_record));
         moneyBar.setCallBack(new MoneyBar.CallBack() {
             @Override
             public void clickImage(View im) {
@@ -47,7 +47,7 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
 
             @Override
             public void clickComplete(View tv) {
-                TransactionRecordsActivity.startIntent(RedScoreUpdateActivity.this);
+                //TransactionRecordsActivity.startIntent(RedScoreUpdateActivity.this);
             }
         });
 

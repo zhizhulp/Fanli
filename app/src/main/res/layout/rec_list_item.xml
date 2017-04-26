@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
+
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="70dp"
     android:minHeight="70dp">
     <LinearLayout
+        android:paddingLeft="15dp"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +26,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:paddingRight="15dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -46,5 +47,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/view_line_new"/>
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.adapter.AwardAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -62,6 +63,7 @@ public class SecAwardFragment extends BaseAwardFragment implements BaseNetFragme
         adapterSec = getAdapter();
         dataSec = getData();
         emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_award_view,null);
+        adapterSec.setEmptyView(emptyView);
     }
 
     @Override
@@ -71,10 +73,14 @@ public class SecAwardFragment extends BaseAwardFragment implements BaseNetFragme
         }
         refreshLatSec.setRefreshing(false);
         JSONObject recObj = dataObj.optJSONObject("getCashingMoney");
-        JSONArray list = recObj.optJSONArray("p_member_list");
-        if (list == null || list.length() == 0) {
-            adapterSec.setEmptyView(emptyView);
-        } else {
+        String cashing_money = recObj.optString("cashing_money");
+        int p_referee_count = recObj.optInt("p_referee_count");//一级人数
+        int pp_referee_count = recObj.optInt("pp_referee_count");
+        ((MyAwardActivity) getActivity()).tvAll.setText(cashing_money);
+        ((MyAwardActivity) getActivity()).rbOne.setText(p_referee_count + "笔奖励\n一级推广");
+        ((MyAwardActivity) getActivity()).rbTwo.setText(pp_referee_count + "笔奖励\n二级级推广");
+        JSONArray list = recObj.optJSONArray("pp_member_list");
+        if (list != null && list.length() != 0) {
             for (int i = 0; i < list.length(); i++) {
                 JSONObject memObj = list.optJSONObject(i);
                 int member_id = memObj.optInt("member_id");
