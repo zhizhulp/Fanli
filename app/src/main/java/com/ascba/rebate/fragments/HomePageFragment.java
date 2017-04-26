@@ -267,7 +267,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     /*
      * 弹窗
      */
-
     private void showPopWindow() {
         if (popupWindow == null) {
             View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
