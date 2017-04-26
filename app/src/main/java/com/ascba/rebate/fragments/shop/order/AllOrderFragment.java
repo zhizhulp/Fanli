@@ -19,6 +19,7 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -229,7 +230,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                String orderId = beanArrayList.get(position).getId();
+                final String orderId = beanArrayList.get(position).getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         if (orderId != null) {
@@ -266,14 +267,26 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
-                        requstData(1, UrlUtils.cancelOrder, orderId);
+                        getDm().buildAlertDialogSure("您确定要取消订单吗？",new DialogHome.Callback() {
+                            @Override
+                            public void handleSure() {
+                                requstData(1, UrlUtils.cancelOrder, orderId);
+                            }
+                        });
+                        //requstData(1, UrlUtils.cancelOrder, orderId);
                         break;
                     case R.id.item_goods_order_total_call:
                         //联系卖家
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
-                        requstData(2, UrlUtils.delOrder, orderId);
+                        getDm().buildAlertDialogSure("您确定要删除订单吗？",new DialogHome.Callback() {
+                            @Override
+                            public void handleSure() {
+                                requstData(2, UrlUtils.delOrder, orderId);
+                            }
+                        });
+                        //requstData(2, UrlUtils.delOrder, orderId);
                         break;
                     case R.id.item_goods_order_total_refund:
                         //退款

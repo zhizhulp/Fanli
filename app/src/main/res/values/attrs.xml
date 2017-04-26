@@ -19,6 +19,7 @@
         <attr name="abar_title" format="string|reference" />
         <attr name="abar_icon" format="integer|reference" />
         <attr name="abar_bg" format="color|reference" />
+        <attr name="abar_has_back" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="MsgView">

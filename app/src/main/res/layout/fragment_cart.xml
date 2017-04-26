@@ -7,6 +7,7 @@
     tools:context="com.ascba.rebate.fragments.CartFragment">
 
     <com.ascba.rebate.view.ShopABar
+        app:abar_has_back="false"
         android:id="@+id/sab"
         android:layout_width="match_parent"
         android:layout_height="48dp"

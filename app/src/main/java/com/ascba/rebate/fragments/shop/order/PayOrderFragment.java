@@ -217,8 +217,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
-                        getDm().buildAlertDialog("您确定要取消订单吗？");
-                        getDm().setCallback(new DialogHome.Callback() {
+                        getDm().buildAlertDialogSure("您确定要取消订单吗？",new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
                                 requstData(1, UrlUtils.cancelOrder, orderId);
@@ -231,8 +230,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
-                        getDm().buildAlertDialog("您确定要删除订单吗？");
-                        getDm().setCallback(new DialogHome.Callback() {
+                        getDm().buildAlertDialogSure("您确定要删除订单吗？",new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
                                 requstData(2, UrlUtils.delOrder, orderId);
