@@ -17,7 +17,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.utils.Pay;
+import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -80,7 +80,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
 
     private int flag = 0;//0-获取数据，1-取消订单,2-付款
     private String payType;
-    private Pay pay;
+    private PayUtils pay;
 
 
     @Override
@@ -309,8 +309,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 if (StringUtils.isEmpty(price)) {
                     showToast("正在加载订单信息，请稍后");
                 } else {
-                    pay = new Pay(this, price);
-                    pay.showDialog(new Pay.OnCreatOrder() {
+                    pay = new PayUtils(this, price);
+                    pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String arg) {
                             payType = arg;

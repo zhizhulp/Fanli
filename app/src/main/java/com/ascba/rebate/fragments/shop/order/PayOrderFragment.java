@@ -16,7 +16,7 @@ import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.Pay;
+import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -52,7 +52,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单,3——付款
     private String payType;
-    private Pay pay;
+    private PayUtils pay;
 
 
     @Override
@@ -227,8 +227,8 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         if (StringUtils.isEmpty(price)) {
                             showToast("正在加载订单信息，请稍后");
                         } else {
-                            pay = new Pay(getActivity(), price);
-                            pay.showDialog(new Pay.OnCreatOrder() {
+                            pay = new PayUtils(getActivity(), price);
+                            pay.showDialog(new PayUtils.OnCreatOrder() {
                                 @Override
                                 public void onCreatOrder(String arg) {
                                     payType = arg;
