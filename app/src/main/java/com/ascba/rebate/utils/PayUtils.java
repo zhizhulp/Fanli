@@ -35,7 +35,7 @@ import java.util.Map;
  * Created by 李鹏 on 2017/04/25 0025.
  */
 
-public class Pay {
+public class PayUtils {
 
     private Dialog dialog;
     private Activity context;
@@ -104,7 +104,7 @@ public class Pay {
 
     };
 
-    public Pay(Activity activity, String price) {
+    public PayUtils(Activity activity, String price) {
         this.context = activity;
         this.price = price;
         dialogHome = new DialogHome(context);

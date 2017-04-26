@@ -53,10 +53,17 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ShopABar);
         String title = ta.getString(R.styleable.ShopABar_abar_title);//自定义标题
         int icon = ta.getResourceId(R.styleable.ShopABar_abar_icon, R.mipmap.abar_search);
+        boolean hasBack = ta.getBoolean(R.styleable.ShopABar_abar_has_back, true);
         ta.recycle();
 
         msgView2.setImage(icon);
-        imBack.setOnClickListener(this);
+        if(hasBack){
+            imBack.setOnClickListener(this);
+            imBack.setVisibility(VISIBLE);
+        }else {
+            imBack.setVisibility(GONE);
+        }
+
         tvTitle.setText(title);
         imMsg.setOnClickListener(this);
         imOther.setOnClickListener(this);

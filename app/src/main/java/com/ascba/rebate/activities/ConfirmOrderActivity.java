@@ -18,7 +18,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.ReceiveAddressBean;
-import com.ascba.rebate.utils.Pay;
+import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -58,7 +58,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
     private List<Goods> goodsList = new ArrayList<>();
     private JSONObject jsonMessage = new JSONObject();//留言信息
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
-    private Pay pay;
+    private PayUtils pay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -349,8 +349,8 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
             case R.id.confir_order_btn_commit:
                 //提交订单
                 if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
-                    pay = new Pay(this, tvTotal.getText().toString());
-                    pay.showDialog(new Pay.OnCreatOrder() {
+                    pay = new PayUtils(this, tvTotal.getText().toString());
+                    pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String payType) {
                             creatOrder(defaultAddressBean.getId(), jsonMessage.toString(), payType);
@@ -418,22 +418,23 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SuperSwipeR
         /**
          * 支付结果回调
          */
-        pay.setPayCallBack(new Pay.onPayCallBack() {
-            @Override
-            public void onFinish(String payStype) {
-                if ("balance".equals(payType)) {
-                    showToast("暂未开放");
-                } else if ("alipay".equals(payType)) {
-                    //支付宝支付
-                    setResult(RESULT_OK, getIntent());
-                    finish();
-                } else if ("wxpay".equals(payType)) {
-                    //微信支付
-                    MyApplication.payType = 1;
-                    finish();
+        pay.setPayCallBack(new PayUtils.onPayCallBack() {
+                @Override
+                public void onFinish(String payStype) {
+                    if ("balance".equals(payType)) {
+                        showToast("暂未开放");
+                    } else if ("alipay".equals(payType)) {
+                        //支付宝支付
+                        setResult(RESULT_OK, getIntent());
+                        finish();
+                    } else if ("wxpay".equals(payType)) {
+                        //微信支付
+                        MyApplication.payType = 1;
+                        finish();
+                    }
                 }
-            }
-        });
+            });
+
     }
 
 }
