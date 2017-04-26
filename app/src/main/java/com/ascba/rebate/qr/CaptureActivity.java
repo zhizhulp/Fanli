@@ -20,13 +20,12 @@ import android.view.WindowManager;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.main_page.sweep.PayActivity;
-import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
 import com.ascba.rebate.qr.view.ViewfinderView;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.DialogHome;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.jaeger.library.StatusBarUtil;
@@ -256,17 +255,15 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
     @Override
     public void handle404(String message) {
-        final DialogManager2 dm = getDm();
-        if (dm != null) {
-            dm.buildAlertDialog2(message);
-            dm.setCallback(new DialogManager2.Callback() {
-                @Override
-                public void handleSure() {
-                    dm.dismissDialog();
-                    restartPreviewAfterDelay(0L);
-                }
-            });
-        }
+
+        getDm().buildAlertDialog(message);
+        getDm().setCallback(new DialogHome.Callback() {
+            @Override
+            public void handleSure() {
+                restartPreviewAfterDelay(0L);
+            }
+        });
+
 
     }
 

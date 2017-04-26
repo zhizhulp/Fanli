@@ -5,16 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
+
 import static com.ascba.rebate.activities.me_page.WhiteScoreActivity.REQUEST_EXCHANGE;
 
 public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivity.Callback{
-    private DialogManager dm;
     private View noView;
     private TextView tvTips;
     private TextView tvTotal;
@@ -64,7 +66,6 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         noView = findViewById(R.id.when_no_card);
         tvTips = ((TextView) findViewById(R.id.tv_tips));
         tvTotal = ((TextView) findViewById(R.id.tv_total));
@@ -75,11 +76,10 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
     }
 
     public void go(View view) {
-        dm.buildAlertDialog1("您确定要兑换吗？");
-        dm.setCallback(new DialogManager.Callback() {
+        getDm().buildAlertDialog("您确定要兑换吗？");
+        getDm().setCallback(new DialogHome.Callback() {
             @Override
             public void handleSure() {
-                dm.dismissDialog();
                 requestNetwork(2);
             }
         });
@@ -118,7 +118,7 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
 
     @Override
     public void handle404(String message) {
-        dm.buildAlertDialog(message);
+        getDm().buildAlertDialog(message);
         btnGo.setEnabled(false);
         btnGo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
     }

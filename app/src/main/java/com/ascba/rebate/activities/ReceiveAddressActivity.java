@@ -13,7 +13,6 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ReceiveAddressAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
@@ -41,7 +40,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
     private Context context;
     private ReceiveAddressAdapter myAdapter;
     private SuperSwipeRefreshLayout refreshLayout;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +140,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
      * 获取收货地址数据
      */
     private void getData() {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         executeNetWork(jsonRequest, "请稍后");
@@ -182,13 +179,13 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
                 refreshLayout.setRefreshing(false);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
+                getDm().buildAlertDialog("请检查网络！");
                 refreshLayout.setRefreshing(false);
             }
         });
@@ -200,7 +197,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
      * @param postition
      */
     private void deleteAddress(final int postition) {
-        dm = new DialogManager(context);
         ReceiveAddressBean bean = beanList.get(postition);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressDel, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
@@ -215,12 +211,11 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
             }
         });
     }
@@ -231,7 +226,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
      * @param bean
      */
     private void setDefault(final ReceiveAddressBean bean) {
-        dm = new DialogManager(context);
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressSetDefault, 0, true);
         jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.memberAddressSetDefault));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
@@ -250,12 +244,12 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                dm.buildAlertDialog("请检查网络！");
+                getDm().buildAlertDialog("请检查网络！");
             }
         });
     }

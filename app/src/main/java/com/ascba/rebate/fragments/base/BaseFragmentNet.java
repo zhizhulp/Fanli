@@ -1,16 +1,12 @@
 package com.ascba.rebate.fragments.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivityNet;
-import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager2;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -28,8 +24,14 @@ import org.json.JSONObject;
 
 public abstract class BaseFragmentNet extends BaseFragment {
 
-    private DialogManager2 dialogManager;
+    private DialogHome dialogManager;
     private NetResponseListener netResponseListener = new NetResponseListener();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dialogManager = new DialogHome(getActivity());
+    }
 
     //数据请求成功
     protected abstract void requstSuccess(int what, JSONObject object);
@@ -69,12 +71,6 @@ public abstract class BaseFragmentNet extends BaseFragment {
         return jsonRequest;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        dialogManager = new DialogManager2(getActivity());
-    }
-
     //执行网络请求
     protected void executeNetWork(int what, Request<JSONObject> jsonRequest, String message) {
         boolean netAva = NetUtils.isNetworkAvailable(getActivity());
@@ -110,11 +106,13 @@ public abstract class BaseFragmentNet extends BaseFragment {
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
             requstSuccess(what, response.get());
+            dialogManager.dismissDialog();
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
             requstFailed(what, response.getException());
+            dialogManager.buildAlertDialog(getString(R.string.no_response));
         }
 
         @Override
@@ -128,7 +126,7 @@ public abstract class BaseFragmentNet extends BaseFragment {
      *
      * @return
      */
-    public DialogManager2 getDm() {
+    public DialogHome getDm() {
         return dialogManager;
     }
 
@@ -146,5 +144,11 @@ public abstract class BaseFragmentNet extends BaseFragment {
      */
     protected boolean hasCache() {
         return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dialogManager.dismissDialog();
     }
 }

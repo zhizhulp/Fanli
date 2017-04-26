@@ -1,20 +1,16 @@
 package com.ascba.rebate.activities.me_page.business_center_child.child;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Interpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -34,7 +30,6 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.TranslateAnimation;
 import com.amap.api.services.core.AMapException;
@@ -42,7 +37,6 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.help.Inputtips;
@@ -51,15 +45,12 @@ import com.amap.api.services.help.Tip;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.SearchAdapter;
 import com.ascba.rebate.adapter.SearchResultAdapter;
 import com.ascba.rebate.beans.SearchBean;
-import com.ascba.rebate.handlers.DialogManager;
-import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.SearchBar;
 import com.ascba.rebate.view.SegmentedGroup;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +59,7 @@ import java.util.List;
  * 演示poi搜索功能
  */
 
-public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSource,
+public class GaoDeSearchUpdate extends BaseNetActivity implements LocationSource,
         AMapLocationListener, GeocodeSearch.OnGeocodeSearchListener, PoiSearch.OnPoiSearchListener { // Inputtips.InputtipsListener
 
 
@@ -100,14 +91,12 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
     private PoiItem firstItem;
     private SearchBar sb;
     private boolean isFinal = false;
-    private DialogManager2 dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaode_poisearch_update);
         //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
-        dm = new DialogManager2(this);
         init(savedInstanceState);
 
         initView();
@@ -351,7 +340,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
      * 响应逆地理编码
      */
     public void geoAddress(LatLonPoint latLonPoint) {
-        dm.buildWaitDialog("请稍后");
+        getDm().buildWaitDialog("请稍后");
         searchText.setText("");
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
         geocoderSearch.getFromLocationAsyn(query);
@@ -361,7 +350,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
      * 响应逆地理编码(最终选择)
      */
     public void geoAddress(PoiItem poiItem) {
-        dm.buildWaitDialog("请稍后");
+        getDm().buildWaitDialog("请稍后");
         finalPoiItem = poiItem;
         LatLonPoint latLonPoint = poiItem.getLatLonPoint();
         searchText.setText("");
@@ -389,7 +378,7 @@ public class GaoDeSearchUpdate extends AppCompatActivity implements LocationSour
 
     @Override
     public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
-        dm.dismissDialog();
+        getDm().dismissDialog();
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {

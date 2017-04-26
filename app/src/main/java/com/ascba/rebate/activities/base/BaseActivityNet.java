@@ -6,9 +6,9 @@ import android.support.annotation.Nullable;
 import com.ascba.rebate.R;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager2;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
+import com.ascba.rebate.utils.DialogHome;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.CacheMode;
@@ -24,13 +24,13 @@ import org.json.JSONObject;
 
 public abstract class BaseActivityNet extends BaseActivity {
 
-    private DialogManager2 dialogManager;
+    private DialogHome dialogManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (dialogManager == null) {
-            dialogManager = new DialogManager2(this);
+            dialogManager = new DialogHome(this);
         }
     }
 
@@ -107,11 +107,13 @@ public abstract class BaseActivityNet extends BaseActivity {
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
             requstSuccess(what, response.get());
+            dialogManager.dismissDialog();
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
             requstFailed(what, response.getException());
+            dialogManager.buildAlertDialog(getString(R.string.no_network));
         }
 
         @Override
@@ -125,11 +127,7 @@ public abstract class BaseActivityNet extends BaseActivity {
      *
      * @return
      */
-    public DialogManager2 getDm() {
-        /*if (dialogManager == null) {
-            dialogManager = new DialogManager(this);
-        }
-        dialogManager.dismissDialog();*/
+    public DialogHome getDm() {
         return dialogManager;
     }
 
@@ -144,6 +142,7 @@ public abstract class BaseActivityNet extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         cancelNetWork();
+        dialogManager.dismissDialog();
     }
 
     /**
@@ -154,4 +153,6 @@ public abstract class BaseActivityNet extends BaseActivity {
     protected boolean hasCache() {
         return false;
     }
+
+
 }

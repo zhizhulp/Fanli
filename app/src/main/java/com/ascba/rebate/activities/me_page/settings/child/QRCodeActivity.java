@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.QrUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.jaeger.library.StatusBarUtil;
@@ -32,7 +31,6 @@ public class QRCodeActivity extends BaseNetActivity {
     private TextView tvSave;
     private Bitmap mBitmap;
     private File saveFile;
-    private DialogManager dm;
     final MediaScannerConnection msc = new MediaScannerConnection(this, new MediaScannerConnection.MediaScannerConnectionClient() {
 
         public void onMediaScannerConnected() {
@@ -53,7 +51,6 @@ public class QRCodeActivity extends BaseNetActivity {
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         qrImg = ((ImageView) findViewById(R.id.qrcode));
         tvSave = ((TextView) findViewById(R.id.tv_save_to_album));
 
@@ -90,7 +87,7 @@ public class QRCodeActivity extends BaseNetActivity {
                 }
                 // 最后通知图库更新
                 msc.connect();
-                dm.buildAlertDialog("成功保存到相册");
+                getDm().buildAlertDialog("成功保存到相册");
             }
         });
     }

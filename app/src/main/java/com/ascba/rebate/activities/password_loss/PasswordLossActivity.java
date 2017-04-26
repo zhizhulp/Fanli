@@ -7,7 +7,6 @@ import android.widget.EditText;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -18,7 +17,6 @@ public class PasswordLossActivity extends BaseNetActivity implements BaseNetActi
     private static final int REQUEST_PASSWORD = 0;
     private EditText edLossNumber;
     private String phone;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,6 @@ public class PasswordLossActivity extends BaseNetActivity implements BaseNetActi
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         edLossNumber = ((EditText) findViewById(R.id.loss_phone_number_ed));
     }
 
@@ -37,7 +34,7 @@ public class PasswordLossActivity extends BaseNetActivity implements BaseNetActi
     public void goCodePassword(View view) {
         phone = edLossNumber.getText().toString();
         if(phone.equals("")){
-            dm.buildAlertDialog("请输入您的手机号码");
+            getDm().buildAlertDialog("请输入您的手机号码");
             return;
         }
         sendMsgToSevr(UrlUtils.sendMsg);

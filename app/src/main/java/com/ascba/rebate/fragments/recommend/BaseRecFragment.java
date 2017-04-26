@@ -13,7 +13,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -34,7 +33,6 @@ public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.
     private RecyclerView recListView;
     private TuiGAdapter tGaAdapter;
     private List<FirstRec> data = new ArrayList<>();
-    private DialogManager dm;
     private SuperSwipeRefreshLayout refreshLayout;
     private int classes;
     private View emptyView;
@@ -66,19 +64,7 @@ public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dm = new DialogManager(getActivity());
-        /*((MyRecActivity) getActivity()).setListener(new MyRecActivity.Listener() {
-            @Override
-            public void onDataTypeClick(int id, int type) {
-                classes = type;
-                if (type == 0) {
-                    requestNetData(id, UrlUtils.getSearchPspread);
-                } else {
-                    requestNetData(id, UrlUtils.getSearchPpspread);
-                }
 
-            }
-        });*/
 
         refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         refreshLayout.setOnPullRefreshListener(this);
@@ -142,7 +128,7 @@ public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        dm.buildAlertDialog(message);
+        getDm().buildAlertDialog(message);
     }
 
     @Override
@@ -157,7 +143,6 @@ public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        dm.buildAlertDialog("请打开手机网络");
     }
 
     @Override

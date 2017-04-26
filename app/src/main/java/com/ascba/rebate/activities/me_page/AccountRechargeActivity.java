@@ -19,7 +19,6 @@ import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.me.FourthFragment;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
@@ -36,7 +35,6 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class AccountRechargeActivity extends BaseNetActivity implements BaseNetActivity.Callback, View.OnClickListener {
-    private DialogManager dm = new DialogManager(this);
     private int select;//选择支付方式 0 微信支付 1 支付宝支付
     private IWXAPI api;
     @SuppressLint("HandlerLeak")
@@ -65,11 +63,11 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
                             e.printStackTrace();
                         }
                     } else if (TextUtils.equals(resultStatus, "6002")) {
-                        dm.buildAlertDialog("网络有问题");
+                        getDm().buildAlertDialog("网络有问题");
                     } else if (TextUtils.equals(resultStatus, "6001")) {
-                        dm.buildAlertDialog("您已经取消支付");
+                        getDm().buildAlertDialog("您已经取消支付");
                     } else {
-                        dm.buildAlertDialog("支付失败");
+                        getDm().buildAlertDialog("支付失败");
                     }
                     break;
                 }
@@ -148,7 +146,7 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
     private void requestForServer() {
         String money = edMoney.getText().toString();
         if ("".equals(money)) {
-            dm.buildAlertDialog("请输入金额");
+            getDm().buildAlertDialog("请输入金额");
             return;
         }
         if (select == 1) {
@@ -250,9 +248,9 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
             setResult(RESULT_OK, intent);
             finish();
         } else if (res_code == -1) {//出现错误
-            dm.buildAlertDialog("支付失败");
+            getDm().buildAlertDialog("支付失败");
         } else {//支付取消
-            dm.buildAlertDialog("您已经取消支付");
+            getDm().buildAlertDialog("您已经取消支付");
         }
 
     }

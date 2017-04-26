@@ -13,7 +13,6 @@ import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -29,7 +28,6 @@ public class LoginActivity extends BaseNetActivity {
     private EditText edPassword;
     private String loginPhone;
     private String loginPassword;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +59,6 @@ public class LoginActivity extends BaseNetActivity {
     }
 
     private void initViews() {
-        dm = new DialogManager(this);
         edPhone = (EditText) findViewById(R.id.login_phone_ed);
         edPassword = (EditText) findViewById(R.id.login_password_ed);
         String login_phone = AppConfig.getInstance().getString("login_phone", "");
@@ -122,7 +119,7 @@ public class LoginActivity extends BaseNetActivity {
 
             @Override
             public void handle404(String message) {
-                dm.buildAlertDialog(message);
+                getDm().buildAlertDialog(message);
             }
 
             @Override

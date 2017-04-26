@@ -27,7 +27,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -56,7 +55,6 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
     };
     private EditText name, phone, address;
     private CheckBox chbDefault;
-    private DialogManager dm;
     private ReceiveAddressBean bean;
     private TextView txProvince;
     private Province province = new Province();
@@ -151,7 +149,6 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
             @Override
             public void clkBtn(View v) {
                 //保存
-                dm = new DialogManager(context);
                 if (!StringUtils.isEmpty(name.getText().toString())
                         && !StringUtils.isEmpty(phone.getText().toString())
                         && !StringUtils.isEmpty(address.getText().toString())
@@ -334,18 +331,17 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        dm.buildAlertDialog("保存成功");
+        getDm().buildAlertDialog("保存成功");
         Intent intent = new Intent();
         setResult(2, intent);
     }
 
     @Override
     public void handle404(String message) {
-        dm.buildAlertDialog(message);
+        getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-        dm.buildAlertDialog(getResources().getString(R.string.no_network));
     }
 }

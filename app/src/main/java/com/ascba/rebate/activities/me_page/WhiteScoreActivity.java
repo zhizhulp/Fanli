@@ -10,7 +10,6 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
@@ -32,7 +31,6 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
     private WhiteTicketAdapter wta;
     private View noView;
     public static final int REQUEST_EXCHANGE = 1;
-    private DialogManager dm;
     private MoneyBar moneyBar;
 
     @Override
@@ -64,7 +62,6 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
             }
         });
 
-        dm = new DialogManager(this);
         noView = findViewById(R.id.no_ticket_view);
         listView = ((ListView) findViewById(R.id.cash_ticket_list));
         initData();
@@ -75,7 +72,7 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
                 WhiteTicket wt = mList.get(position);
                 LogUtils.PrintLog("是否是测试1是0不是","isTest-->"+wt.getTest());
                 if (wt.getTest() == 1) {
-                    dm.buildAlertDialog("推荐用户为体验账户升级，兑现券暂未激活！");
+                    getDm().buildAlertDialog("推荐用户为体验账户升级，兑现券暂未激活！");
                     return;
                 }
                 Intent intent = new Intent(WhiteScoreActivity.this, WSExchangeActivity.class);

@@ -8,7 +8,6 @@ import android.webkit.WebViewClient;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.fragments.me.FourthFragment;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.UrlUtils;
 
 /**
@@ -17,7 +16,6 @@ import com.ascba.rebate.utils.UrlUtils;
 public class BCProcessActivity extends BaseNetActivity {
 
     private WebView webview;
-    private DialogManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +26,17 @@ public class BCProcessActivity extends BaseNetActivity {
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         webview = ((WebView) findViewById(R.id.webView));
         webview.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                dm.dismissDialog();
+                getDm().dismissDialog();
             }
 
         });
         webview.loadUrl(UrlUtils.explain);
-        dm.buildWaitDialog("请稍后");
+        getDm().buildWaitDialog("请稍后");
     }
 
     //进入公司认证界面

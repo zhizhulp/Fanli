@@ -17,7 +17,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.utils.Pay;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -298,15 +297,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SuperSwipeRef
                 }
                 break;
             case R.id.tx_pay:
-                //付款
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject("{\"12\":{\"message\":\"\",\"cart_ids\":\"138\"}}");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Pay pay = new Pay(PayDetailsActivity.this, "￥1300.14", receiveId, jsonObject);
-                pay.showFinalDialog();
+
                 break;
             case R.id.tx_delete:
                 //取消订单

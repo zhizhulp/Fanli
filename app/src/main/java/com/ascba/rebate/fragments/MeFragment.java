@@ -27,7 +27,7 @@ import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.Real
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
-import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -261,12 +261,10 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
             if (isCardId == 0) {
-                final DialogManager dm = new DialogManager(getActivity());
-                dm.buildAlertDialog1("暂未实名认证，是否立即实名认证？");
-                dm.setCallback(new DialogManager.Callback() {
+                getDm().buildAlertDialog("暂未实名认证，是否立即实名认证？");
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        dm.dismissDialog();
                         Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
                         startActivity(intent);
                     }

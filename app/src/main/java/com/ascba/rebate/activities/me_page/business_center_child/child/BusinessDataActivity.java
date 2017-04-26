@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.DialogManager;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
@@ -71,7 +70,6 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
     private ImageView imBusLogo;
     private double lon;
     private double lat;
-    private DialogManager dm;
     private String street;
     private String[] permissions=new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -110,7 +108,6 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
     }
 
     private void initViews() {
-        dm=new DialogManager(this);
         tvName = ((TextView) findViewById(R.id.business_data_name));
         tvType = ((TextView) findViewById(R.id.business_data_type));
         tvLocation = ((TextView) findViewById(R.id.business_data_location));
@@ -130,7 +127,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
             startActivityForResult(intent,REQUEST_BUSINESS_NAME);
         }else{
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
     }
@@ -144,7 +141,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
             startActivityForResult(intent,REQUEST_BUSINESS_TAG);
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
     }
 
@@ -156,7 +153,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             intent.putExtra("lat",lat);
             startActivityForResult(intent,REQUEST_BUSINESS_LOCATION);
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
 
@@ -170,7 +167,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
             startActivityForResult(intent,REQUEST_BUSINESS_PHONE);
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
     }
@@ -183,7 +180,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
             startActivityForResult(intent,REQUEST_BUSINESS_TIME);
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
     }
@@ -196,7 +193,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
             startActivityForResult(intent,REQUEST_BUSINESS_RATE);
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
     }
@@ -209,7 +206,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
             startActivityForResult(intent,REQUEST_BUSINESS_LOCATION_DETAILS);
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
     }
 
@@ -221,7 +218,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
             startActivityForResult(intent,REQUEST_BUSINESS_DESC);
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
     }
@@ -232,7 +229,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             checkPermission();
 
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
     }
@@ -242,7 +239,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             type=1;
             checkPermission();
         }else {
-            dm.buildAlertDialog(noMdf);
+            getDm().buildAlertDialog(noMdf);
         }
 
 
@@ -447,7 +444,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             if(backRate!=null){
                 objRequest.add("seller_return_ratio",backRate);
             }/*else {
-                dm.buildAlertDialog("请选择佣金比例");
+                getDm().buildAlertDialog("请选择佣金比例");
             }*/
         }
         objRequest.add("seller_localhost",tvLocDet.getText().toString());
@@ -518,7 +515,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             }
 
         }else if(finalScene==1){
-            dm.buildAlertDialog(message);
+            getDm().buildAlertDialog(message);
             finish();
         }
 

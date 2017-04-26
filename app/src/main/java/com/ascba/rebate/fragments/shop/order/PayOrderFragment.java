@@ -15,10 +15,9 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
-import com.ascba.rebate.handlers.DialogManager2;
-import com.ascba.rebate.utils.Pay;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.DialogHome;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -218,8 +217,8 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
-                        getDm().buildAlertDialog1("您确定要取消订单吗？");
-                        getDm().setCallback(new DialogManager2.Callback() {
+                        getDm().buildAlertDialog("您确定要取消订单吗？");
+                        getDm().setCallback(new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
                                 requstData(1, UrlUtils.cancelOrder, orderId);
@@ -232,8 +231,8 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
-                        getDm().buildAlertDialog1("您确定要删除订单吗？");
-                        getDm().setCallback(new DialogManager2.Callback() {
+                        getDm().buildAlertDialog("您确定要删除订单吗？");
+                        getDm().setCallback(new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
                                 requstData(2, UrlUtils.delOrder, orderId);

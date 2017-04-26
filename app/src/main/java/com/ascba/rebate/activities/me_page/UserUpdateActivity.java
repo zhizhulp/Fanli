@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
@@ -11,13 +12,15 @@ import com.ascba.rebate.activities.me_page.user_update_child.OpenProxyActivity;
 import com.ascba.rebate.adapter.PowerUpdateAdapter;
 import com.ascba.rebate.beans.Proxy;
 import com.ascba.rebate.beans.UpdateTitle;
-import com.ascba.rebate.handlers.DialogManager;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -33,7 +36,6 @@ public class UserUpdateActivity extends BaseNetActivity implements
     private PowerUpdateAdapter powerUpdateAdapter;
     private List<Proxy> mProxies=new ArrayList<>();
     private int isCardId;
-    private DialogManager dm=new DialogManager(this);
     private SuperSwipeRefreshLayout swipeRefreshLayout;
     private int finalScene;
     private Proxy proxy;//被选中的组
@@ -139,16 +141,15 @@ public class UserUpdateActivity extends BaseNetActivity implements
         }else if(finalScene==2){
 
             if(proxy.getGroup()==0){
-                dm.buildAlertDialog("您已经开通普通会员");
+                getDm().buildAlertDialog("您已经开通普通会员");
                 return;
             }
             isCardId = dataObj.optInt("isCardId");
             if(isCardId==0){
-                dm.buildAlertDialog1("暂未实名认证，是否立即实名认证？");
-                dm.setCallback(new DialogManager.Callback() {
+                getDm().buildAlertDialog("暂未实名认证，是否立即实名认证？");
+                getDm().setCallback(new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        dm.dismissDialog();
                         Intent intent=new Intent(UserUpdateActivity.this,RealNameCofirmActivity.class);
                         startActivity(intent);
                     }
