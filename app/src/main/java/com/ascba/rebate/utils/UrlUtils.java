@@ -181,4 +181,8 @@ public class UrlUtils {
     public static final String orderReceive = urlPrefix + "orderReceive";
     //白积分账单
     public static final String scoreBillList = urlPrefix + "scoreBillList";
+    //白积分账单-分类
+    public static final String scoreClass = urlPrefix + "scoreClass";
+    //日期账单查询
+    public static final String dateFindScore = urlPrefix + "dateFindScore";
 }

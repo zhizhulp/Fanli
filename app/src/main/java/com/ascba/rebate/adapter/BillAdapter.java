@@ -1,131 +1,45 @@
 package com.ascba.rebate.adapter;
 
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.content.Context;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CashAccount;
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
-
 import java.util.List;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by 李平 on 2017/4/19 0019.17:32
  * 白积分账单适配器
  */
 
-public class BillAdapter extends BaseAdapter implements StickyListHeadersAdapter {
-    private List<CashAccount> data;
-    public BillAdapter(List<CashAccount> data) {
-        this.data=data;
+public class BillAdapter extends BaseMultiItemQuickAdapter<CashAccount, BaseViewHolder> {
+    private Context context;
+
+    public BillAdapter(List<CashAccount> data, Context context) {
+        super(data);
+        this.context = context;
+        addItemType(0, R.layout.white_bill_head);
+        addItemType(1, R.layout.wsaccount_list_item);
     }
 
     @Override
-    public int getCount() {
-        return data.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return data.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ItemViewHolder holder;
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if(convertView==null){
-            convertView = inflater.inflate(R.layout.wsaccount_list_item, parent, false);
-            holder=new ItemViewHolder(convertView);
-            convertView.setTag(holder);
-        }else {
-            holder= (ItemViewHolder) convertView.getTag();
-        }
-        CashAccount ca = data.get(position);
-        holder.tvDay.setText(ca.getDay());
-        holder.tvTime.setText(ca.getTime());
-        holder.tvMoney.setText(ca.getMoney());
-        holder.tvType.setText(ca.getFilterText());
-        Picasso.with(parent.getContext()).load(ca.getImgUrl()).into(holder.imTypeIcon);
-
-        return convertView;
-    }
-
-    @Override
-    public View getHeaderView(int position, View convertView, ViewGroup parent) {
-        HeaderViewHolder holder;
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if(convertView==null){
-            convertView = inflater.inflate(R.layout.white_bill_head, parent, false);
-            holder=new HeaderViewHolder(convertView);
-            convertView.setTag(holder);
-        }else {
-            holder= (HeaderViewHolder) convertView.getTag();
-        }
-        CashAccount ca = data.get(position);
-        if(position==0){
-            holder.headMonth.setText(ca.getMonth());
-            holder.type.setVisibility(View.VISIBLE);
-            holder.imCalendar.setVisibility(View.VISIBLE);
-            holder.type.setText(ca.getTitleText());
-
-        }else {
-            holder.headMonth.setText(ca.getMonth());
-            holder.type.setVisibility(View.GONE);
-            holder.imCalendar.setVisibility(View.GONE);
-        }
-        return convertView;
-    }
-
-    @Override
-    public long getHeaderId(int position) {
-        return Long.parseLong(data.get(position).getMonth());
-        /*String[] split = data.get(position).getDay().split("\\.");
-        return Long.parseLong(split[1]);*/
-    }
-
-    /**
-      * 缓存item的viewHolder
-     */
-    private class ItemViewHolder {
-        TextView tvDay;
-        TextView tvTime;
-        TextView tvMoney;
-        TextView tvType;
-        ImageView imTypeIcon;
-
-        private ItemViewHolder(View itemView) {
-            tvDay = (TextView) itemView.findViewById(R.id.wsaccount_day);
-            tvTime = (TextView) itemView.findViewById(R.id.wsaccount_time);
-            tvMoney = (TextView) itemView.findViewById(R.id.wsaccount_money);
-            tvType = (TextView) itemView.findViewById(R.id.wsaccount_category_txt);
-            imTypeIcon = (ImageView) itemView.findViewById(R.id.wsaccount_category_icon);
+    protected void convert(BaseViewHolder helper, CashAccount item) {
+        switch (helper.getItemViewType()) {
+            case 0://头
+                helper.setText(R.id.tv_month, item.getMonth());
+                break;
+            case 1://item
+                helper.setText(R.id.wsaccount_day, item.getDay());
+                helper.setText(R.id.wsaccount_time, item.getTime());
+                helper.setText(R.id.wsaccount_money, item.getMoney());
+                helper.setText(R.id.wsaccount_category_txt, item.getFilterText());
+                Picasso.with(context).load(item.getImgUrl()).into((ImageView) helper.getView(R.id.wsaccount_category_icon));
+                break;
         }
     }
-    /**
-     * 缓存head的viewHolder
-     */
-    private class HeaderViewHolder{
-        TextView headMonth;
-        ImageView imCalendar;
-        TextView type;
-        private HeaderViewHolder(View itemView) {
-            headMonth = (TextView) itemView.findViewById(R.id.tv_month);
-            imCalendar = (ImageView) itemView.findViewById(R.id.im_calendar);
-            type = (TextView) itemView.findViewById(R.id.tv_desc);
-        }
-    }
+
 }
