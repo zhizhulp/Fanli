@@ -33,7 +33,17 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             isCanLoad();
-        }else {
+        } else {
+            isLoad = false;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            isCanLoad();
+        } else {
             isLoad = false;
         }
     }
