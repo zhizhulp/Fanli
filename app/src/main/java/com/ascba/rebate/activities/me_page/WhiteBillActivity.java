@@ -50,7 +50,7 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
     private int position;//记录筛选位置
     private List<BillType> data;//账单类型 4种
     private View m_listViewFooter;
-    private int now_page=1;
+    private int now_page = 1;
     private int total_page;
 
     @Override
@@ -59,19 +59,19 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
         setContentView(R.layout.activity_white_bill);
         initViews();
 
-        m_listViewFooter=getLayoutInflater().inflate(R.layout.foot_view,null);
+        m_listViewFooter = getLayoutInflater().inflate(R.layout.foot_view, null);
 
         requestNetwork(UrlUtils.scoreBillList);
     }
 
     private void requestNetwork(String url) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        request.add("now_page",now_page);
-        executeNetWork(0,request,"请稍后");
+        request.add("now_page", now_page);
+        executeNetWork(0, request, "请稍后");
     }
 
     private void initViews() {
-        initRefreshLayout();
+        initRefresh();
         initRecyclerView();
         initMoneyBar();
     }
@@ -176,7 +176,7 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
         }*/
     }
 
-    private void initRefreshLayout() {
+    private void initRefresh() {
         refreshLat = ((RefreshLayout) findViewById(R.id.refresh_layout));
         refreshLat.setOnRefreshListener(this);
         refreshLat.setOnLoadListener(this);
@@ -184,11 +184,11 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
 
     @Override
     public void onRefresh() {
-        if(billData.size()!=0){
+        if (billData.size() != 0) {
             billData.clear();
         }
-        total_page=0;
-        now_page=1;
+        total_page = 0;
+        now_page = 1;
         requestNetwork(UrlUtils.scoreBillList);
     }
 
@@ -270,13 +270,13 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
 
     /**
      * "id": 167,
-     "seller_name": "五悦北平四季涮肉",
-     "score": 26600,
-     "create_time": 1490766176,
-     "year": "2017",
-     "month": "03",
-     "pic": "http://home.qlqwp2p.com/public/app/images/xf.png",
-     "remarks": " - 消费增值"
+     * "seller_name": "五悦北平四季涮肉",
+     * "score": 26600,
+     * "create_time": 1490766176,
+     * "year": "2017",
+     * "month": "03",
+     * "pic": "http://home.qlqwp2p.com/public/app/images/xf.png",
+     * "remarks": " - 消费增值"
      */
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
@@ -285,7 +285,7 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
         total_page = dataObj.optInt("total_page");
         now_page++;
         JSONArray array = dataObj.optJSONArray("scoreList");
-        if(array!=null && array.length()!=0){
+        if (array != null && array.length() != 0) {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 CashAccount ca = new CashAccount();
@@ -299,14 +299,14 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
                 String year = obj.optString("year");
                 ca.setDay(day);
                 ca.setTime(time);
-                ca.setMoney(score+"");
+                ca.setMoney(score + "");
                 ca.setImgUrl(pic);
                 ca.setFilterText(filterText);
                 ca.setTitleText("全部");
                 int calendarYear = dateAndTime.get(Calendar.YEAR);
-                if(!(calendarYear+"").equals(year)){
-                    ca.setMonth(year+"年"+month+"月");
-                }else {
+                if (!(calendarYear + "").equals(year)) {
+                    ca.setMonth(year + "年" + month + "月");
+                } else {
                     //ca.setMonth(month+"月");
                     ca.setMonth(month);
                 }
@@ -317,12 +317,15 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
 
         }
     }
+
     @Override
     protected void mhandle404(int what, JSONObject object, String message) {
     }
+
     @Override
     protected void mhandleFinish(int what) {
     }
+
     @Override
     protected void mhandleFailed(int what, Exception e) {
     }

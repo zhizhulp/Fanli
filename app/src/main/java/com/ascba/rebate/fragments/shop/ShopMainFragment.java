@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -236,14 +237,14 @@ public class ShopMainFragment extends BaseNetFragment implements
             request.add("goods_id", has_spec ? goodsSelect.getTitleId() : sbi.getColor());
             request.add("goods_num", has_spec ? nb.getNumber() : 1);
             request.add("goods_spec_id", has_spec ? goodsSelect.getCartId() : null);
-            /*request.add("spec_keys",goodsSelect.getSpecKeys());
-            request.add("spec_names",goodsSelect.getSpecNames());*/
         } else if (scene == 2) {//规格数据
             request = buildNetRequest(url, 0, true);
             request.add("goods_id", goodsId);
         } else if (scene == 3) {//立即购买
             request = buildNetRequest(url, 0, true);
-            request.add("cart_ids", goodsSelect.getCartId());
+            request.add("goods_id", has_spec ? goodsSelect.getTitleId() : sbi.getColor());
+            request.add("goods_num", has_spec ? nb.getNumber() : 1);
+            request.add("goods_spec_id", has_spec ? goodsSelect.getCartId() : null);
         }
         executeNetWork(request, "请稍后");
         setCallback(this);
@@ -332,10 +333,11 @@ public class ShopMainFragment extends BaseNetFragment implements
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
             showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array));
         } else if (finalScene == 3) {//立即购买 成功
-
+            sd.dismiss();
+            Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
+            intent.putExtra("json_data", dataObj.toString());
+            startActivity(intent);
         }
-
-
     }
 
 
@@ -487,10 +489,17 @@ public class ShopMainFragment extends BaseNetFragment implements
         sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
             @Override
             public void onClick(View v) {
-                if (isAll) {
-                    requestNetwork(UrlUtils.cartCheckout, 3);
+                if (has_spec) {
+                    //包含规格
+                    if (isAll) {
+                        //选择完整规格
+                        requestNetwork(UrlUtils.goodsCheckout, 3);
+                    } else {
+                        getDm().buildAlertDialog(attention);
+                    }
                 } else {
-                    getDm().buildAlertDialog(attention);
+                    //不包含规格
+                    requestNetwork(UrlUtils.goodsCheckout, 3);
                 }
             }
         });

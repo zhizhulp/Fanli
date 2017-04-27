@@ -3,7 +3,6 @@ package com.ascba.rebate.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,7 +38,7 @@ import java.util.List;
  * 确认订单
  */
 
-public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnClickListener {
 
     private Context context;
     private ShopABarText shopABarText;
@@ -77,9 +76,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
     }
 
     private void initUI() {
-        //刷新
-        initRefreshLayout();
-        refreshLayout.setOnRefreshListener(this);
 
         //总金额
         tvTotal = ((TextView) findViewById(R.id.confir_order_text_total_price));
@@ -171,18 +167,27 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
 
                                 num += Integer.parseInt(goods_num);
                                 price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
-                                //店铺id
-                                storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
-                                //购物车id
-                                cartId = obj.optString("cart_id");
-                                mesaagesCartId.append(cartId + ",");
+
+                                try {
+                                    //店铺id
+                                    storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
+                                    //购物车id
+                                    cartId = obj.optString("cart_id");
+                                    mesaagesCartId.append(cartId + ",");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                             /**
                              * 拼接空白留言信息
                              */
                             JSONObject jsonObject = new JSONObject();
-                            mesaagesCartId.delete(mesaagesCartId.length() - 1, mesaagesCartId.length());
-                            jsonObject.put("cart_ids", mesaagesCartId.toString());
+                            try {
+                                mesaagesCartId.delete(mesaagesCartId.length() - 1, mesaagesCartId.length());
+                                jsonObject.put("cart_ids", mesaagesCartId.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             jsonObject.put("message", "");
                             jsonMessage.put(String.valueOf(storeId), jsonObject);
 
@@ -283,12 +288,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
             userAddress.setText(defaultAddressBean.getAddress());
         }
     }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
 
     /*
      * 创建订单

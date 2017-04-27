@@ -1190,10 +1190,17 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
             @Override
             public void onClick(View v) {
-                if (isAll) {
-                    requestNetwork(UrlUtils.cartCheckout, 1);
+                if (has_spec == 1) {
+                    //包含规格
+                    if (isAll) {
+                        //选择完整规格
+                        requestNetwork(UrlUtils.goodsCheckout, 3);
+                    } else {
+                        getDm().buildAlertDialog(attention);
+                    }
                 } else {
-                    getDm().buildAlertDialog("请先选择商品");
+                    //不包含规格
+                    requestNetwork(UrlUtils.goodsCheckout, 3);
                 }
             }
         });
@@ -1267,8 +1274,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             request.add("goods_id", has_spec == 0 ? goods.getTitleId() : goodsSelect.getTitleId());
             request.add("goods_num", has_spec == 0 ? 1 : nb.getNumber());
             request.add("goods_spec_id", has_spec == 0 ? null : goodsSelect.getCartId());
-        } else if (scene == 1) {//结算
-            request.add("cart_ids", goodsSelect.getCartId());
+        } else if (scene == 3) {
+            //立即购买
+            request.add("goods_id", has_spec == 0 ? goods.getTitleId() : goodsSelect.getTitleId());
+            request.add("goods_num", has_spec == 0 ? 1 : nb.getNumber());
+            request.add("goods_spec_id", has_spec == 0 ? null : goodsSelect.getCartId());
         }
         executeNetWork(request, "请稍后");
         setCallback(this);
@@ -1280,7 +1290,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         if (finalScene == 0) {
             getDm().buildAlertDialog(message);
             sd.dismiss();
-        } else if (finalScene == 1) {
+        } else if (finalScene == 3) {
+            sd.dismiss();
             Intent intent = new Intent(this, ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
