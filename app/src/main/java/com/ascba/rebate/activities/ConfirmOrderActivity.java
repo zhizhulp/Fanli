@@ -34,8 +34,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ascba.rebate.application.MyApplication.payType;
-
 /**
  * Created by 李鹏 on 2017/03/15 0015.
  * 确认订单
@@ -306,7 +304,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
                 //创建并支付订单成功,开始支付
-                payOrder(dataObj);
+                payOrder(dataObj, payType);
             }
 
             @Override
@@ -347,7 +345,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
                             creatOrder(defaultAddressBean.getId(), jsonMessage.toString(), payType);
                         }
                     });
-
                 } else {
                     showToast("请先填写收货地址");
                 }
@@ -385,7 +382,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
     /*
         支付
      */
-    private void payOrder(JSONObject dataObj) {
+    private void payOrder(JSONObject dataObj, final String payType) {
         try {
             JSONObject object = dataObj.optJSONObject("payreturn_data");
             JSONObject object1 = object.optJSONObject("data");
@@ -394,7 +391,10 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
              * 调起支付
              */
             if ("balance".equals(payType)) {
-                showToast("暂未开放");
+                //余额支付
+                pay.dismissDialog();
+                pay.requestForYuE(object1);
+
             } else if ("alipay".equals(payType)) {
                 String payInfo = object1.optString("payInfo");
                 pay.requestForAli(payInfo);//发起支付宝支付请求
