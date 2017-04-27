@@ -532,13 +532,13 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.BusinessShopActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.shop.ShopActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.ASKCollegeActivity"
@@ -628,10 +628,14 @@
             android:name=".activities.shop.order.PayDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.me_page.WhiteBillActivity"
+        <activity
+            android:name=".activities.me_page.WhiteBillActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"
-            />
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.ConfirmBuyOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>

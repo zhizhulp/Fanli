@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.ConfirmOrderActivity;
+import com.ascba.rebate.activities.ConfirmBuyOrderActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -345,7 +345,7 @@ public class ShopMainFragment extends BaseNetFragment implements
             if (sd != null) {
                 sd.dismiss();
             }
-            Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
+            Intent intent = new Intent(getActivity(), ConfirmBuyOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
         }

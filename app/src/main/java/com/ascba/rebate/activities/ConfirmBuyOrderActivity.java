@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -35,10 +34,10 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/15 0015.
- * 购物车——结算——确认订单
+ * 立即购买——确认订单
  */
 
-public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnClickListener {
+public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnClickListener {
 
     private Context context;
     private ShopABarText shopABarText;
@@ -122,11 +121,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnCli
             @Override
             public void getString(String content, int storeId, String mesaagesCartId) {
                 try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("cart_ids", mesaagesCartId);
-                    jsonObject.put("message", content);
-                    jsonMessage.put(String.valueOf(storeId), jsonObject);
-                    Log.d("ConfirmOrderActivity", jsonMessage.toString());
+                    jsonMessage.put("message", content);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -147,19 +142,26 @@ public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnCli
                     JSONObject storeObj = storeList.optJSONObject(i);
                     if (storeObj != null) {
                         JSONObject titleObj = storeObj.optJSONObject("store_info");
+                        String store_id = titleObj.optString("id");
+
+                        jsonMessage.put("store_id", store_id);
+
                         goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, titleObj.optString("store_name")));
                         JSONArray goodsArray = storeObj.optJSONArray("goods_list");
                         if (goodsArray != null && goodsArray.length() != 0) {
                             float yunfei = 0;//运费
                             int num = 0;
                             float price = 0;
-                            int storeId = 0;
-                            String cartId = null;
-                            StringBuffer mesaagesCartId = new StringBuffer();
                             for (int j = 0; j < goodsArray.length(); j++) {
                                 JSONObject obj = goodsArray.optJSONObject(j);
                                 String goods_price = obj.optString("goods_price");
                                 String goods_num = obj.optString("goods_num");
+                                jsonMessage.put("goods_num", goods_num);
+                                String goods_id = obj.optString("goods_id");
+                                jsonMessage.put("goods_id", goods_id);
+                                String goods_spec_id = obj.optString("goods_spec_id");
+                                jsonMessage.put("goods_spec_id", goods_spec_id);
+
                                 //商品信息
                                 goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.baseWebsite + obj.optString("goods_img"),
                                         obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
@@ -167,33 +169,13 @@ public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnCli
 
                                 num += Integer.parseInt(goods_num);
                                 price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
+                            }
 
-                                try {
-                                    //店铺id
-                                    storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
-                                    //购物车id
-                                    cartId = obj.optString("cart_id");
-                                    mesaagesCartId.append(cartId + ",");
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            /**
-                             * 拼接空白留言信息
-                             */
-                            JSONObject jsonObject = new JSONObject();
-                            try {
-                                mesaagesCartId.delete(mesaagesCartId.length() - 1, mesaagesCartId.length());
-                                jsonObject.put("cart_ids", mesaagesCartId.toString());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            jsonObject.put("message", "");
-                            jsonMessage.put(String.valueOf(storeId), jsonObject);
+                            jsonMessage.put("message", "");
 
                             price += yunfei;
                             totalPrice += price;
-                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId, mesaagesCartId.toString()));
+                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), 0, null));
                         }
                     }
                 }
@@ -293,7 +275,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnCli
      * 创建订单
      */
     private void creatOrder(String receiveId, String message, final String payType) {
-        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createNowBuyOrder, 0, true);
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("extra_data", message);
         jsonRequest.add("member_address_id", receiveId);//用户收货地址id
@@ -426,7 +408,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnCli
 
             @Override
             public void onSuccess(String payStype, String resultStatus) {
-                MyOrderActivity.startIntent(context,2);
+                MyOrderActivity.startIntent(context, 2);
             }
         });
 

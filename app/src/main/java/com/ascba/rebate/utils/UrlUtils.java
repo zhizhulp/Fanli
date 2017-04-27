@@ -185,5 +185,8 @@ public class UrlUtils {
     public static final String scoreBillList = urlPrefix + "scoreBillList";
 
     //立即购买
-    public static final String goodsCheckout = urlPrefix + "goodsCheckout";
+    public static final String goodsCheckout = urlPrefix + "nowCheckout";
+
+    //立即购买提交订单
+    public static final String createNowBuyOrder = urlPrefix + "createNowBuyOrder";
 }
