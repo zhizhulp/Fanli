@@ -14,8 +14,18 @@ public class CashAccount implements Parcelable {
     private String filterText;//农业银行-提现
     private String status;//24小时内到账
     private int imgId;//图片
+    private String imgUrl;//网络图片
     private String month;//账单所在月份
     private CashAccountType type;//账单类型
+    private String titleText;//用于账单
+
+    public String getTitleText() {
+        return titleText;
+    }
+
+    public void setTitleText(String titleText) {
+        this.titleText = titleText;
+    }
 
     public CashAccount() {
     }
@@ -122,7 +132,13 @@ public class CashAccount implements Parcelable {
         this.month = month;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
 
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {

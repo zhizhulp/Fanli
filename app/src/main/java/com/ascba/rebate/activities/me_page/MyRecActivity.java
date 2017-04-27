@@ -230,11 +230,6 @@ public class MyRecActivity extends BaseNetActivity implements
         } else if (finalScene == 1) {
             JSONArray array;
             array = dataObj.optJSONArray("getMyPpspread_data");
-            /*if (position == 0) {
-                array = dataObj.optJSONArray("getMyPspread_data");
-            } else {
-                array = dataObj.optJSONArray("getMyPpspread_data");
-            }*/
             if (array != null && array.length() != 0) {
                 List<RecType> popData = new ArrayList<>();
                 if (popData.size() != 0) {
@@ -250,7 +245,6 @@ public class MyRecActivity extends BaseNetActivity implements
                     popData.add(recType);
                 }
 
-
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
                     RecType rt = new RecType(false, obj.optString("name") + "  (" + obj.optInt("count") + "人)", obj.optInt("id"));
@@ -258,7 +252,6 @@ public class MyRecActivity extends BaseNetActivity implements
                     rt.setName(obj.optString("name"));
                     popData.add(rt);
                 }
-                LogUtils.PrintLog("MyRecActivity", "position-->" + position + ";index1-->" + index1 + ";index2-->" + index2);
                 if (position == 0) {
                     for (int i = 0; i < popData.size(); i++) {
                         if (i == index1) {

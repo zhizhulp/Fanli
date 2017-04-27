@@ -3,6 +3,7 @@ package com.ascba.rebate.fragments.recommend;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class BaseReccFragment extends BaseNetFragment {
     private RecyclerView rv;
-    private SuperSwipeRefreshLayout refreshLat;
+    private SwipeRefreshLayout refreshLat;
     private List<FirstRec> data=new ArrayList<>();
     private TuiGAdapter adapter;
 
@@ -39,7 +40,7 @@ public class BaseReccFragment extends BaseNetFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = ((RecyclerView) view.findViewById(R.id.recc_list));
-        refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
+        refreshLat = ((SwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new TuiGAdapter(data, R.layout.rec_list_item_rec);
         rv.setAdapter(adapter);
@@ -53,11 +54,11 @@ public class BaseReccFragment extends BaseNetFragment {
         this.rv = rv;
     }
 
-    public SuperSwipeRefreshLayout getRefreshLat() {
+    public SwipeRefreshLayout getRefreshLat() {
         return refreshLat;
     }
 
-    public void setRefreshLat(SuperSwipeRefreshLayout refreshLat) {
+    public void setRefreshLat(SwipeRefreshLayout refreshLat) {
         this.refreshLat = refreshLat;
     }
 
