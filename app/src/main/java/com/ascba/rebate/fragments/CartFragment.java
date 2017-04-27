@@ -49,7 +49,6 @@ public class CartFragment extends LazyBaseFragment implements
     private RecyclerView rv;
     private List<CartGoods> data = new ArrayList<>();
     private CartAdapter adapter;
-    public static final String LOG_TAG = "CartFragment";
     private CheckBox cbTotal;
     private TextView tvCost;
     private TextView tvCostNum;
