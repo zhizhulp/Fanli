@@ -252,6 +252,10 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             orderAmountTx.setText("￥" + orderAmount);
             shippingFeeTx.setText("￥" + shippingFee);
 
+            if (goodsList.size()>0){
+                goodsList.clear();
+            }
+
             //商品信息
             JSONArray goodsArray = orderObject.getJSONArray("orderGoods");
             if (goodsArray != null && goodsArray.length() > 0) {
@@ -348,7 +352,9 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             case 2:
                 try {
                     if ("balance".equals(payType)) {
-                        showToast("暂未开放");
+                        //余额支付
+                        pay.dismissDialog();
+                        pay.requestForYuE(dataObj);
                     } else if ("alipay".equals(payType)) {
                         String payInfo = dataObj.optString("payInfo");
                         pay.requestForAli(payInfo);//发起支付宝支付请求

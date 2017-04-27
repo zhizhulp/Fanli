@@ -1,21 +1,15 @@
 package com.ascba.rebate.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -24,13 +18,17 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.PayViewAdp;
-import com.ascba.rebate.handlers.OnPasswordInputFinish;
+import com.ascba.rebate.handlers.OnPasswordInput;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -51,7 +49,7 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
 	private ArrayList<Map<String, String>> valueList;    //有人可能有疑问，为何这里不用数组了？
 	//因为要用Adapter中适配，用数组不能往adapter中填充
 
-	private ImageView imgCancel;
+	private View imgCancel;
 	private TextView tvForget;
 	private int currentIndex = -1;    //用于记录当前输入密码格位置
 
@@ -61,6 +59,11 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
 	private Intent intent;
 	private View backgroundView;
 	private AnimationDrawable animationDrawable;
+	private OnPasswordInput onPasswordInputFinish;
+
+	public void setOnPasswordInputFinish(OnPasswordInput onPasswordInputFinish) {
+		this.onPasswordInputFinish = onPasswordInputFinish;
+	}
 
 	public PayPopWindow(final Context context, View backgroundView) {
 		this.context=context;
@@ -69,13 +72,13 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
 		popupWindow=new PopupWindow(view, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		//设置popwindow的动画效果
 		popupWindow.setAnimationStyle(R.style.popWindow_anim_style);
-		popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+		//popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 		popupWindow.setOnDismissListener(this);// 当popWindow消失时的监听
 		valueList = new ArrayList<Map<String, String>>();
 		tvList = new TextView[6];
 		setView();
 
-		imgCancel = (ImageView) view.findViewById(R.id.img_cance);
+		imgCancel = view.findViewById(R.id.img_cance);
 		tvForget = (TextView) view.findViewById(R.id.tv_forgetPwd);
 
 		line=(LinearLayout)view.findViewById(R.id.pay_lin);
@@ -110,6 +113,7 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
 		});
 		imgCancel.setOnClickListener(this);
 		tvForget.setOnClickListener(this);
+		setOnFinishInput();
 	}
 
 	public interface OnItemClickListener{
@@ -135,9 +139,19 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
 	public void showAsDropDown(View position){
 		popupWindow.showAtLocation(position, Gravity.BOTTOM, 0,  0);
 		popupWindow.setFocusable(true);
+		popupWindow.setTouchable(true);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.update();
 		setBackgroundBlack(backgroundView, 0);
+		popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+					popupWindow.dismiss();
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 
@@ -178,19 +192,21 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.img_cance:
-			onDismiss();
+			if (onPasswordInputFinish!=null){
+				onPasswordInputFinish.inputCancel();
+			}
 			break;
 		case R.id.tv_forgetPwd:
 			Toast.makeText(context, "前往忘记密码界面", Toast.LENGTH_SHORT).show();
-		
-			break;
-		default:
+			if (onPasswordInputFinish!=null){
+				onPasswordInputFinish.forgetPsd();
+			}
 			break;
 		}
 	}
 
 	//设置监听方法，在第6位输入完成后触发
-	public void setOnFinishInput(final OnPasswordInputFinish pass) {
+	public void setOnFinishInput() {
 		tvList[5].addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -209,7 +225,11 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
 					for (int i = 0; i < 6; i++) {
 						strPassword += tvList[i].getText().toString().trim();
 					}
-					pass.inputFinish();    //接口中要实现的方法，完成密码输入完成后的响应逻辑
+					if (onPasswordInputFinish!=null){
+						//接口中要实现的方法，完成密码输入完成后的响应逻辑
+						onPasswordInputFinish.inputFinish();
+					}
+
 				}
 			}
 		});

@@ -413,7 +413,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
             @Override
             public void onFinish(String payStype) {
                 if ("balance".equals(payType)) {
-                    showToast("暂未开放");
+                    finish();
                 } else if ("alipay".equals(payType)) {
                     //支付宝支付
                     setResult(RESULT_OK, getIntent());
@@ -424,6 +424,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements SwipeRefres
                     finish();
                 }
             }
+
         });
 
     }
