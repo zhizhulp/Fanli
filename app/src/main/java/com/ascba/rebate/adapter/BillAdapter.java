@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CashAccount;
-
+import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class BillAdapter extends BaseAdapter implements StickyListHeadersAdapter
         holder.tvTime.setText(ca.getTime());
         holder.tvMoney.setText(ca.getMoney());
         holder.tvType.setText(ca.getFilterText());
-        holder.imTypeIcon.setImageResource(ca.getImgId());
+        Picasso.with(parent.getContext()).load(ca.getImgUrl()).into(holder.imTypeIcon);
 
         return convertView;
     }
@@ -80,20 +80,7 @@ public class BillAdapter extends BaseAdapter implements StickyListHeadersAdapter
             holder.headMonth.setText(ca.getMonth());
             holder.type.setVisibility(View.VISIBLE);
             holder.imCalendar.setVisibility(View.VISIBLE);
-            switch (ca.getType()){
-                case ALL:
-                    holder.type.setText("全部");
-                    break;
-                case AWARD:
-                    holder.type.setText("奖励");
-                    break;
-                case COST:
-                    holder.type.setText("消费");
-                    break;
-                case EXCHANGE:
-                    holder.type.setText("兑换");
-                    break;
-            }
+            holder.type.setText(ca.getTitleText());
 
         }else {
             holder.headMonth.setText(ca.getMonth());
@@ -105,8 +92,9 @@ public class BillAdapter extends BaseAdapter implements StickyListHeadersAdapter
 
     @Override
     public long getHeaderId(int position) {
-        String[] split = data.get(position).getDay().split("\\.");
-        return split[1].hashCode();
+        return Long.parseLong(data.get(position).getMonth());
+        /*String[] split = data.get(position).getDay().split("\\.");
+        return Long.parseLong(split[1]);*/
     }
 
     /**

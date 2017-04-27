@@ -1,7 +1,10 @@
 package com.ascba.rebate.fragments.recommend;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +18,8 @@ import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -24,15 +29,43 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
+
 /**
  * 二级推广
  */
-public class SecReccFragment extends BaseReccFragment implements BaseNetFragment.Callback,SwipeRefreshLayout.OnRefreshListener {
+public class SecReccFragment extends BaseReccFragment implements BaseNetFragment.Callback,
+        SwipeRefreshLayout.OnRefreshListener {
+    private static final int LOAD_MORE_END = 0;
+    private static final int LOAD_MORE_ERROR = 1;
     private RecyclerView rvSec;
+    private SwipeRefreshLayout refreshLatSec;
     private TuiGAdapter adapterSec;
     private List<FirstRec> dataSec;
-    private View emptyView;
     private int idAll;
+    private int now_page = 1;
+    private int total_page;
+    private CustomLoadMoreView loadMoreView;
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case LOAD_MORE_END:
+                    if (adapterSec != null) {
+                        adapterSec.loadMoreEnd(false);
+                    }
+
+                    break;
+                case LOAD_MORE_ERROR:
+                    if (adapterSec != null) {
+                        adapterSec.loadMoreFail();
+                    }
+                    break;
+            }
+        }
+    };
 
     public SecReccFragment() {
     }
@@ -47,44 +80,70 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRefreshLayout(view);
         initViews();
         ((MyRecActivity) getActivity()).setListener2(new MyRecActivity.Listener2() {
             @Override
             public void onDataTypeClick(int id) {
+                if(dataSec.size()!=0){
+                    dataSec.clear();
+                }
+                now_page=1;
+                total_page=0;
                 idAll=id;
-                requestData(id, UrlUtils.getSearchPpspread);
+                requestData(UrlUtils.getSearchPpspread);
             }
 
         });
-        requestData(idAll,UrlUtils.getSearchPpspread);
+        requestData(UrlUtils.getSearchPpspread);
     }
 
-    private void requestData(int id,String url) {
+    private void requestData(String url) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        request.add("id", id);
+        request.add("id", idAll);
+        request.add("now_page", now_page);
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
     private void initViews() {
         rvSec = getRv();
-        refreshLayout.setOnRefreshListener(this);
+        refreshLatSec = getRefreshLat();
+        refreshLatSec.setOnRefreshListener(this);
         adapterSec = getAdapter();
         dataSec = getData();
-        emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view,null);
+        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view,null);
+        adapterSec.setEmptyView(emptyView);
+        initLoadMore();
+    }
+    private void initLoadMore() {
+        loadMoreView = new CustomLoadMoreView();
+        adapterSec.setLoadMoreView(loadMoreView);
+        adapterSec.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (now_page > total_page && total_page != 0) {
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                } else {
+                    requestData(UrlUtils.getSearchPpspread);
+                }
+            }
+        });
     }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        if(dataSec.size()!=0){
-            dataSec.clear();
+
+        refreshLatSec.setRefreshing(false);
+        if (adapterSec != null) {
+            adapterSec.loadMoreComplete();
         }
-        refreshLayout.setRefreshing(false);
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
+        }
+        total_page = dataObj.optInt("total_page");
+        now_page++;
         JSONArray array = dataObj.optJSONArray("getSearchSpread");
-        if (array == null || array.length() == 0) {
-            adapterSec.setEmptyView(emptyView);
-        } else {
+        if (array != null || array.length() != 0) {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 FirstRec fr = new FirstRec();
@@ -97,13 +156,14 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
                 fr.setTime(time);
                 dataSec.add(fr);
             }
+            adapterSec.notifyDataSetChanged();
         }
-        adapterSec.notifyDataSetChanged();
+
     }
 
     @Override
     public void handleReqFailed() {
-        refreshLayout.setRefreshing(false);
+        refreshLatSec.setRefreshing(false);
     }
 
     @Override
@@ -113,18 +173,23 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
 
     @Override
     public void handleReLogin() {
-        refreshLayout.setRefreshing(false);
+        refreshLatSec.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLayout.setRefreshing(false);
+        refreshLatSec.setRefreshing(false);
+        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 
     @Override
     public void onRefresh() {
-        requestData(idAll,UrlUtils.getSearchPpspread);
+        if(dataSec.size()!=0){
+            dataSec.clear();
+        }
+        now_page=1;
+        total_page=0;
+        requestData(UrlUtils.getSearchPpspread);
     }
-
 
 }
