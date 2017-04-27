@@ -223,24 +223,11 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款
-                        String price = beanArrayList.get(position).getOrderPrice();
-                        if (StringUtils.isEmpty(price)) {
-                            showToast("正在加载订单信息，请稍后");
-                        } else {
-                            pay = new PayUtils(getActivity(), price);
-                            pay.showDialog(new PayUtils.OnCreatOrder() {
-                                @Override
-                                public void onCreatOrder(String arg) {
-                                    payType = arg;
-                                    requstData(3, UrlUtils.orderPay, orderId);
-                                }
-                            });
-                        }
-
+                        payPrice(position);
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
-                        getDm().buildAlertDialogSure("您确定要取消订单吗？",new DialogHome.Callback() {
+                        getDm().buildAlertDialogSure("您确定要取消订单吗？", new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
                                 requstData(1, UrlUtils.cancelOrder, orderId);
@@ -253,7 +240,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
-                        getDm().buildAlertDialogSure("您确定要删除订单吗？",new DialogHome.Callback() {
+                        getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
                                 requstData(2, UrlUtils.delOrder, orderId);
@@ -263,6 +250,34 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 }
             }
         });
+    }
+
+    /*
+        付款
+     */
+    private void payPrice(int position) {
+        String price = beanArrayList.get(position).getOrderPrice();
+        if (StringUtils.isEmpty(price)) {
+            showToast("正在加载订单信息，请稍后");
+        } else {
+            //开启支付
+            pay = new PayUtils(getActivity(), price);
+            pay.showDialog(new PayUtils.OnCreatOrder() {
+                @Override
+                public void onCreatOrder(String arg) {
+                    payType = arg;
+                    requstData(3, UrlUtils.orderPay, orderId);
+                }
+            });
+            //支付回调
+            pay.setPayCallBack(new PayUtils.onPayCallBack() {
+                @Override
+                public void onFinish(String payStype) {
+                    //刷新数据
+                    requstListData();
+                }
+            });
+        }
     }
 
     @Override
@@ -283,7 +298,9 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             case 3:
                 try {
                     if ("balance".equals(payType)) {
-                        showToast("暂未开放");
+                        //余额支付
+                        pay.dismissDialog();
+                        pay.requestForYuE(dataObj);
                     } else if ("alipay".equals(payType)) {
                         String payInfo = dataObj.optString("payInfo");
                         pay.requestForAli(payInfo);//发起支付宝支付请求

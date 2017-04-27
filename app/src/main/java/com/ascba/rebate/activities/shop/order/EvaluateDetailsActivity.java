@@ -242,6 +242,10 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
             orderAmountTx.setText("￥" + orderAmount);
             shippingFeeTx.setText("￥" + shippingFee);
 
+            if (goodsList.size()>0){
+                goodsList.clear();
+            }
+
             //商品信息
             JSONArray goodsArray = orderObject.getJSONArray("orderGoods");
             if (goodsArray != null && goodsArray.length() > 0) {

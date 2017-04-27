@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
@@ -22,13 +23,21 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.PayTypeAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PayType;
-import com.ascba.rebate.handlers.OnPasswordInputFinish;
+import com.ascba.rebate.handlers.OnPasswordInput;
 import com.ascba.rebate.view.PayPopWindow;
 import com.ascba.rebate.view.pay.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +45,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.ascba.rebate.activities.base.BaseNetActivity.REQUEST_LOGIN;
 
 /**
  * Created by 李鹏 on 2017/04/25 0025.
@@ -246,7 +257,7 @@ public class PayUtils {
 
     //余额支付
     public void requestForYuE(final JSONObject object1) {
-
+        //输入密码
         showPassWordView(new InputPsdCallBack() {
             @Override
             public void onSuccess() {
@@ -255,12 +266,22 @@ public class PayUtils {
 
             @Override
             public void onFailed() {
-
+                //余额支付
+                if (payCallBack != null) {
+                    payCallBack.onFailed(payType, "支付失败");
+                    dialogHome.buildAlertDialog("支付失败");
+                    payCallBack.onFinish(payType);
+                }
             }
 
             @Override
             public void onCancel() {
-
+                //余额支付
+                if (payCallBack != null) {
+                    payCallBack.onCancel(payType, "支付取消");
+                    dialogHome.buildAlertDialog("您已经取消支付");
+                    payCallBack.onFinish(payType);
+                }
             }
         });
 
@@ -279,18 +300,29 @@ public class PayUtils {
         background.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         popWindow = new PayPopWindow(context, background);
         popWindow.showAsDropDown(background);
-        popWindow.setOnFinishInput(new OnPasswordInputFinish() {
+        popWindow.setOnPasswordInputFinish(new OnPasswordInput() {
             @Override
             public void inputFinish() {
                 popWindow.onDismiss();
                 if (!StringUtils.isEmpty(popWindow.getStrPassword())) {
-                    Toast.makeText(context, "密码:" + popWindow.getStrPassword(), Toast.LENGTH_SHORT).show();
                     psdCallBack.onSuccess();
                 }
+            }
+
+            @Override
+            public void inputCancel() {
+                popWindow.onDismiss();
+                psdCallBack.onCancel();
+            }
+
+            @Override
+            public void forgetPsd() {
+
             }
         });
     }
 
+    //输入密码回调
     public interface InputPsdCallBack {
         void onSuccess();
 
@@ -299,19 +331,121 @@ public class PayUtils {
         void onCancel();
     }
 
+    //请求余额支付验证
     private void requstYuEResult(JSONObject object) {
         String url = object.optString("notify_url");//请求地址
         JSONObject payInfoObject = object.optJSONObject("payInfo");
         String orderId = payInfoObject.optString("out_trade_no");//订单号
-        int price = payInfoObject.optInt("total_fee");//价格
+        double price = payInfoObject.optDouble("total_fee");//价格
         int receiveId = payInfoObject.optInt("member_id");//收货地址id
         int type = payInfoObject.optInt("type");//类型：0——结算，1——我的订单\
 
-//        jsonRequest.add("out_trade_no", orderId);
-//        jsonRequest.add("total_fee", price);
-//        jsonRequest.add("member_id", receiveId);
-//        jsonRequest.add("type", type);
+        Request<JSONObject> jsonRequest = buildNetRequest(url);
 
+        jsonRequest.add("notify_url", url);
+        jsonRequest.add("out_trade_no", orderId);
+        jsonRequest.add("total_fee", price);
+        jsonRequest.add("member_id", receiveId);
+        jsonRequest.add("type", type);
 
+        executeNetWork(1, jsonRequest, "正在支付，请稍后");
     }
+
+    public Request<JSONObject> buildNetRequest(String url) {
+        Request<JSONObject> jsonRequest = NoHttp.createJsonObjectRequest(url, RequestMethod.POST);
+        int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        String token = AppConfig.getInstance().getString("token", "");
+        long expiring_time = AppConfig.getInstance().getLong("expiring_time", -2000);
+        jsonRequest.add("sign", UrlEncodeUtils.createSign(url));
+        jsonRequest.add("uuid", uuid);
+        jsonRequest.add("token", token);
+        jsonRequest.add("expiring_time", expiring_time);
+        return jsonRequest;
+    }
+
+    //执行网络请求
+    public void executeNetWork(int what, Request<JSONObject> jsonRequest, String message) {
+        boolean netAva = NetUtils.isNetworkAvailable(context);
+        if (!netAva) {
+            dialogHome.buildAlertDialog(context.getResources().getString(R.string.no_network));
+            return;
+        }
+        MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
+        dialogHome.buildWaitDialog(message);
+    }
+
+    public class NetResponseListener implements OnResponseListener<JSONObject> {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<JSONObject> response) {
+            dialogHome.dismissDialog();
+            requstSuccess(what, response.get());
+        }
+
+        @Override
+        public void onFailed(int what, Response<JSONObject> response) {
+            dialogHome.dismissDialog();
+            switch (what) {
+                case 1:
+                    //余额支付
+                    dialogHome.buildAlertDialog("支付失败");
+                    break;
+            }
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+            switch (what) {
+                case 1:
+                    //余额支付
+                    if (payCallBack != null) {
+                        payCallBack.onFinish(payType);
+                    }
+                    break;
+            }
+        }
+    }
+
+    public void requstSuccess(int what, JSONObject jObj) {
+        try {
+            int status = jObj.optInt("status");
+            String message = jObj.optString("msg");
+            JSONObject dataObj = jObj.optJSONObject("data");
+            if (status == 200) {
+                switch (what) {
+                    case 1:
+                        //余额支付
+                        if (payCallBack != null) {
+                            payCallBack.onSuccess(payType, "支付成功");
+                            payCallBack.onFinish(payType);
+                        }
+                        Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+                Intent intent = new Intent(context, LoginActivity.class);
+                AppConfig.getInstance().putInt("uuid", -1000);
+                context.startActivityForResult(intent, REQUEST_LOGIN);
+                ((MyApplication) context.getApplication()).exit();
+            } else {
+                switch (what) {
+                    case 1:
+                        //余额支付
+                        if (payCallBack != null) {
+                            payCallBack.onFailed(payType, "支付失败");
+                        }
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

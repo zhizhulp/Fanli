@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.OnPasswordInputFinish;
+import com.ascba.rebate.handlers.OnPasswordInput;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
@@ -80,10 +80,20 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
         background.setBackgroundDrawable(new ColorDrawable(Color.WHITE) );
         popWindow = new PayPopWindow(this,background);
         popWindow.showAsDropDown(background);
-        popWindow.setOnFinishInput(new OnPasswordInputFinish() {
+
+        popWindow.setOnPasswordInputFinish(new OnPasswordInput() {
             @Override
             public void inputFinish() {
                 popWindow.onDismiss();
+            }
+
+            @Override
+            public void inputCancel() {
+
+            }
+
+            @Override
+            public void forgetPsd() {
 
             }
         });

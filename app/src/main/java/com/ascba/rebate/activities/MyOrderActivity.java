@@ -54,6 +54,12 @@ public class MyOrderActivity extends BaseNetActivity {
         context.startActivity(intent);
     }
 
+    public static void startIntent(Context context, int index) {
+        Intent intent = new Intent(context, MyOrderActivity.class);
+        intent.putExtra("index", index);
+        context.startActivity(intent);
+    }
+
     private void getIndex() {
         Intent intent = getIntent();
         if (intent != null) {
@@ -118,11 +124,13 @@ public class MyOrderActivity extends BaseNetActivity {
 
 
         //添加页卡标题
-        mTitleList.add(new Bean("全部", orderMsg[0]));
-        mTitleList.add(new Bean("待付款", orderMsg[1]));
-        mTitleList.add(new Bean("待发货", orderMsg[2]));
-        mTitleList.add(new Bean("待收货", orderMsg[3]));
-        mTitleList.add(new Bean("待评价", orderMsg[4]));
+        if (mTitleList != null && mTitleList.size() > 0) {
+            mTitleList.add(new Bean("全部", orderMsg[0]));
+            mTitleList.add(new Bean("待付款", orderMsg[1]));
+            mTitleList.add(new Bean("待发货", orderMsg[2]));
+            mTitleList.add(new Bean("待收货", orderMsg[3]));
+            mTitleList.add(new Bean("待评价", orderMsg[4]));
+        }
 
         String[] title = new String[]{"全部", "待付款", "待发货", "待收货", "待评价"};
         slidingtablayout.setViewPager(mViewPager, title);
