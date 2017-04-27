@@ -1289,9 +1289,13 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {
             getDm().buildAlertDialog(message);
-            sd.dismiss();
+            if (sd!=null){
+                sd.dismiss();
+            }
         } else if (finalScene == 3) {
-            sd.dismiss();
+            if (sd!=null){
+                sd.dismiss();
+            }
             Intent intent = new Intent(this, ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);

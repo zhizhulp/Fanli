@@ -325,15 +325,26 @@ public class ShopMainFragment extends BaseNetFragment implements
             }
         } else if (finalScene == 1) {//添加到购物车成功
             getDm().buildAlertDialog(message);
-            sd.dismiss();
-            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + (has_spec ? nb.getNumber() : 1));
+
+            if (sd != null) {
+                sd.dismiss();
+            }
+
+            if (nb != null) {
+                shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + (has_spec ? nb.getNumber() : 1));
+            } else {
+                shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + 1);
+            }
+
         } else if (finalScene == 2) {//规格数据
             LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
             showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array));
         } else if (finalScene == 3) {//立即购买 成功
-            sd.dismiss();
+            if (sd != null) {
+                sd.dismiss();
+            }
             Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
