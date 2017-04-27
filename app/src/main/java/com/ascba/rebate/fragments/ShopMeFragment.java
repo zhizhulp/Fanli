@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -24,7 +26,6 @@ import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MsgView;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -37,19 +38,17 @@ import java.util.List;
 /**
  * 商城设置
  */
-public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener,
+public class ShopMeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener,
         BaseNetFragment.Callback {
     private Context context;
     private RecyclerView pc_RecyclerView;
     private PCMultipleItemAdapter pcMultipleItemAdapter;
     private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
-    private SuperSwipeRefreshLayout refreshLat;
     private int[] orderMsg;
     private View headView;
     private View headViewLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
     private MsgView msgView;
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -70,6 +69,7 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
             headView.setBackgroundColor(Color.argb(0, 255, 255, 255));
             headViewLine.setAlpha(0);
             getMeData();
+            Log.d("ShopMeFragment", "lazyLoad");
         }
     }
 
@@ -167,8 +167,8 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
             }
         });
 
-        refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
 
         /**
          * 滑动标题栏渐变
@@ -197,26 +197,13 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
         getMeData();
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-        if (distance > 0) {
-            headView.setVisibility(View.INVISIBLE);
-        } else {
-            headView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         JSONObject jsonObject = dataObj.optJSONObject("my_page_info");
         initDat(jsonObject);
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
     }
 
@@ -324,8 +311,8 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
 
     @Override
     public void handleReqFailed() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
     }
 
@@ -336,17 +323,16 @@ public class ShopMeFragment extends LazyBaseFragment implements SuperSwipeRefres
 
     @Override
     public void handleReLogin() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
     }
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
-        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
 }

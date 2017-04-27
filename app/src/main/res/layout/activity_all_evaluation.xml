@@ -74,8 +74,8 @@
         android:id="@+id/all_evaluation_bottom"
         layout="@layout/activity_goods_details_shopping" />
 
-    <com.ascba.rebate.view.SuperSwipeRefreshLayout
-        android:id="@+id/all_evaluation_refresh_layout"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/all_evaluation_bottom"
@@ -85,6 +85,6 @@
             android:id="@+id/all_evaluation_recylerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

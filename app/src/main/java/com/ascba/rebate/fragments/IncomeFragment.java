@@ -3,6 +3,7 @@ package com.ascba.rebate.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.InOutComeAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +23,9 @@ import java.util.List;
  * 交易记录——收入
  */
 
-public class IncomeFragment extends BaseNetFragment {
+public class IncomeFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private Context context;
-    private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private List<CashAccount> beanList = new ArrayList<>();
 
@@ -43,7 +42,9 @@ public class IncomeFragment extends BaseNetFragment {
     }
 
     private void InitView(View view) {
-        refreshLayout = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        //刷新
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
 
         initData();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
@@ -66,5 +67,10 @@ public class IncomeFragment extends BaseNetFragment {
         beanList.add(new CashAccount("昨天", "21:41", "-456.12", "老家肉饼-消费", null, R.mipmap.cash_cost));
 
         beanList.add(new CashAccount("前天", "21:41", "+456.12", "推荐会员-佣金", null, R.mipmap.cash_employee));
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }

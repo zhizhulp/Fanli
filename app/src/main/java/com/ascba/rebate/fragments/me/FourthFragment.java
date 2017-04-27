@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,6 @@ import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.RoundImageView;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -63,7 +63,6 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
     private TextView tvBanks;
     private TextView tvTicket;
     private LinearLayout imgsContainer;
-    private SuperSwipeRefreshLayout refreshLayout;
     private int finalScene;
     private TextView tvRedScore;
     private TextView tvRecNum;
@@ -137,6 +136,19 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
         View houseView = view.findViewById(R.id.qlqw_house);
         houseView.setOnClickListener(this);
 
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+                if (!netAva) {
+                    getDm().buildAlertDialog("请打开网络！");
+                    refreshLayout.setRefreshing(false);
+                    return;
+                }
+                requestMyData(0);
+            }
+        });
     }
 
     private void requestMyData(final int scene) {
@@ -171,33 +183,6 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
         tvRecNum = ((TextView) view.findViewById(R.id.rec_num));
         tvBusiStatus = ((TextView) view.findViewById(R.id.tv_busi_status));
         initRefreshLayout(view);
-
-    }
-
-    private void initRefreshLayout(View view) {
-        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.four_superlayout));
-        refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
-            @Override
-            public void onRefresh() {
-                boolean netAva = NetUtils.isNetworkAvailable(getActivity());
-                if(!netAva){
-                    getDm().buildAlertDialog("请打开网络！");
-                    refreshLayout.setRefreshing(false);
-                    return;
-                }
-                requestMyData(0);
-            }
-
-            @Override
-            public void onPullDistance(int distance) {
-
-            }
-
-            @Override
-            public void onPullEnable(boolean enable) {
-
-            }
-        });
 
     }
 
@@ -476,14 +461,14 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
                 Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
-                startActivityForResult(intent,REQUEST_CASH_GET);
+                startActivityForResult(intent, REQUEST_CASH_GET);
             }
         }
     }
 
     @Override
     public void handleReqFailed() {
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
     }

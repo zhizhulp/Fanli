@@ -3,20 +3,23 @@ package com.ascba.rebate.fragments.award;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.adapter.AwardAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,11 +28,9 @@ import java.util.List;
  * 一级奖励
  */
 public class FirstAwardFragment extends BaseAwardFragment implements BaseNetFragment.Callback ,
-        SuperSwipeRefreshLayout.OnPullRefreshListener{
-
+        SwipeRefreshLayout.OnRefreshListener{
 
     private RecyclerView rvFirst;
-    private SuperSwipeRefreshLayout refreshLatFirst;
     private AwardAdapter adapterFirst;
     private List<FirstRec> dataFirst;
     private View emptyView;
@@ -47,6 +48,7 @@ public class FirstAwardFragment extends BaseAwardFragment implements BaseNetFrag
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initRefreshLayout(view);
         initViews();
         requestData(UrlUtils.getMyReferee);
     }
@@ -59,8 +61,7 @@ public class FirstAwardFragment extends BaseAwardFragment implements BaseNetFrag
 
     private void initViews() {
         rvFirst = getRv();
-        refreshLatFirst = getRefreshLat();
-        refreshLatFirst.setOnPullRefreshListener(this);
+        refreshLayout.setOnRefreshListener(this);
         adapterFirst = getAdapter();
         dataFirst = getData();
         emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_award_view,null);
@@ -72,7 +73,7 @@ public class FirstAwardFragment extends BaseAwardFragment implements BaseNetFrag
         if(dataFirst.size()!=0){
             dataFirst.clear();
         }
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         JSONObject recObj = dataObj.optJSONObject("getCashingMoney");
         String cashing_money = recObj.optString("cashing_money");
         int p_referee_count = recObj.optInt("p_referee_count");//一级人数
@@ -100,25 +101,24 @@ public class FirstAwardFragment extends BaseAwardFragment implements BaseNetFrag
 
     @Override
     public void handleReqFailed() {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         getDm().buildAlertDialog(message);
     }
 
 
     @Override
     public void handleReLogin() {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLatFirst.setRefreshing(false);
-        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -126,13 +126,4 @@ public class FirstAwardFragment extends BaseAwardFragment implements BaseNetFrag
         requestData(UrlUtils.getMyReferee);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 }

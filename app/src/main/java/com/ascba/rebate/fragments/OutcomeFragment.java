@@ -12,7 +12,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.InOutComeAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,6 @@ import java.util.List;
 
 public class OutcomeFragment extends BaseNetFragment {
     private Context context;
-    private SuperSwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private List<CashAccount> beanList = new ArrayList<>();
 
@@ -40,7 +39,6 @@ public class OutcomeFragment extends BaseNetFragment {
     }
 
     private void InitView(View view) {
-        refreshLayout = (SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

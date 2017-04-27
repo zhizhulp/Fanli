@@ -3,6 +3,7 @@ package com.ascba.rebate.activities.base;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -14,7 +15,23 @@ import com.ascba.rebate.R;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private PermissionCallback requestPermissionAndBack;
+    protected PermissionCallback requestPermissionAndBack;
+    protected SwipeRefreshLayout refreshLayout;
+
+    protected void initRefreshLayout(){
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        //改变加载显示的颜色
+        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+//        //设置背景颜色
+//        refreshLayout.setBackgroundColor(Color.YELLOW);
+//        //设置初始时的大小
+//        refreshLayout.setSize(SwipeRefreshLayout.LARGE);
+//        //设置向下拉多少出现刷新
+//        refreshLayout.setDistanceToTriggerSync(100);
+//        //设置刷新出现的位置
+//        refreshLayout.setProgressViewEndTarget(false, 200);
+    }
 
     protected void showToast(String content) {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show();

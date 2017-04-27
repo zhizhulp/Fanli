@@ -1,14 +1,19 @@
 package com.ascba.rebate.activities.main_page.sweep;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.handlers.OnPasswordInputFinish;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PayPopWindow;
@@ -66,7 +71,7 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
         objRequest.add("scenetype",2);
         executeNetWork(objRequest,"请稍后");
         setCallback(PayActivity.this);
-        /*View view = getWindow().peekDecorView();
+        View view = getWindow().peekDecorView();
         if (view != null) {
             InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -80,9 +85,8 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
             public void inputFinish() {
                 popWindow.onDismiss();
 
-
             }
-        });*/
+        });
     }
 
     public void getIntentFromBefore() {

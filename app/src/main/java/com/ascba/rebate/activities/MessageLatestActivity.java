@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,7 +19,6 @@ import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -40,14 +40,14 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  * 消息-最新公告
  */
 
-public class MessageLatestActivity extends BaseNetActivity implements BaseNetActivity.Callback, SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class MessageLatestActivity extends BaseNetActivity implements BaseNetActivity.Callback,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private ShopABarText shopBar;
     private Context context;
     private RecyclerView recyclerView;
     private List<NewsBean> beanList = new ArrayList<>();
     private MessageLatestAdapter adapter;
-    private SuperSwipeRefreshLayout refreshLayout;
     private int nowPage = 1, totalPage;
 
     private static final int LOAD_MORE_END = 0;
@@ -112,8 +112,8 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
             }
         });
 
-        refreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        refreshLayout.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -211,8 +211,8 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
     public void handleNoNetWork() {
         refreshLayout.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
-        getDm().buildAlertDialog(getResources().getString(R.string.no_network));
     }
+
 
     @Override
     public void onRefresh() {
@@ -226,15 +226,6 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
         requstData();
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     private void getPageCount(JSONObject dataObj) {
         totalPage = dataObj.optInt("total_page");

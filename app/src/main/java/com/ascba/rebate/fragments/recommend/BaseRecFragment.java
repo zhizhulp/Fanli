@@ -3,21 +3,24 @@ package com.ascba.rebate.fragments.recommend;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.TuiGAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,13 +30,12 @@ import java.util.List;
  * 一级推荐碎片
  */
 public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.Callback
-        , SuperSwipeRefreshLayout.OnPullRefreshListener {
+        , SwipeRefreshLayout.OnRefreshListener{
 
 
     private RecyclerView recListView;
     private TuiGAdapter tGaAdapter;
     private List<FirstRec> data = new ArrayList<>();
-    private SuperSwipeRefreshLayout refreshLayout;
     private int classes;
     private View emptyView;
 
@@ -65,9 +67,8 @@ public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
-        refreshLayout.setOnPullRefreshListener(this);
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
 
         recListView = ((RecyclerView) view.findViewById(R.id.recommend_list));
         recListView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -152,16 +153,6 @@ public class BaseRecFragment extends BaseNetFragment implements BaseNetFragment.
         } else {
             requestNetData(0, UrlUtils.getSearchPpspread);
         }
-
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 }

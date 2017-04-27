@@ -3,11 +3,13 @@ package com.ascba.rebate.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ReceiveAddressAdapter;
@@ -16,13 +18,14 @@ import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +34,8 @@ import java.util.List;
  * 售货地址管理
  */
 
-public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener {
+public class ReceiveAddressActivity extends BaseNetActivity implements
+        SwipeRefreshLayout.OnRefreshListener {
 
     private ShopABar shopABar;
     private RecyclerView recyclerView;
@@ -39,7 +43,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
     private List<ReceiveAddressBean> beanList = new ArrayList<>();
     private Context context;
     private ReceiveAddressAdapter myAdapter;
-    private SuperSwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +74,8 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
             }
         });
 
-        refreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        refreshLayout.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
 
         /**
          * 新增收货地址
@@ -125,16 +128,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
         getData();
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
-
 
     /**
      * 获取收货地址数据
@@ -185,7 +178,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements SuperSwip
 
             @Override
             public void handleNoNetWork() {
-                getDm().buildAlertDialog("请检查网络！");
                 refreshLayout.setRefreshing(false);
             }
         });

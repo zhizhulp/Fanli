@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public abstract class BaseActivityNet extends BaseActivity {
 
-    private DialogHome dialogManager;
+    protected DialogHome dialogManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

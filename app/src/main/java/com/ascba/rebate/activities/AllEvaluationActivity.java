@@ -2,10 +2,9 @@ package com.ascba.rebate.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -13,7 +12,6 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.AllEvaluationAdapter;
 import com.ascba.rebate.beans.EvaluationBean;
 import com.ascba.rebate.view.ShopABar;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +26,6 @@ public class AllEvaluationActivity extends BaseNetActivity {
     private ShopABar shopABar;
     private RecyclerView recyclerView;
     private Context context;
-    private SuperSwipeRefreshLayout refreshLayout;
-    private Handler handler = new Handler();
     private AllEvaluationAdapter allEvaluationAdapter;
 
     @Override
@@ -66,51 +62,10 @@ public class AllEvaluationActivity extends BaseNetActivity {
         allEvaluationAdapter = new AllEvaluationAdapter(getData(), context);
         recyclerView.setAdapter(allEvaluationAdapter);
 
-        refreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.all_evaluation_refresh_layout);
-
-        View view= LayoutInflater.from(context).inflate(R.layout.foot_view,null,false);
-        refreshLayout.setFooterView(view);
-
-        refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onPullDistance(int distance) {
-
-            }
-
-            @Override
-            public void onPullEnable(boolean enable) {
-
-            }
-        });
-
-        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setLoadMore(false);
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onPushDistance(int distance) {
-
-            }
-
-            @Override
-            public void onPushEnable(boolean enable) {
 
             }
         });

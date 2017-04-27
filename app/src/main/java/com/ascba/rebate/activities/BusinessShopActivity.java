@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +24,6 @@ import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ShopABar;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -45,13 +45,12 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  */
 
 public class BusinessShopActivity extends BaseNetActivity implements
-        SuperSwipeRefreshLayout.OnPullRefreshListener
+        SwipeRefreshLayout.OnRefreshListener
         , BaseNetActivity.Callback {
 
     private static final int LOAD_MORE_END = 1;
     private static final int LOAD_MORE_ERROR = 0;
 
-    private SuperSwipeRefreshLayout refreshLat;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -120,8 +119,8 @@ public class BusinessShopActivity extends BaseNetActivity implements
 
     private void initView() {
         //刷新
-        refreshLat = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        refreshLat.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
 
         //导航栏
         shopABar = (ShopABar) findViewById(R.id.shopbar);
@@ -176,19 +175,10 @@ public class BusinessShopActivity extends BaseNetActivity implements
         requestData(UrlUtils.getStore);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         if (adapter != null) {
             adapter.loadMoreComplete();
         }
@@ -284,9 +274,8 @@ public class BusinessShopActivity extends BaseNetActivity implements
 
     @Override
     public void handleNoNetWork() {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
-        getDm().buildAlertDialog(getResources().getString(R.string.no_network));
     }
 
     @Override

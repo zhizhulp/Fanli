@@ -3,6 +3,9 @@ package com.ascba.rebate.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +24,8 @@ import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.beans.PayType;
+import com.ascba.rebate.handlers.OnPasswordInputFinish;
+import com.ascba.rebate.view.PayPopWindow;
 import com.ascba.rebate.view.pay.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -42,7 +48,8 @@ public class PayUtils {
     private String price;//价格
     private DialogHome dialogHome;
     private onPayCallBack payCallBack;
-    private String payType;
+    private String payType = "balance";//默认值
+    private PayPopWindow popWindow;
 
     private static final int SDK_PAY_FLAG = 1;
 
@@ -181,6 +188,12 @@ public class PayUtils {
         }
     }
 
+    public void dismissDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
     private void initPayTypesData(List<PayType> types) {
         types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付", "balance"));
         types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡", "alipay"));
@@ -229,5 +242,76 @@ public class PayUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    //余额支付
+    public void requestForYuE(final JSONObject object1) {
+
+        showPassWordView(new InputPsdCallBack() {
+            @Override
+            public void onSuccess() {
+                requstYuEResult(object1);
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+    }
+
+    /**
+     * 输入密码
+     */
+    private void showPassWordView(final InputPsdCallBack psdCallBack) {
+        View view = context.getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        View background = new View(context);
+        background.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popWindow = new PayPopWindow(context, background);
+        popWindow.showAsDropDown(background);
+        popWindow.setOnFinishInput(new OnPasswordInputFinish() {
+            @Override
+            public void inputFinish() {
+                popWindow.onDismiss();
+                if (!StringUtils.isEmpty(popWindow.getStrPassword())) {
+                    Toast.makeText(context, "密码:" + popWindow.getStrPassword(), Toast.LENGTH_SHORT).show();
+                    psdCallBack.onSuccess();
+                }
+            }
+        });
+    }
+
+    public interface InputPsdCallBack {
+        void onSuccess();
+
+        void onFailed();
+
+        void onCancel();
+    }
+
+    private void requstYuEResult(JSONObject object) {
+        String url = object.optString("notify_url");//请求地址
+        JSONObject payInfoObject = object.optJSONObject("payInfo");
+        String orderId = payInfoObject.optString("out_trade_no");//订单号
+        int price = payInfoObject.optInt("total_fee");//价格
+        int receiveId = payInfoObject.optInt("member_id");//收货地址id
+        int type = payInfoObject.optInt("type");//类型：0——结算，1——我的订单\
+
+//        jsonRequest.add("out_trade_no", orderId);
+//        jsonRequest.add("total_fee", price);
+//        jsonRequest.add("member_id", receiveId);
+//        jsonRequest.add("type", type);
+
+
     }
 }

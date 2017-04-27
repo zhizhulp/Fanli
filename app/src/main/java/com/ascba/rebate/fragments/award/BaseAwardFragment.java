@@ -12,7 +12,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.AwardAdapter;
 import com.ascba.rebate.beans.FirstRec;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +21,9 @@ import java.util.List;
  */
 public class BaseAwardFragment extends BaseNetFragment {
 
-
     private RecyclerView rv;
-    private SuperSwipeRefreshLayout refreshLat;
     private List<FirstRec> data=new ArrayList<>();
     private AwardAdapter adapter;
-
-    public BaseAwardFragment() {
-        
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +35,7 @@ public class BaseAwardFragment extends BaseNetFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = ((RecyclerView) view.findViewById(R.id.award_list));
-        refreshLat = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
+
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new AwardAdapter(R.layout.rec_list_item,data);
         rv.setAdapter(adapter);
@@ -57,13 +49,6 @@ public class BaseAwardFragment extends BaseNetFragment {
         this.rv = rv;
     }
 
-    public SuperSwipeRefreshLayout getRefreshLat() {
-        return refreshLat;
-    }
-
-    public void setRefreshLat(SuperSwipeRefreshLayout refreshLat) {
-        this.refreshLat = refreshLat;
-    }
 
     public List<FirstRec> getData() {
         return data;

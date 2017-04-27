@@ -24,8 +24,8 @@ import org.json.JSONObject;
 
 public abstract class BaseFragmentNet extends BaseFragment {
 
-    private DialogHome dialogManager;
-    private NetResponseListener netResponseListener = new NetResponseListener();
+    protected DialogHome dialogManager;
+    protected NetResponseListener netResponseListener = new NetResponseListener();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

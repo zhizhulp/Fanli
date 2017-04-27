@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.me_page;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -15,7 +16,6 @@ import com.ascba.rebate.beans.UpdateTitle;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ScrollViewWithListView;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -29,14 +29,13 @@ import java.util.List;
 public class UserUpdateActivity extends BaseNetActivity implements
         AdapterView.OnItemClickListener,
         BaseNetActivity.Callback,
-        SuperSwipeRefreshLayout.OnPullRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener{
 
     private ScrollViewWithListView updateListView;
     private List<UpdateTitle> mList;
     private PowerUpdateAdapter powerUpdateAdapter;
     private List<Proxy> mProxies=new ArrayList<>();
     private int isCardId;
-    private SuperSwipeRefreshLayout swipeRefreshLayout;
     private int finalScene;
     private Proxy proxy;//被选中的组
 
@@ -68,9 +67,10 @@ public class UserUpdateActivity extends BaseNetActivity implements
         powerUpdateAdapter = new PowerUpdateAdapter(mList,this);
         updateListView.setOnItemClickListener(this);
         updateListView.setAdapter(powerUpdateAdapter);
-        swipeRefreshLayout = (SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        swipeRefreshLayout.setOnPullRefreshListener(this);
 
+        //刷新
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -90,7 +90,7 @@ public class UserUpdateActivity extends BaseNetActivity implements
     public void handle200Data(JSONObject dataObj, String message) {
         if(finalScene==1){
             mList.clear();
-            swipeRefreshLayout.setRefreshing(false);
+            refreshLayout.setRefreshing(false);
             JSONObject pJObj = dataObj.optJSONObject("pReferee");
             isCardId = dataObj.optInt("isCardId");
             Iterator<String> keys = pJObj.keys();
@@ -180,15 +180,6 @@ public class UserUpdateActivity extends BaseNetActivity implements
         requestForServer(1);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     protected void onNewIntent(Intent intent) {

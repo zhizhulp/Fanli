@@ -128,4 +128,9 @@ public class ShopMessageActivity extends BaseNetActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    protected void mhandleFailed(int what, Exception e) {
+        getDm().buildAlertDialog(getString(R.string.no_response));
+    }
 }

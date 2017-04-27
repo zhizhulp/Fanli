@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -34,9 +34,8 @@ import java.util.List;
  * 待发货订单详情
  */
 
-public class DeliverDetailsActivity extends BaseNetActivity implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
+public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
 
-    private SuperSwipeRefreshLayout refreshLat;
     private List<Goods> goodsList = new ArrayList<>();
     private Context context;
     private ShopABarText shopABarText;
@@ -64,8 +63,8 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SuperSwip
 
     private void initView() {
         //刷新
-        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
 
         //导航栏
         shopABarText = (ShopABarText) findViewById(R.id.shopbar);
@@ -133,15 +132,6 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SuperSwip
         requstData(UrlUtils.viewOrder, 0);
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
@@ -150,8 +140,8 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SuperSwip
                 /*
                 获取订单数据
                 */
-                if (refreshLat.isRefreshing()) {
-                    refreshLat.setRefreshing(false);
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.setRefreshing(false);
                 }
 
                 //收货地址
@@ -168,33 +158,33 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SuperSwip
 
     @Override
     public void handle404(String message) {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
         getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLat.isRefreshing()) {
-            refreshLat.setRefreshing(false);
+        if (refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(false);
         }
-        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
+
     /*
-       收货地址
-       "id":"23",
-       "member_id":"681",
-       "reciver_name":"波波",
-       "province":"1",
-       "city":"710682",
-       "District":"1106",
-       "twon":"1158",
-       "reciver_address":"北京市大兴区石榴庄钱来钱往",
-       "reciver_mobile":"18832919903",
-       "default":"1"
-    */
+           收货地址
+           "id":"23",
+           "member_id":"681",
+           "reciver_name":"波波",
+           "province":"1",
+           "city":"710682",
+           "District":"1106",
+           "twon":"1158",
+           "reciver_address":"北京市大兴区石榴庄钱来钱往",
+           "reciver_mobile":"18832919903",
+           "default":"1"
+        */
     private void getAddress(JSONObject dataObject) {
         try {
             JSONObject addressObject = dataObject.getJSONObject("order_member_address");

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,7 +35,6 @@ import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.RoundImageView;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -46,10 +46,8 @@ import org.json.JSONObject;
 /**
  * 个人中心
  */
-public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLayout.OnPullRefreshListener, View.OnClickListener, BaseNetFragment.Callback {
+public class MeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetFragment.Callback {
 
-
-    private SuperSwipeRefreshLayout refreshLayout;
     private RoundImageView userIcon;
     private LinearLayout imgsLat;
     private View viewTuiGuang;
@@ -94,8 +92,10 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
     }
 
     private void initViews(View view) {
-        refreshLayout = ((SuperSwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
-        refreshLayout.setOnPullRefreshListener(this);
+        //刷新
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
+
         //用户头像
         userIcon = ((RoundImageView) view.findViewById(R.id.me_user_img));
         userIcon.setOnClickListener(this);
@@ -145,16 +145,6 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
             refreshLayout.setRefreshing(false);
             getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
         }
-    }
-
-    @Override
-    public void onPullDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
     }
 
     @Override
@@ -340,8 +330,9 @@ public class MeFragment extends LazyBaseFragment implements SuperSwipeRefreshLay
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLayout != null && refreshLayout.isRefreshing()) {
+        if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
     }
+
 }

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,22 +24,23 @@ import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MsgView;
-import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 public class TypeMarketActivity extends BaseNetActivity implements
-        SuperSwipeRefreshLayout.OnPullRefreshListener, BaseNetActivity.Callback {
+        SwipeRefreshLayout.OnRefreshListener, BaseNetActivity.Callback {
 
     private RecyclerView rv;
-    private SuperSwipeRefreshLayout refreshLat;
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data = new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
@@ -111,8 +113,8 @@ public class TypeMarketActivity extends BaseNetActivity implements
         msgView= (MsgView) findViewById(R.id.head_img_xiaoxi);
 
         rv = ((RecyclerView) findViewById(R.id.list_market));
-        refreshLat = ((SuperSwipeRefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnPullRefreshListener(this);
+
+        refreshLayout.setOnRefreshListener(this);
 
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -222,22 +224,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     }
 
-    @Override
-    public void onPullDistance(int distance) {
-        //隐藏搜索栏
-        if (distance > 0) {
-            searchHead.setVisibility(View.GONE);
-        } else {
-            searchHead.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onPullEnable(boolean enable) {
-
-    }
-
-
     private void requestNetwork() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.category, 0, false);
         request.add("sign", UrlEncodeUtils.createSign(UrlUtils.category));
@@ -249,7 +235,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         if (adapter != null) {
             adapter.loadMoreComplete();
         }
@@ -380,10 +366,8 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     @Override
     public void handleNoNetWork() {
-
-        refreshLat.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         handler.sendEmptyMessage(LOAD_MORE_ERROR);
-        getDm().buildAlertDialog(getResources().getString(R.string.no_network));
     }
 
     private void initLoadMore() {
