@@ -152,6 +152,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
     private int indence;
     private int has_spec;//是否有规格
+    private int operation;//1——加入购物车，2——立即购买
     private String attention = "请先选择商品";
 
     private TextView txDescNum, txDesc;//描述相符
@@ -166,6 +167,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         ((MyApplication) getApplication()).addActivity(this);
         context = this;
         initView();
+
         //获取商品详情
         getGoodsId();
 
@@ -174,7 +176,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
         //足迹
         InitFotoplace();
-
     }
 
     private void initView() {
@@ -189,7 +190,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         /**
          *店铺
          */
-
         //logo
         String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
         imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
@@ -728,6 +728,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             case R.id.btn_cart:
                 //加入购物车
                 if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
+                    operation = 1;
                     selectSpecification();
                 } else {
                     Intent intent = new Intent(this, LoginActivity.class);
@@ -737,6 +738,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             case R.id.btn_buy:
                 //立即购买
                 if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
+                    operation = 2;
                     selectSpecification();
                 } else {
                     Intent intent = new Intent(this, LoginActivity.class);
@@ -1057,12 +1059,22 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         return data;
     }
 
-    /*
-    获取规格数据
+    /**
+     * 获取规格数据
      */
     private void selectSpecification() {
         if (has_spec == 0) {//无规格
-            requestNetwork(UrlUtils.cartAddGoods, 0);
+            switch (operation) {
+                case 1:
+                    //加入购物车
+                    requestNetwork(UrlUtils.cartAddGoods, 0);
+                    break;
+                case 2:
+                    //立即购买
+                    requestNetwork(UrlUtils.goodsCheckout, 1);
+                    break;
+            }
+
         } else {//有规格
             Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsSpec, 0, true);
             jsonRequest.add("goods_id", goodsId);
@@ -1190,17 +1202,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         sd.getTvPurchase().setOnClickListener(new View.OnClickListener() {//点击立即购买
             @Override
             public void onClick(View v) {
-                if (has_spec == 1) {
-                    //包含规格
-                    if (isAll) {
-                        //选择完整规格
-                        requestNetwork(UrlUtils.goodsCheckout, 3);
-                    } else {
-                        getDm().buildAlertDialog(attention);
-                    }
+                if (isAll) {
+                    requestNetwork(UrlUtils.goodsCheckout, 1);
                 } else {
-                    //不包含规格
-                    requestNetwork(UrlUtils.goodsCheckout, 3);
+                    getDm().buildAlertDialog("请先选择商品");
                 }
             }
         });
@@ -1274,8 +1279,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             request.add("goods_id", has_spec == 0 ? goods.getTitleId() : goodsSelect.getTitleId());
             request.add("goods_num", has_spec == 0 ? 1 : nb.getNumber());
             request.add("goods_spec_id", has_spec == 0 ? null : goodsSelect.getCartId());
-        } else if (scene == 3) {
-            //立即购买
+        } else if (scene == 1) {//结算
             request.add("goods_id", has_spec == 0 ? goods.getTitleId() : goodsSelect.getTitleId());
             request.add("goods_num", has_spec == 0 ? 1 : nb.getNumber());
             request.add("goods_spec_id", has_spec == 0 ? null : goodsSelect.getCartId());
@@ -1289,13 +1293,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {
             getDm().buildAlertDialog(message);
-            if (sd!=null){
-                sd.dismiss();
-            }
-        } else if (finalScene == 3) {
-            if (sd!=null){
-                sd.dismiss();
-            }
+            sd.dismiss();
+        } else if (finalScene == 1) {
             Intent intent = new Intent(this, ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
