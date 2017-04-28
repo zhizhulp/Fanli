@@ -60,10 +60,6 @@ public class CartFragment extends LazyBaseFragment implements
     private ShopTabs shopTabs;
     private int allGoodsNum;//购物车所有商品数量
 
-    public CartFragment() {
-    }
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
