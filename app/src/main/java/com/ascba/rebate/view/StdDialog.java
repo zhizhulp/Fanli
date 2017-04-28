@@ -98,18 +98,6 @@ public class StdDialog extends Dialog {
         View view1 = LayoutInflater.from(context).inflate(R.layout.num_btn_layout, null);
         nb = (NumberButton) view1.findViewById(R.id.num_btn);
         nb.setCurrentNumber(1);//默认数量为1
-        /*nb.getAddButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nb.setCurrentNumber(nb.getNumber() + 1);
-            }
-        });
-        nb.getSubButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nb.setCurrentNumber(nb.getNumber() - 1);
-            }
-        });*/
 
         nb.setOnWarnListener(new NumberButton.OnWarnListener() {
             @Override
