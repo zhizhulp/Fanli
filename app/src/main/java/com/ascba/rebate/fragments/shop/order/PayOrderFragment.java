@@ -53,6 +53,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单,3——付款
     private String payType;
     private PayUtils pay;
+    private double balance;//账户余额
 
 
     @Override
@@ -113,6 +114,15 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             beanArrayList.clear();
         }
 
+        //用户信息
+        JSONObject member_info = dataObj.optJSONObject("member_info");
+        if (member_info != null) {
+            balance = member_info.optDouble("money");//余额
+            int white_score = member_info.optInt("white_score");
+            int red_score = member_info.optInt("red_score");
+        }
+
+        //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -261,7 +271,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             showToast("正在加载订单信息，请稍后");
         } else {
             //开启支付
-            pay = new PayUtils(getActivity(), price);
+            pay = new PayUtils(getActivity(), price, balance);
             pay.showDialog(new PayUtils.OnCreatOrder() {
                 @Override
                 public void onCreatOrder(String arg) {

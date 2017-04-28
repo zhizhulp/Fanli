@@ -58,6 +58,7 @@ public class CartFragment extends LazyBaseFragment implements
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
     private ShopTabs shopTabs;
+    private int allGoodsNum;//购物车所有商品数量
 
     public CartFragment() {
     }
@@ -201,7 +202,10 @@ public class CartFragment extends LazyBaseFragment implements
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {//购物车数据
 
+            allGoodsNum = 0;
             getData(dataObj);
+            shopTabs.setThreeNoty(allGoodsNum);
+
             if (adapter == null) {
                 adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
                 /**
@@ -283,6 +287,7 @@ public class CartFragment extends LazyBaseFragment implements
                         goods.setGoodsTitle(goods_name);
                         goods.setGoodsPrice(goods_price);
                         goods.setUserQuy(Integer.parseInt(goods_num));
+                        allGoodsNum = allGoodsNum + Integer.parseInt(goods_num);
                         goods.setImgUrl(goods_img);
                         goods.setGoodsStandard(spec_names);
                         goods.setCartId(cart_id);
@@ -389,9 +394,6 @@ public class CartFragment extends LazyBaseFragment implements
             }
             tvCost.setText("￥" + totalCost);
             tvCostNum.setText("结算(" + totalCount + ")");
-            shopTabs.setThreeNoty(totalCount);
-        } else {
-            shopTabs.setThreeNoty(0);
         }
     }
 
@@ -428,16 +430,16 @@ public class CartFragment extends LazyBaseFragment implements
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < data.size(); i++) {
             CartGoods cg = data.get(i);
-            if(!cg.isHeader){
-                if(cg.isCheck()){
+            if (!cg.isHeader) {
+                if (cg.isCheck()) {
                     sb.append(cg.t.getCartId());
                     sb.append(",");
                 }
             }
         }
         String ids = sb.toString();
-        if(ids.endsWith(",")){
-            ids= ids.substring(0,ids.length()-1);
+        if (ids.endsWith(",")) {
+            ids = ids.substring(0, ids.length() - 1);
         }
         return ids;
         /*if (cgSelect == null) {

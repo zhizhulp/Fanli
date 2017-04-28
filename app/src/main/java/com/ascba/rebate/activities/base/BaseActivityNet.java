@@ -1,14 +1,15 @@
 package com.ascba.rebate.activities.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
-import com.ascba.rebate.utils.DialogHome;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.CacheMode;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 public abstract class BaseActivityNet extends BaseActivity {
 
     protected DialogHome dialogManager;
+    protected ProgressDialog dialogProgress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +35,21 @@ public abstract class BaseActivityNet extends BaseActivity {
             dialogManager = new DialogHome(this);
         }
     }
+
+    //创建进度对话框
+    public void buildWaitDialog(String message) {
+        if (dialogProgress == null) {
+            dialogProgress = new ProgressDialog(this, R.style.dialog);
+            dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
+            dialogProgress.setCancelable(true);//返还键可取消
+        }
+        if (dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+        dialogProgress.setMessage(message);
+        dialogProgress.show();
+    }
+
 
     //数据请求成功
     protected abstract void requstSuccess(int what, JSONObject object);
@@ -82,7 +99,7 @@ public abstract class BaseActivityNet extends BaseActivity {
             return;
         }
         MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
-        dialogManager.buildWaitDialog(message);
+        buildWaitDialog(message);
     }
 
     //执行网络请求
@@ -94,7 +111,7 @@ public abstract class BaseActivityNet extends BaseActivity {
             return;
         }
         MyApplication.getRequestQueue().add(0, jsonRequest, new NetResponseListener());
-        dialogManager.buildWaitDialog(message);
+        buildWaitDialog(message);
     }
 
 
@@ -106,6 +123,9 @@ public abstract class BaseActivityNet extends BaseActivity {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
+            if (dialogProgress != null && dialogProgress.isShowing()) {
+                dialogProgress.dismiss();
+            }
             dialogManager.dismissDialog();
             requstSuccess(what, response.get());
 
@@ -113,12 +133,18 @@ public abstract class BaseActivityNet extends BaseActivity {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
+            if (dialogProgress != null && dialogProgress.isShowing()) {
+                dialogProgress.dismiss();
+            }
             dialogManager.buildAlertDialog(getString(R.string.no_response));
             requstFailed(what, response.getException());
         }
 
         @Override
         public void onFinish(int what) {
+            if (dialogProgress != null && dialogProgress.isShowing()) {
+                dialogProgress.dismiss();
+            }
             requstFinish(what);
         }
     }
@@ -144,6 +170,9 @@ public abstract class BaseActivityNet extends BaseActivity {
         super.onDestroy();
         cancelNetWork();
         dialogManager.dismissDialog();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
     }
 
     /**

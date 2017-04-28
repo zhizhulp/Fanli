@@ -65,7 +65,6 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     @Override
     protected void requstFailed(int what, Exception e) {
         mhandleFailed(what, e);
-
     }
 
     @Override
@@ -136,5 +135,12 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     }
 
     protected void mhandleHasNetWord(boolean isNetWork) {
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelNetWork();
+        getDm().dismissDialog();
     }
 }

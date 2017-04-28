@@ -237,7 +237,8 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
             public void handle200Data(JSONObject dataObj, String message) {
                 Intent intent = new Intent();
                 setResult(2, intent);
-                getDm().buildAlertDialog("保存成功");
+                showToast("保存成功");
+                finish();
             }
 
             @Override

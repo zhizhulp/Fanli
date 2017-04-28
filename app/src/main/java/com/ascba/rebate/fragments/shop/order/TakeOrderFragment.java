@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
@@ -34,7 +33,7 @@ import java.util.List;
  * 待收货订单
  */
 
-public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragment.CallbackWhat{
+public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragment.CallbackWhat {
 
     private static final int NET_LIST = 1;//列表数据请求what
     private static final int NET_RECEIVE_GOODS = 2;//点击收货接口请求what
@@ -76,21 +75,21 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
     /*
      获取数据
    */
-    private void requstData(String url,int what) {
+    private void requstData(String url, int what) {
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
-        if(what==NET_LIST){
+        if (what == NET_LIST) {
             jsonRequest.add("status", "wait_take");
-        }else if(what==NET_RECEIVE_GOODS){
+        } else if (what == NET_RECEIVE_GOODS) {
             jsonRequest.add("order_goods_id", orderGoodsId);
         }
 
-        executeNetWork(what,jsonRequest, "请稍后");
+        executeNetWork(what, jsonRequest, "请稍后");
         setCallbackWhat(this);
     }
 
     @Override
     public void handle200Data(int what, JSONObject dataObj, String message) {
-        switch (what){
+        switch (what) {
             case NET_LIST:
                 initData(dataObj);
                 if (adapter == null) {
@@ -100,7 +99,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                 }
                 break;
             case NET_RECEIVE_GOODS:
-                requstData(UrlUtils.getOrderList,NET_LIST);
+                requstData(UrlUtils.getOrderList, NET_LIST);
                 break;
         }
 
@@ -121,7 +120,6 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
     /*
@@ -211,13 +209,13 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderBean orderBean = beanArrayList.get(position);
-                String orderId = orderBean.getId();
+                orderGoodsId = orderBean.getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        if (orderId != null) {
+                        if (orderGoodsId != null) {
                             Intent intent = new Intent(context, TakeDetailsActivity.class);
-                            intent.putExtra("order_id", orderId);
+                            intent.putExtra("order_id", orderGoodsId);
                             startActivityForResult(intent, 1);
                         }
                         break;
@@ -225,13 +223,20 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         //退款
                         break;
                     case R.id.item_goods_order_total_take:
-                        requstData(UrlUtils.orderReceive, NET_RECEIVE_GOODS);
-                        orderGoodsId = orderBean.getId();
                         //确认收货
+                        requstData(UrlUtils.orderReceive, NET_RECEIVE_GOODS);
                         break;
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            requstData(UrlUtils.getOrderList, NET_LIST);
+        }
     }
 
 }

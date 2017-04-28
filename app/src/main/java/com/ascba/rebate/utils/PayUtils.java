@@ -61,6 +61,7 @@ public class PayUtils {
     private onPayCallBack payCallBack;
     private String payType = "balance";//默认值
     private PayPopWindow popWindow;
+    private double balance;//账户余额
 
     private static final int SDK_PAY_FLAG = 1;
 
@@ -122,9 +123,10 @@ public class PayUtils {
 
     };
 
-    public PayUtils(Activity activity, String price) {
+    public PayUtils(Activity activity, String price, double balance) {
         this.context = activity;
         this.price = price;
+        this.balance = balance;
         dialogHome = new DialogHome(context);
     }
 
@@ -206,7 +208,7 @@ public class PayUtils {
     }
 
     private void initPayTypesData(List<PayType> types) {
-        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付", "balance"));
+        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付 账户余额￥" + balance, "balance"));
         types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡", "alipay"));
         types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡", "wxpay"));
     }
@@ -279,8 +281,6 @@ public class PayUtils {
                 //余额支付
                 if (payCallBack != null) {
                     payCallBack.onCancel(payType, "支付取消");
-                    dialogHome.buildAlertDialog("您已经取消支付");
-                    payCallBack.onFinish(payType);
                 }
             }
         });
