@@ -147,11 +147,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
 
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //取消登陆

@@ -401,7 +401,16 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
             if ("balance".equals(payType)) {
                 //余额支付
                 pay.dismissDialog();
-                pay.requestForYuE(object1);
+                if (object.optJSONArray("data") != null && object.optJSONArray("data").length() > 0) {
+                    pay.requestForYuE(object1);
+                } else {
+                    //余额不足
+                    String message = object.optString("msg");
+                    showToast(message);
+                    //跳转待付款列表
+                    MyOrderActivity.startIntent(context, 1);
+                    finish();
+                }
 
             } else if ("alipay".equals(payType)) {
                 String payInfo = object1.optString("payInfo");

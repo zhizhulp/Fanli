@@ -384,7 +384,16 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
             if ("balance".equals(payType)) {
                 //余额支付
                 pay.dismissDialog();
-                pay.requestForYuE(object1);
+                if (object.optJSONArray("data") != null && object.optJSONArray("data").length() > 0) {
+                    pay.requestForYuE(object1);
+                } else {
+                    //余额不足
+                    String message = object.optString("msg");
+                    showToast(message);
+                    //跳转待付款列表
+                    MyOrderActivity.startIntent(context, 1);
+                    finish();
+                }
 
             } else if ("alipay".equals(payType)) {
                 String payInfo = object1.optString("payInfo");
@@ -420,14 +429,14 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
             public void onSuccess(String payStype, String resultStatus) {
                 showToast("成功支付");
                 //跳转待付款列表
-                MyOrderActivity.startIntent(context,2);
+                MyOrderActivity.startIntent(context, 2);
             }
 
             @Override
             public void onCancel(String payStype, String resultStatus) {
                 showToast("取消支付");
                 //跳转待付款列表
-                MyOrderActivity.startIntent(context,1);
+                MyOrderActivity.startIntent(context, 1);
             }
 
             @Override
