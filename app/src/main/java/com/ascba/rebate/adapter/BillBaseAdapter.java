@@ -16,10 +16,10 @@ import java.util.List;
  * 白积分账单适配器
  */
 
-public class BillAdapter extends BaseMultiItemQuickAdapter<CashAccount, BaseViewHolder> {
+public class BillBaseAdapter extends BaseMultiItemQuickAdapter<CashAccount, BaseViewHolder> {
     private Context context;
 
-    public BillAdapter(List<CashAccount> data, Context context) {
+    public BillBaseAdapter(List<CashAccount> data, Context context) {
         super(data);
         this.context = context;
         addItemType(0, R.layout.white_bill_head);

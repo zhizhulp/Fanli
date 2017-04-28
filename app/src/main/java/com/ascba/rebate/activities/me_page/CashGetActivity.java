@@ -15,7 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.TransactionRecordsActivity;
+import com.ascba.rebate.activities.CashGetBillActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.cash_get_child.CashGetSuccActivity;
@@ -259,7 +259,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override
@@ -283,10 +283,9 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
 
     @Override
     public void clickComplete(View tv) {
-//        Intent intent=new Intent(this,AllAccountActivity.class);
-//        intent.putExtra("order",1);
-//        startActivity(intent);
-        TransactionRecordsActivity.startIntent(this);
+
+        //TransactionRecordsActivity.startIntent(this);
+        startActivity(new Intent(this, CashGetBillActivity.class));
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.RechargeBillActivity;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
@@ -102,7 +103,8 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
 
             @Override
             public void clickComplete(View tv) {
-                TransactionRecordsActivity.startIntent(AccountRechargeActivity.this);
+                //TransactionRecordsActivity.startIntent(AccountRechargeActivity.this);
+                startActivity(new Intent(AccountRechargeActivity.this, RechargeBillActivity.class));
             }
         });
 

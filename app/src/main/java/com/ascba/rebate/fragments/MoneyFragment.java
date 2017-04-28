@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.TextView;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.CostBillActivity;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
@@ -147,8 +148,9 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
             case R.id.me_lat_fyzh://返佣账户
                 /*Intent intent4=new Intent(getActivity(), CommissionActivity.class);
                 startActivity(intent4);*/
-                Intent intent6=new Intent(getActivity(),TransactionRecordsActivity.class);
-                startActivity(intent6);
+                /*Intent intent6=new Intent(getActivity(),TransactionRecordsActivity.class);
+                startActivity(intent6);*/
+                startActivity(new Intent(getActivity(), CostBillActivity.class));
                 break;
             case R.id.me_lat_chongzhi:
                 Intent intent2 = new Intent(getActivity(), AccountRechargeActivity.class);

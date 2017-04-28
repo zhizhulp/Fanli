@@ -59,6 +59,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
     private String dateTime;
     private int now_page = 1;
     private int total_page;
+    private int type;//账单类型
     private CustomLoadMoreView loadMoreView;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -93,15 +94,25 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
         Intent intent = getIntent();
         if(intent!=null){
             dateTime = intent.getStringExtra("date_time");
-            requestNetwork(UrlUtils.dateFindScore,0);
+            type = intent.getIntExtra("type", 0);
+            if(type==0){
+                requestNetwork(UrlUtils.dateFindScore);
+            }else if(type==1){
+                requestNetwork(UrlUtils.dateMoneyRecharge);
+            }else if(type==2){
+                requestNetwork(UrlUtils.dateMonthlyLog);
+            }else if(type==3){
+                requestNetwork(UrlUtils.dateMoneyTillLog);
+            }
+
         }
     }
 
-    private void requestNetwork(String url,int what) {
+    private void requestNetwork(String url) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         request.add("now_page",now_page);
         request.add("date_time",dateTime);
-        executeNetWork(what,request,"请稍后");
+        executeNetWork(type,request,"请稍后");
     }
 
     private void initViews() {
@@ -141,7 +152,16 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                 if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.dateFindScore,0);
+                    if(type==0){
+                        requestNetwork(UrlUtils.dateFindScore);
+                    }else if(type==1){
+                        requestNetwork(UrlUtils.dateMoneyRecharge);
+                    }else if(type==2){
+                        requestNetwork(UrlUtils.dateMonthlyLog);
+                    }else if(type==3){
+                        requestNetwork(UrlUtils.dateMoneyTillLog);
+                    }
+
                 }
             }
         });
@@ -176,7 +196,14 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                         }
                         now_page=1;
                         total_page=0;
-                        requestNetwork(UrlUtils.dateFindScore,0);
+                        if(type==0){
+                            requestNetwork(UrlUtils.dateFindScore);
+                        }else if(type==1){
+                            requestNetwork(UrlUtils.dateMoneyRecharge);
+                        }else if(type==2){
+                            requestNetwork(UrlUtils.dateMonthlyLog);
+                        }
+
                     }
                 },
                 dateAndTime.get(Calendar.YEAR),
@@ -225,28 +252,22 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
         }
         now_page=1;
         total_page=0;
-        requestNetwork(UrlUtils.dateFindScore,0);
+        if(type==0){
+            requestNetwork(UrlUtils.dateFindScore);
+        }else if(type==1){
+            requestNetwork(UrlUtils.dateMoneyRecharge);
+        }else if(type==2){
+            requestNetwork(UrlUtils.dateMonthlyLog);
+        }else if(type==3){
+            requestNetwork(UrlUtils.dateMoneyTillLog);
+        }
+
     }
 
-    @Override
-    public void back(View v) {
-        finish();
-    }
-
-    @Override
-    public void clkBtn(View v) {
-
-    }
 
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
-            refreshLayout.setRefreshing(false);
-            if (adapter != null) {
-                adapter.loadMoreComplete();
-            }
-            if (adapter != null) {
-                loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-            }
+            stopRefreshAndLoadMore();
             JSONObject obj = dataObj.optJSONObject("scoreList");
             tvTime.setText(obj.optString("datetime"));
             tvMoney.setText("￥"+obj.optString("sum_score"));
@@ -265,17 +286,102 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                 }
                 adapter.notifyDataSetChanged();
             }
+        }else if(what==1){
+            stopRefreshAndLoadMore();
+            JSONObject obj = dataObj.optJSONObject("moneyList");
+            tvTime.setText(obj.optString("datetime"));
+            tvMoney.setText("￥"+obj.optString("sum_money"));
+            total_page = obj.optInt("total_page");
+            now_page++;
+            JSONArray array = obj.optJSONArray("score_data");
+            if(array!=null && array.length()!=0){
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object1 = array.optJSONObject(i);
+                    long create_time = object1.optLong("create_time");
+                    String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
+                    String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
+                    CashAccount ca = new CashAccount(day, time, object1.optString("money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
+                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    data.add(ca);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        } else if(what==2){
+            stopRefreshAndLoadMore();
+            JSONObject obj = dataObj.optJSONObject("moneyList");
+            tvTime.setText(obj.optString("datetime"));
+            tvMoney.setText("￥"+obj.optString("money"));
+            total_page = obj.optInt("total_page");
+            now_page++;
+            JSONArray array = obj.optJSONArray("score_data");
+            if(array!=null && array.length()!=0){
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object1 = array.optJSONObject(i);
+                    long create_time = object1.optLong("create_time");
+                    String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
+                    String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
+                    CashAccount ca = new CashAccount(day, time, object1.optString("money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
+                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    data.add(ca);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        } else if(what==3){
+            stopRefreshAndLoadMore();
+            JSONObject obj = dataObj.optJSONObject("moneyList");
+            tvTime.setText(obj.optString("datetime"));
+            tvMoney.setText("￥"+obj.optString("money"));
+            total_page = obj.optInt("total_page");
+            now_page++;
+            JSONArray array = obj.optJSONArray("score_data");
+            if(array!=null && array.length()!=0){
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object1 = array.optJSONObject(i);
+                    long create_time = object1.optLong("create_time");
+                    String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
+                    String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
+                    CashAccount ca = new CashAccount(day, time, object1.optString("tills_money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
+                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    data.add(ca);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private void stopRefreshAndLoadMore() {
+        refreshLayout.setRefreshing(false);
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (adapter != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
     }
 
     protected void mhandle404(int what, JSONObject object, String message) {
+        refreshLayout.setRefreshing(false);
         getDm().buildAlertDialog(message);
     }
 
-    protected void mhandleFinish(int what) {
+    protected void mhandleFailed(int what, Exception e) {
+        refreshLayout.setRefreshing(false);
+        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
-    protected void mhandleFailed(int what, Exception e) {
-        getDm().buildAlertDialog(getString(R.string.no_response));
+    @Override
+    protected void mhandleReLogin(int what) {
+        super.mhandleReLogin(what);
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void back(View v) {
+        finish();
+    }
+
+    @Override
+    public void clkBtn(View v) {
+
     }
 }

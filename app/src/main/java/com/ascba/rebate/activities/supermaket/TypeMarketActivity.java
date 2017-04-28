@@ -113,7 +113,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
         msgView= (MsgView) findViewById(R.id.head_img_xiaoxi);
 
         rv = ((RecyclerView) findViewById(R.id.list_market));
-
+        initRefreshLayout();
         refreshLayout.setOnRefreshListener(this);
 
         rv.addOnItemTouchListener(new OnItemClickListener() {
