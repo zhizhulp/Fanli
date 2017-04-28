@@ -66,15 +66,9 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
             }
         }
     };
-
-    public FirstReccFragment() {
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -147,7 +141,6 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
         now_page++;
         JSONArray array = dataObj.optJSONArray("getSearchSpread");
         if (array != null && array.length() != 0) {
-
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 FirstRec fr = new FirstRec();

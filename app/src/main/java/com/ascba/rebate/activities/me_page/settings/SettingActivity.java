@@ -19,7 +19,6 @@ public class SettingActivity extends BaseNetActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
     }
 
 

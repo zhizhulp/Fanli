@@ -65,8 +65,6 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
             isLoad = true;
         }
     }
-
-
     /**
      * 视图销毁的时候讲Fragment是否初始化的状态变为false
      */
@@ -74,7 +72,7 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
     public void onDestroyView() {
         super.onDestroyView();
         isLoad = false;
-        cancelNetWork();
+        //cancelNetWork();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
         }
@@ -84,7 +82,7 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
     public void onPause() {
         super.onPause();
         isLoad = false;
-        cancelNetWork();
+        //cancelNetWork();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
         }

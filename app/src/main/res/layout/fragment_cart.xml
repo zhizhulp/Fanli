@@ -71,7 +71,7 @@
     </RelativeLayout>
 
 
-    <android.support.v7.widget.RecyclerView
+    <com.ascba.rebate.view.BetterRecyclerView
         android:id="@+id/cart_goods_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -643,7 +643,7 @@
         <activity
             android:name=".activities.BaseBillActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.RechargeBillActivity"
             android:screenOrientation="portrait"
@@ -660,6 +660,7 @@
             android:name=".activities.SettingPayPsdAgainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity android:name=".activities.FindPayPasswordActivity"></activity>
     </application>
 
 </manifest>

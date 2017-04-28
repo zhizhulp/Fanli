@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.SettingPayPsdActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.safe_setting_child.LoginPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.safe_setting_child.PasswordProtectActivity;
@@ -16,7 +17,6 @@ public class SafeSettingActivity extends BaseNetActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_safe_setting);
-        //StatusBarUtil.setColor(this, 0xffe52020);
     }
     //修改手机号码
     public void safeSettingPhoneChange(View view) {
@@ -36,7 +36,7 @@ public class SafeSettingActivity extends BaseNetActivity {
     }
     //修改支付密码
     public void goModifyPayPassword(View view) {
-        Intent intent=new Intent(this,PasswordProtectActivity.class);
+        Intent intent=new Intent(this,SettingPayPsdActivity.class);
         intent.putExtra("type",222);
         startActivity(intent);
     }

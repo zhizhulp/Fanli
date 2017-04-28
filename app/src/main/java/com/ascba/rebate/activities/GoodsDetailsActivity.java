@@ -542,10 +542,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          * 规格选择
          */
         TextView chooseText = (TextView) findViewById(R.id.goods_details_choose_text);
-        chooseText.setText("选择 颜色尺码");
+        chooseText.setText("规格");
 
         RelativeLayout chooseRL = (RelativeLayout) findViewById(R.id.goods_details_choose_rl);
         chooseRL.setOnClickListener(this);
+        chooseRL.setVisibility(View.GONE);
 
         /**
          * 宝贝评价、好评率

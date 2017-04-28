@@ -231,7 +231,7 @@ public class ShopMainFragment extends BaseNetFragment implements
         Request<JSONObject> request = null;
         if (scene == 0) {//商品列表
             request = buildNetRequest(url, 0, false);
-            request.add("sign", UrlEncodeUtils.createSign(url));
+            //request.add("sign", UrlEncodeUtils.createSign(url));
             request.add("now_page", now_page);
         } else if (scene == 1) {//添加商品到购物车
             request = buildNetRequest(url, 0, true);
