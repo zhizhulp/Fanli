@@ -61,7 +61,7 @@ public class PayUtils {
     private onPayCallBack payCallBack;
     private String payType = "balance";//默认值
     private PayPopWindow popWindow;
-    private double balance;//账户余额
+    private String balance;//账户余额
 
     private static final int SDK_PAY_FLAG = 1;
 
@@ -117,7 +117,7 @@ public class PayUtils {
 
     };
 
-    public PayUtils(Activity activity, String price, double balance) {
+    public PayUtils(Activity activity, String price, String balance) {
         this.context = activity;
         this.price = price;
         this.balance = balance;

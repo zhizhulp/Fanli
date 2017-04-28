@@ -55,7 +55,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     private JSONObject jsonMessage = new JSONObject();//留言信息
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
     private PayUtils pay;
-    private double balance;//账户余额
+    private String balance;//账户余额
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +144,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             //用户信息
             JSONObject member_info = dataObj.optJSONObject("member_info");
-            balance = member_info.optDouble("money");//余额
+            balance = member_info.optString("money");//余额
             int white_score = member_info.optInt("white_score");
             int red_score = member_info.optInt("red_score");
 

@@ -640,16 +640,24 @@
             android:name=".activities.SettingPayPsdActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.BaseBillActivity"
+        <activity
+            android:name=".activities.BaseBillActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
-        <activity android:name=".activities.RechargeBillActivity"
+        <activity
+            android:name=".activities.RechargeBillActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.CostBillActivity"
+        <activity
+            android:name=".activities.CostBillActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.CashGetBillActivity"
+        <activity
+            android:name=".activities.CashGetBillActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SettingPayPsdAgainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
     </application>

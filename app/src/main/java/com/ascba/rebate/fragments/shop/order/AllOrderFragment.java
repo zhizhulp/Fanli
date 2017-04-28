@@ -56,7 +56,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单
     private View emptyView;
-    private double balance;//账户余额
+    private String balance;//账户余额
     private PayUtils pay;
     private String payType;
 
@@ -123,7 +123,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         //用户信息
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
-            balance = member_info.optDouble("money");//余额
+            balance = member_info.optString("money");//余额
             int white_score = member_info.optInt("white_score");
             int red_score = member_info.optInt("red_score");
         }

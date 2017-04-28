@@ -10,8 +10,7 @@
     <com.ascba.rebate.view.ShopABarText
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:abar_title="设置支付密码"></com.ascba.rebate.view.ShopABarText>
+        android:layout_height="48dp"></com.ascba.rebate.view.ShopABarText>
 
     <LinearLayout
         android:id="@+id/linear_pass"
@@ -24,10 +23,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/shape_input_area"
             android:orientation="horizontal">
 
@@ -125,17 +124,11 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="20dp"
-        android:background="@color/userview" />
 
     <RelativeLayout
         android:id="@+id/pay_rel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <!-- 输入键盘 -->
         <GridView
@@ -147,6 +140,12 @@
             android:horizontalSpacing="1px"
             android:numColumns="3"
             android:verticalSpacing="1px" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_above="@id/gv_keybord"
+            android:background="@color/userview" />
     </RelativeLayout>
 
 </LinearLayout>
