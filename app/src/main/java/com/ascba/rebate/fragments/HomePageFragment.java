@@ -139,7 +139,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
          * 刷新
          */
         initRefreshLayout(view);
-        initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -470,6 +469,11 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         stopRefresh();
     }
 
+    @Override
+    protected void mhandleFinish(int what) {
+        super.mhandleFinish(what);
+
+    }
 
     @Override
     public void handle404(String message, JSONObject dataObj) {

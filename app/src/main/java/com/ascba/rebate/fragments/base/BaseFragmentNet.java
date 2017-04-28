@@ -186,7 +186,6 @@ public abstract class BaseFragmentNet extends BaseFragment {
     public void onPause() {
         super.onPause();
         dialogManager.dismissDialog();
-        cancelNetWork();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
         }

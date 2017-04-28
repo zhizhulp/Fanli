@@ -11,6 +11,7 @@ import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.IDsUtils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 import com.yanzhenjie.nohttp.cookie.DBCookieStore;
@@ -85,6 +86,8 @@ public class MyApplication extends MultiDexApplication {
                         // 配置网络层，默认使用URLConnection，如果想用OkHttp：OkHttpNetworkExecutor。
                         .setNetworkExecutor(new OkHttpNetworkExecutor())
         );
+        Logger.setDebug(true); // 开启NoHttp调试模式。
+        Logger.setTag("NoHttpSample"); // 设置NoHttp打印Log的TAG。
     }
 
     // 添加Activity到容器中
