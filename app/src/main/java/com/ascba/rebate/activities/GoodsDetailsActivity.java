@@ -1294,11 +1294,13 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         if (finalScene == 0) {
             if (sd != null) {
                 sd.dismiss();
+                isAll=false;
             }
             getDm().buildAlertDialog(message);
         } else if (finalScene == 1) {
             if (sd != null) {
                 sd.dismiss();
+                isAll=false;
             }
             Intent intent = new Intent(this, ConfirmBuyOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());

@@ -198,4 +198,16 @@ public class UrlUtils {
 
     //日期账单查询
     public static final String dateFindScore = urlPrefix + "dateFindScore";
+    //充值账单
+    public static final String moneyRecharge = urlPrefix + "moneyRecharge";
+    //充值日期账单查询
+    public static final String dateMoneyRecharge = urlPrefix + "dateMoneyRecharge";
+    //消费账单
+    public static final String monthlyLog = urlPrefix + "monthlyLog";
+    //消费账单日期查询
+    public static final String dateMonthlyLog = urlPrefix + "dateMonthlyLog";
+    //提现账单
+    public static final String moneyTillsLog = urlPrefix + "moneyTillsLog";
+    //提现账单日期查询
+    public static final String dateMoneyTillLog = urlPrefix + "dateMoneyTillLog";
 }

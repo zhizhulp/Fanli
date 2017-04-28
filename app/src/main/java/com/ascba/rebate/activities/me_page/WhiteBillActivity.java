@@ -18,11 +18,10 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusiFlowRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.adapter.BillAdapter;
+import com.ascba.rebate.adapter.BillBaseAdapter;
 import com.ascba.rebate.beans.BillType;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.utils.TimeUtils;
@@ -32,24 +31,22 @@ import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yanzhenjie.nohttp.rest.Request;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener
         , MoneyBar.CallBack {
-    private static final int LOAD_MORE_END = 0;
-    private static final int LOAD_MORE_ERROR = 1;
+
     private RecyclerView billRV;
-    private BillAdapter billAdapter;
+    private BillBaseAdapter billAdapter;
     private List<CashAccount> billData;
     private MoneyBar mb;
     Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
@@ -58,6 +55,8 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
     private int now_page = 1;
     private int total_page;
     private CustomLoadMoreView loadMoreView;
+    private static final int LOAD_MORE_END = 0;
+    private static final int LOAD_MORE_ERROR = 1;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -141,7 +140,7 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
     private void initRecyclerView() {
         billRV = ((RecyclerView) findViewById(R.id.bill_list));
         initData();
-        billAdapter = new BillAdapter(billData, this);
+        billAdapter = new BillBaseAdapter(billData, this);
         billRV.setLayoutManager(new LinearLayoutManager(this));
         billRV.setAdapter(billAdapter);
         billAdapter.setEmptyView(getLayoutInflater().inflate(R.layout.bill_list_empty, null));
@@ -189,7 +188,6 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH));
         dateDlg.show();
-
         DatePicker dp = findDatePicker((ViewGroup) dateDlg.getWindow().getDecorView());
         if (dp != null) {
             ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0)).getChildAt(2).setVisibility(View.GONE);
@@ -271,16 +269,6 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
         return null;
     }
 
-    /**
-     * "id": 167,
-     * "seller_name": "五悦北平四季涮肉",
-     * "score": 26600,
-     * "create_time": 1490766176,
-     * "year": "2017",
-     * "month": "03",
-     * "pic": "http://home.qlqwp2p.com/public/app/images/xf.png",
-     * "remarks": " - 消费增值"
-     */
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if (what == 0) {
@@ -298,8 +286,8 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
                     long create_time = obj.optLong("create_time");
-                    String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
-                    String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
+                    String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("MM.dd"));
+                    String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH:mm"));
                     String score = obj.optString("score_num");
                     String pic = obj.optString("pic");
                     String filterText = obj.optString("remarks");
@@ -307,65 +295,25 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
                     String year = obj.optString("year");
                     if (i != 0) {
                         if (yearLast != Integer.parseInt(year)) {
-                            CashAccount ca = new CashAccount();
-                            int calendarYear = dateAndTime.get(Calendar.YEAR);
-                            if (!(calendarYear + "").equals(year)) {
-                                ca.setMonth(year + "年" + month + "月");
-                            } else {
-                                ca.setMonth(month + "月");
-                            }
-                            ca.setItemType(0);
-                            billData.add(ca);
+                            addHead(month,year);
+
                         } else {
                             if (monthLast != Integer.parseInt(month)) {
-                                CashAccount ca = new CashAccount();
-                                int calendarYear = dateAndTime.get(Calendar.YEAR);
-                                if (!(calendarYear + "").equals(year)) {
-                                    ca.setMonth(year + "年" + month + "月");
-                                } else {
-                                    ca.setMonth(month + "月");
-                                }
-                                ca.setItemType(0);
-                                billData.add(ca);
+                                addHead(month,year);
                             }
                         }
 
                     } else {
                         if(loadmore){
                             if (yearLast != Integer.parseInt(year)) {
-                                CashAccount ca = new CashAccount();
-                                int calendarYear = dateAndTime.get(Calendar.YEAR);
-                                if (!(calendarYear + "").equals(year)) {
-                                    ca.setMonth(year + "年" + month + "月");
-                                } else {
-                                    ca.setMonth(month + "月");
-                                }
-                                ca.setItemType(0);
-                                billData.add(ca);
+                                addHead(month,year);
                             } else {
                                 if (monthLast != Integer.parseInt(month)) {
-                                    CashAccount ca = new CashAccount();
-                                    int calendarYear = dateAndTime.get(Calendar.YEAR);
-                                    if (!(calendarYear + "").equals(year)) {
-                                        ca.setMonth(year + "年" + month + "月");
-                                    } else {
-                                        ca.setMonth(month + "月");
-                                    }
-                                    ca.setItemType(0);
-                                    billData.add(ca);
+                                    addHead(month,year);
                                 }
                             }
                         }else {
-
-                            CashAccount ca = new CashAccount();
-                            int calendarYear = dateAndTime.get(Calendar.YEAR);
-                            if (!(calendarYear + "").equals(year)) {
-                                ca.setMonth(year + "年" + month + "月");
-                            } else {
-                                ca.setMonth(month + "月");
-                            }
-                            ca.setItemType(0);
-                            billData.add(ca);
+                            addHead(month,year);
                         }
 
                     }
@@ -400,15 +348,33 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
 
     }
 
-    @Override
-    protected void mhandle404(int what, JSONObject object, String message) {
+    private void addHead(String month,String year) {
+        CashAccount ca = new CashAccount();
+        int calendarYear = dateAndTime.get(Calendar.YEAR);
+        if (!(calendarYear + "").equals(year)) {
+            ca.setMonth(year + "年" + month + "月");
+        } else {
+            ca.setMonth(month + "月");
+        }
+        ca.setItemType(0);
+        billData.add(ca);
     }
 
     @Override
-    protected void mhandleFinish(int what) {
+    protected void mhandle404(int what, JSONObject object, String message) {
+        refreshLayout.setRefreshing(false);
+        getDm().buildAlertDialog(message);
     }
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
+        refreshLayout.setRefreshing(false);
+        getDm().buildAlertDialog(getString(R.string.no_response));
+    }
+
+    @Override
+    protected void mhandleReLogin(int what) {
+        super.mhandleReLogin(what);
+        refreshLayout.setRefreshing(false);
     }
 }

@@ -328,6 +328,7 @@ public class ShopMainFragment extends BaseNetFragment implements
 
             if (sd != null) {
                 sd.dismiss();
+                isAll=false;
             }
 
             if (nb != null) {
@@ -344,6 +345,7 @@ public class ShopMainFragment extends BaseNetFragment implements
         } else if (finalScene == 3) {//立即购买 成功
             if (sd != null) {
                 sd.dismiss();
+                isAll=false;
             }
             Intent intent = new Intent(getActivity(), ConfirmBuyOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
