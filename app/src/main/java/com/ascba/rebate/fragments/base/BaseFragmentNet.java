@@ -1,5 +1,6 @@
 package com.ascba.rebate.fragments.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -26,12 +27,28 @@ public abstract class BaseFragmentNet extends BaseFragment {
 
     protected DialogHome dialogManager;
     protected NetResponseListener netResponseListener = new NetResponseListener();
+    protected ProgressDialog dialogProgress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dialogManager = new DialogHome(getActivity());
     }
+
+    //创建进度对话框
+    public void buildWaitDialog(String message) {
+        if (dialogProgress == null) {
+            dialogProgress = new ProgressDialog(getActivity(), R.style.dialog);
+            dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
+            dialogProgress.setCancelable(true);//返还键可取消
+        }
+        if (dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+        dialogProgress.setMessage(message);
+        dialogProgress.show();
+    }
+
 
     //数据请求成功
     protected abstract void requstSuccess(int what, JSONObject object);
@@ -80,7 +97,7 @@ public abstract class BaseFragmentNet extends BaseFragment {
             return;
         }
         MyApplication.getRequestQueue().add(what, jsonRequest, netResponseListener);
-        dialogManager.buildWaitDialog(message);
+        buildWaitDialog(message);
     }
 
     //执行网络请求
@@ -93,7 +110,7 @@ public abstract class BaseFragmentNet extends BaseFragment {
             return;
         }
         MyApplication.getRequestQueue().add(1, jsonRequest, netResponseListener);
-        dialogManager.buildWaitDialog(message);
+        buildWaitDialog(message);
     }
 
 
@@ -105,18 +122,27 @@ public abstract class BaseFragmentNet extends BaseFragment {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
+            if (dialogProgress != null && dialogProgress.isShowing()) {
+                dialogProgress.dismiss();
+            }
             dialogManager.dismissDialog();
             requstSuccess(what, response.get());
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
+            if (dialogProgress != null && dialogProgress.isShowing()) {
+                dialogProgress.dismiss();
+            }
             dialogManager.buildAlertDialog(getString(R.string.no_response));
             requstFailed(what, response.getException());
         }
 
         @Override
         public void onFinish(int what) {
+            if (dialogProgress != null && dialogProgress.isShowing()) {
+                dialogProgress.dismiss();
+            }
             requstFinish(what);
         }
     }
@@ -150,5 +176,27 @@ public abstract class BaseFragmentNet extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         dialogManager.dismissDialog();
+        cancelNetWork();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        dialogManager.dismissDialog();
+        cancelNetWork();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
     }
 }

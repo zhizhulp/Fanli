@@ -54,6 +54,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
     private JSONObject jsonMessage = new JSONObject();//留言信息
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
     private PayUtils pay;
+    private double balance;//账户余额
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +136,15 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                 goodsList.clear();
             }
             JSONObject dataObj = new JSONObject(json_data);
+
+            //用户信息
+            JSONObject member_info = dataObj.optJSONObject("member_info");
+            balance = member_info.optDouble("money");//余额
+            int white_score = member_info.optInt("white_score");
+            int red_score = member_info.optInt("red_score");
+
+
+            //商品店铺信息
             JSONArray storeList = dataObj.optJSONArray("order_store_list");
             if (storeList != null && storeList.length() != 0) {
                 float totalPrice = 0;
@@ -319,7 +329,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
             case R.id.confir_order_btn_commit:
                 //提交订单
                 if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
-                    pay = new PayUtils(this, tvTotal.getText().toString());
+                    pay = new PayUtils(this, tvTotal.getText().toString(), balance);
                     pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String payType) {
@@ -408,7 +418,26 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
 
             @Override
             public void onSuccess(String payStype, String resultStatus) {
-                MyOrderActivity.startIntent(context, 2);
+                showToast("成功支付");
+                //跳转待付款列表
+                MyOrderActivity.startIntent(context,2);
+            }
+
+            @Override
+            public void onCancel(String payStype, String resultStatus) {
+                showToast("取消支付");
+                //跳转待付款列表
+                MyOrderActivity.startIntent(context,1);
+            }
+
+            @Override
+            public void onFailed(String payStype, String resultStatus) {
+                showToast("支付失败");
+            }
+
+            @Override
+            public void onNetProblem(String payStype, String resultStatus) {
+                showToast("支付失败");
             }
         });
 

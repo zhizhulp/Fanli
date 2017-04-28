@@ -51,6 +51,11 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+
         isCanLoad();
     }
 
@@ -69,12 +74,20 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
     public void onDestroyView() {
         super.onDestroyView();
         isLoad = false;
+        cancelNetWork();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         isLoad = false;
+        cancelNetWork();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
     }
 
     /**

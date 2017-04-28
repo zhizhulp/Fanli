@@ -185,12 +185,17 @@ public class UrlUtils {
     public static final String scoreBillList = urlPrefix + "scoreBillList";
 
     //立即购买
-    public static final String goodsCheckout = urlPrefix + "nowCheckout";
+    public static final String goodsCheckout = urlPrefix + "nowbuyCheckout";
 
     //立即购买提交订单
     public static final String createNowBuyOrder = urlPrefix + "createNowBuyOrder";
+
+    //待收货商品详情
+    public static final String viewOrderGoods = urlPrefix + "viewOrderGoods";
+
     //白积分账单-分类
     public static final String scoreClass = urlPrefix + "scoreClass";
+
     //日期账单查询
     public static final String dateFindScore = urlPrefix + "dateFindScore";
     //充值账单

@@ -31,11 +31,11 @@ public class MyOrderActivity extends BaseNetActivity {
 
     private ShopABar shopABar;
     private Context context;
-    private SlidingTabLayout slidingtablayout;
+    private static SlidingTabLayout slidingtablayout;
     private ViewPager mViewPager;
     private List<Bean> mTitleList = new ArrayList<>();//页卡标题集合
     private List<Fragment> fragmentList = new ArrayList<>();//页卡视图集合
-    private int index = 0;
+    private static int index = 0;
     private int[] orderMsg;
 
     @Override
@@ -156,7 +156,11 @@ public class MyOrderActivity extends BaseNetActivity {
 //            }
 //        }
         slidingtablayout.setCurrentTab(index);
+    }
 
+    public static void setCurrTab(int positon) {
+        index = positon;
+        slidingtablayout.setCurrentTab(positon);
     }
 
     public void setMsg(int position, int num) {

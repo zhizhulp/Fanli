@@ -79,6 +79,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     private int flag = 0;//0-获取数据，1-取消订单,2-付款
     private String payType;
     private PayUtils pay;
+    private double balance;//账户余额
 
 
     @Override
@@ -172,6 +173,21 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     }
 
     /*
+        用户余额信息
+        "money": "71208.92",
+		"white_score": "2580",
+		"red_score": "21"
+     */
+    private void getBalance(JSONObject dataObj) {
+        JSONObject member_info = dataObj.optJSONObject("member_info");
+        if (member_info != null) {
+            balance = member_info.optDouble("money");//余额
+            int white_score = member_info.optInt("white_score");
+            int red_score = member_info.optInt("red_score");
+        }
+    }
+
+    /*
         收货地址
         "id":"23",
         "member_id":"681",
@@ -252,7 +268,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             orderAmountTx.setText("￥" + orderAmount);
             shippingFeeTx.setText("￥" + shippingFee);
 
-            if (goodsList.size()>0){
+            if (goodsList.size() > 0) {
                 goodsList.clear();
             }
 
@@ -302,12 +318,43 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 if (StringUtils.isEmpty(price)) {
                     showToast("正在加载订单信息，请稍后");
                 } else {
-                    pay = new PayUtils(this, price);
+                    pay = new PayUtils(this, price, balance);
                     pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String arg) {
                             payType = arg;
                             requstData(UrlUtils.orderPay, 2);
+                        }
+                    });
+                    pay.setPayCallBack(new PayUtils.onPayCallBack() {
+                        @Override
+                        public void onFinish(String payStype) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(String payStype, String resultStatus) {
+                            showToast("成功支付");
+                            //跳转待收货详情
+                            Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                            intent.putExtra("order_id", orderId);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancel(String payStype, String resultStatus) {
+                            showToast("取消支付");
+                        }
+
+                        @Override
+                        public void onFailed(String payStype, String resultStatus) {
+                            showToast("支付失败");
+                        }
+
+                        @Override
+                        public void onNetProblem(String payStype, String resultStatus) {
+                            showToast("支付失败");
                         }
                     });
                 }
@@ -333,6 +380,10 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }
+
+                //余额信息
+                getBalance(dataObj);
+
                 //收货地址
                 getAddress(dataObj);
 

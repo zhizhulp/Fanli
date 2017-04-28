@@ -331,9 +331,10 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        getDm().buildAlertDialog("保存成功");
+        showToast("保存成功");
         Intent intent = new Intent();
         setResult(2, intent);
+        finish();
     }
 
     @Override

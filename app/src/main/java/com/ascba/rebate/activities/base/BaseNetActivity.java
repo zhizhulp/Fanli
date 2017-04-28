@@ -65,7 +65,6 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     @Override
     protected void requstFailed(int what, Exception e) {
         mhandleFailed(what, e);
-
     }
 
     @Override
@@ -135,5 +134,12 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
     public static void setRequestCode(int requestLogin) {
         REQUEST_LOGIN = requestLogin;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelNetWork();
+        getDm().dismissDialog();
     }
 }

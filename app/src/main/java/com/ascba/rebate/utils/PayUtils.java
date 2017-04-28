@@ -61,6 +61,7 @@ public class PayUtils {
     private onPayCallBack payCallBack;
     private String payType = "balance";//默认值
     private PayPopWindow popWindow;
+    private double balance;//账户余额
 
     private static final int SDK_PAY_FLAG = 1;
 
@@ -82,7 +83,6 @@ public class PayUtils {
                             payCallBack.onSuccess(payType, resultStatus);
                         }
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject jObj = new JSONObject(resultInfo);
                             JSONObject trObj = jObj.optJSONObject("alipay_trade_app_pay_response");
@@ -95,17 +95,14 @@ public class PayUtils {
                         if (payCallBack != null) {
                             payCallBack.onNetProblem(payType, resultStatus);
                         }
-                        dialogHome.buildAlertDialog("网络有问题");
                     } else if (TextUtils.equals(resultStatus, "6001")) {
                         if (payCallBack != null) {
                             payCallBack.onCancel(payType, resultStatus);
                         }
-                        dialogHome.buildAlertDialog("您已经取消支付");
                     } else {
                         if (payCallBack != null) {
                             payCallBack.onFailed(payType, resultStatus);
                         }
-                        dialogHome.buildAlertDialog("支付失败");
                     }
                     if (payCallBack != null) {
                         payCallBack.onFinish(payType);
@@ -115,16 +112,15 @@ public class PayUtils {
                     }
                     break;
                 }
-                default:
-                    break;
             }
         }
 
     };
 
-    public PayUtils(Activity activity, String price) {
+    public PayUtils(Activity activity, String price, double balance) {
         this.context = activity;
         this.price = price;
+        this.balance = balance;
         dialogHome = new DialogHome(context);
     }
 
@@ -206,7 +202,7 @@ public class PayUtils {
     }
 
     private void initPayTypesData(List<PayType> types) {
-        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付", "balance"));
+        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付 账户余额￥" + balance, "balance"));
         types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡", "alipay"));
         types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡", "wxpay"));
     }
@@ -269,7 +265,6 @@ public class PayUtils {
                 //余额支付
                 if (payCallBack != null) {
                     payCallBack.onFailed(payType, "支付失败");
-                    dialogHome.buildAlertDialog("支付失败");
                     payCallBack.onFinish(payType);
                 }
             }
@@ -279,7 +274,6 @@ public class PayUtils {
                 //余额支付
                 if (payCallBack != null) {
                     payCallBack.onCancel(payType, "支付取消");
-                    dialogHome.buildAlertDialog("您已经取消支付");
                     payCallBack.onFinish(payType);
                 }
             }
@@ -423,7 +417,6 @@ public class PayUtils {
                             payCallBack.onSuccess(payType, "支付成功");
                             payCallBack.onFinish(payType);
                         }
-                        Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
                         break;
                 }
 
@@ -438,6 +431,7 @@ public class PayUtils {
                         //余额支付
                         if (payCallBack != null) {
                             payCallBack.onFailed(payType, "支付失败");
+                            payCallBack.onFinish(payType);
                         }
                         break;
                 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -53,6 +54,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单,3——付款
     private String payType;
     private PayUtils pay;
+    private double balance;//账户余额
 
 
     @Override
@@ -113,6 +115,15 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             beanArrayList.clear();
         }
 
+        //用户信息
+        JSONObject member_info = dataObj.optJSONObject("member_info");
+        if (member_info != null) {
+            balance = member_info.optDouble("money");//余额
+            int white_score = member_info.optInt("white_score");
+            int red_score = member_info.optInt("red_score");
+        }
+
+        //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -261,7 +272,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             showToast("正在加载订单信息，请稍后");
         } else {
             //开启支付
-            pay = new PayUtils(getActivity(), price);
+            pay = new PayUtils(getActivity(), price, balance);
             pay.showDialog(new PayUtils.OnCreatOrder() {
                 @Override
                 public void onCreatOrder(String arg) {
@@ -269,12 +280,34 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     requstData(3, UrlUtils.orderPay, orderId);
                 }
             });
+
             //支付回调
             pay.setPayCallBack(new PayUtils.onPayCallBack() {
                 @Override
                 public void onFinish(String payStype) {
                     //刷新数据
                     requstListData();
+                }
+
+                @Override
+                public void onSuccess(String payStype, String resultStatus) {
+                    MyOrderActivity.setCurrTab(2);
+                    showToast("成功支付");
+                }
+
+                @Override
+                public void onCancel(String payStype, String resultStatus) {
+                    showToast("取消支付");
+                }
+
+                @Override
+                public void onFailed(String payStype, String resultStatus) {
+                    showToast("支付失败");
+                }
+
+                @Override
+                public void onNetProblem(String payStype, String resultStatus) {
+                    showToast("支付失败");
                 }
             });
         }

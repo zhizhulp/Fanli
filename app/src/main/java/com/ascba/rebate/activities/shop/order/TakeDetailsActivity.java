@@ -23,7 +23,6 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.yanzhenjie.nohttp.rest.Request;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -137,7 +136,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         if (intent != null) {
             orderId = intent.getStringExtra("order_id");
             if (orderId != null) {
-                requstData(UrlUtils.viewOrder, 0);
+                requstData(UrlUtils.viewOrderGoods, 0);
             } else {
                 showToast(getString(R.string.no_data_txt));
                 finish();
@@ -153,7 +152,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         switch (flag) {
             case 0:
-                jsonRequest.add("order_id", orderId);
+                jsonRequest.add("order_goods_id", orderId);
                 break;
             case 1:
                 jsonRequest.add("order_goods_id", orderId);
@@ -167,7 +166,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        requstData(UrlUtils.viewOrder, 0);
+        requstData(UrlUtils.viewOrderGoods, 0);
     }
 
 
@@ -185,8 +184,6 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 //收货地址
                 getAddress(dataObj);
 
-                //商家信息
-                getStoreInfo(dataObj);
 
                 //订单信息
                 getGoodsInfo(dataObj);
@@ -214,30 +211,18 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
     }
 
     /*
-           收货地址
-           "id":"23",
-           "member_id":"681",
-           "consignee":"波波",
-           "province":"1",
-           "city":"710682",
-           "District":"1106",
-           "twon":"1158",
-           "address":"北京市大兴区石榴庄钱来钱往",
-           "mobile":"18832919903",
-           "default":"1"
+         收货地址
+         "reciver_name": "刘小典",
+	     "reciver_mobile": "13400352743",
+		 "reciver_address": "河北省张家口市桥东区"
+
         */
     private void getAddress(JSONObject dataObject) {
         try {
             JSONObject addressObject = dataObject.getJSONObject("order_member_address");
-            String member_id = dataObject.optString("member_id");
-            String name = addressObject.optString("consignee");//收货人姓名
-            String phone = addressObject.optString("mobile");//手机号
-            String address = addressObject.optString("address");//收货地址
-            String defaultAddress = addressObject.optString("default");//是否是默认地址：1——是，0——不是
-            String province = addressObject.optString("province");
-            String city = addressObject.optString("city");
-            String district = addressObject.optString("District");
-            String twon = addressObject.optString("twon");
+            String name = addressObject.optString("reciver_name");//收货人姓名
+            String phone = addressObject.optString("reciver_mobile");//手机号
+            String address = addressObject.optString("reciver_address");//收货地址
             phoneTx.setText(phone);
             nameTx.setText(name);
             addressTx.setText(address);
@@ -246,33 +231,21 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         }
     }
 
-    /*
-     商家信息
-     "id":"12",
-     "store_name":"小米官方旗舰店",
-     "member_id":"81",
-     "member_name":"15501052244"
-  */
-    private void getStoreInfo(JSONObject dataObject) {
-        try {
-            JSONObject storeObject = dataObject.getJSONObject("store_info");
-            String storeName = storeObject.optString("store_name");//店铺
-            storePhone = storeObject.optString("member_name");
-            storeTx.setText(storeName);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /*
    订单信息
- */
+    */
     private void getGoodsInfo(JSONObject dataObject) {
         try {
-            //订单信息
             JSONObject orderObject = dataObject.getJSONObject("order_info");
+
+            //店铺信息
+            String storeName = orderObject.optString("store_name");//店铺
+            storePhone = orderObject.optString("member_name");
+            storeTx.setText(storeName);
+
+            //订单信息
             String shippingFee = orderObject.optString("shipping_fee");//邮费
-            String orderStatus = orderObject.optString("order_status");//订单状态
             String orderSn = orderObject.optString("order_sn");//订单号
             String goodsAmount = orderObject.optString("goods_amount");//商品价格
             String orderAmount = orderObject.optString("order_amount");//订单价格
@@ -293,23 +266,19 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             orderAmountTx.setText("￥" + orderAmount);
             shippingFeeTx.setText("￥" + shippingFee);
 
-            if (goodsList.size()>0){
+            if (goodsList.size() > 0) {
                 goodsList.clear();
             }
 
             //商品信息
-            JSONArray goodsArray = orderObject.getJSONArray("orderGoods");
-            if (goodsArray != null && goodsArray.length() > 0) {
-                for (int i = 0; i < goodsArray.length(); i++) {
-                    JSONObject goodObject = goodsArray.getJSONObject(i);
-                    String goodName = goodObject.optString("goods_name");//商品名
-                    String goodsPrice = goodObject.optString("goods_price");//商品价格
-                    String specNames = goodObject.optString("spec_names");//商品规格
-                    String goodNum = goodObject.optString("goods_num");//数量
-                    String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
-                    goodsList.add(new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum)));
-                }
-            }
+            JSONObject goodObject = dataObject.optJSONObject("order_goods_info");
+            String goodName = goodObject.optString("goods_name");//商品名
+            String goodsPrice = goodObject.optString("goods_price");//商品价格
+            String specNames = goodObject.optString("spec_names");//商品规格
+            String goodNum = goodObject.optString("goods_num");//数量
+            String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
+            goodsList.add(new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum)));
+
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -326,6 +295,8 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                     intent1.setAction(Intent.ACTION_DIAL);
                     intent1.setData(Uri.parse("tel:" + storePhone));
                     startActivity(intent1);
+                }else {
+                    showToast("没有卖家联系方式");
                 }
                 break;
             case R.id.btn_take:
