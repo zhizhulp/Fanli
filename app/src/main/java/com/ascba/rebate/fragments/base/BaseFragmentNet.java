@@ -183,6 +183,16 @@ public abstract class BaseFragmentNet extends BaseFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        dialogManager.dismissDialog();
+        cancelNetWork();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (dialogProgress != null && dialogProgress.isShowing()) {
