@@ -347,4 +347,25 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         }
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+            if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
+                try {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    if (index == 3) {
+                        ft.remove(mMeFragment);
+                        fgts.remove(mMeFragment);
+                    } else if (index == 4) {
+                        ft.remove(mMoneyFragment);
+                        fgts.remove(mMoneyFragment);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+    }
 }

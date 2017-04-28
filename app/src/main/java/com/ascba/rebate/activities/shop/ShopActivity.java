@@ -64,6 +64,22 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
             getShopTabs().setFilPos(index);
             selFrgByPos(index);
         }
+
+        if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
+            try {
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                if (index == 2) {
+                    ft.remove(fragments[3]);
+                    mFragments.remove(fragments[3]);
+                } else if (index == 3) {
+                    ft.remove(fragments[2]);
+                    mFragments.remove(fragments[2]);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void findViews() {
