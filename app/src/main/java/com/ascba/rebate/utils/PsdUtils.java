@@ -1,9 +1,5 @@
 package com.ascba.rebate.utils;
 
-import java.text.SimpleDateFormat;
-
-import static com.alipay.sdk.app.statistic.c.s;
-
 /**
  * Created by 李鹏 on 2017/04/28 0028.
  */
@@ -54,8 +50,8 @@ public class PsdUtils {
      */
     public static String getPayPsd(String psd) {
         String encryptPsd = encryptPsd(psd);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String time = simpleDateFormat.format(System.currentTimeMillis());
+        long time = System.currentTimeMillis();
+        time = time / 60000;
         encryptPsd = EncryptUtils.encryptMD5ToString(encryptPsd + time);
         return encryptPsd.toLowerCase();
     }

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
  * 2.切换到其他页面时停止加载数据（可选）
  */
 
-public abstract class LazyBaseFragment extends BaseNetFragment {
+public abstract class LazyBase1Fragment extends BaseNetFragment {
     /**
      * 视图是否已经初初始化
      */
@@ -32,17 +32,11 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        Log.d("LazyBaseFragment", "onHiddenChanged-->");
         if (!hidden) {
             isCanLoad();
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-          Log.d("LazyBaseFragment", "getUserVisibleHint-->" + getUserVisibleHint());
-        if(getUserVisibleHint()) {
         } else {
+            isLoad = false;
         }
     }
 
@@ -58,7 +52,10 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
 
 
     private void isCanLoad() {
-        lazyLoad();
+        if (!isLoad) {
+            lazyLoad();
+            isLoad = true;
+        }
     }
 
 

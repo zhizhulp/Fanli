@@ -215,6 +215,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
+            android:name=".activities.TestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
             android:name=".activities.main_page.CityList"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
