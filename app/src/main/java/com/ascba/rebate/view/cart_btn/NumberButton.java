@@ -44,7 +44,6 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private EditText mCount;
     private OnWarnListener mOnWarnListener;
 
-
     private ImageView addButton;
     private ImageView subButton;
 
@@ -150,7 +149,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
      * 超过的库存限制
      * Warning for inventory.
      */
-    private void warningForInventory() {
+    public void warningForInventory() {
         if (mOnWarnListener != null) mOnWarnListener.onWarningForInventory(mInventory);
     }
 

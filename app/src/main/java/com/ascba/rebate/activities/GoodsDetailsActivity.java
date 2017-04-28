@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -1180,6 +1181,12 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             return;
         }
         sd = new StdDialog(this, gas, goodses);
+        sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                isAll = false;
+            }
+        });
         nb = sd.getNb();
         //加入购物车
         sd.getTvAddToCart().setOnClickListener(new View.OnClickListener() {
@@ -1230,20 +1237,25 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 if (!isAll) {
                     getDm().buildAlertDialog(attention);
                 } else {
-                    nb.setCurrentNumber(nb.getNumber() + 1);
+                    if (nb.getInventory() <= nb.getNumber()) {
+                        //库存不足
+                        nb.warningForInventory();
+                    }else {
+                        nb.setCurrentNumber(nb.getNumber() + 1);
+                    }
+
                 }
+
             }
         });
         //点击减号
         nb.getSubButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isAll) {
-                    if (!isAll) {
-                        getDm().buildAlertDialog(attention);
-                    } else {
-                        nb.setCurrentNumber(nb.getNumber() - 1);
-                    }
+                if (!isAll) {
+                    getDm().buildAlertDialog(attention);
+                } else {
+                    nb.setCurrentNumber(nb.getNumber() - 1);
                 }
             }
         });
@@ -1294,13 +1306,13 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         if (finalScene == 0) {
             if (sd != null) {
                 sd.dismiss();
-                isAll=false;
+                isAll = false;
             }
             getDm().buildAlertDialog(message);
         } else if (finalScene == 1) {
             if (sd != null) {
                 sd.dismiss();
-                isAll=false;
+                isAll = false;
             }
             Intent intent = new Intent(this, ConfirmBuyOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());

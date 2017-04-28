@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments.shop;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -328,7 +329,6 @@ public class ShopMainFragment extends BaseNetFragment implements
 
             if (sd != null) {
                 sd.dismiss();
-                isAll=false;
             }
 
             if (nb != null) {
@@ -345,7 +345,6 @@ public class ShopMainFragment extends BaseNetFragment implements
         } else if (finalScene == 3) {//立即购买 成功
             if (sd != null) {
                 sd.dismiss();
-                isAll=false;
             }
             Intent intent = new Intent(getActivity(), ConfirmBuyOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
@@ -480,6 +479,12 @@ public class ShopMainFragment extends BaseNetFragment implements
             return;
         }
         sd = new StdDialog(getActivity(), gas, goodses);
+        sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                isAll=false;
+            }
+        });
         nb = sd.getNb();
         //把商品加入购物车
         sd.getTvAddToCart().setOnClickListener(new View.OnClickListener() {
@@ -528,14 +533,19 @@ public class ShopMainFragment extends BaseNetFragment implements
                 ShopMainFragment.this.isAll = isAll;
             }
         });
-        /*//点击加号
+        //点击加号
         nb.getAddButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isAll){
                     getDm().buildAlertDialog(attention);
                 }else {
-                    nb.setCurrentNumber(nb.getNumber()+1);
+                    if (nb.getInventory() <= nb.getNumber()) {
+                        //库存不足
+                        nb.warningForInventory();
+                    }else {
+                        nb.setCurrentNumber(nb.getNumber() + 1);
+                    }
                 }
             }
         });
@@ -551,7 +561,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                     }
                 }
             }
-        });*/
+        });
         sd.showMyDialog();
     }
 

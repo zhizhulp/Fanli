@@ -296,7 +296,7 @@ public class SideFragment extends BaseNetFragment implements
 
     @Override
     public void onRefresh() {
-
+        initLocation();
         resetPage();
         clearData();
 
