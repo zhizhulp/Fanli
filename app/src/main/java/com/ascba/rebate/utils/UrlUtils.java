@@ -192,4 +192,10 @@ public class UrlUtils {
 
     //待收货商品详情
     public static final String viewOrderGoods = urlPrefix + "viewOrderGoods";
+
+    //白积分账单-分类
+    public static final String scoreClass = urlPrefix + "scoreClass";
+
+    //日期账单查询
+    public static final String dateFindScore = urlPrefix + "dateFindScore";
 }

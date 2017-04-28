@@ -121,11 +121,4 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 break;
         }
     }
-
-    //数据刷新
-    public void refreshData(){
-
-        notifyDataSetChanged();
-
-    }
 }

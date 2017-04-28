@@ -13,17 +13,23 @@
         app:textTail="筛选"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.ascba.rebate.view.loadmore.RefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!--<android.support.v7.widget.RecyclerView
-            android:id="@+id/bill_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>-->
-        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-            android:id="@+id/bill_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.ascba.rebate.view.loadmore.RefreshLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/white_bill_head"
+                android:id="@+id/head"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/bill_list"
+                android:background="@color/main_content_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

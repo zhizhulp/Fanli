@@ -3,11 +3,13 @@ package com.ascba.rebate.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 /**
  * 白积分账单实体类
  */
 
-public class CashAccount implements Parcelable {
+public class CashAccount implements Parcelable, MultiItemEntity {
     private String day;//今天
     private String time;//21:41
     private String money;//-456.12
@@ -17,15 +19,8 @@ public class CashAccount implements Parcelable {
     private String imgUrl;//网络图片
     private String month;//账单所在月份
     private CashAccountType type;//账单类型
-    private String titleText;//用于账单
+    private int itemType;//用于账单区分头部和item
 
-    public String getTitleText() {
-        return titleText;
-    }
-
-    public void setTitleText(String titleText) {
-        this.titleText = titleText;
-    }
 
     public CashAccount() {
     }
@@ -140,6 +135,11 @@ public class CashAccount implements Parcelable {
         this.imgUrl = imgUrl;
     }
 
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(day);
@@ -149,8 +149,7 @@ public class CashAccount implements Parcelable {
         parcel.writeString(status);
         parcel.writeSerializable(type);
     }
-    public static final Parcelable.Creator<CashAccount> CREATOR = new Creator(){
-
+    public static final Creator CREATOR = new Creator(){
         @Override
         public CashAccount createFromParcel(Parcel source) {
             // TODO Auto-generated method stub
@@ -163,11 +162,15 @@ public class CashAccount implements Parcelable {
             p.setType((CashAccountType) source.readSerializable());
             return p;
         }
-
         @Override
         public CashAccount[] newArray(int size) {
             // TODO Auto-generated method stub
             return new CashAccount[size];
         }
     };
+
+    @Override
+    public int getItemType() {
+        return itemType;
+    }
 }

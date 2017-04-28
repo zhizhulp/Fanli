@@ -124,17 +124,16 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     protected void mhandleFailed(int what, Exception e) {
     }
 
-    public static void setRequestCode(int requestLogin) {
-        REQUEST_LOGIN = requestLogin;
+    protected void mhandleNoNetWord() {
     }
-
     protected void mhandleReLogin(int what) {
     }
 
-    protected void mhandleNoNetWord() {
+    protected void mhandleHasNetWord(boolean isNetWork) {
     }
 
-    protected void mhandleHasNetWord(boolean isNetWork) {
+    public static void setRequestCode(int requestLogin) {
+        REQUEST_LOGIN = requestLogin;
     }
 
     @Override

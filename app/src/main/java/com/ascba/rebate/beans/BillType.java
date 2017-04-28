@@ -15,5 +15,12 @@ public class BillType {
     public String title;//类型
     public String count;//账单数量
     public CashAccountType type;//类型
+    public int classId;
 
+    public BillType(boolean hasSelect, String title, String count,int classId) {
+        this.hasSelect = hasSelect;
+        this.title = title;
+        this.count = count;
+        this.classId=classId;
+    }
 }

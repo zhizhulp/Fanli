@@ -24,7 +24,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_line_height_high"
-        android:background="@color/main_line_deep_gray"/>
+        android:background="@color/main_line_light_gray"/>
     <Button
         android:id="@+id/btn_cancel"
         android:background="@color/main_content_bg"

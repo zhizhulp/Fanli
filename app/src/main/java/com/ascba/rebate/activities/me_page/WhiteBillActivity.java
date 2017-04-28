@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
@@ -18,11 +19,14 @@ import com.ascba.rebate.adapter.BillAdapter;
 import com.ascba.rebate.beans.BillType;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.beans.CashAccountType;
+import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BillTypeDialog;
 import com.ascba.rebate.view.MoneyBar;
-import com.ascba.rebate.view.loadmore.RefreshLayout;
+import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -34,46 +38,95 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
-public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.OnRefreshListener
-        , RefreshLayout.OnLoadListener
-        , MoneyBar.CallBack, StickyListHeadersListView.OnHeaderClickListener
-        , StickyListHeadersListView.OnStickyHeaderChangedListener {
-
-    private RefreshLayout refreshLat;
-    private StickyListHeadersListView billRV;
+public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener
+        , MoneyBar.CallBack {
+    private static final int LOAD_MORE_END = 0;
+    private static final int LOAD_MORE_ERROR = 1;
+    private RecyclerView billRV;
     private BillAdapter billAdapter;
     private List<CashAccount> billData;
     private MoneyBar mb;
     Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
     private int position;//记录筛选位置
     private List<BillType> data;//账单类型 4种
-    private View m_listViewFooter;
     private int now_page = 1;
     private int total_page;
+    private CustomLoadMoreView loadMoreView;
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case LOAD_MORE_END:
+                    if (billAdapter != null) {
+                        billAdapter.loadMoreEnd(false);
+                    }
+
+                    break;
+                case LOAD_MORE_ERROR:
+                    if (billAdapter != null) {
+                        billAdapter.loadMoreFail();
+                    }
+                    break;
+            }
+        }
+    };
+    private TextView tvFirstMonth;//首月
+    private ImageView imCalendar;//日历图标
+    private TextView tvSesc;//分类描述
+    private View viewHead;
+    int yearLast = 0;
+    int monthLast = 0;
+    private boolean loadmore=false;//当前状态 默认下拉刷新
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_bill);
         initViews();
-
-        m_listViewFooter = getLayoutInflater().inflate(R.layout.foot_view, null);
-
-        requestNetwork(UrlUtils.scoreBillList);
+        requestNetwork(UrlUtils.scoreBillList, 0);
     }
 
-    private void requestNetwork(String url) {
+    private void requestNetwork(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        request.add("now_page", now_page);
-        executeNetWork(0, request, "请稍后");
+        if (what == 0) {
+            request.add("now_page", now_page);
+        }
+        executeNetWork(what, request, "请稍后");
     }
 
     private void initViews() {
-        initRefresh();
+        initRefreshLayoutMine();
         initRecyclerView();
         initMoneyBar();
+        initHeadView();
+    }
+
+    private void initHeadView() {
+        viewHead = findViewById(R.id.head);
+        viewHead.setBackgroundColor(Color.WHITE);
+        tvFirstMonth = ((TextView) findViewById(R.id.tv_month));
+        imCalendar = ((ImageView) findViewById(R.id.im_calendar));
+        imCalendar.setVisibility(View.VISIBLE);
+        viewHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDataPickerDialog();
+            }
+        });
+        tvSesc = (TextView) findViewById(R.id.tv_desc);
+        tvSesc.setVisibility(View.VISIBLE);
+        findViewById(R.id.line).setVisibility(View.VISIBLE);
+        tvSesc.setText("全部");
+    }
+
+    private void initRefreshLayoutMine() {
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(this);
     }
 
     private void initMoneyBar() {
@@ -82,36 +135,32 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
     }
 
     private void initRecyclerView() {
-        billRV = ((StickyListHeadersListView) findViewById(R.id.bill_list));
+        billRV = ((RecyclerView) findViewById(R.id.bill_list));
         initData();
-        billAdapter = new BillAdapter(billData);
-        billRV.setDrawingListUnderStickyHeader(true);
-        billRV.setAreHeadersSticky(true);
-        billRV.setOnHeaderClickListener(this);
-        billRV.setOnStickyHeaderChangedListener(this);
+        billAdapter = new BillAdapter(billData, this);
+        billRV.setLayoutManager(new LinearLayoutManager(this));
         billRV.setAdapter(billAdapter);
-        billRV.setEmptyView(getLayoutInflater().inflate(R.layout.bill_list_empty, null));
-
+        billAdapter.setEmptyView(getLayoutInflater().inflate(R.layout.bill_list_empty, null));
+        initLoadMore();
     }
 
-    @Override
-    public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
-        View im = header.findViewById(R.id.im_calendar);
-        if (im.getVisibility() == View.VISIBLE) {
-            showDataPickerDialog();
+    private void initLoadMore() {
+        if (loadMoreView == null) {
+            loadMoreView = new CustomLoadMoreView();
+            billAdapter.setLoadMoreView(loadMoreView);
         }
-    }
-
-    @Override
-    public void onStickyHeaderChanged(StickyListHeadersListView l, View header, int itemPosition, long headerId) {
-        TextView desc = (TextView) header.findViewById(R.id.tv_desc);
-        View im = header.findViewById(R.id.im_calendar);
-        if (itemPosition != 0) {
-            im.setVisibility(View.VISIBLE);
-            desc.setVisibility(View.VISIBLE);
-            desc.setText(billData.get(0).getTitleText());
-
-        }
+        billAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (now_page > total_page && total_page != 0) {
+                    loadmore=false;
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                } else {
+                    loadmore=true;
+                    requestNetwork(UrlUtils.scoreBillList, 0);
+                }
+            }
+        });
     }
 
     /**
@@ -120,17 +169,16 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
     private void showDataPickerDialog() {
         DatePickerDialog dateDlg = new DatePickerDialog(this, R.style.dialog,
                 new DatePickerDialog.OnDateSetListener() {
-                    Boolean mFired = false;
-
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        if (mFired == true) {
-                            return;
+                        Intent intent = new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
+                        if ((month + 1) < 10) {
+                            intent.putExtra("date_time", year + "-0" + (month + 1));
                         } else {
-                            Intent intent = new Intent(WhiteBillActivity.this, BusiFlowRecordsActivity.class);
-                            startActivity(intent);
-                            mFired = true;
+                            intent.putExtra("date_time", year + "-" + (month + 1));
                         }
+
+                        startActivity(intent);
                     }
                 },
                 dateAndTime.get(Calendar.YEAR),
@@ -153,43 +201,24 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
 
     private void initData() {
         billData = new ArrayList<>();
-        /*for (int i = 0; i < 30; i++) {
-            CashAccount ca = new CashAccount(null, "21.36", (200 + i) + "", "你管不着", null, R.mipmap.cash_cost);
-            if (i >= 0 && i <= 2) {
-                ca.setMonth("一月");
-                ca.setDay("2015.01.15");
-                ca.setType(CashAccountType.ALL);
-            } else if (i >= 3 && i <= 10) {
-                ca.setMonth("三月");
-                ca.setDay("2015.03.15");
-                ca.setType(CashAccountType.EXCHANGE);
-            } else if (i >= 10 && i <= 20) {
-                ca.setMonth("五月");
-                ca.setDay("2015.05.15");
-                ca.setType(CashAccountType.AWARD);
-            } else {
-                ca.setType(CashAccountType.COST);
-                ca.setMonth("七月");
-                ca.setDay("2015.07.15");
-            }
-            billData.add(ca);
-        }*/
     }
 
-    private void initRefresh() {
-        refreshLat = ((RefreshLayout) findViewById(R.id.refresh_layout));
-        refreshLat.setOnRefreshListener(this);
-        refreshLat.setOnLoadListener(this);
-    }
 
     @Override
     public void onRefresh() {
+        reset();
+        requestNetwork(UrlUtils.scoreBillList, 0);
+    }
+
+    private void reset() {
+        loadmore=false;
+        monthLast=0;
+        yearLast=0;
         if (billData.size() != 0) {
             billData.clear();
         }
         total_page = 0;
         now_page = 1;
-        requestNetwork(UrlUtils.scoreBillList);
     }
 
     @Override
@@ -201,31 +230,22 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
      */
     @Override
     public void clickComplete(View tv) {
-        final BillTypeDialog bt = new BillTypeDialog(this, initTypeData(position));
-        bt.showMyDialog();
-        bt.setCallback(new BillTypeDialog.Callback() {
-            @Override
-            public void onClick(BillType a, int position) {
-                WhiteBillActivity.this.position = position;
-                bt.dismiss();
-                billData.get(0).setTitleText(a.title);
-                billAdapter.notifyDataSetChanged();
-                billRV.getmList().smoothScrollToPosition(0);//滑动到顶部
-            }
-        });
+        requestNetwork(UrlUtils.scoreClass, 1);
     }
 
-    private List<BillType> initTypeData(int position) {
+    private List<BillType> initTypeData(JSONArray array, int position) {
         data = new ArrayList<>();
-        data.add(new BillType(false, "全部", "123", CashAccountType.ALL));
-        data.add(new BillType(false, "奖励", "234", CashAccountType.AWARD));
-        data.add(new BillType(false, "消费", "235", CashAccountType.COST));
-        data.add(new BillType(false, "兑换", "369", CashAccountType.EXCHANGE));
-        for (int i = 0; i < data.size(); i++) {
-            if (i == position) {
-                data.get(i).hasSelect = true;
-            } else {
-                data.get(i).hasSelect = false;
+        if (array != null && array.length() != 0) {
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.optJSONObject(i);
+                data.add(new BillType(false, obj.optString("class_name"), "" + obj.optInt("all_score_count"), obj.optInt("class_id")));
+            }
+            for (int i = 0; i < data.size(); i++) {
+                if (i == position) {
+                    data.get(i).hasSelect = true;
+                } else {
+                    data.get(i).hasSelect = false;
+                }
             }
         }
         return data;
@@ -247,27 +267,6 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
         return null;
     }
 
-
-    @Override
-    public void onLoad() {
-        if (now_page > total_page && total_page != 0) {
-            refreshLat.setLoading(false);
-        } else {
-            requestNetwork(UrlUtils.scoreBillList);
-        }
-    }
-
-    @Override
-    public void setFooterView(boolean isLoading) {
-
-        if (isLoading) {
-            billRV.getmList().removeFooterView(m_listViewFooter);
-            billRV.getmList().addFooterView(m_listViewFooter);
-        } else {
-            billRV.getmList().removeFooterView(m_listViewFooter);
-        }
-    }
-
     /**
      * "id": 167,
      * "seller_name": "五悦北平四季涮肉",
@@ -280,42 +279,121 @@ public class WhiteBillActivity extends BaseNetActivity implements RefreshLayout.
      */
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
-        refreshLat.setLoading(false);
-        refreshLat.setRefreshing(false);
-        total_page = dataObj.optInt("total_page");
-        now_page++;
-        JSONArray array = dataObj.optJSONArray("scoreList");
-        if (array != null && array.length() != 0) {
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.optJSONObject(i);
-                CashAccount ca = new CashAccount();
-                long create_time = obj.optLong("create_time");
-                String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
-                String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
-                int score = obj.optInt("score");
-                String pic = obj.optString("pic");
-                String filterText = obj.optString("remarks");
-                String month = obj.optString("month");
-                String year = obj.optString("year");
-                ca.setDay(day);
-                ca.setTime(time);
-                ca.setMoney(score + "");
-                ca.setImgUrl(pic);
-                ca.setFilterText(filterText);
-                ca.setTitleText("全部");
-                int calendarYear = dateAndTime.get(Calendar.YEAR);
-                if (!(calendarYear + "").equals(year)) {
-                    ca.setMonth(year + "年" + month + "月");
-                } else {
-                    //ca.setMonth(month+"月");
-                    ca.setMonth(month);
-                }
-
-                billData.add(ca);
+        if (what == 0) {
+            refreshLayout.setRefreshing(false);
+            if (billAdapter != null) {
+                billAdapter.loadMoreComplete();
             }
-            billAdapter.notifyDataSetChanged();
+            if (billAdapter != null) {
+                loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
+            }
+            total_page = dataObj.optInt("total_page");
+            now_page++;
+            JSONArray array = dataObj.optJSONArray("scoreList");
+            if (array != null && array.length() != 0) {
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject obj = array.optJSONObject(i);
+                    long create_time = obj.optLong("create_time");
+                    String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
+                    String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
+                    String score = obj.optString("score_num");
+                    String pic = obj.optString("pic");
+                    String filterText = obj.optString("remarks");
+                    String month = obj.optString("month");
+                    String year = obj.optString("year");
+                    if (i != 0) {
+                        if (yearLast != Integer.parseInt(year)) {
+                            CashAccount ca = new CashAccount();
+                            int calendarYear = dateAndTime.get(Calendar.YEAR);
+                            if (!(calendarYear + "").equals(year)) {
+                                ca.setMonth(year + "年" + month + "月");
+                            } else {
+                                ca.setMonth(month + "月");
+                            }
+                            ca.setItemType(0);
+                            billData.add(ca);
+                        } else {
+                            if (monthLast != Integer.parseInt(month)) {
+                                CashAccount ca = new CashAccount();
+                                int calendarYear = dateAndTime.get(Calendar.YEAR);
+                                if (!(calendarYear + "").equals(year)) {
+                                    ca.setMonth(year + "年" + month + "月");
+                                } else {
+                                    ca.setMonth(month + "月");
+                                }
+                                ca.setItemType(0);
+                                billData.add(ca);
+                            }
+                        }
 
+                    } else {
+                        if(loadmore){
+                            if (yearLast != Integer.parseInt(year)) {
+                                CashAccount ca = new CashAccount();
+                                int calendarYear = dateAndTime.get(Calendar.YEAR);
+                                if (!(calendarYear + "").equals(year)) {
+                                    ca.setMonth(year + "年" + month + "月");
+                                } else {
+                                    ca.setMonth(month + "月");
+                                }
+                                ca.setItemType(0);
+                                billData.add(ca);
+                            } else {
+                                if (monthLast != Integer.parseInt(month)) {
+                                    CashAccount ca = new CashAccount();
+                                    int calendarYear = dateAndTime.get(Calendar.YEAR);
+                                    if (!(calendarYear + "").equals(year)) {
+                                        ca.setMonth(year + "年" + month + "月");
+                                    } else {
+                                        ca.setMonth(month + "月");
+                                    }
+                                    ca.setItemType(0);
+                                    billData.add(ca);
+                                }
+                            }
+                        }else {
+
+                            CashAccount ca = new CashAccount();
+                            int calendarYear = dateAndTime.get(Calendar.YEAR);
+                            if (!(calendarYear + "").equals(year)) {
+                                ca.setMonth(year + "年" + month + "月");
+                            } else {
+                                ca.setMonth(month + "月");
+                            }
+                            ca.setItemType(0);
+                            billData.add(ca);
+                        }
+
+                    }
+                    yearLast = Integer.parseInt(year);
+                    monthLast = Integer.parseInt(month);
+
+                    CashAccount ca = new CashAccount();
+                    ca.setDay(day);
+                    ca.setTime(time);
+                    ca.setMoney(score);
+                    ca.setImgUrl(UrlUtils.baseWebsite + pic);
+                    ca.setFilterText(filterText);
+                    ca.setItemType(1);
+                    billData.add(ca);
+                }
+                billAdapter.notifyDataSetChanged();
+            }
+        } else if (what == 1) {
+            JSONArray array = dataObj.optJSONArray("scoreList");
+            final BillTypeDialog bt = new BillTypeDialog(this, initTypeData(array, position));
+            bt.showMyDialog();
+            bt.setCallback(new BillTypeDialog.Callback() {
+                @Override
+                public void onClick(BillType a, int position) {
+                    WhiteBillActivity.this.position = position;
+                    bt.dismiss();
+                    tvSesc.setText(a.title);
+                }
+            });
         }
+
+
     }
 
     @Override
