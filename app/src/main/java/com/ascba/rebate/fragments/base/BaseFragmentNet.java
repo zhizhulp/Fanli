@@ -181,4 +181,12 @@ public abstract class BaseFragmentNet extends BaseFragment {
             dialogProgress.dismiss();
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+    }
 }

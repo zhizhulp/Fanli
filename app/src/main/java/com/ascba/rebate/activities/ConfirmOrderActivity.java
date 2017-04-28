@@ -38,7 +38,7 @@ import java.util.List;
  * 购物车——结算——确认订单
  */
 
-public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnClickListener {
+public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClickListener {
 
     private Context context;
     private ShopABarText shopABarText;
@@ -346,7 +346,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnCli
             case R.id.confir_order_btn_commit:
                 //提交订单
                 if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
-                    pay = new PayUtils(this, tvTotal.getText().toString(),balance);
+                    pay = new PayUtils(this, tvTotal.getText().toString(), balance);
                     pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String payType) {
@@ -435,14 +435,24 @@ public class ConfirmOrderActivity extends BaseNetActivity implements  View.OnCli
 
             @Override
             public void onSuccess(String payStype, String resultStatus) {
-                MyOrderActivity.startIntent(context,2);
+                showToast("成功支付");
+                MyOrderActivity.startIntent(context, 2);
             }
 
             @Override
             public void onCancel(String payStype, String resultStatus) {
-                if ("balance".equals(payType)) {
+                showToast("取消支付");
+                MyOrderActivity.startIntent(context, 1);
+            }
 
-                }
+            @Override
+            public void onFailed(String payStype, String resultStatus) {
+                showToast("支付失败");
+            }
+
+            @Override
+            public void onNetProblem(String payStype, String resultStatus) {
+                showToast("支付失败");
             }
         });
 

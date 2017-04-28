@@ -1,8 +1,15 @@
 package com.ascba.rebate.activities.me_page;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +25,12 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.BillAdapter;
 import com.ascba.rebate.beans.BillType;
 import com.ascba.rebate.beans.CashAccount;
-import com.ascba.rebate.beans.CashAccountType;
-import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BillTypeDialog;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;

@@ -326,6 +326,37 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                             requstData(UrlUtils.orderPay, 2);
                         }
                     });
+                    pay.setPayCallBack(new PayUtils.onPayCallBack() {
+                        @Override
+                        public void onFinish(String payStype) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(String payStype, String resultStatus) {
+                            showToast("成功支付");
+                            //跳转待收货详情
+                            Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                            intent.putExtra("order_id", orderId);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancel(String payStype, String resultStatus) {
+                            showToast("取消支付");
+                        }
+
+                        @Override
+                        public void onFailed(String payStype, String resultStatus) {
+                            showToast("支付失败");
+                        }
+
+                        @Override
+                        public void onNetProblem(String payStype, String resultStatus) {
+                            showToast("支付失败");
+                        }
+                    });
                 }
 
                 break;

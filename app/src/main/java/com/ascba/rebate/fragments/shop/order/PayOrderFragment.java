@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -279,12 +280,34 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     requstData(3, UrlUtils.orderPay, orderId);
                 }
             });
+
             //支付回调
             pay.setPayCallBack(new PayUtils.onPayCallBack() {
                 @Override
                 public void onFinish(String payStype) {
                     //刷新数据
                     requstListData();
+                }
+
+                @Override
+                public void onSuccess(String payStype, String resultStatus) {
+                    MyOrderActivity.setCurrTab(2);
+                    showToast("成功支付");
+                }
+
+                @Override
+                public void onCancel(String payStype, String resultStatus) {
+                    showToast("取消支付");
+                }
+
+                @Override
+                public void onFailed(String payStype, String resultStatus) {
+                    showToast("支付失败");
+                }
+
+                @Override
+                public void onNetProblem(String payStype, String resultStatus) {
+                    showToast("支付失败");
                 }
             });
         }

@@ -128,7 +128,6 @@ public abstract class BaseActivityNet extends BaseActivity {
             }
             dialogManager.dismissDialog();
             requstSuccess(what, response.get());
-
         }
 
         @Override
@@ -170,6 +169,22 @@ public abstract class BaseActivityNet extends BaseActivity {
         super.onDestroy();
         cancelNetWork();
         dialogManager.dismissDialog();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (dialogProgress != null && dialogProgress.isShowing()) {
+            dialogProgress.dismiss();
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
         }

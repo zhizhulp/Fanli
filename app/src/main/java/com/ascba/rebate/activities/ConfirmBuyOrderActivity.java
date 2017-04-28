@@ -418,7 +418,26 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
 
             @Override
             public void onSuccess(String payStype, String resultStatus) {
-                MyOrderActivity.startIntent(context, 2);
+                showToast("成功支付");
+                //跳转待付款列表
+                MyOrderActivity.startIntent(context,2);
+            }
+
+            @Override
+            public void onCancel(String payStype, String resultStatus) {
+                showToast("取消支付");
+                //跳转待付款列表
+                MyOrderActivity.startIntent(context,1);
+            }
+
+            @Override
+            public void onFailed(String payStype, String resultStatus) {
+                showToast("支付失败");
+            }
+
+            @Override
+            public void onNetProblem(String payStype, String resultStatus) {
+                showToast("支付失败");
             }
         });
 
