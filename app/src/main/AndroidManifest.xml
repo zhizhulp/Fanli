@@ -636,6 +636,10 @@
             android:name=".activities.ConfirmBuyOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.SettingPayPsdActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>
