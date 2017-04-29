@@ -34,7 +34,6 @@ import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BezierCurveAnimater;
 import com.ascba.rebate.view.MsgView;
@@ -157,8 +156,6 @@ public class ShopMainFragment extends BaseNetFragment implements
         bezierCurveAnimater = new BezierCurveAnimater(a, ((RelativeLayout) a.findViewById(R.id.second_rr)), ((ShopActivity) getActivity()).getShopTabs().getImThree());
 
         rv.addOnItemTouchListener(new OnItemClickListener() {
-
-
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ShopBaseItem shopBaseItem = data.get(position);
