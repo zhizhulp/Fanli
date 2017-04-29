@@ -87,6 +87,11 @@ public class LoginActivity extends BaseNetActivity {
         startActivity(intent);
     }
 
+    //返回
+    public void goBack(View view) {
+        finish();
+    }
+
     private void loginRequest() {
         loginPhone = edPhone.getText().toString();
         loginPassword = edPassword.getText().toString();

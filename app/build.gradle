@@ -4,7 +4,7 @@ android {
     signingConfigs {
     }
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26rc1"
     defaultConfig {
         applicationId "com.ascba.rebate"
         minSdkVersion 15
@@ -63,9 +63,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'
     compile 'com.baoyz.swipemenulistview:library:1.3.0'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.3'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -76,4 +75,5 @@ dependencies {
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:design:26.0.0-alpha1'
 }
