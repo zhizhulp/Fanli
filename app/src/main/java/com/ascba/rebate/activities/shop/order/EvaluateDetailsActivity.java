@@ -173,29 +173,18 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
 
     /*
            收货地址
-           "id":"23",
-           "member_id":"681",
-           "consignee":"波波",
-           "province":"1",
-           "city":"710682",
-           "District":"1106",
-           "twon":"1158",
-           "address":"北京市大兴区石榴庄钱来钱往",
-           "mobile":"18832919903",
-           "default":"1"
+          "order_member_address": {
+			"reciver_name": "刘小典",
+			"reciver_mobile": "13400352743",
+			"reciver_address": "河北省张家口市桥东区"
+		}
         */
     private void getAddress(JSONObject dataObject) {
         try {
             JSONObject addressObject = dataObject.getJSONObject("order_member_address");
-            String member_id = dataObject.optString("member_id");
             String name = addressObject.optString("consignee");//收货人姓名
             String phone = addressObject.optString("mobile");//手机号
             String address = addressObject.optString("address");//收货地址
-            String defaultAddress = addressObject.optString("default");//是否是默认地址：1——是，0——不是
-            String province = addressObject.optString("province");
-            String city = addressObject.optString("city");
-            String district = addressObject.optString("District");
-            String twon = addressObject.optString("twon");
             phoneTx.setText(phone);
             nameTx.setText(name);
             addressTx.setText(address);
@@ -206,14 +195,10 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
 
     /*
      商家信息
-     "id":"12",
-     "store_name":"小米官方旗舰店",
-     "member_id":"81",
-     "member_name":"15501052244"
   */
     private void getStoreInfo(JSONObject dataObject) {
         try {
-            JSONObject storeObject = dataObject.getJSONObject("store_info");
+            JSONObject storeObject = dataObject.getJSONObject("order_info");
             String storeName = storeObject.optString("store_name");//店铺
             storePhone = storeObject.optString("member_name");
             storeTx.setText(storeName);

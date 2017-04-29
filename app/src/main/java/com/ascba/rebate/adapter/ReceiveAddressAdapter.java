@@ -33,7 +33,7 @@ public class ReceiveAddressAdapter extends BaseQuickAdapter<ReceiveAddressBean, 
         helper.setText(R.id.item_receive_address_phone, phone);
 
         //地址
-        helper.setText(R.id.item_receive_address_address, item.getAddress());
+        helper.setText(R.id.item_receive_address_address, item.getAddressDetl());
         helper.addOnClickListener(R.id.item_receive_address_del);
         helper.addOnClickListener(R.id.item_receive_address_edit);
 

@@ -29,5 +29,6 @@ public class BusinessShopAdapter extends BaseQuickAdapter<ShopBaseItem, BaseView
         Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.goods_list_img));
         helper.setText(R.id.goods_list_name, item.getTitle());
         helper.setText(R.id.goods_list_price, item.getDesc());
+        helper.addOnClickListener(R.id.goods_list_cart);
     }
 }
