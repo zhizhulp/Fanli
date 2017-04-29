@@ -13,6 +13,7 @@ public class ReceiveAddressBean implements Parcelable {
     private String name;
     private String phone;
     private String address;
+    private String addressDetl;
     private String isDefault;//是否为默认：1——是;0——否
     private boolean isSelect;//是否选中
     private String province;//省份ID
@@ -21,6 +22,14 @@ public class ReceiveAddressBean implements Parcelable {
     private String twon;//乡镇ID
 
     public ReceiveAddressBean() {
+    }
+
+    public String getAddressDetl() {
+        return addressDetl;
+    }
+
+    public void setAddressDetl(String addressDetl) {
+        this.addressDetl = addressDetl;
     }
 
     public String getName() {
@@ -115,6 +124,7 @@ public class ReceiveAddressBean implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.phone);
         dest.writeString(this.address);
+        dest.writeString(this.addressDetl);
         dest.writeString(this.isDefault);
         dest.writeByte(this.isSelect ? (byte) 1 : (byte) 0);
         dest.writeString(this.province);
@@ -128,6 +138,7 @@ public class ReceiveAddressBean implements Parcelable {
         this.name = in.readString();
         this.phone = in.readString();
         this.address = in.readString();
+        this.addressDetl = in.readString();
         this.isDefault = in.readString();
         this.isSelect = in.readByte() != 0;
         this.province = in.readString();
@@ -147,20 +158,4 @@ public class ReceiveAddressBean implements Parcelable {
             return new ReceiveAddressBean[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "ReceiveAddressBean{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", isDefault='" + isDefault + '\'' +
-                ", isSelect=" + isSelect +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", district='" + district + '\'' +
-                ", twon='" + twon + '\'' +
-                '}';
-    }
 }

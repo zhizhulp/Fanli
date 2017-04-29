@@ -237,7 +237,8 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                         addressBean.setId(object.optString("id"));
                         addressBean.setName(object.optString("consignee"));
                         addressBean.setPhone(object.optString("mobile"));
-                        addressBean.setAddress(object.optString("address_detail"));
+                        addressBean.setAddress(object.optString("address"));
+                        addressBean.setAddressDetl(object.optString("address_detail"));
                         addressBean.setProvince(object.optString("province"));
                         addressBean.setCity(object.optString("city"));
                         addressBean.setDistrict(object.optString("district"));
@@ -297,7 +298,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
              */
             username.setText(defaultAddressBean.getName());
             userPhone.setText(defaultAddressBean.getPhone());
-            userAddress.setText(defaultAddressBean.getAddress());
+            userAddress.setText(defaultAddressBean.getAddressDetl());
         }
     }
 
