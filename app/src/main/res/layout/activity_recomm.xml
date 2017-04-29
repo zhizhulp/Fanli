@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="累计兑现券(元)"
+                android:text="历史推广累计佣金(元)"
                 android:textColor="@color/white"
                 android:textSize="@dimen/main_text_17" />
         </LinearLayout>

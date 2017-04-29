@@ -4,7 +4,7 @@ android {
     signingConfigs {
     }
     compileSdkVersion 25
-    buildToolsVersion "26rc1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.ascba.rebate"
         minSdkVersion 15

@@ -36,15 +36,12 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
     private int scene;//0 确认密码 1 验证密码
     private TextView tvDesc;
     private MoneyBar mb;
+    private TextView tvForget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_psd_setting);
-        type=AppConfig.getInstance().getInt("is_level_pwd",0);
-        if(type==1){
-            scene=1;
-        }
         initView();
     }
     private void initMoneyBar() {
@@ -58,6 +55,14 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
     }
 
     private void initView() {
+        type=AppConfig.getInstance().getInt("is_level_pwd",0);
+        tvForget = ((TextView) findViewById(R.id.tv_forget));
+        if(type==1){
+            scene=1;
+            tvForget.setVisibility(View.VISIBLE);
+        }else {
+            tvForget.setVisibility(View.GONE);
+        }
         edtPwd = (PasswordInputView) findViewById(R.id.trader_pwd_set_pwd_edittext);
         edtPwd.setInputType(InputType.TYPE_NULL); // 屏蔽系统软键盘
         if (keyboardUtil == null) keyboardUtil = new NumKeyboardUtil(this, this, edtPwd);
@@ -77,6 +82,8 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
             tvDesc.setText("确认当前支付密码");
         }
         initMoneyBar();
+
+
     }
 
     private void requestNetwork(String url,String number){
@@ -101,6 +108,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
                         requestNetwork(UrlUtils.setPayPassword,secNum);
                     }else {
                         showToast("2次密码不一致,请重新输入");
+                        resetData();
                     }
 
                 }
@@ -123,6 +131,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
                             requestNetwork(UrlUtils.setPayPassword,secNum);
                         }else {
                             showToast("2次密码不一致,请重新输入");
+                            resetData();
                         }
                     }
                 }
@@ -130,16 +139,17 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
         }
     }
 
-    //在Activity中重写onTouchEvent()方法，实现点击空白处隐藏软键盘
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
-                hideKeyboardAddResetData();
-            }
+    //重置数据
+    private void resetData(){
+        if(type==0){
+            tvDesc.setText("请设置6位支付密码");
+        }else if(type==1){
+            tvDesc.setText("确认当前支付密码");
         }
-        return super.onTouchEvent(event);
-    }*/
+        firstNum=null;
+        secNum=null;
+        oriNum=null;
+    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -189,12 +199,15 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
     protected void mhandle404(int what, JSONObject object, String message) {
         super.mhandle404(what, object, message);
         getDm().buildAlertDialog(message);
+        resetData();
+
     }
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
         super.mhandleFailed(what, e);
         getDm().buildAlertDialog(getString(R.string.no_response));
+        resetData();
     }
 
     @Override
@@ -204,12 +217,8 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
             return;
         }
         if(resultCode==RESULT_OK){
-            tvDesc.setText("请设置6位支付密码");
             type=0;
-            scene=0;
-            firstNum=null;
-            secNum=null;
-            oriNum=null;
+            resetData();
         }
     }
 

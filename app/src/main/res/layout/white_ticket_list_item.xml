@@ -118,7 +118,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/white_ticket_exchange_bg"
             android:text="立即兑现"
             android:textColor="@color/white2cash_color"
             android:textSize="@dimen/main_text_12" />

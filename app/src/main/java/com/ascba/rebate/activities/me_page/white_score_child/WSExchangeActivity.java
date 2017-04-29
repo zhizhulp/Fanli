@@ -28,6 +28,7 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
     private Button btnGo;
     private TextView tvMoney;
     private TextView tvMax;
+    private TextView tvHandFee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,8 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
         btnGo = ((Button) findViewById(R.id.btn_go));
         tvMoney = ((TextView) findViewById(R.id.tv_money));
         tvMax = ((TextView) findViewById(R.id.tv_max_money));
+
+        tvHandFee = ((TextView) findViewById(R.id.tv_fee_hand));
     }
 
     public void go(View view) {
@@ -95,20 +98,25 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
             int white_score = cashObj.optInt("white_score");//白积分总额
             cashing_money = cashObj.optString("cashing_money");//兑换金额
             cashing_score = cashObj.optInt("cashing_score");//兑换最大积分
+            String actual_cash=cashObj.optString("actual_cash");//实际到账
+            String cash_tax_rate=cashObj.optString("cash_tax_rate");//兑现手续费
             if(tip_status==1){
                 String cashing_info_tip = dataObj.optString("cashing_info_tip");
                 noView.setVisibility(View.VISIBLE);
                 tvTips.setText(cashing_info_tip);
                 btnGo.setEnabled(false);
                 btnGo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+                tvMax.setText("转出佣金为预存款，实际到账为"+actual_cash+"元");
             }else{
                 btnGo.setEnabled(true);
                 noView.setVisibility(View.GONE);
+                tvMax.setText("本次兑换最大额度为"+cashing_money+"元");
             }
+            tvHandFee.setText("手续费为"+cash_tax_rate);
             tvTotal.setText(white_score+"");
             tvTicketScore.setText(cashing_score+"");
             tvMoney.setText(cashing_money);
-            tvMax.setText("本次兑换最大额度为"+cashing_money+"元");
+
         }else if(finalScene==2){
             Intent intent=new Intent(this,WSSuccActivity.class);
             intent.putExtra("money",cashing_money);

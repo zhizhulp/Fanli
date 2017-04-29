@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,6 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
             @Override
             public void onExchangeClick(int position) {
                 WhiteTicket wt = mList.get(position);
-                LogUtils.PrintLog("是否是测试1是0不是","isTest-->"+wt.getTest());
                 if (wt.getTest() == 1) {
                     getDm().buildAlertDialog("推荐用户为体验账户升级，兑现券暂未激活！");
                     return;
@@ -100,7 +100,6 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        LogUtils.PrintLog("兑现券列表","data-->"+dataObj);
         int is_cashing_list = dataObj.optInt("is_cashing_list");//是否有券
         if (is_cashing_list == 0) {//无券
             noView.setVisibility(View.VISIBLE);
@@ -111,29 +110,36 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
             for (int i = 0; i < list.length(); i++) {
                 JSONObject cashObj = list.optJSONObject(i);
                 int id = cashObj.optInt("id");
+                //1 2 0
                 String cashing_money = cashObj.optString("cashing_money");
                 long create_time = cashObj.optLong("create_time");//获取时间(s)
                 long thaw_time = cashObj.optLong("thaw_time");//解冻剩余时间（s）
                 int is_thaw = cashObj.optInt("is_thaw");//是否解冻
                 int is_test = cashObj.optInt("is_test");//是否体验
+                if(is_thaw==1){//便于排序
+                    is_thaw=2;
+                }else if(is_thaw==2){
+                    is_thaw=1;
+                }
                 WhiteTicket wt = new WhiteTicket(cashing_money, id, is_thaw,
                         formatTime(new SimpleDateFormat("yyyy.MM.dd"), create_time),
                         formatTime(thaw_time));
                 wt.setTest(is_test);
                 mList.add(wt);
             }
+            Collections.sort(mList);
             wta.notifyDataSetChanged();
         }
     }
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-
+        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     private String formatTime(SimpleDateFormat sdf, Long time) {

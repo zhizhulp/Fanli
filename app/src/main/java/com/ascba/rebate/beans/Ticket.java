@@ -1,6 +1,5 @@
 package com.ascba.rebate.beans;
 
-import java.util.Comparator;
 
 /**
  * Created by Administrator on 2016/11/27.

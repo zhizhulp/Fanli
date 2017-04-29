@@ -1,10 +1,12 @@
 package com.ascba.rebate.beans;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Administrator on 2016/12/16.
  */
 
-public class WhiteTicket {
+public class WhiteTicket implements Comparable<WhiteTicket> {
     private String money;
     private int id;
     private int status;
@@ -76,5 +78,10 @@ public class WhiteTicket {
 
     public void setTest(int test) {
         this.test = test;
+    }
+
+    @Override
+    public int compareTo(@NonNull WhiteTicket o) {
+        return o.getStatus()-this.getStatus();
     }
 }

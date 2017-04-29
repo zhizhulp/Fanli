@@ -82,7 +82,7 @@ public class WhiteTicketAdapter extends BaseAdapter {
             viewHolder.tvCreTime.setText("获得时间："+wt.getTime());
             viewHolder.tvLefTime.setVisibility(View.VISIBLE);
             viewHolder.tvLefTime.setText("距使用时间："+wt.getLeftTime());
-        }else if(wt.getStatus()==1){//可以使用\
+        }else if(wt.getStatus()==2){//可以使用
             viewHolder.tvCha.setEnabled(true);
             viewHolder.imFron.setImageResource(R.mipmap.white_ticket_bg_front);
             viewHolder.imCha.setImageResource(R.mipmap.white_ticket_bg_exchange);
@@ -99,14 +99,34 @@ public class WhiteTicketAdapter extends BaseAdapter {
             viewHolder.tvCha.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("tvCha", "onClick: ");
-
                     if(callback!=null){
                         callback.onExchangeClick(position);
                     }
                 }
             });
 
+        }else if(wt.getStatus()==1){//未激活状态
+            viewHolder.tvCha.setEnabled(true);
+            viewHolder.imFron.setImageResource(R.mipmap.white_ticket_bg_front);
+            viewHolder.imCha.setImageResource(R.mipmap.white_ticket_bg_exchange);
+            if(wt.getTest()==1){//测试
+                viewHolder.imTail.setImageResource(R.mipmap.white_ticket_bg_no_active_over);
+            }else {
+                viewHolder.imTail.setImageResource(R.mipmap.white_ticket_bg_tail);
+            }
+            viewHolder.tvMoney.setTextColor(context.getResources().getColor(R.color.white2cash_color));
+            viewHolder.tvString.setTextColor(context.getResources().getColor(R.color.white2cash_color));
+            viewHolder.tvString.setBackgroundDrawable((context.getResources().getDrawable(R.drawable.white_ticket_9)));
+            viewHolder.tvCreTime.setText("获得时间："+wt.getTime());
+            viewHolder.tvLefTime.setVisibility(View.GONE);
+            viewHolder.tvCha.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(callback!=null){
+                        callback.onExchangeClick(position);
+                    }
+                }
+            });
         }
 
         return convertView;

@@ -28,6 +28,11 @@ public class SafeSettingActivity extends BaseNetActivity {
     private void initView() {
         tvPay = ((TextView) findViewById(R.id.tv_pay));
         int type = AppConfig.getInstance().getInt("is_level_pwd", 0);
+        if(type==0){
+            tvPay.setText("设置支付密码");
+        }else if(type==1){
+            tvPay.setText("修改支付密码");
+        }
     }
 
     //修改手机号码

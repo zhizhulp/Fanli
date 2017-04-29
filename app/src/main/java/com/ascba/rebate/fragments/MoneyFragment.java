@@ -146,10 +146,6 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
                 requestMyData(3);//检查是否实名
                 break;
             case R.id.me_lat_fyzh://返佣账户
-                /*Intent intent4=new Intent(getActivity(), CommissionActivity.class);
-                startActivity(intent4);*/
-                /*Intent intent6=new Intent(getActivity(),TransactionRecordsActivity.class);
-                startActivity(intent6);*/
                 startActivity(new Intent(getActivity(), CostBillActivity.class));
                 break;
             case R.id.me_lat_chongzhi:
