@@ -1,5 +1,9 @@
 package com.ascba.rebate.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Created by 李鹏 on 2017/04/28 0028.
  */
@@ -29,7 +33,7 @@ public class PsdUtils {
      */
     private static String encryptMD5(String data, String salt) {
         //1、第一次加密
-        String firstEncry = EncryptUtils.encryptMD5ToString(data, salt);
+        String firstEncry = getMD5Str(data+salt);
 
         //2、乱序
         String arg0 = firstEncry.substring(0, firstEncry.length() / 2);
@@ -37,7 +41,7 @@ public class PsdUtils {
         firstEncry = arg1 + arg0;
 
         //3、二次md5加密
-        firstEncry = EncryptUtils.encryptMD5ToString(firstEncry);
+        firstEncry = getMD5Str(firstEncry);
 
         return firstEncry.toLowerCase();
     }
@@ -54,5 +58,28 @@ public class PsdUtils {
         time = time / 60000;
         encryptPsd = EncryptUtils.encryptMD5ToString(encryptPsd + time);
         return encryptPsd.toLowerCase();
+    }
+
+    public static String getMD5Str(String str) {
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(str.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("NoSuchAlgorithmException caught!");
+            System.exit(-1);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        byte[] byteArray = messageDigest.digest();
+        StringBuffer md5StrBuff = new StringBuffer();
+        for (int i = 0; i < byteArray.length; i++) {
+            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
+                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+            else
+                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+        }
+        return md5StrBuff.toString();
     }
 }

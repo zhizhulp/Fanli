@@ -161,7 +161,7 @@
                 android:id="@+id/me_lat_smrz"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginBottom="0.5dp"
+                android:layout_marginBottom="0.8dp"
                 android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -205,7 +205,7 @@
                     android:textSize="@dimen/main_text_14" />
             </RelativeLayout>
             <RelativeLayout
-                android:layout_marginBottom="0.5dp"
+                android:layout_marginBottom="0.8dp"
                 android:id="@+id/setting_my_qr"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
@@ -247,7 +247,7 @@
                 android:id="@+id/me_lat_sjlm"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginBottom="0.5dp"
+                android:layout_marginBottom="0.8dp"
                 android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -291,7 +291,7 @@
                 android:id="@+id/me_lat_dlzq"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginBottom="0.5dp"
+                android:layout_marginBottom="0.8dp"
                 android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -336,7 +336,7 @@
                 android:id="@+id/me_lat_msg"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginBottom="0.5dp"
+                android:layout_marginBottom="0.8dp"
                 android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">
@@ -377,7 +377,7 @@
                 android:id="@+id/me_lat_setting"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:layout_marginBottom="0.5dp"
+                android:layout_marginBottom="0.8dp"
                 android:background="@color/main_content_bg"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp">

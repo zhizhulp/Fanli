@@ -93,14 +93,14 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/main_business_category"/>
         <TextView
+            android:id="@+id/tv_pay"
             android:textColor="@color/main_text_normal"
             android:textSize="@dimen/main_text_15"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_03"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="修改支付密码"/>
+            android:layout_height="wrap_content" />
         <ImageView
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

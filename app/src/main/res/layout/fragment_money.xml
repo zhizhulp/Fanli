@@ -20,6 +20,7 @@
                 android:background="@mipmap/me_head_bg">
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/me_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

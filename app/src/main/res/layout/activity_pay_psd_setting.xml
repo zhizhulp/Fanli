@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main_content_bg">
+
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:textSize="@dimen/main_text_15"
+        android:textColor="@color/main_text_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/trader_pwd_set_tips_textview"
+        android:layout_below="@+id/mb"
+        android:layout_marginTop="25dip"
+        android:layout_centerHorizontal="true" />
+
+
+    <com.ascba.rebate.view.keyboard.PasswordInputView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="25dp"
+        android:cursorVisible="false"
+        android:inputType="number"
+        android:maxLength="6"
+        app:pivPasswordLength="6"
+        android:id="@+id/trader_pwd_set_pwd_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="41dip"
+        android:layout_below="@+id/trader_pwd_set_tips_textview"
+        android:background="@color/white" />
+
+    <TextView
+        android:onClick="forgetPassword"
+        android:gravity="center"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:text="忘记密码?"
+        android:layout_below="@id/trader_pwd_set_pwd_edittext"
+        android:id="@+id/tv_forget"
+        android:textSize="@dimen/main_text_13"
+        android:textColor="@color/main_text_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp" />
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="240dip"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="30dip"
+        android:paddingLeft="13dip"
+        android:paddingRight="13dip"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

@@ -27,9 +27,9 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_me"/>
         <TextView
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textSize="@dimen/main_text_15"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_01"
             android:layout_width="wrap_content"
@@ -138,9 +138,9 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_safe"/>
         <TextView
-            android:textColor="@color/black"
+            android:textColor="@color/main_text_normal"
             android:layout_centerVertical="true"
-            android:textSize="15sp"
+            android:textSize="@dimen/main_text_15"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/safe_setting_img_05"
             android:layout_width="wrap_content"
@@ -155,10 +155,6 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_go"/>
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/main_line_light_gray"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

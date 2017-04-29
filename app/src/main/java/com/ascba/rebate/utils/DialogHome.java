@@ -67,6 +67,28 @@ public class DialogHome {
         dialogAlter.show();
         return this;
     }
+    //可以处理确定的情况
+    public DialogHome buildAlertDialog2(String message,final Callback dialogClick) {
+        dismissDialog();
+        dialogAlter = new Dialog(context, R.style.AlertDialog);
+        dialogList.add(dialogAlter);
+        View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
+        dialogAlter.setContentView(alertView);
+
+        TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
+        tvMsg.setText(message);
+        TextView btSure = (TextView) alertView.findViewById(R.id.tv_alert_sure);//确定按钮
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialogClick != null) {
+                    dialogClick.handleSure();
+                }
+            }
+        });
+        dialogAlter.show();
+        return this;
+    }
 
     /**
      * 可以处理确定和取消的情况

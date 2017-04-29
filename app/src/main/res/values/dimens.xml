@@ -55,4 +55,7 @@
     <dimen name="main_text_11">11sp</dimen>
     <dimen name="main_line_height_high">10dp</dimen>
     <dimen name="main_line_height_normal">0.5dp</dimen>
+    <dimen name="et_radius">6dp</dimen>
+    <dimen name="dimen_6">6dp</dimen>
+    <dimen name="et_board">0.5dp</dimen>
 </resources>

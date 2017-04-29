@@ -118,18 +118,19 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     protected void mhandle404(int what, JSONObject object, String message) {
     }
 
-    protected void mhandleFinish(int what) {
-    }
+
 
     protected void mhandleFailed(int what, Exception e) {
     }
 
-    protected void mhandleNoNetWord() {
-    }
     protected void mhandleReLogin(int what) {
     }
 
     protected void mhandleHasNetWord(boolean isNetWork) {
+    }
+    protected void mhandleFinish(int what) {
+    }
+    protected void mhandleNoNetWord() {
     }
 
     public static void setRequestCode(int requestLogin) {

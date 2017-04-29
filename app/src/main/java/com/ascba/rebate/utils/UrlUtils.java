@@ -210,4 +210,8 @@ public class UrlUtils {
     public static final String moneyTillsLog = urlPrefix + "moneyTillsLog";
     //提现账单日期查询
     public static final String dateMoneyTillLog = urlPrefix + "dateMoneyTillLog";
+    //设置支付密码
+    public static final String setPayPassword = urlPrefix + "setPayPassword";
+    //忘记支付密码
+    public static final String getBackPayPwd = urlPrefix + "getBackPayPwd";
 }
