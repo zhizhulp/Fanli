@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
@@ -55,6 +57,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
     private DecimalFormat fnum = new DecimalFormat("##0.00");//格式化，保留两位
     private PayUtils pay;
     private String balance;//账户余额
+    private String orderId;//订单id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +378,9 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
      */
     private void payOrder(JSONObject dataObj, final String payType) {
         try {
+            orderId = dataObj.optString("order_id", null);
+            MyApplication.orderId = orderId;
+
             JSONObject object = dataObj.optJSONObject("payreturn_data");
             JSONObject object1 = object.optJSONObject("data");
 
@@ -384,7 +390,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
             if ("balance".equals(payType)) {
                 //余额支付
                 pay.dismissDialog();
-                if (object.optJSONArray("data") != null && object.optJSONArray("data").length() > 0) {
+                if (object.optJSONObject("data") != null) {
                     pay.requestForYuE(object1);
                 } else {
                     //余额不足
@@ -419,24 +425,36 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                     setResult(RESULT_OK, getIntent());
                     finish();
                 } else if ("wxpay".equals(payType)) {
+                    finish();
                     //微信支付
                     MyApplication.payType = 1;
-                    finish();
                 }
             }
 
             @Override
             public void onSuccess(String payStype, String resultStatus) {
                 showToast("成功支付");
-                //跳转待付款列表
-                MyOrderActivity.startIntent(context, 2);
+                if (StringUtils.isEmpty(orderId)) {
+                    //跳转待付款列表
+                    MyOrderActivity.startIntent(context, 2);
+                } else {
+                    Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                    intent.putExtra("order_id", orderId);
+                    startActivity(intent);
+                }
             }
 
             @Override
             public void onCancel(String payStype, String resultStatus) {
                 showToast("取消支付");
-                //跳转待付款列表
-                MyOrderActivity.startIntent(context, 1);
+                if (StringUtils.isEmpty(orderId)) {
+                    //跳转待付款列表
+                    MyOrderActivity.startIntent(context, 1);
+                } else {
+                    Intent intent = new Intent(context, PayDetailsActivity.class);
+                    intent.putExtra("order_id", orderId);
+                    startActivity(intent);
+                }
             }
 
             @Override

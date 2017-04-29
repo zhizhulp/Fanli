@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -69,7 +68,6 @@ public class ShopMeFragment extends LazyBaseFragment implements SwipeRefreshLayo
             headView.setBackgroundColor(Color.argb(0, 255, 255, 255));
             headViewLine.setAlpha(0);
             getMeData();
-            Log.d("ShopMeFragment", "lazyLoad");
         }
     }
 

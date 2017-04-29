@@ -226,6 +226,7 @@ public class PayUtils {
 
     //调起微信
     public void requestForWX(JSONObject wxpay) {
+        MyApplication.payType = 1;
         try {
             PayReq req = new PayReq();
             req.appId = wxpay.getString("appid");
@@ -240,6 +241,7 @@ public class PayUtils {
             if (!hasWXApp) {
                 Toast.makeText(context, "您可能没有安装微信客户端", Toast.LENGTH_SHORT).show();
             }
+            context.finish();
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
             }

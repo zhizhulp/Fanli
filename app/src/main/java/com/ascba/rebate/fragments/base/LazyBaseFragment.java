@@ -2,7 +2,6 @@ package com.ascba.rebate.fragments.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,15 +33,6 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             isCanLoad();
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-          Log.d("LazyBaseFragment", "getUserVisibleHint-->" + getUserVisibleHint());
-        if(getUserVisibleHint()) {
-        } else {
         }
     }
 

@@ -16,8 +16,10 @@ import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 import com.yanzhenjie.nohttp.cookie.DBCookieStore;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.jpush.android.api.JPushInterface;
 
 
@@ -28,6 +30,7 @@ public class MyApplication extends MultiDexApplication {
 
     //支付类型
     public static int payType = 0;//0 充值 1商城支付
+    public static String orderId = null;//订单id
 
     public static MyApplication getInstance() {
         return app;
