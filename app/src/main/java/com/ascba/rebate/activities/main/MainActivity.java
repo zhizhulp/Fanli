@@ -40,6 +40,8 @@ import cn.jpush.android.api.TagAliasCallback;
  */
 public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private int currIndex = HOMEPAGE;//当前位置
+
+
     private static int index;
     public static final int HOMEPAGE = 0;
     public static final int SLIDE = 1;
@@ -50,7 +52,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
     private static final int REQUEST_LOGIN_SHOP = 2015;
-    private static final int REQUEST_LOGIN_CAIFU = 2016;
+    public static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
 
     private List<Fragment> fgts = new ArrayList<>();
@@ -168,6 +170,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         //点击财富，登陆成功
         if (requestCode == REQUEST_LOGIN_CAIFU && resultCode == RESULT_OK) {
             index = CAIFU;
+            appTabs.statusChaByPosition(index, currIndex);
+            appTabs.setFilPos(index);
             selFrgByPos(index);
         }
 
@@ -351,7 +355,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     @Override
     protected void onResume() {
         super.onResume();
-            if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
+            /*if (AppConfig.getInstance().getInt("uuid", -1000) == -1000 ) {
                 try {
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
@@ -365,7 +369,23 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
+    }
+
+    public int getCurrIndex() {
+        return currIndex;
+    }
+
+    public void setCurrIndex(int currIndex) {
+        this.currIndex = currIndex;
+    }
+
+    public AppTabs getAppTabs() {
+        return appTabs;
+    }
+
+    public void setAppTabs(AppTabs appTabs) {
+        this.appTabs = appTabs;
     }
 }

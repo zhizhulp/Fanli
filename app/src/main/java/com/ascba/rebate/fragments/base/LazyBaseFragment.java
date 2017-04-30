@@ -1,7 +1,12 @@
 package com.ascba.rebate.fragments.base;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +24,91 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
      */
     protected boolean isLoad = false;
     private View view;
+    private boolean debug=false;
+    private String TAG="LazyBaseFragment";
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        if(debug)
+            Log.d(TAG, "onAttachFragment: ");
+        super.onAttachFragment(childFragment);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        if(debug)
+            Log.d(TAG, "onAttach: ");
+        super.onAttach(context);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(debug)
+            Log.d(TAG, "setUserVisibleHint: ");
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public boolean getUserVisibleHint() {
+        if(debug)
+            Log.d(TAG, "getUserVisibleHint: ");
+        return super.getUserVisibleHint();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        if(debug)
+            Log.d(TAG, "onActivityCreated: ");
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        if(debug)
+            Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(debug)
+            Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if(debug)
+            Log.d(TAG, "onConfigurationChanged: ");
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onStop() {
+        if(debug)
+            Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        if(debug)
+            Log.d(TAG, "onLowMemory: ");
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onDetach() {
+        if(debug)
+            Log.d(TAG, "onDetach: ");
+        super.onDetach();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(debug)
+            Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(setContentView(), container, false);
         /**初始化的时候去加载数据**/
         return view;
@@ -30,6 +116,8 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
+        if(debug)
+            Log.d(TAG, "onHiddenChanged: ");
         super.onHiddenChanged(hidden);
         if (!hidden) {
             isCanLoad();
@@ -39,6 +127,8 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
 
     @Override
     public void onResume() {
+        if(debug)
+            Log.d(TAG, "onResume: ");
         super.onResume();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
@@ -46,6 +136,12 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
         isCanLoad();
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        if(debug)
+            Log.d(TAG, "onAttach: ");
+        super.onAttach(activity);
+    }
 
     private void isCanLoad() {
         lazyLoad();
@@ -55,19 +151,35 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
      */
     @Override
     public void onDestroyView() {
+        if(debug)
+            Log.d(TAG, "onDestroyView: ");
         super.onDestroyView();
         isLoad = false;
-        //cancelNetWork();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
         }
     }
 
     @Override
+    public void setRetainInstance(boolean retain) {
+        if(debug)
+            Log.d(TAG, "setRetainInstance: ");
+        super.setRetainInstance(retain);
+    }
+
+    @Override
+    public void onDestroy() {
+        if(debug)
+            Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
     public void onPause() {
+        if(debug)
+            Log.d(TAG, "onPause: ");
         super.onPause();
         isLoad = false;
-        //cancelNetWork();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
         }

@@ -504,7 +504,15 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         priceNow.setText("￥" + goods.getGoodsPrice());
         //市场价
         TextView priceOld = (TextView) findViewById(R.id.goods_details_simple_desc_price_old);
-        priceOld.setText("￥" + goods.getGoodsPriceOld());
+        String goodsPriceOld = goods.getGoodsPriceOld();
+        float v = Float.parseFloat(goodsPriceOld);
+        if(v==0){
+            priceOld.setVisibility(View.GONE);
+        }else {
+            priceOld.setVisibility(View.VISIBLE);
+            priceOld.setText("￥" + goods.getGoodsPriceOld());
+        }
+
         priceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         /**

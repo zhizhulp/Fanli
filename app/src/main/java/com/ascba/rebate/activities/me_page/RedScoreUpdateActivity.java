@@ -27,6 +27,8 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     private TextView tvTicket;
     private TextView tvTodayRate;
     private MoneyBar moneyBar;
+    private TextView tvTips;
+    private TextView tvCashDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,6 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
 
     private void initViews() {
         moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
-        //moneyBar.setTailTitle(getString(R.string.inoutcome_record));
         moneyBar.setCallBack(new MoneyBar.CallBack() {
             @Override
             public void clickImage(View im) {
@@ -47,7 +48,7 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
 
             @Override
             public void clickComplete(View tv) {
-                //TransactionRecordsActivity.startIntent(RedScoreUpdateActivity.this);
+
             }
         });
 
@@ -55,6 +56,10 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
         tvCash = ((TextView) findViewById(R.id.tv_cash));
         tvTicket = ((TextView) findViewById(R.id.tv_ticket));
         tvTodayRate = ((TextView) findViewById(R.id.red_rate));
+
+
+        tvTips = ((TextView)findViewById(R.id.tv_tips));
+        tvCashDesc = ((TextView) findViewById(R.id.tv_cash_desc));
     }
 
     private void requestRedScore() {
@@ -77,13 +82,14 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
             int subscription_ratio_money = redObj.optInt("subscription_ratio_money");
             //最终获得最大积分
             int subscription_ratio_score = redObj.optInt("subscription_ratio_score");
-
             int rateMoney = redObj.optInt("ratio_money");
             int rateScore = redObj.optInt("ratio_score");
             tvMax.setText("" + convertible_red_score);
-            tvCash.setText("" + subscription_ratio_money);
+            tvCash.setText("" + subscription_ratio_money );
             tvTicket.setText("" + subscription_ratio_score);
+            tvCashDesc.setText("返现金("+redObj.optString("cash_tax_rate") +")");
             tvTodayRate.setText("当前兑换比例：" + rateMoney + ":" + rateScore);
+            tvTips.setText("转出赠返现金为预存款，实际到账为"+redObj.optString("money"));
         } else if (finalScene == 2) {
             Intent intent = new Intent(this, RedScSuccActivity.class);
             startActivityForResult(intent, FourthFragment.REQUEST_RED);

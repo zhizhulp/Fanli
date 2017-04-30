@@ -49,7 +49,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:text="返现金"
+                android:id="@+id/tv_cash_desc"
                 android:textColor="@color/main_text_normal"
                 android:textSize="@dimen/main_text_14"
                 android:layout_width="wrap_content"
@@ -132,9 +132,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:visibility="gone"
             android:textColor="@color/main_text_blue"
             android:textSize="@dimen/main_text_14"
-
             android:onClick="goAcc"
             android:gravity="center"
             android:layout_alignParentRight="true"
@@ -145,7 +145,16 @@
     </RelativeLayout>
     <View
         style="@style/viewStyleMatch"/>
-
+    <TextView
+        android:background="@color/main_content_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:id="@+id/tv_tips"
+        android:textColor="@color/main_text_gary"
+        android:textSize="@dimen/main_text_14"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="52dp" />
     <Button
         android:onClick="redChange"
         android:layout_marginTop="23dp"

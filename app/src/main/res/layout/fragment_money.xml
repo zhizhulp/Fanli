@@ -348,7 +348,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="提现券"
+                            android:text="快速兑现券"
                             android:textColor="@color/main_text_normal"
                             android:textSize="@dimen/main_text_14" />
 

@@ -1,11 +1,19 @@
 package com.ascba.rebate.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.CostBillActivity;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
@@ -49,6 +57,8 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
     private TextView tvBank;
     private View accountView;
     private int finalScene;
+    private boolean debug = true;
+    private String TAG = "LazyBaseFragment";
 
     @Override
     protected int setContentView() {
@@ -64,6 +74,9 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if(debug){
+            Log.d(TAG, "onViewCreated: ");
+        }
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
     }
@@ -110,9 +123,9 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onRefresh() {
-        if( NetUtils.isNetworkAvailable(getActivity())){
+        if (NetUtils.isNetworkAvailable(getActivity())) {
             requestMyData(0);
-        }else {
+        } else {
             refreshLayout.setRefreshing(false);
             getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
         }
@@ -127,7 +140,7 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.me_lat_daifan://白积分
-                Intent intent4=new Intent(getActivity(), WhiteBillActivity.class);
+                Intent intent4 = new Intent(getActivity(), WhiteBillActivity.class);
                 startActivity(intent4);
                 break;
             case R.id.me_lat_duihuan:
@@ -201,7 +214,7 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
                 }
             }
         } else if (finalScene == 0) {
-            LogUtils.PrintLog("财富数据","data-->"+dataObj);
+            LogUtils.PrintLog("财富数据", "data-->" + dataObj);
             if (refreshLayout != null && refreshLayout.isRefreshing()) {
                 refreshLayout.setRefreshing(false);
             }
@@ -215,7 +228,7 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
             tvGrzh.setText(infoObj.optString("money"));
             tvSjzh.setText(infoObj.optString("monetary"));//本月消费
             tvBank.setText(infoObj.optInt("banks") + "张");
-            tvJiaoYi.setText(infoObj.optString("cashing_money")+ "张");//提现券
+            tvJiaoYi.setText(infoObj.optString("cashing_money") + "张");//提现券
         } else if (finalScene == 3) {//检查是否实名，点击提现前
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
@@ -259,7 +272,158 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void handleNoNetWork() {
+    }
+
+
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        if (debug)
+            Log.d(TAG, "onAttachFragment: ");
+        super.onAttachFragment(childFragment);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        if (debug)
+            Log.d(TAG, "onAttach: ");
+        super.onAttach(context);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (debug)
+            Log.d(TAG, "setUserVisibleHint: ");
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public boolean getUserVisibleHint() {
+        if (debug)
+            Log.d(TAG, "getUserVisibleHint: ");
+        return super.getUserVisibleHint();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onActivityCreated: ");
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        if (debug)
+            Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (debug)
+            Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (debug)
+            Log.d(TAG, "onConfigurationChanged: ");
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onStop() {
+        if (debug)
+            Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        if (debug)
+            Log.d(TAG, "onLowMemory: ");
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onDetach() {
+        if (debug)
+            Log.d(TAG, "onDetach: ");
+        super.onDetach();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (debug)
+            Log.d(TAG, "onHiddenChanged: ");
+        super.onHiddenChanged(hidden);
+    }
+
+
+    @Override
+    public void onResume() {
+        if (debug)
+            Log.d(TAG, "onResume: ");
+        super.onResume();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        if (debug)
+            Log.d(TAG, "onAttach: ");
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (debug)
+            Log.d(TAG, "onDestroyView: ");
+        super.onDestroyView();
 
     }
 
+    @Override
+    public void setRetainInstance(boolean retain) {
+        if (debug)
+            Log.d(TAG, "setRetainInstance: ");
+        super.setRetainInstance(retain);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (debug)
+            Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        if (debug)
+            Log.d(TAG, "onPause: ");
+        super.onPause();
+
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onViewStateRestored: ");
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onCreate: ");
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onCreateView: ");
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 }

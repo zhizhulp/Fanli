@@ -3,11 +3,13 @@ package com.ascba.rebate.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,19 +27,21 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
@@ -57,6 +61,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ascba.rebate.activities.main.MainActivity.CAIFU;
+import static com.ascba.rebate.activities.main.MainActivity.HOMEPAGE;
+import static com.ascba.rebate.activities.main.MainActivity.REQUEST_LOGIN_CAIFU;
 
 /**
  * Created by 李鹏 on 2017/03/10 0010.
@@ -88,6 +96,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private int finalScene;
     private static final long newTime = 24 * 60 * 60 * 1000;//新文章变为旧文章的时间(ms)
     private MsgView msgView;
+    private String TAG="BaseFragment";
+    private boolean debug=true;
 
 
     @Override
@@ -97,6 +107,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if(debug)
+            Log.d(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
@@ -218,8 +230,18 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     case R.id.homepage_btn_speedmon:
                         startActivity(new Intent(getActivity(), ShopActivity.class));
                         break;
-                    case R.id.homepage_btn_makemon:
-                        Toast.makeText(context, "赚钱", Toast.LENGTH_SHORT).show();
+                    case R.id.homepage_btn_makemon://切到财富
+                        MainActivity activity = (MainActivity) getActivity();
+                        if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
+                            activity.selFrgByPos(CAIFU);
+                            BaseNetActivity.setRequestCode(REQUEST_LOGIN_CAIFU);
+                            activity.getAppTabs().statusChaByPosition(CAIFU,HOMEPAGE);
+                            activity.getAppTabs().setFilPos(CAIFU);
+                            MyApplication.isLoad = true;
+                        } else {
+                            Intent intent = new Intent(activity, LoginActivity.class);
+                            activity.startActivityForResult(intent, REQUEST_LOGIN_CAIFU);
+                        }
                         break;
                     case R.id.homepage_btn_policy:
                         //创业扶持
@@ -530,4 +552,136 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if(debug)
+            Log.d(TAG, "onHiddenChanged: ");
+        super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(debug)
+            Log.d(TAG, "setUserVisibleHint: ");
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public boolean getUserVisibleHint() {
+        if(debug)
+            Log.d(TAG, "getUserVisibleHint: ");
+        return super.getUserVisibleHint();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        if(debug)
+            Log.d(TAG, "onAttachFragment: ");
+        super.onAttachFragment(childFragment);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        if(debug)
+            Log.d(TAG, "onAttach: ");
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        if(debug)
+            Log.d(TAG, "onAttach: ");
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        if(debug)
+            Log.d(TAG, "onActivityCreated: ");
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if(debug)
+            Log.d(TAG, "onViewStateRestored: ");
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(debug)
+            Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if(debug)
+            Log.d(TAG, "onConfigurationChanged: ");
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onStop() {
+        if(debug)
+            Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        if(debug)
+            Log.d(TAG, "onLowMemory: ");
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if(debug)
+            Log.d(TAG, "onDestroyView: ");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        if(debug)
+            Log.d(TAG, "onDetach: ");
+        super.onDetach();
+    }
+
+    @Override
+    public void onStart() {
+        if(debug)
+            Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        if(debug)
+            Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        if(debug)
+            Log.d(TAG, "onCreate: ");
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onPause() {
+        if(debug)
+            Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        if(debug)
+            Log.d(TAG, "onResume: ");
+        super.onResume();
+    }
 }
