@@ -214,4 +214,8 @@ public class UrlUtils {
     public static final String setPayPassword = urlPrefix + "setPayPassword";
     //忘记支付密码
     public static final String getBackPayPwd = urlPrefix + "getBackPayPwd";
+    //提现兑换记录
+    public static final String payCashLog = urlPrefix + "payCashLog";
+    //提现日期兑换记录
+    public static final String datePayCashLog = urlPrefix + "datePayCashLog";
 }

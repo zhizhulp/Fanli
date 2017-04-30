@@ -40,21 +40,17 @@ import cn.jpush.android.api.TagAliasCallback;
  */
 public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private int currIndex = HOMEPAGE;//当前位置
-
-
     private static int index;
     public static final int HOMEPAGE = 0;
     public static final int SLIDE = 1;
     public static final int SHOP = 2;
     public static final int CAIFU = 3;
     public static final int ME = 4;
-
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
     private static final int REQUEST_LOGIN_SHOP = 2015;
     public static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
-
     private List<Fragment> fgts = new ArrayList<>();
     private final Handler mHandler = new Handler() {
         @Override
@@ -115,46 +111,14 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         mSideFragment = new SideFragment();
         mMoneyFragment = new MoneyFragment();
         mMeFragment = new MeFragment();
-
         selFrgByPos(currIndex);
     }
-
-
-    private void init() {
-        int uuid = AppConfig.getInstance().getInt("uuid", -1000);
-        if (uuid != -1000) {
-            setAlias(uuid + "");
-            boolean appDebug = LogUtils.isAppDebug(this);
-            setTag(appDebug);
-            if (appDebug) {
-                LogUtils.PrintLog("123", "debug");
-            } else {
-                LogUtils.PrintLog("123", "release");
-            }
-
-        }
-    }
-
-    //调用JPush API设置Tag
-    private void setTag(boolean appDebug) {
-        Set<String> tagSet = new LinkedHashSet<String>();
-        if (appDebug) {
-            tagSet.add("debug");
-        } else {
-            tagSet.add("release");
-        }
-       /* tagSet.add(getPackageVersionCode()+"");//把版本号传给服务器*/
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //取消登陆
         if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME || requestCode == REQUEST_LOGIN_CAIFU)) {
-            Log.d("MainActivity", "currIndex:" + currIndex);
-
             index = HOMEPAGE;
             appTabs.statusChaByPosition(index, currIndex);
             appTabs.setFilPos(index);
@@ -182,50 +146,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         }
     }
 
-    private void setAlias(String alias) {
-        //调用JPush API设置Alias
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
-    }
 
-    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
-        @Override
-        public void gotResult(int code, String alias, Set<String> tags) {
-            switch (code) {
-                case 0://成功
-                    break;
-                case 6002://失败，重试
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
-                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
-                    } else {
-                        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                default:
-            }
-        }
-    };
-    private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
-
-        @Override
-        public void gotResult(int code, String alias, Set<String> tags) {
-            switch (code) {
-                case 0:
-                    break;
-
-                case 6002:
-
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
-                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
-                    } else {
-                        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-
-                default:
-            }
-        }
-
-    };
 
     //首页
     @Override
@@ -387,5 +308,74 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     public void setAppTabs(AppTabs appTabs) {
         this.appTabs = appTabs;
+    }
+    private void setAlias(String alias) {
+        //调用JPush API设置Alias
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
+    }
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            switch (code) {
+                case 0://成功
+                    break;
+                case 6002://失败，重试
+                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    } else {
+                        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+            }
+        }
+    };
+    private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
+
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            switch (code) {
+                case 0:
+                    break;
+
+                case 6002:
+
+                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
+                    } else {
+                        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                default:
+            }
+        }
+
+    };
+    private void init() {
+        int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        if (uuid != -1000) {
+            setAlias(uuid + "");
+            boolean appDebug = LogUtils.isAppDebug(this);
+            setTag(appDebug);
+            if (appDebug) {
+                LogUtils.PrintLog("123", "debug");
+            } else {
+                LogUtils.PrintLog("123", "release");
+            }
+
+        }
+    }
+
+    //调用JPush API设置Tag
+    private void setTag(boolean appDebug) {
+        Set<String> tagSet = new LinkedHashSet<String>();
+        if (appDebug) {
+            tagSet.add("debug");
+        } else {
+            tagSet.add("release");
+        }
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
     }
 }

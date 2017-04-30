@@ -44,6 +44,7 @@ import org.json.JSONObject;
 public class MoneyFragment extends LazyBaseFragment implements View.OnClickListener
         , BaseNetFragment.Callback, SwipeRefreshLayout.OnRefreshListener {
 
+    public static final int REQUEST_RED = 0;
     private TextView tvAllCash;
     private TextView tvRed;
     private TextView tvWhite;
@@ -145,7 +146,7 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
                 break;
             case R.id.me_lat_duihuan:
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
-                startActivity(intent3);
+                startActivityForResult(intent3,REQUEST_RED);
                 break;
             case R.id.me_lat_jiaoyi://兑现券
                 Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
@@ -274,7 +275,15 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
     public void handleNoNetWork() {
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_RED:
+                requestMyData(0);
+                break;
+        }
+    }
 
     @Override
     public void onAttachFragment(Fragment childFragment) {

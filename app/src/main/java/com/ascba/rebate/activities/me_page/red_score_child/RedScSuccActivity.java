@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
+import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.view.MoneyBar;
 
@@ -16,7 +17,6 @@ public class RedScSuccActivity extends AppCompatActivity implements MoneyBar.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_red_sc_succ);
-        //StatusBarUtil.setColor(this,getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
     private void initViews() {
@@ -31,7 +31,7 @@ public class RedScSuccActivity extends AppCompatActivity implements MoneyBar.Cal
 
     @Override
     public void clickComplete(View tv) {
-        setResult(FourthFragment.REQUEST_RED,getIntent());
+        setResult(MoneyFragment.REQUEST_RED,getIntent());
         finish();
     }
     //进入查看账单页面

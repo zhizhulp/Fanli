@@ -660,12 +660,15 @@
             android:name=".activities.SettingPayPsdAgainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.FindPayPasswordActivity"
+        <activity
+            android:name=".activities.FindPayPasswordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"/>
-        <activity android:name=".activities.PayPsdSettingActivity"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.PayPsdSettingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
+        <activity android:name=".activities.FastBillActivity"></activity>
     </application>
 
 </manifest>

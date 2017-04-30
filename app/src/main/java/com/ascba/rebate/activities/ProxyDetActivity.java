@@ -11,6 +11,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ProxyDetAdapter;
 import com.ascba.rebate.beans.ProxyDet;
+import com.ascba.rebate.view.MarqueeTextView;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.SpaceItemDecoration;
 
@@ -24,6 +25,7 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
     private RecyclerView rv;
     private ProxyDetAdapter adapter;
     private List<ProxyDet> data;
+    private MarqueeTextView tvMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,9 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
         initRecyclerView();
         initRefreshLayout();
         refreshLayout.setOnRefreshListener(this);
+
+        tvMsg = ((MarqueeTextView) findViewById(R.id.tv_msg));
+        tvMsg.setText("数据展示，近期开放，敬请关注系统通知即可。数据展示，近期开放，敬请关注系统通知即可。");
     }
 
     private void initRecyclerView() {

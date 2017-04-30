@@ -11,6 +11,7 @@
         <attr name="titleColor" format="color" />
         <attr name="backImg" format="reference|integer" />
         <attr name="needLine" format="boolean" />
+        <attr name="tailTextColor" format="color|reference"/>
     </declare-styleable>
     <declare-styleable name="EditTextWithCustomHint">
         <attr name="hintSize" format="dimension" />

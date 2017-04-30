@@ -8,6 +8,7 @@
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/mb"
         app:needComplete="true"
+        app:textTail="完成"
         app:textTitle="红积分兑换"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

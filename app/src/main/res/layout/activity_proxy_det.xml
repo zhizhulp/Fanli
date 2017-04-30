@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -21,15 +22,16 @@
                 android:background="@mipmap/me_head_bg">
 
                 <com.ascba.rebate.view.MoneyBar
-                    app:needLine="false"
-                    app:titleColor="@color/white"
-                    app:backImg="@mipmap/money_bar_back"
                     android:id="@+id/mb"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    app:backImg="@mipmap/money_bar_back"
                     app:barBg="@color/transparent"
                     app:needComplete="true"
-                    app:textTitle="代理专区" />
+                    app:needLine="false"
+                    app:tailTextColor="@color/white"
+                    app:textTitle="代理专区"
+                    app:titleColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -46,7 +48,7 @@
                         android:layout_marginTop="9dp"
                         android:text="白菜帮子(精英代理)"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/main_text_17"/>
+                        android:textSize="@dimen/main_text_17" />
 
                     <TextView
                         android:id="@+id/money_money"
@@ -121,6 +123,39 @@
                         android:textSize="@dimen/main_text_15" />
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#fdf9dc"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/proxy_msg"
+                android:gravity="center_vertical"
+                android:text="重要"
+                android:textColor="@color/white"
+                android:textSize="@dimen/main_text_13" />
+
+            <com.ascba.rebate.view.MarqueeTextView
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:id="@+id/tv_msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_13" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

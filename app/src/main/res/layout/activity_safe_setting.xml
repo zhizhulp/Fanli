@@ -58,7 +58,7 @@
             android:id="@+id/safe_setting_img_02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
+            android:src="@mipmap/login_psd"/>
         <TextView
             android:layout_centerVertical="true"
             android:textColor="@color/main_text_normal"
@@ -91,7 +91,7 @@
             android:id="@+id/safe_setting_img_03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/main_business_category"/>
+            android:src="@mipmap/pay_psd"/>
         <TextView
             android:id="@+id/tv_pay"
             android:textColor="@color/main_text_normal"

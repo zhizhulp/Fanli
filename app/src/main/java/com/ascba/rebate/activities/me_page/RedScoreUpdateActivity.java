@@ -3,12 +3,14 @@ package com.ascba.rebate.activities.me_page;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.red_score_child.RedScSuccActivity;
+import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
@@ -29,6 +31,9 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     private MoneyBar moneyBar;
     private TextView tvTips;
     private TextView tvCashDesc;
+    private TextView tvTotalRed;
+    private TextView tvHeadTip;
+    private Button btnExchange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +62,12 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
         tvTicket = ((TextView) findViewById(R.id.tv_ticket));
         tvTodayRate = ((TextView) findViewById(R.id.red_rate));
 
-
         tvTips = ((TextView)findViewById(R.id.tv_tips));
         tvCashDesc = ((TextView) findViewById(R.id.tv_cash_desc));
+        tvTotalRed = ((TextView) findViewById(R.id.total_red_score_total));
+        tvHeadTip = ((TextView) findViewById(R.id.tv_tips_head));
+
+        btnExchange = ((Button) findViewById(R.id.btn_exchange));
     }
 
     private void requestRedScore() {
@@ -84,15 +92,25 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
             int subscription_ratio_score = redObj.optInt("subscription_ratio_score");
             int rateMoney = redObj.optInt("ratio_money");
             int rateScore = redObj.optInt("ratio_score");
+            int notice_tip = redObj.optInt("notice_tip");
+            int exchange_unit = redObj.optInt("exchange_unit");
+            int red_score = redObj.optInt("red_score");
             tvMax.setText("" + convertible_red_score);
             tvCash.setText("" + subscription_ratio_money );
             tvTicket.setText("" + subscription_ratio_score);
             tvCashDesc.setText("返现金("+redObj.optString("cash_tax_rate") +")");
             tvTodayRate.setText("当前兑换比例：" + rateMoney + ":" + rateScore);
             tvTips.setText("转出赠返现金为预存款，实际到账为"+redObj.optString("money"));
+            tvHeadTip.setText(notice_tip==0? null: "提醒：满"+exchange_unit+"红积分方可兑换现金与代金券" );
+            tvHeadTip.setVisibility(notice_tip==0?View.GONE:View.VISIBLE);
+            tvTotalRed.setText(""+red_score);
+            btnExchange.setBackgroundDrawable(notice_tip==0?getResources().getDrawable(R.drawable.register_btn_bg)
+                    :getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+            btnExchange.setEnabled(notice_tip == 0);
+
         } else if (finalScene == 2) {
             Intent intent = new Intent(this, RedScSuccActivity.class);
-            startActivityForResult(intent, FourthFragment.REQUEST_RED);
+            startActivityForResult(intent, MoneyFragment.REQUEST_RED);
         }
 
     }
@@ -113,8 +131,7 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
             getDm().buildAlertDialog("可兑换红积分不足");
             return;
         }
-        getDm().buildAlertDialog("您确定要兑换吗？");
-        getDm().setCallback(new DialogHome.Callback() {
+        getDm().buildAlertDialogSure("您确定要兑换吗？", new DialogHome.Callback() {
             @Override
             public void handleSure() {
                 finalScene = 2;
@@ -138,7 +155,7 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case FourthFragment.REQUEST_RED:
+            case MoneyFragment.REQUEST_RED:
                 setResult(RESULT_OK, getIntent());
                 finish();
                 break;

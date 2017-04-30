@@ -102,6 +102,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(debug)
+            Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_homepage, container, false);
     }
 

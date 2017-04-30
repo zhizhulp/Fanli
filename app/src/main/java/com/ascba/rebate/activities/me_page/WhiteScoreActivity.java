@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.BaseBillActivity;
 import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
@@ -59,7 +60,9 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
 
             @Override
             public void clickComplete(View tv) {
-                TransactionRecordsActivity.startIntent(WhiteScoreActivity.this);
+                //TransactionRecordsActivity.startIntent(WhiteScoreActivity.this);
+                Intent intent=new Intent(WhiteScoreActivity.this, BaseBillActivity.class);
+                startActivity(intent);
             }
         });
 

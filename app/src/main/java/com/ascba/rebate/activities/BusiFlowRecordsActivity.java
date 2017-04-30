@@ -103,6 +103,8 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                 requestNetwork(UrlUtils.dateMonthlyLog);
             }else if(type==3){
                 requestNetwork(UrlUtils.dateMoneyTillLog);
+            } else if(type==4){
+                requestNetwork(UrlUtils.datePayCashLog);
             }
 
         }
@@ -160,6 +162,8 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                         requestNetwork(UrlUtils.dateMonthlyLog);
                     }else if(type==3){
                         requestNetwork(UrlUtils.dateMoneyTillLog);
+                    }else if(type==4){
+                        requestNetwork(UrlUtils.datePayCashLog);
                     }
 
                 }
@@ -202,6 +206,10 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                             requestNetwork(UrlUtils.dateMoneyRecharge);
                         }else if(type==2){
                             requestNetwork(UrlUtils.dateMonthlyLog);
+                        } else if(type==3){
+                            requestNetwork(UrlUtils.dateMoneyTillLog);
+                        }else if(type==4){
+                            requestNetwork(UrlUtils.datePayCashLog);
                         }
 
                     }
@@ -260,6 +268,8 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
             requestNetwork(UrlUtils.dateMonthlyLog);
         }else if(type==3){
             requestNetwork(UrlUtils.dateMoneyTillLog);
+        }else if(type==4){
+            requestNetwork(UrlUtils.datePayCashLog);
         }
 
     }
@@ -341,6 +351,27 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                     String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
                     String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
                     CashAccount ca = new CashAccount(day, time, object1.optString("tills_money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
+                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    data.add(ca);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+        else if(what==4){
+            stopRefreshAndLoadMore();
+            JSONObject obj = dataObj.optJSONObject("cashingMoney");
+            tvTime.setText(obj.optString("datetime"));
+            tvMoney.setText("￥"+obj.optString("money"));
+            total_page = obj.optInt("total_page");
+            now_page++;
+            JSONArray array = obj.optJSONArray("score_data");
+            if(array!=null && array.length()!=0){
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object1 = array.optJSONObject(i);
+                    long create_time = object1.optLong("create_time");
+                    String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
+                    String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
+                    CashAccount ca = new CashAccount(day, time, object1.optString("cashing_money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
                     ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
                     data.add(ca);
                 }
