@@ -19,6 +19,7 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.recharge_child.RechaSuccActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.fragments.me.FourthFragment;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -103,7 +104,6 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
 
             @Override
             public void clickComplete(View tv) {
-                //TransactionRecordsActivity.startIntent(AccountRechargeActivity.this);
                 startActivity(new Intent(AccountRechargeActivity.this, RechargeBillActivity.class));
             }
         });
@@ -215,7 +215,7 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case FourthFragment.REQUEST_PAY:
+            case MoneyFragment.REQUEST_RECHARGE:
                 Intent intent = getIntent();
                 setResult(RESULT_OK, intent);
                 finish();

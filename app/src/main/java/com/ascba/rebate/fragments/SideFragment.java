@@ -29,6 +29,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.adapter.BusAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.StringUtils;
@@ -487,5 +488,10 @@ public class SideFragment extends BaseNetFragment implements
         if (now_page != 1) {
             now_page = 1;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

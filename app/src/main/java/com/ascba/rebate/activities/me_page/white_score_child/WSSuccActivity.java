@@ -1,8 +1,8 @@
 package com.ascba.rebate.activities.me_page.white_score_child;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,7 +10,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.view.MoneyBar;
 
-public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
+public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBack2 {
     private TextView tvMoney;
     private MoneyBar mb;
     @Override
@@ -33,7 +33,7 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
     private void initViews() {
         tvMoney = ((TextView) findViewById(R.id.tv_money));
         mb = ((MoneyBar) findViewById(R.id.mb));
-        mb.setCallBack(this);
+        mb.setCallBack2(this);
     }
 
     //进入代金券列表
@@ -43,21 +43,26 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
     }
 
     @Override
-    public void clickImage(View im) {
-
+    public void clickComplete(View tv) {
+        finishAndCallback();
     }
 
     @Override
-    public void clickComplete(View tv) {
-        Intent intent = getIntent();
-        setResult(RESULT_OK,intent);
+    public void clickBack(View back) {
+        finishAndCallback();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAndCallback();
+        super.onBackPressed();
+    }
+    private void finishAndCallback(){
+        setResult(RESULT_OK,getIntent());
         finish();
     }
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Intent intent = getIntent();
-        setResult(RESULT_OK,intent);
+    public void clickImage(View im) {
+
     }
 }

@@ -1,17 +1,14 @@
 package com.ascba.rebate.activities.me_page.red_score_child;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.me_page.AllAccountActivity;
-import com.ascba.rebate.fragments.MoneyFragment;
-import com.ascba.rebate.fragments.me.FourthFragment;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.MoneyBar;
 
-public class RedScSuccActivity extends AppCompatActivity implements MoneyBar.CallBack {
+public class RedScSuccActivity extends BaseNetActivity implements MoneyBar.CallBack2 {
+    private static final String TAG = "RedScSuccActivity";
     private MoneyBar mb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,23 +18,36 @@ public class RedScSuccActivity extends AppCompatActivity implements MoneyBar.Cal
     }
     private void initViews() {
         mb = ((MoneyBar) findViewById(R.id.mb));
-        mb.setCallBack(this);
+        mb.setCallBack2(this);
+    }
+    //点击完成
+    @Override
+    public void clickComplete(View tv) {
+        finishActivity();
+    }
+    //actionBar返回
+    @Override
+    public void clickBack(View back) {
+        finishActivity();
+    }
+    //点击返回键
+    @Override
+    public void onBackPressed() {
+        finishActivity();
+        super.onBackPressed();
     }
 
+    //进入查看账单页面
+    public void goAcc(View view) {
+        showToast("暂未开放");
+    }
     @Override
     public void clickImage(View im) {
 
     }
-
-    @Override
-    public void clickComplete(View tv) {
-        setResult(MoneyFragment.REQUEST_RED,getIntent());
+    private void finishActivity(){
+        setResult(RESULT_OK,getIntent());
         finish();
     }
-    //进入查看账单页面
-    public void goAcc(View view) {
-        Intent intent=new Intent(this,AllAccountActivity.class);
-        intent.putExtra("order",2);
-        startActivity(intent);
-    }
+
 }

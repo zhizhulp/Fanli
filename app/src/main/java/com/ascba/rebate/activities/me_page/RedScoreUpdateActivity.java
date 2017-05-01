@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.me_page;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -145,15 +146,15 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
 
     //去账单列表
     public void goAcc(View view) {
-        Intent intent = new Intent(this, AllAccountActivity.class);
-        intent.putExtra("order", 2);
-        startActivity(intent);
-        finish();
+        showToast("暂未开放");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
         switch (requestCode) {
             case MoneyFragment.REQUEST_RED:
                 setResult(RESULT_OK, getIntent());

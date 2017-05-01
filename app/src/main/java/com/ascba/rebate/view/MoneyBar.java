@@ -88,7 +88,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         if(needComplete){
             completeText.setVisibility(VISIBLE);
             completeText.setOnClickListener(this);
-            completeText.setText(tail);
+            completeText.setText(tail==null ? "完成":tail);
             completeText.setTextColor(tailColor);
         }
         //设置是否需要返回图标
@@ -125,7 +125,11 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         int id = v.getId();
         switch (id){
             case R.id.money_bar_back:
-                ((Activity) getContext()).finish();
+                if(callBack2!=null){
+                    callBack2.clickBack(v);
+                }else {
+                    ((Activity) getContext()).finish();
+                }
                 break;
             case R.id.money_bar_ok:
                 if(callBack!=null){
@@ -138,6 +142,20 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         void clickImage(View im);
         void clickComplete(View tv);
     }
+    public interface CallBack2{
+        void clickImage(View im);
+        void clickComplete(View tv);
+        void clickBack(View back);
+    }
+    private CallBack2 callBack2;
+
+    public CallBack2 getCallBack2() {
+        return callBack2;
+    }
+
+    public void setCallBack2(CallBack2 callBack2) {
+        this.callBack2 = callBack2;
+    }
 
     public void setTextTitle(String title){
         this.title=title;
@@ -146,4 +164,6 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     public void setTailTitle(String tailText){
         completeText.setText(tailText);
     }
+
+
 }

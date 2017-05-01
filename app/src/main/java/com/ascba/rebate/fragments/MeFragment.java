@@ -1,10 +1,12 @@
 package com.ascba.rebate.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,10 +30,8 @@ import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.Real
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -47,49 +47,29 @@ import org.json.JSONObject;
 /**
  * 个人中心
  */
-public class MeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetFragment.Callback {
+public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetFragment.Callback {
 
+    private static final int REQUEST_USER = 0;
+    private static final String TAG = "MeFragment";
     private RoundImageView userIcon;
     private LinearLayout imgsLat;
-    private View viewTuiGuang;
-    private View viewJiangLi;
-    private View viewPower;
     private TextView tvSmrz;
-    private View viewSmrz;
     private TextView tvSjlm;
-    private View viewSjlm;
-    private View viewMsg;
-    private View viewSetting;
     private TextView tvPhone;
     private int finalScene;
 
     private TextView tvUserName;
-    private View qrView;
-    private View viewDlZq;
-    private View viewPhone;
 
 
     @Override
     protected int setContentView() {
         return R.layout.fragment_me;
     }
-
-    @Override
-    protected void lazyLoad() {
-        if (MyApplication.isLoad) {
-            requestData(UrlUtils.user, 3);
-        }
-
-        if (MyApplication.isSignOut) {
-            MyApplication.isSignOut = false;
-            requestData(UrlUtils.user, 3);
-        }
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        requestData(UrlUtils.user, 3);
     }
 
     private void initViews(View view) {
@@ -105,47 +85,43 @@ public class MeFragment extends LazyBaseFragment implements SwipeRefreshLayout.O
         //级别图片组
         imgsLat = ((LinearLayout) view.findViewById(R.id.container_imgs));
         //我的推广
-        viewTuiGuang = view.findViewById(R.id.me_lat_tuiguang);
-        viewJiangLi = view.findViewById(R.id.me_lat_jiangli);
-        viewPower = view.findViewById(R.id.me_lat_power);
+        View viewTuiGuang = view.findViewById(R.id.me_lat_tuiguang);
+        View viewJiangLi = view.findViewById(R.id.me_lat_jiangli);
+        View viewPower = view.findViewById(R.id.me_lat_power);
         viewPower.setOnClickListener(this);
         viewJiangLi.setOnClickListener(this);
         viewTuiGuang.setOnClickListener(this);
         //实名认证
         tvSmrz = ((TextView) view.findViewById(R.id.me_tv_smrz_sta));
-        viewSmrz = view.findViewById(R.id.me_lat_smrz);
+        View viewSmrz = view.findViewById(R.id.me_lat_smrz);
         viewSmrz.setOnClickListener(this);
         //商家联盟
         tvSjlm = ((TextView) view.findViewById(R.id.me_tv_sjlm_sta));
-        viewSjlm = view.findViewById(R.id.me_lat_sjlm);
+
+        View viewSjlm = view.findViewById(R.id.me_lat_sjlm);
         viewSjlm.setOnClickListener(this);
         //代理专区
-        viewDlZq = view.findViewById(R.id.me_lat_dlzq);
+        View viewDlZq = view.findViewById(R.id.me_lat_dlzq);
         viewDlZq.setOnClickListener(this);
         //消息
-        viewMsg = view.findViewById(R.id.me_lat_msg);
+        View viewMsg = view.findViewById(R.id.me_lat_msg);
         viewMsg.setOnClickListener(this);
         //我的推广码
-        qrView = view.findViewById(R.id.setting_my_qr);
+            View qrView = view.findViewById(R.id.setting_my_qr);
         qrView.setOnClickListener(this);
         //设置
-        viewSetting = view.findViewById(R.id.me_lat_setting);
+        View viewSetting = view.findViewById(R.id.me_lat_setting);
         viewSetting.setOnClickListener(this);
         //电话
         tvPhone = ((TextView) view.findViewById(R.id.me_tv_phone));
-        viewPhone = view.findViewById(R.id.contact_us_lat);
+        View viewPhone = view.findViewById(R.id.contact_us_lat);
         viewPhone.setOnClickListener(this);
 
     }
 
     @Override
     public void onRefresh() {
-        if (NetUtils.isNetworkAvailable(getActivity())) {
-            requestData(UrlUtils.user, 3);
-        } else {
-            refreshLayout.setRefreshing(false);
-            getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
-        }
+        requestData(UrlUtils.user, 3);
     }
 
     @Override
@@ -153,7 +129,7 @@ public class MeFragment extends LazyBaseFragment implements SwipeRefreshLayout.O
         switch (v.getId()) {
             case R.id.me_user_img://用户头像
                 Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_USER);
                 break;
             case R.id.me_lat_tuiguang://推广
                 Intent intent4 = new Intent(getActivity(), MyRecActivity.class);
@@ -171,7 +147,6 @@ public class MeFragment extends LazyBaseFragment implements SwipeRefreshLayout.O
                 requestData(UrlUtils.checkCardId, 0);
                 break;
             case R.id.me_lat_sjlm://商户中心
-                //requestData(UrlUtils.getCompany, 1);
                 requestData(UrlUtils.user, 1);
                 break;
             case R.id.me_lat_dlzq://代理专区
@@ -193,8 +168,6 @@ public class MeFragment extends LazyBaseFragment implements SwipeRefreshLayout.O
                 if(!StringUtils.isEmpty(s)){
                     startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+s)));
                 }
-
-
                 break;
 
         }
@@ -337,4 +310,26 @@ public class MeFragment extends LazyBaseFragment implements SwipeRefreshLayout.O
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        if(resultCode== Activity.RESULT_OK){
+            requestData(UrlUtils.user, 3);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!MyApplication.isSignOut && MyApplication.isChangePersonalData){//修改了个人数据
+            requestData(UrlUtils.user, 3);
+            MyApplication.isChangePersonalData=false;
+        }else if(!MyApplication.isSignOut && MyApplication.signOutSignIn){//重新登陆刷新数据
+            requestData(UrlUtils.user, 3);
+            MyApplication.signOutSignIn=false;
+        }
+    }
 }

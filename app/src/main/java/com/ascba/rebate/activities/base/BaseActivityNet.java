@@ -167,7 +167,7 @@ public abstract class BaseActivityNet extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cancelNetWork();
+        //cancelNetWork();
         dialogManager.dismissDialog();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();

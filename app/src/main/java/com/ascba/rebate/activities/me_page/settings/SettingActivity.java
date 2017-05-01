@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PasswordProtect2Activity;
 import com.ascba.rebate.activities.me_page.settings.child.PayPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
@@ -56,8 +57,10 @@ public class SettingActivity extends BaseNetActivity {
                 .putString("login_phone", "")
                 .putString("login_password", "").apply();
         setResult(RESULT_OK, getIntent());
-        MyApplication.isLoad=false;
+        //MyApplication.isLoad=false;
         MyApplication.isSignOut=true;
+        MyApplication.signOutSignIn=true;
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 

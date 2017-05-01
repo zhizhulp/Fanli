@@ -21,7 +21,6 @@ public class AddCardActivity extends BaseNetActivity implements BaseNetActivity.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_crad);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }

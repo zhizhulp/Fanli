@@ -29,6 +29,7 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.AgeChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity;
 import com.ascba.rebate.activities.me_page.settings.child.personal_data_child.SexChangeActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.task.InitAddressTask;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -415,14 +416,15 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
                 tvLocation.setText(location);
             }
         } else if (finalScene == 1) {//修改成功的提示
-            Toast.makeText(PersonalDataActivity.this, message, Toast.LENGTH_SHORT).show();
+            getDm().buildAlertDialog(message);
+            MyApplication.isChangePersonalData=true;
         }
 
     }
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

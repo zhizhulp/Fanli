@@ -4,35 +4,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BaseBillActivity;
-import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.ascba.rebate.fragments.MoneyFragment.REQUEST_EXCHANGE_TICKET;
+
 /**
  * 财富-白积分
  */
 public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
+    public static final int REQUEST_EXCHANGE = 0;
     private ListView listView;
     private List<WhiteTicket> mList;
     private WhiteTicketAdapter wta;
     private View noView;
-    public static final int REQUEST_EXCHANGE = 1;
     private MoneyBar moneyBar;
 
     @Override
@@ -60,8 +63,7 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
 
             @Override
             public void clickComplete(View tv) {
-                //TransactionRecordsActivity.startIntent(WhiteScoreActivity.this);
-                Intent intent=new Intent(WhiteScoreActivity.this, BaseBillActivity.class);
+                Intent intent = new Intent(WhiteScoreActivity.this, BaseBillActivity.class);
                 startActivity(intent);
             }
         });
@@ -80,7 +82,7 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
                 }
                 Intent intent = new Intent(WhiteScoreActivity.this, WSExchangeActivity.class);
                 intent.putExtra("cashing_id", wt.getId());
-                startActivityForResult(intent, REQUEST_EXCHANGE);
+                startActivityForResult(intent, REQUEST_EXCHANGE_TICKET);
             }
         });
         listView.setAdapter(wta);
@@ -89,10 +91,14 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
         switch (requestCode) {
-            case REQUEST_EXCHANGE:
-                if(resultCode==RESULT_OK){
-                    requestNetWork();
+            case REQUEST_EXCHANGE_TICKET:
+                if (resultCode == RESULT_OK) {
+                    setResult(RESULT_OK,getIntent());
+                    finish();
                 }
         }
     }
@@ -119,10 +125,10 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
                 long thaw_time = cashObj.optLong("thaw_time");//解冻剩余时间（s）
                 int is_thaw = cashObj.optInt("is_thaw");//是否解冻
                 int is_test = cashObj.optInt("is_test");//是否体验
-                if(is_thaw==1){//便于排序
-                    is_thaw=2;
-                }else if(is_thaw==2){
-                    is_thaw=1;
+                if (is_thaw == 1) {//便于排序
+                    is_thaw = 2;
+                } else if (is_thaw == 2) {
+                    is_thaw = 1;
                 }
                 WhiteTicket wt = new WhiteTicket(cashing_money, id, is_thaw,
                         formatTime(new SimpleDateFormat("yyyy.MM.dd"), create_time),
@@ -172,6 +178,5 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
             sb.append("0时0分");
         }
         return sb.toString();
-
     }
 }

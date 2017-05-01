@@ -114,7 +114,7 @@ public abstract class BaseFragmentNet extends BaseFragment {
     }
 
 
-    protected class NetResponseListener implements OnResponseListener<JSONObject> {
+    private class NetResponseListener implements OnResponseListener<JSONObject> {
         @Override
         public void onStart(int what) {
 
@@ -149,8 +149,6 @@ public abstract class BaseFragmentNet extends BaseFragment {
 
     /**
      * 获取DialogManager
-     *
-     * @return
      */
     public DialogHome getDm() {
         return dialogManager;
@@ -165,8 +163,6 @@ public abstract class BaseFragmentNet extends BaseFragment {
 
     /**
      * 是否启用缓存
-     *
-     * @return
      */
     protected boolean hasCache() {
         return false;
@@ -176,7 +172,7 @@ public abstract class BaseFragmentNet extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         dialogManager.dismissDialog();
-        cancelNetWork();
+        //cancelNetWork();
         if (dialogProgress != null && dialogProgress.isShowing()) {
             dialogProgress.dismiss();
         }

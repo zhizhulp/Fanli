@@ -26,6 +26,7 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends MultiDexApplication {
     private static RequestQueue requestQueue;
     private static MyApplication app;
+
     private List<Activity> activities = new ArrayList<>();
 
     //支付类型
@@ -44,7 +45,11 @@ public class MyApplication extends MultiDexApplication {
 
     public static boolean isLoad = true;
 
-    public static boolean isSignOut = false;
+    public static boolean isSignOut = false;//是否退出登陆
+
+    public static boolean isChangePersonalData;//个人资料是否修改
+
+    public static boolean signOutSignIn;//是否点击了设置里的退出 用于退出后登陆重新刷新界面
 
     @Override
     protected void attachBaseContext(Context base) {

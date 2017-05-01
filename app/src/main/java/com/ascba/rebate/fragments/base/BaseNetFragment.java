@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 
 import org.json.JSONObject;
 
@@ -198,6 +199,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
                 mhandle200Data(what, jObj, dataObj, message);
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
+                MyApplication.isSignOut=true;
                 AppConfig.getInstance().putInt("uuid", -1000);
                 getActivity().startActivityForResult(intent, BaseNetActivity.REQUEST_LOGIN);
             } else if (status == 404) {

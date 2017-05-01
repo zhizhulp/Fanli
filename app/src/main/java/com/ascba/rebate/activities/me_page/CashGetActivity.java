@@ -22,7 +22,7 @@ import com.ascba.rebate.activities.me_page.cash_get_child.CashGetSuccActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.adapter.BankAdapter;
 import com.ascba.rebate.beans.Card;
-import com.ascba.rebate.fragments.me.FourthFragment;
+import com.ascba.rebate.fragments.MoneyFragment;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -253,7 +253,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
             }
         } else if (finalScene == 3) {
             Intent intent=new Intent(this,CashGetSuccActivity.class);
-            startActivityForResult(intent, FourthFragment.REQUEST_CASH_GET);
+            startActivityForResult(intent, MoneyFragment.REQUEST_CASH_GET);
         }
     }
 
@@ -283,8 +283,6 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
 
     @Override
     public void clickComplete(View tv) {
-
-        //TransactionRecordsActivity.startIntent(this);
         startActivity(new Intent(this, CashGetBillActivity.class));
     }
 
@@ -292,7 +290,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case FourthFragment.REQUEST_CASH_GET:
+            case MoneyFragment.REQUEST_CASH_GET:
                 setResult(RESULT_OK,getIntent());
                 finish();
                 break;

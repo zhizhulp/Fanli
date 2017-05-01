@@ -140,7 +140,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cancelNetWork();
+        //cancelNetWork();
         getDm().dismissDialog();
     }
 }

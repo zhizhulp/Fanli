@@ -1,24 +1,16 @@
 package com.ascba.rebate.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.CostBillActivity;
-import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.CashGetActivity;
 import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
@@ -29,10 +21,8 @@ import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.LogUtils;
-import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -41,10 +31,13 @@ import org.json.JSONObject;
 /**
  * 财富
  */
-public class MoneyFragment extends LazyBaseFragment implements View.OnClickListener
+public class MoneyFragment extends BaseNetFragment implements View.OnClickListener
         , BaseNetFragment.Callback, SwipeRefreshLayout.OnRefreshListener {
 
     public static final int REQUEST_RED = 0;
+    public static final int REQUEST_EXCHANGE_TICKET = 1;
+    public static final int REQUEST_CASH_GET = 2;
+    public static final int REQUEST_RECHARGE = 3;
     private TextView tvAllCash;
     private TextView tvRed;
     private TextView tvWhite;
@@ -56,7 +49,6 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
     private TextView tvGrzh;
     private TextView tvSjzh;
     private TextView tvBank;
-    private View accountView;
     private int finalScene;
     private boolean debug = true;
     private String TAG = "LazyBaseFragment";
@@ -65,29 +57,16 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
     protected int setContentView() {
         return R.layout.fragment_money;
     }
-
-    @Override
-    protected void lazyLoad() {
-        if (MyApplication.isLoad) {
-            requestMyData(0);
-        }
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if(debug){
-            Log.d(TAG, "onViewCreated: ");
-        }
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        requestMyData(0);
     }
 
     private void initViews(View view) {
         initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(this);
-
-        accountView = view.findViewById(R.id.me_account);
-        accountView.setOnClickListener(this);
 
         tvAllCash = ((TextView) view.findViewById(R.id.cash_left));
 
@@ -124,49 +103,40 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onRefresh() {
-        if (NetUtils.isNetworkAvailable(getActivity())) {
-            requestMyData(0);
-        } else {
-            refreshLayout.setRefreshing(false);
-            getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
-        }
+        requestMyData(0);
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.me_account:
-                Intent intent = new Intent(getActivity(), AllAccountActivity.class);
-                startActivity(intent);
-                break;
             case R.id.me_lat_daifan://白积分
                 Intent intent4 = new Intent(getActivity(), WhiteBillActivity.class);
                 startActivity(intent4);
                 break;
-            case R.id.me_lat_duihuan:
+            case R.id.me_lat_duihuan://红积分
                 Intent intent3 = new Intent(getActivity(), RedScoreUpdateActivity.class);
                 startActivityForResult(intent3,REQUEST_RED);
                 break;
             case R.id.me_lat_jiaoyi://兑现券
                 Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
-                startActivity(intent1);
+                startActivityForResult(intent1,REQUEST_EXCHANGE_TICKET);
                 break;
-            case R.id.me_lat_djq:
+            case R.id.me_lat_djq://代金券
                 Intent intent8 = new Intent(getActivity(), TicketActivity.class);
                 startActivity(intent8);
                 break;
-            case R.id.me_lat_grzh://提现
+            case R.id.me_lat_grzh://现金账户
                 requestMyData(3);//检查是否实名
                 break;
-            case R.id.me_lat_fyzh://返佣账户
+            case R.id.me_lat_fyzh://本月消费
                 startActivity(new Intent(getActivity(), CostBillActivity.class));
                 break;
-            case R.id.me_lat_chongzhi:
+            case R.id.me_lat_chongzhi://充值
                 Intent intent2 = new Intent(getActivity(), AccountRechargeActivity.class);
                 startActivity(intent2);
                 break;
-            case R.id.me_lat_bank:
+            case R.id.me_lat_bank://银行卡
                 requestMyData(2);//检查是否实名
                 break;
         }
@@ -247,7 +217,7 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
                 Intent intent = new Intent(getActivity(), CashGetActivity.class);
                 intent.putExtra("bank_card_number", isBankCard);
                 intent.putExtra("realname", cardObj.optString("realname"));
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CASH_GET);
             }
         }
     }
@@ -278,161 +248,20 @@ public class MoneyFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case REQUEST_RED:
-                requestMyData(0);
-                break;
+        if(data==null){
+            return;
+        }
+        if(resultCode==Activity.RESULT_OK){
+            requestMyData(0);
         }
     }
 
     @Override
-    public void onAttachFragment(Fragment childFragment) {
-        if (debug)
-            Log.d(TAG, "onAttachFragment: ");
-        super.onAttachFragment(childFragment);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        if (debug)
-            Log.d(TAG, "onAttach: ");
-        super.onAttach(context);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (debug)
-            Log.d(TAG, "setUserVisibleHint: ");
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    @Override
-    public boolean getUserVisibleHint() {
-        if (debug)
-            Log.d(TAG, "getUserVisibleHint: ");
-        return super.getUserVisibleHint();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if (debug)
-            Log.d(TAG, "onActivityCreated: ");
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onStart() {
-        if (debug)
-            Log.d(TAG, "onStart: ");
-        super.onStart();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (debug)
-            Log.d(TAG, "onSaveInstanceState: ");
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (debug)
-            Log.d(TAG, "onConfigurationChanged: ");
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onStop() {
-        if (debug)
-            Log.d(TAG, "onStop: ");
-        super.onStop();
-    }
-
-    @Override
-    public void onLowMemory() {
-        if (debug)
-            Log.d(TAG, "onLowMemory: ");
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onDetach() {
-        if (debug)
-            Log.d(TAG, "onDetach: ");
-        super.onDetach();
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (debug)
-            Log.d(TAG, "onHiddenChanged: ");
-        super.onHiddenChanged(hidden);
-    }
-
-
-    @Override
     public void onResume() {
-        if (debug)
-            Log.d(TAG, "onResume: ");
         super.onResume();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        if (debug)
-            Log.d(TAG, "onAttach: ");
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (debug)
-            Log.d(TAG, "onDestroyView: ");
-        super.onDestroyView();
-
-    }
-
-    @Override
-    public void setRetainInstance(boolean retain) {
-        if (debug)
-            Log.d(TAG, "setRetainInstance: ");
-        super.setRetainInstance(retain);
-    }
-
-    @Override
-    public void onDestroy() {
-        if (debug)
-            Log.d(TAG, "onDestroy: ");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onPause() {
-        if (debug)
-            Log.d(TAG, "onPause: ");
-        super.onPause();
-
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if (debug)
-            Log.d(TAG, "onViewStateRestored: ");
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        if (debug)
-            Log.d(TAG, "onCreate: ");
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (debug)
-            Log.d(TAG, "onCreateView: ");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        if(!MyApplication.isSignOut && MyApplication.signOutSignIn){
+            requestMyData(0);
+            MyApplication.signOutSignIn=false;
+        }
     }
 }

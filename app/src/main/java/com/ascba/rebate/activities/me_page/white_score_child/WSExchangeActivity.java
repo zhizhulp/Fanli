@@ -11,10 +11,8 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
-
 import org.json.JSONObject;
-
-import static com.ascba.rebate.activities.me_page.WhiteScoreActivity.REQUEST_EXCHANGE;
+import static com.ascba.rebate.fragments.MoneyFragment.REQUEST_EXCHANGE_TICKET;
 
 public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivity.Callback{
     private View noView;
@@ -58,7 +56,6 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
         }else if(finalScene==2){
             Request<JSONObject> request = buildNetRequest(UrlUtils.cashingMoney, 0, true);
             request.add("cashing_id",cashingId);
-            //request.add("cashing_score",cashing_score);
             request.add("client_money",cashing_money);
             executeNetWork(request,"请稍后");
             setCallback(this);
@@ -120,7 +117,7 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
         }else if(finalScene==2){
             Intent intent=new Intent(this,WSSuccActivity.class);
             intent.putExtra("money",cashing_money);
-            startActivityForResult(intent, REQUEST_EXCHANGE);
+            startActivityForResult(intent, REQUEST_EXCHANGE_TICKET);
         }
     }
 
@@ -133,16 +130,20 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
 
     @Override
     public void handleNoNetWork() {
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        btnGo.setEnabled(false);
+        btnGo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+        if(data==null){
+            return;
+        }
         switch (requestCode){
-            case REQUEST_EXCHANGE:
+            case REQUEST_EXCHANGE_TICKET:
                 if(resultCode==RESULT_OK){
-                    setResult(REQUEST_EXCHANGE,getIntent());
+                    setResult(RESULT_OK,getIntent());
                     finish();
                     break;
                 }
