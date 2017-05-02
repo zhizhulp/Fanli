@@ -4,6 +4,7 @@ package com.ascba.rebate.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ import java.util.List;
 /**
  * 购物车
  */
-public class CartFragment extends LazyBaseFragment implements
+public class CartFragment extends BaseNetFragment implements
         View.OnClickListener, BaseNetFragment.Callback, CartAdapter.CallBack {
 
     private ShopABar sab;
@@ -54,7 +55,6 @@ public class CartFragment extends LazyBaseFragment implements
     private TextView tvCostNum;
     private RelativeLayout cartClean;
     private int finalScene;
-    private CartGoods cgSelect;//被选中的
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
     private ShopTabs shopTabs;
@@ -64,6 +64,7 @@ public class CartFragment extends LazyBaseFragment implements
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        requestNetwork(UrlUtils.shoppingCart, 0);
     }
 
     @Override
@@ -71,19 +72,12 @@ public class CartFragment extends LazyBaseFragment implements
         return R.layout.fragment_cart;
     }
 
-    @Override
-    protected void lazyLoad() {
-        if (MyApplication.isLoad) {
-            requestNetwork(UrlUtils.shoppingCart, 0);
-        }
-    }
 
     private void requestNetwork(String url, int scene) {
         finalScene = scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if (scene == 1) {//选商品
             request.add("cart_ids", createIds());
-            //request.add("status", (cgSelect != null) ? (cgSelect.isCheck() ? 1 : 0) : (cbTotal.isChecked() ? 1 : 0));
         } else if (scene == 2) {//加减商品
             request.add("cart_id", data.get(position).t.getCartId());
             request.add("new_num", goodsCount);
@@ -127,8 +121,13 @@ public class CartFragment extends LazyBaseFragment implements
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
-
-
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestNetwork(UrlUtils.shoppingCart, 0);
+            }
+        });
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -196,12 +195,11 @@ public class CartFragment extends LazyBaseFragment implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        refreshLayout.setRefreshing(false);
         if (finalScene == 0) {//购物车数据
-
             allGoodsNum = 0;
             getData(dataObj);
             shopTabs.setThreeNoty(allGoodsNum);
-
             if (adapter == null) {
                 adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
                 /**
@@ -227,9 +225,7 @@ public class CartFragment extends LazyBaseFragment implements
             calculateNumAndCost();
         } else if (finalScene == 1) {//选择商品
             calculateNumAndCost();
-            //getDm().buildAlertDialog(message);
         } else if (finalScene == 2) {//加减商品
-            //getDm().buildAlertDialog(message);
             data.get(position).t.setUserQuy(goodsCount);
             adapter.notifyItemChanged(position);
             calculateNumAndCost();
@@ -331,21 +327,18 @@ public class CartFragment extends LazyBaseFragment implements
 
     @Override
     public void onClickedChild(boolean isChecked, int position) {
-        cgSelect = data.get(position);
         requestNetwork(UrlUtils.cartSelectdGoods, 1);
 
     }
 
     @Override
     public void onClickedParent(boolean isChecked, int position) {
-        cgSelect = data.get(position);
         requestNetwork(UrlUtils.cartSelectdGoods, 1);
 
     }
 
     @Override
     public void onClickedTotal(boolean isChecked) {
-        cgSelect = null;
         requestNetwork(UrlUtils.cartSelectdGoods, 1);
     }
 
@@ -393,35 +386,6 @@ public class CartFragment extends LazyBaseFragment implements
         }
     }
 
-
-    private String createClearIds() {
-
-        if (data.size() != 0) {
-            List<CartGoods> filter = new ArrayList<>();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < data.size(); i++) {
-                CartGoods cg = data.get(i);
-                if (!cg.isHeader && cg.isCheck()) {
-                    filter.add(cg);
-                }
-            }
-
-            for (int i = 0; i < filter.size(); i++) {
-                CartGoods cg = filter.get(i);
-                if (i == filter.size() - 1) {
-                    sb.append(cg.t.getCartId());
-                } else {
-                    sb.append(cg.t.getCartId());
-                    sb.append(",");
-                }
-            }
-            return sb.toString();
-        } else {
-            return null;
-        }
-
-    }
-
     private String createIds() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < data.size(); i++) {
@@ -438,50 +402,6 @@ public class CartFragment extends LazyBaseFragment implements
             ids = ids.substring(0, ids.length() - 1);
         }
         return ids;
-        /*if (cgSelect == null) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < data.size(); i++) {
-                CartGoods cg = data.get(i);
-                if (!cg.isHeader) {
-                    if (i == data.size() - 1) {
-                        sb.append(cg.t.getCartId());
-                    } else {
-                        sb.append(cg.t.getCartId());
-                        sb.append(",");
-                    }
-                }
-            }
-            return sb.toString();
-        } else {
-            if (!cgSelect.isHeader) {
-                return cgSelect.t.getCartId();
-            } else {
-                StringBuilder sb = new StringBuilder();
-                List<CartGoods> filter = new ArrayList<>();
-                for (int i = 0; i < data.size(); i++) {
-                    CartGoods cg = data.get(i);
-                    if (!cg.isHeader) {
-                        if (cg.getId() == (cgSelect.getId())) {
-                            filter.add(cg);
-                        }
-
-                    }
-
-                }
-                for (int i = 0; i < filter.size(); i++) {
-                    CartGoods cg = filter.get(i);
-                    if (i == filter.size() - 1) {
-                        sb.append(cg.t.getCartId());
-                    } else {
-                        sb.append(cg.t.getCartId());
-                        sb.append(",");
-                    }
-                }
-
-                return sb.toString();
-            }
-
-        }*/
     }
 
 }

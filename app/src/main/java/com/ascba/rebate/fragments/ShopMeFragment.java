@@ -19,10 +19,8 @@ import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MsgView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -37,7 +35,7 @@ import java.util.List;
 /**
  * 商城设置
  */
-public class ShopMeFragment extends LazyBaseFragment implements SwipeRefreshLayout.OnRefreshListener,
+public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener,
         BaseNetFragment.Callback {
     private Context context;
     private RecyclerView pc_RecyclerView;
@@ -54,6 +52,7 @@ public class ShopMeFragment extends LazyBaseFragment implements SwipeRefreshLayo
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
+        getMeData();
     }
 
     @Override
@@ -61,15 +60,6 @@ public class ShopMeFragment extends LazyBaseFragment implements SwipeRefreshLayo
         return R.layout.fragment_shop_me;
     }
 
-    @Override
-    protected void lazyLoad() {
-        if (MyApplication.isLoad) {
-            mDistanceY = 0;
-            headView.setBackgroundColor(Color.argb(0, 255, 255, 255));
-            headViewLine.setAlpha(0);
-            getMeData();
-        }
-    }
 
     /*
       获取me数据
@@ -159,9 +149,6 @@ public class ShopMeFragment extends LazyBaseFragment implements SwipeRefreshLayo
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
-                switch (view.getId()) {
-
-                }
             }
         });
 

@@ -17,6 +17,7 @@ import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
