@@ -404,4 +404,23 @@ public class CartFragment extends BaseNetFragment implements
         return ids;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!MyApplication.isSignOut && MyApplication.isLoadCartData){
+            requestNetwork(UrlUtils.shoppingCart, 0);
+            MyApplication.isLoadCartData=false;
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            if(!MyApplication.isSignOut && MyApplication.isLoadCartData){
+                requestNetwork(UrlUtils.shoppingCart, 0);
+                MyApplication.isLoadCartData=false;
+            }
+        }
+    }
 }

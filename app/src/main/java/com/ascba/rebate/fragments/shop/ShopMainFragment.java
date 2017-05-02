@@ -27,6 +27,7 @@ import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.ShopBaseItem;
@@ -333,6 +334,7 @@ public class ShopMainFragment extends BaseNetFragment implements
             } else {
                 shopTabs.setThreeNoty(shopTabs.getThreeNotyNum() + 1);
             }
+            MyApplication.isLoadCartData=true;
 
         } else if (finalScene == 2) {//规格数据
             LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);

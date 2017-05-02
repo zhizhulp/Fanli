@@ -51,6 +51,8 @@ public class MyApplication extends MultiDexApplication {
 
     public static boolean signOutSignIn;//是否点击了设置里的退出 用于退出后登陆重新刷新界面
 
+    public static boolean isLoadCartData;//是否需要刷新购物车数据
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -94,7 +96,7 @@ public class MyApplication extends MultiDexApplication {
                         // 配置网络层，默认使用URLConnection，如果想用OkHttp：OkHttpNetworkExecutor。
                         .setNetworkExecutor(new OkHttpNetworkExecutor())
         );
-        Logger.setDebug(true); // 开启NoHttp调试模式。
+        Logger.setDebug(false); // 开启NoHttp调试模式。
         Logger.setTag("NoHttpSample"); // 设置NoHttp打印Log的TAG。
     }
 

@@ -1316,6 +1316,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             if (sd != null) {
                 sd.dismiss();
                 isAll = false;
+                MyApplication.isLoadCartData=true;
             }
             getDm().buildAlertDialog(message);
         } else if (finalScene == 1) {

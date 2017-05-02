@@ -22,6 +22,7 @@ import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.BusinessShopAdapter;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.ShopBaseItem;
@@ -267,12 +268,10 @@ public class BusinessShopActivity extends BaseNetActivity implements
             initLoadMore();
         } else if (finalScene == 1) {//添加到购物车成功
             getDm().buildAlertDialog(message);
-
+            MyApplication.isLoadCartData=true;
             if (sd != null) {
                 sd.dismiss();
             }
-
-
         } else if (finalScene == 2) {//规格数据
             LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
