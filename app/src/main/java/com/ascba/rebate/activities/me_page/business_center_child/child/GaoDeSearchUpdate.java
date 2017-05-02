@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities.me_page.business_center_child.child;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -91,6 +92,7 @@ public class GaoDeSearchUpdate extends BaseNetActivity implements LocationSource
     private PoiItem firstItem;
     private SearchBar sb;
     private boolean isFinal = false;
+    private Dialog dialog1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,7 +342,7 @@ public class GaoDeSearchUpdate extends BaseNetActivity implements LocationSource
      * 响应逆地理编码
      */
     public void geoAddress(LatLonPoint latLonPoint) {
-        getDm().buildWaitDialog("请稍后");
+        dialog1 = getDm().buildWaitDialog("请稍后");
         searchText.setText("");
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
         geocoderSearch.getFromLocationAsyn(query);
@@ -350,7 +352,7 @@ public class GaoDeSearchUpdate extends BaseNetActivity implements LocationSource
      * 响应逆地理编码(最终选择)
      */
     public void geoAddress(PoiItem poiItem) {
-        getDm().buildWaitDialog("请稍后");
+        dialog1 = getDm().buildWaitDialog("请稍后");
         finalPoiItem = poiItem;
         LatLonPoint latLonPoint = poiItem.getLatLonPoint();
         searchText.setText("");
@@ -378,7 +380,7 @@ public class GaoDeSearchUpdate extends BaseNetActivity implements LocationSource
 
     @Override
     public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
-        getDm().dismissDialog();
+        dialog1.dismiss();
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {

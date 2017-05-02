@@ -137,10 +137,4 @@ public abstract class BaseNetActivity extends BaseActivityNet {
         REQUEST_LOGIN = requestLogin;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //cancelNetWork();
-        getDm().dismissDialog();
-    }
 }

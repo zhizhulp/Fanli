@@ -377,13 +377,11 @@ public class PayUtils {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            dialogHome.dismissDialog();
             requstSuccess(what, response.get());
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            dialogHome.dismissDialog();
             switch (what) {
                 case 1:
                     //余额支付

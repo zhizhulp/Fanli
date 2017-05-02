@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities.base;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +27,6 @@ import org.json.JSONObject;
 public abstract class BaseActivityNet extends BaseActivity {
 
     protected DialogHome dialogManager;
-    protected ProgressDialog dialogProgress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,21 +35,6 @@ public abstract class BaseActivityNet extends BaseActivity {
             dialogManager = new DialogHome(this);
         }
     }
-
-    //创建进度对话框
-    public void buildWaitDialog(String message) {
-        if (dialogProgress == null) {
-            dialogProgress = new ProgressDialog(this, R.style.dialog);
-            dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
-            dialogProgress.setCancelable(true);//返还键可取消
-        }
-        if (dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
-        dialogProgress.setMessage(message);
-        dialogProgress.show();
-    }
-
 
     //数据请求成功
     protected abstract void requstSuccess(int what, JSONObject object);
@@ -99,7 +84,6 @@ public abstract class BaseActivityNet extends BaseActivity {
             return;
         }
         MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
-        buildWaitDialog(message);
     }
 
     //执行网络请求
@@ -111,93 +95,47 @@ public abstract class BaseActivityNet extends BaseActivity {
             return;
         }
         MyApplication.getRequestQueue().add(0, jsonRequest, new NetResponseListener());
-        buildWaitDialog(message);
     }
 
 
     protected class NetResponseListener implements OnResponseListener<JSONObject> {
+        private Dialog dialog;
+
         @Override
         public void onStart(int what) {
-
+            dialog = dialogManager.buildWaitDialog("请稍候");
         }
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
-            if (dialogProgress != null && dialogProgress.isShowing()) {
-                dialogProgress.dismiss();
-            }
-            dialogManager.dismissDialog();
             requstSuccess(what, response.get());
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            if (dialogProgress != null && dialogProgress.isShowing()) {
-                dialogProgress.dismiss();
-            }
             dialogManager.buildAlertDialog(getString(R.string.no_response));
             requstFailed(what, response.getException());
         }
 
         @Override
         public void onFinish(int what) {
-            if (dialogProgress != null && dialogProgress.isShowing()) {
-                dialogProgress.dismiss();
-            }
+            dialog.dismiss();
             requstFinish(what);
         }
     }
 
     /**
      * 获取DialogManager
-     *
-     * @return
      */
     public DialogHome getDm() {
         return dialogManager;
     }
 
     /**
-     * 取消执行网络请求
-     */
-    protected void cancelNetWork() {
-        MyApplication.getRequestQueue().cancelAll();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //cancelNetWork();
-        dialogManager.dismissDialog();
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
-    }
-
-    /**
      * 是否启用缓存
-     *
-     * @return
      */
     protected boolean hasCache() {
         return false;
     }
-
 
 }

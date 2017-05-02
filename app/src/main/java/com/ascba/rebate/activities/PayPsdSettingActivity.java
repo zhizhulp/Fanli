@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -185,7 +186,6 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
             getDm().buildAlertDialog2(message, new DialogHome.Callback() {
                 @Override
                 public void handleSure() {
-                    getDm().dismissDialog();
                     finish();
                 }
             });

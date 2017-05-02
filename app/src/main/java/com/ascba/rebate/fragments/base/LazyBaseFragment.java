@@ -130,9 +130,6 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
         if(debug)
             Log.d(TAG, "onResume: ");
         super.onResume();
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
         isCanLoad();
     }
 
@@ -155,9 +152,6 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
             Log.d(TAG, "onDestroyView: ");
         super.onDestroyView();
         isLoad = false;
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
     }
 
     @Override
@@ -180,9 +174,6 @@ public abstract class LazyBaseFragment extends BaseNetFragment {
             Log.d(TAG, "onPause: ");
         super.onPause();
         isLoad = false;
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
     }
 
     /**

@@ -17,12 +17,12 @@ import java.util.List;
  */
 
 public class DialogHome {
-    private List<Dialog> dialogList = new ArrayList<>();
     private ProgressDialog dialogProgress;
     private Dialog dialogAlter;
     private Dialog dialogAlterSure;
     private Context context;
     private Callback dialogClick;
+    private Dialog dialogAlter2;
 
     public DialogHome(Context context) {
         this.context = context;
@@ -33,22 +33,18 @@ public class DialogHome {
     }
 
     //创建进度对话框
-    public DialogHome buildWaitDialog(String message) {
-        dismissDialog();
+    public Dialog buildWaitDialog(String message) {
         dialogProgress = new ProgressDialog(context, R.style.dialog);
-        dialogList.add(dialogProgress);
         dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
         dialogProgress.setCancelable(true);//返还键不可取消
         dialogProgress.setMessage(message);
         dialogProgress.show();
-        return this;
+        return dialogProgress;
     }
 
     //创建提示对话框
-    public DialogHome buildAlertDialog(String message) {
-        dismissDialog();
+    public Dialog buildAlertDialog(String message) {
         dialogAlter = new Dialog(context, R.style.AlertDialog);
-        dialogList.add(dialogAlter);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
         dialogAlter.setContentView(alertView);
 
@@ -58,20 +54,18 @@ public class DialogHome {
         btSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismissDialog();
+                dialogAlter.dismiss();
                 if (dialogClick != null) {
                     dialogClick.handleSure();
                 }
             }
         });
         dialogAlter.show();
-        return this;
+        return dialogAlter;
     }
     //可以处理确定的情况
-    public DialogHome buildAlertDialog2(String message,final Callback dialogClick) {
-        dismissDialog();
-        dialogAlter = new Dialog(context, R.style.AlertDialog);
-        dialogList.add(dialogAlter);
+    public Dialog buildAlertDialog2(String message,final Callback dialogClick) {
+        dialogAlter2 = new Dialog(context, R.style.AlertDialog);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
         dialogAlter.setContentView(alertView);
 
@@ -81,31 +75,29 @@ public class DialogHome {
         btSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialogAlter2.dismiss();
                 if (dialogClick != null) {
                     dialogClick.handleSure();
                 }
             }
         });
         dialogAlter.show();
-        return this;
+        return dialogAlter2;
     }
 
     /**
      * 可以处理确定和取消的情况
      */
-    public DialogHome buildAlertDialogSure(String message, final Callback dialogClick) {
-        dismissDialog();
+    public Dialog buildAlertDialogSure(String message, final Callback dialogClick) {
         dialogAlterSure = new Dialog(context, R.style.AlertDialog);
-        dialogList.add(dialogAlterSure);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view_with_2_button, null);
         dialogAlterSure.setContentView(alertView);
-
         TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
         TextView btSure = (TextView) alertView.findViewById(R.id.tv_alert_cancel);//确定按钮
         btSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismissDialog();
+                dialogAlterSure.dismiss();
                 if (dialogClick != null) {
                     dialogClick.handleSure();
                 }
@@ -115,7 +107,7 @@ public class DialogHome {
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismissDialog();
+                dialogAlterSure.dismiss();
                 if (dialogClick != null) {
                     dialogClick.handleCancel();
                 }
@@ -124,26 +116,13 @@ public class DialogHome {
 
         tvMsg.setText(message);
         dialogAlterSure.show();
-        return this;
+        return dialogAlterSure;
     }
 
     public static abstract class Callback {
         public abstract void handleSure();
 
-        public void handleCancel() {
-        }
-    }
-
-    //隐藏所有对话框
-    public void dismissDialog() {
-        if (dialogList.size() != 0) {
-            for (int i = 0; i < dialogList.size(); i++) {
-                Dialog dialog = dialogList.get(i);
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-                dialogList.remove(dialog);
-            }
+        void handleCancel() {
         }
     }
 }

@@ -44,9 +44,6 @@ public abstract class LazyBase1Fragment extends BaseNetFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
         isCanLoad();
     }
 
@@ -66,10 +63,6 @@ public abstract class LazyBase1Fragment extends BaseNetFragment {
     public void onDestroyView() {
         super.onDestroyView();
         isLoad = false;
-        cancelNetWork();
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
     }
 
     @Override
@@ -77,9 +70,6 @@ public abstract class LazyBase1Fragment extends BaseNetFragment {
         super.onPause();
         isLoad = false;
         cancelNetWork();
-        if (dialogProgress != null && dialogProgress.isShowing()) {
-            dialogProgress.dismiss();
-        }
     }
 
     /**
@@ -91,8 +81,6 @@ public abstract class LazyBase1Fragment extends BaseNetFragment {
 
     /**
      * 获取设置的布局
-     *
-     * @return
      */
     protected View getContentView() {
         return view;
@@ -100,10 +88,6 @@ public abstract class LazyBase1Fragment extends BaseNetFragment {
 
     /**
      * 找出对应的控件
-     *
-     * @param id
-     * @param <T>
-     * @return
      */
     protected <T extends View> T findViewById(int id) {
 

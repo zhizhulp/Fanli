@@ -1,5 +1,6 @@
 package com.ascba.rebate.activities.me_page.business_center_child;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,12 +17,12 @@ import com.ascba.rebate.utils.UrlUtils;
 public class BCProcessActivity extends BaseNetActivity {
 
     private WebView webview;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bcprocess);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
     }
 
@@ -31,12 +32,12 @@ public class BCProcessActivity extends BaseNetActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                getDm().dismissDialog();
+                dialog.dismiss();
             }
 
         });
         webview.loadUrl(UrlUtils.explain);
-        getDm().buildWaitDialog("请稍后");
+        dialog = getDm().buildWaitDialog("请稍后");
     }
 
     //进入公司认证界面
