@@ -3,11 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Fanli.iml" filepath="$PROJECT_DIR$/Fanli.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Fanli2.iml" filepath="$PROJECT_DIR$/Fanli2.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-expandpoptab-library/android-expandpoptab-library.iml" filepath="$PROJECT_DIR$/android-expandpoptab-library/android-expandpoptab-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ijkplayerlibrary/ijkplayerlibrary.iml" filepath="$PROJECT_DIR$/ijkplayerlibrary/ijkplayerlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sticky_listview/sticky_listview.iml" filepath="$PROJECT_DIR$/sticky_listview/sticky_listview.iml" />
       <module fileurl="file://$PROJECT_DIR$/superplayerlibrary/superplayerlibrary.iml" filepath="$PROJECT_DIR$/superplayerlibrary/superplayerlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wheelPicker/wheelPicker.iml" filepath="$PROJECT_DIR$/wheelPicker/wheelPicker.iml" />
     </modules>
   </component>
 </project>

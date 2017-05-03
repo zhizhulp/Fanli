@@ -12,7 +12,9 @@
             <option value="$PROJECT_DIR$/android-expandpoptab-library" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/ijkplayerlibrary" />
+            <option value="$PROJECT_DIR$/sticky_listview" />
             <option value="$PROJECT_DIR$/superplayerlibrary" />
+            <option value="$PROJECT_DIR$/wheelPicker" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
