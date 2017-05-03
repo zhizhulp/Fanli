@@ -358,7 +358,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
             }
         }
         else if(what==4){
-            stopRefreshAndLoadMore();
+             stopRefreshAndLoadMore();
             JSONObject obj = dataObj.optJSONObject("cashingMoney");
             tvTime.setText(obj.optString("datetime"));
             tvMoney.setText("￥"+obj.optString("money"));
