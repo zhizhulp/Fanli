@@ -25,6 +25,7 @@ import com.ascba.rebate.adapter.BillBaseAdapter;
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.handlers.BillNetworker;
 import com.ascba.rebate.handlers.MoneyBarClickListener;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -162,6 +163,7 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
         billAdapter = new BillBaseAdapter(data,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(billAdapter);
+        billAdapter.setEmptyView(ViewUtils.getBillEmptyView(this,R.layout.bill_list_empty));
     }
 
     private void initData() {
@@ -273,13 +275,6 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
         refreshLat.setRefreshing(false);
     }
 
-    public BillNetworker getBillNetworker() {
-        return billNetworker;
-    }
-
-    public void setBillNetworker(BillNetworker billNetworker) {
-        this.billNetworker = billNetworker;
-    }
     private DatePicker findDatePicker(ViewGroup group) {
         if (group != null) {
             for (int i = 0, j = group.getChildCount(); i < j; i++) {
@@ -294,5 +289,20 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
             }
         }
         return null;
+    }
+
+    public View getViewHead() {
+        return viewHead;
+    }
+
+    public void setViewHead(View viewHead) {
+        this.viewHead = viewHead;
+    }
+    public BillNetworker getBillNetworker() {
+        return billNetworker;
+    }
+
+    public void setBillNetworker(BillNetworker billNetworker) {
+        this.billNetworker = billNetworker;
     }
 }

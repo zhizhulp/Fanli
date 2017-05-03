@@ -41,13 +41,6 @@
                 android:text="推荐好友加入可获得快速兑现券奖励"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <TextView
-                android:visibility="gone"
-                android:textColor="@color/text_deep_gray"
-                android:layout_marginTop="15dp"
-                android:text="加入百万计划了解更多..."
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <Button

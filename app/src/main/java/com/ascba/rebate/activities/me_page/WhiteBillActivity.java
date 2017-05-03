@@ -42,6 +42,10 @@ import java.util.Locale;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
+/**
+ * 财富-白积分
+ */
+
 public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener
         , MoneyBar.CallBack {
 
@@ -330,6 +334,8 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
                     billData.add(ca);
                 }
                 billAdapter.notifyDataSetChanged();
+            }else {
+                viewHead.setVisibility(View.GONE);
             }
         } else if (what == 1) {
             JSONArray array = dataObj.optJSONArray("scoreList");

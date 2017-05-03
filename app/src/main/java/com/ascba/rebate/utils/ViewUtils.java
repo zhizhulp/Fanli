@@ -3,6 +3,7 @@ package com.ascba.rebate.utils;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -26,6 +27,17 @@ public class ViewUtils {
         textView.setText(text);
         ft.addView(textView);
         return ft;
+    }
+
+    /**
+     *
+     * @param context 上下文
+     * @param latId layour id
+     * @return
+     */
+    public static View getBillEmptyView(Context context,int latId){
+        LayoutInflater inflater = LayoutInflater.from(context);
+        return inflater.inflate(latId,null);
     }
 
 }

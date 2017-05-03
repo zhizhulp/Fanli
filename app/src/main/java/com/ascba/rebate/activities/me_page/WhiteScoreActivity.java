@@ -7,11 +7,13 @@ import android.widget.ListView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BaseBillActivity;
+import com.ascba.rebate.activities.FastBillActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -27,7 +29,7 @@ import java.util.List;
 import static com.ascba.rebate.fragments.MoneyFragment.REQUEST_EXCHANGE_TICKET;
 
 /**
- * 财富-白积分
+ * 财富-快速兑现券
  */
 public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivity.Callback {
 
@@ -63,7 +65,7 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
 
             @Override
             public void clickComplete(View tv) {
-                Intent intent = new Intent(WhiteScoreActivity.this, BaseBillActivity.class);
+                Intent intent = new Intent(WhiteScoreActivity.this, FastBillActivity.class);
                 startActivity(intent);
             }
         });

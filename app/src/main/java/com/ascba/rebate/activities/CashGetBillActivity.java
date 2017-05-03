@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.handlers.BillNetworker;
@@ -79,6 +80,8 @@ public class CashGetBillActivity extends BaseBillActivity {
                             data.add(ca);
                         }
                         billAdapter.notifyDataSetChanged();
+                    }else {
+                        getViewHead().setVisibility(View.GONE);
                     }
                 }
             }
