@@ -152,6 +152,8 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
 
                 //订单信息
                 getGoodsInfo(dataObj);
+                //店铺电话
+                storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
                 break;
         }
     }
@@ -201,7 +203,6 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
         try {
             JSONObject storeObject = dataObject.getJSONObject("order_info");
             String storeName = storeObject.optString("store_name");//店铺
-            storePhone = storeObject.optString("member_name");
             storeTx.setText(storeName);
         } catch (JSONException e) {
             e.printStackTrace();

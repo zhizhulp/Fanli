@@ -296,6 +296,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                     intent1.setAction(Intent.ACTION_DIAL);
                     intent1.setData(Uri.parse("tel:" + storePhone));
                     startActivity(intent1);
+                }else {
+                    getDm().buildAlertDialog("暂无该商家电话");
                 }
                 break;
             case R.id.tx_pay:
