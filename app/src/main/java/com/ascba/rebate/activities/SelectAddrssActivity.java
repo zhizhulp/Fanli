@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 
 public class SelectAddrssActivity extends BaseNetActivity {
 
+    private static final String TAG = "SelectAddrssActivity";
     private ArrayList<ReceiveAddressBean> beanList;//收货地址
     private Context context;
     private ShopABarText shopbar;
@@ -112,7 +114,13 @@ public class SelectAddrssActivity extends BaseNetActivity {
         View empty = LayoutInflater.from(context).inflate(R.layout.empty_address, null);
         adapter.setEmptyView(empty);
         recyclerview.setAdapter(adapter);
-
+        adapter.setCallback(new SelectAddressAdapter.Callback() {
+            @Override
+            public void click(int position) {
+                Log.d(SelectAddrssActivity.TAG, "onSimpleItemChildClick: ");
+                deleteAddress(position);
+            }
+        });
         /**
          * 选择收货地址回调给确认订单页面
          */
@@ -142,6 +150,9 @@ public class SelectAddrssActivity extends BaseNetActivity {
                         Intent intent2 = new Intent(context, EditAdressActivity.class);
                         intent2.putExtra("address", beanList.get(position));
                         startActivityForResult(intent2, 2);
+                        break;
+                    case R.id.btnDelete:
+
                         break;
                 }
             }
@@ -210,6 +221,34 @@ public class SelectAddrssActivity extends BaseNetActivity {
             @Override
             public void handleNoNetWork() {
 
+            }
+        });
+    }
+
+    /**
+     *删除收货地址
+     */
+    private void deleteAddress(final int postition) {
+        ReceiveAddressBean bean = beanList.get(postition);
+        Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressDel, 0, true);
+        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        jsonRequest.add("member_address_id", bean.getId());
+        Log.d(TAG, "deleteAddress:member_address_id--> "+bean.getId());
+        executeNetWork(jsonRequest, "请稍后");
+        setCallback(new Callback() {
+            @Override
+            public void handle200Data(JSONObject dataObj, String message) {
+                beanList.remove(postition);
+                adapter.notifyItemRemoved(postition);
+            }
+
+            @Override
+            public void handle404(String message) {
+                getDm().buildAlertDialog(message);
+            }
+
+            @Override
+            public void handleNoNetWork() {
             }
         });
     }

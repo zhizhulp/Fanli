@@ -286,28 +286,29 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 @Override
                 public void onFinish(String payStype) {
                     //刷新数据
-                    requstListData();
+
                 }
 
                 @Override
                 public void onSuccess(String payStype, String resultStatus) {
+                    showToast(resultStatus);
+                    requstListData();
                     MyOrderActivity.setCurrTab(2);
-                    showToast("成功支付");
                 }
 
                 @Override
                 public void onCancel(String payStype, String resultStatus) {
-                    showToast("取消支付");
+                    showToast(resultStatus);
                 }
 
                 @Override
                 public void onFailed(String payStype, String resultStatus) {
-                    showToast("支付失败");
+                    showToast(resultStatus);
                 }
 
                 @Override
                 public void onNetProblem(String payStype, String resultStatus) {
-                    showToast("支付失败");
+                    showToast(getString(R.string.no_network));
                 }
             });
         }
@@ -351,6 +352,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handleReqFailed() {
+        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     @Override

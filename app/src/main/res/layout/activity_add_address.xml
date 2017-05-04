@@ -171,12 +171,13 @@
         android:background="@color/cutting_line" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_selectStreet"
         android:layout_width="match_parent"
         android:layout_height="42dp">
 
         <TextView
-            android:visibility="gone"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

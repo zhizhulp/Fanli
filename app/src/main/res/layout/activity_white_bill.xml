@@ -9,7 +9,7 @@
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/mb"
         app:needComplete="true"
-        app:textTitle="白积分账单"
+        app:textTitle="白积分明细"
         app:textTail="筛选"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

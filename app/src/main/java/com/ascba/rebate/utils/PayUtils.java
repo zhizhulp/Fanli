@@ -3,6 +3,7 @@ package com.ascba.rebate.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.SelectAddrssActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -62,6 +65,7 @@ public class PayUtils {
     private String payType = "balance";//默认值
     private PayPopWindow popWindow;
     private String balance;//账户余额
+    private String password;//余额支付密码
 
     private static final int SDK_PAY_FLAG = 1;
 
@@ -116,6 +120,7 @@ public class PayUtils {
         }
 
     };
+    private ProgressDialog progressDialog;
 
     public PayUtils(Activity activity, String price, String balance) {
         this.context = activity;
@@ -258,17 +263,18 @@ public class PayUtils {
         //输入密码
         showPassWordView(new InputPsdCallBack() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(String password) {
+                PayUtils.this.password=password;
                 requstYuEResult(object1);
             }
 
             @Override
             public void onFailed() {
                 //余额支付
-                if (payCallBack != null) {
+                /*if (payCallBack != null) {
                     payCallBack.onFailed(payType, "支付失败");
                     payCallBack.onFinish(payType);
-                }
+                }*/
             }
 
             @Override
@@ -301,7 +307,8 @@ public class PayUtils {
             public void inputFinish() {
                 popWindow.onDismiss();
                 if (!StringUtils.isEmpty(popWindow.getStrPassword())) {
-                    psdCallBack.onSuccess();
+                    Log.d("PsdUtils", "inputFinish: "+popWindow.getStrPassword());
+                    psdCallBack.onSuccess(PsdUtils.getPayPsd(popWindow.getStrPassword()));
                 }
             }
 
@@ -320,7 +327,7 @@ public class PayUtils {
 
     //输入密码回调
     public interface InputPsdCallBack {
-        void onSuccess();
+        void onSuccess(String password);
 
         void onFailed();
 
@@ -343,6 +350,7 @@ public class PayUtils {
         jsonRequest.add("total_fee", price);
         jsonRequest.add("member_id", receiveId);
         jsonRequest.add("type", type);
+        jsonRequest.add("pay_password",password );
 
         executeNetWork(1, jsonRequest, "正在支付，请稍后");
     }
@@ -367,12 +375,13 @@ public class PayUtils {
             return;
         }
         MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
-        dialogHome.buildWaitDialog(message);
+
     }
 
     public class NetResponseListener implements OnResponseListener<JSONObject> {
         @Override
         public void onStart(int what) {
+            progressDialog = (ProgressDialog) dialogHome.buildWaitDialog("请稍后");
         }
 
         @Override
@@ -382,25 +391,29 @@ public class PayUtils {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            switch (what) {
+            JSONObject js = response.get();
+            dialogHome.buildAlertDialog(js.optString("msg"));
+            /*switch (what) {
                 case 1:
                     //余额支付
                     dialogHome.buildAlertDialog("支付失败");
                     break;
-            }
+            }*/
+
+
         }
 
         @Override
         public void onFinish(int what) {
-
-            switch (what) {
+            progressDialog.dismiss();
+            /*switch (what) {
                 case 1:
                     //余额支付
                     if (payCallBack != null) {
                         payCallBack.onFinish(payType);
                     }
                     break;
-            }
+            }*/
         }
     }
 
@@ -408,33 +421,34 @@ public class PayUtils {
         try {
             int status = jObj.optInt("status");
             String message = jObj.optString("msg");
-            JSONObject dataObj = jObj.optJSONObject("data");
             if (status == 200) {
                 switch (what) {
                     case 1:
                         //余额支付
                         if (payCallBack != null) {
-                            payCallBack.onSuccess(payType, "支付成功");
+                            payCallBack.onSuccess(payType, jObj.optString("msg"));
                             payCallBack.onFinish(payType);
                         }
                         break;
                 }
-
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                 Intent intent = new Intent(context, LoginActivity.class);
                 AppConfig.getInstance().putInt("uuid", -1000);
                 context.startActivityForResult(intent, REQUEST_LOGIN);
                 ((MyApplication) context.getApplication()).exit();
-            } else {
+            } else if (status == 404) {
+                //dialogHome.buildAlertDialog(message);
                 switch (what) {
                     case 1:
                         //余额支付
                         if (payCallBack != null) {
-                            payCallBack.onFailed(payType, "支付失败");
+                            payCallBack.onFailed(payType, message);
                             payCallBack.onFinish(payType);
                         }
                         break;
                 }
+            } else {
+                Toast.makeText(context, "未知status" + status, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             e.printStackTrace();

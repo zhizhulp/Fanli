@@ -195,7 +195,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="白积分"
+                                android:text="白积分明细"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -258,7 +258,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="红积分"
+                                android:text="红积分兑换"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -273,6 +273,7 @@
                         </LinearLayout>
 
                         <TextView
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -406,7 +407,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="代金券"
+                                android:text="代金券管理"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -474,7 +475,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="现金账户"
+                                android:text="现金提现"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -483,12 +484,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
-                                android:text="0.00"
+                                android:text=""
                                 android:textColor="@color/main_text_gary"
                                 android:textSize="@dimen/main_text_13" />
                         </LinearLayout>
 
                         <TextView
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -533,7 +535,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="本月消费"
+                                android:text="消费明细"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -619,9 +621,10 @@
                             android:paddingTop="2dp">
 
                             <TextView
+                                android:id="@+id/textView8"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="充值"
+                                android:text="账户充值"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -630,7 +633,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
-                                android:text="账户充值"
+                                android:text=""
                                 android:textColor="@color/main_text_gary"
                                 android:textSize="@dimen/main_text_13" />
                         </LinearLayout>

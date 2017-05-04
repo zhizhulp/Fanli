@@ -188,6 +188,7 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/address_select"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -266,7 +267,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="￥368.00"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -284,11 +284,11 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:text="免运费"
                             android:id="@+id/shipping_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="￥15.00"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -310,7 +310,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="-￥200.00"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -333,7 +332,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="￥183.00"
                             android:textColor="@color/shop_red_text_color"
                             android:textSize="14sp" />
                     </RelativeLayout>
@@ -384,7 +382,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:text="38300积分"
+                        android:text="0积分"
                         android:textColor="@color/shop_red_text_color"
                         android:textSize="14sp" />
                 </RelativeLayout>

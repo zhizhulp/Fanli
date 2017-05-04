@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <com.ascba.rebate.view.ShopABarText
         android:id="@+id/shopbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="选择收货地址"></com.ascba.rebate.view.ShopABarText>
+        app:abar_title="选择收货地址" />
 
     <LinearLayout
         android:id="@+id/address_btn"
@@ -35,16 +34,13 @@
     </LinearLayout>
 
 
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/address_btn"
-        android:layout_below="@id/shopbar">
+        android:layout_below="@id/shopbar"
+        android:background="@color/main_content_bg" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-    </FrameLayout>
 
 </RelativeLayout>

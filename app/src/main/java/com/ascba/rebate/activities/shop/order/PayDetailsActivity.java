@@ -126,7 +126,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         orderSnTx = (TextView) findViewById(R.id.order_sn);
         orderTimeTx = (TextView) findViewById(R.id.order_time);
         addWayTx = (TextView) findViewById(R.id.value_add_way);
-        contactStoreTx = (LinearLayout) findViewById(R.id.contact_store);
+        contactStoreTx = (LinearLayout) findViewById(R.id.contact_store);//联系商家
         contactStoreTx.setOnClickListener(this);
         orderAmountTx = (TextView) findViewById(R.id.order_amount);
         shippingFeeTx = (TextView) findViewById(R.id.shipping_fee);
@@ -217,7 +217,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         try {
             JSONObject storeObject = dataObject.getJSONObject("order_info");
             String storeName = storeObject.optString("store_name");//店铺
-            storePhone = storeObject.optString("member_name");
             storeTx.setText(storeName);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -238,7 +237,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             String orderAmount = orderObject.optString("order_amount");//订单价格
             String orderTime = orderObject.optString("add_time");//订单时间
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
-
             /*
                开始支付倒计时
              */
@@ -251,7 +249,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
 
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
-            orderAmountTx.setText("￥" + orderAmount);
+            orderPriceTx.setText("￥" + orderAmount);//实付款
+            orderAmountTx.setText("￥" + goodsAmount);//商品总价
             shippingFeeTx.setText("￥" + shippingFee);
 
             if (goodsList.size() > 0) {
@@ -378,6 +377,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
 
                 //订单信息
                 getGoodsInfo(dataObj);
+                //店铺电话
+                storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
                 break;
             case 1:
                 /*

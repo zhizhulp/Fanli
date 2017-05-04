@@ -407,7 +407,7 @@ public class CartFragment extends BaseNetFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if(!MyApplication.isSignOut && MyApplication.isLoadCartData){
+        if(!MyApplication.isSignOut && MyApplication.isLoadCartData && MyApplication.isRequestSuccess){
             requestNetwork(UrlUtils.shoppingCart, 0);
             MyApplication.isLoadCartData=false;
         }
@@ -417,7 +417,7 @@ public class CartFragment extends BaseNetFragment implements
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(!hidden){
-            if(!MyApplication.isSignOut && MyApplication.isLoadCartData){
+            if(!MyApplication.isSignOut && MyApplication.isLoadCartData && MyApplication.isRequestSuccess){
                 requestNetwork(UrlUtils.shoppingCart, 0);
                 MyApplication.isLoadCartData=false;
             }

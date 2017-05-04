@@ -53,6 +53,8 @@ public class MyApplication extends MultiDexApplication {
 
     public static boolean isLoadCartData;//是否需要刷新购物车数据
 
+    public static boolean isRequestSuccess;//网络请求是否成功
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -96,7 +98,7 @@ public class MyApplication extends MultiDexApplication {
                         // 配置网络层，默认使用URLConnection，如果想用OkHttp：OkHttpNetworkExecutor。
                         .setNetworkExecutor(new OkHttpNetworkExecutor())
         );
-        Logger.setDebug(false); // 开启NoHttp调试模式。
+        Logger.setDebug(true); // 开启NoHttp调试模式。
         Logger.setTag("NoHttpSample"); // 设置NoHttp打印Log的TAG。
     }
 

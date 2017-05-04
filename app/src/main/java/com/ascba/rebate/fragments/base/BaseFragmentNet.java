@@ -107,11 +107,13 @@ public abstract class BaseFragmentNet extends BaseFragment {
 
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
+            MyApplication.isRequestSuccess=true;
             requstSuccess(what, response.get());
         }
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
+            MyApplication.isRequestSuccess=false;
             dialogManager.buildAlertDialog(getString(R.string.no_response));
             requstFailed(what, response.getException());
         }

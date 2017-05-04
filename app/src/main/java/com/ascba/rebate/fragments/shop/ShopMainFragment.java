@@ -111,6 +111,7 @@ public class ShopMainFragment extends BaseNetFragment implements
     private MsgView msgView;
     private ShopTabs shopTabs;
     private boolean has_spec;//加入购物车的商品是否有规格
+    private GridLayoutManager manager;
 
     @Nullable
     @Override
@@ -435,7 +436,7 @@ public class ShopMainFragment extends BaseNetFragment implements
     private void initadapter() {
         if (adapter == null) {
             adapter = new ShopTypeRVAdapter(data, getActivity());
-            final GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
+            manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
             rv.setLayoutManager(manager);
             adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
                 @Override

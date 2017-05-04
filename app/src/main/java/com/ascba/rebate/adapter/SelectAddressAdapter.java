@@ -17,6 +17,18 @@ import java.util.List;
  */
 
 public class SelectAddressAdapter extends BaseQuickAdapter<ReceiveAddressBean, BaseViewHolder> {
+    private Callback callback;
+    public interface Callback{
+        void click(int position);
+    }
+
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
 
     public SelectAddressAdapter(int layoutResId, List<ReceiveAddressBean> data) {
         super(layoutResId, data);
@@ -53,5 +65,18 @@ public class SelectAddressAdapter extends BaseQuickAdapter<ReceiveAddressBean, B
         //选中为当前收货地址
         CheckBox checkBox = helper.getView(R.id.item_select_address_check);
         checkBox.setChecked(item.isSelect());
+
+        helper.setOnClickListener(R.id.btnDelete,createDelListener(helper));
+    }
+
+    private View.OnClickListener createDelListener(final BaseViewHolder helper) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null != callback){
+                    callback.click(helper.getAdapterPosition());
+                }
+            }
+        };
     }
 }

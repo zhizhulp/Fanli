@@ -315,7 +315,8 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-                //创建并支付订单成功,开始支付
+                MyApplication.isLoadCartData=true;//需要刷新购物车数据
+                //创建订单并开始支付
                 payOrder(dataObj, payType);
             }
 

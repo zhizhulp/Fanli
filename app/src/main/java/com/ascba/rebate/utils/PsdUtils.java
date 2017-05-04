@@ -1,14 +1,22 @@
 package com.ascba.rebate.utils;
 
+import android.util.Log;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by 李鹏 on 2017/04/28 0028.
  */
 
 public class PsdUtils {
+
+    private static final String TAG = "PsdUtils";
+    private static final String salt="qlqw46c229d744bc3a013332aff722d32c23";
 
     /**
      * 设置密码加密
@@ -17,8 +25,7 @@ public class PsdUtils {
      * @return
      */
     public static String encryptPsd(String psd) {
-        String salt = "qlqw46c229d744bc3a013332aff722d32c23";
-        return encryptMD5(psd, salt);
+        return encryptMD5(psd);
     }
 
     /**
@@ -29,9 +36,8 @@ public class PsdUtils {
      * 3.二次md5加密：乱序后的串再次进行md5加密
      *
      * @param data——明文
-     * @param salt——盐
      */
-    private static String encryptMD5(String data, String salt) {
+    private static String encryptMD5(String data) {
         //1、第一次加密
         String firstEncry = getMD5Str(data+salt);
 
@@ -54,10 +60,22 @@ public class PsdUtils {
      */
     public static String getPayPsd(String psd) {
         String encryptPsd = encryptPsd(psd);
+        Log.d(TAG, "origin: "+encryptPsd);
         long time = System.currentTimeMillis();
-        time = time / 60000;
-        encryptPsd = EncryptUtils.encryptMD5ToString(encryptPsd + time);
-        return encryptPsd.toLowerCase();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        String format = simpleDateFormat.format(time);//2015年5月8号 7点16分
+        Log.d(TAG, "getPayPsd: "+format);
+        try {
+            long time1 = simpleDateFormat.parse(format).getTime()/1000;
+            Log.d(TAG, "long_time: "+time1);
+            encryptPsd = getMD5Str(encryptPsd + time1);
+            Log.d(TAG, "final_psd: "+encryptPsd.toLowerCase());
+            return encryptPsd.toLowerCase();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     public static String getMD5Str(String str) {
