@@ -102,7 +102,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
     private boolean isAll;//是否选择了所有的规格
     private Goods goodsSelect;//选择的商品(有规格)
     private ShopBaseItem sbi;//选择的商品（无规格）
-    private String attention = "请先选择商品";//没选择完整规格的提醒
+    private String attention = "请选择完整的商品规格";//没选择完整规格的提醒
 
     private boolean has_spec;//加入购物车的商品是否有规格
 
@@ -276,7 +276,8 @@ public class BusinessShopActivity extends BaseNetActivity implements
             LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
-            showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array));
+            String imgUrl = dataObj.optString("img");
+            showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),UrlUtils.baseWebsite+imgUrl);
         } else if (finalScene == 3) {//立即购买 成功
             if (sd != null) {
                 sd.dismiss();
@@ -386,11 +387,11 @@ public class BusinessShopActivity extends BaseNetActivity implements
     }
 
     //购物车Dialog
-    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses) {
+    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,String imgUrl) {
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
-        sd = new StdDialog(context, gas, goodses);
+        sd = new StdDialog(context, gas, goodses,imgUrl);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {

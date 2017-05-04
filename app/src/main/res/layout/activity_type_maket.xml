@@ -18,18 +18,32 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
+        android:background="@color/white"
+        android:alpha="0.8"
         android:id="@+id/head_search_rr"
         android:layout_width="match_parent"
         android:layout_height="48dp">
-
-        <ImageView
-            android:id="@+id/head_ll_back"
+        <FrameLayout
+            android:id="@+id/back_lat"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="18dp"
-            android:src="@mipmap/abar_back" />
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_back" />
+            <ImageView
+                android:paddingLeft="15dp"
+                android:paddingRight="35dp"
+                android:id="@+id/head_ll_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/abar_back" />
+        </FrameLayout>
+
 
         <LinearLayout
             android:id="@+id/head_rr"

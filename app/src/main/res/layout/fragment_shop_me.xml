@@ -20,16 +20,15 @@
     <RelativeLayout
         android:id="@+id/head_view"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        >
+        android:layout_height="48dp">
 
         <RelativeLayout
             android:id="@+id/activity_pc_item_head_message"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp">
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp">
 
             <com.ascba.rebate.view.MsgView
                 android:id="@+id/shop_me_msg_view"

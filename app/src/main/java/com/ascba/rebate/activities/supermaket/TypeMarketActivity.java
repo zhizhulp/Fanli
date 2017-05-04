@@ -44,7 +44,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
     private ShopTypeRVAdapter adapter;
     private List<ShopBaseItem> data = new ArrayList<>();
     private List<String> urls = new ArrayList<>();//viewPager数据源
-    private int categoryId = 1327;
+    private int categoryId;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int LOAD_MORE_END = 0;
     private int now_page = 1;
@@ -73,6 +73,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_maket);
         context = this;
+        getIntentId();
         initViews();
     }
 
@@ -226,7 +227,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     private void requestNetwork() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.category, 0, false);
-        request.add("sign", UrlEncodeUtils.createSign(UrlUtils.category));
         request.add("now_page", now_page);
         request.add("category_id", categoryId);
         executeNetWork(request, "请稍后");

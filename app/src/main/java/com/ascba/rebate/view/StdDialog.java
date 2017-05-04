@@ -20,6 +20,7 @@ import com.ascba.rebate.adapter.ProfileAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.view.cart_btn.NumberButton;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class StdDialog extends Dialog {
     private Listener listener;
     private TextView tvAddToCart;
     private TextView tvPurchase;
+    private String url;
 
     public NumberButton getNb() {
         return nb;
@@ -66,10 +68,11 @@ public class StdDialog extends Dialog {
         this.listener = listener;
     }
 
-    public StdDialog(@NonNull Context context, List<GoodsAttr> gas, List<Goods> goodses) {
+    public StdDialog(@NonNull Context context, List<GoodsAttr> gas, List<Goods> goodses,String url) {
         super(context);
         this.gas = gas;
         this.goodses = goodses;
+        this.url=url;
         init(context, gas);
     }
 
@@ -90,6 +93,9 @@ public class StdDialog extends Dialog {
         tvInv.setText("库存 ?");
         tvListener = (TextView) findViewById(R.id.tv_listener);
         tvListener.setText("请选择完整的规格");
+        //商品预览图
+        RoundImageView riv = (RoundImageView) findViewById(R.id.iv_shop_photo);
+        Picasso.with(context).load(url).placeholder(R.mipmap.busi_loading).into(riv);
         //规格列表
         RecyclerView rvRule = (RecyclerView) findViewById(R.id.goods_profile_list);
         ProfileAdapter adapter = new ProfileAdapter(R.layout.goods_attrs_layout, gas);

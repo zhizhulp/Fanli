@@ -154,7 +154,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     private int indence;
     private int has_spec;//是否有规格
     private int operation;//1——加入购物车，2——立即购买
-    private String attention = "请先选择商品";
+    private String attention = "请选择完整的商品规格";
 
     private TextView txDescNum, txDesc;//描述相符
     private TextView txServiceNum, txService;//服务态度
@@ -1097,7 +1097,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
                     JSONArray array = dataObj.optJSONArray("spec_goods_price");
 
-                    showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array));
+                    String imgUrl = dataObj.optString("img");
+                    showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),UrlUtils.baseWebsite+imgUrl);
                 }
 
                 @Override
@@ -1185,11 +1186,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     }
 
     //商品规格选择
-    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses) {
+    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,String url) {
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
-        sd = new StdDialog(this, gas, goodses);
+        sd = new StdDialog(this, gas, goodses,url);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -1316,8 +1317,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             if (sd != null) {
                 sd.dismiss();
                 isAll = false;
-                MyApplication.isLoadCartData=true;
             }
+            MyApplication.isLoadCartData=true;
             getDm().buildAlertDialog(message);
         } else if (finalScene == 1) {
             if (sd != null) {
