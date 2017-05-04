@@ -349,8 +349,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
         } else {
             adapter.notifyDataSetChanged();
         }
-
-
     }
 
     @Override

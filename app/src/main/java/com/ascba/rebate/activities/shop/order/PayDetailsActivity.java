@@ -18,6 +18,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
@@ -347,10 +348,15 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 break;
             case R.id.tx_delete:
                 //取消订单
-                countdownView.setVisibility(View.INVISIBLE);
-                closeOrderTx.setVisibility(View.VISIBLE);
-                handler.removeCallbacks(runnable);
-                requstData(UrlUtils.cancelOrder, 1);
+                getDm().buildAlertDialogSure("您确定要取消订单吗？", new DialogHome.Callback() {
+                    @Override
+                    public void handleSure() {
+                        countdownView.setVisibility(View.INVISIBLE);
+                        closeOrderTx.setVisibility(View.VISIBLE);
+                        handler.removeCallbacks(runnable);
+                        requstData(UrlUtils.cancelOrder, 1);
+                    }
+                });
                 break;
         }
     }

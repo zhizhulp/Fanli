@@ -59,6 +59,7 @@ public class CartFragment extends BaseNetFragment implements
     private int position;//当前点击位置
     private ShopTabs shopTabs;
     private int allGoodsNum;//购物车所有商品数量
+    private boolean isFirstResume=true;//是否第一次加载onResume
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -407,9 +408,12 @@ public class CartFragment extends BaseNetFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if(!MyApplication.isSignOut && MyApplication.isLoadCartData && MyApplication.isRequestSuccess){
+        if(!MyApplication.isSignOut && MyApplication.isLoadCartData && MyApplication.isRequestSuccess && !isFirstResume){
             requestNetwork(UrlUtils.shoppingCart, 0);
             MyApplication.isLoadCartData=false;
+        }
+        if(isFirstResume){
+            isFirstResume=false;
         }
     }
 
@@ -422,5 +426,11 @@ public class CartFragment extends BaseNetFragment implements
                 MyApplication.isLoadCartData=false;
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        setUserVisibleHint(false);
+        super.onDestroy();
     }
 }

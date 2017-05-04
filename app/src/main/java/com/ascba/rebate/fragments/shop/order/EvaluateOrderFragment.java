@@ -15,6 +15,7 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -25,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,56 +105,8 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         }
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                int totalNum = 0;//购买商品数量
-                JSONObject object = jsonArray.optJSONObject(i);
-
-                //订单id
-                orderId = object.optString("order_id");
-
-                //头部信息
-                String time = object.optString("add_time");//时间
-                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(EvaluateOrderAdapter.TYPE1, R.layout.item_order_head, time, "交易成功");
-                beanHead.setId(orderId);
-                beanArrayList.add(beanHead);
-
-                //商品信息
-                JSONArray goodsArray = object.optJSONArray("orderGoods");
-                if (goodsArray != null && goodsArray.length() > 0) {
-
-                    for (int j = 0; j < goodsArray.length(); j++) {
-                        try {
-                            JSONObject goodsObject = goodsArray.getJSONObject(j);
-                            Goods good = new Goods();
-                            good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
-                            good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
-                            good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
-
-                            int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
-                            totalNum = num + totalNum;
-
-                            good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
-                            good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
-
-                            OrderBean orderBean = new OrderBean(EvaluateOrderAdapter.TYPE2, R.layout.item_goods, good);
-                            orderBean.setId(orderId);
-                            beanArrayList.add(orderBean);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                //底部信息
-                String orderAmount = object.optString("order_amount");//订单总价
-                String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
-                String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(EvaluateOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
-                beadFoot.setId(orderId);
-                beanArrayList.add(beadFoot);
-            }
+            //parseJson(jsonArray);
+            parseJson1(jsonArray);
         }
         if (adapter == null) {
             initRecylerView();
@@ -168,6 +122,49 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         }
     }
 
+    private void parseJson1(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject go = jsonArray.optJSONObject(i);
+
+            //订单id
+            orderId = go.optString("order_id");
+            //头部信息
+            String time = go.optString("create_time");//时间
+            time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
+            OrderBean beanHead = new OrderBean(EvaluateOrderAdapter.TYPE1, R.layout.item_order_head, time, "交易成功");
+            beanHead.setId(orderId);
+            beanArrayList.add(beanHead);
+
+            //商品信息
+            Goods good = new Goods();
+            good.setTitleId(Integer.parseInt(go.optString("goods_id")));//商品id
+            good.setImgUrl(UrlUtils.baseWebsite + go.optString("goods_img"));//图片
+            good.setGoodsTitle(go.optString("goods_name"));//商品名
+
+            int num = Integer.parseInt(String.valueOf(go.opt("goods_num")));
+            double goods_pay_price = Double.parseDouble(String.valueOf(go.optString("goods_pay_price")));//付款价格
+            double tailPrice = num * goods_pay_price;
+            DecimalFormat df=new DecimalFormat(".##");
+            String formatGoodsPrice = df.format(tailPrice);
+
+            good.setUserQuy(num);//购买数量
+            good.setGoodsPrice(go.optString("goods_pay_price"));//购买价格
+            good.setGoodsPriceOld(go.optString("goods_price"));//原价
+
+            OrderBean orderBean = new OrderBean(EvaluateOrderAdapter.TYPE2, R.layout.item_goods, good);
+            orderBean.setId(orderId);
+            beanArrayList.add(orderBean);
+
+            //底部信息
+            //String shippingFee = "(含" + go.optString("shipping_fee") + "元运费)";//运费
+            String shippingFee =" (免邮费)";
+            String goodsNum = "共" + num + "件商品";//商品数量
+            OrderBean beadFoot = new OrderBean(EvaluateOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, "￥" + formatGoodsPrice, shippingFee);
+            beadFoot.setId(orderId);
+            beanArrayList.add(beadFoot);
+        }
+    }
+
     private void initRecylerView() {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
@@ -179,7 +176,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                String orderId = beanArrayList.get(position).getId();
+                final String orderId = beanArrayList.get(position).getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
@@ -197,7 +194,12 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
-                        requstData(1, UrlUtils.delOrder, orderId);
+                        getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
+                            @Override
+                            public void handleSure() {
+                                requstData(1, UrlUtils.delOrder, orderId);
+                            }
+                        });
                         break;
                 }
             }

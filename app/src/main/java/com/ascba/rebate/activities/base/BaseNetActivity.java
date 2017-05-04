@@ -19,47 +19,45 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
     @Override
     protected void requstSuccess(int what, JSONObject jObj) {
-        try {
-            int status = jObj.optInt("status");
-            String message = jObj.optString("msg");
-            JSONObject dataObj = jObj.optJSONObject("data");
-            if (status == 200) {
-                int update_status = dataObj.optInt("update_status");
-                if (update_status == 1) {
-                    AppConfig.getInstance().putString("token", dataObj.optString("token"));
-                    AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
-                }
-                if (callback != null) {//对于200额外的处理
-                    callback.handle200Data(dataObj, message);
-                }
-                if (callbackWhat != null) {
-                    callbackWhat.handle200Data(what, dataObj, message);
-                }
 
-                mhandle200Data(what, jObj, dataObj, message);
-
-            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
-                mhandleReLogin(what);
-                Intent intent = new Intent(this, LoginActivity.class);
-                AppConfig.getInstance().putInt("uuid", -1000);
-                startActivityForResult(intent, REQUEST_LOGIN);
-                ((MyApplication) getApplication()).exit();
-            } else if (status == 404) {
-                if (callback != null) {
-                    callback.handle404(message);
-                }
-                if (callbackWhat != null) {
-                    callbackWhat.handle404(what, message);
-                }
-                mhandle404(what, dataObj, message);
-            } else if (status == 500) {
-                getDm().buildAlertDialog(message);
-            } else if (status == 6) {
-                getDm().buildAlertDialog(message);
+        int status = jObj.optInt("status");
+        String message = jObj.optString("msg");
+        JSONObject dataObj = jObj.optJSONObject("data");
+        if (status == 200) {
+            int update_status = dataObj.optInt("update_status");
+            if (update_status == 1) {
+                AppConfig.getInstance().putString("token", dataObj.optString("token"));
+                AppConfig.getInstance().putLong("expiring_time", dataObj.optLong("expiring_time"));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (callback != null) {//对于200额外的处理
+                callback.handle200Data(dataObj, message);
+            }
+            if (callbackWhat != null) {
+                callbackWhat.handle200Data(what, dataObj, message);
+            }
+
+            mhandle200Data(what, jObj, dataObj, message);
+
+        } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+            mhandleReLogin(what);
+            Intent intent = new Intent(this, LoginActivity.class);
+            AppConfig.getInstance().putInt("uuid", -1000);
+            startActivityForResult(intent, REQUEST_LOGIN);
+            ((MyApplication) getApplication()).exit();
+        } else if (status == 404) {
+            if (callback != null) {
+                callback.handle404(message);
+            }
+            if (callbackWhat != null) {
+                callbackWhat.handle404(what, message);
+            }
+            mhandle404(what, dataObj, message);
+        } else if (status == 500) {
+            getDm().buildAlertDialog(message);
+        } else if (status == 6) {
+            getDm().buildAlertDialog(message);
         }
+
     }
 
     @Override
@@ -119,7 +117,6 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     }
 
 
-
     protected void mhandleFailed(int what, Exception e) {
     }
 
@@ -128,8 +125,10 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
     protected void mhandleHasNetWord(boolean isNetWork) {
     }
+
     protected void mhandleFinish(int what) {
     }
+
     protected void mhandleNoNetWord() {
     }
 

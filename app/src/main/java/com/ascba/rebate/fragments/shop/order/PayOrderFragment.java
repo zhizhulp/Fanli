@@ -2,6 +2,7 @@ package com.ascba.rebate.fragments.shop.order;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -175,24 +176,25 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                             e.printStackTrace();
                         }
                     }
+                    //底部信息
+                    String orderAmount = object.optString("order_amount");//订单总价
+                    String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
+                    String goodsNum = "共" + totalNum + "件商品";//商品数量
+
+                    OrderBean beadFoot = null;
+                    if (orderStatus.equals("10")) {
+                        //等待卖家付款
+                        beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_pay1_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    } else if (orderStatus.equals("0")) {
+                        //交易关闭
+                        beadFoot = new OrderBean(PayOrderAdapter.TYPE4, R.layout.item_order_pay2_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    }
+
+                    beadFoot.setId(orderId);
+                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    beanArrayList.add(beadFoot);
                 }
 
-                //底部信息
-                String orderAmount = object.optString("order_amount");//订单总价
-                String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
-                String goodsNum = "共" + totalNum + "件商品";//商品数量
-
-                OrderBean beadFoot = null;
-                if (orderStatus.equals("10")) {
-                    //等待卖家付款
-                    beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_pay1_foot, goodsNum, "￥" + orderAmount, shippingFee);
-                } else if (orderStatus.equals("0")) {
-                    //交易关闭
-                    beadFoot = new OrderBean(PayOrderAdapter.TYPE4, R.layout.item_order_pay2_foot, goodsNum, "￥" + orderAmount, shippingFee);
-                }
-
-                beadFoot.setId(orderId);
-                beanArrayList.add(beadFoot);
             }
         }
 
@@ -222,7 +224,8 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                final String orderId = beanArrayList.get(position).getId();
+                OrderBean orderBean = beanArrayList.get(position);
+                final String orderId = orderBean.getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
@@ -247,7 +250,12 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_call:
                         //联系卖家
-
+                        String phone = orderBean.getPhone();
+                        if(StringUtils.isEmpty(phone)){
+                           getDm().buildAlertDialog("该商家暂无电话");
+                        }else {
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+orderBean.getPhone())));
+                        }
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
@@ -286,7 +294,6 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 @Override
                 public void onFinish(String payStype) {
                     //刷新数据
-
                 }
 
                 @Override

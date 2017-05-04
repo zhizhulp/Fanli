@@ -84,7 +84,7 @@ public class PayUtils {
                     if (TextUtils.equals(resultStatus, "9000")) {
 
                         if (payCallBack != null) {
-                            payCallBack.onSuccess(payType, resultStatus);
+                            payCallBack.onSuccess(payType, "支付成功");
                         }
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         try {
@@ -97,15 +97,15 @@ public class PayUtils {
                         }
                     } else if (TextUtils.equals(resultStatus, "6002")) {
                         if (payCallBack != null) {
-                            payCallBack.onNetProblem(payType, resultStatus);
+                            payCallBack.onNetProblem(payType, "手机网络有问题");
                         }
                     } else if (TextUtils.equals(resultStatus, "6001")) {
                         if (payCallBack != null) {
-                            payCallBack.onCancel(payType, resultStatus);
+                            payCallBack.onCancel(payType, "支付取消");
                         }
                     } else {
                         if (payCallBack != null) {
-                            payCallBack.onFailed(payType, resultStatus);
+                            payCallBack.onFailed(payType, "支付失败");
                         }
                     }
                     if (payCallBack != null) {
@@ -264,7 +264,7 @@ public class PayUtils {
         showPassWordView(new InputPsdCallBack() {
             @Override
             public void onSuccess(String password) {
-                PayUtils.this.password=password;
+                PayUtils.this.password = password;
                 requstYuEResult(object1);
             }
 
@@ -307,7 +307,7 @@ public class PayUtils {
             public void inputFinish() {
                 popWindow.onDismiss();
                 if (!StringUtils.isEmpty(popWindow.getStrPassword())) {
-                    Log.d("PsdUtils", "inputFinish: "+popWindow.getStrPassword());
+                    Log.d("PsdUtils", "inputFinish: " + popWindow.getStrPassword());
                     psdCallBack.onSuccess(PsdUtils.getPayPsd(popWindow.getStrPassword()));
                 }
             }
@@ -336,12 +336,12 @@ public class PayUtils {
 
     //请求余额支付验证
     private void requstYuEResult(JSONObject object) {
-        String url = object.optString("notify_url");//请求地址
-        JSONObject payInfoObject = object.optJSONObject("payInfo");
-        String orderId = payInfoObject.optString("out_trade_no");//订单号
-        double price = payInfoObject.optDouble("total_fee");//价格
-        int receiveId = payInfoObject.optInt("member_id");//收货地址id
-        int type = payInfoObject.optInt("type");//类型：0——结算，1——我的订单\
+        JSONObject payObj = object.optJSONObject("payInfo");
+        String url = object.optString("notify_url");//余额请求接口
+        String orderId = payObj.optString("out_trade_no");//订单号
+        double price = payObj.optDouble("total_fee");//价格
+        int receiveId = payObj.optInt("member_id");//收货地址id
+        int type = payObj.optInt("type");//类型：0——结算，1——我的订单\
 
         Request<JSONObject> jsonRequest = buildNetRequest(url);
 
@@ -350,7 +350,7 @@ public class PayUtils {
         jsonRequest.add("total_fee", price);
         jsonRequest.add("member_id", receiveId);
         jsonRequest.add("type", type);
-        jsonRequest.add("pay_password",password );
+        jsonRequest.add("pay_password", password);
 
         executeNetWork(1, jsonRequest, "正在支付，请稍后");
     }
@@ -393,65 +393,44 @@ public class PayUtils {
         public void onFailed(int what, Response<JSONObject> response) {
             JSONObject js = response.get();
             dialogHome.buildAlertDialog(js.optString("msg"));
-            /*switch (what) {
-                case 1:
-                    //余额支付
-                    dialogHome.buildAlertDialog("支付失败");
-                    break;
-            }*/
-
-
         }
 
         @Override
         public void onFinish(int what) {
             progressDialog.dismiss();
-            /*switch (what) {
-                case 1:
-                    //余额支付
-                    if (payCallBack != null) {
-                        payCallBack.onFinish(payType);
-                    }
-                    break;
-            }*/
         }
     }
 
     public void requstSuccess(int what, JSONObject jObj) {
-        try {
-            int status = jObj.optInt("status");
-            String message = jObj.optString("msg");
-            if (status == 200) {
-                switch (what) {
-                    case 1:
-                        //余额支付
-                        if (payCallBack != null) {
-                            payCallBack.onSuccess(payType, jObj.optString("msg"));
-                            payCallBack.onFinish(payType);
-                        }
-                        break;
-                }
-            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
-                Intent intent = new Intent(context, LoginActivity.class);
-                AppConfig.getInstance().putInt("uuid", -1000);
-                context.startActivityForResult(intent, REQUEST_LOGIN);
-                ((MyApplication) context.getApplication()).exit();
-            } else if (status == 404) {
-                //dialogHome.buildAlertDialog(message);
-                switch (what) {
-                    case 1:
-                        //余额支付
-                        if (payCallBack != null) {
-                            payCallBack.onFailed(payType, message);
-                            payCallBack.onFinish(payType);
-                        }
-                        break;
-                }
-            } else {
-                Toast.makeText(context, "未知status" + status, Toast.LENGTH_SHORT).show();
+        int status = jObj.optInt("status");
+        String message = jObj.optString("msg");
+        if (status == 200) {
+            switch (what) {
+                case 1:
+                    //余额支付
+                    if (payCallBack != null) {
+                        payCallBack.onSuccess(payType, jObj.optString("msg"));
+                        payCallBack.onFinish(payType);
+                    }
+                    break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+            Intent intent = new Intent(context, LoginActivity.class);
+            AppConfig.getInstance().putInt("uuid", -1000);
+            context.startActivityForResult(intent, REQUEST_LOGIN);
+            ((MyApplication) context.getApplication()).exit();
+        } else if (status == 404) {
+            switch (what) {
+                case 1:
+                    //余额支付
+                    if (payCallBack != null) {
+                        payCallBack.onFailed(payType, message);
+                        payCallBack.onFinish(payType);
+                    }
+                    break;
+            }
+        } else {
+            Toast.makeText(context, "未知status" + status, Toast.LENGTH_SHORT).show();
         }
     }
 

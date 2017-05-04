@@ -315,9 +315,9 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-                MyApplication.isLoadCartData=true;//需要刷新购物车数据
+                MyApplication.isLoadCartData = true;//需要刷新购物车数据
                 //创建订单并开始支付
-                payOrder(dataObj, payType);
+                payOrder(dataObj, payType, message);
             }
 
             @Override
@@ -391,36 +391,32 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     /**
      * 支付
      */
-    private void payOrder(JSONObject dataObj, final String payType) {
-        try {
-            orderId = dataObj.optString("order_id", null);
-            MyApplication.orderId=orderId;
-            JSONObject object = dataObj.optJSONObject("payreturn_data");
-            JSONObject object1 = object.optJSONObject("data");
-            //调起支付
-            if ("balance".equals(payType)) {
-                //余额支付
-                pay.dismissDialog();
-                if (object.optJSONObject("data") != null) {
-                    pay.requestForYuE(object1);
-                } else {
-                    //余额不足
-                    String message = object.optString("msg");
-                    showToast(message);
-                    //跳转待付款列表
-                    MyOrderActivity.startIntent(context, 1);
-                    finish();
-                }
-            } else if ("alipay".equals(payType)) {
-                String payInfo = object1.optString("payInfo");
-                pay.requestForAli(payInfo);//发起支付宝支付请求
-            } else if ("wxpay".equals(payType)) {
-                JSONObject wxpay = object1.getJSONObject("wxpay");
-                pay.requestForWX(wxpay);
+    private void payOrder(JSONObject dataObj, final String payType, String message) {
+
+        orderId = dataObj.optString("order_id", null);
+        MyApplication.orderId = orderId;
+        JSONObject object = dataObj.optJSONObject("payInfo");
+        //调起支付
+        if ("balance".equals(payType)) {
+            //余额支付
+            pay.dismissDialog();
+            if (object != null) {
+                pay.requestForYuE(dataObj);
+            } else {
+                //余额不足
+                showToast(message);
+                //跳转待付款列表
+                MyOrderActivity.startIntent(context, 1);
+                finish();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } else if ("alipay".equals(payType)) {
+            String payInfo = dataObj.optString("payInfo");
+            pay.requestForAli(payInfo);//发起支付宝支付请求
+        } else if ("wxpay".equals(payType)) {
+            JSONObject wxpay = dataObj.optJSONObject("wxpay");
+            pay.requestForWX(wxpay);
         }
+
 
         /**
          * 支付结果回调
