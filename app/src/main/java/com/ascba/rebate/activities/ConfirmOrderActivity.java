@@ -367,10 +367,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
     /**
      * 接受选择地址回调结果
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -392,20 +388,16 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         MyApplication.addressId = null;
     }
 
-    /*
-        支付
+    /**
+     * 支付
      */
     private void payOrder(JSONObject dataObj, final String payType) {
         try {
             orderId = dataObj.optString("order_id", null);
             MyApplication.orderId=orderId;
-
             JSONObject object = dataObj.optJSONObject("payreturn_data");
             JSONObject object1 = object.optJSONObject("data");
-
-            /**
-             * 调起支付
-             */
+            //调起支付
             if ("balance".equals(payType)) {
                 //余额支付
                 pay.dismissDialog();

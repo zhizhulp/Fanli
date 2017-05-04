@@ -244,7 +244,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
         }
         //分页
         getPageCount(dataObj);
-
         if (isRefresh) {//下拉刷新
             if (urls.size() != 0) {
                 urls.clear();
@@ -255,7 +254,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
             //商城首页导航栏
             initShoopNave(dataObj);
 
-
             //商品列表
             initGoodsList(dataObj);
 
@@ -263,7 +261,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
             initLoadMore();
         } else {//上拉加载
-
             initGoodsList(dataObj);
         }
     }
@@ -316,8 +313,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     /**
      * 商品列表
-     *
-     * @param dataObj
      */
     private void initGoodsList(JSONObject dataObj) {
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
@@ -384,6 +379,8 @@ public class TypeMarketActivity extends BaseNetActivity implements
             public void onLoadMoreRequested() {
                 if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
+                } else if(total_page==0){
+                    handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
                     requestNetwork();
                 }
@@ -392,7 +389,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
     }
 
     private void getPageCount(JSONObject dataObj) {
-        //now_page = dataObj.optInt("now_page");
         total_page = dataObj.optInt("total_page");
         now_page++;
     }

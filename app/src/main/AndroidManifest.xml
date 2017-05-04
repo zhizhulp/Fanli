@@ -637,10 +637,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.SettingPayPsdActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.BaseBillActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -654,10 +650,6 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.CashGetBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
-            android:name=".activities.SettingPayPsdAgainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity

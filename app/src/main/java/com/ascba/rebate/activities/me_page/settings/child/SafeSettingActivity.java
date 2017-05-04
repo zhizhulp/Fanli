@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
-import com.ascba.rebate.activities.SettingPayPsdActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.settings.child.safe_setting_child.LoginPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.safe_setting_child.PasswordProtectActivity;

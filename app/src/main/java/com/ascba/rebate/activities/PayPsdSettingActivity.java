@@ -92,7 +92,6 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
         request.add("level_pwd", PsdUtils.encryptPsd(number));
         request.add("relevel_pwd",scene);
         executeNetWork(scene,request,"请稍后");
-
     }
 
 
@@ -183,14 +182,16 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         super.mhandle200Data(what, object, dataObj, message);
         if(what==0){//修改成功
-            getDm().buildAlertDialog2(message, new DialogHome.Callback() {
+            getDm().buildAlertDialog(message);
+            finish();
+           /* getDm().buildAlertDialog2(message, new DialogHome.Callback() {
                 @Override
                 public void handleSure() {
                     finish();
                 }
-            });
+            });*/
         }else if(what==1){//验证成功
-            showToast("验证成功");
+            showToast(message);
         }
 
     }
@@ -200,7 +201,6 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
         super.mhandle404(what, object, message);
         getDm().buildAlertDialog(message);
         resetData();
-
     }
 
     @Override
