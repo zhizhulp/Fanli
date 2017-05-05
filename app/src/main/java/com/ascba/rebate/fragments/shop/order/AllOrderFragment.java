@@ -2,6 +2,7 @@ package com.ascba.rebate.fragments.shop.order;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -219,6 +220,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     beadFoot = new OrderBean(AllOrderAdapter.TYPE5, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
                 }
                 beadFoot.setId(orderId);
+                beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
                 beadFoot.setStateCode(orderStatus);
                 beanArrayList.add(beadFoot);
             }
@@ -251,7 +253,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                final String orderId = beanArrayList.get(position).getId();
+                OrderBean orderBean = beanArrayList.get(position);
+                final String orderId = orderBean.getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         if (orderId != null) {
@@ -299,6 +302,12 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_call:
                         //联系卖家
+                        String phone = orderBean.getPhone();
+                        if(StringUtils.isEmpty(phone)){
+                            getDm().buildAlertDialog("该商家暂无电话");
+                        }else {
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+orderBean.getPhone())));
+                        }
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单

@@ -21,7 +21,6 @@ import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
@@ -288,14 +287,19 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     /**
      * 商城首页导航栏
-     *
-     * @param dataObj
      */
     private void initShoopNave(JSONObject dataObj) {
         //商品导航
         JSONArray goodsAy = dataObj.optJSONArray("mallCategory");
-        int weight = TypeWeight.TYPE_SPAN_SIZE_MAX / goodsAy.length();
+
         if (goodsAy != null && goodsAy.length() != 0) {
+            int length = goodsAy.length();
+            int weight;
+            if(length<10){
+                weight = TypeWeight.TYPE_SPAN_SIZE_MAX / length;
+            }else {
+                weight = TypeWeight.TYPE_SPAN_SIZE_MAX / (length/2);
+            }
             for (int i = 0; i < goodsAy.length(); i++) {
                 JSONObject gObj = goodsAy.optJSONObject(i);
                 String id = gObj.optString("id");

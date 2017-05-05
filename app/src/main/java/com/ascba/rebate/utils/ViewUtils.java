@@ -33,9 +33,9 @@ public class ViewUtils {
      *
      * @param context 上下文
      * @param latId layour id
-     * @return
+     * @return view
      */
-    public static View getBillEmptyView(Context context,int latId){
+    public static View getView(Context context,int latId){
         LayoutInflater inflater = LayoutInflater.from(context);
         return inflater.inflate(latId,null);
     }

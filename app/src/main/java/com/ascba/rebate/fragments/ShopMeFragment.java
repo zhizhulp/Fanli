@@ -227,7 +227,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifukuan, pay, "待付款", PCMultipleItem.TYPE_SPAN_SIZE_4));
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daifahuo, deliver, "待发货", PCMultipleItem.TYPE_SPAN_SIZE_4));
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_yichengjiao, take, "已成交", PCMultipleItem.TYPE_SPAN_SIZE_4));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_yichengjiao, take, "待收货", PCMultipleItem.TYPE_SPAN_SIZE_4));
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_daipingjia, evaluate, "待评价", PCMultipleItem.TYPE_SPAN_SIZE_4));
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_3, R.mipmap.pc_tuikuan, refund, "退款/售后", PCMultipleItem.TYPE_SPAN_SIZE_4));
 

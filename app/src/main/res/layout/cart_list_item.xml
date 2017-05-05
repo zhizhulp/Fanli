@@ -118,6 +118,7 @@
                             android:textColor="@color/shop_red_text_color"
                             android:textSize="16sp" />
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/cart_tv_num"
                             android:gravity="right"
                             android:layout_toRightOf="@id/cart_price"
@@ -133,10 +134,10 @@
                 </LinearLayout>
 
                 <com.ascba.rebate.view.cart_btn.NumberButton
-                    android:visibility="gone"
+                    android:layout_marginRight="5dp"
                     android:id="@+id/number_button"
                     android:layout_width="84dp"
-                    android:layout_height="23dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="10dp" />

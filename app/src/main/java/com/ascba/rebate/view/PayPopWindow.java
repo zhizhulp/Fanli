@@ -118,7 +118,7 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
     public void onDismiss() {
         Window window = ((Activity) context).getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
-        params.alpha = 0.5f;
+        params.alpha = 1.0f;
         window.setAttributes(params);
         popupWindow.dismiss();
     }
@@ -128,17 +128,9 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
      * 弹窗显示的位置
      */
     public void showAsDropDown(View position) {
-        popupWindow.showAtLocation(position, Gravity.BOTTOM, 0, 0);
         popupWindow.setOutsideTouchable(true);
-        popupWindow.update();
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE && !popupWindow.isFocusable()) {
-                    return true;
-                }
-                return false;
-            }
-        });
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation(position, Gravity.BOTTOM, 0, 0);
         //设置背景变暗
         Window window = ((Activity) context).getWindow();
         WindowManager.LayoutParams params = window.getAttributes();

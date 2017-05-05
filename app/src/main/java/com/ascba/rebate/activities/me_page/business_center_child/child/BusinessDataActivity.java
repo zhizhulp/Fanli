@@ -443,9 +443,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
         if(!"".equals(rate)){
             if(backRate!=null){
                 objRequest.add("seller_return_ratio",backRate);
-            }/*else {
-                getDm().buildAlertDialog("请选择佣金比例");
-            }*/
+            }
         }
         objRequest.add("seller_localhost",tvLocDet.getText().toString());
         objRequest.add("seller_description",desc);

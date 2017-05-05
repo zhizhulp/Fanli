@@ -53,8 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="125.5dp"
                 android:paddingLeft="10dp"
-                android:minHeight="98dp"
-                android:paddingBottom="10dp">
+                android:minHeight="98dp">
 
                 <ImageView
                     android:id="@+id/iv_close"

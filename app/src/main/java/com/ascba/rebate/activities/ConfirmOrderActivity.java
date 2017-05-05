@@ -24,6 +24,7 @@ import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -59,6 +60,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     private PayUtils pay;
     private String balance;//账户余额
     private String orderId;//订单id
+    private View headView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,26 +102,31 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             }
         });
-
-        /**
-         * 收货人信息
-         */
-        receiveAddress = (RelativeLayout) findViewById(R.id.confirm_order_addrss_rl);
-        receiveAddress.setOnClickListener(this);
-
-        noReceiveAddress = (RelativeLayout) findViewById(R.id.confirm_order_addrss_rl2);
-        noReceiveAddress.setOnClickListener(this);
-
-        username = (TextView) findViewById(R.id.confirm_order_username);
-        userPhone = (TextView) findViewById(R.id.confirm_order_phone);
-        userAddress = (TextView) findViewById(R.id.confirm_order_address);
-
         //recyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         ConfirmOrderAdapter confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
         recyclerView.setAdapter(confirmOrderAdapter);
+
+        //recyclerView头部 订单地址
+        headView = ViewUtils.getView(this, R.layout.confirm_order_header_address);
+        confirmOrderAdapter.addHeaderView(headView);
+
+        /**
+         * 收货人信息
+         */
+        receiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl);
+        receiveAddress.setOnClickListener(this);
+
+        noReceiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl2);
+        noReceiveAddress.setOnClickListener(this);
+
+        username = (TextView) headView.findViewById(R.id.confirm_order_username);
+        userPhone = (TextView) headView.findViewById(R.id.confirm_order_phone);
+        userAddress = (TextView) headView.findViewById(R.id.confirm_order_address);
+
+
 
         //买家留言
         confirmOrderAdapter.setEditTextString(new ConfirmOrderAdapter.editTextString() {

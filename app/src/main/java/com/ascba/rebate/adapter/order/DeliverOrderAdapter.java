@@ -83,7 +83,7 @@ public class DeliverOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, Ba
                 helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
-                helper.addOnClickListener(R.id.item_goods_order_total_logistics);//查看物流
+                helper.addOnClickListener(R.id.item_goods_order_total_logistics);//提醒发货
                 break;
         }
     }

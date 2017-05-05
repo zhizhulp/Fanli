@@ -159,7 +159,7 @@ public class SideFragment extends BaseNetFragment implements
                     finalScene = 0;
                     clearData();
                     resetPage();
-                    requestNetwork(0);
+                    requestNetwork(finalScene);
                 }
             }
         });
@@ -171,7 +171,7 @@ public class SideFragment extends BaseNetFragment implements
                     finalScene = 1;
                     clearData();
                     resetPage();
-                    requestNetwork(1);
+                    requestNetwork(finalScene);
                 } else {
                     getDm().buildAlertDialog("请输入商家名称");
                 }
@@ -206,7 +206,7 @@ public class SideFragment extends BaseNetFragment implements
                     clearData();
                     resetPage();
                     region_name = city;
-                    requestNetwork(0);
+                    requestNetwork(finalScene);
                 }
                 tvLocate.setText(city);
                 break;
@@ -229,52 +229,7 @@ public class SideFragment extends BaseNetFragment implements
         setCallback(this);
     }
 
-    /**
-     * 初始化筛选菜单数据
-     */
-    private void initData() {
-        typeAll = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            typeAll.add(new KeyValueBean("all", "全部" + i));
-        }
-        typeSide = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            typeSide.add(new KeyValueBean("side", "附近" + i));
-        }
-        typeAuto = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            typeAuto.add(new KeyValueBean("auto", "智能排序" + i));
-        }
-    }
 
-    //一级
-    public void addItem(ExpandPopTabView expandTabView, List<KeyValueBean> lists, String defaultSelect, String defaultShowText) {
-        PopOneListView popOneListView = new PopOneListView(getActivity());
-        popOneListView.setDefaultSelectByValue(defaultSelect);
-        //popViewOne.setDefaultSelectByKey(defaultSelect);
-        popOneListView.setCallBackAndData(lists, expandTabView, new PopOneListView.OnSelectListener() {
-            @Override
-            public void getValue(String key, String value) {
-                Log.e("tag", "key :" + key + " ,value :" + value);
-            }
-        });
-        expandTabView.addItemToExpandTab(defaultShowText, popOneListView);
-    }
-
-    //二级
-    public void addItem(ExpandPopTabView expandTabView, List<KeyValueBean> parentLists,
-                        List<ArrayList<KeyValueBean>> childrenListLists, String defaultParentSelect, String defaultChildSelect, String defaultShowText) {
-        PopTwoListView popTwoListView = new PopTwoListView(getActivity());
-        popTwoListView.setDefaultSelectByValue(defaultParentSelect, defaultChildSelect);
-        //distanceView.setDefaultSelectByKey(defaultParent, defaultChild);
-        popTwoListView.setCallBackAndData(expandTabView, parentLists, childrenListLists, new PopTwoListView.OnSelectListener() {
-            @Override
-            public void getValue(String showText, String parentKey, String childrenKey) {
-                Log.e("tag", "showText :" + showText + " ,parentKey :" + parentKey + " ,childrenKey :" + childrenKey);
-            }
-        });
-        expandTabView.addItemToExpandTab(defaultShowText, popTwoListView);
-    }
 
 
     private void initLoadMore() {
@@ -297,11 +252,11 @@ public class SideFragment extends BaseNetFragment implements
 
     @Override
     public void onRefresh() {
-        initLocation();
+
         resetPage();
         clearData();
-
-        requestNetwork(finalScene);
+        initLocation();
+        //requestNetwork(finalScene);
 
     }
 
@@ -411,7 +366,7 @@ public class SideFragment extends BaseNetFragment implements
                     if (isOk) {
                         initLocationListener();
                     } else {
-                        requestNetwork(0);
+                        requestNetwork(finalScene);
                     }
                 }
             });
@@ -463,7 +418,7 @@ public class SideFragment extends BaseNetFragment implements
                 lon = loc.getLongitude();
                 clearData();
                 finalScene = 0;
-                requestNetwork(0);
+                requestNetwork(finalScene);
             } else {
                 Toast.makeText(getActivity(), "定位失败", Toast.LENGTH_SHORT).show();
                 stopLocation();
@@ -487,11 +442,54 @@ public class SideFragment extends BaseNetFragment implements
     private void resetPage() {
         if (now_page != 1) {
             now_page = 1;
+            total_page=0;
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    /**
+     * 初始化筛选菜单数据
+     */
+    private void initData() {
+        typeAll = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            typeAll.add(new KeyValueBean("all", "全部" + i));
+        }
+        typeSide = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            typeSide.add(new KeyValueBean("side", "附近" + i));
+        }
+        typeAuto = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            typeAuto.add(new KeyValueBean("auto", "智能排序" + i));
+        }
+    }
+
+    //一级
+    public void addItem(ExpandPopTabView expandTabView, List<KeyValueBean> lists, String defaultSelect, String defaultShowText) {
+        PopOneListView popOneListView = new PopOneListView(getActivity());
+        popOneListView.setDefaultSelectByValue(defaultSelect);
+        //popViewOne.setDefaultSelectByKey(defaultSelect);
+        popOneListView.setCallBackAndData(lists, expandTabView, new PopOneListView.OnSelectListener() {
+            @Override
+            public void getValue(String key, String value) {
+                Log.e("tag", "key :" + key + " ,value :" + value);
+            }
+        });
+        expandTabView.addItemToExpandTab(defaultShowText, popOneListView);
+    }
+
+    //二级
+    public void addItem(ExpandPopTabView expandTabView, List<KeyValueBean> parentLists,
+                        List<ArrayList<KeyValueBean>> childrenListLists, String defaultParentSelect, String defaultChildSelect, String defaultShowText) {
+        PopTwoListView popTwoListView = new PopTwoListView(getActivity());
+        popTwoListView.setDefaultSelectByValue(defaultParentSelect, defaultChildSelect);
+        //distanceView.setDefaultSelectByKey(defaultParent, defaultChild);
+        popTwoListView.setCallBackAndData(expandTabView, parentLists, childrenListLists, new PopTwoListView.OnSelectListener() {
+            @Override
+            public void getValue(String showText, String parentKey, String childrenKey) {
+                Log.e("tag", "showText :" + showText + " ,parentKey :" + parentKey + " ,childrenKey :" + childrenKey);
+            }
+        });
+        expandTabView.addItemToExpandTab(defaultShowText, popTwoListView);
     }
 }

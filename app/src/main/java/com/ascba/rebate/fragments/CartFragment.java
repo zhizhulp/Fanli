@@ -23,7 +23,6 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.fragments.base.LazyBaseFragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BetterRecyclerView;
@@ -36,6 +35,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -382,7 +382,8 @@ public class CartFragment extends BaseNetFragment implements
 
                 }
             }
-            tvCost.setText("￥" + totalCost);
+
+            tvCost.setText("￥" + new DecimalFormat("#.##").format(totalCost));
             tvCostNum.setText("结算(" + totalCount + ")");
         }
     }

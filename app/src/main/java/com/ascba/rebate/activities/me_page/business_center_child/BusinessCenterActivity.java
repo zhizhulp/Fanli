@@ -61,7 +61,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
     private TextView edAuthName;
     private View workPicView;
     private View authPicView;
-    private int finalType;
     private View authView;
     private String chartered;
     private String warrant;
@@ -70,43 +69,65 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
     private String[] permissions = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
-    private int type;
+    private int scene;//区分网络请求
+    private int type;//区分公司状态
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_center);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
-        getDataFromIntent();
+        requestNetwork();
     }
 
-    private void getDataFromIntent() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            int type = intent.getIntExtra("type", -1);
-            finalType = type;
-            String name = intent.getStringExtra("name");
-            String oper_name = intent.getStringExtra("oper_name");
-            String regist_capi = intent.getStringExtra("regist_capi");
-            String company_status = intent.getStringExtra("company_status");
-            String scope = intent.getStringExtra("scope");
-            int is_oper_name = intent.getIntExtra("is_oper_name", -1);// 0:与法人信息一致，1：与法人信息不一致
-            chartered = intent.getStringExtra("chartered");//营业执照图片链接
+    private void requestNetwork() {
+        scene=1;
+        Request<JSONObject> request = buildNetRequest(UrlUtils.getCompany, 0, true);
+        executeNetWork(request,"请稍后");
+        setCallback(this);
+    }
+
+    private void initViews() {
+        tvName = ((TextView) findViewById(R.id.tv_name));
+        tvOperName = ((TextView) findViewById(R.id.tv_oper_name));
+        tvRegMon = ((TextView) findViewById(R.id.tv_regist_capi));
+        tvStatus = ((TextView) findViewById(R.id.tv_company_status));
+        tvScope = ((TextView) findViewById(R.id.tv_scope));
+        btnCommit = ((Button) findViewById(R.id.btn_commit));
+        edAuthName = ((TextView) findViewById(R.id.ed_auth_name));
+        workPicView = findViewById(R.id.work_pic_container);
+        authPicView = findViewById(R.id.auth_pic_container);
+        authView = findViewById(R.id.auth_view);
+        imWorkIcon = ((ImageView) findViewById(R.id.busi_work_icon));
+        imAuthIcon = ((ImageView) findViewById(R.id.busi_auth_icon));
+    }
+
+
+
+
+    @Override
+    public void handle200Data(JSONObject dataObj, String message) {
+        if(scene==1){
+            JSONObject intent = dataObj.optJSONObject("company");
+            String name = intent.optString("name");
+            String oper_name = intent.optString("oper_name");
+            String regist_capi = intent.optString("regist_capi");
+            String company_status = intent.optString("company_status");
+            String scope = intent.optString("scope");
+            int is_oper_name = intent.optInt("is_oper_name", -1);// 0:与法人信息一致，1：与法人信息不一致
+            chartered = intent.optString("chartered");//营业执照图片链接
             if (chartered != null) {
-                Picasso.with(this).load(UrlUtils.baseWebsite + chartered).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                        .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
+                Picasso.with(this).load(UrlUtils.baseWebsite + chartered).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
             }
             if (is_oper_name == 0) {
                 authView.setVisibility(View.GONE);
             } else if (is_oper_name == 1) {
                 authView.setVisibility(View.VISIBLE);
-                String clientele_name = intent.getStringExtra("clientele_name");
-                warrant = intent.getStringExtra("warrant");//授权书图片链接
+                String clientele_name = intent.optString("clientele_name");
+                warrant = intent.optString("warrant");//授权书图片链接
                 if (warrant != null) {
-                    Picasso.with(this).load(UrlUtils.baseWebsite + warrant).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                            .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.bc_icon).into(imAuthIcon);
+                    Picasso.with(this).load(UrlUtils.baseWebsite + warrant).placeholder(R.mipmap.bc_icon).into(imAuthIcon);
                 }
                 edAuthName.setText(clientele_name);
             }
@@ -126,114 +147,35 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                 btnCommit.setText("资料有误,点击重新审核");
                 btnCommit.setEnabled(true);
             }
+        }else {
+            getDm().buildAlertDialog(message);
+            getDm().setCallback(new DialogHome.Callback() {
+                @Override
+                public void handleSure() {
+                    setResult(RESULT_OK, getIntent());
+                    finish();
+                }
+            });
+            btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
+            btnCommit.setText("已提交，等待客服审核中");
+            workPicView.setEnabled(false);
+            authPicView.setEnabled(false);
+            btnCommit.setEnabled(false);
         }
-    }
-
-    private void initViews() {
-        tvName = ((TextView) findViewById(R.id.tv_name));
-        tvOperName = ((TextView) findViewById(R.id.tv_oper_name));
-        tvRegMon = ((TextView) findViewById(R.id.tv_regist_capi));
-        tvStatus = ((TextView) findViewById(R.id.tv_company_status));
-        tvScope = ((TextView) findViewById(R.id.tv_scope));
-        btnCommit = ((Button) findViewById(R.id.btn_commit));
-        edAuthName = ((TextView) findViewById(R.id.ed_auth_name));
-        workPicView = findViewById(R.id.work_pic_container);
-        authPicView = findViewById(R.id.auth_pic_container);
-        authView = findViewById(R.id.auth_view);
-        imWorkIcon = ((ImageView) findViewById(R.id.busi_work_icon));
-        imAuthIcon = ((ImageView) findViewById(R.id.busi_auth_icon));
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case GO_CAMERA_WORK:
-                if (fileWork != null && fileWork.exists()) {
-                    Bitmap bitmap = handleBitmap(fileWork);
-                    saveBitmapFile(bitmap, fileWork);
-                    imWorkIcon.setImageBitmap(bitmap);
-                }
-                break;
-            case GO_ALBUM_WORK:
-                if (data == null) {
-                    return;
-                }
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                if (cursor != null) {
-                    cursor.moveToFirst();
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-                    fileWork = new File(picturePath);
-                    Bitmap bitmap = handleBitmap(fileWork);
-                    saveBitmapFile(bitmap, fileWork);
-                    imWorkIcon.setImageBitmap(bitmap);
-                }
-                break;
-            case GO_CAMERA_AUTH:
-                if (fileAuth != null && fileAuth.exists()) {
-                    Bitmap bitmap = handleBitmap(fileAuth);
-                    saveBitmapFile(bitmap, fileAuth);
-                    imAuthIcon.setImageBitmap(bitmap);
-                }
-                break;
-            case GO_ALBUM_AUTH:
-                if (data == null) {
-                    return;
-                }
-                Uri selectedImage2 = data.getData();
-                String[] filePathColumn2 = {MediaStore.Images.Media.DATA};
-                Cursor cursor2 = getContentResolver().query(selectedImage2,
-                        filePathColumn2, null, null, null);
-                if (cursor2 != null) {
-                    cursor2.moveToFirst();
-                    int columnIndex = cursor2.getColumnIndex(filePathColumn2[0]);
-                    String picturePath = cursor2.getString(columnIndex);
-                    cursor2.close();
-                    fileAuth = new File(picturePath);
-                    Bitmap bitmap = handleBitmap(fileAuth);
-                    saveBitmapFile(bitmap, fileAuth);
-                    imAuthIcon.setImageBitmap(bitmap);
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void handle200Data(JSONObject dataObj, String message) {
-        getDm().buildAlertDialog(message);
-        getDm().setCallback(new DialogHome.Callback() {
-            @Override
-            public void handleSure() {
-                setResult(RESULT_OK, getIntent());
-                finish();
-            }
-        });
-        btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
-        btnCommit.setText("已提交，等待客服审核中");
-        workPicView.setEnabled(false);
-        authPicView.setEnabled(false);
-        btnCommit.setEnabled(false);
     }
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-
     }
 
     //提交商家资料
     public void goCommit(View view) {
-        if (finalType == -1) {//提交商家资料
+        if (type == -1) {//提交商家资料
             Request<JSONObject> request = buildNetRequest(UrlUtils.addCompany, 0, true);
             request.add("company_name", tvName.getText().toString());
             if (fileWork == null) {
@@ -252,7 +194,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             }
             executeNetWork(request, "请稍后");
             setCallback(this);
-        } else if (finalType == 1) {//资料有误
+        } else if (type == 1) {//资料有误
             Request<JSONObject> request = buildNetRequest(UrlUtils.resubmitCompany, 0, true);
             request.add("company_name", tvName.getText().toString());
             if (fileWork == null) {
@@ -277,12 +219,10 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
 
     //选择营业执照
     public void uploadWorkPic(View view) {
-        if (finalType == -1 || finalType == 1) {
-            type = 0;
+        if (type == -1 || type == 1) {
             checkPermission();
 
-
-        } else if (finalType == 0) {//审核中，展示图片
+        } else if (type == 0) {//审核中，展示图片
             Intent intent = new Intent(this, ShowPicActivity.class);
             if (chartered != null) {
                 intent.putExtra("image", chartered);
@@ -294,12 +234,11 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
 
     //选择授权书
     public void uploadAuthPic(View view) {
-        if (finalType == -1 || finalType == 1) {
+        if (type == -1 || type == 1) {
             type = 1;
             checkPermission();
 
-
-        } else if (finalType == 0) {//审核中，展示图片
+        } else if (type == 0) {//审核中，展示图片
             Intent intent = new Intent(this, ShowPicActivity.class);
             if (warrant != null) {
                 intent.putExtra("image", warrant);
@@ -425,6 +364,66 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             bos.close();
         } catch (IOException e) {
             e.printStackTrace();
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case GO_CAMERA_WORK:
+                if (fileWork != null && fileWork.exists()) {
+                    Bitmap bitmap = handleBitmap(fileWork);
+                    saveBitmapFile(bitmap, fileWork);
+                    imWorkIcon.setImageBitmap(bitmap);
+                }
+                break;
+            case GO_ALBUM_WORK:
+                if (data == null) {
+                    return;
+                }
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    fileWork = new File(picturePath);
+                    Bitmap bitmap = handleBitmap(fileWork);
+                    saveBitmapFile(bitmap, fileWork);
+                    imWorkIcon.setImageBitmap(bitmap);
+                }
+                break;
+            case GO_CAMERA_AUTH:
+                if (fileAuth != null && fileAuth.exists()) {
+                    Bitmap bitmap = handleBitmap(fileAuth);
+                    saveBitmapFile(bitmap, fileAuth);
+                    imAuthIcon.setImageBitmap(bitmap);
+                }
+                break;
+            case GO_ALBUM_AUTH:
+                if (data == null) {
+                    return;
+                }
+                Uri selectedImage2 = data.getData();
+                String[] filePathColumn2 = {MediaStore.Images.Media.DATA};
+                Cursor cursor2 = getContentResolver().query(selectedImage2,
+                        filePathColumn2, null, null, null);
+                if (cursor2 != null) {
+                    cursor2.moveToFirst();
+                    int columnIndex = cursor2.getColumnIndex(filePathColumn2[0]);
+                    String picturePath = cursor2.getString(columnIndex);
+                    cursor2.close();
+                    fileAuth = new File(picturePath);
+                    Bitmap bitmap = handleBitmap(fileAuth);
+                    saveBitmapFile(bitmap, fileAuth);
+                    imAuthIcon.setImageBitmap(bitmap);
+                }
+                break;
         }
     }
 }

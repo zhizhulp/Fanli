@@ -22,6 +22,9 @@ import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCInputNameActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
@@ -208,7 +211,7 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
             LogUtils.PrintLog("MeFragment", "data-->" + infoObj);
             int seller_status = infoObj.optInt("seller_status");
             int merchant = infoObj.optInt("merchant");
-            if (merchant == 3) {
+            if (merchant == 3) {//公司资料审核通过
                 if (seller_status == 3) {
                     Intent intent = new Intent(getActivity(), BusinessUnionActivity.class);
                     startActivity(intent);
@@ -216,9 +219,12 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                     Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
                     startActivity(intent);
                 }
-            } else {
-                Intent intent = new Intent(getActivity(), BusinessDataActivity.class);
-                startActivity(intent);
+            } else if(merchant == 0){//开通
+                startActivity(new Intent(getActivity(), BCProcessActivity.class));
+            } else if(merchant == 1){//审核中
+                startActivity(new Intent(getActivity(), BusinessCenterActivity.class));
+            } else if(merchant == 2){//资料有误
+                startActivity(new Intent(getActivity(), BusinessCenterActivity.class));
             }
 
         } else if (finalScene == 2) {//检查是否实名，点击银行卡前
@@ -279,7 +285,7 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
             tvUserName.setText(infoObj.optString("nickname"));
             tvSjlm.setText(infoObj.optInt("merchant") < 3 ? infoObj.optString("merchant_tip") : infoObj.optString("seller_status_tip"));
             tvPhone.setText(infoObj.optString("telephone"));
-            AppConfig.getInstance().putInt("is_level_pwd",infoObj.optInt("is_level_pwd"));
+            AppConfig.getInstance().putInt("is_level_pwd",infoObj.optInt("is_level_pwd"));//是设置支付密码 还是修改支付密码
         }
     }
 

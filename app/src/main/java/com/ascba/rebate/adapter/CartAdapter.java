@@ -91,7 +91,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         helper.setText(R.id.cart_price, goods.getGoodsPrice());
         helper.addOnClickListener(R.id.edit_standard);
         helper.addOnClickListener(R.id.cart_goods_title);
-        helper.setText(R.id.cart_tv_num,"x"+goods.getUserQuy());
+        //helper.setText(R.id.cart_tv_num,"x"+goods.getUserQuy());
         initNumberButton(helper,goods);
         final CheckBox cb = helper.getView(R.id.cb_cart_child);
         cb.setChecked(item.isCheck());
@@ -119,12 +119,12 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                 .setOnWarnListener(new NumberButton.OnWarnListener() {
                     @Override
                     public void onWarningForInventory(int inventory) {
-                        Toast.makeText(context, "当前库存:" + inventory, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "购买数量不能超过当前库存", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onWarningForBuyMax(int buyMax) {
-                        Toast.makeText(context, "超过最大购买数:" + buyMax, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "超过最大购买数:" + buyMax, Toast.LENGTH_SHORT).show();
                     }
                 });
         nb.getAddButton().setOnClickListener(new View.OnClickListener() {

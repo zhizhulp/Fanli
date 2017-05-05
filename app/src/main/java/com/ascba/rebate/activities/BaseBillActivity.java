@@ -163,7 +163,7 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
         billAdapter = new BillBaseAdapter(data,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(billAdapter);
-        billAdapter.setEmptyView(ViewUtils.getBillEmptyView(this,R.layout.bill_list_empty));
+        billAdapter.setEmptyView(ViewUtils.getView(this,R.layout.bill_list_empty));
     }
 
     private void initData() {

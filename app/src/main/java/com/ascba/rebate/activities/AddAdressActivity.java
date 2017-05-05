@@ -227,7 +227,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
         jsonRequest.add("province", province.getId());//省份ID
         jsonRequest.add("city", city.getId());//市ID
         jsonRequest.add("district", district.getId());//地区ID
-        jsonRequest.add("twon", 1158);//乡镇ID
+        //jsonRequest.add("twon", 1158);//乡镇ID
         jsonRequest.add("address", address.getText().toString().trim());//地址内容
         jsonRequest.add("default", chbDefault.isChecked() ? 1 : 0);//是否默认——1：是， 0——否
 
@@ -296,6 +296,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
                         province = argo;
                         city = arg1;
                         district = arg2;
+                        pickerView.setRegion(argo.getName(), arg1.getName(), arg2.getName());
                         txProvince.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
                     }
                 });

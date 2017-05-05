@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:qinc="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +11,7 @@
         android:background="@color/white"
         app:abar_title="确认订单" />
 
-
+    <!--底部-->
     <LinearLayout
         android:id="@+id/confir_order_bottom"
         android:layout_width="match_parent"
@@ -77,99 +76,17 @@
 
             <include layout="@layout/goods_details_cuttingline" />
 
-            <RelativeLayout
-                android:id="@+id/confirm_order_addrss_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/confirm_order_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="14dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/icon_location_black" />
-
-                <ImageView
-                    android:id="@+id/confirm_order_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="14dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/right2_arrow" />
-
-                <TextView
-                    android:id="@+id/confirm_order_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:layout_toRightOf="@id/confirm_order_location"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/confirm_order_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_toRightOf="@id/confirm_order_username"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/confirm_order_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/confirm_order_username"
-                    android:layout_marginBottom="13.5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toLeftOf="@id/confirm_order_right"
-                    android:layout_toRightOf="@id/confirm_order_location"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="13sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/confirm_order_addrss_rl2"
-                android:layout_width="match_parent"
-                android:layout_height="57dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="47dp"
-                    android:text="请添加收货地址"
-                    android:textSize="13sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="14dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/right2_arrow" />
-            </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <include layout="@layout/goods_details_cuttingline_wide" />
+            <include layout="@layout/goods_details_cuttingline_wide"
+                android:visibility="gone"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="15.5dp"
@@ -196,9 +113,11 @@
                     android:textSize="14sp" />
             </RelativeLayout>
 
-            <include layout="@layout/goods_details_cuttingline" />
+            <include layout="@layout/goods_details_cuttingline"
+                android:visibility="gone"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="15.5dp"
@@ -224,9 +143,11 @@
                     android:textSize="14sp" />
             </RelativeLayout>
 
-            <include layout="@layout/goods_details_cuttingline" />
+            <include layout="@layout/goods_details_cuttingline"
+                android:visibility="gone"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="15.5dp"
@@ -253,7 +174,8 @@
                     android:textSize="14sp" />
             </RelativeLayout>
 
-            <include layout="@layout/goods_details_cuttingline_wide" />
+            <include layout="@layout/goods_details_cuttingline_wide"
+                android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
 

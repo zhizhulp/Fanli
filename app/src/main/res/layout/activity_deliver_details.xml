@@ -69,7 +69,7 @@
             android:gravity="center"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="查看物流"
+            android:text="提醒发货"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
