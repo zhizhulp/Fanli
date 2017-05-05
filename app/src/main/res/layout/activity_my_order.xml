@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <com.ascba.rebate.view.ShopABar
         android:id="@+id/activity_order_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="我的订单"></com.ascba.rebate.view.ShopABar>
+        app:abar_title="我的订单"/>
 
 
     <com.flyco.tablayout.SlidingTabLayout

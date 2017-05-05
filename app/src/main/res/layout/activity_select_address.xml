@@ -39,8 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/address_btn"
-        android:layout_below="@id/shopbar"
-        android:background="@color/main_content_bg" />
+        android:layout_below="@id/shopbar" />
 
 
 </RelativeLayout>

@@ -12,60 +12,61 @@
         app:abar_title="确认订单" />
 
     <!--底部-->
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/confir_order_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:background="@color/white">
 
+        <include layout="@layout/goods_details_cuttingline" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="@color/white">
+        <TextView
+            android:id="@+id/confir_order_btn_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center"
+            android:paddingLeft="25.5dp"
+            android:paddingRight="25.5dp"
+            android:text="提交订单"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            <include layout="@layout/goods_details_cuttingline" />
+        <TextView
+            android:id="@+id/confir_order_text_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/confir_order_btn_commit"
+            android:textColor="@color/shop_red_text_color"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/confir_order_btn_commit"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@android:color/holo_red_light"
-                android:gravity="center"
-                android:paddingLeft="25.5dp"
-                android:paddingRight="25.5dp"
-                android:text="提交订单"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/confir_order_text_total_price"
+            android:text="实付款："
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/confir_order_text_total_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@id/confir_order_btn_commit"
-                android:textColor="@color/shop_red_text_color"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/confir_order_text_total_price"
-                android:text="实付款："
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="16sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/confir_order_bottom"
-        android:layout_below="@id/shopbar"
+        android:layout_below="@id/shopbar" />
+
+    <!--<ScrollView
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbars="none">
 
         <LinearLayout
@@ -77,13 +78,9 @@
             <include layout="@layout/goods_details_cuttingline" />
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
-            <include layout="@layout/goods_details_cuttingline_wide"
-                android:visibility="gone"/>
+
+            <include layout="@layout/goods_details_cuttingline_wide" />
 
             <RelativeLayout
                 android:visibility="gone"
@@ -177,6 +174,6 @@
             <include layout="@layout/goods_details_cuttingline_wide"
                 android:visibility="gone"/>
         </LinearLayout>
-    </ScrollView>
+    </ScrollView>-->
 
 </RelativeLayout>

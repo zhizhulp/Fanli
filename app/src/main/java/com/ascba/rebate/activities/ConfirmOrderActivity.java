@@ -61,6 +61,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     private String balance;//账户余额
     private String orderId;//订单id
     private View headView;
+    private ConfirmOrderAdapter confirmOrderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         context = this;
         getDataFromIntent();
         initUI();
-
         //获取收货地址
         getAddress();
 
@@ -106,13 +106,11 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        ConfirmOrderAdapter confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
-        recyclerView.setAdapter(confirmOrderAdapter);
-
+        confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
         //recyclerView头部 订单地址
         headView = ViewUtils.getView(this, R.layout.confirm_order_header_address);
         confirmOrderAdapter.addHeaderView(headView);
-
+        recyclerView.setAdapter(confirmOrderAdapter);
         /**
          * 收货人信息
          */
@@ -306,6 +304,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
             username.setText(defaultAddressBean.getName());
             userPhone.setText(defaultAddressBean.getPhone());
             userAddress.setText(defaultAddressBean.getAddressDetl());
+            confirmOrderAdapter.notifyDataSetChanged();
         }
     }
 
