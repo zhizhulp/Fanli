@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -263,5 +264,10 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
             requestMyData(0);
             MyApplication.signOutSignIn=false;
         }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
 }

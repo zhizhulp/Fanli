@@ -96,8 +96,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private int finalScene;
     private static final long newTime = 24 * 60 * 60 * 1000;//新文章变为旧文章的时间(ms)
     private MsgView msgView;
-    private String TAG="BaseFragment";
-    private boolean debug=true;
+    private String TAG="HomePageFragment";
+    private boolean debug=false;
 
 
     @Override

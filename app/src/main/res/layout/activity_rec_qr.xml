@@ -46,6 +46,6 @@
     <Button
         android:onClick="copyText"
         android:layout_marginTop="25dp"
-        android:text="复制链接"
+        android:text="分享"
         style="@style/btnNormal" />
 </LinearLayout>

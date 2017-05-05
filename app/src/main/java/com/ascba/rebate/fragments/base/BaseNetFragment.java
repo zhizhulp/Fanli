@@ -30,7 +30,11 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
     private CallbackWhat callbackWhat;
     private View view;
     private String TAG="BaseNetFragment";
-    private boolean debug=false;
+    private boolean debug=true;
+
+    public BaseNetFragment() {
+        TAG=getClass().getSimpleName();
+    }
 
     @Nullable
     @Override
@@ -38,6 +42,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
         if(debug)
             Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(setContentView(), container, false);
+
         return view;
     }
 
@@ -82,12 +87,6 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
         super.onAttach(context);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        if(debug)
-            Log.d(TAG, "onAttach: ");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

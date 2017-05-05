@@ -616,9 +616,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="58dp"
-                            android:gravity="center_vertical"
-                            android:orientation="vertical"
-                            android:paddingTop="2dp">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/textView8"
@@ -628,14 +626,14 @@
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
-                            <TextView
+                            <!--<TextView
                                 android:id="@+id/textView5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="6dp"
                                 android:text=""
                                 android:textColor="@color/main_text_gary"
-                                android:textSize="@dimen/main_text_13" />
+                                android:textSize="@dimen/main_text_13" />-->
                         </LinearLayout>
 
                         <TextView

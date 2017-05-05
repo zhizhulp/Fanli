@@ -118,7 +118,7 @@
                         android:layout_marginTop="8dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="21/500人"
+                        android:text="0/0人"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_text_15" />
                 </LinearLayout>

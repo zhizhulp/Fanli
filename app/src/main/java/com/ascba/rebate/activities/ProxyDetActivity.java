@@ -60,10 +60,10 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
     private void getData() {
         data = new ArrayList<>();
 
-        data.add(new ProxyDet(R.mipmap.proxy_jrls, "今日流水", "￥ 268010"));
-        data.add(new ProxyDet(R.mipmap.proxy_zlse, "总流水额", "￥ 4862500"));
-        data.add(new ProxyDet(R.mipmap.proxy_qysj, "区域商家", "236家"));
-        data.add(new ProxyDet(R.mipmap.proxy_qyhy, "区域会员", "306人"));
+        data.add(new ProxyDet(R.mipmap.proxy_jrls, "今日流水", "￥ 0"));
+        data.add(new ProxyDet(R.mipmap.proxy_zlse, "总流水额", "￥ 0"));
+        data.add(new ProxyDet(R.mipmap.proxy_qysj, "区域商家", "0家"));
+        data.add(new ProxyDet(R.mipmap.proxy_qyhy, "区域会员", "0人"));
 
     }
 
