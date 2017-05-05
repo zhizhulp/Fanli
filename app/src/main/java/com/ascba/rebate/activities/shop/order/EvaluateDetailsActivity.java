@@ -143,15 +143,14 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
                 if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }
-
                 //收货地址
                 getAddress(dataObj);
-
                 //商家信息
                 getStoreInfo(dataObj);
-
                 //订单信息
                 getGoodsInfo(dataObj);
+                //店铺电话
+                storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
                 break;
         }
     }
@@ -182,9 +181,9 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
     private void getAddress(JSONObject dataObject) {
         try {
             JSONObject addressObject = dataObject.getJSONObject("order_member_address");
-            String name = addressObject.optString("consignee");//收货人姓名
-            String phone = addressObject.optString("mobile");//手机号
-            String address = addressObject.optString("address");//收货地址
+            String name = addressObject.optString("reciver_name");//收货人姓名
+            String phone = addressObject.optString("reciver_mobile");//手机号
+            String address = addressObject.optString("reciver_address");//收货地址
             phoneTx.setText(phone);
             nameTx.setText(name);
             addressTx.setText(address);
@@ -200,7 +199,6 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
         try {
             JSONObject storeObject = dataObject.getJSONObject("order_info");
             String storeName = storeObject.optString("store_name");//店铺
-            storePhone = storeObject.optString("member_name");
             storeTx.setText(storeName);
         } catch (JSONException e) {
             e.printStackTrace();

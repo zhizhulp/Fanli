@@ -286,7 +286,7 @@ public class SideFragment extends BaseNetFragment implements
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (now_page > total_page - 1 && total_page != 0) {
+                if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
                     requestNetwork(finalScene);

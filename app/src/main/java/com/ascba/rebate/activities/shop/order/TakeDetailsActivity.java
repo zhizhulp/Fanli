@@ -184,9 +184,11 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 //收货地址
                 getAddress(dataObj);
 
-
                 //订单信息
                 getGoodsInfo(dataObj);
+
+                //店铺电话
+                storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
                 break;
             case 1:
                 //确认收货
@@ -241,7 +243,6 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
 
             //店铺信息
             String storeName = orderObject.optString("store_name");//店铺
-            storePhone = orderObject.optString("member_name");
             storeTx.setText(storeName);
 
             //订单信息
