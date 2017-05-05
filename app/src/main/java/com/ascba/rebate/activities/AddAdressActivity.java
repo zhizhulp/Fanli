@@ -146,7 +146,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
         if (permissions[0].equals(Manifest.permission.READ_CONTACTS)
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             //用户同意使用read
-            getContact();
+             getContact();
         } else {
             //用户不同意，自行处理即可
             Toast.makeText(this, "无法使用此功能，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
