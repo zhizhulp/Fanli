@@ -167,8 +167,7 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
             if (isCardId == 0) {
-                getDm().buildAlertDialog("暂未实名认证，是否立即实名认证？");
-                getDm().setCallback(new DialogHome.Callback() {
+                getDm().buildAlertDialogSure("暂未实名认证，是否立即实名认证？",new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
                         Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);
@@ -206,8 +205,7 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
             int isCardId = dataObj.optInt("isCardId");
             int isBankCard = dataObj.optInt("isBankCard");
             if (isCardId == 0) {
-                getDm().buildAlertDialog("暂未实名认证，是否立即实名认证？");
-                getDm().setCallback(new DialogHome.Callback() {
+                getDm().buildAlertDialogSure("暂未实名认证，是否立即实名认证？",new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
                         Intent intent = new Intent(getActivity(), RealNameCofirmActivity.class);

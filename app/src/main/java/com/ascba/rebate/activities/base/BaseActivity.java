@@ -33,6 +33,12 @@ public class BaseActivity extends AppCompatActivity {
 //        refreshLayout.setProgressViewEndTarget(false, 200);
     }
 
+    public void stopRefersh(){
+        if(refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
+    }
+
     protected void showToast(String content) {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
     }

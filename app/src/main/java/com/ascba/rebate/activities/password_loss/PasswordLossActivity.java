@@ -22,7 +22,6 @@ public class PasswordLossActivity extends BaseNetActivity implements BaseNetActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_loss);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
     }
 
@@ -61,7 +60,7 @@ public class PasswordLossActivity extends BaseNetActivity implements BaseNetActi
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

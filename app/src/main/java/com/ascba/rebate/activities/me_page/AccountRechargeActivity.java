@@ -182,7 +182,7 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

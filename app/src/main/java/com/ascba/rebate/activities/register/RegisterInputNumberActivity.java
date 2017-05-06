@@ -76,7 +76,7 @@ public class RegisterInputNumberActivity extends BaseNetActivity implements Base
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

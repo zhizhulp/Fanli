@@ -24,9 +24,7 @@ public class LoginPasswordChangeActivity extends BaseNetActivity implements Base
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_password_change);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
-
     }
 
     private void initViews() {
@@ -73,7 +71,7 @@ public class LoginPasswordChangeActivity extends BaseNetActivity implements Base
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

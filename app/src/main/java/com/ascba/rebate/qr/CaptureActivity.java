@@ -256,15 +256,12 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     @Override
     public void handle404(String message) {
 
-        getDm().buildAlertDialog(message);
-        getDm().setCallback(new DialogHome.Callback() {
+        getDm().buildAlertDialogSure(message,new DialogHome.Callback() {
             @Override
             public void handleSure() {
                 restartPreviewAfterDelay(0L);
             }
         });
-
-
     }
 
     @Override

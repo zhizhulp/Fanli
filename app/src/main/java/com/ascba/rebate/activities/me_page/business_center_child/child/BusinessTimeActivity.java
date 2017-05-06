@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TimePicker;
 import com.ascba.rebate.R;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.jaeger.library.StatusBarUtil;
 
@@ -35,7 +36,7 @@ public class BusinessTimeActivity extends Activity {
         Intent intent = getIntent();
         if(intent!=null){
             String seller_business_hours = intent.getStringExtra("seller_business_hours");
-            if(seller_business_hours!=null&& !"".equals(seller_business_hours)){
+            if(!StringUtils.isEmpty(seller_business_hours)){
                 String[] split = seller_business_hours.split("~");
                 String start = split[0];
                 String end = split[1];
@@ -49,6 +50,11 @@ public class BusinessTimeActivity extends Activity {
                 startTime.setCurrentMinute(Integer.valueOf(startMin));
                 endTime.setCurrentHour(Integer.valueOf(endHour));
                 endTime.setCurrentMinute(Integer.valueOf(endMin));
+            }else {
+                startTime.setCurrentHour(9);
+                startTime.setCurrentMinute(0);
+                endTime.setCurrentHour(21);
+                endTime.setCurrentMinute(0);
             }
         }
     }

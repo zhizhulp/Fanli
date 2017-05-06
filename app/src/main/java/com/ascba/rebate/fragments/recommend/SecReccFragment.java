@@ -39,7 +39,6 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private RecyclerView rvSec;
-    private SwipeRefreshLayout refreshLatSec;
     private TuiGAdapter adapterSec;
     private List<FirstRec> dataSec;
     private int idAll;
@@ -107,8 +106,7 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
 
     private void initViews() {
         rvSec = getRv();
-        refreshLatSec = getRefreshLat();
-        refreshLatSec.setOnRefreshListener(this);
+        refreshLayout.setOnRefreshListener(this);
         adapterSec = getAdapter();
         dataSec = getData();
         View emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view,null);
@@ -133,7 +131,7 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
 
-        refreshLatSec.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         if (adapterSec != null) {
             adapterSec.loadMoreComplete();
         }
@@ -156,14 +154,14 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
                 fr.setTime(time);
                 dataSec.add(fr);
             }
-            adapterSec.notifyDataSetChanged();
         }
+        adapterSec.notifyDataSetChanged();
 
     }
 
     @Override
     public void handleReqFailed() {
-        refreshLatSec.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -173,12 +171,12 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
 
     @Override
     public void handleReLogin() {
-        refreshLatSec.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLatSec.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 

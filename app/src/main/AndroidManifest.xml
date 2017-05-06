@@ -660,7 +660,9 @@
             android:name=".activities.PayPsdSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.FastBillActivity"></activity>
+        <activity android:name=".activities.FastBillActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
     </application>
 
 </manifest>

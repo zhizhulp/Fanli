@@ -70,7 +70,7 @@ public class BCInputNameActivity extends BaseNetActivity implements BaseNetActiv
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

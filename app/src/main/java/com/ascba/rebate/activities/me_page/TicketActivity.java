@@ -117,7 +117,7 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

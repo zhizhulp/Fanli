@@ -108,7 +108,7 @@ public class CardDataActivity extends BaseNetActivity implements BaseNetActivity
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

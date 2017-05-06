@@ -38,8 +38,9 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
 
     //进入代金券列表
     public void goAcc(View view) {
-        Intent intent=new Intent(this,TicketActivity.class);
-        startActivity(intent);
+        finishAndCallback();
+        /*Intent intent=new Intent(this,TicketActivity.class);
+        startActivity(intent);*/
     }
 
     @Override
@@ -57,12 +58,14 @@ public class WSSuccActivity extends AppCompatActivity implements MoneyBar.CallBa
         finishAndCallback();
         super.onBackPressed();
     }
-    private void finishAndCallback(){
-        setResult(RESULT_OK,getIntent());
-        finish();
-    }
+
     @Override
     public void clickImage(View im) {
 
+    }
+
+    private void finishAndCallback(){
+        setResult(RESULT_OK,getIntent());
+        finish();
     }
 }

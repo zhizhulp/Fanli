@@ -266,7 +266,6 @@ public class MyRecActivity extends BaseNetActivity implements
                     }
                 }
 
-
                 showPopList(position, popData);
             } else {
                 Toast.makeText(this, "无分类", Toast.LENGTH_SHORT).show();

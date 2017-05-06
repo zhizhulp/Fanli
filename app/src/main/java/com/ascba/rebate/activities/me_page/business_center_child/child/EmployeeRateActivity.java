@@ -96,6 +96,7 @@ public class EmployeeRateActivity extends BaseNetActivity implements BaseNetActi
 
     @Override
     public void handle404(String message) {
+        showToast(message);
         finish();
     }
 

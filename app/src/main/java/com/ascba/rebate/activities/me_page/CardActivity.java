@@ -26,6 +26,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 银行卡界面
+ */
 public class CardActivity extends BaseNetActivity implements BaseNetActivity.Callback, SwipeMenuListView.OnMenuItemClickListener {
 
     private SwipeMenuListView2 cardListView;
@@ -39,7 +42,6 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         findView();
     }
 
@@ -79,10 +81,8 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
             setCallback(this);
         } else if (finalScene == 1) {
             Request<JSONObject> request = buildNetRequest(UrlUtils.delBanks, 0, true);
-            StringBuilder sb = new StringBuilder();
             Card card = mList.get(positionL);
-            sb.append(card.getId() + "");
-            request.add("bankIds", sb.toString());
+            request.add("bankIds", card.getId() + "");
             executeNetWork(request, "请稍后");
             setCallback(this);
 
@@ -138,7 +138,7 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override
@@ -150,8 +150,7 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
     public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
         switch (index) {
             case 0:
-                getDm().buildAlertDialog("确定要删除银行卡吗？");
-                getDm().setCallback(new DialogHome.Callback() {
+                getDm().buildAlertDialogSure("确定要删除银行卡吗？",new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
                         positionL = position;

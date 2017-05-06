@@ -175,9 +175,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
     public void goBusinessTime(View view) {
         if(btnEnable.equals("0") ||btnEnable.equals("1")){
             Intent intent=new Intent(this,BusinessTimeActivity.class);
-            if(seller_business_hours!=null){
-                intent.putExtra("seller_business_hours",seller_business_hours);
-            }
+            intent.putExtra("seller_business_hours",seller_business_hours);
             startActivityForResult(intent,REQUEST_BUSINESS_TIME);
         }else {
             getDm().buildAlertDialog(noMdf);
@@ -521,7 +519,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

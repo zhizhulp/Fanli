@@ -108,7 +108,7 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

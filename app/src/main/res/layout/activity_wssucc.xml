@@ -9,7 +9,7 @@
         android:id="@+id/mb"
         app:textTail="完成"
         app:needComplete="true"
-        app:textTitle="充值结果"
+        app:textTitle="兑现结果"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout

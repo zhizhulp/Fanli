@@ -28,7 +28,6 @@ public class PasswordLossWithCodeActivity extends BaseNetActivity implements Bas
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_loss_with_code);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getPhoneFromBefore();//获取上个界面传来的手机号码
     }
@@ -98,7 +97,7 @@ public class PasswordLossWithCodeActivity extends BaseNetActivity implements Bas
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

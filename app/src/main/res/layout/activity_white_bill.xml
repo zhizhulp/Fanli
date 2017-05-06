@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.me_page.WhiteBillActivity">
+
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/mb"
-        app:needComplete="true"
-        app:textTitle="白积分明细"
-        app:textTail="筛选"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:needComplete="true"
+        app:textTail="筛选"
+        app:textTitle="白积分明细" />
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/white_bill_head" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bill_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <include layout="@layout/white_bill_head"
-                android:id="@+id/head"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/bill_list"
-                android:background="@color/main_content_bg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
+            android:background="@color/main_content_bg" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

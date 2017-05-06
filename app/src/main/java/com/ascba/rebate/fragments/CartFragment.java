@@ -230,6 +230,7 @@ public class CartFragment extends BaseNetFragment implements
             data.get(position).t.setUserQuy(goodsCount);
             adapter.notifyItemChanged(position);
             calculateNumAndCost();
+            shopTabs.setThreeNoty(goodsCount);
         } else if (finalScene == 3) {//删除商品
             data.remove(position);
             adapter.notifyItemRemoved(position);

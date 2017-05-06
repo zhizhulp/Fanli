@@ -39,7 +39,6 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private RecyclerView rvFirst;
-    private SwipeRefreshLayout refreshLatFirst;
     private TuiGAdapter adapterFirst;
     private List<FirstRec> dataFirst;
     private int idAll;
@@ -103,8 +102,7 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
 
     private void initViews() {
         rvFirst = getRv();
-        refreshLatFirst = getRefreshLat();
-        refreshLatFirst.setOnRefreshListener(this);
+        refreshLayout.setOnRefreshListener(this);
         adapterFirst = getAdapter();
         dataFirst = getData();
         View emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_recc_view, null);
@@ -118,7 +116,7 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
         adapterFirst.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (now_page > total_page && total_page != 0) {
+                if (now_page > total_page) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
                     requestData(UrlUtils.getSearchPspread);
@@ -130,7 +128,7 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
 
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         if (adapterFirst != null) {
             adapterFirst.loadMoreComplete();
         }
@@ -153,14 +151,14 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
                 fr.setTime(time);
                 dataFirst.add(fr);
             }
-            adapterFirst.notifyDataSetChanged();
-        }
 
+        }
+        adapterFirst.notifyDataSetChanged();
     }
 
     @Override
     public void handleReqFailed() {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -170,12 +168,12 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
 
     @Override
     public void handleReLogin() {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void handleNoNetWork() {
-        refreshLatFirst.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 

@@ -76,13 +76,13 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
     }
 
     public void go(View view) {
-        getDm().buildAlertDialog("您确定要兑换吗？");
-        getDm().setCallback(new DialogHome.Callback() {
+        getDm().buildAlertDialogSure("您确定要兑换吗？",new DialogHome.Callback() {
             @Override
             public void handleSure() {
                 requestNetwork(2);
             }
         });
+
 
     }
 

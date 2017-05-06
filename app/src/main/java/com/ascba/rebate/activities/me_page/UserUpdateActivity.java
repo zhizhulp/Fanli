@@ -73,6 +73,10 @@ public class UserUpdateActivity extends BaseNetActivity implements
         refreshLayout.setOnRefreshListener(this);
     }
     @Override
+    public void onRefresh() {
+        requestForServer(1);
+    }
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
         proxy = mProxies.get(position);
@@ -146,8 +150,7 @@ public class UserUpdateActivity extends BaseNetActivity implements
             }
             isCardId = dataObj.optInt("isCardId");
             if(isCardId==0){
-                getDm().buildAlertDialog("暂未实名认证，是否立即实名认证？");
-                getDm().setCallback(new DialogHome.Callback() {
+                getDm().buildAlertDialogSure("暂未实名认证，是否立即实名认证？",new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
                         Intent intent=new Intent(UserUpdateActivity.this,RealNameCofirmActivity.class);
@@ -167,19 +170,14 @@ public class UserUpdateActivity extends BaseNetActivity implements
 
     @Override
     public void handle404(String message) {
-
+        stopRefersh();
+        getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-
+        stopRefersh();
     }
-
-    @Override
-    public void onRefresh() {
-        requestForServer(1);
-    }
-
 
     @Override
     protected void onNewIntent(Intent intent) {

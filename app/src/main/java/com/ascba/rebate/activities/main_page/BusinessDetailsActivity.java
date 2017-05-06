@@ -211,7 +211,7 @@ public class BusinessDetailsActivity extends BaseNetActivity implements BaseNetA
 
     @Override
     public void handle404(String message) {
-
+        getDm().buildAlertDialog(message);
     }
 
     @Override

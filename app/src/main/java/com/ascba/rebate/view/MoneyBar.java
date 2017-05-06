@@ -135,6 +135,9 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
                 if(callBack!=null){
                     callBack.clickComplete(completeText);
                 }
+                if(callBack2!=null){
+                    callBack2.clickBack(v);
+                }
                 break;
         }
     }
