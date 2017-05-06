@@ -48,9 +48,9 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isSignOut = false;//是否退出登陆
 
     public static boolean isChangePersonalData;//个人资料是否修改
+    public static boolean signOutSignInMoney;//是否点击了设置里的退出 用于退出后登陆重新刷新界面(moneyfrgment判断)
 
-    public static boolean signOutSignIn;//是否点击了设置里的退出 用于退出后登陆重新刷新界面
-
+    public static boolean signOutSignInMe;//是否点击了设置里的退出 用于退出后登陆重新刷新界面(mefrgment判断)
     public static boolean isLoadCartData;//是否需要刷新购物车数据
 
     public static boolean isRequestSuccess;//网络请求是否成功

@@ -333,9 +333,9 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
         if(!MyApplication.isSignOut && MyApplication.isChangePersonalData){//修改了个人数据
             requestData(UrlUtils.user, 3);
             MyApplication.isChangePersonalData=false;
-        }else if(!MyApplication.isSignOut && MyApplication.signOutSignIn){//重新登陆刷新数据
+        }else if(!MyApplication.isSignOut && MyApplication.signOutSignInMe){//重新登陆刷新数据
             requestData(UrlUtils.user, 3);
-            MyApplication.signOutSignIn=false;
+            MyApplication.signOutSignInMe=false;
         }
     }
 }

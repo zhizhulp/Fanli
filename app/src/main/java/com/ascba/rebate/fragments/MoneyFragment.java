@@ -52,7 +52,8 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
     private TextView tvBank;
     private int finalScene;
     private boolean debug = true;
-    private String TAG = "LazyBaseFragment";
+    private String TAG = "MoneyFragment";
+    private boolean isFirstResume=true;
 
     @Override
     protected int setContentView() {
@@ -259,15 +260,12 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
 
     @Override
     public void onResume() {
-        super.onResume();
-        if(!MyApplication.isSignOut && MyApplication.signOutSignIn){
-            requestMyData(0);
-            MyApplication.signOutSignIn=false;
-        }
-    }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
+        super.onResume();
+        if(!MyApplication.isSignOut && MyApplication.signOutSignInMoney && !isFirstResume){
+            requestMyData(0);
+            MyApplication.signOutSignInMoney=false;
+        }
+        isFirstResume=false;
     }
 }

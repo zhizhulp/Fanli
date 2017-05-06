@@ -205,7 +205,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         FragmentTransaction ft = fm.beginTransaction();
         switch (position) {
             case 0:
-                if (!fgts.contains(mHomePageFragment)) {
+                if (!mHomePageFragment.isAdded()) {
                     ft.add(R.id.fl_change, mHomePageFragment);
                     fgts.add(mHomePageFragment);
                 }
@@ -221,7 +221,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                 ft.commit();
                 break;
             case 1:
-                if (!fgts.contains(mSideFragment)) {
+                if (!mSideFragment.isAdded()) {
                     ft.add(R.id.fl_change, mSideFragment);
                     fgts.add(mSideFragment);
                 }
@@ -240,7 +240,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
                 break;
             case 3:
-                if (!fgts.contains(mMoneyFragment)) {
+                if (!mMoneyFragment.isAdded()) {
                     ft.add(R.id.fl_change, mMoneyFragment);
                     fgts.add(mMoneyFragment);
                 }
@@ -255,7 +255,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                 ft.commit();
                 break;
             case 4:
-                if (!fgts.contains(mMeFragment)) {
+                if (!mMeFragment.isAdded()) {
                     ft.add(R.id.fl_change, mMeFragment);
                     fgts.add(mMeFragment);
                 }
@@ -276,22 +276,24 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     @Override
     protected void onResume() {
         super.onResume();
-            /*if (AppConfig.getInstance().getInt("uuid", -1000) == -1000 ) {
-                try {
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    if (index == 3) {
-                        ft.remove(mMeFragment);
-                        fgts.remove(mMeFragment);
-                    } else if (index == 4) {
-                        ft.remove(mMoneyFragment);
-                        fgts.remove(mMoneyFragment);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+        /*if(MyApplication.signOutSignIn){
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            if (index == ME) {
+                if(mMeFragment.isAdded()){
+                    ft.remove(mMeFragment);
+                    fgts.remove(mMeFragment);
                 }
-            }*/
 
+            } else if (index ==CAIFU ) {
+                if(mMoneyFragment.isAdded()){
+                    ft.remove(mMoneyFragment);
+                    fgts.remove(mMoneyFragment);
+                }
+            }
+            ft.commit();
+            MyApplication.signOutSignIn=false;
+        }*/
     }
 
     public int getCurrIndex() {
