@@ -99,9 +99,9 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
             tvMax.setText("" + convertible_red_score);
             tvCash.setText("" + subscription_ratio_money );
             tvTicket.setText("" + subscription_ratio_score);
-            tvCashDesc.setText("返现金("+redObj.optString("cash_tax_rate") +")");
             tvTodayRate.setText("当前兑换比例：" + rateMoney + ":" + rateScore);
-            tvTips.setText("转出赠返现金为预存款，实际到账为"+redObj.optString("money"));
+            //tvTips.setText("转出赠返现金为预存款，实际到账为"+redObj.optString("money"));
+            tvTips.setText("根据以上比例兑换扣除手续费为"+redObj.optString("cash_tax_rate"));
             tvHeadTip.setText(notice_tip==0? null: "提醒：满"+exchange_unit+"红积分方可兑换现金与代金券" );
             tvHeadTip.setVisibility(notice_tip==0?View.GONE:View.VISIBLE);
             tvTotalRed.setText(""+red_score);

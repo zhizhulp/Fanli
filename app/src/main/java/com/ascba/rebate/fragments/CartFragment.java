@@ -309,27 +309,30 @@ public class CartFragment extends BaseNetFragment implements
 
     @Override
     public void handleReqFailed() {
-        getDm().buildAlertDialog(getString(R.string.no_response));
+        stopRefresh();
     }
+
+
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
+        stopRefresh();
         getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleReLogin() {
+        stopRefresh();
     }
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_network));
+        stopRefresh();
     }
 
     @Override
     public void onClickedChild(boolean isChecked, int position) {
         requestNetwork(UrlUtils.cartSelectdGoods, 1);
-
     }
 
     @Override
@@ -429,9 +432,10 @@ public class CartFragment extends BaseNetFragment implements
         }
     }
 
-    @Override
-    public void onDestroy() {
-        setUserVisibleHint(false);
-        super.onDestroy();
+
+    private void stopRefresh() {
+        if(refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
     }
 }

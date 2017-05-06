@@ -121,6 +121,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
+                android:text="返现金"
                 android:id="@+id/tv_cash_desc"
                 android:textColor="@color/main_text_normal"
                 android:textSize="@dimen/main_text_14"
