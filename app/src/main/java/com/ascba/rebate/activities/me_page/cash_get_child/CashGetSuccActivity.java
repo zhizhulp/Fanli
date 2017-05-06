@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.CashGetBillActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.MoneyBar;
 
@@ -23,7 +24,7 @@ public class CashGetSuccActivity extends BaseNetActivity implements MoneyBar.Cal
     }
 
     public void goAcc(View view) {
-        showToast("暂未开放");
+        startActivity(new Intent(this, CashGetBillActivity.class));
     }
     @Override
     public void clickComplete(View tv) {

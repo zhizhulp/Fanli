@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/13 0013.
- * 售货地址管理
+ * 收货地址管理
  */
 
 public class ReceiveAddressActivity extends BaseNetActivity implements

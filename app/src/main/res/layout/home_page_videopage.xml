@@ -2,4 +2,4 @@
 <com.ascba.rebate.view.pagerWithTurn.ShufflingVideoPager xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/homepage_pager"
     android:layout_width="match_parent"
-    android:layout_height="170dp"></com.ascba.rebate.view.pagerWithTurn.ShufflingVideoPager>
+    android:layout_height="170dp"/>

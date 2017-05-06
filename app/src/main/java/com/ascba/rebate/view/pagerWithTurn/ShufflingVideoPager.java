@@ -27,7 +27,6 @@ public class ShufflingVideoPager extends RelativeLayout {
 
     private ViewPager viewPager;
     private LinearLayout indicator;
-    private View inflate;
     private List<VideoBean> getList;
     private ImageView[] mImageView;
     private Context context;
@@ -47,17 +46,17 @@ public class ShufflingVideoPager extends RelativeLayout {
     public ShufflingVideoPager(Context context) {
         super(context, null);
         this.context = context;
-        Init(context);
+        Init();
     }
 
     public ShufflingVideoPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        Init(context);
+        Init();
     }
 
-    private void Init(Context context) {
-        inflate = LayoutInflater.from(context).inflate(R.layout.shuffling_videopager, this, true);
+    private void Init() {
+        LayoutInflater.from(context).inflate(R.layout.shuffling_viewpager, this, true);
         viewPager = (ViewPager) findViewById(R.id.head_viewPager);
         indicator = (LinearLayout) findViewById(R.id.indicator);
     }

@@ -36,6 +36,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 开通代理界面
+ */
 public class OpenProxyActivity extends BaseNetActivity implements
         AdapterView.OnItemClickListener, BaseNetActivity.Callback,
         MoneyBar.CallBack {
@@ -77,7 +80,6 @@ public class OpenProxyActivity extends BaseNetActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_proxy);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getData();
         netRequest(0);
@@ -292,14 +294,11 @@ public class OpenProxyActivity extends BaseNetActivity implements
     //确认开通
     public void goOpenProxy(View view) {
         if (finalRegionId == 0 && group != 1) {
-            getDm().buildAlertDialog("请选择地区");
-            getDm().setCallback(new DialogHome.Callback() {
+            getDm().buildAlertDialogSure("请选择地区",new DialogHome.Callback() {
                 @Override
                 public void handleSure() {
                     if (!"".equals(edCity.getText().toString())) {
                         netRequest(2);
-                    } else {
-                        return;
                     }
                 }
             });
@@ -313,8 +312,7 @@ public class OpenProxyActivity extends BaseNetActivity implements
             getDm().buildAlertDialog("请同意代理协议");
             return;
         }
-        getDm().buildAlertDialog("确定开通吗？");
-        getDm().setCallback(new DialogHome.Callback() {
+        getDm().buildAlertDialogSure("确定开通吗？",new DialogHome.Callback() {
             @Override
             public void handleSure() {
                 netRequest(3);
@@ -417,7 +415,6 @@ public class OpenProxyActivity extends BaseNetActivity implements
             }
         } else if (finalScene == 3) {//确认开通
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            //dm.buildAlertDialog(message);
             Intent intent = new Intent(this, UserUpdateActivity.class);
             startActivity(intent);
             finish();

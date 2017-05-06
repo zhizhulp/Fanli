@@ -26,7 +26,6 @@ public class ShufflingViewPager extends RelativeLayout {
 
     private ViewPager viewPager;
     private LinearLayout indicator;
-    private View inflate;
     private List<String> getList;
     private ImageView[] mImageView;
     private Context context;
@@ -56,7 +55,7 @@ public class ShufflingViewPager extends RelativeLayout {
     }
 
     private void Init(Context context) {
-        inflate = LayoutInflater.from(context).inflate(R.layout.shuffling_viewpager, this, true);
+        LayoutInflater.from(context).inflate(R.layout.shuffling_viewpager, this, true);
         viewPager = (ViewPager) findViewById(R.id.head_viewPager);
         indicator = (LinearLayout) findViewById(R.id.indicator);
     }

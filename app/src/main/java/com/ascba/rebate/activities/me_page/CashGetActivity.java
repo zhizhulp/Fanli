@@ -192,8 +192,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
             int isCardId = dataObj.optInt("isCardId");//是否实名认证
             if (isBankCard == 0) {
                 if (isCardId == 0) {
-                    getDm().buildAlertDialog("您还没有实名认证，是否立即实名？");
-                    getDm().setCallback(new DialogHome.Callback() {
+                    getDm().buildAlertDialogSure("您还没有实名认证，是否立即实名？",new DialogHome.Callback() {
                         @Override
                         public void handleSure() {
                             Intent intent = new Intent(CashGetActivity.this, RealNameCofirmActivity.class);
@@ -204,8 +203,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
                 } else {
                     JSONObject cardObj = dataObj.optJSONObject("cardInfo");
                     final String realname = cardObj.optString("realname");
-                    getDm().buildAlertDialog("暂未绑定银行卡，是否立即绑定？");
-                    getDm().setCallback(new DialogHome.Callback() {
+                    getDm().buildAlertDialogSure("暂未绑定银行卡，是否立即绑定？",new DialogHome.Callback() {
                         @Override
                         public void handleSure() {
                             Intent intent = new Intent(CashGetActivity.this, AddCardActivity.class);
@@ -217,9 +215,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
                 }
 
             } else {
-                getDm().buildAlertDialog("确定提现吗？");
-                /*dm.buildAlertDialog2("确定提现吗？");*/
-                getDm().setCallback(new DialogHome.Callback() {
+                getDm().buildAlertDialogSure("确定提现吗？",new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
                         requestHasCard(3);

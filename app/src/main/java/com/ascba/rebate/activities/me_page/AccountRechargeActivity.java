@@ -115,8 +115,8 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
         View wxClick = findViewById(R.id.wx_click);
         View aliClick = findViewById(R.id.ali_click);
 
-        imAli.setImageResource(R.mipmap.unselect);
-        imWx.setImageResource(R.mipmap.select);
+        imAli.setImageResource(R.mipmap.cart_uncheck);
+        imWx.setImageResource(R.mipmap.check_checked);
 
         aliClick.setOnClickListener(this);
         wxClick.setOnClickListener(this);
@@ -227,15 +227,15 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
         switch (v.getId()) {
             case R.id.wx_click:
                 if (select == 1) {
-                    imWx.setImageResource(R.mipmap.select);
-                    imAli.setImageResource(R.mipmap.unselect);
+                    imWx.setImageResource(R.mipmap.check_checked);
+                    imAli.setImageResource(R.mipmap.cart_uncheck);
                 }
                 select = 0;
                 break;
             case R.id.ali_click:
                 if (select == 0) {
-                    imWx.setImageResource(R.mipmap.unselect);
-                    imAli.setImageResource(R.mipmap.select);
+                    imWx.setImageResource(R.mipmap.cart_uncheck);
+                    imAli.setImageResource(R.mipmap.check_checked);
                 }
                 select = 1;
                 break;

@@ -148,8 +148,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                 btnCommit.setEnabled(true);
             }
         }else {
-            getDm().buildAlertDialog(message);
-            getDm().setCallback(new DialogHome.Callback() {
+            getDm().buildAlertDialogSure(message,new DialogHome.Callback() {
                 @Override
                 public void handleSure() {
                     setResult(RESULT_OK, getIntent());
@@ -237,7 +236,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
         if (type == -1 || type == 1) {
             type = 1;
             checkPermission();
-
         } else if (type == 0) {//审核中，展示图片
             Intent intent = new Intent(this, ShowPicActivity.class);
             if (warrant != null) {

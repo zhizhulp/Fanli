@@ -79,7 +79,6 @@ public class MyRecActivity extends BaseNetActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_rec);
         initViews();
-
         getDataFromIntent();
     }
 

@@ -42,7 +42,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/unselect"/>
+            android:background="@mipmap/cart_uncheck"/>
     </RelativeLayout>
     <View
         style="@style/viewStyleMargin"/>
@@ -74,7 +74,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/unselect"/>
+            android:background="@mipmap/cart_uncheck"/>
     </RelativeLayout>
 
     <TextView
