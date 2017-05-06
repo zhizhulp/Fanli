@@ -23,6 +23,7 @@ public class TestActivity extends BaseNetActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         editText = (EditText) findViewById(R.id.edit);
+        editText.setText("Jsut a test");
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.text);
         button.setOnClickListener(new View.OnClickListener() {
