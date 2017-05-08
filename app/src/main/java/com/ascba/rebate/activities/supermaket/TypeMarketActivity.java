@@ -219,6 +219,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
         now_page = 1;
         if (data.size() != 0) {
             data.clear();
+            adapter.notifyDataSetChanged();
         }
         requestNetwork();
 

@@ -377,6 +377,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
     private void clearData() {
         if (goodsList.size() != 0) {
             goodsList.clear();
+            adapter.notifyDataSetChanged();
         }
     }
 
