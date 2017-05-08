@@ -88,7 +88,7 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
                         && province != null && province.getId() != 0) {
                     submitData();
                 } else {
-                    showToast("请填写完整收货地址信息");
+                    showToast("请填写完整收货信息");
                 }
             }
         });

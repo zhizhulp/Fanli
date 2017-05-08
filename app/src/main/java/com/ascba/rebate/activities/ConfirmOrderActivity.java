@@ -321,7 +321,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-                MyApplication.isLoadCartData = true;//需要刷新购物车数据
+
                 //创建订单并开始支付
                 payOrder(dataObj, payType, message);
             }
@@ -361,6 +361,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                     pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String payType) {
+                            MyApplication.isLoadCartData = true;//需要刷新购物车数据
                             creatOrder(defaultAddressBean.getId(), jsonMessage.toString(), payType);
                         }
                     });
@@ -405,7 +406,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         //调起支付
         if ("balance".equals(payType)) {
             //余额支付
-            pay.dismissDialog();
             if (object != null) {
                 pay.requestForYuE(dataObj);
             } else {
@@ -476,7 +476,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void onNetProblem(String payStype, String resultStatus) {
-                showToast("支付失败");
+                showToast("手机网络出现问题");
             }
         });
 

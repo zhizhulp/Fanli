@@ -56,6 +56,7 @@
         <!-- 6位密码框布局，需要一个圆角边框的shape作为layout的背景 -->
 
         <LinearLayout
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -147,6 +148,7 @@
         <!-- 忘记密码链接 -->
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_forgetPwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

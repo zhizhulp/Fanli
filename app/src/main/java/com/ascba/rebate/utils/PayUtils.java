@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.SelectAddrssActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -107,9 +106,6 @@ public class PayUtils {
                         if (payCallBack != null) {
                             payCallBack.onFailed(payType, "支付失败");
                         }
-                    }
-                    if (payCallBack != null) {
-                        payCallBack.onFinish(payType);
                     }
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
@@ -214,6 +210,9 @@ public class PayUtils {
 
     //调起支付宝
     public void requestForAli(final String payInfo) {
+        if (payCallBack != null) {
+            payCallBack.onFinish(payType);
+        }
         Runnable payRunnable = new Runnable() {
             @Override
             public void run() {
@@ -251,7 +250,7 @@ public class PayUtils {
                 dialog.dismiss();
             }
             if (payCallBack != null) {
-                payCallBack.onFinish(payType);
+                payCallBack.onFinish(this.payType);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -260,6 +259,9 @@ public class PayUtils {
 
     //余额支付
     public void requestForYuE(final JSONObject object1) {
+        if (payCallBack != null) {
+            payCallBack.onFinish(payType);
+        }
         //输入密码
         showPassWordView(new InputPsdCallBack() {
             @Override
@@ -269,20 +271,10 @@ public class PayUtils {
             }
 
             @Override
-            public void onFailed() {
-                //余额支付
-                /*if (payCallBack != null) {
-                    payCallBack.onFailed(payType, "支付失败");
-                    payCallBack.onFinish(payType);
-                }*/
-            }
-
-            @Override
             public void onCancel() {
                 //余额支付
                 if (payCallBack != null) {
                     payCallBack.onCancel(payType, "支付取消");
-                    payCallBack.onFinish(payType);
                 }
             }
         });
@@ -326,14 +318,64 @@ public class PayUtils {
     }
 
     //输入密码回调
-    public interface InputPsdCallBack {
+    interface InputPsdCallBack {
         void onSuccess(String password);
-
-        void onFailed();
 
         void onCancel();
     }
 
+    public class NetResponseListener implements OnResponseListener<JSONObject> {
+        @Override
+        public void onStart(int what) {
+            progressDialog = (ProgressDialog) dialogHome.buildWaitDialog("请稍后");
+        }
+
+        @Override
+        public void onSucceed(int what, Response<JSONObject> response) {
+            requstSuccess(what, response.get());
+        }
+
+        @Override
+        public void onFailed(int what, Response<JSONObject> response) {
+            JSONObject js = response.get();
+            dialogHome.buildAlertDialog(js.optString("msg"));
+        }
+
+        @Override
+        public void onFinish(int what) {
+            progressDialog.dismiss();
+        }
+    }
+
+    public void requstSuccess(int what, JSONObject jObj) {
+        int status = jObj.optInt("status");
+        String message = jObj.optString("msg");
+        if (status == 200) {
+            switch (what) {
+                case 1:
+                    //余额支付
+                    if (payCallBack != null) {
+                        payCallBack.onSuccess(payType, "支付成功"/*jObj.optString("msg")*/);
+                    }
+                    break;
+            }
+        } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+            Intent intent = new Intent(context, LoginActivity.class);
+            AppConfig.getInstance().putInt("uuid", -1000);
+            context.startActivityForResult(intent, REQUEST_LOGIN);
+        } else if (status == 404) {
+            switch (what) {
+                case 1:
+                    //余额支付
+                    if (payCallBack != null) {
+                        payCallBack.onFailed(payType, message);
+                    }
+                    break;
+            }
+        } else {
+            Toast.makeText(context, "未知status" + status, Toast.LENGTH_SHORT).show();
+        }
+    }
     //请求余额支付验证
     private void requstYuEResult(JSONObject object) {
         JSONObject payObj = object.optJSONObject("payInfo");
@@ -377,62 +419,5 @@ public class PayUtils {
         MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
 
     }
-
-    public class NetResponseListener implements OnResponseListener<JSONObject> {
-        @Override
-        public void onStart(int what) {
-            progressDialog = (ProgressDialog) dialogHome.buildWaitDialog("请稍后");
-        }
-
-        @Override
-        public void onSucceed(int what, Response<JSONObject> response) {
-            requstSuccess(what, response.get());
-        }
-
-        @Override
-        public void onFailed(int what, Response<JSONObject> response) {
-            JSONObject js = response.get();
-            dialogHome.buildAlertDialog(js.optString("msg"));
-        }
-
-        @Override
-        public void onFinish(int what) {
-            progressDialog.dismiss();
-        }
-    }
-
-    public void requstSuccess(int what, JSONObject jObj) {
-        int status = jObj.optInt("status");
-        String message = jObj.optString("msg");
-        if (status == 200) {
-            switch (what) {
-                case 1:
-                    //余额支付
-                    if (payCallBack != null) {
-                        payCallBack.onSuccess(payType, jObj.optString("msg"));
-                        payCallBack.onFinish(payType);
-                    }
-                    break;
-            }
-        } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
-            Intent intent = new Intent(context, LoginActivity.class);
-            AppConfig.getInstance().putInt("uuid", -1000);
-            context.startActivityForResult(intent, REQUEST_LOGIN);
-            ((MyApplication) context.getApplication()).exit();
-        } else if (status == 404) {
-            switch (what) {
-                case 1:
-                    //余额支付
-                    if (payCallBack != null) {
-                        payCallBack.onFailed(payType, message);
-                        payCallBack.onFinish(payType);
-                    }
-                    break;
-            }
-        } else {
-            Toast.makeText(context, "未知status" + status, Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
 }

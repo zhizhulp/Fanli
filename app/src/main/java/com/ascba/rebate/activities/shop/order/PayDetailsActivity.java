@@ -81,6 +81,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     private String payType;
     private PayUtils pay;
     private String balance;//账户余额
+    private TextView tvMsg;
+    private View msgView;
 
 
     @Override
@@ -140,6 +142,9 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         countdownTx = (TextView) findViewById(R.id.tx_countdown);
         closeOrderTx = (TextView) findViewById(R.id.tx_close_order);
         countdownView = (LinearLayout) findViewById(R.id.ll_countdown);
+
+        tvMsg = ((TextView) findViewById(R.id.tv_left_msg));
+        msgView = findViewById(R.id.left_msg_lat);
     }
 
 
@@ -167,6 +172,9 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             case 2:
                 //付款
                 jsonRequest.add("pay_type", payType);
+                break;
+            case 0:
+                jsonRequest.add("status", "wait_pay");
                 break;
         }
         executeNetWork(jsonRequest, "请稍后");
@@ -387,6 +395,15 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 getGoodsInfo(dataObj);
                 //店铺电话
                 storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
+                //买家留言
+                String msg = dataObj.optJSONObject("order_info").optString("order_message");
+                if(StringUtils.isEmpty(msg)){
+                    msgView.setVisibility(View.GONE);
+                }else {
+                    msgView.setVisibility(View.VISIBLE);
+                    tvMsg.setText(msg);
+                }
+
                 break;
             case 1:
                 /*

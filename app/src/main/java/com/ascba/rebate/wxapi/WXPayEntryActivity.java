@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.RechargeBillActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
@@ -110,7 +111,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                     }
                     finish();
                 } else if (errCode == -2) {//用户取消
-                    Toast.makeText(this, "取消支付", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "支付取消", Toast.LENGTH_SHORT).show();
                     if (StringUtils.isEmpty(MyApplication.orderId)) {
                         //跳转待付款列表
                         MyOrderActivity.startIntent(context, 1);
@@ -128,8 +129,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
     //进入查看账单页面
     public void goAcc(View view) {
-        Intent intent = new Intent(this, AllAccountActivity.class);
-        intent.putExtra("order", 3);
+        Intent intent = new Intent(this, RechargeBillActivity.class);
         startActivity(intent);
     }
 

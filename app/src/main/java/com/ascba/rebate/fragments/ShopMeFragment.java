@@ -105,23 +105,23 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
                 switch (position) {
                     case 1:
                         //全部订单
-                        MyOrderActivity.startIntent(getActivity(), 0, orderMsg);
+                        MyOrderActivity.startIntent(ShopMeFragment.this, 0, orderMsg);
                         break;
                     case 3:
                         //待付款
-                        MyOrderActivity.startIntent(getActivity(), 1, orderMsg);
+                        MyOrderActivity.startIntent(ShopMeFragment.this, 1, orderMsg);
                         break;
                     case 4:
                         //待发货
-                        MyOrderActivity.startIntent(getActivity(), 2, orderMsg);
+                        MyOrderActivity.startIntent(ShopMeFragment.this, 2, orderMsg);
                         break;
                     case 5:
                         //已成交
-                        MyOrderActivity.startIntent(getActivity(), 3, orderMsg);
+                        MyOrderActivity.startIntent(ShopMeFragment.this, 3, orderMsg);
                         break;
                     case 6:
                         //待评价
-                        MyOrderActivity.startIntent(getActivity(), 4, orderMsg);
+                        MyOrderActivity.startIntent(ShopMeFragment.this, 4, orderMsg);
                         break;
                     case 7:
                         //退货
@@ -259,10 +259,10 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
 
         //当日任务
-        String task = listObject.optJSONObject("today_task_nav").optString("sub_title");
+        /*String task = listObject.optJSONObject("today_task_nav").optString("sub_title");
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_dangrirenwu, "当日任务", R.mipmap.pc_qianjin, task));
         //分割线
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));*/
 
         //收货地址
         String address = listObject.optJSONObject("shipping_address_nav").optString("sub_title");
@@ -320,4 +320,13 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case MyOrderActivity.REQUEST_ORDER:
+                getMeData();
+                break;
+        }
+    }
 }

@@ -72,6 +72,8 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             }
         }
     };
+    private TextView tvMsg;
+    private View msgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,9 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new DeliverDetailsAdapter(R.layout.item_goods, goodsList, context);
         recyclerView.setAdapter(adapter);
+
+        tvMsg = ((TextView) findViewById(R.id.tv_left_msg));
+        msgView = findViewById(R.id.left_msg_lat);
     }
 
     private void getOrderId() {
@@ -153,6 +158,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         switch (flag) {
             case 0:
                 jsonRequest.add("order_goods_id", orderId);
+                jsonRequest.add("status", "wait_take");
                 break;
             case 1:
                 jsonRequest.add("order_goods_id", orderId);
@@ -189,6 +195,14 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
 
                 //店铺电话
                 storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
+                //买家留言
+                String msg = dataObj.optJSONObject("order_info").optString("order_message");
+                if(StringUtils.isEmpty(msg)){
+                    msgView.setVisibility(View.GONE);
+                }else {
+                    msgView.setVisibility(View.VISIBLE);
+                    tvMsg.setText(msg);
+                }
                 break;
             case 1:
                 //确认收货

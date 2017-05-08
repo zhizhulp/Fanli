@@ -13,6 +13,7 @@ import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -97,6 +98,10 @@ public class LoginActivity extends BaseNetActivity {
         loginPassword = edPassword.getText().toString();
         if (loginPhone.equals("") || loginPassword.equals("")) {
             Toast.makeText(this, "账号或密码不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!RegexUtils.isMobileExact(loginPhone)) {
+            getDm().buildAlertDialog("请输入正确的11位手机号码");
             return;
         }
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.login, 0, false);

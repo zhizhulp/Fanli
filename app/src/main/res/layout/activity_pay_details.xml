@@ -199,6 +199,42 @@
                         android:textColor="@color/fragment_money_red"
                         android:textSize="13sp" />
                 </RelativeLayout>
+                <include layout="@layout/goods_details_cuttingline" />
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/left_msg_lat"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="66dp"
+                    android:orientation="horizontal">
+                        <ImageView
+                            android:src="@mipmap/left_msg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:textColor="@color/main_text_normal"
+                                android:text="买家留言"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_marginTop="12dp"
+                                android:id="@+id/tv_left_msg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                </LinearLayout>
 
                 <include layout="@layout/goods_details_cuttingline_wide" />
 

@@ -1328,6 +1328,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             Intent intent = new Intent(this, ConfirmBuyOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
+            finish();
         }
     }
 

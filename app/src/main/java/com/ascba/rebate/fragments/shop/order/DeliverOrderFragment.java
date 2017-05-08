@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +117,7 @@ public class DeliverOrderFragment extends LazyLoadFragment {
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
+                double orderAmount=0;//订单价格
                 JSONObject object = jsonArray.optJSONObject(i);
 
                 //订单id
@@ -144,7 +146,11 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                             totalNum = num + totalNum;
 
                             good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
+                            String goods_pay_price = goodsObject.optString("goods_pay_price");
+                            double price = Double.parseDouble(goods_pay_price);
+                            orderAmount += price * num;
+
+                            good.setGoodsPrice(goods_pay_price);//付款价格
                             good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
                             OrderBean orderBean = new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, good);
                             orderBean.setId(orderId);
@@ -154,12 +160,11 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                         }
                     }
                 }
-
                 //底部信息
-                String orderAmount = object.optString("order_amount");//订单总价
+                //String orderAmount = object.optString("order_amount");//订单总价 服务端数据已无任何意义
                 String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + new DecimalFormat("#.##").format(orderAmount), shippingFee);
                 beadFoot.setId(orderId);
                 beanArrayList.add(beadFoot);
             }

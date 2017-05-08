@@ -95,8 +95,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     private void requstData(int flag, String url, String order_id) {
         this.flag = flag;
-        Request<JSONObject> jsonRequest = null;
-        jsonRequest = buildNetRequest(url, 0, true);
+        Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", order_id);
         switch (flag) {
             case 3:
@@ -293,7 +292,6 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             pay.setPayCallBack(new PayUtils.onPayCallBack() {
                 @Override
                 public void onFinish(String payStype) {
-                    //刷新数据
                 }
 
                 @Override

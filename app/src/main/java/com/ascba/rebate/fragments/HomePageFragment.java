@@ -388,7 +388,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             JSONObject obj = dataObj.optJSONObject("receivables");
             String url = obj.optString("url");
             Intent intent = new Intent(getActivity(), WebViewBaseActivity.class);
-            intent.putExtra("name", "扶持政策");
+            intent.putExtra("name", "数据统计");
             intent.putExtra("url", url);
             startActivity(intent);
         }

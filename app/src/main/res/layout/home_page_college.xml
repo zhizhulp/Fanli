@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="创业扶持"
+            android:text="数据统计"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="16sp" />
     </LinearLayout>

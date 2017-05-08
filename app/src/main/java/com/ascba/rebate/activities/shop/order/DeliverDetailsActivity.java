@@ -51,6 +51,8 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
     private TextView payTx, deleteTx, countdownTx, closeOrderTx;
     private int flag = 0;//0-获取数据
     private String storePhone;
+    private TextView tvMsg;
+    private View msgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,9 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new DeliverDetailsAdapter(R.layout.item_goods, goodsList, context);
         recyclerView.setAdapter(adapter);
+
+        tvMsg = ((TextView) findViewById(R.id.tv_left_msg));
+        msgView = findViewById(R.id.left_msg_lat);
     }
 
     private void getOrderId() {
@@ -122,6 +127,7 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", orderId);
+        jsonRequest.add("status", "wait_deliver");
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
@@ -154,6 +160,14 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
                 getGoodsInfo(dataObj);
                 //店铺电话
                 storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
+                //买家留言
+                String msg = dataObj.optJSONObject("order_info").optString("order_message");
+                if(StringUtils.isEmpty(msg)){
+                    msgView.setVisibility(View.GONE);
+                }else {
+                    msgView.setVisibility(View.VISIBLE);
+                    tvMsg.setText(msg);
+                }
                 break;
         }
     }
@@ -222,7 +236,6 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
             String orderAmount = orderObject.optString("order_amount");//订单价格
             String orderTime = orderObject.optString("add_time");//订单时间
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
-
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
             orderAmountTx.setText("￥" + orderAmount);

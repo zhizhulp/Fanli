@@ -70,7 +70,7 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
         //设置popwindow的动画效果
         popupWindow.setAnimationStyle(R.style.popWindow_anim_style);
         popupWindow.setOnDismissListener(this);// 当popWindow消失时的监听
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        //popupWindow.setBackgroundDrawable(new BitmapDrawable());
         valueList = new ArrayList<>();
         tvList = new TextView[6];
         setView();
@@ -128,7 +128,6 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
      * 弹窗显示的位置
      */
     public void showAsDropDown(View position) {
-        popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(position, Gravity.BOTTOM, 0, 0);
         //设置背景变暗
@@ -148,7 +147,6 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
                 }
                 break;
             case R.id.tv_forgetPwd:
-                Toast.makeText(context, "前往忘记密码界面", Toast.LENGTH_SHORT).show();
                 if (onPasswordInputFinish != null) {
                     onPasswordInputFinish.forgetPsd();
                 }

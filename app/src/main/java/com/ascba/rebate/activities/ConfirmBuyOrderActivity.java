@@ -421,9 +421,9 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                     setResult(RESULT_OK, getIntent());
                     finish();
                 } else if ("wxpay".equals(payType)) {
-                    finish();
                     //微信支付
                     MyApplication.payType = 1;
+                    finish();
                 }
             }
 

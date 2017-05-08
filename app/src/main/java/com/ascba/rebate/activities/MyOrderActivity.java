@@ -1,5 +1,7 @@
 package com.ascba.rebate.activities;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +31,10 @@ import java.util.List;
 
 public class MyOrderActivity extends BaseNetActivity {
 
+    public static final int REQUEST_ORDER = 0;
     private ShopABar shopABar;
     private Context context;
+    @SuppressLint("StaticFieldLeak")
     private static SlidingTabLayout slidingtablayout;
     private ViewPager mViewPager;
     private List<Bean> mTitleList = new ArrayList<>();//页卡标题集合
@@ -47,11 +51,11 @@ public class MyOrderActivity extends BaseNetActivity {
         initView();
     }
 
-    public static void startIntent(Context context, int index, int[] orderMsg) {
-        Intent intent = new Intent(context, MyOrderActivity.class);
+    public static void startIntent(Fragment context, int index, int[] orderMsg) {
+        Intent intent = new Intent(context.getActivity(), MyOrderActivity.class);
         intent.putExtra("index", index);
         intent.putExtra("msg", orderMsg);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,REQUEST_ORDER);
     }
 
     public static void startIntent(Context context, int index) {
@@ -75,7 +79,7 @@ public class MyOrderActivity extends BaseNetActivity {
         shopABar.setCallback(new ShopABar.Callback() {
             @Override
             public void back(View v) {
-                finish();
+                finishAndCallback();
             }
 
             @Override
@@ -171,6 +175,16 @@ public class MyOrderActivity extends BaseNetActivity {
         } else {
             slidingtablayout.hideMsg(position);
         }
+    }
+    private void finishAndCallback(){
+        setResult(RESULT_OK,getIntent());
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAndCallback();
+        super.onBackPressed();
     }
 
     public class Bean {

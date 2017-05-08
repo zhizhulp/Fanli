@@ -137,12 +137,11 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                 if (jsonArray != null && jsonArray.length() > 0) {
                     try {
                         JSONObject goodsObject = jsonArray.getJSONObject(i);
-
                         //订单id
                         String orderId = goodsObject.optString("order_id");
                         String order_goods_id = goodsObject.optString("order_goods_id");
                         //头部信息
-                        String time = goodsObject.optString("create_time");//时间
+                        String time = goodsObject.optString("add_time");//时间
                         time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
                         OrderBean beanHead = new OrderBean(TakeOrderAdapter.TYPE1, R.layout.item_order_head, time, "等待买家收货");
                         beanHead.setId(order_goods_id);

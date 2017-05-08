@@ -11,6 +11,7 @@ public class MessageBean {
     private String title;
     private  String content;
     private int count;
+    private int type;
 
     public MessageBean() {
     }
@@ -61,5 +62,13 @@ public class MessageBean {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

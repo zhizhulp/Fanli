@@ -51,6 +51,8 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
     private TextView payTx, deleteTx, countdownTx, closeOrderTx;
     private int flag = 0;//0-获取数据
     private String storePhone;
+    private TextView tvMsg;
+    private View msgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,9 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new DeliverDetailsAdapter(R.layout.item_goods, goodsList, context);
         recyclerView.setAdapter(adapter);
+
+        tvMsg = ((TextView) findViewById(R.id.tv_left_msg));
+        msgView = findViewById(R.id.left_msg_lat);
     }
 
     private void getOrderId() {
@@ -122,6 +127,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", orderId);
+        jsonRequest.add("status", "wait_evaluate");
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
@@ -151,6 +157,14 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
                 getGoodsInfo(dataObj);
                 //店铺电话
                 storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
+                //买家留言
+                String msg = dataObj.optJSONObject("order_info").optString("order_message");
+                if(StringUtils.isEmpty(msg)){
+                    msgView.setVisibility(View.GONE);
+                }else {
+                    msgView.setVisibility(View.VISIBLE);
+                    tvMsg.setText(msg);
+                }
                 break;
         }
     }

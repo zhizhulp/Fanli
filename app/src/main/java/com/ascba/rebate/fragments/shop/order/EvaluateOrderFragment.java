@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -23,7 +24,6 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
@@ -47,8 +47,8 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
     private EvaluateOrderAdapter adapter;
     private View view;
     private View emptyView;
-    private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——删除订单
+    private static final String TAG="EvaluateOrderFragment";
 
 
     @Override
@@ -88,8 +88,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
 
     private void requstData(int flag, String url, String order_id) {
         this.flag = flag;
-        Request<JSONObject> jsonRequest = null;
-        jsonRequest = buildNetRequest(url, 0, true);
+        Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", order_id);
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
@@ -105,7 +104,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         }
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
-            //parseJson(jsonArray);
             parseJson1(jsonArray);
         }
         if (adapter == null) {
@@ -127,20 +125,22 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             JSONObject go = jsonArray.optJSONObject(i);
 
             //订单id
-            orderId = go.optString("order_id");
+            String orderId = go.optString("order_id");
+
+            int goods_id = Integer.parseInt(go.optString("goods_id"));
+            Log.d(TAG, "json_goods_id: "+goods_id +",json_order_id: "+orderId);
             //头部信息
-            String time = go.optString("create_time");//时间
+            String time = go.optString("add_time");//时间
             time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
             OrderBean beanHead = new OrderBean(EvaluateOrderAdapter.TYPE1, R.layout.item_order_head, time, "交易成功");
-            beanHead.setId(orderId);
+            beanHead.setId(goods_id+"");
             beanArrayList.add(beanHead);
 
             //商品信息
             Goods good = new Goods();
-            good.setTitleId(Integer.parseInt(go.optString("goods_id")));//商品id
+            good.setTitleId(Integer.parseInt(orderId));//商品订单id
             good.setImgUrl(UrlUtils.baseWebsite + go.optString("goods_img"));//图片
             good.setGoodsTitle(go.optString("goods_name"));//商品名
-
             int num = Integer.parseInt(String.valueOf(go.opt("goods_num")));
             double goods_pay_price = Double.parseDouble(String.valueOf(go.optString("goods_pay_price")));//付款价格
             double tailPrice = num * goods_pay_price;
@@ -152,7 +152,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             good.setGoodsPriceOld(go.optString("goods_price"));//原价
 
             OrderBean orderBean = new OrderBean(EvaluateOrderAdapter.TYPE2, R.layout.item_goods, good);
-            orderBean.setId(orderId);
+            orderBean.setId(goods_id+"");
             beanArrayList.add(orderBean);
 
             //底部信息
@@ -160,7 +160,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             String shippingFee =" (免邮费)";
             String goodsNum = "共" + num + "件商品";//商品数量
             OrderBean beadFoot = new OrderBean(EvaluateOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, "￥" + formatGoodsPrice, shippingFee);
-            beadFoot.setId(orderId);
+            beadFoot.setId(goods_id+"");
             beanArrayList.add(beadFoot);
         }
     }
@@ -176,15 +176,15 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                final String orderId = beanArrayList.get(position).getId();
+                final OrderBean orderBean = beanArrayList.get(position);
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        if (orderId != null) {
-                            Intent intent = new Intent(context, EvaluateDetailsActivity.class);
-                            intent.putExtra("order_id", orderId);
-                            startActivityForResult(intent, 1);
-                        }
+                        int orderId = orderBean.getGoods().getTitleId();
+                        Log.d(EvaluateOrderFragment.TAG, "click orderId: "+orderId);
+                        Intent intent = new Intent(context, EvaluateDetailsActivity.class);
+                        intent.putExtra("order_id", orderId+"");
+                        startActivityForResult(intent, 1);
                         break;
                     case R.id.item_goods_order_total_after:
                         //售后
@@ -193,11 +193,12 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                         //评价
                         break;
                     case R.id.item_goods_order_total_delete:
+                        Log.d(EvaluateOrderFragment.TAG, "click goodsId: "+orderBean.getId());
                         //删除订单
                         getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
-                                requstData(1, UrlUtils.delOrder, orderId);
+                                requstData(1, UrlUtils.delOrder, orderBean.getId());
                             }
                         });
                         break;

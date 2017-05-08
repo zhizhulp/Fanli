@@ -60,6 +60,7 @@ public class CartFragment extends BaseNetFragment implements
     private ShopTabs shopTabs;
     private int allGoodsNum;//购物车所有商品数量
     private boolean isFirstResume=true;//是否第一次加载onResume
+    private boolean isAdd;//当前在点加号还是减号
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -230,7 +231,7 @@ public class CartFragment extends BaseNetFragment implements
             data.get(position).t.setUserQuy(goodsCount);
             adapter.notifyItemChanged(position);
             calculateNumAndCost();
-            shopTabs.setThreeNoty(goodsCount);
+            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum()+ (isAdd ? 1:-1));
         } else if (finalScene == 3) {//删除商品
             data.remove(position);
             adapter.notifyItemRemoved(position);
@@ -288,7 +289,6 @@ public class CartFragment extends BaseNetFragment implements
                         if (!StringUtils.isEmpty(goods_id)) {
                             goods.setTitleId(Integer.parseInt(goods_id));
                         }
-
                         int sele = Integer.parseInt(selected);
                         CartGoods dg = new CartGoods(goods, Integer.parseInt(store_id), sele != 0);
                         data.add(dg);
@@ -349,6 +349,7 @@ public class CartFragment extends BaseNetFragment implements
 
     @Override
     public void clickAddBtn(int count, int position) {
+        isAdd=true;
         goodsCount = count + 1;
         this.position = position;
         requestNetwork(UrlUtils.cartChangenumGoods, 2);
@@ -356,6 +357,7 @@ public class CartFragment extends BaseNetFragment implements
 
     @Override
     public void clickSubBtn(int count, int position) {
+        isAdd=false;
         goodsCount = count - 1;
         this.position = position;
         requestNetwork(UrlUtils.cartChangenumGoods, 2);

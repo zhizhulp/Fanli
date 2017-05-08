@@ -11,6 +11,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ShopMessageAdapter;
 import com.ascba.rebate.beans.MessageBean;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
@@ -82,8 +83,8 @@ public class ShopMessageActivity extends BaseNetActivity {
                         MessageLatestActivity.startIntent(context);
                         break;
                     case 1:
-                        //系统通知
-                        MessageDetailsActivity.startIntent(context);
+                        //物流消息
+                        //MessageDetailsActivity.startIntent(context);
                         break;
                 }
             }
@@ -119,6 +120,8 @@ public class ShopMessageActivity extends BaseNetActivity {
                         bean.setTime(time);
                         String content = jsonObject.optString("title");
                         bean.setContent(content);
+                    }else {
+                        bean.setContent("暂无消息");
                     }
                     beanList.add(bean);
                 } catch (JSONException e) {
