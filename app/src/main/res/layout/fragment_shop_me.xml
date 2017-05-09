@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,45 +16,4 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <RelativeLayout
-        android:id="@+id/head_view"
-        android:layout_width="match_parent"
-        android:layout_height="48dp">
-
-        <RelativeLayout
-            android:id="@+id/activity_pc_item_head_message"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:paddingRight="15dp"
-            android:paddingLeft="15dp">
-
-            <com.ascba.rebate.view.MsgView
-                android:id="@+id/shop_me_msg_view"
-                android:layout_width="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_height="wrap_content"
-                app:msg_img="@mipmap/shop_no_msg"
-                app:msg_indicator="false" />
-
-        </RelativeLayout>
-
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/activity_pc_item_head_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15.5dp"
-            android:padding="5dp"
-            android:src="@mipmap/abar_back" />
-
-        <View
-            android:id="@+id/head_view_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"
-            android:alpha="0"
-            android:background="@color/cutting_line" />
-    </RelativeLayout>
 </RelativeLayout>

@@ -3,7 +3,6 @@ package com.ascba.rebate.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.BeginnerGuideActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
@@ -46,10 +44,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
     private PCMultipleItemAdapter pcMultipleItemAdapter;
     private List<PCMultipleItem> pcMultipleItems = new ArrayList<>();
     private int[] orderMsg;
-    private View headView;
-    private View headViewLine;
-    private int mDistanceY = 0;//下拉刷新滑动距离
-    private MsgView msgView;
     private boolean isFirstResume=true;
 
     @Override
@@ -79,24 +73,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
     初始化UI
      */
     private void initView(View view) {
-        headView = view.findViewById(R.id.head_view);
-        headViewLine = view.findViewById(R.id.head_view_line);
-        //返回
-        view.findViewById(R.id.activity_pc_item_head_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
-
-        //消息
-        msgView = (MsgView) view.findViewById(R.id.shop_me_msg_view);
-        msgView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShopMessageActivity.startIntent(getActivity());
-            }
-        });
 
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
@@ -166,32 +142,16 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
+                switch (view.getId()){
+                    case R.id.activity_pc_item_head_message:
+                        ShopMessageActivity.startIntent(getActivity());
+                        break;
+                }
             }
         });
 
         initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(this);
-
-        /**
-         * 滑动标题栏渐变
-         */
-        pc_RecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                //滑动的距离
-                mDistanceY += dy;
-                //toolbar的高度
-                int toolbarHeight = headView.getBottom();
-                float maxAlpha = 229.5f;//最大透明度80%
-                //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
-                if (mDistanceY <= toolbarHeight) {
-                    float scale = (float) mDistanceY / toolbarHeight;
-                    float alpha = scale * maxAlpha;
-                    headView.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-                    headViewLine.setAlpha(alpha);
-                }
-            }
-        });
     }
 
     @Override
@@ -270,7 +230,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         //账户余额
         String balance = listObject.optJSONObject("balance_nav").optString("sub_title");
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_zhanghuyue, "账户余额", balance));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_5, R.mipmap.pc_zhanghuyue, "账户余额", balance));
 
         //分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
