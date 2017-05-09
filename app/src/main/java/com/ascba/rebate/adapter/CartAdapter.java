@@ -83,14 +83,15 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
 
     @Override
     protected void convert(final BaseViewHolder helper, final CartGoods item) {
-        ImageView view = helper.getView(R.id.cart_goods_pic);
+        ImageView imgview = helper.getView(R.id.cart_goods_pic);
         Goods goods = item.t;
-        Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(view);
+        Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imgview);
         helper.setText(R.id.cart_goods_title, goods.getGoodsTitle());
         helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
         helper.setText(R.id.cart_price, goods.getGoodsPrice());
         helper.addOnClickListener(R.id.edit_standard);
         helper.addOnClickListener(R.id.cart_goods_title);
+        helper.addOnClickListener(R.id.cart_goods_pic);
         //helper.setText(R.id.cart_tv_num,"x"+goods.getUserQuy());
         initNumberButton(helper,goods);
         final CheckBox cb = helper.getView(R.id.cb_cart_child);

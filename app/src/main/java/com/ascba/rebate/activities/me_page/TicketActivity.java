@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.TicketAdapter;
@@ -14,8 +14,10 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.ScrollViewWithListView;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +27,6 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
     private ScrollViewWithListView ticketListView;
     private TicketAdapter ticketAdapter;
     private List<Ticket> mList;
-    private View noIv;
-    private View noTv;
     private Button btnTicket;
     private MoneyBar moneyBar;
     private View noView;
@@ -51,7 +51,6 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
         initListView();
 
         moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
-        //moneyBar.setTailTitle(getString(R.string.inoutcome_record));
         moneyBar.setCallBack(new MoneyBar.CallBack() {
             @Override
             public void clickImage(View im) {
@@ -60,7 +59,7 @@ public class TicketActivity extends BaseNetActivity implements BaseNetActivity.C
 
             @Override
             public void clickComplete(View tv) {
-                //TransactionRecordsActivity.startIntent(TicketActivity.this);
+
             }
         });
 

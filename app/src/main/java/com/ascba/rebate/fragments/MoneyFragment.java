@@ -258,7 +258,6 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
 
     @Override
     public void onResume() {
-
         super.onResume();
         if(!MyApplication.isSignOut && MyApplication.signOutSignInMoney && !isFirstResume){
             requestMyData(0);

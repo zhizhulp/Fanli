@@ -61,6 +61,8 @@ public class SettingActivity extends BaseNetActivity {
         MyApplication.isSignOut=true;
         MyApplication.signOutSignInMoney=true;
         MyApplication.signOutSignInMe=true;
+        MyApplication.signOutSignInCart=true;
+        MyApplication.signOutSignInShopMe=true;
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }

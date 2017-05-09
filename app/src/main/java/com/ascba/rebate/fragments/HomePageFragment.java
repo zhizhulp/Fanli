@@ -255,8 +255,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         break;
                     case R.id.homepage_btn_college:
                         //ASK商学院
-                        Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
-                        startActivity(college);
+                        showToast("暂未开放");
+                        /*Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
+                        startActivity(college);*/
                         break;
                     case R.id.homepage_text_more_news:
                         //最新动态——更多

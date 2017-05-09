@@ -19,8 +19,10 @@ import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
@@ -48,6 +50,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
     private View headViewLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
     private MsgView msgView;
+    private boolean isFirstResume=true;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -131,9 +134,15 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
                         RefundOrderActivity.startIntent(getActivity());
                         break;
                     case 9:
-                        //新手指南
-                        Intent intent1 = new Intent(getContext(), BeginnerGuideActivity.class);
-                        startActivity(intent1);
+                        //学堂
+                        showToast("暂未开放");
+                        /*Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
+                        startActivity(college);*/
+                        break;
+                    case 11:
+                        //代金券
+                        Intent ticket = new Intent(getActivity(), TicketActivity.class);
+                        startActivity(ticket);
                         break;
                     case 15:
                         //收货地址管理
@@ -261,7 +270,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         //账户余额
         String balance = listObject.optJSONObject("balance_nav").optString("sub_title");
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_zhanghuyue, "账户余额", R.mipmap.pc_qianjin, balance));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_zhanghuyue, "账户余额", balance));
 
         //分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));
@@ -336,5 +345,15 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
                 getMeData();
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!MyApplication.isSignOut && MyApplication.signOutSignInShopMe && !isFirstResume){
+            getMeData();
+            MyApplication.signOutSignInShopMe=false;
+        }
+        isFirstResume=false;
     }
 }

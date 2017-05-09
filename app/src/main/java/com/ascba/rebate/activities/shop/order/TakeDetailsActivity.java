@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.BusinessShopActivity;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -21,6 +23,8 @@ import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONException;
@@ -74,6 +78,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
     };
     private TextView tvMsg;
     private View msgView;
+    private String store_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,9 +136,25 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new DeliverDetailsAdapter(R.layout.item_goods, goodsList, context);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Goods goods = goodsList.get(position);
+                GoodsDetailsActivity.startIntent(TakeDetailsActivity.this,goods.getTitleId());
+            }
+        });
 
         tvMsg = ((TextView) findViewById(R.id.tv_left_msg));
         msgView = findViewById(R.id.left_msg_lat);
+
+        findViewById(R.id.store_lat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(TakeDetailsActivity.this,BusinessShopActivity.class);
+                intent.putExtra("store_id",Integer.parseInt(store_id));
+                startActivity(intent);
+            }
+        });
     }
 
     private void getOrderId() {
@@ -257,6 +278,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
 
             //店铺信息
             String storeName = orderObject.optString("store_name");//店铺
+            store_id = orderObject.optString("store_id");
             storeTx.setText(storeName);
 
             //订单信息
@@ -292,7 +314,10 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             String specNames = goodObject.optString("spec_names");//商品规格
             String goodNum = goodObject.optString("goods_num");//数量
             String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
-            goodsList.add(new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum)));
+            Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
+            String goods_id = goodObject.optString("goods_id");//商品id
+            goods.setTitleId(Integer.parseInt(goods_id));
+            goodsList.add(goods);
 
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {

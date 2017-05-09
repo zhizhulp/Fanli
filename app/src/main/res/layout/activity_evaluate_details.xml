@@ -173,10 +173,12 @@
                 <include layout="@layout/goods_details_cuttingline_wide" />
 
                 <RelativeLayout
+                    android:id="@+id/store_lat"
                     android:layout_width="match_parent"
                     android:layout_height="44dp">
 
                     <ImageView
+                        android:id="@+id/im_go"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -195,12 +197,17 @@
                         android:src="@mipmap/business_detail_desc" />
 
                     <TextView
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:gravity="left"
                         android:id="@+id/store_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="7dp"
-                        android:layout_toRightOf="@id/deliver_details_img_bus" />
+                        android:layout_marginRight="7dp"
+                        android:layout_toRightOf="@id/deliver_details_img_bus"
+                        android:layout_toLeftOf="@id/im_go"/>
 
                     <View
                         android:layout_width="match_parent"

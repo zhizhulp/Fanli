@@ -141,13 +141,15 @@ public class CartFragment extends BaseNetFragment implements
                 super.onItemChildClick(adapter, view, position);
                 CartGoods cartGoods = data.get(position);
                 int id = view.getId();
-                if (id == R.id.edit_standard) {//选择规格
-                    //showDialog();
+                if (id == R.id.edit_standard) {//选择规格,进商品页
+                    GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
                 } else if (id == R.id.tv_go_shop) {//点击进店
                     Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
                     intent.putExtra("store_id", cartGoods.getId());
                     startActivity(intent);
                 } else if (id == R.id.cart_goods_title) {//点击购物车商品title,进去商品页
+                    GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
+                } else if(id == R.id.cart_goods_pic){
                     GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
                 }
             }
@@ -418,6 +420,9 @@ public class CartFragment extends BaseNetFragment implements
         if(!MyApplication.isSignOut && MyApplication.isLoadCartData && MyApplication.isRequestSuccess && !isFirstResume){
             requestNetwork(UrlUtils.shoppingCart, 0);
             MyApplication.isLoadCartData=false;
+        }else if(!MyApplication.isSignOut && MyApplication.signOutSignInCart && !isFirstResume){
+            requestNetwork(UrlUtils.shoppingCart, 0);
+            MyApplication.signOutSignInCart=false;
         }
         if(isFirstResume){
             isFirstResume=false;
