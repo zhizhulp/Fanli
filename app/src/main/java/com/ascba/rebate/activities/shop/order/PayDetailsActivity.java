@@ -329,7 +329,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                         }
 
                         @Override
-                        public void onSuccess(String payStype, String resultStatus) {
+                        public void onSuccess(String payStype) {
                             showToast("成功支付");
                             //跳转待收货详情
                             Intent intent = new Intent(context, DeliverDetailsActivity.class);
@@ -339,18 +339,18 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                         }
 
                         @Override
-                        public void onCancel(String payStype, String resultStatus) {
+                        public void onCancel(String payStype) {
                             showToast("取消支付");
                         }
 
                         @Override
-                        public void onFailed(String payStype, String resultStatus) {
-                            showToast("支付失败");
+                        public void onFailed(String payStype,String msg) {
+                            showToast(msg);
                         }
 
                         @Override
-                        public void onNetProblem(String payStype, String resultStatus) {
-                            showToast("支付失败");
+                        public void onNetProblem(String payStype) {
+                            showToast("手机网络有问题");
                         }
                     });
                 }

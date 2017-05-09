@@ -31,10 +31,10 @@ public class NumKeyboardUtil {
         this.ed = ed;
     }
 
-    public NumKeyboardUtil(Activity act, Context ctx, PasswordInputView edit) {
+    public NumKeyboardUtil(KeyboardView keyboardView, Context ctx, PasswordInputView edit) {
         this.ed = edit;
+        this.keyboardView=keyboardView;
         k = new Keyboard(ctx, R.xml.number);
-        keyboardView = (KeyboardView) act.findViewById(R.id.keyboard_view);
         keyboardView.setKeyboard(k);
         keyboardView.setEnabled(true);
         keyboardView.setPreviewEnabled(false);

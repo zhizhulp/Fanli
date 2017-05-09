@@ -40,7 +40,6 @@ public class BaseReccFragment extends BaseNetFragment {
         super.onViewCreated(view, savedInstanceState);
         rv = ((RecyclerView) view.findViewById(R.id.recc_list));
         initRefreshLayout(view);
-        //refreshLat = ((SwipeRefreshLayout) view.findViewById(R.id.refresh_layout));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new TuiGAdapter(data, R.layout.rec_list_item_rec);
         rv.setAdapter(adapter);

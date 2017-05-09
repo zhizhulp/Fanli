@@ -77,16 +77,15 @@ public class ShopMessageActivity extends BaseNetActivity {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position) {
-                    case 0:
-                        //最新公告
-                        MessageLatestActivity.startIntent(context);
-                        break;
-                    case 1:
-                        //物流消息
-                        //MessageDetailsActivity.startIntent(context);
-                        break;
+                MessageBean messageBean = beanList.get(position);
+                int type = messageBean.getType();
+                String content = messageBean.getContent();
+                if(content!=null){
+                    if(type==1){//文章模板
+                        SystemMsgActivity.startIntent(ShopMessageActivity.this,type);
+                    }
                 }
+
             }
         });
     }
@@ -110,6 +109,8 @@ public class ShopMessageActivity extends BaseNetActivity {
                     bean.setCount(count);
                     String title = newsObject.optString("title");
                     bean.setTitle(title);
+                    int templet = newsObject.optInt("templet");
+                    bean.setType(templet);
                     String img = UrlUtils.baseWebsite + newsObject.optString("pic");
                     bean.setImg(img);
                     JSONObject jsonObject = newsObject.optJSONObject("notice_index");
@@ -118,7 +119,7 @@ public class ShopMessageActivity extends BaseNetActivity {
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd", Locale.getDefault());
                         String time = TimeUtils.milliseconds2String(Long.parseLong(timeUnix) * 1000, simpleDateFormat);
                         bean.setTime(time);
-                        String content = jsonObject.optString("title");
+                        String content = jsonObject.optString("contents");
                         bean.setContent(content);
                     }else {
                         bean.setContent("暂无消息");

@@ -4,22 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +26,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.handlers.OnPasswordInput;
-import com.ascba.rebate.view.PayPopWindow;
+import com.ascba.rebate.view.PsdDialog;
 import com.ascba.rebate.view.pay.PayResult;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -62,10 +57,8 @@ public class PayUtils {
     private DialogHome dialogHome;
     private onPayCallBack payCallBack;
     private String payType = "balance";//默认值
-    private PayPopWindow popWindow;
     private String balance;//账户余额
     private String password;//余额支付密码
-
     private static final int SDK_PAY_FLAG = 1;
 
     @SuppressLint("HandlerLeak")
@@ -83,7 +76,7 @@ public class PayUtils {
                     if (TextUtils.equals(resultStatus, "9000")) {
 
                         if (payCallBack != null) {
-                            payCallBack.onSuccess(payType, "支付成功");
+                            payCallBack.onSuccess(payType);
                         }
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         try {
@@ -96,15 +89,15 @@ public class PayUtils {
                         }
                     } else if (TextUtils.equals(resultStatus, "6002")) {
                         if (payCallBack != null) {
-                            payCallBack.onNetProblem(payType, "手机网络有问题");
+                            payCallBack.onNetProblem(payType);
                         }
                     } else if (TextUtils.equals(resultStatus, "6001")) {
                         if (payCallBack != null) {
-                            payCallBack.onCancel(payType, "支付取消");
+                            payCallBack.onCancel(payType);
                         }
                     } else {
                         if (payCallBack != null) {
-                            payCallBack.onFailed(payType, "支付失败");
+                            payCallBack.onFailed(payType,"支付失败");
                         }
                     }
                     if (dialog != null && dialog.isShowing()) {
@@ -134,18 +127,18 @@ public class PayUtils {
     }
 
     public static abstract class onPayCallBack {
-        public void onSuccess(String payStype, String resultStatus) {
+        public void onSuccess(String payStype) {
         }
 
-        public void onFailed(String payStype, String resultStatus) {
+        public void onFailed(String payStype,String msg) {
         }
 
         public abstract void onFinish(String payStype);
 
-        public void onCancel(String payStype, String resultStatus) {
+        public void onCancel(String payStype) {
         }
 
-        public void onNetProblem(String payStype, String resultStatus) {
+        public void onNetProblem(String payStype) {
         }
 
     }
@@ -262,52 +255,24 @@ public class PayUtils {
         if (payCallBack != null) {
             payCallBack.onFinish(payType);
         }
-        //输入密码
-        showPassWordView(new InputPsdCallBack() {
+        //显示密码输入框
+        final PsdDialog dialog=new PsdDialog(context,R.style.AlertDialog);
+        dialog.setOnPasswordInputFinish(new OnPasswordInput() {
             @Override
-            public void onSuccess(String password) {
-                PayUtils.this.password = password;
-                requstYuEResult(object1);
-            }
-
-            @Override
-            public void onCancel() {
-                //余额支付
-                if (payCallBack != null) {
-                    payCallBack.onCancel(payType, "支付取消");
-                }
-            }
-        });
-
-    }
-
-    /**
-     * 输入密码
-     */
-    private void showPassWordView(final InputPsdCallBack psdCallBack) {
-        View view = context.getWindow().peekDecorView();
-        if (view != null) {
-            InputMethodManager inputmanger = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        View background = new View(context);
-        background.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        popWindow = new PayPopWindow(context, background);
-        popWindow.showAsDropDown(background);
-        popWindow.setOnPasswordInputFinish(new OnPasswordInput() {
-            @Override
-            public void inputFinish() {
-                popWindow.onDismiss();
-                if (!StringUtils.isEmpty(popWindow.getStrPassword())) {
-                    Log.d("PsdUtils", "inputFinish: " + popWindow.getStrPassword());
-                    psdCallBack.onSuccess(PsdUtils.getPayPsd(popWindow.getStrPassword()));
+            public void inputFinish(String number) {
+                dialog.dismiss();
+                if (!StringUtils.isEmpty(number)) {
+                    PayUtils.this.password = PsdUtils.getPayPsd(number);
+                    requstYuEResult(object1);
                 }
             }
 
             @Override
             public void inputCancel() {
-                popWindow.onDismiss();
-                psdCallBack.onCancel();
+                dialog.dismiss();
+                if (payCallBack != null) {
+                    payCallBack.onCancel(payType);
+                }
             }
 
             @Override
@@ -315,16 +280,11 @@ public class PayUtils {
 
             }
         });
+        dialog.showMyDialog();
     }
 
-    //输入密码回调
-    interface InputPsdCallBack {
-        void onSuccess(String password);
 
-        void onCancel();
-    }
-
-    public class NetResponseListener implements OnResponseListener<JSONObject> {
+    private class NetResponseListener implements OnResponseListener<JSONObject> {
         @Override
         public void onStart(int what) {
             progressDialog = (ProgressDialog) dialogHome.buildWaitDialog("请稍后");
@@ -349,13 +309,13 @@ public class PayUtils {
 
     public void requstSuccess(int what, JSONObject jObj) {
         int status = jObj.optInt("status");
-        String message = jObj.optString("msg");
+        String msg = jObj.optString("msg");
         if (status == 200) {
             switch (what) {
                 case 1:
                     //余额支付
                     if (payCallBack != null) {
-                        payCallBack.onSuccess(payType, "支付成功"/*jObj.optString("msg")*/);
+                        payCallBack.onSuccess(payType);
                     }
                     break;
             }
@@ -368,7 +328,7 @@ public class PayUtils {
                 case 1:
                     //余额支付
                     if (payCallBack != null) {
-                        payCallBack.onFailed(payType, message);
+                        payCallBack.onFailed(payType,msg);
                     }
                     break;
             }

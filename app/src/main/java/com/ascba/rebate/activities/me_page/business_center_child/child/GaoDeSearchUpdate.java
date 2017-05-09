@@ -98,7 +98,6 @@ public class GaoDeSearchUpdate extends BaseNetActivity implements LocationSource
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaode_poisearch_update);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         init(savedInstanceState);
 
         initView();

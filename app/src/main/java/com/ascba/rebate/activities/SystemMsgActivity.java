@@ -3,97 +3,60 @@ package com.ascba.rebate.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.adapter.MessageLatestAdapter;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.utils.TimeUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
-import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
-
 /**
- * Created by 李鹏 on 2017/03/31 0031.
- * 消息-最新公告
+ * 系统消息
  */
-
-public class MessageLatestActivity extends BaseNetActivity implements BaseNetActivity.Callback,
+public class SystemMsgActivity extends BaseNetActivity implements BaseNetActivity.Callback,
         SwipeRefreshLayout.OnRefreshListener {
-
     private ShopABarText shopBar;
     private Context context;
     private RecyclerView recyclerView;
     private List<NewsBean> beanList = new ArrayList<>();
     private MessageLatestAdapter adapter;
-    private int nowPage = 1, totalPage;
-
-    private static final int LOAD_MORE_END = 0;
-    private static final int LOAD_MORE_ERROR = 1;
-    private boolean isRefresh = true;//true 下拉刷新 false 上拉加载
-    private CustomLoadMoreView loadMoreView;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case LOAD_MORE_END:
-                    if (adapter != null) {
-                        adapter.loadMoreEnd(false);
-                    }
-
-                    break;
-                case LOAD_MORE_ERROR:
-                    if (adapter != null) {
-                        adapter.loadMoreFail();
-                    }
-                    break;
-            }
-        }
-    };
-
+    private static int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message_latest);
+        setContentView(R.layout.activity_system_msg);
         context = this;
         requstData();
         initView();
     }
 
     private void requstData() {
-        Request<JSONObject> request = buildNetRequest(UrlUtils.moreNews, 0, false);
-        request.add("sign", UrlEncodeUtils.createSign(UrlUtils.moreNews));
-        request.add("now_page", nowPage);
+        Request<JSONObject> request = buildNetRequest(UrlUtils.getNoticeList, 0, true);
+        request.add("article_class",type);
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
-    public static void startIntent(Context context) {
+    public static void startIntent(Context context,int type) {
         Intent intent = new Intent(context, MessageLatestActivity.class);
+        SystemMsgActivity.type =type;
         context.startActivity(intent);
     }
 
@@ -132,7 +95,7 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
 
     private void initData(JSONObject dataObj) {
         try {
-            JSONArray jsonArray = dataObj.getJSONArray("article_list");
+            JSONArray jsonArray = dataObj.getJSONArray("systemNotice");
             if (jsonArray != null && jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject newsObject = jsonArray.getJSONObject(i);
@@ -144,7 +107,7 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
                     bean.setId(newsObject.optString("article_url"));
                     String date = getDate((Long.parseLong(newsObject.optString("create_time")) * 1000));
                     bean.setDate(date);
-                    bean.setContent(newsObject.optString("description"));
+                    bean.setContent(newsObject.optString("contents"));
                     beanList.add(bean);
                 }
             }
@@ -155,50 +118,13 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
     }
 
 
-    private void initLoadMore() {
-
-        if (isRefresh) {
-            isRefresh = false;
-        }
-        if (loadMoreView == null) {
-            loadMoreView = new CustomLoadMoreView();
-            adapter.setLoadMoreView(loadMoreView);
-        }
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                if (nowPage > totalPage && totalPage != 0) {
-                    handler.sendEmptyMessage(LOAD_MORE_END);
-                } else {
-                    requstData();
-                }
-            }
-        });
-
-
-    }
-
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         refreshLayout.setRefreshing(false);
-        if (adapter != null) {
-            adapter.loadMoreComplete();
+        if (beanList.size() != 0) {
+            beanList.clear();
         }
-        if (loadMoreView != null) {
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-        }
-        //分页
-        getPageCount(dataObj);
-
-        if (isRefresh) {//下拉刷新
-            if (beanList.size() != 0) {
-                beanList.clear();
-            }
-            initData(dataObj);
-            initLoadMore();
-        } else {//上拉加载
-            initData(dataObj);
-        }
+        initData(dataObj);
     }
 
     @Override
@@ -209,27 +135,17 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
     @Override
     public void handleNoNetWork() {
         refreshLayout.setRefreshing(false);
-        handler.sendEmptyMessage(LOAD_MORE_ERROR);
     }
 
 
     @Override
     public void onRefresh() {
-        if (!isRefresh) {
-            isRefresh = true;
-        }
-        nowPage = 1;
         if (beanList.size() != 0) {
             beanList.clear();
         }
         requstData();
     }
 
-
-    private void getPageCount(JSONObject dataObj) {
-        totalPage = dataObj.optInt("total_page");
-        nowPage++;
-    }
 
     private String getDate(long time) {
         Date date = new Date(time);

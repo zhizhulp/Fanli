@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -18,6 +19,7 @@ import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
+import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -101,6 +103,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.d(TAG, "onSimpleItemClick: "+position);
                 PCMultipleItem item = pcMultipleItems.get(position);
                 switch (position) {
                     case 1:
@@ -132,16 +135,21 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
                         Intent intent1 = new Intent(getContext(), BeginnerGuideActivity.class);
                         startActivity(intent1);
                         break;
-                    case 17:
+                    case 15:
                         //收货地址管理
                         Intent intent = new Intent(getActivity(), ReceiveAddressActivity.class);
                         startActivity(intent);
                         break;
-                    case 19:
+                    case 17:
+                        //在线客服
                         Intent phone = new Intent();
                         phone.setAction(Intent.ACTION_DIAL);
                         phone.setData(Uri.parse("tel:" + item.getContenRight()));
                         startActivity(phone);
+                        break;
+                    case 19:
+                        Intent setting = new Intent(getActivity(), SettingActivity.class);
+                        startActivity(setting);
                         break;
                 }
             }

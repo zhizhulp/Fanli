@@ -10,7 +10,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +43,7 @@ import java.util.Map;
  */
 @SuppressLint("CommitPrefEdits")
 public class PayPopWindow implements OnDismissListener, OnClickListener {
+    private static final String TAG = "PayPopWindow";
     private PopupWindow popupWindow;
     private Context context;
     private String strPassword;     //输入的密码
@@ -59,6 +62,10 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
     private PayViewAdp adapter;
     private OnPasswordInput onPasswordInputFinish;
 
+    public PopupWindow getPopupWindow() {
+        return popupWindow;
+    }
+
     public void setOnPasswordInputFinish(OnPasswordInput onPasswordInputFinish) {
         this.onPasswordInputFinish = onPasswordInputFinish;
     }
@@ -70,7 +77,7 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
         //设置popwindow的动画效果
         popupWindow.setAnimationStyle(R.style.popWindow_anim_style);
         popupWindow.setOnDismissListener(this);// 当popWindow消失时的监听
-        //popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
         valueList = new ArrayList<>();
         tvList = new TextView[6];
         setView();
@@ -129,6 +136,8 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
      */
     public void showAsDropDown(View position) {
         popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.showAtLocation(position, Gravity.BOTTOM, 0, 0);
         //设置背景变暗
         Window window = ((Activity) context).getWindow();
@@ -176,7 +185,7 @@ public class PayPopWindow implements OnDismissListener, OnClickListener {
                     }
                     if (onPasswordInputFinish != null) {
                         //接口中要实现的方法，完成密码输入完成后的响应逻辑
-                        onPasswordInputFinish.inputFinish();
+                        //onPasswordInputFinish.inputFinish();
                     }
 
                 }

@@ -8,7 +8,7 @@ package com.ascba.rebate.handlers;
  */
 public interface OnPasswordInput {
 	
-	void inputFinish();
+	void inputFinish(String number);
 
 	void inputCancel();
 

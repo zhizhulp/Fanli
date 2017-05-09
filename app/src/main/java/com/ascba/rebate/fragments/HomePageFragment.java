@@ -37,7 +37,6 @@ import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -46,7 +45,6 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -148,6 +146,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         textSpan.setSpan(new RelativeSizeSpan(1.0f), 0, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         textSpan.setSpan(new RelativeSizeSpan(0.7f), 4, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         floatButton.setText(textSpan);
+        floatButton.setVisibility(View.GONE);
 
         /**
          * 刷新
@@ -501,7 +500,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        if (finalScene == 1) {
+        stopRefresh();
+        getDm().buildAlertDialog(message);
+        /*if (finalScene == 1) {
             int tip_status = dataObj.optInt("tip_status");
             if (tip_status == 2) {//打电话
                 final String tel = dataObj.optString("tel");
@@ -522,9 +523,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 });
             }
         } else {
-            stopRefresh();
-            getDm().buildAlertDialog(message);
-        }
+
+        }*/
     }
 
     @Override

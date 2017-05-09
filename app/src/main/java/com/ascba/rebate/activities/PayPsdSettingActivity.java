@@ -1,7 +1,7 @@
 package com.ascba.rebate.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MotionEvent;
@@ -66,7 +66,8 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
         }
         edtPwd = (PasswordInputView) findViewById(R.id.trader_pwd_set_pwd_edittext);
         edtPwd.setInputType(InputType.TYPE_NULL); // 屏蔽系统软键盘
-        if (keyboardUtil == null) keyboardUtil = new NumKeyboardUtil(this, this, edtPwd);
+        KeyboardView keyboardView = (KeyboardView) findViewById(R.id.keyboard_view);
+        if (keyboardUtil == null) keyboardUtil = new NumKeyboardUtil(keyboardView, this, edtPwd);
         edtPwd.setOnTouchListener(this);
         keyboardUtil.getEd().setWatcher(new PasswordInputView.TextWatcher() {
             @Override

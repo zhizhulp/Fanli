@@ -414,7 +414,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
         pay.setPayCallBack(new PayUtils.onPayCallBack() {
             @Override
             public void onFinish(String payStype) {
-                if ("balance".equals(payType)) {
+                /*if ("balance".equals(payType)) {
                     finish();
                 } else if ("alipay".equals(payType)) {
                     //支付宝支付
@@ -424,11 +424,11 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                     //微信支付
                     MyApplication.payType = 1;
                     finish();
-                }
+                }*/
             }
 
             @Override
-            public void onSuccess(String payStype, String resultStatus) {
+            public void onSuccess(String payStype) {
                 showToast("成功支付");
                 if (StringUtils.isEmpty(orderId)) {
                     //跳转待付款列表
@@ -438,10 +438,11 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                     intent.putExtra("order_id", orderId);
                     startActivity(intent);
                 }
+                finish();
             }
 
             @Override
-            public void onCancel(String payStype, String resultStatus) {
+            public void onCancel(String payStype) {
                 showToast("取消支付");
                 if (StringUtils.isEmpty(orderId)) {
                     //跳转待付款列表
@@ -451,16 +452,26 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                     intent.putExtra("order_id", orderId);
                     startActivity(intent);
                 }
+                finish();
             }
 
             @Override
-            public void onFailed(String payStype, String resultStatus) {
-                showToast("支付失败");
+            public void onFailed(String payStype,String msg) {
+                showToast(msg);
+                if (StringUtils.isEmpty(orderId)) {
+                    //跳转待付款列表
+                    MyOrderActivity.startIntent(context, 1);
+                } else {
+                    Intent intent = new Intent(context, PayDetailsActivity.class);
+                    intent.putExtra("order_id", orderId);
+                    startActivity(intent);
+                }
+                finish();
             }
 
             @Override
-            public void onNetProblem(String payStype, String resultStatus) {
-                showToast("支付失败");
+            public void onNetProblem(String payStype) {
+                showToast("手机网络有问题");
             }
         });
 

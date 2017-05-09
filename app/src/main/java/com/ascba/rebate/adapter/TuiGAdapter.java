@@ -26,8 +26,6 @@ public class TuiGAdapter extends BaseQuickAdapter<FirstRec,BaseViewHolder> {
         super(layoutResId, data);
     }
 
-
-
     @Override
     protected void convert(BaseViewHolder helper, FirstRec item) {
         helper.setText(R.id.first_rec_name,item.getName());

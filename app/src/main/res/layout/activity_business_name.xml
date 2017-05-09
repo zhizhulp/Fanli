@@ -24,7 +24,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:hint="举例：老家肉饼"
-        android:background="@color/view_line"
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_space" />
 </LinearLayout>

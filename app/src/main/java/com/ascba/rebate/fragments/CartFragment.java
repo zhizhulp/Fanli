@@ -389,7 +389,7 @@ public class CartFragment extends BaseNetFragment implements
                 }
             }
 
-            tvCost.setText("￥" + new DecimalFormat("#.##").format(totalCost));
+            tvCost.setText("￥" + new DecimalFormat("##0.00").format(totalCost));
             tvCostNum.setText("结算(" + totalCount + ")");
         }
     }

@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:background="@color/blackLight40"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:gravity="bottom"
     android:orientation="vertical" >
 

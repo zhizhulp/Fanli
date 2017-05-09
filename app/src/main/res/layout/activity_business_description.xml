@@ -29,7 +29,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:hint="商家简介"
-            android:background="@color/view_line"
+            android:background="@color/main_content_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <TextView

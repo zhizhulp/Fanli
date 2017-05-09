@@ -17,7 +17,6 @@ public class BusinessNameActivity extends BaseNetActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_name);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getDataFromIntent();
     }

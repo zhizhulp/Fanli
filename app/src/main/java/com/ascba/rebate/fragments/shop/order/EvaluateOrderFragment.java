@@ -144,7 +144,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             int num = Integer.parseInt(String.valueOf(go.opt("goods_num")));
             double goods_pay_price = Double.parseDouble(String.valueOf(go.optString("goods_pay_price")));//付款价格
             double tailPrice = num * goods_pay_price;
-            DecimalFormat df=new DecimalFormat(".##");
+            DecimalFormat df=new DecimalFormat("##0.00");
             String formatGoodsPrice = df.format(tailPrice);
 
             good.setUserQuy(num);//购买数量
