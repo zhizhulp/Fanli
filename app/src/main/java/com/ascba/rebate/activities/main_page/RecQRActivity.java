@@ -1,26 +1,32 @@
 package com.ascba.rebate.activities.main_page;
 
-import android.content.ClipData;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.test.mock.MockApplication;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.QrUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.MoneyBar;
+import com.ascba.rebate.utils.Utils;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.tools.Util;
+
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+
 public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Callback {
-    private MoneyBar shareBar;
     private TextView tvRecId;
     private TextView tvRecNet;
     private ImageView imQR;
@@ -36,7 +42,6 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
     }
 
     private void initViews() {
-        //initMoneyBar();
         tvRecId = ((TextView) findViewById(R.id.tv_rec_code));
         tvRecNet = ((TextView) findViewById(R.id.tv_rec_net));
         imQR = ((ImageView) findViewById(R.id.im_rec_qr));
@@ -68,32 +73,47 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
     }
 
     public void copyText(View view) {
-        if(getSDKVersionNumber() >= 11){
-            android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-            clipboardManager.setText(tvRecNet.getText());
-        }else{
-            // 得到剪贴板管理器
-            android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-            clipboardManager.setPrimaryClip(ClipData.newPlainText(null, tvRecNet.getText()));
-        }
-        Toast.makeText(this, "复制到剪贴板", Toast.LENGTH_SHORT).show();
+        WXWebpageObject webpage=new WXWebpageObject();
+        webpage.webpageUrl = tvRecNet.getText().toString();
+
+        WXMediaMessage msg=new WXMediaMessage(webpage);
+        msg.title="Hi 钱来钱往";
+        msg.description="钱来钱往，一个神奇的商城！";
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+        msg.thumbData= bmpToByteArray(bitmap,true);
+
+        SendMessageToWX.Req req=new SendMessageToWX.Req();
+        req.transaction= buildTransaction("webpage");
+        req.message= msg;
+        //发送到聊天界面——WXSceneSession
+        //发送到朋友圈——WXSceneTimeline
+        //添加到微信收藏——WXSceneFavorite
+        req.scene= SendMessageToWX.Req.WXSceneSession;
+        
+        ((MyApplication) getApplication()).msgApi.sendReq(req);
     }
 
-    /**
-     * 获取手机操作系统版本
-     * @return
-     * @author SHANHY
-     * @date   2015年12月4日
-     */
-    public static int getSDKVersionNumber() {
-        int sdkVersion;
-        try {
-            sdkVersion = Integer.valueOf(android.os.Build.VERSION.SDK);
-        } catch (NumberFormatException e) {
-            sdkVersion = 0;
+    private   byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
+        if (needRecycle) {
+            bmp.recycle();
         }
-        return sdkVersion;
+
+        byte[] result = output.toByteArray();
+        try {
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {

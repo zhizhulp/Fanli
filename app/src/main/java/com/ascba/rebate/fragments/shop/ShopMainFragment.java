@@ -341,8 +341,8 @@ public class ShopMainFragment extends BaseNetFragment implements
             LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
-            String imgUrl = dataObj.optString("img");
-            showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),UrlUtils.baseWebsite+imgUrl);
+            JSONObject goodsInfo = dataObj.optJSONObject("goods_info");
+            showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),parseDefaultGoods(goodsInfo));
         } else if (finalScene == 3) {//立即购买 成功
             if (sd != null) {
                 sd.dismiss();
@@ -351,6 +351,16 @@ public class ShopMainFragment extends BaseNetFragment implements
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
         }
+    }
+    private Goods parseDefaultGoods(JSONObject goodsInfo) {
+        Goods goods=new Goods();
+        if(goodsInfo!=null){
+            goods.setGoodsTitle(goodsInfo.optString("title"));
+            goods.setInventory(Integer.parseInt(goodsInfo.optString("inventory")));
+            goods.setGoodsPrice(goodsInfo.optString("shop_price"));
+            goods.setImgUrl(UrlUtils.baseWebsite + goodsInfo.optString("img"));
+        }
+        return goods;
     }
 
 
@@ -471,11 +481,11 @@ public class ShopMainFragment extends BaseNetFragment implements
     }
 
     //购物车Dialog
-    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,String url) {
+    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,Goods defaultGoods) {
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
-        sd = new StdDialog(getActivity(), gas, goodses,url);
+        sd = new StdDialog(getActivity(), gas, goodses,defaultGoods);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {

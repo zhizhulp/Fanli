@@ -36,7 +36,7 @@ public class SystemMsgActivity extends BaseNetActivity implements BaseNetActivit
     private RecyclerView recyclerView;
     private List<NewsBean> beanList = new ArrayList<>();
     private MessageLatestAdapter adapter;
-    private static int type;
+    private static String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +49,14 @@ public class SystemMsgActivity extends BaseNetActivity implements BaseNetActivit
 
     private void requstData() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.getNoticeList, 0, true);
-        request.add("article_class",type);
+        request.add("article_class",id);
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
 
-    public static void startIntent(Context context,int type) {
+    public static void startIntent(Context context,String id) {
         Intent intent = new Intent(context, MessageLatestActivity.class);
-        SystemMsgActivity.type =type;
+        SystemMsgActivity.id =id;
         context.startActivity(intent);
     }
 

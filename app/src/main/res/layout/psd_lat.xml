@@ -39,13 +39,15 @@
         android:layout_height="40dp" />
 
     <android.inputmethodservice.KeyboardView
+        android:background="@color/main_content_bg"
+        android:shadowColor="@color/main_text_normal"
+        android:shadowRadius="0.0"
+        android:keyTextColor="@color/main_text_normal"
+        android:keyBackground="@drawable/key_bg"
         android:id="@+id/keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="240dip"
         android:layout_alignParentBottom="true"
-        android:paddingTop="30dip"
-        android:paddingLeft="13dip"
-        android:paddingRight="13dip"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:visibility="invisible"/>

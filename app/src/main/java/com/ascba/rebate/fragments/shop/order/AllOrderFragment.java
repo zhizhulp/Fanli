@@ -142,9 +142,9 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 orderStatus = object.optString("order_status").trim();
 
                 //头部信息
-                String time = object.optString("add_time");//时间
-                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, time);
+                /*String time = object.optString("add_time");//时间
+                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
+                OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
                 beanHead.setStateCode(orderStatus);
 
@@ -184,8 +184,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                             totalNum = num + totalNum;
 
                             good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
-                            good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
+                            good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                            good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
 
                             OrderBean orderBean = new OrderBean(AllOrderAdapter.TYPE_GOODS, R.layout.item_goods, good);
                             orderBean.setId(orderId);

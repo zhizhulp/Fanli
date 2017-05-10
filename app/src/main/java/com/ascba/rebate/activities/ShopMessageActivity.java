@@ -11,7 +11,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ShopMessageAdapter;
 import com.ascba.rebate.beans.MessageBean;
-import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
@@ -80,9 +79,10 @@ public class ShopMessageActivity extends BaseNetActivity {
                 MessageBean messageBean = beanList.get(position);
                 int type = messageBean.getType();
                 String content = messageBean.getContent();
+                String id = messageBean.getId();
                 if(content!=null){
                     if(type==1){//文章模板
-                        SystemMsgActivity.startIntent(ShopMessageActivity.this,type);
+                        SystemMsgActivity.startIntent(ShopMessageActivity.this,id);
                     }
                 }
 

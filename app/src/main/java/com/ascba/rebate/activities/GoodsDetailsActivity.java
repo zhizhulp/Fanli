@@ -1098,7 +1098,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                     JSONArray array = dataObj.optJSONArray("spec_goods_price");
 
                     String imgUrl = dataObj.optString("img");
-                    showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),UrlUtils.baseWebsite+imgUrl);
+                    JSONObject goodsInfo = dataObj.optJSONObject("goods_info");
+                    showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),parseDefaultGoods(goodsInfo));
                 }
 
                 @Override
@@ -1113,6 +1114,16 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             });
         }
 
+    }
+    private Goods parseDefaultGoods(JSONObject goodsInfo) {
+        Goods goods=new Goods();
+        if(goodsInfo!=null){
+            goods.setGoodsTitle(goodsInfo.optString("title"));
+            goods.setInventory(Integer.parseInt(goodsInfo.optString("inventory")));
+            goods.setGoodsPrice(goodsInfo.optString("shop_price"));
+            goods.setImgUrl(UrlUtils.baseWebsite + goodsInfo.optString("img"));
+        }
+        return goods;
     }
 
     private List<Goods> parseSpecGoodsPrice(JSONArray array) {
@@ -1186,11 +1197,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     }
 
     //商品规格选择
-    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,String url) {
+    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,Goods defaultGoods) {
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
-        sd = new StdDialog(this, gas, goodses,url);
+        sd = new StdDialog(this, gas, goodses,defaultGoods);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {

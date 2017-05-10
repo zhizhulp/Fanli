@@ -141,9 +141,9 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         String orderId = goodsObject.optString("order_id");
                         String order_goods_id = goodsObject.optString("order_goods_id");
                         //头部信息
-                        String time = goodsObject.optString("add_time");//时间
-                        time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-                        OrderBean beanHead = new OrderBean(TakeOrderAdapter.TYPE1, R.layout.item_order_head, time, "等待买家收货");
+                        /*String time = goodsObject.optString("add_time");//时间
+                        time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
+                        OrderBean beanHead = new OrderBean(TakeOrderAdapter.TYPE1, R.layout.item_order_head, goodsObject.optString("store_name"), "等待买家收货");
                         beanHead.setId(order_goods_id);
                         beanArrayList.add(beanHead);
 
@@ -155,8 +155,8 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         totalNum = num + totalNum;
 
                         good.setUserQuy(num);//购买数量
-                        good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
-                        good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
+                        good.setGoodsPrice(goodsObject.optString("goods_price"));//付款价格
+                        good.setGoodsPriceOld(goodsObject.optString("market_price"));//原价
 
                         OrderBean orderBean = new OrderBean(TakeOrderAdapter.TYPE2, R.layout.item_goods, good);
                         orderBean.setId(order_goods_id);

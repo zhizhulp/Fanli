@@ -55,6 +55,7 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isLoadCartData;//是否需要刷新购物车数据
 
     public static boolean isRequestSuccess;//网络请求是否成功
+    public final IWXAPI msgApi= WXAPIFactory.createWXAPI(this, null);
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -77,7 +78,6 @@ public class MyApplication extends MultiDexApplication {
     }
 
     private void initWXPay() {
-        final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
         // 将该app注册到微信
         msgApi.registerApp(IDsUtils.WX_PAY_APP_ID);
     }
