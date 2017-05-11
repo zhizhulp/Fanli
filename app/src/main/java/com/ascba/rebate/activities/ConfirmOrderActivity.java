@@ -326,10 +326,12 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handle404(String message) {
-                PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
-                if (payCallBack != null) {
-                    pay.getPayCallBack().onFinish(payType);
-                    pay.getPayCallBack().onCancel(payType);
+                if(payType.equals("alipay") || payType.equals("wxpay")){
+                    PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
+                    if (payCallBack != null) {
+                        pay.getPayCallBack().onFinish(payType);
+                        pay.getPayCallBack().onCancel(payType);
+                    }
                 }
                 getDm().buildAlertDialog(message);
             }
