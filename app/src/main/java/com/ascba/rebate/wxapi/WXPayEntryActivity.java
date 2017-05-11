@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, MoneyBar.CallBack {
 
 
+    private static final String TAG = "WXPayEntryActivity";
     private IWXAPI api;
     private TextView tvResult;
     private TextView tvMoney;
@@ -69,6 +71,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
 
         switch (MyApplication.payType) {
             case 0://充值
+                Log.d(TAG, "onResp: case0 "+errCode);
                 Intent intent = new Intent(this, AccountRechargeActivity.class);
                 intent.putExtra("res_code", finalErrorCode);
 
@@ -88,6 +91,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                 break;
             case 1:
                 //支付
+                Log.d(TAG, "onResp: case1"+errCode);
                 if (errCode == 0) {//成功
                     Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
                     if (StringUtils.isEmpty(MyApplication.orderId)) {

@@ -92,7 +92,7 @@ public class StdDialog extends Dialog {
         tvInv = (TextView) findViewById(R.id.tv_inventory);
         tvInv.setText("库存 "+defaultGoods.getInventory());
         tvListener = (TextView) findViewById(R.id.tv_listener);
-        tvListener.setText(defaultGoods.getGoodsTitle());
+        tvListener.setText("请选择规格");
         //商品预览图
         RoundImageView riv = (RoundImageView) findViewById(R.id.iv_shop_photo);
         Picasso.with(context).load(defaultGoods.getImgUrl()).placeholder(R.mipmap.busi_loading).into(riv);
