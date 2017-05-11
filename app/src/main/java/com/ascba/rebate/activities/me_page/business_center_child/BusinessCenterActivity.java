@@ -26,8 +26,6 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.FileBinary;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -102,8 +100,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
         imWorkIcon = ((ImageView) findViewById(R.id.busi_work_icon));
         imAuthIcon = ((ImageView) findViewById(R.id.busi_auth_icon));
     }
-
-
 
 
     @Override
@@ -220,14 +216,12 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
     public void uploadWorkPic(View view) {
         if (type == -1 || type == 1) {
             checkPermission();
-
         } else if (type == 0) {//审核中，展示图片
             Intent intent = new Intent(this, ShowPicActivity.class);
             if (chartered != null) {
                 intent.putExtra("image", chartered);
                 startActivity(intent);
             }
-
         }
     }
 
@@ -243,7 +237,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                 startActivity(intent);
             }
         }
-
     }
 
     private void checkPermission() {

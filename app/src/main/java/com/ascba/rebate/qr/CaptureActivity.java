@@ -70,6 +70,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
+
     }
 
     @Override
@@ -166,7 +167,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
     public void drawViewfinder() {
         viewfinderView.drawViewfinder();
-
     }
 
     public void handleDecode(Result obj, Bitmap barcode) {
@@ -178,23 +178,23 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     private void showResult(final Result rawResult, Bitmap barcode) {
         Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
         String text = rawResult.getText();
-
-        if(!StringUtils.isEmpty(text)){
-            objRequest.add("seller",handleString(text) );
+        if (!StringUtils.isEmpty(text)) {
+            objRequest.add("seller", handleString(text));
             objRequest.add("scenetype", 2);
             executeNetWork(objRequest, "请稍后");
             setCallback(this);
-        }else {
+        } else {
             showToast("无法识别商家二维码");
         }
 
     }
+
     //商家信息截取
     private String handleString(String text) {
-        Log.d(TAG, "handleString: original "+text);
+        Log.d(TAG, "handleString: original " + text);
         String[] split = text.split("/");
-        Log.d(TAG, "handleString: handle "+split[split.length-1]);
-        return split[split.length-1];
+        Log.d(TAG, "handleString: handle " + split[split.length - 1]);
+        return split[split.length - 1];
     }
 
     //重新扫描
@@ -272,7 +272,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     @Override
     public void handle404(String message) {
 
-        getDm().buildAlertDialogSure(message,new DialogHome.Callback() {
+        getDm().buildAlertDialogSure(message, new DialogHome.Callback() {
             @Override
             public void handleSure() {
                 restartPreviewAfterDelay(0L);

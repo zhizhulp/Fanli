@@ -20,7 +20,6 @@ import cn.jpush.android.api.JPushInterface;
 
 public class PushResultActivity extends BaseNetActivity implements BaseNetActivity.Callback, MoneyBar.CallBack {
 
-    private TextView tvPushMsg;
     private TextView tvSellerName;
     private TextView tvSellerAddress;
     private TextView tvNo;
@@ -43,7 +42,6 @@ public class PushResultActivity extends BaseNetActivity implements BaseNetActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_result);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         receiveMsgFromServer();
     }
@@ -52,8 +50,6 @@ public class PushResultActivity extends BaseNetActivity implements BaseNetActivi
         Intent intent = getIntent();
         if (null != intent) {
             Bundle bundle = getIntent().getExtras();
-            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
-            String content = bundle.getString(JPushInterface.EXTRA_ALERT);
             String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
             try {
                 JSONObject jObj = new JSONObject(extra);
@@ -64,7 +60,6 @@ public class PushResultActivity extends BaseNetActivity implements BaseNetActivi
                 buy_time = jObj.getString("buy_time");
                 int from_type = jObj.getInt("from_type");
                 money = jObj.getString("money");
-                region_id = jObj.getInt("region_id");
                 pay_password = jObj.getString("pay_password");
                 String seller_address = jObj.getString("seller_address");
                 customer = jObj.getInt("customer");

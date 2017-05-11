@@ -143,7 +143,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         //头部信息
                         /*String time = goodsObject.optString("add_time");//时间
                         time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
-                        OrderBean beanHead = new OrderBean(TakeOrderAdapter.TYPE1, R.layout.item_order_head, goodsObject.optString("store_name"), "等待买家收货");
+                        OrderBean beanHead = new OrderBean(TakeOrderAdapter.TYPE1, R.layout.item_order_head, goodsObject.optString("store_name"), "卖家已发货");
                         beanHead.setId(order_goods_id);
                         beanArrayList.add(beanHead);
 

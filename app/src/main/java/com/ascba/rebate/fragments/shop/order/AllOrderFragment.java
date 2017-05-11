@@ -153,7 +153,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     beanHead.setState("等待卖家发货");
                 } else if (orderStatus.equals("30")) {
                     //等待买家收货
-                    beanHead.setState("等待买家收货");
+                    beanHead.setState("卖家已发货");
                 } else if (orderStatus.equals("40")) {
                     //交易成功
                     beanHead.setState("交易成功");
