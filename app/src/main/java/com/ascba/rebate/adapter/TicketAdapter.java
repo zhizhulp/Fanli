@@ -22,12 +22,10 @@ import java.util.List;
 
 public class TicketAdapter extends BaseAdapter {
     private List<Ticket> mList;
-    private Context context;
     private LayoutInflater mInflater;
 
     public TicketAdapter(List<Ticket> mList, Context context) {
         this.mList = mList;
-        this.context = context;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -50,7 +48,7 @@ public class TicketAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if(convertView==null){
-            convertView=mInflater.inflate(R.layout.ticket_list_item_update,null);
+            convertView=mInflater.inflate(R.layout.ticket_list_item,null);
             viewHolder=new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
@@ -58,19 +56,19 @@ public class TicketAdapter extends BaseAdapter {
         Ticket ticket = mList.get(position);
         int state = ticket.getState();
         if(state==0){//快过期
-            viewHolder.bg.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_bg_about));
-            viewHolder.imFront.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_front_normal));
-            viewHolder.imSymbol.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_money_symbol_normal));
+            viewHolder.imFront.setImageResource(R.mipmap.ticket_front_normal);
+            viewHolder.imSymbol.setImageResource(R.mipmap.ticket_money_symbol_normal);
+            viewHolder.imStatus.setImageResource(R.mipmap.ticket_status_about);
             viewHolder.tvMoney.setTextColor(0xfffe6f6f);
         }else if(state==1){//正常
-            viewHolder.bg.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_bg_normal));
-            viewHolder.imFront.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_front_normal));
-            viewHolder.imSymbol.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_money_symbol_normal));
+            viewHolder.imFront.setImageResource(R.mipmap.ticket_front_normal);
+            viewHolder.imSymbol.setImageResource(R.mipmap.ticket_money_symbol_normal);
+            viewHolder.imStatus.setImageResource(R.mipmap.ticket_status_about);
             viewHolder.tvMoney.setTextColor(0xfffe6f6f);
         }else if(state==2){//过期
-            viewHolder.bg.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_bg_over));
-            viewHolder.imFront.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_front_over));
-            viewHolder.imSymbol.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.ticket_money_symbol_over));
+            viewHolder.imFront.setImageResource(R.mipmap.ticket_front_over);
+            viewHolder.imSymbol.setImageResource(R.mipmap.ticket_money_symbol_over);
+            viewHolder.imStatus.setImageResource(R.mipmap.ticket_status_over);
             viewHolder.tvMoney.setTextColor(0xffc2c2c2);
         }
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");
@@ -91,6 +89,7 @@ public class TicketAdapter extends BaseAdapter {
         TextView tvMoney;
         ImageView imFront;
         ImageView imSymbol;
+        ImageView imStatus;
         View bg;
         public ViewHolder(View root){
 
@@ -105,6 +104,9 @@ public class TicketAdapter extends BaseAdapter {
             }
             if(imSymbol==null){
                 imSymbol= (ImageView) root.findViewById(R.id.ticket_money_symbol_id);
+            }
+            if(imStatus==null){
+                imStatus= (ImageView) root.findViewById(R.id.im_ticket_status);
             }
             if(bg==null){
                 bg=root.findViewById(R.id.ticket_bg_id);

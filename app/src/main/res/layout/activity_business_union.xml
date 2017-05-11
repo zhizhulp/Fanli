@@ -20,7 +20,7 @@
                 android:background="@mipmap/me_head_bg">
 
                 <com.ascba.rebate.view.MoneyBar
-                    app:backImg="@mipmap/money_bar_back"
+                    app:backImg="@mipmap/abar_back_white"
                     app:titleColor="@color/white"
                     android:id="@+id/moneyBar"
                     android:layout_width="match_parent"

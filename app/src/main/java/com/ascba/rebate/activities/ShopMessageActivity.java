@@ -78,9 +78,9 @@ public class ShopMessageActivity extends BaseNetActivity {
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 MessageBean messageBean = beanList.get(position);
                 int type = messageBean.getType();
-                String content = messageBean.getContent();
+                String time = messageBean.getTime();
                 String id = messageBean.getId();
-                if(content!=null){
+                if(time!=null){
                     if(type==1){//文章模板
                         SystemMsgActivity.startIntent(ShopMessageActivity.this,id);
                     }

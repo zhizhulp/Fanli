@@ -128,7 +128,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Goods goods = goodsList.get(position);
-                GoodsDetailsActivity.startIntent(PayDetailsActivity.this,goods.getTitleId());
+                GoodsDetailsActivity.startIntent(PayDetailsActivity.this, goods.getTitleId());
             }
         });
 
@@ -162,8 +162,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         findViewById(R.id.store_lat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PayDetailsActivity.this,BusinessShopActivity.class);
-                intent.putExtra("store_id",Integer.parseInt(store_id));
+                Intent intent = new Intent(PayDetailsActivity.this, BusinessShopActivity.class);
+                intent.putExtra("store_id", Integer.parseInt(store_id));
                 startActivity(intent);
             }
         });
@@ -330,7 +330,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                     intent1.setAction(Intent.ACTION_DIAL);
                     intent1.setData(Uri.parse("tel:" + storePhone));
                     startActivity(intent1);
-                }else {
+                } else {
                     getDm().buildAlertDialog("暂无该商家电话");
                 }
                 break;
@@ -341,13 +341,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                     showToast("正在加载订单信息，请稍后");
                 } else {
                     pay = new PayUtils(this, price, balance);
-                    pay.showDialog(new PayUtils.OnCreatOrder() {
-                        @Override
-                        public void onCreatOrder(String arg) {
-                            payType = arg;
-                            requstData(UrlUtils.orderPay, 2);
-                        }
-                    });
                     pay.setPayCallBack(new PayUtils.onPayCallBack() {
                         @Override
                         public void onFinish(String payStype) {
@@ -370,13 +363,20 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                         }
 
                         @Override
-                        public void onFailed(String payStype,String msg) {
+                        public void onFailed(String payStype, String msg) {
                             showToast(msg);
                         }
 
                         @Override
                         public void onNetProblem(String payStype) {
                             showToast("手机网络有问题");
+                        }
+                    });
+                    pay.showDialog(new PayUtils.OnCreatOrder() {
+                        @Override
+                        public void onCreatOrder(String arg) {
+                            payType = arg;
+                            requstData(UrlUtils.orderPay, 2);
                         }
                     });
                 }
@@ -401,9 +401,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     public void handle200Data(JSONObject dataObj, String message) {
         switch (flag) {
             case 0:
-                /*
-                获取订单数据
-                */
+                //获取订单参数
                 if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }
@@ -423,36 +421,30 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
                 //买家留言
                 String msg = dataObj.optJSONObject("order_info").optString("order_message");
-                if(StringUtils.isEmpty(msg)){
+                if (StringUtils.isEmpty(msg)) {
                     msgView.setVisibility(View.GONE);
-                }else {
+                } else {
                     msgView.setVisibility(View.VISIBLE);
                     tvMsg.setText(msg);
                 }
 
                 break;
             case 1:
-                /*
-                订单超时，自动关闭
-                */
+                //订单超时，自动关闭
                 getDm().buildAlertDialog("订单已取消!");
                 finish();
                 break;
             case 2:
-                try {
-                    if ("balance".equals(payType)) {
-                        //余额支付
-                        pay.dismissDialog();
-                        pay.requestForYuE(dataObj);
-                    } else if ("alipay".equals(payType)) {
-                        String payInfo = dataObj.optString("payInfo");
-                        pay.requestForAli(payInfo);//发起支付宝支付请求
-                    } else if ("wxpay".equals(payType)) {
-                        JSONObject wxpay = dataObj.getJSONObject("wxpay");
-                        pay.requestForWX(wxpay);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if ("balance".equals(payType)) {
+                    //余额支付
+                    pay.dismissDialog();
+                    pay.requestForYuE(dataObj);
+                } else if ("alipay".equals(payType)) {
+                    String payInfo = dataObj.optString("payInfo");
+                    pay.requestForAli(payInfo);//发起支付宝支付请求
+                } else if ("wxpay".equals(payType)) {
+                    JSONObject wxpay = dataObj.optJSONObject("wxpay");
+                    pay.requestForWX(wxpay);
                 }
 
                 break;
@@ -463,6 +455,13 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     public void handle404(String message) {
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
+        }
+        if (flag == 2) {
+            PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
+            if (payCallBack != null) {
+                pay.getPayCallBack().onFinish(payType);
+                pay.getPayCallBack().onCancel(payType);
+            }
         }
         getDm().buildAlertDialog(message);
     }
