@@ -258,7 +258,8 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
 
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
-            orderAmountTx.setText("￥" + orderAmount);
+            orderPriceTx.setText("￥" + orderAmount);
+            orderAmountTx.setText("￥" + goodsAmount);
             shippingFeeTx.setText("￥" + shippingFee);
 
             if (goodsList.size()>0){

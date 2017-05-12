@@ -31,7 +31,6 @@ public class PushResultActivity extends BaseNetActivity implements BaseNetActivi
     private int seller;//商家id
     private int customer;//顾客id
     private int pay_type;//支付方式
-    private int region_id;//地区id
     private String buy_time;//订单时间
     private String money;//订单金额
     private String pay_password;//订单密码

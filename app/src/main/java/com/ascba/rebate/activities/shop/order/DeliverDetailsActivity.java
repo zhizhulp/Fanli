@@ -261,7 +261,8 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
-            orderAmountTx.setText("￥" + orderAmount);
+            orderPriceTx.setText("￥" + orderAmount);
+            orderAmountTx.setText("￥" + goodsAmount);
             shippingFeeTx.setText("￥" + shippingFee);
 
             if (goodsList.size() > 0) {

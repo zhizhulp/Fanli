@@ -21,6 +21,8 @@
             android:src="@mipmap/business_detail_desc" />
 
         <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/confir_order_shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

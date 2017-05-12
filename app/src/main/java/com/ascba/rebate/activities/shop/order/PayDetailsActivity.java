@@ -269,9 +269,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             String orderAmount = orderObject.optString("order_amount");//订单价格
             String orderTime = orderObject.optString("add_time");//订单时间
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
-            /*
-               开始支付倒计时
-             */
+            //开始支付倒计时
             if (!isCountdown) {
                 //时间差
                 countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
