@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,6 +37,7 @@ import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.BezierCurveAnimater;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.ShopTabs;
@@ -324,8 +326,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 initGoodsList(dataObj);
             }
         } else if (finalScene == 1) {//添加到购物车成功
-            getDm().buildAlertDialog(message);
-
+            ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
             if (sd != null) {
                 sd.dismiss();
             }

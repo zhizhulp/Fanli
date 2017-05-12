@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
@@ -28,8 +29,13 @@ public class BusinessUnionActivity extends BaseNetActivity implements
 
     private Context context;
     private MoneyBar moneyBar;
-    private Handler handler = new Handler();
     private int finalScene;
+    private TextView tvTotalMoney;
+    private TextView tvTotalExtra;
+    private TextView tvTotalCount;
+    private TextView tvTodayMoney;
+    private TextView tvTodayExtra;
+    private TextView tvTodayCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
         setContentView(R.layout.activity_business_union);
         context = this;
         initVIew();
+        requestData(UrlUtils.businessManagement,1);
     }
 
     private void initVIew() {
@@ -59,16 +66,18 @@ public class BusinessUnionActivity extends BaseNetActivity implements
         findViewById(R.id.business_data).setOnClickListener(this);
         findViewById(R.id.business_account).setOnClickListener(this);
         findViewById(R.id.business_code).setOnClickListener(this);
+
+        tvTotalMoney = ((TextView) findViewById(R.id.tv_total_money));
+        tvTotalExtra= ((TextView) findViewById(R.id.tv_total_extra));
+        tvTotalCount = ((TextView) findViewById(R.id.tv_trade_count));
+        tvTodayMoney = ((TextView) findViewById(R.id.tv_cash_today));
+        tvTodayExtra = ((TextView) findViewById(R.id.tv_extra_today));
+        tvTodayCount = ((TextView) findViewById(R.id.tv_trade_count_today));
     }
 
     @Override
     public void onRefresh() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.setRefreshing(false);
-            }
-        }, 1000);
+        requestData(UrlUtils.businessManagement,1);
     }
 
 
@@ -81,12 +90,11 @@ public class BusinessUnionActivity extends BaseNetActivity implements
                 break;
             case R.id.business_account:
                 //流水记录
-                Intent intent = new Intent(this, BusiFlowRecordsActivity.class);
+                Intent intent = new Intent(this, BusinessBillActivity.class);
                 startActivity(intent);
                 break;
             case R.id.business_data:
                 //商家资料
-                //getData();
                 Intent intent1 = new Intent(context, BusinessDataActivity.class);
                 startActivity(intent1);
                 break;
@@ -103,6 +111,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        stopRefersh();
         if (finalScene == 0) {
             JSONObject obj = dataObj.optJSONObject("receivables");
             String url = obj.optString("url");
@@ -110,16 +119,32 @@ public class BusinessUnionActivity extends BaseNetActivity implements
             intent.putExtra("name", "收款");
             intent.putExtra("url", url);
             startActivity(intent);
+        }else if(finalScene==1){
+            JSONObject obj = dataObj.optJSONObject("businessManagement");
+            tvTotalMoney.setText(obj.optString("sum_money"));
+            tvTotalExtra.setText(obj.optInt("sum_score")+"");
+            tvTotalCount.setText(obj.optInt("sum_count")+"");
+            tvTodayMoney.setText(obj.optString("today_money"));
+            tvTodayExtra.setText(obj.optInt("today_score")+"");
+            tvTodayCount.setText(obj.optInt("today_count")+"");
         }
     }
 
     @Override
     public void handle404(String message) {
+        stopRefersh();
         getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
+        stopRefersh();
+    }
+
+    public void stopRefersh(){
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
     }
 
 

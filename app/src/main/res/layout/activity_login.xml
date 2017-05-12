@@ -42,6 +42,7 @@
             android:src="@mipmap/login_name" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:maxLength="11"
             android:id="@+id/login_phone_ed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

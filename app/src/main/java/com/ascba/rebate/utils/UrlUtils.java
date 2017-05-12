@@ -221,4 +221,10 @@ public class UrlUtils {
     public static final String payCashLog = urlPrefix + "payCashLog";
     //提现日期兑换记录
     public static final String datePayCashLog = urlPrefix + "datePayCashLog";
+    //商家流水记录
+    public static final String merchantWaterLog = urlPrefix + "merchantWaterLog";
+    //日期查询商家流水记录
+    public static final String dateMerchantWaterLog = urlPrefix + "dateMerchantWaterLog";
+    //商家交易数据
+    public static final String businessManagement = urlPrefix + "businessManagement";
 }

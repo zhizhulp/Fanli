@@ -267,7 +267,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
             initAdapterAndRefresh();
             initLoadMore();
         } else if (finalScene == 1) {//添加到购物车成功
-            getDm().buildAlertDialog(message);
+            ViewUtils.showMyToast(this,R.layout.add_to_cart_toast);
             MyApplication.isLoadCartData=true;
             if (sd != null) {
                 sd.dismiss();

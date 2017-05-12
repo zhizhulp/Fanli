@@ -102,6 +102,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_total_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0.00"
@@ -133,6 +134,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_total_extra"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -163,6 +165,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_trade_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -217,6 +220,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_cash_today"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
@@ -259,6 +263,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_extra_today"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
@@ -301,6 +306,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_trade_count_today"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"

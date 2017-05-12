@@ -55,6 +55,7 @@ import com.ascba.rebate.beans.IntegralValueItem;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ImageViewDialog;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -1330,7 +1331,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 isAll = false;
             }
             MyApplication.isLoadCartData=true;
-            getDm().buildAlertDialog(message);
+            ViewUtils.showMyToast(this,R.layout.add_to_cart_toast);
         } else if (finalScene == 1) {
             if (sd != null) {
                 sd.dismiss();

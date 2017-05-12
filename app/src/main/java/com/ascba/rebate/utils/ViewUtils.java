@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 
@@ -30,7 +31,7 @@ public class ViewUtils {
     }
 
     /**
-     *
+     * id装换成view
      * @param context 上下文
      * @param latId layour id
      * @return view
@@ -38,6 +39,16 @@ public class ViewUtils {
     public static View getView(Context context,int latId){
         LayoutInflater inflater = LayoutInflater.from(context);
         return inflater.inflate(latId,null);
+    }
+
+    public static void showMyToast(Context context,int latId){
+        Toast toast = new Toast(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(latId, null);
+        toast.setView(view);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }
