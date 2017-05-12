@@ -47,7 +47,7 @@ public class SelectAddressAdapter extends BaseQuickAdapter<ReceiveAddressBean, B
         helper.setText(R.id.item_select_address_phone, phone);
 
         //地址
-        helper.setText(R.id.item_select_address_address, item.getAddress());
+        helper.setText(R.id.item_select_address_address, item.getAddressDetl());
 
         //编辑
         helper.addOnClickListener(R.id.item_select_address_edit);

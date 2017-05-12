@@ -142,9 +142,7 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
         }
     }
 
-    /*
-      获取列表数据
-    */
+    //获取列表数据
     private void requstData(String url, int flag) {
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);

@@ -315,8 +315,6 @@ public class CartFragment extends BaseNetFragment implements
         stopRefresh();
     }
 
-
-
     @Override
     public void handle404(String message, JSONObject dataObj) {
         stopRefresh();

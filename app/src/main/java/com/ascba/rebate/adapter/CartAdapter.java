@@ -2,22 +2,19 @@ package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.fragments.CartFragment;
-import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -105,9 +102,9 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null != callBack){
-                    callBack.clickDelBtn(helper.getAdapterPosition());
-                }
+                    if(null != callBack){
+                        callBack.clickDelBtn(helper.getAdapterPosition());
+                    }
             }
         };
     }
@@ -132,18 +129,19 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
             @Override
             public void onClick(View v) {
                 int number = nb.getNumber();
-                if(callBack!=null){
-                    callBack.clickAddBtn(number,helper.getAdapterPosition());
-                }
+                    if(callBack!=null){
+                        callBack.clickAddBtn(number,helper.getAdapterPosition());
+                    }
             }
         });
         nb.getSubButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int number = nb.getNumber();
-                if(callBack!=null){
-                    callBack.clickSubBtn(number,helper.getAdapterPosition());
-                }
+                    if(callBack!=null){
+                        callBack.clickSubBtn(number,helper.getAdapterPosition());
+                    }
+
             }
         });
 
@@ -153,85 +151,29 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                item.setCheck(cb.isChecked());
-                //监听子view
-                for (int i = 0; i < data.size(); i++) {
-                    CartGoods cg = data.get(i);
-                    if (cg.getId() == item.getId() && !cg.isHeader) {
-                        cg.setCheck(cb.isChecked());
-                    }
+                    item.setCheck(cb.isChecked());
+                    //监听子view
+                    for (int i = 0; i < data.size(); i++) {
+                        CartGoods cg = data.get(i);
+                        if (cg.getId() == item.getId() && !cg.isHeader) {
+                            cg.setCheck(cb.isChecked());
+                        }
 
-                }
-                List<CartGoods> gl = new ArrayList<>();
-                //监听总的checkBox
-                for (int i = 0; i < data.size(); i++) {
-                    if (data.get(i).isHeader) {
-                        gl.add(data.get(i));
                     }
-                }
-                boolean isAll = false;
-                for (int i = 0; i < gl.size(); i++) {
-                    if (i == gl.size() - 1) {
-                        isAll = true;
-                        break;
-                    }
-                    if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
-                        isAll = true;
-                    } else {
-                        isAll = false;
-                        break;
-                    }
-                }
-                if (isAll) {
-                    if (cb.isChecked() && !cbTotal.isChecked()) {
-                        cbTotal.setChecked(true);
-                    } else if (!cb.isChecked() && cbTotal.isChecked()) {
-                        cbTotal.setChecked(false);
-                    }
-                } else {
-                    if (!cb.isChecked() && cbTotal.isChecked()) {
-                        cbTotal.setChecked(false);
-                    }
-                }
-
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-                if(callBack!=null){
-                    callBack.onClickedParent(cb.isChecked(),helper.getAdapterPosition());
-                }
-            }
-        };
-    }
-    private View.OnClickListener createItemListener(final CheckBox cb, final BaseViewHolder helper, final CartGoods item) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckBox v1 = (CheckBox) v;
-                item.setCheck(v1.isChecked());
-                List<CartGoods> gL = new ArrayList<>();
-                CartGoods head = null;
-                for (int i = 0; i < data.size(); i++) {
-                    CartGoods cg = data.get(i);
-                    if (cg.getId() == item.getId()) {
-                        if (cg.isHeader) {
-                            head = cg;
-                        } else {
-                            gL.add(cg);
+                    List<CartGoods> gl = new ArrayList<>();
+                    //监听总的checkBox
+                    for (int i = 0; i < data.size(); i++) {
+                        if (data.get(i).isHeader) {
+                            gl.add(data.get(i));
                         }
                     }
-                }
-                if (gL.size() != 0) {
-                    boolean isAll = true;
-                    for (int i = 0; i < gL.size(); i++) {
-                        if (i == gL.size() - 1) {
+                    boolean isAll = false;
+                    for (int i = 0; i < gl.size(); i++) {
+                        if (i == gl.size() - 1) {
+                            isAll = true;
                             break;
                         }
-                        if (gL.get(i).isCheck() == gL.get(i + 1).isCheck()) {
+                        if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
                             isAll = true;
                         } else {
                             isAll = false;
@@ -239,72 +181,130 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                         }
                     }
                     if (isAll) {
-                        if (head != null) {
-                            if (cb.isChecked() && !head.isCheck()) {
-                                head.setCheck(true);
-                            } else if (!cb.isChecked() && head.isCheck()) {
-                                head.setCheck(false);
-                            }
-
+                        if (cb.isChecked() && !cbTotal.isChecked()) {
+                            cbTotal.setChecked(true);
+                        } else if (!cb.isChecked() && cbTotal.isChecked()) {
+                            cbTotal.setChecked(false);
                         }
                     } else {
-                        if (head != null) {
-                            if (head.isCheck()) {
-                                head.setCheck(false);
+                        if (!cb.isChecked() && cbTotal.isChecked()) {
+                            cbTotal.setChecked(false);
+                        }
+                    }
+
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyDataSetChanged();
+                        }
+                    });
+                    if(callBack!=null){
+                        callBack.onClickedParent(cb.isChecked(),helper.getAdapterPosition());
+                    }
+
+            }
+        };
+    }
+    private View.OnClickListener createItemListener(final CheckBox cb, final BaseViewHolder helper, final CartGoods item) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    CheckBox v1 = (CheckBox) v;
+                    item.setCheck(v1.isChecked());
+                    List<CartGoods> gL = new ArrayList<>();
+                    CartGoods head = null;
+                    for (int i = 0; i < data.size(); i++) {
+                        CartGoods cg = data.get(i);
+                        if (cg.getId() == item.getId()) {
+                            if (cg.isHeader) {
+                                head = cg;
+                            } else {
+                                gL.add(cg);
                             }
                         }
                     }
-                }
-                //监听总的checkBox
-                List<CartGoods> gl = new ArrayList<>();
-                for (int i = 0; i < data.size(); i++) {
-                    if (!data.get(i).isHeader) {
-                        gl.add(data.get(i));
-                    }
-                }
-                boolean isAll = false;
-                for (int i = 0; i < gl.size(); i++) {
-                    if(gl.size()!=0){
-                        if(gl.size()==1){
-                            if(gl.get(i).isCheck()){
-                                isAll=true;
-                            }
-                        }else {
-                            if (i == gl.size() - 1) {
+                    if (gL.size() != 0) {
+                        boolean isAll = true;
+                        for (int i = 0; i < gL.size(); i++) {
+                            if (i == gL.size() - 1) {
                                 break;
                             }
-                            if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
+                            if (gL.get(i).isCheck() == gL.get(i + 1).isCheck()) {
                                 isAll = true;
                             } else {
                                 isAll = false;
                                 break;
                             }
                         }
+                        if (isAll) {
+                            if (head != null) {
+                                if (cb.isChecked() && !head.isCheck()) {
+                                    head.setCheck(true);
+                                } else if (!cb.isChecked() && head.isCheck()) {
+                                    head.setCheck(false);
+                                }
+
+                            }
+                        } else {
+                            if (head != null) {
+                                if (head.isCheck()) {
+                                    head.setCheck(false);
+                                }
+                            }
+                        }
+                    }
+                    //监听总的checkBox
+                    List<CartGoods> gl = new ArrayList<>();
+                    for (int i = 0; i < data.size(); i++) {
+                        if (!data.get(i).isHeader) {
+                            gl.add(data.get(i));
+                        }
+                    }
+                    boolean isAll = false;
+                    for (int i = 0; i < gl.size(); i++) {
+                        if(gl.size()!=0){
+                            if(gl.size()==1){
+                                if(gl.get(i).isCheck()){
+                                    isAll=true;
+                                }
+                            }else {
+                                if (i == gl.size() - 1) {
+                                    break;
+                                }
+                                if (gl.get(i).isCheck() == gl.get(i + 1).isCheck()) {
+                                    isAll = true;
+                                } else {
+                                    isAll = false;
+                                    break;
+                                }
+                            }
+
+                        }
+
 
                     }
+                    if (isAll) {
+                        if (cb.isChecked() && !cbTotal.isChecked()) {
+                            cbTotal.setChecked(true);
+                        } else if (!cb.isChecked() && cbTotal.isChecked()) {
+                            cbTotal.setChecked(false);
+                        }
+                    } else {
+                        if (cbTotal.isChecked()) {
+                            cbTotal.setChecked(false);
+                        }
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyDataSetChanged();
+                        }
+                    });
+                    if (callBack != null) {
+                        callBack.onClickedChild(v1.isChecked(),helper.getAdapterPosition());
+                    }
 
-
-                }
-                if (isAll) {
-                    if (cb.isChecked() && !cbTotal.isChecked()) {
-                        cbTotal.setChecked(true);
-                    } else if (!cb.isChecked() && cbTotal.isChecked()) {
-                        cbTotal.setChecked(false);
-                    }
-                } else {
-                    if (cbTotal.isChecked()) {
-                        cbTotal.setChecked(false);
-                    }
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-                if (callBack != null) {
-                    callBack.onClickedChild(v1.isChecked(),helper.getAdapterPosition());
-                }
             }
         };
     }
@@ -313,24 +313,43 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         return  new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (data.size() == 0) {
-                    return;
-                }
-                for (int i = 0; i < data.size(); i++) {
-                    CartGoods cg = data.get(i);
-                    cg.setCheck(cbTotal.isChecked());
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
+                    if (data.size() == 0) {
+                        return;
                     }
-                });
-                if(callBack!=null){
-                    callBack.onClickedTotal(cbTotal.isChecked());
+                    for (int i = 0; i < data.size(); i++) {
+                        CartGoods cg = data.get(i);
+                        cg.setCheck(cbTotal.isChecked());
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyDataSetChanged();
+                        }
+                    });
+                    if(callBack!=null){
+                        callBack.onClickedTotal(cbTotal.isChecked());
+                    }
                 }
-            }
         };
+    }
+
+    private void setNetChecked(CheckBox cb,boolean isCheck){
+        if(NetUtils.isNetworkAvailable(context)){
+            cb.setEnabled(true);
+            cb.setChecked(isCheck);
+        }else {
+            cb.setEnabled(false);
+            ((BaseNetActivity) context).getDm().buildAlertDialog(context.getString(R.string.no_network));
+        }
+    }
+
+    private void setNetBeanChecked(CartGoods cg,boolean isCheck){
+        if(NetUtils.isNetworkAvailable(context)){
+            cg.setCheck(isCheck);
+        }else {
+
+            ((BaseNetActivity) context).getDm().buildAlertDialog(context.getString(R.string.no_network));
+        }
     }
 
 

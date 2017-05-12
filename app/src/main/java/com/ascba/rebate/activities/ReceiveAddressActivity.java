@@ -186,8 +186,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements
 
     /**
      * 删除收货地址
-     *
-     * @param postition
      */
     private void deleteAddress(final int postition) {
         ReceiveAddressBean bean = beanList.get(postition);
@@ -215,8 +213,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements
 
     /**
      * 设置默认收货地址
-     *
-     * @param bean
      */
     private void setDefault(final ReceiveAddressBean bean) {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.memberAddressSetDefault, 0, true);

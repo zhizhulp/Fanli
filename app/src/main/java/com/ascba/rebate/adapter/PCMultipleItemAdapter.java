@@ -63,7 +63,9 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
 
                 helper.setImageResource(R.id.activity_pc_item3_img, item.getDrawableHead());
                 break;
+
             case PCMultipleItem.TYPE_5:
+                helper.setText(R.id.activity_pc_item4_text_left,item.getContenLeft());
                 helper.setText(R.id.activity_pc_item4_text_right, item.getContenRight());
                 break;
         }
