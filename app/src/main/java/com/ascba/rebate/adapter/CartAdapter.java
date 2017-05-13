@@ -94,7 +94,6 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         final CheckBox cb = helper.getView(R.id.cb_cart_child);
         cb.setChecked(item.isCheck());
         cb.setOnClickListener(createItemListener(cb,helper,item));
-
         helper.setOnClickListener(R.id.btnDelete,createDelListener(helper));
     }
 
@@ -332,26 +331,4 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
                 }
         };
     }
-
-    private void setNetChecked(CheckBox cb,boolean isCheck){
-        if(NetUtils.isNetworkAvailable(context)){
-            cb.setEnabled(true);
-            cb.setChecked(isCheck);
-        }else {
-            cb.setEnabled(false);
-            ((BaseNetActivity) context).getDm().buildAlertDialog(context.getString(R.string.no_network));
-        }
-    }
-
-    private void setNetBeanChecked(CartGoods cg,boolean isCheck){
-        if(NetUtils.isNetworkAvailable(context)){
-            cg.setCheck(isCheck);
-        }else {
-
-            ((BaseNetActivity) context).getDm().buildAlertDialog(context.getString(R.string.no_network));
-        }
-    }
-
-
-
 }

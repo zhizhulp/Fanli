@@ -403,6 +403,9 @@ public class BusinessShopActivity extends BaseNetActivity implements
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
+        if(sd!=null && sd.isShowing()){
+            sd.dismiss();
+        }
         sd = new StdDialog(context, gas, goodses,defaultGoods);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

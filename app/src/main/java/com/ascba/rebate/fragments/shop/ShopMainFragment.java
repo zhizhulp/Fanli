@@ -486,6 +486,9 @@ public class ShopMainFragment extends BaseNetFragment implements
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
+        if(sd!=null && sd.isShowing()){
+            sd.dismiss();
+        }
         sd = new StdDialog(getActivity(), gas, goodses,defaultGoods);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

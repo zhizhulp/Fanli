@@ -1202,6 +1202,9 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
+        if(sd!=null && sd.isShowing()){
+            sd.dismiss();
+        }
         sd = new StdDialog(this, gas, goodses,defaultGoods);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

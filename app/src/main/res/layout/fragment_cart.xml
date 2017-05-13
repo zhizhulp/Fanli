@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context="com.ascba.rebate.fragments.CartFragment">
 
     <com.ascba.rebate.view.ShopABar
@@ -79,8 +78,7 @@
         <com.ascba.rebate.view.BetterRecyclerView
             android:id="@+id/cart_goods_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-             />
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

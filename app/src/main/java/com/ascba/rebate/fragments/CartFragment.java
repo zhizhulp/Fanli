@@ -206,9 +206,7 @@ public class CartFragment extends BaseNetFragment implements
             shopTabs.setThreeNoty(allGoodsNum);
             if (adapter == null) {
                 adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
-                /**
-                 * 购物车是空的，去逛逛吧
-                 */
+                //购物车是空的，去逛逛吧
                 View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
                 TextView goShop = (TextView) emptyView.findViewById(R.id.tx_go_shop);
                 goShop.setOnClickListener(new View.OnClickListener() {
