@@ -75,8 +75,8 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewServer.get(this).addWindow(this);
         setContentView(R.layout.activity_business_center);
+        ViewServer.get(this).addWindow(this);
         initViews();
         requestNetwork();
     }
