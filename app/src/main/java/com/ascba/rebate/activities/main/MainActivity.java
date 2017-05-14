@@ -336,4 +336,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         }
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
     }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+    }
+
 }

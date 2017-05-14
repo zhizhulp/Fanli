@@ -53,8 +53,6 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * 申请权限
-     *
-     * @param permissions
      */
     protected void checkAndRequestAllPermission(String[] permissions, PermissionCallback requestPermissionAndBack) {
         this.requestPermissionAndBack = requestPermissionAndBack;
