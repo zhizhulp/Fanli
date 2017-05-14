@@ -10,16 +10,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="42dp">
-
-        <TextView
-            android:id="@+id/item_goods_order_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp" />
-
         <TextView
             android:id="@+id/item_goods_order_state"
             android:layout_width="wrap_content"
@@ -28,6 +18,20 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:textColor="#DD0E0E" />
+        <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/item_goods_order_state"
+            android:id="@+id/item_goods_order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+
     </RelativeLayout>
 
     <include layout="@layout/goods_details_cuttingline" />

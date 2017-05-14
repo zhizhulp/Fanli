@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -22,6 +23,7 @@ import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
@@ -44,6 +46,7 @@ import java.util.List;
 
 public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback {
 
+    private static String TAG="AllOrderFragment";
     private RecyclerView recyclerView;
     private Context context;
 
@@ -99,14 +102,10 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     private void requstData(int flag, String url, String order_id) {
         this.flag = flag;
-        Request<JSONObject> jsonRequest = null;
-        jsonRequest = buildNetRequest(url, 0, true);
+        Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", order_id);
-        switch (flag) {
-            case 3:
-                //付款
-                jsonRequest.add("pay_type", payType);
-                break;
+        if (flag == 3) {
+            jsonRequest.add("pay_type", payType);
         }
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
@@ -120,7 +119,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         if (beanArrayList.size() > 0) {
             beanArrayList.clear();
         }
-
         //用户信息
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
@@ -128,7 +126,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             int white_score = member_info.optInt("white_score");
             int red_score = member_info.optInt("red_score");
         }
-
         //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
@@ -142,9 +139,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 orderStatus = object.optString("order_status").trim();
 
                 //头部信息
-                String time = object.optString("add_time");//时间
-                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, time);
+                OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
                 beanHead.setStateCode(orderStatus);
 
@@ -159,7 +154,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     beanHead.setState("等待卖家发货");
                 } else if (orderStatus.equals("30")) {
                     //等待买家收货
-                    beanHead.setState("等待买家收货");
+                    beanHead.setState("卖家已发货");
                 } else if (orderStatus.equals("40")) {
                     //交易成功
                     beanHead.setState("交易成功");
@@ -178,14 +173,21 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                             good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
                             good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
                             good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
-                            good.setTitleId(Integer.parseInt(goodsObject.optString("goods_id")));
-
+                            //good.setTitleId(Integer.parseInt(goodsObject.optString("goods_id")));
+                            //再次判断头部状态
+                            int shipping_status = goodsObject.optInt("shipping_status");
+                            if(shipping_status==2){
+                                beanHead.setState("交易成功");
+                            }else if(shipping_status==1){
+                                beanHead.setState("卖家已发货");
+                            }
+                            Log.d(TAG, "json order_id:"+orderId+" ;id"+goodsObject.optString("id"));
                             int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
                             totalNum = num + totalNum;
 
                             good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
-                            good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
+                            good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                            good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
 
                             OrderBean orderBean = new OrderBean(AllOrderAdapter.TYPE_GOODS, R.layout.item_goods, good);
                             orderBean.setId(orderId);
@@ -254,75 +256,79 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderBean orderBean = beanArrayList.get(position);
-                final String orderId = orderBean.getId();
+                String orderId = orderBean.getId();
+                Goods goods = orderBean.getGoods();
+                int id =-200;
+                if(goods!=null){
+                    id = goods.getTitleId();
+                }
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         if (orderId != null) {
                             Intent intent = new Intent();
                             //点击商品查看订单详情
-                            String orderStatus = beanArrayList.get(position).getStateCode();
+                            String orderStatus = orderBean.getStateCode();
                             if (orderStatus.equals("10")) {
                                 //等待卖家付款
                                 intent.setClass(context, PayDetailsActivity.class);
                             } else if (orderStatus.equals("0")) {
-                                //交易关闭,查看商品详情
-                                intent = null;
-                                int goodId = beanArrayList.get(position).getGoods().getTitleId();
-                                GoodsDetailsActivity.startIntent(getActivity(), goodId);
+                                //交易关闭
+                                intent.setClass(context, PayDetailsActivity.class);
+                                //GoodsDetailsActivity.startIntent(getActivity(), goodId);
                             } else if (orderStatus.equals("20")) {
                                 //等待卖家发货
                                 intent.setClass(context, DeliverDetailsActivity.class);
+                                orderId =id+"";
                             } else if (orderStatus.equals("30")) {
                                 //等待买家收货
                                 intent.setClass(context, TakeDetailsActivity.class);
+                                orderId =id+"";
                             } else if (orderStatus.equals("40")) {
                                 //交易成功
                                 intent.setClass(context, EvaluateDetailsActivity.class);
+                                orderId =id+"";
                             }
-
-                            if (intent != null) {
-                                intent.putExtra("order_id", orderId);
-                                startActivityForResult(intent, 1);
-                            }
+                            Log.d(AllOrderFragment.TAG, "intent: "+ orderId);
+                            intent.putExtra("order_id", orderId);
+                            startActivityForResult(intent, 1);
                         }
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款
-                        payPrice(position,orderId);
+                        payPrice(position, orderId);
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
+                        final String finalOrderId = orderId;
                         getDm().buildAlertDialogSure("您确定要取消订单吗？", new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
-                                requstData(1, UrlUtils.cancelOrder, orderId);
+                                requstData(1, UrlUtils.cancelOrder, finalOrderId);
                             }
                         });
-                        //requstData(1, UrlUtils.cancelOrder, orderId);
                         break;
                     case R.id.item_goods_order_total_call:
                         //联系卖家
                         String phone = orderBean.getPhone();
-                        if(StringUtils.isEmpty(phone)){
+                        if (StringUtils.isEmpty(phone)) {
                             getDm().buildAlertDialog("该商家暂无电话");
-                        }else {
-                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+orderBean.getPhone())));
+                        } else {
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + orderBean.getPhone())));
                         }
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
+                        final String finalOrderId1 = orderId;
                         getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
-                                requstData(2, UrlUtils.delOrder, orderId);
+                                requstData(2, UrlUtils.delOrder, finalOrderId1);
                             }
                         });
-                        //requstData(2, UrlUtils.delOrder, orderId);
                         break;
                     case R.id.item_goods_order_total_refund:
                         //退款
                         break;
-
                     case R.id.item_goods_order_total_logistics:
                         //查看物流
                         break;
@@ -356,20 +362,16 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 requstListData();
                 break;
             case 3:
-                try {
-                    if ("balance".equals(payType)) {
-                        //余额支付
-                        pay.dismissDialog();
-                        pay.requestForYuE(dataObj);
-                    } else if ("alipay".equals(payType)) {
-                        String payInfo = dataObj.optString("payInfo");
-                        pay.requestForAli(payInfo);//发起支付宝支付请求
-                    } else if ("wxpay".equals(payType)) {
-                        JSONObject wxpay = dataObj.getJSONObject("wxpay");
-                        pay.requestForWX(wxpay);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if ("balance".equals(payType)) {
+                    //余额支付
+                    pay.dismissDialog();
+                    pay.requestForYuE(dataObj);
+                } else if ("alipay".equals(payType)) {
+                    String payInfo = dataObj.optString("payInfo");
+                    pay.requestForAli(payInfo);//发起支付宝支付请求
+                } else if ("wxpay".equals(payType)) {
+                    JSONObject wxpay = dataObj.optJSONObject("wxpay");
+                    pay.requestForWX(wxpay);
                 }
                 break;
         }
@@ -382,6 +384,13 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     @Override
     public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
+        if(flag==3){
+            PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
+            if (payCallBack != null) {
+                pay.getPayCallBack().onFinish(payType);
+                pay.getPayCallBack().onCancel(payType);
+            }
+        }
     }
 
 
@@ -392,7 +401,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_network));
+
     }
 
     @Override
@@ -403,9 +412,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         }
     }
 
-    /*
-      付款
-   */
+    //点击付款
     private void payPrice(int position, final String orderId) {
         String price = beanArrayList.get(position).getOrderPrice();
         if (StringUtils.isEmpty(price)) {
@@ -413,24 +420,17 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         } else {
             //开启支付
             pay = new PayUtils(getActivity(), price, balance);
-            pay.showDialog(new PayUtils.OnCreatOrder() {
-                @Override
-                public void onCreatOrder(String arg) {
-                    payType = arg;
-                    requstData(3, UrlUtils.orderPay, orderId);
-                }
-            });
-
             //支付回调
             pay.setPayCallBack(new PayUtils.onPayCallBack() {
                 @Override
                 public void onFinish(String payStype) {
-                    //刷新数据
-                    requstListData();
+
                 }
 
                 @Override
                 public void onSuccess(String payStype) {
+                    //刷新数据
+                    requstListData();
                     MyOrderActivity.setCurrTab(2);
                     showToast("成功支付");
                 }
@@ -441,13 +441,20 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 }
 
                 @Override
-                public void onFailed(String payStype,String msg) {
+                public void onFailed(String payStype, String msg) {
                     showToast(msg);
                 }
 
                 @Override
                 public void onNetProblem(String payStype) {
                     showToast("手机网络有问题");
+                }
+            });
+            pay.showDialog(new PayUtils.OnCreatOrder() {
+                @Override
+                public void onCreatOrder(String arg) {
+                    payType = arg;
+                    requstData(3, UrlUtils.orderPay, orderId);
                 }
             });
         }

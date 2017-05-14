@@ -22,7 +22,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/main_content_bg"
             android:orientation="vertical">
 
             <LinearLayout
@@ -206,6 +205,7 @@
                 android:background="@color/main_bg" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/auth_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

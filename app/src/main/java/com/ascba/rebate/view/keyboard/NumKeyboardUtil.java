@@ -4,7 +4,6 @@ package com.ascba.rebate.view.keyboard;
  * Created by 李平 on 2017/4/29 0029.9:38
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -81,7 +80,7 @@ public class NumKeyboardUtil {
                     }
                 }
             }else if (primaryCode == Keyboard.KEYCODE_CANCEL) {// 完成
-                hideKeyboard();
+                /*hideKeyboard();*/
             } else { //将要输入的数字现在编辑框中
                 editable.insert(start, Character.toString((char) primaryCode));
             }

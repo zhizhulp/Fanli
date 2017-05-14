@@ -1,13 +1,11 @@
 package com.ascba.rebate.activities.main;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -76,13 +74,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             }
         }
     };
-    private String[] permissions = new String[]{
-            Manifest.permission.CAMERA,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_CONTACTS
-    };
-
     private Fragment mHomePageFragment;
     private Fragment mSideFragment;
     private Fragment mMoneyFragment;
@@ -96,7 +87,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findViews();
-        checkAndRequestAllPermission(permissions);
     }
 
     private void findViews() {
@@ -273,44 +263,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*if(MyApplication.signOutSignIn){
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            if (index == ME) {
-                if(mMeFragment.isAdded()){
-                    ft.remove(mMeFragment);
-                    fgts.remove(mMeFragment);
-                }
-
-            } else if (index ==CAIFU ) {
-                if(mMoneyFragment.isAdded()){
-                    ft.remove(mMoneyFragment);
-                    fgts.remove(mMoneyFragment);
-                }
-            }
-            ft.commit();
-            MyApplication.signOutSignIn=false;
-        }*/
-    }
-
-    public int getCurrIndex() {
-        return currIndex;
-    }
-
-    public void setCurrIndex(int currIndex) {
-        this.currIndex = currIndex;
-    }
-
     public AppTabs getAppTabs() {
         return appTabs;
     }
 
-    public void setAppTabs(AppTabs appTabs) {
-        this.appTabs = appTabs;
-    }
     private void setAlias(String alias) {
         //调用JPush API设置Alias
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));

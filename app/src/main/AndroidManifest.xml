@@ -664,7 +664,11 @@
             android:name=".activities.FastBillActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.SystemMsgActivity"
+        <activity
+            android:name=".activities.SystemMsgActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity android:name=".activities.BusinessBillActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
     </application>

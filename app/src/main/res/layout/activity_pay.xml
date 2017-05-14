@@ -10,8 +10,7 @@
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="扫一扫支付"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       />
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
@@ -48,9 +47,8 @@
                     android:textSize="@dimen/main_text_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支付方式：线下支付"/>
+                    android:text="支付方式：记账"/>
                 <ImageView
-                    android:visibility="gone"
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:layout_width="10dp"

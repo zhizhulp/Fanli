@@ -80,7 +80,6 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
     int yearLast = 0;
     int monthLast = 0;
     private View viewHead;
-    private TextView tvFirstMonth;
     private ImageView imCalendar;
     private TextView tvSesc;
     int type;//账单类型
@@ -104,7 +103,6 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
     private void initHeadView() {
         viewHead = findViewById(R.id.head);
         viewHead.setBackgroundColor(Color.WHITE);
-        tvFirstMonth = ((TextView) findViewById(R.id.tv_month));
         imCalendar = ((ImageView) findViewById(R.id.im_calendar));
         imCalendar.setVisibility(View.VISIBLE);
         viewHead.setOnClickListener(new View.OnClickListener() {
@@ -293,13 +291,6 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
 
     public View getViewHead() {
         return viewHead;
-    }
-
-    public void setViewHead(View viewHead) {
-        this.viewHead = viewHead;
-    }
-    public BillNetworker getBillNetworker() {
-        return billNetworker;
     }
 
     public void setBillNetworker(BillNetworker billNetworker) {

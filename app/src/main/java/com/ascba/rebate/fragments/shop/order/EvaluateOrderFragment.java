@@ -130,9 +130,9 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             int goods_id = Integer.parseInt(go.optString("goods_id"));
             Log.d(TAG, "json_goods_id: "+goods_id +",json_order_id: "+orderId);
             //头部信息
-            String time = go.optString("add_time");//时间
-            time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-            OrderBean beanHead = new OrderBean(EvaluateOrderAdapter.TYPE1, R.layout.item_order_head, time, "交易成功");
+            /*String time = go.optString("add_time");//时间
+            time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
+            OrderBean beanHead = new OrderBean(EvaluateOrderAdapter.TYPE1, R.layout.item_order_head, go.optString("store_name"), "交易成功");
             beanHead.setId(goods_id+"");
             beanArrayList.add(beanHead);
 
@@ -148,8 +148,8 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             String formatGoodsPrice = df.format(tailPrice);
 
             good.setUserQuy(num);//购买数量
-            good.setGoodsPrice(go.optString("goods_pay_price"));//购买价格
-            good.setGoodsPriceOld(go.optString("goods_price"));//原价
+            good.setGoodsPrice(go.optString("goods_price"));//市场价格
+            good.setGoodsPriceOld(go.optString("market_price"));//商品价格
 
             OrderBean orderBean = new OrderBean(EvaluateOrderAdapter.TYPE2, R.layout.item_goods, good);
             orderBean.setId(goods_id+"");

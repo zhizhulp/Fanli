@@ -39,7 +39,7 @@ public class StdDialog extends Dialog {
     private Listener listener;
     private TextView tvAddToCart;
     private TextView tvPurchase;
-    private String url;
+    private Goods defaultGoods;
 
     public NumberButton getNb() {
         return nb;
@@ -68,11 +68,11 @@ public class StdDialog extends Dialog {
         this.listener = listener;
     }
 
-    public StdDialog(@NonNull Context context, List<GoodsAttr> gas, List<Goods> goodses,String url) {
+    public StdDialog(@NonNull Context context, List<GoodsAttr> gas, List<Goods> goodses,Goods defaultGoods) {
         super(context);
         this.gas = gas;
         this.goodses = goodses;
-        this.url=url;
+        this.defaultGoods=defaultGoods;
         init(context, gas);
     }
 
@@ -88,14 +88,14 @@ public class StdDialog extends Dialog {
         tvAddToCart = ((TextView) findViewById(R.id.tv_add_to_cart));
         tvUnitPrice = (TextView) findViewById(R.id.tv_shop_price);
         tvPurchase = ((TextView) findViewById(R.id.tv_purchase_cart));
-        tvUnitPrice.setText("￥ ?");
+        tvUnitPrice.setText("￥ "+defaultGoods.getGoodsPrice());
         tvInv = (TextView) findViewById(R.id.tv_inventory);
-        tvInv.setText("库存 ?");
+        tvInv.setText("库存 "+defaultGoods.getInventory());
         tvListener = (TextView) findViewById(R.id.tv_listener);
-        tvListener.setText("请选择完整的规格");
+        tvListener.setText("请选择规格");
         //商品预览图
         RoundImageView riv = (RoundImageView) findViewById(R.id.iv_shop_photo);
-        Picasso.with(context).load(url).placeholder(R.mipmap.busi_loading).into(riv);
+        Picasso.with(context).load(defaultGoods.getImgUrl()).placeholder(R.mipmap.busi_loading).into(riv);
         //规格列表
         RecyclerView rvRule = (RecyclerView) findViewById(R.id.goods_profile_list);
         ProfileAdapter adapter = new ProfileAdapter(R.layout.goods_attrs_layout, gas);

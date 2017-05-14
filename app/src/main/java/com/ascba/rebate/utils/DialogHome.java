@@ -1,6 +1,5 @@
 package com.ascba.rebate.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,9 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/04/26 0026.
@@ -35,7 +31,9 @@ public class DialogHome {
 
     //创建进度对话框
     public Dialog buildWaitDialog(String message) {
-        //dissmissAll();
+        if(dialogProgress!=null && dialogProgress.isShowing()){
+            dialogProgress.dismiss();
+        }
         dialogProgress = new ProgressDialog(context, R.style.dialog);
         dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
         dialogProgress.setCancelable(true);//返还键不可取消
@@ -46,7 +44,9 @@ public class DialogHome {
 
     //创建提示对话框
     public Dialog buildAlertDialog(String message) {
-        //dissmissAll();
+        if(dialogAlter!=null && dialogAlter.isShowing()){
+            dialogAlter.dismiss();
+        }
         dialogAlter = new Dialog(context, R.style.AlertDialog);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
         dialogAlter.setContentView(alertView);
@@ -68,7 +68,9 @@ public class DialogHome {
     }
     //可以处理确定的情况
     public Dialog buildAlertDialog2(String message,final Callback dialogClick) {
-        //dissmissAll();
+        if(dialogAlter2!=null && dialogAlter2.isShowing()){
+            dialogAlter2.dismiss();
+        }
         dialogAlter2 = new Dialog(context, R.style.AlertDialog);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
         dialogAlter2.setContentView(alertView);
@@ -93,7 +95,9 @@ public class DialogHome {
      * 可以处理确定和取消的情况
      */
     public Dialog buildAlertDialogSure(String message, final Callback dialogClick) {
-        //dissmissAll();
+        if(dialogAlterSure!=null && dialogAlterSure.isShowing()){
+            dialogAlterSure.dismiss();
+        }
         dialogAlterSure = new Dialog(context, R.style.AlertDialog);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view_with_2_button, null);
         dialogAlterSure.setContentView(alertView);

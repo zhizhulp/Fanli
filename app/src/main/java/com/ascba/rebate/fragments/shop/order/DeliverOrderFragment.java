@@ -124,9 +124,9 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                 orderId = object.optString("order_id");
 
                 //头部信息
-                String time = object.optString("add_time");//时间
-                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, time, "等待卖家发货");
+                /*String time = object.optString("add_time");//时间
+                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
+                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"), "等待卖家发货");
                 beanHead.setId(orderId);
                 beanArrayList.add(beanHead);
 
@@ -150,8 +150,8 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                             double price = Double.parseDouble(goods_pay_price);
                             orderAmount += price * num;
 
-                            good.setGoodsPrice(goods_pay_price);//付款价格
-                            good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
+                            good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                            good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
                             OrderBean orderBean = new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, good);
                             orderBean.setId(orderId);
                             beanArrayList.add(orderBean);

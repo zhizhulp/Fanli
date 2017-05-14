@@ -55,6 +55,7 @@ import com.ascba.rebate.beans.IntegralValueItem;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ImageViewDialog;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
@@ -1098,7 +1099,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                     JSONArray array = dataObj.optJSONArray("spec_goods_price");
 
                     String imgUrl = dataObj.optString("img");
-                    showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),UrlUtils.baseWebsite+imgUrl);
+                    JSONObject goodsInfo = dataObj.optJSONObject("goods_info");
+                    showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),parseDefaultGoods(goodsInfo));
                 }
 
                 @Override
@@ -1113,6 +1115,16 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             });
         }
 
+    }
+    private Goods parseDefaultGoods(JSONObject goodsInfo) {
+        Goods goods=new Goods();
+        if(goodsInfo!=null){
+            goods.setGoodsTitle(goodsInfo.optString("title"));
+            goods.setInventory(Integer.parseInt(goodsInfo.optString("inventory")));
+            goods.setGoodsPrice(goodsInfo.optString("shop_price"));
+            goods.setImgUrl(UrlUtils.baseWebsite + goodsInfo.optString("img"));
+        }
+        return goods;
     }
 
     private List<Goods> parseSpecGoodsPrice(JSONArray array) {
@@ -1186,11 +1198,14 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     }
 
     //商品规格选择
-    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,String url) {
+    private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,Goods defaultGoods) {
         if (gas.size() == 0 || goodses.size() == 0) {
             return;
         }
-        sd = new StdDialog(this, gas, goodses,url);
+        if(sd!=null && sd.isShowing()){
+            sd.dismiss();
+        }
+        sd = new StdDialog(this, gas, goodses,defaultGoods);
         sd.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -1319,7 +1334,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 isAll = false;
             }
             MyApplication.isLoadCartData=true;
-            getDm().buildAlertDialog(message);
+            ViewUtils.showMyToast(this,R.layout.add_to_cart_toast);
         } else if (finalScene == 1) {
             if (sd != null) {
                 sd.dismiss();

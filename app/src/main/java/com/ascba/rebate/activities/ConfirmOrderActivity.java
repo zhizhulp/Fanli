@@ -125,7 +125,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         userAddress = (TextView) headView.findViewById(R.id.confirm_order_address);
 
 
-
         //买家留言
         confirmOrderAdapter.setEditTextString(new ConfirmOrderAdapter.editTextString() {
             @Override
@@ -321,13 +320,19 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-
                 //创建订单并开始支付
                 payOrder(dataObj, payType, message);
             }
 
             @Override
             public void handle404(String message) {
+                if(payType.equals("alipay") || payType.equals("wxpay")){
+                    PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
+                    if (payCallBack != null) {
+                        pay.getPayCallBack().onFinish(payType);
+                        pay.getPayCallBack().onCancel(payType);
+                    }
+                }
                 getDm().buildAlertDialog(message);
             }
 
@@ -358,6 +363,60 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                 //提交订单
                 if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
                     pay = new PayUtils(this, tvTotal.getText().toString(), balance);
+                    //支付结果回调
+                    pay.setPayCallBack(new PayUtils.onPayCallBack() {
+                        @Override
+                        public void onFinish(String payStype) {
+                            showToast("订单创建成功");
+                        }
+
+                        @Override
+                        public void onSuccess(String payStype) {
+                            showToast("成功支付");
+                            if (StringUtils.isEmpty(orderId)) {
+                                //跳转待付款列表
+                                MyOrderActivity.startIntent(context, 2);
+                            } else {
+                                Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                                intent.putExtra("order_id", orderId);
+                                startActivity(intent);
+                            }
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancel(String payStype) {
+                            showToast("取消支付");
+                            if (StringUtils.isEmpty(orderId)) {
+                                //跳转待付款列表
+                                MyOrderActivity.startIntent(context, 1);
+                            } else {
+                                Intent intent = new Intent(context, PayDetailsActivity.class);
+                                intent.putExtra("order_id", orderId);
+                                startActivity(intent);
+                            }
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailed(String payStype, String msg) {
+                            showToast(msg);
+                            if (StringUtils.isEmpty(orderId)) {
+                                //跳转待付款列表
+                                MyOrderActivity.startIntent(context, 1);
+                            } else {
+                                Intent intent = new Intent(context, PayDetailsActivity.class);
+                                intent.putExtra("order_id", orderId);
+                                startActivity(intent);
+                            }
+                            finish();
+                        }
+
+                        @Override
+                        public void onNetProblem(String payStype) {
+                            showToast("手机网络出现问题");
+                        }
+                    });
                     pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String payType) {
@@ -403,71 +462,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         orderId = dataObj.optString("order_id", null);
         MyApplication.orderId = orderId;
         JSONObject object = dataObj.optJSONObject("payInfo");
-        //支付结果回调
-        pay.setPayCallBack(new PayUtils.onPayCallBack() {
-            @Override
-            public void onFinish(String payStype) {
-                showToast("订单创建成功");
-                /*if ("balance".equals(payType)) {
-                    //finish();
-                } else if ("alipay".equals(payType)) {
-                    //支付宝支付
-                    *//*setResult(RESULT_OK, getIntent());
-                    finish();*//*
-                } else if ("wxpay".equals(payType)) {
-                    *//*finish();
-                    //微信支付
-                    MyApplication.payType = 1;*//*
-                }*/
-            }
 
-            @Override
-            public void onSuccess(String payStype) {
-                showToast("成功支付");
-                if (StringUtils.isEmpty(orderId)) {
-                    //跳转待付款列表
-                    MyOrderActivity.startIntent(context, 2);
-                } else {
-                    Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                    intent.putExtra("order_id", orderId);
-                    startActivity(intent);
-                }
-                finish();
-            }
-
-            @Override
-            public void onCancel(String payStype) {
-                showToast("取消支付");
-                if (StringUtils.isEmpty(orderId)) {
-                    //跳转待付款列表
-                    MyOrderActivity.startIntent(context, 1);
-                } else {
-                    Intent intent = new Intent(context, PayDetailsActivity.class);
-                    intent.putExtra("order_id", orderId);
-                    startActivity(intent);
-                }
-                finish();
-            }
-
-            @Override
-            public void onFailed(String payStype,String msg) {
-                showToast(msg);
-                if (StringUtils.isEmpty(orderId)) {
-                    //跳转待付款列表
-                    MyOrderActivity.startIntent(context, 1);
-                } else {
-                    Intent intent = new Intent(context, PayDetailsActivity.class);
-                    intent.putExtra("order_id", orderId);
-                    startActivity(intent);
-                }
-                finish();
-            }
-
-            @Override
-            public void onNetProblem(String payStype) {
-                showToast("手机网络出现问题");
-            }
-        });
         //调起支付
         if ("balance".equals(payType)) {
             pay.dismissDialog();

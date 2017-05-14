@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/main_content_bg"
     android:id="@+id/swipe_del_lat"
     xmlns:swipe="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"

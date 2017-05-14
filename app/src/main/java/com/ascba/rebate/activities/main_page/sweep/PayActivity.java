@@ -79,14 +79,14 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
     }
     //选择支付方式
     public void clickSelectPayType(View view) {
-        /*String type = tvTpye.getText().toString();
+        String type = tvTpye.getText().toString();
         if("支付方式：其他".equals(type)){
             tvTpye.setText("支付方式：余额");
             pay_type=2;
         }else if("支付方式：余额".equals(type)) {
-            tvTpye.setText("支付方式：其他");
+            tvTpye.setText("支付方式：记账");
             pay_type=1;
-        }*/
+        }
     }
 
     @Override

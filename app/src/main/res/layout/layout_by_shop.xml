@@ -82,6 +82,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:textColor="@color/main_text_gary"
                     android:id="@+id/tv_listener"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

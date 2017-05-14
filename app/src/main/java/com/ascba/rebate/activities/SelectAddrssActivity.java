@@ -189,7 +189,8 @@ public class SelectAddrssActivity extends BaseNetActivity {
                         addressBean.setId(object.optString("id"));
                         addressBean.setName(object.optString("consignee"));
                         addressBean.setPhone(object.optString("mobile"));
-                        addressBean.setAddress(object.optString("address_detail"));
+                        addressBean.setAddress(object.optString("address"));
+                        addressBean.setAddressDetl(object.optString("address_detail"));
                         addressBean.setProvince(object.optString("province"));
                         addressBean.setCity(object.optString("city"));
                         addressBean.setDistrict(object.optString("district"));

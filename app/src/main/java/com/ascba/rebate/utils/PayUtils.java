@@ -126,6 +126,10 @@ public class PayUtils {
         this.payCallBack = payCallBack;
     }
 
+    public onPayCallBack getPayCallBack() {
+        return payCallBack;
+    }
+
     public static abstract class onPayCallBack {
         public void onSuccess(String payStype) {
         }

@@ -1,6 +1,5 @@
 package com.ascba.rebate.fragments.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -146,7 +144,6 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
 
     /**
      * 设置Fragment要显示的布局
-     *
      * @return 布局的layoutId
      */
     protected int setContentView() {
@@ -155,8 +152,6 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
 
     /**
      * 获取设置的布局
-     *
-     * @return
      */
     protected View getContentView() {
         return view;
@@ -164,10 +159,6 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
 
     /**
      * 找出对应的控件
-     *
-     * @param id
-     * @param <T>
-     * @return
      */
     protected <T extends View> T findViewById(int id) {
 
@@ -199,8 +190,15 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 MyApplication.isSignOut=true;
+                MyApplication.isLoadCartData=true;
                 AppConfig.getInstance().putInt("uuid", -1000);
                 getActivity().startActivityForResult(intent, BaseNetActivity.REQUEST_LOGIN);
+                if(callback!=null){
+                    callback.handleReLogin();
+                }
+                if(callbackWhat != null){
+                    callbackWhat.handleReLogin();
+                }
             } else if (status == 404) {
                 if (callback != null) {
                     callback.handle404(message, dataObj);

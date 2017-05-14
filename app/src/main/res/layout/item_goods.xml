@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/item_goods_name"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="7dp"
         android:layout_toRightOf="@id/item_goods_img"
         android:textColor="@color/textgray"

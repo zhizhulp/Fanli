@@ -136,9 +136,9 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 orderStatus = object.optString("order_status");
 
                 //头部信息
-                String time = object.optString("add_time");//时间
-                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));
-                OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, time);
+                /*String time = object.optString("add_time");//时间
+                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
+                OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
 
                 if (orderStatus.equals("10")) {
@@ -166,8 +166,8 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                             totalNum = num + totalNum;
 
                             good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
-                            good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
+                            good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                            good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
                             OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
                             orderBean.setId(orderId);
                             beanArrayList.add(orderBean);
@@ -250,10 +250,10 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     case R.id.item_goods_order_total_call:
                         //联系卖家
                         String phone = orderBean.getPhone();
-                        if(StringUtils.isEmpty(phone)){
-                           getDm().buildAlertDialog("该商家暂无电话");
-                        }else {
-                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+orderBean.getPhone())));
+                        if (StringUtils.isEmpty(phone)) {
+                            getDm().buildAlertDialog("该商家暂无电话");
+                        } else {
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + orderBean.getPhone())));
                         }
                         break;
                     case R.id.item_goods_order_total_delete:
@@ -270,9 +270,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         });
     }
 
-    /*
-        付款
-     */
+    // 付款
     private void payPrice(int position) {
         String price = beanArrayList.get(position).getOrderPrice();
         if (StringUtils.isEmpty(price)) {
@@ -280,14 +278,6 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         } else {
             //开启支付
             pay = new PayUtils(getActivity(), price, balance);
-            pay.showDialog(new PayUtils.OnCreatOrder() {
-                @Override
-                public void onCreatOrder(String arg) {
-                    payType = arg;
-                    requstData(3, UrlUtils.orderPay, orderId);
-                }
-            });
-
             //支付回调
             pay.setPayCallBack(new PayUtils.onPayCallBack() {
                 @Override
@@ -307,13 +297,20 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 }
 
                 @Override
-                public void onFailed(String payStype,String msg) {
+                public void onFailed(String payStype, String msg) {
                     showToast(msg);
                 }
 
                 @Override
                 public void onNetProblem(String payStype) {
                     showToast("手机网络有问题");
+                }
+            });
+            pay.showDialog(new PayUtils.OnCreatOrder() {
+                @Override
+                public void onCreatOrder(String arg) {
+                    payType = arg;
+                    requstData(3, UrlUtils.orderPay, orderId);
                 }
             });
         }
@@ -335,20 +332,16 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 requstListData();
                 break;
             case 3:
-                try {
-                    if ("balance".equals(payType)) {
-                        //余额支付
-                        pay.dismissDialog();
-                        pay.requestForYuE(dataObj);
-                    } else if ("alipay".equals(payType)) {
-                        String payInfo = dataObj.optString("payInfo");
-                        pay.requestForAli(payInfo);//发起支付宝支付请求
-                    } else if ("wxpay".equals(payType)) {
-                        JSONObject wxpay = dataObj.getJSONObject("wxpay");
-                        pay.requestForWX(wxpay);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if ("balance".equals(payType)) {
+                    //余额支付
+                    pay.dismissDialog();
+                    pay.requestForYuE(dataObj);
+                } else if ("alipay".equals(payType)) {
+                    String payInfo = dataObj.optString("payInfo");
+                    pay.requestForAli(payInfo);//发起支付宝支付请求
+                } else if ("wxpay".equals(payType)) {
+                    JSONObject wxpay = dataObj.optJSONObject("wxpay");
+                    pay.requestForWX(wxpay);
                 }
                 break;
         }
@@ -363,6 +356,13 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     @Override
     public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
+        if(flag==3){
+            PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
+            if (payCallBack != null) {
+                pay.getPayCallBack().onFinish(payType);
+                pay.getPayCallBack().onCancel(payType);
+            }
+        }
     }
 
 

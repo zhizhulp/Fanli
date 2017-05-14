@@ -45,6 +45,7 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
+import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -275,15 +276,15 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         if (popupWindow == null) {
             View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
 
-            //付款(暂时无扫一扫功能)
-            /*LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
+            //付款
+            LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(getActivity(), CaptureActivity.class));
                     popupWindow.dismiss();
                 }
-            });*/
+            });
 
             //收款
             LinearLayout btnRece = (LinearLayout) view.findViewById(R.id.pop_hm_rece);

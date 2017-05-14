@@ -43,7 +43,6 @@ public class UserUpdateActivity extends BaseNetActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_update);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initView();
         requestForServer(1);
     }

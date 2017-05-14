@@ -10,6 +10,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -24,6 +25,7 @@ import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
 import com.ascba.rebate.qr.view.ViewfinderView;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.DialogHome;
 import com.google.zxing.BarcodeFormat;
@@ -37,6 +39,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class CaptureActivity extends BaseNetActivity implements Callback, BaseNetActivity.Callback {
+    private static final String TAG = "CaptureActivity";
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
     private SurfaceView surfaceView;
@@ -59,7 +62,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
 
         setContentView(R.layout.activity_capture);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         surfaceView = (SurfaceView) findViewById(R.id.surfaceview);
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinderview);
 
@@ -68,6 +70,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
+
     }
 
     @Override
@@ -164,7 +167,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
     public void drawViewfinder() {
         viewfinderView.drawViewfinder();
-
     }
 
     public void handleDecode(Result obj, Bitmap barcode) {
@@ -175,10 +177,24 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
     private void showResult(final Result rawResult, Bitmap barcode) {
         Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
-        objRequest.add("seller", rawResult.getText());
-        objRequest.add("scenetype", 2);
-        executeNetWork(objRequest, "请稍后");
-        setCallback(this);
+        String text = rawResult.getText();
+        if (!StringUtils.isEmpty(text)) {
+            objRequest.add("seller", handleString(text));
+            objRequest.add("scenetype", 2);
+            executeNetWork(objRequest, "请稍后");
+            setCallback(this);
+        } else {
+            showToast("无法识别商家二维码");
+        }
+
+    }
+
+    //商家信息截取
+    private String handleString(String text) {
+        Log.d(TAG, "handleString: original " + text);
+        String[] split = text.split("/");
+        Log.d(TAG, "handleString: handle " + split[split.length - 1]);
+        return split[split.length - 1];
     }
 
     //重新扫描
@@ -256,7 +272,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     @Override
     public void handle404(String message) {
 
-        getDm().buildAlertDialogSure(message,new DialogHome.Callback() {
+        getDm().buildAlertDialogSure(message, new DialogHome.Callback() {
             @Override
             public void handleSure() {
                 restartPreviewAfterDelay(0L);

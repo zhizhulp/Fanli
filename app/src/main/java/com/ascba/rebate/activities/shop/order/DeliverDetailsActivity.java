@@ -142,9 +142,7 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
         }
     }
 
-    /*
-      获取列表数据
-    */
+    //获取列表数据
     private void requstData(String url, int flag) {
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
@@ -261,7 +259,8 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
-            orderAmountTx.setText("￥" + orderAmount);
+            orderPriceTx.setText("￥" + orderAmount);
+            orderAmountTx.setText("￥" + goodsAmount);
             shippingFeeTx.setText("￥" + shippingFee);
 
             if (goodsList.size() > 0) {

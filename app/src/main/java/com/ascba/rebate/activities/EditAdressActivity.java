@@ -262,9 +262,6 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
 
     /**
      * 获取联系人数据
-     *
-     * @param uri
-     * @return
      */
     private String[] getPhoneContacts(Uri uri) {
         String[] contact = new String[2];
@@ -332,6 +329,9 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         showToast("保存成功");
+        finishAndCallback();
+    }
+    private void finishAndCallback(){
         Intent intent = new Intent();
         setResult(2, intent);
         finish();

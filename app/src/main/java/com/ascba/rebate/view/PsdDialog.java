@@ -2,6 +2,7 @@ package com.ascba.rebate.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.inputmethodservice.KeyboardView;
 import android.support.annotation.NonNull;
@@ -15,6 +16,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.FindPayPasswordActivity;
+import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.handlers.OnPasswordInput;
 import com.ascba.rebate.view.keyboard.NumKeyboardUtil;
 import com.ascba.rebate.view.keyboard.PasswordInputView;
@@ -76,6 +79,8 @@ public class PsdDialog extends Dialog implements View.OnFocusChangeListener, Vie
             public void onClick(View v) {
                 if (onPasswordInputFinish != null) {
                     //接口中要实现的方法，完成密码输入完成后的响应逻辑
+                    Intent intent=new Intent(getContext(),PayPsdSettingActivity.class);
+                    getContext().startActivity(intent);
                     onPasswordInputFinish.forgetPsd();
                 }
             }
