@@ -307,7 +307,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         String storeId = dataObj.optString("id");
         String store_name = obj.optString("store_name");
         String store_logo = UrlUtils.baseWebsite + obj.optString("store_logo");
-        phone = obj.optString("store_phone");
+        phone = obj.optString("store_mobile");
         int goods_count = obj.optInt("goods_count");
         Picasso.with(this).load(store_logo).placeholder(R.mipmap.busi_loading).into(imgLogo);
         shopName.setText(store_name);

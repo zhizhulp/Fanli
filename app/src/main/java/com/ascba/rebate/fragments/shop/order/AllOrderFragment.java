@@ -13,6 +13,7 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.shop.order.CancelOrderDetailsActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
@@ -112,9 +113,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     }
 
 
-    /*
-    初始化数据
-     */
+    //初始化数据
     private void initData(JSONObject dataObj) {
         if (beanArrayList.size() > 0) {
             beanArrayList.clear();
@@ -123,8 +122,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
             balance = member_info.optString("money");//余额
-            int white_score = member_info.optInt("white_score");
-            int red_score = member_info.optInt("red_score");
         }
         //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
@@ -170,10 +167,11 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         try {
                             JSONObject goodsObject = goodsArray.getJSONObject(j);
                             Goods good = new Goods();
-                            good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
+                            //good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
                             good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
                             good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
-                            //good.setTitleId(Integer.parseInt(goodsObject.optString("goods_id")));
+                            good.setGoodsId(goodsObject.optString("goods_id"));
+                            good.setOrderGoodsId(goodsObject.optString("order_goods_id"));
                             //再次判断头部状态
                             int shipping_status = goodsObject.optInt("shipping_status");
                             if(shipping_status==2){
@@ -181,6 +179,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                             }else if(shipping_status==1){
                                 beanHead.setState("卖家已发货");
                             }
+                            good.setShippingStatus(shipping_status);
                             Log.d(TAG, "json order_id:"+orderId+" ;id"+goodsObject.optString("id"));
                             int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
                             totalNum = num + totalNum;
@@ -258,10 +257,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 OrderBean orderBean = beanArrayList.get(position);
                 String orderId = orderBean.getId();
                 Goods goods = orderBean.getGoods();
-                int id =-200;
-                if(goods!=null){
-                    id = goods.getTitleId();
-                }
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         if (orderId != null) {
@@ -273,22 +268,27 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                                 intent.setClass(context, PayDetailsActivity.class);
                             } else if (orderStatus.equals("0")) {
                                 //交易关闭
-                                intent.setClass(context, PayDetailsActivity.class);
-                                //GoodsDetailsActivity.startIntent(getActivity(), goodId);
+                                intent.setClass(context, CancelOrderDetailsActivity.class);
                             } else if (orderStatus.equals("20")) {
                                 //等待卖家发货
-                                intent.setClass(context, DeliverDetailsActivity.class);
-                                orderId =id+"";
+                                int status = goods.getShippingStatus();
+                                if(status==2){
+                                    intent.setClass(context, EvaluateDetailsActivity.class);
+                                }else if(status==1){
+                                    intent.setClass(context, TakeDetailsActivity.class);
+                                }else{
+                                    intent.setClass(context, DeliverDetailsActivity.class);
+                                }
+                                orderId = goods.getOrderGoodsId();
                             } else if (orderStatus.equals("30")) {
-                                //等待买家收货
+                                //卖家已发货
                                 intent.setClass(context, TakeDetailsActivity.class);
-                                orderId =id+"";
+                                orderId = goods.getOrderGoodsId();
                             } else if (orderStatus.equals("40")) {
                                 //交易成功
                                 intent.setClass(context, EvaluateDetailsActivity.class);
-                                orderId =id+"";
+                                orderId = goods.getOrderGoodsId();
                             }
-                            Log.d(AllOrderFragment.TAG, "intent: "+ orderId);
                             intent.putExtra("order_id", orderId);
                             startActivityForResult(intent, 1);
                         }

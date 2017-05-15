@@ -178,8 +178,8 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         switch (flag) {
             case 0:
-                jsonRequest.add("order_goods_id", orderId);
-                jsonRequest.add("status", "wait_take");
+                jsonRequest.add("order_goods_id", orderId);//键值相同
+                //jsonRequest.add("status", "wait_take");
                 break;
             case 1:
                 jsonRequest.add("order_goods_id", orderId);
@@ -289,9 +289,8 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             String orderTime = orderObject.optString("add_time");//订单时间
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
 
-             /*
-               开始支付倒计时
-             */
+
+            //开始支付倒计时
             if (!isCountdown) {
                 //时间差
                 countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);

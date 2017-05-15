@@ -133,7 +133,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
         if (intent != null) {
             orderId = intent.getStringExtra("order_id");
             if (orderId != null) {
-                requstData(UrlUtils.viewOrder, 0);
+                requstData(UrlUtils.viewOrderGoods, 0);
             } else {
                 showToast(getString(R.string.no_data_txt));
                 finish();
@@ -147,8 +147,8 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
     private void requstData(String url, int flag) {
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
-        jsonRequest.add("order_id", orderId);
-        jsonRequest.add("status", "wait_evaluate");
+        jsonRequest.add("order_goods_id", orderId);//键值相同
+        //jsonRequest.add("status", "wait_evaluate");
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
@@ -267,21 +267,17 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
             }
 
             //商品信息
-            JSONArray goodsArray = orderObject.getJSONArray("orderGoods");
-            if (goodsArray != null && goodsArray.length() > 0) {
-                for (int i = 0; i < goodsArray.length(); i++) {
-                    JSONObject goodObject = goodsArray.getJSONObject(i);
-                    String goodName = goodObject.optString("goods_name");//商品名
-                    String goodsPrice = goodObject.optString("goods_price");//商品价格
-                    String specNames = goodObject.optString("spec_names");//商品规格
-                    String goodNum = goodObject.optString("goods_num");//数量
-                    String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
-                    Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
-                    String goods_id = goodObject.optString("goods_id");//商品id
-                    goods.setTitleId(Integer.parseInt(goods_id));
-                    goodsList.add(goods);
-                }
-            }
+            JSONObject goodsObj = dataObject.optJSONObject("order_goods_info");
+            //商品信息
+            String goodName = goodsObj.optString("goods_name");//商品名
+            String goodsPrice = goodsObj.optString("goods_price");//商品价格
+            String specNames = goodsObj.optString("spec_names");//商品规格
+            String goodNum = goodsObj.optString("goods_num");//数量
+            String goodImg = UrlUtils.baseWebsite + goodsObj.optString("goods_img");//商品图片
+            Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
+            String goods_id = goodsObj.optString("goods_id");//商品id
+            goods.setTitleId(Integer.parseInt(goods_id));
+            goodsList.add(goods);
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();

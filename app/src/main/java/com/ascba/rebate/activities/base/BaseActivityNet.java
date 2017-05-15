@@ -29,7 +29,7 @@ public abstract class BaseActivityNet extends BaseActivity {
     protected DialogHome dialogManager;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (dialogManager == null) {
             dialogManager = new DialogHome(this);

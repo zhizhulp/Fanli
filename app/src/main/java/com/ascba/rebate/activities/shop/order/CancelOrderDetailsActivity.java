@@ -3,12 +3,10 @@ package com.ascba.rebate.activities.shop.order;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -37,13 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 李鹏 on 2017/03/15 0015.
- * 待付款订单详情
- */
-
-public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
-
+public class CancelOrderDetailsActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
     private Context context;
     private ShopABarText shopABarText;
     private RecyclerView recyclerView;
@@ -54,33 +46,11 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     private String storePhone;//商家电话
     //收货地址
     private RelativeLayout addressView;
-    private LinearLayout contactStoreTx, countdownView;
+    private LinearLayout contactStoreTx;
     private TextView phoneTx, nameTx, addressTx;
     private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
-    private TextView payTx, deleteTx, countdownTx, closeOrderTx;
-
-    //倒计时
-    private int maxTime = 30 * 60;//单位—秒
-    private Handler handler = new Handler();
-    private int countdownSecond;
-    private boolean isCountdown;
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (countdownSecond > 0) {
-                countdownTx.setText(countdownSecond / 60 + "分" + countdownSecond % 60 + "秒");
-                countdownSecond--;
-                handler.postDelayed(this, 1000);
-            } else {
-                countdownView.setVisibility(View.INVISIBLE);
-                closeOrderTx.setVisibility(View.VISIBLE);
-                handler.removeCallbacks(runnable);
-                requstData(UrlUtils.cancelOrder, 1);
-            }
-        }
-    };
-
+    private TextView deleteTx;
     private int flag = 0;//0-获取数据，1-取消订单,2-付款
     private String payType;
     private PayUtils pay;
@@ -88,17 +58,14 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     private TextView tvMsg;
     private View msgView;
     private String store_id;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pay_details);
+        setContentView(R.layout.activity_cancel_order);
         context = this;
         initView();
         getOrderId();
     }
-
     private void initView() {
         //刷新
         initRefreshLayout();
@@ -128,7 +95,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Goods goods = goodsList.get(position);
-                GoodsDetailsActivity.startIntent(PayDetailsActivity.this, goods.getTitleId());
+                GoodsDetailsActivity.startIntent(CancelOrderDetailsActivity.this, goods.getTitleId());
             }
         });
 
@@ -147,14 +114,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         shippingFeeTx = (TextView) findViewById(R.id.shipping_fee);
         vouchersFeeTx = (TextView) findViewById(R.id.vouchers_fee);
         orderPriceTx = (TextView) findViewById(R.id.order_price);
-        payTx = (TextView) findViewById(R.id.tx_pay);
-        payTx.setOnClickListener(this);
         deleteTx = (TextView) findViewById(R.id.tx_delete);
         deleteTx.setOnClickListener(this);
-        countdownTx = (TextView) findViewById(R.id.tx_countdown);
-        closeOrderTx = (TextView) findViewById(R.id.tx_close_order);
-        countdownView = (LinearLayout) findViewById(R.id.ll_countdown);
-
         tvMsg = ((TextView) findViewById(R.id.tv_left_msg));
         msgView = findViewById(R.id.left_msg_lat);
 
@@ -162,7 +123,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         findViewById(R.id.store_lat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PayDetailsActivity.this, BusinessShopActivity.class);
+                Intent intent = new Intent(CancelOrderDetailsActivity.this, BusinessShopActivity.class);
                 intent.putExtra("store_id", Integer.parseInt(store_id));
                 startActivity(intent);
             }
@@ -190,15 +151,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", orderId);
-        switch (flag) {
-            case 2:
-                //付款
-                jsonRequest.add("pay_type", payType);
-                break;
-            case 0:
-                jsonRequest.add("status", "wait_pay");
-                break;
-        }
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
@@ -242,20 +194,11 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             //订单信息
             JSONObject orderObject = dataObject.getJSONObject("order_info");
             String shippingFee = orderObject.optString("shipping_fee");//邮费
-            String orderStatus = orderObject.optString("order_status");//订单状态
             String orderSn = orderObject.optString("order_sn");//订单号
             String goodsAmount = orderObject.optString("goods_amount");//商品价格
             String orderAmount = orderObject.optString("order_amount");//订单价格
             String orderTime = orderObject.optString("add_time");//订单时间
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
-            //开始支付倒计时
-            if (!isCountdown) {
-                //时间差
-                countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
-                isCountdown = handler.postDelayed(runnable, 1000);
-                Log.d("PayDetailsActivity", "isCountdown:" + isCountdown);
-            }
-
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
             orderPriceTx.setText("￥" + orderAmount);//实付款
@@ -311,63 +254,12 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                     getDm().buildAlertDialog("暂无该商家电话");
                 }
                 break;
-            case R.id.tx_pay:
-                //付款
-                String price = orderAmountTx.getText().toString();
-                if (StringUtils.isEmpty(price)) {
-                    showToast("正在加载订单信息，请稍后");
-                } else {
-                    pay = new PayUtils(this, price, balance);
-                    pay.setPayCallBack(new PayUtils.onPayCallBack() {
-                        @Override
-                        public void onFinish(String payStype) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(String payStype) {
-                            showToast("成功支付");
-                            //跳转待收货详情
-                            Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                            intent.putExtra("order_id", orderId);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                        @Override
-                        public void onCancel(String payStype) {
-                            showToast("取消支付");
-                        }
-
-                        @Override
-                        public void onFailed(String payStype, String msg) {
-                            showToast(msg);
-                        }
-
-                        @Override
-                        public void onNetProblem(String payStype) {
-                            showToast("手机网络有问题");
-                        }
-                    });
-                    pay.showDialog(new PayUtils.OnCreatOrder() {
-                        @Override
-                        public void onCreatOrder(String arg) {
-                            payType = arg;
-                            requstData(UrlUtils.orderPay, 2);
-                        }
-                    });
-                }
-
-                break;
             case R.id.tx_delete:
-                //取消订单
-                getDm().buildAlertDialogSure("您确定要取消订单吗？", new DialogHome.Callback() {
+                //删除订单
+                getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        countdownView.setVisibility(View.INVISIBLE);
-                        closeOrderTx.setVisibility(View.VISIBLE);
-                        handler.removeCallbacks(runnable);
-                        requstData(UrlUtils.cancelOrder, 1);
+                        requstData(UrlUtils.delOrder, 1);
                     }
                 });
                 break;
@@ -407,23 +299,9 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
 
                 break;
             case 1:
-                //订单超时，自动关闭
-                getDm().buildAlertDialog("订单已取消!");
+                //删除订单
+                getDm().buildAlertDialog("订单已删除!");
                 finish();
-                break;
-            case 2:
-                if ("balance".equals(payType)) {
-                    //余额支付
-                    pay.dismissDialog();
-                    pay.requestForYuE(dataObj);
-                } else if ("alipay".equals(payType)) {
-                    String payInfo = dataObj.optString("payInfo");
-                    pay.requestForAli(payInfo);//发起支付宝支付请求
-                } else if ("wxpay".equals(payType)) {
-                    JSONObject wxpay = dataObj.optJSONObject("wxpay");
-                    pay.requestForWX(wxpay);
-                }
-
                 break;
         }
     }
@@ -449,5 +327,4 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             refreshLayout.setRefreshing(false);
         }
     }
-
 }

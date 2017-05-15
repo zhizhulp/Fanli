@@ -11,7 +11,8 @@ import java.util.List;
  */
 
 public class Goods implements MultiItemEntity {
-    private int titleId;//商品id
+    private int titleId;//
+    private String goodsId;//商品id
     private String imgUrl;//缩略图链接
     private String goodsTitle;//商品标题
     private String goodsStandard;//商品规格
@@ -36,7 +37,8 @@ public class Goods implements MultiItemEntity {
     private int layout;
     private String messageCart;//买家留言，购物车id信息拼接字符串
     private boolean hasStandard;//是否有规格
-
+    private String orderGoodsId;
+    private int shippingStatus;//用于判断全部订单的头部状态
 
 
     public Goods() {
@@ -93,6 +95,14 @@ public class Goods implements MultiItemEntity {
         this.goodsPrice = goodsPrice;
         this.userQuy = userQuy;
         this.titleId = titleId;
+    }
+
+    public String getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
     }
 
     public boolean isHasStandard() {
@@ -306,5 +316,21 @@ public class Goods implements MultiItemEntity {
 
     public void setMessageCart(String messageCart) {
         this.messageCart = messageCart;
+    }
+
+    public String getOrderGoodsId() {
+        return orderGoodsId;
+    }
+
+    public void setOrderGoodsId(String orderGoodsId) {
+        this.orderGoodsId = orderGoodsId;
+    }
+
+    public int getShippingStatus() {
+        return shippingStatus;
+    }
+
+    public void setShippingStatus(int shippingStatus) {
+        this.shippingStatus = shippingStatus;
     }
 }

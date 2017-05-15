@@ -141,6 +141,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             good.setTitleId(Integer.parseInt(orderId));//商品订单id
             good.setImgUrl(UrlUtils.baseWebsite + go.optString("goods_img"));//图片
             good.setGoodsTitle(go.optString("goods_name"));//商品名
+            good.setOrderGoodsId(go.optString("order_goods_id"));
             int num = Integer.parseInt(String.valueOf(go.opt("goods_num")));
             double goods_pay_price = Double.parseDouble(String.valueOf(go.optString("goods_pay_price")));//付款价格
             double tailPrice = num * goods_pay_price;
@@ -180,10 +181,9 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        int orderId = orderBean.getGoods().getTitleId();
-                        Log.d(EvaluateOrderFragment.TAG, "click orderId: "+orderId);
+                        String orderGoodsId = orderBean.getGoods().getOrderGoodsId();
                         Intent intent = new Intent(context, EvaluateDetailsActivity.class);
-                        intent.putExtra("order_id", orderId+"");
+                        intent.putExtra("order_id",orderGoodsId);
                         startActivityForResult(intent, 1);
                         break;
                     case R.id.item_goods_order_total_after:
