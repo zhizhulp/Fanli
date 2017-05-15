@@ -227,4 +227,8 @@ public class UrlUtils {
     public static final String dateMerchantWaterLog = urlPrefix + "dateMerchantWaterLog";
     //商家交易数据
     public static final String businessManagement = urlPrefix + "businessManagement";
+    //代理专区数据
+    public static final String agent = urlPrefix + "agent";
+    //代理专区切换
+    public static final String switchLocale = urlPrefix + "switchLocale";
 }

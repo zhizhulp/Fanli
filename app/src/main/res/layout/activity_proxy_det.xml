@@ -24,7 +24,7 @@
                 <com.ascba.rebate.view.MoneyBar
                     android:id="@+id/mb"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
                     app:backImg="@mipmap/money_bar_back"
                     app:barBg="@color/transparent"
                     app:needComplete="true"
@@ -41,7 +41,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_rec_all_money"
+                        android:id="@+id/tv_proxy_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -51,7 +51,7 @@
                         android:textSize="@dimen/main_text_17" />
 
                     <TextView
-                        android:id="@+id/money_money"
+                        android:id="@+id/tv_proxy_region"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

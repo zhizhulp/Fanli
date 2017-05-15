@@ -6,14 +6,20 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ProxyDetAdapter;
 import com.ascba.rebate.beans.ProxyDet;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MarqueeTextView;
 import com.ascba.rebate.view.MoneyBar;
+import com.ascba.rebate.view.MyBottomSheet;
 import com.ascba.rebate.view.SpaceItemDecoration;
+import com.yanzhenjie.nohttp.rest.Request;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +32,37 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
     private ProxyDetAdapter adapter;
     private List<ProxyDet> data;
     private MarqueeTextView tvMsg;
+    private int index;//切换时的索引id
+    private TextView tvProxyName;
+    private TextView tvProxyRegion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proxy_det);
-
         initViews();
+        requestNetWork(UrlUtils.agent,0);
+    }
+
+    private void requestNetWork(String url,int what) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        if(what==0){
+            request.add("now_region",index);
+        }
+        executeNetWork(what,request,"请稍后");
     }
 
     private void initViews() {
         initRecyclerView();
         initRefreshLayout();
         refreshLayout.setOnRefreshListener(this);
-
+        initHeadView();
         tvMsg = ((MarqueeTextView) findViewById(R.id.tv_msg));
-        tvMsg.setText("数据展示，近期开放，敬请关注系统通知即可。数据展示，近期开放，敬请关注系统通知即可。");
+    }
+
+    private void initHeadView() {
+        tvProxyName = ((TextView) findViewById(R.id.tv_proxy_name));
+        tvProxyRegion = ((TextView) findViewById(R.id.tv_proxy_region));
     }
 
     private void initRecyclerView() {
@@ -67,28 +88,62 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
 
     }
 
-
-    @Override
-    public void clickImage(View im) {
-
-    }
-
-    /*
-     * 切换地区
-     */
+    //切换地区
     @Override
     public void clickComplete(View tv) {
-
+        requestNetWork(UrlUtils.switchLocale,1);
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.setRefreshing(false);
+        requestNetWork(UrlUtils.agent,0);
+    }
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+        if(what==0){
+            stopRefresh();
+            JSONObject agentObj = dataObj.optJSONObject("agent");
+            int count = agentObj.optInt("agency_count");//代理的区域数量
+            tvMsg.setText(agentObj.optString("notice"));
+            if(count > 1){
+                mb.setTailEnable(true);
+            }else {
+                mb.setTailEnable(false);
             }
-        }, 1000);
+            JSONObject memberAgencyObj = agentObj.optJSONObject("member_agency");
+            tvProxyName.setText(memberAgencyObj.optString("member_realname")+"("+memberAgencyObj.optString("name")+")");
+            tvProxyRegion.setText(memberAgencyObj.optString("cascade_name"));
+        }else if(what==1){
+            ArrayList<String> strs=new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                strs.add("just a test");
+            }
+            MyBottomSheet dialog=new MyBottomSheet(this,strs);
+            dialog.show();
+        }
+
+    }
+
+    protected void mhandle404(int what, JSONObject object, String message) {
+        stopRefresh();
+    }
+
+
+    protected void mhandleFailed(int what, Exception e) {
+        stopRefresh();
+    }
+
+    protected void mhandleReLogin(int what) {
+        stopRefresh();
+    }
+
+    private void stopRefresh(){
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
+    }
+    @Override
+    public void clickImage(View im) {
+
     }
 
 }

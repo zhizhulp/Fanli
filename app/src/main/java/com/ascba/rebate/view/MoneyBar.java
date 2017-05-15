@@ -167,6 +167,9 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     public void setTailTitle(String tailText){
         completeText.setText(tailText);
     }
+    public void setTailEnable(boolean enable){
+        needComplete = enable;
+    }
 
 
 }
