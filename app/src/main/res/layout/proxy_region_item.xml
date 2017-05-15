@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/go_where_bg"
     android:id="@+id/radioButton"
     android:textSize="@dimen/main_text_14"
     android:textColor="@color/main_text_normal"
