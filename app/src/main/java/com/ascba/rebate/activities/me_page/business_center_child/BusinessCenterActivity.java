@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.debug.hv.ViewServer;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.DialogHome;
@@ -76,7 +75,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_center);
-        ViewServer.get(this).addWindow(this);
         initViews();
         requestNetwork();
     }
@@ -418,17 +416,5 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                 }
                 break;
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ViewServer.get(this).setFocusedWindow(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ViewServer.get(this).removeWindow(this);
     }
 }

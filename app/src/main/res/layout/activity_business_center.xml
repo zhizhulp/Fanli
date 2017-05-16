@@ -14,6 +14,7 @@
         app:textTitle="商户中心" />
 
     <ScrollView
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"

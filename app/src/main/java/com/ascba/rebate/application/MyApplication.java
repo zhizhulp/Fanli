@@ -8,9 +8,8 @@ import android.view.WindowManager;
 
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
-import com.ascba.rebate.appconfig.AppBlockCanaryContext;
 import com.ascba.rebate.utils.IDsUtils;
-import com.github.moduth.blockcanary.BlockCanary;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.nohttp.Logger;
@@ -70,7 +69,12 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         app = this;
         initNohttp();
-        BlockCanary.install(this, new AppBlockCanaryContext()).start();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
         requestQueue = NoHttp.newRequestQueue();
         try {
             JPushInterface.init(this);//极光推送
