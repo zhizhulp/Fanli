@@ -39,6 +39,25 @@ public class PayTypeAdapter extends BaseQuickAdapter<PayType,BaseViewHolder> {
     @Override
     protected void convert(final BaseViewHolder helper, final PayType item) {
         helper.setChecked(R.id.pay_type_cb,item.isSelect());
+        helper.setOnClickListener(R.id.top, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item.setSelect(true);
+                if(data!=null && data.size()!=0){
+                    for (int i = 0; i < data.size(); i++) {
+                        PayType payType = data.get(i);
+                        if(payType.isSelect()&& item!=payType){
+                            payType.setSelect(false);
+                        }
+                    }
+
+                }
+                notifyDataSetChanged();
+                if(callback!=null){
+                    callback.onClicked(item.getType());
+                }
+            }
+        });
         helper.setOnClickListener(R.id.pay_type_cb, new View.OnClickListener() {
             @Override
             public void onClick(View v) {

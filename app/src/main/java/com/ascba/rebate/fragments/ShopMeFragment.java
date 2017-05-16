@@ -59,19 +59,14 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         return R.layout.fragment_shop_me;
     }
 
-
-    /*
-      获取me数据
-      */
+    //获取me数据
     private void getMeData() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.myPageInfo, 0, true);
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
 
-    /*
-    初始化UI
-     */
+    //初始化UI
     private void initView(View view) {
 
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);

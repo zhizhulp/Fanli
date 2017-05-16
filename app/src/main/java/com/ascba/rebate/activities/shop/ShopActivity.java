@@ -34,10 +34,10 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
     private static final int REQUEST_LOGIN_CART = 0;
     private static final int REQUEST_LOGIN_ME = 1;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private ShopMainFragment mFirstFragment = new ShopMainFragment();
-    private TypeFragment mSecondFragment = new TypeFragment();
-    private CartFragment mThirdFragment = new CartFragment();
-    private ShopMeFragment mFourthFragment = new ShopMeFragment();
+    private Fragment mFirstFragment = new ShopMainFragment();
+    private Fragment mSecondFragment = new TypeFragment();
+    private Fragment mThirdFragment = new CartFragment();
+    private Fragment mFourthFragment = new ShopMeFragment();
     private ShopTabs shopTabs;
     private int currIndex = HOMEPAGE;//当前位置
     private static int index;
@@ -50,6 +50,15 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*if(savedInstanceState!=null){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.remove(mFirstFragment);
+            transaction.remove(mSecondFragment);
+            transaction.remove(mThirdFragment);
+            transaction.remove(mFourthFragment);
+            transaction.commitAllowingStateLoss();
+            currIndex=0;
+        }*/
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_shop);
@@ -174,6 +183,23 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
 
     public static void setIndex(int position) {
         index = position;
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+       /* if(fragment instanceof ShopMainFragment){
+            mFirstFragment = fragment;
+        }
+        if(fragment instanceof TypeFragment){
+            mSecondFragment = fragment;
+        }
+        if(fragment instanceof CartFragment){
+            mThirdFragment = fragment;
+        }
+        if(fragment instanceof ShopMeFragment){
+            mFourthFragment = fragment;
+        }*/
     }
 }
 

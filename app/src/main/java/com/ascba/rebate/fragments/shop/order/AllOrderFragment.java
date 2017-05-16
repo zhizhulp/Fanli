@@ -279,15 +279,12 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                                 }else{
                                     intent.setClass(context, DeliverDetailsActivity.class);
                                 }
-                                orderId = goods.getOrderGoodsId();
                             } else if (orderStatus.equals("30")) {
                                 //卖家已发货
                                 intent.setClass(context, TakeDetailsActivity.class);
-                                orderId = goods.getOrderGoodsId();
                             } else if (orderStatus.equals("40")) {
                                 //交易成功
                                 intent.setClass(context, EvaluateDetailsActivity.class);
-                                orderId = goods.getOrderGoodsId();
                             }
                             intent.putExtra("order_id", orderId);
                             startActivityForResult(intent, 1);
@@ -393,17 +390,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         }
     }
 
-
-    @Override
-    public void handleReLogin() {
-
-    }
-
-    @Override
-    public void handleNoNetWork() {
-
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -458,5 +444,14 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 }
             });
         }
+    }
+    @Override
+    public void handleReLogin() {
+
+    }
+
+    @Override
+    public void handleNoNetWork() {
+
     }
 }

@@ -367,7 +367,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                     pay.setPayCallBack(new PayUtils.onPayCallBack() {
                         @Override
                         public void onFinish(String payStype) {
-                            showToast("订单创建成功");
                         }
 
                         @Override

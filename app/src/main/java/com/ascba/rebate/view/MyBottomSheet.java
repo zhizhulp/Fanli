@@ -18,10 +18,13 @@ import java.util.List;
 public class MyBottomSheet extends BottomSheetDialog {
     private List<String> data;
     private LayoutInflater inflater;
+    public RadioGroup rg;
+    private int index;//被选中的
 
-    public MyBottomSheet(@NonNull Context context, List<String> data) {
+    public MyBottomSheet(@NonNull Context context, List<String> data,int index) {
         super(context);
         this.data=data;
+        this.index=index;
         init(context);
     }
 
@@ -37,12 +40,15 @@ public class MyBottomSheet extends BottomSheetDialog {
     private void init(Context context) {
         inflater=LayoutInflater.from(context);
         setContentView(R.layout.radio_group);
-        RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
+        rg = (RadioGroup) findViewById(R.id.radioGroup);
         if(rg!=null){
             for (int i = 0; i < data.size(); i++) {
                 RadioButton rb = (RadioButton) inflater.inflate(R.layout.proxy_region_item, rg ,false);
                 rb.setText(data.get(i));
                 rb.setId(i);
+                if(i==index){
+                    rb.setChecked(true);
+                }
                 rg.addView(rb);
             }
         }

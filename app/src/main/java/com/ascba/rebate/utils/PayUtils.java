@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -51,7 +52,7 @@ import static com.ascba.rebate.activities.base.BaseNetActivity.REQUEST_LOGIN;
 
 public class PayUtils {
 
-    private Dialog dialog;
+    private BottomSheetDialog dialog;
     private Activity context;
     private String price;//价格
     private DialogHome dialogHome;
@@ -150,7 +151,7 @@ public class PayUtils {
 
     //选择支付方式页面
     public void showDialog(final OnCreatOrder onCreatOrder) {
-        dialog = new Dialog(context, R.style.AlertDialog);
+        dialog = new BottomSheetDialog(context, R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_pay_pop);
         ((TextView) dialog.findViewById(R.id.dlg_tv_total_cash)).setText(price);
         //关闭对话框
@@ -182,15 +183,6 @@ public class PayUtils {
         rvTypes.setAdapter(pt);
         //显示对话框
         dialog.show();
-        Window window = dialog.getWindow();
-        if (window != null) {
-            window.setWindowAnimations(R.style.goods_profile_anim);
-            WindowManager.LayoutParams wlp = window.getAttributes();
-            Display d = window.getWindowManager().getDefaultDisplay();
-            wlp.width = d.getWidth();
-            wlp.gravity = Gravity.BOTTOM;
-            window.setAttributes(wlp);
-        }
     }
 
     public void dismissDialog() {

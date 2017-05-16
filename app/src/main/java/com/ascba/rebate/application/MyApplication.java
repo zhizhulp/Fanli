@@ -8,7 +8,9 @@ import android.view.WindowManager;
 
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
+import com.ascba.rebate.appconfig.AppBlockCanaryContext;
 import com.ascba.rebate.utils.IDsUtils;
+import com.github.moduth.blockcanary.BlockCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.nohttp.Logger;
@@ -68,6 +70,7 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         app = this;
         initNohttp();
+        BlockCanary.install(this, new AppBlockCanaryContext()).start();
         requestQueue = NoHttp.newRequestQueue();
         try {
             JPushInterface.init(this);//极光推送

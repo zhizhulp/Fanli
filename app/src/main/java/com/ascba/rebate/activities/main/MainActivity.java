@@ -83,6 +83,15 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*if(savedInstanceState!=null){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.remove(mHomePageFragment);
+            transaction.remove(mSideFragment);
+            transaction.remove(mMoneyFragment);
+            transaction.remove(mMeFragment);
+            transaction.commit();
+            currIndex=0;
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -340,6 +349,15 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
+        /*if (mHomePageFragment == null && fragment instanceof HomePageFragment)
+            mHomePageFragment = fragment;
+        if (mSideFragment == null && fragment instanceof SideFragment)
+            mSideFragment = fragment;
+        if (mMoneyFragment == null && fragment instanceof MoneyFragment)
+            mMoneyFragment = fragment;
+        if (mMeFragment == null && fragment instanceof MeFragment)
+            mMeFragment = fragment;*/
+
     }
 
 }

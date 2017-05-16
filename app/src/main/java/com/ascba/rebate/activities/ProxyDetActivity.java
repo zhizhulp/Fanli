@@ -2,10 +2,12 @@ package com.ascba.rebate.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
@@ -19,6 +21,7 @@ import com.ascba.rebate.view.MyBottomSheet;
 import com.ascba.rebate.view.SpaceItemDecoration;
 import com.yanzhenjie.nohttp.rest.Request;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -35,6 +38,7 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
     private int index;//切换时的索引id
     private TextView tvProxyName;
     private TextView tvProxyRegion;
+    private ArrayList<String> strs=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +89,6 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
         data.add(new ProxyDet(R.mipmap.proxy_zlse, "总流水额", "￥ 0"));
         data.add(new ProxyDet(R.mipmap.proxy_qysj, "区域商家", "0家"));
         data.add(new ProxyDet(R.mipmap.proxy_qyhy, "区域会员", "0人"));
-
     }
 
     //切换地区
@@ -113,11 +116,29 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
             tvProxyName.setText(memberAgencyObj.optString("member_realname")+"("+memberAgencyObj.optString("name")+")");
             tvProxyRegion.setText(memberAgencyObj.optString("cascade_name"));
         }else if(what==1){
-            ArrayList<String> strs=new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+            /*for (int i = 0; i < 10; i++) {
                 strs.add("just a test");
+            }*/
+            if(strs.size()!=0){
+                strs.clear();
             }
-            MyBottomSheet dialog=new MyBottomSheet(this,strs);
+            JSONArray array = dataObj.optJSONArray("switch_locale");
+            if(array!=null && array.length()!=0){
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject obj = array.optJSONObject(i);
+                    strs.add( obj.optString("cascade_name")+ "("+obj.optString("name")+ ")");
+                }
+            }
+
+            final MyBottomSheet dialog=new MyBottomSheet(this,strs,index);
+            dialog.rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                    ProxyDetActivity.this.index=checkedId;
+                    dialog.dismiss();
+                    requestNetWork(UrlUtils.agent,0);
+                }
+            });
             dialog.show();
         }
 

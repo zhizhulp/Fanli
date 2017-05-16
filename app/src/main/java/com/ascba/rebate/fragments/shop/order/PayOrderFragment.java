@@ -81,9 +81,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         this.view = view;
     }
 
-    /*
-       获取列表数据
-     */
+    //获取列表数据
     private void requstListData() {
         flag = 0;
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
@@ -97,47 +95,34 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", order_id);
-        switch (flag) {
-            case 3:
-                //付款
-                jsonRequest.add("pay_type", payType);
-                break;
+        if (flag == 3) {
+            jsonRequest.add("pay_type", payType);
         }
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
 
-    /*
-    初始化数据
-     */
+    //初始化数据
     private void initData(JSONObject dataObj) {
         if (beanArrayList.size() > 0) {
             beanArrayList.clear();
         }
-
         //用户信息
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
             balance = member_info.optString("money");//余额
-            int white_score = member_info.optInt("white_score");
-            int red_score = member_info.optInt("red_score");
         }
-
         //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
-
                 //订单id
-                orderId = object.optString("order_id");
+                String orderId = object.optString("order_id");
                 //订单状态
                 orderStatus = object.optString("order_status");
-
                 //头部信息
-                /*String time = object.optString("add_time");//时间
-                time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
                 OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
 
@@ -153,47 +138,33 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
                 if (goodsArray != null && goodsArray.length() > 0) {
-
                     for (int j = 0; j < goodsArray.length(); j++) {
-                        try {
-                            JSONObject goodsObject = goodsArray.getJSONObject(j);
-                            Goods good = new Goods();
-                            good.setTitleId(Integer.parseInt(goodsObject.optString("order_id")));
-                            good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
-                            good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
+                        JSONObject goodsObject = goodsArray.optJSONObject(j);
+                        Goods good = new Goods();
+                        good.setTitleId(Integer.parseInt(goodsObject.optString("order_id")));
+                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
-                            int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
-                            totalNum = num + totalNum;
+                        int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
+                        totalNum = num + totalNum;
 
-                            good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
-                            good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
-                            OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
-                            orderBean.setId(orderId);
-                            beanArrayList.add(orderBean);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        good.setUserQuy(num);//购买数量
+                        good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                        good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
+                        OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
+                        orderBean.setId(orderId);
+                        beanArrayList.add(orderBean);
                     }
                     //底部信息
                     String orderAmount = object.optString("order_amount");//订单总价
                     String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                     String goodsNum = "共" + totalNum + "件商品";//商品数量
 
-                    OrderBean beadFoot = null;
-                    if (orderStatus.equals("10")) {
-                        //等待卖家付款
-                        beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_pay1_foot, goodsNum, "￥" + orderAmount, shippingFee);
-                    } else if (orderStatus.equals("0")) {
-                        //交易关闭
-                        beadFoot = new OrderBean(PayOrderAdapter.TYPE4, R.layout.item_order_pay2_foot, goodsNum, "￥" + orderAmount, shippingFee);
-                    }
-
+                    OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_pay1_foot, goodsNum, "￥" + orderAmount, shippingFee);
                     beadFoot.setId(orderId);
                     beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
                     beanArrayList.add(beadFoot);
                 }
-
             }
         }
 
@@ -224,7 +195,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderBean orderBean = beanArrayList.get(position);
-                final String orderId = orderBean.getId();
+                orderId = orderBean.getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
@@ -356,7 +327,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     @Override
     public void handle404(String message, JSONObject dataObj) {
         getDm().buildAlertDialog(message);
-        if(flag==3){
+        if (flag == 3) {
             PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
             if (payCallBack != null) {
                 pay.getPayCallBack().onFinish(payType);

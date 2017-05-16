@@ -12,6 +12,7 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.adapter.order.EvaluateOrderAdapter;
+import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -121,48 +122,52 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
     }
 
     private void parseJson1(JSONArray jsonArray) {
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject go = jsonArray.optJSONObject(i);
+        if (beanArrayList.size() > 0) {
+            beanArrayList.clear();
+        }
+        //商品信息
+        if (jsonArray != null && jsonArray.length() > 0) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                int totalNum = 0;//购买商品数量
+                JSONObject object = jsonArray.optJSONObject(i);
+                //订单id
+                String orderId = object.optString("order_id");
+                //头部信息
+                OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"));
+                beanHead.setId(orderId);
+                beanHead.setState("等待卖家发货");
+                beanArrayList.add(beanHead);
+                //商品信息
+                JSONArray goodsArray = object.optJSONArray("orderGoods");
+                if (goodsArray != null && goodsArray.length() > 0) {
+                    for (int j = 0; j < goodsArray.length(); j++) {
+                        JSONObject goodsObject = goodsArray.optJSONObject(j);
+                        Goods good = new Goods();
+                        good.setTitleId(Integer.parseInt(goodsObject.optString("order_id")));
+                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
-            //订单id
-            String orderId = go.optString("order_id");
+                        int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
+                        totalNum = num + totalNum;
 
-            int goods_id = Integer.parseInt(go.optString("goods_id"));
-            Log.d(TAG, "json_goods_id: "+goods_id +",json_order_id: "+orderId);
-            //头部信息
-            /*String time = go.optString("add_time");//时间
-            time = TimeUtils.milliseconds2String((Long.parseLong(time) * 1000));*/
-            OrderBean beanHead = new OrderBean(EvaluateOrderAdapter.TYPE1, R.layout.item_order_head, go.optString("store_name"), "交易成功");
-            beanHead.setId(goods_id+"");
-            beanArrayList.add(beanHead);
+                        good.setUserQuy(num);//购买数量
+                        good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                        good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
+                        OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
+                        orderBean.setId(orderId);
+                        beanArrayList.add(orderBean);
+                    }
+                    //底部信息
+                    String orderAmount = object.optString("order_amount");//订单总价
+                    String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
+                    String goodsNum = "共" + totalNum + "件商品";//商品数量
 
-            //商品信息
-            Goods good = new Goods();
-            good.setTitleId(Integer.parseInt(orderId));//商品订单id
-            good.setImgUrl(UrlUtils.baseWebsite + go.optString("goods_img"));//图片
-            good.setGoodsTitle(go.optString("goods_name"));//商品名
-            good.setOrderGoodsId(go.optString("order_goods_id"));
-            int num = Integer.parseInt(String.valueOf(go.opt("goods_num")));
-            double goods_pay_price = Double.parseDouble(String.valueOf(go.optString("goods_pay_price")));//付款价格
-            double tailPrice = num * goods_pay_price;
-            DecimalFormat df=new DecimalFormat("##0.00");
-            String formatGoodsPrice = df.format(tailPrice);
-
-            good.setUserQuy(num);//购买数量
-            good.setGoodsPrice(go.optString("goods_price"));//市场价格
-            good.setGoodsPriceOld(go.optString("market_price"));//商品价格
-
-            OrderBean orderBean = new OrderBean(EvaluateOrderAdapter.TYPE2, R.layout.item_goods, good);
-            orderBean.setId(goods_id+"");
-            beanArrayList.add(orderBean);
-
-            //底部信息
-            //String shippingFee = "(含" + go.optString("shipping_fee") + "元运费)";//运费
-            String shippingFee =" (免邮费)";
-            String goodsNum = "共" + num + "件商品";//商品数量
-            OrderBean beadFoot = new OrderBean(EvaluateOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, "￥" + formatGoodsPrice, shippingFee);
-            beadFoot.setId(goods_id+"");
-            beanArrayList.add(beadFoot);
+                    OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    beadFoot.setId(orderId);
+                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    beanArrayList.add(beadFoot);
+                }
+            }
         }
     }
 
@@ -178,12 +183,12 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 final OrderBean orderBean = beanArrayList.get(position);
+                final String orderId = orderBean.getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        String orderGoodsId = orderBean.getGoods().getOrderGoodsId();
                         Intent intent = new Intent(context, EvaluateDetailsActivity.class);
-                        intent.putExtra("order_id",orderGoodsId);
+                        intent.putExtra("order_id",orderId);
                         startActivityForResult(intent, 1);
                         break;
                     case R.id.item_goods_order_total_after:
@@ -198,7 +203,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                         getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
-                                requstData(1, UrlUtils.delOrder, orderBean.getId());
+                                requstData(1, UrlUtils.delOrder, orderId);
                             }
                         });
                         break;

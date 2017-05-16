@@ -149,8 +149,6 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
             //用户信息
             JSONObject member_info = dataObj.optJSONObject("member_info");
             balance = member_info.optString("money");//余额
-            int white_score = member_info.optInt("white_score");
-            int red_score = member_info.optInt("red_score");
 
 
             //商品店铺信息
@@ -349,7 +347,6 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                     pay.setPayCallBack(new PayUtils.onPayCallBack() {
                         @Override
                         public void onFinish(String payStype) {
-                            showToast("订单创建成功");
                         }
 
                         @Override
@@ -439,9 +436,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
         MyApplication.addressId = null;
     }
 
-    /*
-        支付
-     */
+    //支付
     private void payOrder(JSONObject dataObj, final String payType,String message) {
         orderId = dataObj.optString("order_id", null);
         MyApplication.orderId = orderId;

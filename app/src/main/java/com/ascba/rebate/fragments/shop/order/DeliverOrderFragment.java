@@ -11,6 +11,7 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
+import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
@@ -45,7 +46,6 @@ public class DeliverOrderFragment extends LazyLoadFragment {
     private DeliverOrderAdapter adapter;
     private View view;
     private View emptyView;
-    private String orderId;//订单id
 
 
     @Override
@@ -109,39 +109,49 @@ public class DeliverOrderFragment extends LazyLoadFragment {
         if (beanArrayList.size() > 0) {
             beanArrayList.clear();
         }
+        //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
+                int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
                 //订单id
-                orderId = object.optString("order_id");
+                String orderId = object.optString("order_id");
                 //头部信息
-                OrderBean beanHead = new OrderBean(DeliverOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"), "等待卖家发货");
+                OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
+                beanHead.setState("等待卖家发货");
                 beanArrayList.add(beanHead);
                 //商品信息
-                Goods good = new Goods();
-                good.setImgUrl(UrlUtils.baseWebsite + object.optString("goods_img"));//图片
-                good.setGoodsTitle(object.optString("goods_name"));//商品名
-                good.setOrderGoodsId(object.optString("order_goods_id"));
-                int num = Integer.parseInt(String.valueOf(object.opt("goods_num")));
+                JSONArray goodsArray = object.optJSONArray("orderGoods");
+                if (goodsArray != null && goodsArray.length() > 0) {
+                    for (int j = 0; j < goodsArray.length(); j++) {
+                        JSONObject goodsObject = goodsArray.optJSONObject(j);
+                        Goods good = new Goods();
+                        good.setTitleId(Integer.parseInt(goodsObject.optString("order_id")));
+                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
-                good.setUserQuy(num);//购买数量
-                String goods_pay_price = object.optString("goods_pay_price");
-                double price = Double.parseDouble(goods_pay_price);
+                        int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
+                        totalNum = num + totalNum;
 
-                good.setGoodsPrice(object.optString("goods_price"));//市场价格
-                good.setGoodsPriceOld(object.optString("market_price"));//商品价格
-                OrderBean orderBean = new OrderBean(DeliverOrderAdapter.TYPE2, R.layout.item_goods, good);
-                orderBean.setId(orderId);
-                beanArrayList.add(orderBean);
+                        good.setUserQuy(num);//购买数量
+                        good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                        good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
+                        OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
+                        orderBean.setId(orderId);
+                        beanArrayList.add(orderBean);
+                    }
+                    //底部信息
+                    String orderAmount = object.optString("order_amount");//订单总价
+                    String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
+                    String goodsNum = "共" + totalNum + "件商品";//商品数量
 
-                //底部信息
-                String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
-                String goodsNum = "共" + num + "件商品";//商品数量
-                OrderBean beadFoot = new OrderBean(DeliverOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + (num *price), shippingFee);
-                beadFoot.setId(orderId);
-                beanArrayList.add(beadFoot);
+                    OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    beadFoot.setId(orderId);
+                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    beanArrayList.add(beadFoot);
+                }
             }
         }
 
@@ -171,21 +181,19 @@ public class DeliverOrderFragment extends LazyLoadFragment {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderBean orderBean = beanArrayList.get(position);
-                String orderGoodsId = orderBean.getGoods().getOrderGoodsId();
+                String orderId = orderBean.getId();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
                         Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                        intent.putExtra("order_id", orderGoodsId);
+                        intent.putExtra("order_id", orderId);
                         startActivityForResult(intent, 1);
                         break;
                     case R.id.item_goods_order_total_refund:
                         //退款
                         break;
-
                     case R.id.item_goods_order_total_logistics:
                         //查看物流
-
                         break;
                 }
             }
