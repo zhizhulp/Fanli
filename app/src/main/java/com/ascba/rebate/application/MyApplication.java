@@ -69,12 +69,10 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         app = this;
         initNohttp();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
+        /*if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
-        LeakCanary.install(this);
+        LeakCanary.install(this);*/
         requestQueue = NoHttp.newRequestQueue();
         try {
             JPushInterface.init(this);//极光推送

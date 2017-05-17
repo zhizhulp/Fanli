@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.handlers.BitmapTransformation;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
@@ -121,7 +122,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                 String clientele_name = intent.optString("clientele_name");
                 warrant = intent.optString("warrant");//授权书图片链接
                 if (warrant != null) {
-                    Picasso.with(this).load(UrlUtils.baseWebsite + warrant).placeholder(R.mipmap.bc_icon).into(imAuthIcon);
+                    Picasso.with(this).load(UrlUtils.baseWebsite + warrant).fit().placeholder(R.mipmap.bc_icon).into(imAuthIcon);
                 }
                 edAuthName.setText(clientele_name);
             }

@@ -18,10 +18,8 @@ public class ShowPicActivity extends BaseNetActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pic);
-        //StatusBarUtil.setColor(this, getResources().getColor(R.color.moneyBarColor));
         initViews();
         getDataFromIntent();
-
     }
 
     private void initViews() {
@@ -33,9 +31,7 @@ public class ShowPicActivity extends BaseNetActivity {
         if(intent!=null){
             String image = intent.getStringExtra("image");
             if(image!=null){
-                Picasso.with(this).load(UrlUtils.baseWebsite+image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                        .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.busi_apply_show_pic_holder).into(imageView);
-
+                Picasso.with(this).load(UrlUtils.baseWebsite+image).fit().centerInside().placeholder(R.mipmap.busi_apply_show_pic_holder).into(imageView);
             }
         }
     }
