@@ -83,12 +83,10 @@ import java.util.List;
 @SuppressLint("SetTextI18n")
 public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClickListener
         , BaseNetActivity.Callback {
-
     private static final int REQUEST_STD_LOGIN = 0;
     private static final int REQUEST_ADD_TO_CART_LOGIN = 1;
-    /*
-         * 商品id
-         */
+
+    // 商品id
     private int goodsId;
 
     //足记控件
@@ -96,8 +94,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
     //向上拖动查看详情
     private PullUpToLoadMoreView pullUpToLoadMoreView;
-
-    public static GoodsDetailsActivity context;
 
     //viewpager
     private List<View> viewList = new ArrayList<>();
@@ -167,7 +163,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         ((MyApplication) getApplication()).addActivity(this);
-        context = this;
+
         initView();
 
         //获取商品详情
@@ -195,7 +191,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         //logo
         String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
         imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
-        Picasso.with(context).load(logo).into(imgLogo);
+        Picasso.with(this).load(logo).into(imgLogo);
 
 
         //描述相符
@@ -260,7 +256,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-                LogUtils.PrintLog("GoodsDetailsActivity", "json-->" + dataObj);
                 dataObj = dataObj.optJSONObject("mallgoods");
                 //是否有规格
                 has_spec = dataObj.optInt("has_spec");
@@ -404,22 +399,15 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
      */
     private void InitFotoplace() {
         ptrLayout = (SuperSwipeRefreshLayout) findViewById(R.id.activity_goods_details_pl);
-        final View header = LayoutInflater.from(context).inflate(R.layout.ptrlayout_headview, null);
+        final View header = LayoutInflater.from(this).inflate(R.layout.ptrlayout_headview, null);
         final TextView textView = (TextView) header.findViewById(R.id.tv);
         final ImageView imageView = (ImageView) header.findViewById(R.id.img);
         ptrLayout.setHeaderView(header);
         ptrLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
-                ptrLayout.setRefreshing(false);
-                DropDownMultiPagerView dropDownMultiPagerView = new DropDownMultiPagerView(context, getList());
-                dropDownMultiPagerView.show();
-                dropDownMultiPagerView.setOnDropDownMultiPagerViewItemClick(new DropDownMultiPagerView.OnDropDownMultiPagerViewItemClick() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                requestNetwork(UrlUtils.history,2);
+
             }
 
             @Override
@@ -469,14 +457,22 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     /*
      * 足迹数据
      */
-    private List<GoodsDetailsItem> getList() {
-        List<GoodsDetailsItem> beanList = new ArrayList<>();
-        String url = "http://img5.ph.126.net/6NHiP2WgCjVnd42P3BWFeQ==/2612932208822079285.jpg";
-        for (int i = 0; i < 6; i++) {
-            GoodsDetailsItem bean = new GoodsDetailsItem(url, "Teenie Weenie小熊春季女装竖纹条纹衬", "￥ 398", "url地址：" + i);
-            beanList.add(bean);
+    private List<GoodsDetailsItem> getList(JSONObject dataObj) {
+        JSONArray array = dataObj.optJSONArray("history");
+        if(array!=null && array.length()!=0){
+            List<GoodsDetailsItem> beanList = new ArrayList<>();
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = array.optJSONObject(i);
+                int id = object.optInt("id");
+                String title = object.optString("title");
+                String img = UrlUtils.baseWebsite + object.optString("img");
+                String shop_price = object.optString("shop_price");
+                GoodsDetailsItem bean = new GoodsDetailsItem(id,img, title, "￥"+shop_price, null);
+                beanList.add(bean);
+            }
+            return beanList;
         }
-        return beanList;
+        return null;
     }
 
     /*
@@ -599,17 +595,17 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         evFirstChoose.setText("颜色：蓝白 尺寸：40");
 
         ImageView evFirstImg1 = (ImageView) findViewById(R.id.goods_details_ev_first_img1);
-        Picasso.with(context).load(imgList.get(0)).into(evFirstImg1);
+        Picasso.with(this).load(imgList.get(0)).into(evFirstImg1);
 
         ImageView evFirstImg2 = (ImageView) findViewById(R.id.goods_details_ev_first_img2);
-        Picasso.with(context).load(imgList.get(1)).into(evFirstImg2);
+        Picasso.with(this).load(imgList.get(1)).into(evFirstImg2);
 
         //查看全部
         TextView evFirstBtn = (TextView) findViewById(R.id.goods_details_ev_first_btn);
         evFirstBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AllEvaluationActivity.class);
+                Intent intent = new Intent(GoodsDetailsActivity.this, AllEvaluationActivity.class);
                 startActivity(intent);
             }
         });
@@ -619,7 +615,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         Goods goods1 = storeGoodsList.get(0);
         ImageView imageView1 = (ImageView) findViewById(R.id.goods_details_shop_img1);
-        Picasso.with(context).load(goods1.getImgUrl()).into(imageView1);
+        Picasso.with(this).load(goods1.getImgUrl()).into(imageView1);
         //商城价
         TextView goods1price = (TextView) findViewById(R.id.goods_details_shop_img1_price);
         goods1price.setText("￥" + goods1.getGoodsPrice());
@@ -633,7 +629,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         Goods goods2 = storeGoodsList.get(1);
         ImageView imageView2 = (ImageView) findViewById(R.id.goods_details_shop_img2);
-        Picasso.with(context).load(goods2.getImgUrl()).into(imageView2);
+        Picasso.with(this).load(goods2.getImgUrl()).into(imageView2);
         //商城价
         TextView goods2price = (TextView) findViewById(R.id.goods_details_shop_img2_price);
         goods2price.setText("￥" + goods2.getGoodsPrice());
@@ -648,7 +644,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         Goods goods3 = storeGoodsList.get(2);
         ImageView imageView3 = (ImageView) findViewById(R.id.goods_details_shop_img3);
-        Picasso.with(context).load(goods3.getImgUrl()).into(imageView3);
+        Picasso.with(this).load(goods3.getImgUrl()).into(imageView3);
         //商城价
         TextView goods3price = (TextView) findViewById(R.id.goods_details_shop_img3_price);
         goods3price.setText("￥" + goods3.getGoodsPrice());
@@ -663,7 +659,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         shopEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, BusinessShopActivity.class);
+                Intent intent = new Intent(GoodsDetailsActivity.this, BusinessShopActivity.class);
                 intent.putExtra("store_id", goods.getStoreId());
                 startActivity(intent);
             }
@@ -687,10 +683,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         viewPager = (ViewPager) findViewById(R.id.goods_details_viewpager_vp);
 
         for (int i = 1; i <= url.size(); i++) {
-            View view = LayoutInflater.from(context).inflate(R.layout.goods_details_viewpager_item, null);
+            View view = LayoutInflater.from(this).inflate(R.layout.goods_details_viewpager_item, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.goods_details_viewpager_item_img);
             TextView textView = (TextView) view.findViewById(R.id.goods_details_viewpager_item_text);
-            Picasso.with(context).load(url.get(i - 1)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
+            Picasso.with(this).load(url.get(i - 1)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
             textView.setText(i + "/" + (url.size()));
             viewList.add(view);
             /**
@@ -699,7 +695,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new ImageViewDialog(context, url);
+                    new ImageViewDialog(GoodsDetailsActivity.this, url);
                 }
             });
         }
@@ -714,7 +710,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         final String[] flowStrings = new String[]{"有图(435)", "追评(79)", "划算(105)", "物流快(319)", "鞋很舒服(70)", "颜色好(9)"};
 
         final TagFlowLayout flowLayout = (TagFlowLayout) findViewById(R.id.goods_details_flowview);
-        final LayoutInflater mInflater = LayoutInflater.from(context);
+        final LayoutInflater mInflater = LayoutInflater.from(this);
         flowLayout.setAdapter(new TagAdapter<String>(flowStrings) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
@@ -727,7 +723,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         flowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                Toast.makeText(context, flowStrings[position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(GoodsDetailsActivity.this, flowStrings[position], Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -781,12 +777,12 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 finish();
                 break;
             case R.id.abar_im_msg:
-                ShopMessageActivity.startIntent(context);
+                ShopMessageActivity.startIntent(this);
                 break;
             case R.id.abar_im_cart:
                 //购物车
                 ShopActivity.setIndex(ShopActivity.CART);
-                startActivity(new Intent(context, ShopActivity.class));
+                startActivity(new Intent(this, ShopActivity.class));
                 break;
         }
     }
@@ -1098,7 +1094,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
                     JSONArray array = dataObj.optJSONArray("spec_goods_price");
 
-                    String imgUrl = dataObj.optString("img");
                     JSONObject goodsInfo = dataObj.optJSONObject("goods_info");
                     showStandardDialog(parseFilterSpec(filter_spec), parseSpecGoodsPrice(array),parseDefaultGoods(goodsInfo));
                 }
@@ -1344,16 +1339,39 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
             finish();
+        } else if(finalScene==2){
+            ptrLayout.setRefreshing(false);
+            final List<GoodsDetailsItem> list = getList(dataObj);
+            if(list !=null){
+                final DropDownMultiPagerView dropDownMultiPagerView = new DropDownMultiPagerView(this,list );
+                dropDownMultiPagerView.show();
+                dropDownMultiPagerView.setOnDropDownMultiPagerViewItemClick(new DropDownMultiPagerView.OnDropDownMultiPagerViewItemClick() {
+                    @Override
+                    public void onItemClick(int position) {
+                        dropDownMultiPagerView.dismiss();
+                        GoodsDetailsActivity.startIntent(GoodsDetailsActivity.this,list.get(position).getId());
+                    }
+                });
+            }
+
         }
     }
 
     @Override
     public void handle404(String message) {
         getDm().buildAlertDialog(message);
+
     }
 
     @Override
     public void handleNoNetWork() {
         getDm().buildAlertDialog(getString(R.string.no_network));
+        stopRefresh();
+    }
+
+    private void stopRefresh(){
+        if(ptrLayout!=null && ptrLayout.isRefreshing()){
+            ptrLayout.setRefreshing(false);
+        }
     }
 }

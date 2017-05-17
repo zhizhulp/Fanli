@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.base;
 
 import android.content.Intent;
 
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
@@ -72,7 +73,6 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
     @Override
     protected void isNetWork(boolean isNetWork) {
-        mhandleHasNetWord(isNetWork);
         if (!isNetWork) {
             //没网
             if (callback != null) {
@@ -82,6 +82,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
                 callbackWhat.handleNoNetWork();
             }
             mhandleNoNetWord();
+            getDm().buildAlertDialog(getString(R.string.no_network));
         }
     }
 
@@ -123,8 +124,6 @@ public abstract class BaseNetActivity extends BaseActivityNet {
     protected void mhandleReLogin(int what) {
     }
 
-    protected void mhandleHasNetWord(boolean isNetWork) {
-    }
 
     protected void mhandleFinish(int what) {
     }

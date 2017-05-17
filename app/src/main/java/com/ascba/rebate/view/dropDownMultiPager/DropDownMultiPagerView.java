@@ -96,8 +96,15 @@ public class DropDownMultiPagerView extends Dialog {
         DropDownMultiPagerAdapter adapter = new DropDownMultiPagerAdapter(list);
 
         pager.setAdapter(adapter);
-        onclick();
+        adapter.setOnDropDownMultiPagerViewItemClick(new DropDownMultiPagerAdapter.OnDropDownMultiPagerViewItemClick() {
+            @Override
+            public void onItemClick(int position) {
+                if(onDropDownMultiPagerViewItemClick!=null){
+                    onDropDownMultiPagerViewItemClick.onItemClick(position);
+                }
 
+            }
+        });
         adapter.notifyDataSetChanged();
 
     }
@@ -109,36 +116,6 @@ public class DropDownMultiPagerView extends Dialog {
             e.printStackTrace();
             return (int) (dpValue * 1 + 0.5f);
         }
-    }
-
-    /**
-     * 点击事件
-     */
-    private void onclick() {
-        pager.setOnTouchListener(new View.OnTouchListener() {
-            int flage = 0;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        flage = 0;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        flage = 1;
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (flage == 0) {
-                            int item = pager.getCurrentItem();
-                            onDropDownMultiPagerViewItemClick.onItemClick(item);
-                        }
-                        break;
-
-
-                }
-                return false;
-            }
-        });
     }
 
     public interface OnDropDownMultiPagerViewItemClick {

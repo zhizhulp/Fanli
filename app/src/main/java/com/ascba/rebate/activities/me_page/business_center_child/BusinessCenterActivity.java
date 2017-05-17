@@ -48,8 +48,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
     private TextView tvStatus;
     private TextView tvScope;
     private Button btnCommit;
-    private SelectIconManager smWorkPic;
-    private SelectIconManager smAuthPic;
     private File fileWork;
     private File fileAuth;
     private static final int GO_CAMERA_WORK = 0x01;
@@ -267,7 +265,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
 
     private void showPop(int type) {
         if (type == 0) {//显示营业执照
-            smWorkPic = new SelectIconManager(this);
+            SelectIconManager smWorkPic = new SelectIconManager(this);
             smWorkPic.setCallback(new SelectIconManager.Callback() {
                 @Override
                 public void clickCamera() {
@@ -291,7 +289,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                 }
             });
         } else if (type == 1) {//显示授权书
-            smAuthPic = new SelectIconManager(this);
+            SelectIconManager smAuthPic = new SelectIconManager(this);
             smAuthPic.setCallback(new SelectIconManager.Callback() {
                 @Override
                 public void clickCamera() {

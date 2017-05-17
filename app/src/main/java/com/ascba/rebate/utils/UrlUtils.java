@@ -231,4 +231,6 @@ public class UrlUtils {
     public static final String agent = urlPrefix + "agent";
     //代理专区切换
     public static final String switchLocale = urlPrefix + "switchLocale";
+    //足迹墙数据
+    public static final String history = urlPrefix + "history";
 }

@@ -13,6 +13,13 @@ import java.util.List;
 public class DropDownMultiPagerAdapter extends PagerAdapter {
 
     private List<View> list;
+    private OnDropDownMultiPagerViewItemClick onDropDownMultiPagerViewItemClick;
+    public void setOnDropDownMultiPagerViewItemClick(OnDropDownMultiPagerViewItemClick onDropDownMultiPagerViewItemClick) {
+        this.onDropDownMultiPagerViewItemClick = onDropDownMultiPagerViewItemClick;
+    }
+    public interface OnDropDownMultiPagerViewItemClick {
+        void onItemClick(int position);
+    }
 
     public DropDownMultiPagerAdapter(List<View> list) {
         this.list = list;
@@ -29,8 +36,17 @@ public class DropDownMultiPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         container.addView(list.get(position), 0);
+        View view = list.get(position);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onDropDownMultiPagerViewItemClick!=null){
+                    onDropDownMultiPagerViewItemClick.onItemClick(position);
+                }
+            }
+        });
         return list.get(position);
     }
 

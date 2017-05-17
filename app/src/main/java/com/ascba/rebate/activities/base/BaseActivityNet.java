@@ -1,9 +1,7 @@
 package com.ascba.rebate.activities.base;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -31,9 +29,7 @@ public abstract class BaseActivityNet extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (dialogManager == null) {
-            dialogManager = new DialogHome(this);
-        }
+        dialogManager = new DialogHome(this);
     }
 
     //数据请求成功
@@ -98,7 +94,7 @@ public abstract class BaseActivityNet extends BaseActivity {
     }
 
 
-    protected class NetResponseListener implements OnResponseListener<JSONObject> {
+    class NetResponseListener implements OnResponseListener<JSONObject> {
         private Dialog dialog;
 
         @Override

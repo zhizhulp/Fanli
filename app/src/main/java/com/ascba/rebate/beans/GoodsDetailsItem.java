@@ -12,6 +12,7 @@ public class GoodsDetailsItem {
     private String price_new;//当前价格
     private String imgUrl;//商品首页图
     private String goodsUrl;//商品URL
+    private int id;//唯一标示
 
 
     /**
@@ -21,7 +22,8 @@ public class GoodsDetailsItem {
      * @param price_new 价格
      * @param goodsUrl 商品地址
      */
-    public GoodsDetailsItem( String imgUrl, String goods_desc, String price_new, String goodsUrl) {
+    public GoodsDetailsItem( int id,String imgUrl, String goods_desc, String price_new, String goodsUrl) {
+        this.id=id;
         this.imgUrl = imgUrl;
         this.goods_desc = goods_desc;
         this.price_new = price_new;
@@ -58,5 +60,13 @@ public class GoodsDetailsItem {
 
     public void setGoodsUrl(String goodsUrl) {
         this.goodsUrl = goodsUrl;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
