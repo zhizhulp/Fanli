@@ -1,11 +1,17 @@
 package com.ascba.rebate.activities.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -16,10 +22,10 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.fragments.HomePageFragment;
-import com.ascba.rebate.fragments.MeFragment;
-import com.ascba.rebate.fragments.MoneyFragment;
-import com.ascba.rebate.fragments.SideFragment;
+import com.ascba.rebate.fragments.main.HomePageFragment;
+import com.ascba.rebate.fragments.main.MeFragment;
+import com.ascba.rebate.fragments.main.MoneyFragment;
+import com.ascba.rebate.fragments.main.SideFragment;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
@@ -79,10 +85,14 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private Fragment mMoneyFragment;
     private Fragment mMeFragment;
     private AppTabs appTabs;
+    private boolean debug = true;
+    private static final String TAG = "MainActivityFragment";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onCreate: ");
         /*if(savedInstanceState!=null){
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.remove(mHomePageFragment);
@@ -144,7 +154,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             appTabs.setFilPos(index);
         }
     }
-
 
 
     //首页
@@ -320,6 +329,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         }
 
     };
+
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
         if (uuid != -1000) {
@@ -348,6 +358,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     @Override
     public void onAttachFragment(Fragment fragment) {
+        if (debug)
+        Log.d(TAG, "onAttachFragment: ");
         super.onAttachFragment(fragment);
         /*if (mHomePageFragment == null && fragment instanceof HomePageFragment)
             mHomePageFragment = fragment;
@@ -357,7 +369,86 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             mMoneyFragment = fragment;
         if (mMeFragment == null && fragment instanceof MeFragment)
             mMeFragment = fragment;*/
-
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onRestoreInstanceState: ");
+        if(savedInstanceState!=null){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            //transaction.remove(mHomePageFragment);
+            transaction.remove(mSideFragment);
+            transaction.remove(mMoneyFragment);
+            transaction.remove(mMeFragment);
+            transaction.commit();
+            currIndex=0;
+        }
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestart() {
+        if (debug)
+            Log.d(TAG, "onRestart: ");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (debug)
+            Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (debug)
+            Log.d(TAG, "onConfigurationChanged: ");
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onStart() {
+        if (debug)
+            Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        if (debug)
+            Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (debug)
+            Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        if (debug)
+            Log.d(TAG, "onLowMemory: ");
+        super.onLowMemory();
+    }
+
+    @Override
+    protected void onResume() {
+
+        if (debug)
+            Log.d(TAG, "onResume: ");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+
+        if (debug)
+            Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
 }

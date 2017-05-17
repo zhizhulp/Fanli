@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.rollout;
 
 import android.content.Intent;
 import android.graphics.Color;

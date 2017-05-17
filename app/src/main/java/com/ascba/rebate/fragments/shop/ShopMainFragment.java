@@ -339,7 +339,6 @@ public class ShopMainFragment extends BaseNetFragment implements
             MyApplication.isLoadCartData=true;
 
         } else if (finalScene == 2) {//规格数据
-            LogUtils.PrintLog("ShopMainFragment", "data-->" + dataObj);
             JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
             JSONArray array = dataObj.optJSONArray("spec_goods_price");
             JSONObject goodsInfo = dataObj.optJSONObject("goods_info");
@@ -421,7 +420,6 @@ public class ShopMainFragment extends BaseNetFragment implements
     private void initGoodsList(JSONObject dataObj) {
 
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
-        LogUtils.PrintLog("ShopMainFragment", "data-->" + mallGoodsAy);
         if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
             for (int i = 0; i < mallGoodsAy.length(); i++) {
                 JSONObject gObj = mallGoodsAy.optJSONObject(i);

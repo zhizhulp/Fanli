@@ -14,9 +14,9 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.fragments.CartFragment;
-import com.ascba.rebate.fragments.ShopMeFragment;
-import com.ascba.rebate.fragments.TypeFragment;
+import com.ascba.rebate.fragments.shop.CartFragment;
+import com.ascba.rebate.fragments.shop.ShopMeFragment;
+import com.ascba.rebate.fragments.shop.TypeFragment;
 import com.ascba.rebate.fragments.shop.ShopMainFragment;
 import com.ascba.rebate.view.ShopTabs;
 

@@ -1,13 +1,15 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.records;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.InOutComeAdapter;
 import com.ascba.rebate.beans.CashAccount;
@@ -18,10 +20,11 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/29 0029.
- * 交易记录——支出
+ * 交易记录——收入
  */
 
-public class OutcomeFragment extends BaseNetFragment {
+public class IncomeFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener {
+
     private Context context;
     private RecyclerView recyclerView;
     private List<CashAccount> beanList = new ArrayList<>();
@@ -39,7 +42,11 @@ public class OutcomeFragment extends BaseNetFragment {
     }
 
     private void InitView(View view) {
+        //刷新
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
 
+        initData();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         InOutComeAdapter inOutComeAdapter = new InOutComeAdapter(R.layout.wsaccount_list_item, beanList);
@@ -48,5 +55,22 @@ public class OutcomeFragment extends BaseNetFragment {
         inOutComeAdapter.setEmptyView(empty);
 
         recyclerView.setAdapter(inOutComeAdapter);
+    }
+
+    private void initData() {
+        beanList.add(new CashAccount("今天", "21:41", "+456.12", "农业银行-充值", null, R.mipmap.cash_recharge));
+
+        beanList.add(new CashAccount("今天", "21:41", "-456.12", "农业银行-提现", "24小时内到账", R.mipmap.cash_cash_get));
+
+        beanList.add(new CashAccount("昨天", "21:41", "+456.12", "兑换积分-返利", null, R.mipmap.cash_exchange));
+
+        beanList.add(new CashAccount("昨天", "21:41", "-456.12", "老家肉饼-消费", null, R.mipmap.cash_cost));
+
+        beanList.add(new CashAccount("前天", "21:41", "+456.12", "推荐会员-佣金", null, R.mipmap.cash_employee));
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 }

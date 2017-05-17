@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.shop;
 
 
 import android.content.Context;
@@ -24,7 +24,6 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.MsgView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;

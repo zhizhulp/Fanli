@@ -6,14 +6,12 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.BaseBillActivity;
 import com.ascba.rebate.activities.FastBillActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity;
 import com.ascba.rebate.adapter.WhiteTicketAdapter;
 import com.ascba.rebate.beans.WhiteTicket;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -26,7 +24,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static com.ascba.rebate.fragments.MoneyFragment.REQUEST_EXCHANGE_TICKET;
+import static com.ascba.rebate.fragments.main.MoneyFragment.REQUEST_EXCHANGE_TICKET;
 
 /**
  * 财富-快速兑现券

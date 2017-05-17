@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.shop;
 
 
 import android.content.Intent;

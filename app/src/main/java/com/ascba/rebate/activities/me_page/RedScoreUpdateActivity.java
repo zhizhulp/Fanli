@@ -2,17 +2,14 @@ package com.ascba.rebate.activities.me_page;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.TransactionRecordsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.me_page.red_score_child.RedScSuccActivity;
-import com.ascba.rebate.fragments.MoneyFragment;
-import com.ascba.rebate.fragments.me.FourthFragment;
+import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;

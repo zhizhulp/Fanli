@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments;
+package com.ascba.rebate.fragments.main;
 
 import android.app.Activity;
 import android.content.Context;
@@ -327,7 +327,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
-        Log.d("HomePageFragment", message);
         if (finalScene == 0) {
             clearData();
             stopRefresh();

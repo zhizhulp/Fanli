@@ -10,7 +10,7 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ViewpagerFragmentAdapter;
-import com.ascba.rebate.fragments.TypeFragment;
+import com.ascba.rebate.fragments.shop.TypeFragment;
 import com.ascba.rebate.fragments.college.AllCurriculumFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.flyco.tablayout.SlidingTabLayout;

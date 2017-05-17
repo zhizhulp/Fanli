@@ -22,7 +22,7 @@ import com.ascba.rebate.activities.me_page.cash_get_child.CashGetSuccActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.adapter.BankAdapter;
 import com.ascba.rebate.beans.Card;
-import com.ascba.rebate.fragments.MoneyFragment;
+import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;

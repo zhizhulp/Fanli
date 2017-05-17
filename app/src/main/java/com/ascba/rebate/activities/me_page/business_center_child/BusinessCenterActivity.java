@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.handlers.BitmapTransformation;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;

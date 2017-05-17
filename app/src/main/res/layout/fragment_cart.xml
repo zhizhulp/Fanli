@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ascba.rebate.fragments.CartFragment">
+    tools:context="com.ascba.rebate.fragments.shop.CartFragment">
 
     <com.ascba.rebate.view.ShopABar
         app:abar_has_back="false"

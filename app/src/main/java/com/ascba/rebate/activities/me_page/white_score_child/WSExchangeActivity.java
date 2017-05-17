@@ -12,7 +12,7 @@ import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
-import static com.ascba.rebate.fragments.MoneyFragment.REQUEST_EXCHANGE_TICKET;
+import static com.ascba.rebate.fragments.main.MoneyFragment.REQUEST_EXCHANGE_TICKET;
 
 public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivity.Callback{
     private View noView;
