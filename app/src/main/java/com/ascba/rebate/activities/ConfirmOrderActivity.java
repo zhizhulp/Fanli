@@ -60,8 +60,11 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     private PayUtils pay;
     private String balance;//账户余额
     private String orderId;//订单id
-    private View headView;
     private ConfirmOrderAdapter confirmOrderAdapter;
+    private TextView tailTicket;
+    private TextView tailZongyouhui;
+    private TextView tailShijiyouhui;
+    private TextView tailZengzhijifen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,23 +111,10 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
         confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
         //recyclerView头部 订单地址
-        headView = ViewUtils.getView(this, R.layout.confirm_order_header_address);
-        confirmOrderAdapter.addHeaderView(headView);
+        initHeadView();
+        //recyclerView尾部
+        initTailView();
         recyclerView.setAdapter(confirmOrderAdapter);
-        /**
-         * 收货人信息
-         */
-        receiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl);
-        receiveAddress.setOnClickListener(this);
-
-        noReceiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl2);
-        noReceiveAddress.setOnClickListener(this);
-
-        username = (TextView) headView.findViewById(R.id.confirm_order_username);
-        userPhone = (TextView) headView.findViewById(R.id.confirm_order_phone);
-        userAddress = (TextView) headView.findViewById(R.id.confirm_order_address);
-
-
         //买家留言
         confirmOrderAdapter.setEditTextString(new ConfirmOrderAdapter.editTextString() {
             @Override
@@ -142,19 +132,56 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         });
     }
 
+    private void initTailView() {
+        View tailView= ViewUtils.getView(this, R.layout.confirm_order_footer);
+        tailTicket = ((TextView) tailView.findViewById(R.id.tv_ticket));
+        tailZongyouhui = ((TextView) tailView.findViewById(R.id.tv_zongyouhui));
+        tailShijiyouhui= ((TextView) tailView.findViewById(R.id.tv_shijiyouhui));
+        tailZengzhijifen= ((TextView) tailView.findViewById(R.id.tv_zengzhijifen));
+        try {
+            JSONObject dataObj = new JSONObject(json_data);
+            JSONObject checkObj = dataObj.optJSONObject("checkout_data");
+            tailTicket.setText(checkObj.optString("member_coupon"));
+            tailZongyouhui.setText("￥"+checkObj.optString("total_coupon_money"));
+            tailShijiyouhui.setText("￥"+checkObj.optString("total_employ_coupon_money"));
+            tailZengzhijifen.setText(checkObj.optString("increment_score"));
+            confirmOrderAdapter.addFooterView(tailView);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initHeadView() {
+        View headView = ViewUtils.getView(this, R.layout.confirm_order_header_address);
+        //收货人信息
+        receiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl);
+        receiveAddress.setOnClickListener(this);
+        noReceiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl2);
+        noReceiveAddress.setOnClickListener(this);
+        username = (TextView) headView.findViewById(R.id.confirm_order_username);
+        userPhone = (TextView) headView.findViewById(R.id.confirm_order_phone);
+        userAddress = (TextView) headView.findViewById(R.id.confirm_order_address);
+        try {
+            JSONObject dataObj = new JSONObject(json_data);
+            JSONObject checkObj = dataObj.optJSONObject("member_default_address");
+            username.setText(checkObj.optString("consignee"));
+            userPhone.setText(checkObj.optString("mobile"));
+            userAddress.setText(checkObj.optString("address_detail"));
+            confirmOrderAdapter.addHeaderView(headView);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private List<Goods> getData() {
         try {
             if (goodsList.size() != 0) {
                 goodsList.clear();
             }
             JSONObject dataObj = new JSONObject(json_data);
-
             //用户信息
             JSONObject member_info = dataObj.optJSONObject("member_info");
             balance = member_info.optString("money");//余额
-            int white_score = member_info.optInt("white_score");
-            int red_score = member_info.optInt("red_score");
-
             //商品店铺信息
             JSONArray storeList = dataObj.optJSONArray("order_store_list");
             if (storeList != null && storeList.length() != 0) {
@@ -170,7 +197,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                             int num = 0;
                             float price = 0;
                             int storeId = 0;
-                            String cartId = null;
+                            String cartId;
                             StringBuffer mesaagesCartId = new StringBuffer();
                             for (int j = 0; j < goodsArray.length(); j++) {
                                 JSONObject obj = goodsArray.optJSONObject(j);
@@ -183,34 +210,29 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
                                 num += Integer.parseInt(goods_num);
                                 price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
-
-                                try {
-                                    //店铺id
-                                    storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
-                                    //购物车id
-                                    cartId = obj.optString("cart_id");
-                                    mesaagesCartId.append(cartId + ",");
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                //店铺id
+                                storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
+                                //购物车id
+                                cartId = obj.optString("cart_id");
+                                mesaagesCartId.append(cartId + ",");
                             }
-                            /**
-                             * 拼接空白留言信息
-                             */
+                            //拼接空白留言信息
                             JSONObject jsonObject = new JSONObject();
-                            try {
-                                mesaagesCartId.delete(mesaagesCartId.length() - 1, mesaagesCartId.length());
-                                jsonObject.put("cart_ids", mesaagesCartId.toString());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            mesaagesCartId.delete(mesaagesCartId.length() - 1, mesaagesCartId.length());
+                            jsonObject.put("cart_ids", mesaagesCartId.toString());
                             jsonObject.put("message", "");
                             jsonMessage.put(String.valueOf(storeId), jsonObject);
 
                             price += yunfei;
                             totalPrice += price;
-                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId, mesaagesCartId.toString()));
+                            Goods goods = new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId, mesaagesCartId.toString());
+                            //礼品券一些信息
+                            JSONObject exeObj = storeObj.optJSONObject("extra_data");
+                            goods.setSubtract(exeObj.optString("employ_coupon_money"));
+                            goods.setSubDesc(exeObj.optString("coupon_info"));
+                            goodsList.add(goods);
                         }
+
                     }
                 }
                 tvTotal.setText("￥" + fnum.format(totalPrice));
@@ -326,7 +348,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handle404(String message) {
-                if(payType.equals("alipay") || payType.equals("wxpay")){
+                if (payType.equals("alipay") || payType.equals("wxpay")) {
                     PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
                     if (payCallBack != null) {
                         pay.getPayCallBack().onFinish(payType);

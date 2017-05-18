@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/goods_details_cuttingline_wide" />
+    <RelativeLayout
+        android:id="@+id/lat_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_desc_01"
+            style="@style/shop_textView_style01"
+            android:text="我的礼品券" />
+
+        <TextView
+            android:id="@+id/tv_ticket"
+            style="@style/shop_textView_style01"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/tv_desc_01"
+            android:gravity="right" />
+    </RelativeLayout>
+    <include layout="@layout/goods_details_cuttingline" />
+    <RelativeLayout
+        android:id="@+id/lat_zongyouhui"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_desc_02"
+            style="@style/shop_textView_style01"
+            android:text="总优惠" />
+
+        <TextView
+            android:id="@+id/tv_zongyouhui"
+            style="@style/shop_textView_style01"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/tv_desc_02"
+            android:gravity="right" />
+    </RelativeLayout>
+    <include layout="@layout/goods_details_cuttingline" />
+    <RelativeLayout
+        android:id="@+id/lat_shijiyouhui"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_desc_03"
+            style="@style/shop_textView_style01"
+            android:text="实际优惠" />
+
+        <TextView
+            android:id="@+id/tv_shijiyouhui"
+            style="@style/shop_textView_style01"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/tv_desc_03"
+            android:gravity="right" />
+    </RelativeLayout>
+    <include layout="@layout/goods_details_cuttingline" />
+    <RelativeLayout
+        android:id="@+id/lat_zengzhijifen"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_desc_04"
+            style="@style/shop_textView_style01"
+            android:text="增值积分" />
+
+        <TextView
+            android:id="@+id/tv_zengzhijifen"
+            style="@style/shop_textView_style01"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/tv_desc_04"
+            android:gravity="right" />
+    </RelativeLayout>
+    <include layout="@layout/goods_details_cuttingline_wide" />
+</LinearLayout>

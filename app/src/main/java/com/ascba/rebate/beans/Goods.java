@@ -39,6 +39,8 @@ public class Goods implements MultiItemEntity {
     private boolean hasStandard;//是否有规格
     private String orderGoodsId;
     private int shippingStatus;//用于判断全部订单的头部状态
+    private String subtract;//对应订单的 实际立减
+    private String subDesc;//满减描述 对应订单的 满500立减200礼品券
 
 
     public Goods() {
@@ -332,5 +334,21 @@ public class Goods implements MultiItemEntity {
 
     public void setShippingStatus(int shippingStatus) {
         this.shippingStatus = shippingStatus;
+    }
+
+    public String getSubtract() {
+        return subtract;
+    }
+
+    public void setSubtract(String subtract) {
+        this.subtract = subtract;
+    }
+
+    public String getSubDesc() {
+        return subDesc;
+    }
+
+    public void setSubDesc(String subDesc) {
+        this.subDesc = subDesc;
     }
 }

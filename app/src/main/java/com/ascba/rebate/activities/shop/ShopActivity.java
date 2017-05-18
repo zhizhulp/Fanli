@@ -45,7 +45,7 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
     private Fragment mFourthFragment = new ShopMeFragment();
     private ShopTabs shopTabs;
     private int currIndex = HOMEPAGE;//当前位置
-    private static int index;
+    private static int index=0;
 
     public ShopTabs getShopTabs() {
         return shopTabs;

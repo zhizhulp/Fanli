@@ -4,7 +4,34 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
-
+    <TextView
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="@dimen/main_text_14"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_height="44dp"
+        android:layout_width="match_parent"
+        android:id="@+id/tv_cheap_desc"
+        android:gravity="right|center_vertical"
+        />
+    <include layout="@layout/goods_details_cuttingline"
+        android:id="@+id/line_cheap_desc"/>
+    <RelativeLayout
+        android:id="@+id/lat_real_reduce"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+        <TextView
+            android:text="实际立减"
+            style="@style/shop_textView_style01" />
+        <TextView
+            android:id="@+id/tv_real_reduce"
+            android:layout_alignParentRight="true"
+            style="@style/shop_textView_style01" />
+    </RelativeLayout>
+    <include layout="@layout/goods_details_cuttingline"
+        android:id="@+id/line_real_reduce"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp">
@@ -31,8 +58,10 @@
     </RelativeLayout>
 
     <include layout="@layout/goods_details_cuttingline" />
-
+    <!--在父容器中-->
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

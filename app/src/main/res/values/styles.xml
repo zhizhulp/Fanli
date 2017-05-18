@@ -227,4 +227,11 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
+    <style name="shop_textView_style01">
+        <item name="android:textColor">@color/shop_normal_text_color</item>
+        <item name="android:textSize">@dimen/main_text_14</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
 </resources>

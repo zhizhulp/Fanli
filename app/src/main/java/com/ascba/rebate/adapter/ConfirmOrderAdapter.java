@@ -9,11 +9,15 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
+import com.ascba.rebate.utils.StringUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by 李鹏 on 2017/04/06 0006.
@@ -59,7 +63,7 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
                 break;
             case TYPE3:
                 helper.setText(R.id.item_cost_freightPrice, "￥" + item.getFreightPrice());
-                final EditText etMsg = (EditText) helper.getView(R.id.item_cost_message);
+                final EditText etMsg = helper.getView(R.id.item_cost_message);
                 etMsg.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -81,6 +85,15 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
 
                 helper.setText(R.id.confir_order_text_num, "共" + item.getNum() + "件商品");
                 helper.setText(R.id.item_cost_price, "￥" + item.getTotalPrice());
+                
+                helper.setVisible(R.id.line_real_reduce, !StringUtils.isEmpty(item.getSubtract()));
+                helper.setVisible(R.id.lat_real_reduce, !StringUtils.isEmpty(item.getSubtract()));
+                helper.setText(R.id.tv_real_reduce, item.getSubtract());
+
+                helper.setVisible(R.id.line_cheap_desc, !StringUtils.isEmpty(item.getSubDesc()));
+                helper.setVisible(R.id.tv_cheap_desc, !StringUtils.isEmpty(item.getSubDesc()));
+                helper.setText(R.id.tv_cheap_desc, item.getSubDesc());
+
                 break;
         }
     }
