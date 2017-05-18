@@ -140,6 +140,7 @@ public class AppTabs extends RelativeLayout implements View.OnClickListener {
     }
 
     public void statusChaByPosition(int currentPos, int beforePos) {
+        filPos = currentPos;
         if(beforePos!=currentPos){
             switch (beforePos){
                 case 0:

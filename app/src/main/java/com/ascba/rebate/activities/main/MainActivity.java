@@ -44,7 +44,7 @@ import cn.jpush.android.api.TagAliasCallback;
  */
 public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private int currIndex = HOMEPAGE;//当前位置
-    private static int index;
+    private static int index = 0;
     public static final int HOMEPAGE = 0;
     public static final int SLIDE = 1;
     public static final int SHOP = 2;
@@ -93,34 +93,39 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     protected void onCreate(Bundle savedInstanceState) {
         if (debug)
             Log.d(TAG, "onCreate: ");
-        /*if(savedInstanceState!=null){
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.remove(mHomePageFragment);
-            transaction.remove(mSideFragment);
-            transaction.remove(mMoneyFragment);
-            transaction.remove(mMeFragment);
-            transaction.commit();
-            currIndex=0;
-        }*/
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            if (fragments != null && fragments.size() != 0) {
+                for (int i = 0; i < fragments.size(); i++) {
+                    Fragment fragment = fragments.get(i);
+                    if (mHomePageFragment == null && fragment instanceof HomePageFragment)
+                        mHomePageFragment = fragment;
+                        fgts.add(fragment);
+                    if (mSideFragment == null && fragment instanceof SideFragment)
+                        mSideFragment = fragment;
+                        fgts.add(fragment);
+                    if (mMoneyFragment == null && fragment instanceof MoneyFragment)
+                        mMoneyFragment = fragment;
+                        fgts.add(fragment);
+                    if (mMeFragment == null && fragment instanceof MeFragment)
+                        mMeFragment = fragment;
+                        fgts.add(fragment);
+                }
+                index=0;
+            }
+        }
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findViews();
     }
 
     private void findViews() {
-        initFragments();
         appTabs = ((AppTabs) findViewById(R.id.tabs));
         appTabs.setCallback(this);
+        appTabs.statusChaByPosition(index,currIndex);
+        selFrgByPos(index);
         init();//设置极光推送用户标识
-    }
-
-    private void initFragments() {
-        mHomePageFragment = new HomePageFragment();
-        mSideFragment = new SideFragment();
-        mMoneyFragment = new MoneyFragment();
-        mMeFragment = new MeFragment();
-        selFrgByPos(currIndex);
     }
 
     @Override
@@ -130,7 +135,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME || requestCode == REQUEST_LOGIN_CAIFU)) {
             index = HOMEPAGE;
             appTabs.statusChaByPosition(index, currIndex);
-            appTabs.setFilPos(index);
             selFrgByPos(index);
         }
 
@@ -144,14 +148,12 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         if (requestCode == REQUEST_LOGIN_CAIFU && resultCode == RESULT_OK) {
             index = CAIFU;
             appTabs.statusChaByPosition(index, currIndex);
-            appTabs.setFilPos(index);
             selFrgByPos(index);
         }
 
         //商城返回
         if (requestCode == REQUEST_LOGIN_SHOP) {
             appTabs.statusChaByPosition(index, currIndex);
-            appTabs.setFilPos(index);
         }
     }
 
@@ -213,8 +215,11 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         FragmentTransaction ft = fm.beginTransaction();
         switch (position) {
             case 0:
+                if (mHomePageFragment == null) {
+                    mHomePageFragment = new HomePageFragment();
+                }
                 if (!mHomePageFragment.isAdded()) {
-                    ft.add(R.id.fl_change, mHomePageFragment);
+                    ft.add(R.id.fl_change, mHomePageFragment, String.valueOf(position));
                     fgts.add(mHomePageFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {
@@ -224,13 +229,15 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     } else {
                         ft.hide(fragment);
                     }
-
                 }
                 ft.commit();
                 break;
             case 1:
+                if (mSideFragment == null) {
+                    mSideFragment = new SideFragment();
+                }
                 if (!mSideFragment.isAdded()) {
-                    ft.add(R.id.fl_change, mSideFragment);
+                    ft.add(R.id.fl_change, mSideFragment, String.valueOf(position));
                     fgts.add(mSideFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {
@@ -243,13 +250,17 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
                 }
                 ft.commit();
+
                 break;
             case 2:
 
                 break;
             case 3:
+                if (mMoneyFragment == null) {
+                    mMoneyFragment = new MoneyFragment();
+                }
                 if (!mMoneyFragment.isAdded()) {
-                    ft.add(R.id.fl_change, mMoneyFragment);
+                    ft.add(R.id.fl_change, mMoneyFragment, String.valueOf(position));
                     fgts.add(mMoneyFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {
@@ -261,10 +272,14 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     }
                 }
                 ft.commit();
+
                 break;
             case 4:
+                if (mMeFragment == null) {
+                    mMeFragment = new MeFragment();
+                }
                 if (!mMeFragment.isAdded()) {
-                    ft.add(R.id.fl_change, mMeFragment);
+                    ft.add(R.id.fl_change, mMeFragment, String.valueOf(position));
                     fgts.add(mMeFragment);
                 }
                 for (int i = 0; i < fgts.size(); i++) {
@@ -276,9 +291,75 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     }
                 }
                 ft.commit();
+
                 break;
         }
 
+    }
+
+    @Override
+    protected void onRestart() {
+        if (debug)
+            Log.d(TAG, "onRestart: ");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (debug)
+            Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (debug)
+            Log.d(TAG, "onConfigurationChanged: ");
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onStart() {
+        if (debug)
+            Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        if (debug)
+            Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (debug)
+            Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        if (debug)
+            Log.d(TAG, "onLowMemory: ");
+        super.onLowMemory();
+    }
+
+    @Override
+    protected void onResume() {
+
+        if (debug)
+            Log.d(TAG, "onResume: ");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+
+        if (debug)
+            Log.d(TAG, "onPause: ");
+        super.onPause();
     }
 
     public AppTabs getAppTabs() {
@@ -359,96 +440,14 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     @Override
     public void onAttachFragment(Fragment fragment) {
         if (debug)
-        Log.d(TAG, "onAttachFragment: ");
+            Log.d(TAG, "onAttachFragment: ");
         super.onAttachFragment(fragment);
-        /*if (mHomePageFragment == null && fragment instanceof HomePageFragment)
-            mHomePageFragment = fragment;
-        if (mSideFragment == null && fragment instanceof SideFragment)
-            mSideFragment = fragment;
-        if (mMoneyFragment == null && fragment instanceof MoneyFragment)
-            mMoneyFragment = fragment;
-        if (mMeFragment == null && fragment instanceof MeFragment)
-            mMeFragment = fragment;*/
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         if (debug)
             Log.d(TAG, "onRestoreInstanceState: ");
-        if(savedInstanceState!=null){
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            //transaction.remove(mHomePageFragment);
-            transaction.remove(mSideFragment);
-            transaction.remove(mMoneyFragment);
-            transaction.remove(mMeFragment);
-            transaction.commit();
-            currIndex=0;
-        }
         super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onRestart() {
-        if (debug)
-            Log.d(TAG, "onRestart: ");
-        super.onRestart();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (debug)
-            Log.d(TAG, "onSaveInstanceState: ");
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (debug)
-            Log.d(TAG, "onConfigurationChanged: ");
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onStart() {
-        if (debug)
-            Log.d(TAG, "onStart: ");
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        if (debug)
-            Log.d(TAG, "onStop: ");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (debug)
-            Log.d(TAG, "onDestroy: ");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        if (debug)
-            Log.d(TAG, "onLowMemory: ");
-        super.onLowMemory();
-    }
-
-    @Override
-    protected void onResume() {
-
-        if (debug)
-            Log.d(TAG, "onResume: ");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-
-        if (debug)
-            Log.d(TAG, "onPause: ");
-        super.onPause();
     }
 }
