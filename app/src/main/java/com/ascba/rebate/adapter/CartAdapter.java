@@ -39,13 +39,6 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         void clickSubBtn(int count,int position);
         void clickDelBtn(int position);
     }
-
-
-
-    public CallBack getCallBack() {
-        return callBack;
-    }
-
     public void setCallBack(CallBack callBack) {
         this.callBack = callBack;
     }

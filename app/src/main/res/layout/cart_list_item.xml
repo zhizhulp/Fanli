@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="107dp"
     swipe:ios="false"
-    swipe:leftSwipe="true"
+    swipe:leftSwipe="false"
     swipe:swipeEnable="true"
     xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:minHeight="107dp">
@@ -155,7 +155,7 @@
 
     <Button
         android:id="@+id/btnDelete"
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         android:layout_height="match_parent"
         android:background="#ff4a57"
         android:text="删除"
