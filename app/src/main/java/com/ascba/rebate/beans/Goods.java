@@ -38,7 +38,6 @@ public class Goods implements MultiItemEntity {
     private String messageCart;//买家留言，购物车id信息拼接字符串
     private boolean hasStandard;//是否有规格
     private String orderGoodsId;
-    private int shippingStatus;//用于判断全部订单的头部状态
     private String subtract;//对应订单的 实际立减
     private String subDesc;//满减描述 对应订单的 满500立减200礼品券
 
@@ -326,14 +325,6 @@ public class Goods implements MultiItemEntity {
 
     public void setOrderGoodsId(String orderGoodsId) {
         this.orderGoodsId = orderGoodsId;
-    }
-
-    public int getShippingStatus() {
-        return shippingStatus;
-    }
-
-    public void setShippingStatus(int shippingStatus) {
-        this.shippingStatus = shippingStatus;
     }
 
     public String getSubtract() {

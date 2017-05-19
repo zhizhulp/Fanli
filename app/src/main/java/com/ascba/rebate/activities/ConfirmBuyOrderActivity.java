@@ -43,8 +43,6 @@ import java.util.List;
 public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnClickListener {
 
     private Context context;
-    private ShopABarText shopABarText;
-    private RecyclerView recyclerView;
     private ArrayList<ReceiveAddressBean> beanList = new ArrayList<>();//收货地址
     private ReceiveAddressBean defaultAddressBean;//默认收货地址
     private RelativeLayout receiveAddress, noReceiveAddress;
@@ -59,7 +57,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
     private PayUtils pay;
     private String balance;//账户余额
     private String orderId;//订单id
-    private View headView;
+    private ConfirmOrderAdapter confirmOrderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +67,6 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
         context = this;
         getDataFromIntent();
         initUI();
-
         //获取收货地址
         getAddress();
 
@@ -88,7 +85,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
         //提交订单
         findViewById(R.id.confir_order_btn_commit).setOnClickListener(this);
         //导航栏
-        shopABarText = (ShopABarText) findViewById(R.id.shopbar);
+        ShopABarText shopABarText = (ShopABarText) findViewById(R.id.shopbar);
         shopABarText.setBtnEnable(false);
         shopABarText.setCallback(new ShopABarText.Callback() {
             @Override
@@ -103,29 +100,14 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
         });
 
 
-
         //recyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        ConfirmOrderAdapter confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
-        headView = ViewUtils.getView(this, R.layout.confirm_order_header_address);
-        confirmOrderAdapter.addHeaderView(headView);
+        confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
+        initHeadView();
+        initTailView();
         recyclerView.setAdapter(confirmOrderAdapter);
-
-        /**
-         * 收货人信息
-         */
-        receiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl);
-        receiveAddress.setOnClickListener(this);
-
-        noReceiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl2);
-        noReceiveAddress.setOnClickListener(this);
-
-        username = (TextView) headView.findViewById(R.id.confirm_order_username);
-        userPhone = (TextView) headView.findViewById(R.id.confirm_order_phone);
-        userAddress = (TextView) headView.findViewById(R.id.confirm_order_address);
-
         //买家留言
         confirmOrderAdapter.setEditTextString(new ConfirmOrderAdapter.editTextString() {
             @Override
@@ -138,6 +120,47 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
             }
         });
     }
+    private void initTailView() {
+        View tailView= ViewUtils.getView(this, R.layout.confirm_order_footer);
+        TextView tailTicket = ((TextView) tailView.findViewById(R.id.tv_ticket));
+        TextView tailZongyouhui = ((TextView) tailView.findViewById(R.id.tv_zongyouhui));
+        TextView tailShijiyouhui = ((TextView) tailView.findViewById(R.id.tv_shijiyouhui));
+        TextView tailZengzhijifen = ((TextView) tailView.findViewById(R.id.tv_zengzhijifen));
+        try {
+            JSONObject dataObj = new JSONObject(json_data);
+            JSONObject checkObj = dataObj.optJSONObject("checkout_data");
+            tailTicket.setText(checkObj.optString("member_coupon"));
+            tailZongyouhui.setText("￥"+checkObj.optString("total_coupon_money"));
+            tailShijiyouhui.setText("￥"+checkObj.optString("total_employ_coupon_money"));
+            tailZengzhijifen.setText(checkObj.optString("increment_score"));
+            tvTotal.setText("￥"+ checkObj.optString("pay_total_fee"));
+            confirmOrderAdapter.addFooterView(tailView);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initHeadView() {
+        View headView = ViewUtils.getView(this, R.layout.confirm_order_header_address);
+        //收货人信息
+        receiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl);
+        receiveAddress.setOnClickListener(this);
+        noReceiveAddress = (RelativeLayout) headView.findViewById(R.id.confirm_order_addrss_rl2);
+        noReceiveAddress.setOnClickListener(this);
+        username = (TextView) headView.findViewById(R.id.confirm_order_username);
+        userPhone = (TextView) headView.findViewById(R.id.confirm_order_phone);
+        userAddress = (TextView) headView.findViewById(R.id.confirm_order_address);
+        try {
+            JSONObject dataObj = new JSONObject(json_data);
+            JSONObject checkObj = dataObj.optJSONObject("member_default_address");
+            username.setText(checkObj.optString("consignee"));
+            userPhone.setText(checkObj.optString("mobile"));
+            userAddress.setText(checkObj.optString("address_detail"));
+            confirmOrderAdapter.addHeaderView(headView);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     private List<Goods> getData() {
         try {
@@ -145,24 +168,18 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                 goodsList.clear();
             }
             JSONObject dataObj = new JSONObject(json_data);
-
             //用户信息
             JSONObject member_info = dataObj.optJSONObject("member_info");
             balance = member_info.optString("money");//余额
-
-
             //商品店铺信息
             JSONArray storeList = dataObj.optJSONArray("order_store_list");
             if (storeList != null && storeList.length() != 0) {
-                float totalPrice = 0;
                 for (int i = 0; i < storeList.length(); i++) {
                     JSONObject storeObj = storeList.optJSONObject(i);
                     if (storeObj != null) {
                         JSONObject titleObj = storeObj.optJSONObject("store_info");
                         String store_id = titleObj.optString("id");
-
                         jsonMessage.put("store_id", store_id);
-
                         goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, titleObj.optString("store_name")));
                         JSONArray goodsArray = storeObj.optJSONArray("goods_list");
                         if (goodsArray != null && goodsArray.length() != 0) {
@@ -187,16 +204,17 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                                 num += Integer.parseInt(goods_num);
                                 price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
                             }
-
                             jsonMessage.put("message", "");
-
                             price += yunfei;
-                            totalPrice += price;
-                            goodsList.add(new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), 0, null));
+                            Goods goods = new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), 0, null);
+                            //礼品券一些信息
+                            JSONObject exeObj = storeObj.optJSONObject("extra_data");
+                            goods.setSubtract(exeObj.optString("employ_coupon_money"));
+                            goods.setSubDesc(exeObj.optString("coupon_info"));
+                            goodsList.add(goods);
                         }
                     }
                 }
-                tvTotal.setText("￥" + fnum.format(totalPrice));
             }
         } catch (JSONException e) {
             e.printStackTrace();

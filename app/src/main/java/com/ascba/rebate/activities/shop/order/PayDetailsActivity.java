@@ -183,9 +183,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         }
     }
 
-    /*
-     获取列表数据
-    */
+
+    //获取列表数据
     private void requstData(String url, int flag) {
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
@@ -242,7 +241,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             //订单信息
             JSONObject orderObject = dataObject.getJSONObject("order_info");
             String shippingFee = orderObject.optString("shipping_fee");//邮费
-            String orderStatus = orderObject.optString("order_status");//订单状态
             String orderSn = orderObject.optString("order_sn");//订单号
             String goodsAmount = orderObject.optString("goods_amount");//商品价格
             String orderAmount = orderObject.optString("order_amount");//订单价格
@@ -253,7 +251,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 //时间差
                 countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
                 isCountdown = handler.postDelayed(runnable, 1000);
-                Log.d("PayDetailsActivity", "isCountdown:" + isCountdown);
             }
 
             orderSnTx.setText(orderSn);
@@ -265,7 +262,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             if (goodsList.size() > 0) {
                 goodsList.clear();
             }
-
             //商品信息
             JSONArray goodsArray = orderObject.getJSONArray("orderGoods");
             if (goodsArray != null && goodsArray.length() > 0) {

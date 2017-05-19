@@ -58,15 +58,13 @@
     </RelativeLayout>
 
     <include layout="@layout/goods_details_cuttingline" />
-    <!--在父容器中-->
     <LinearLayout
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp">
+        android:minHeight="44dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,9 +76,10 @@
             android:textSize="14sp" />
 
         <EditText
+            android:gravity="center_vertical"
             android:id="@+id/item_cost_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"

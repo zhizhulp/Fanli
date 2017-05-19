@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;

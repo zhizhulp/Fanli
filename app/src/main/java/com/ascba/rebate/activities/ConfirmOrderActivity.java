@@ -44,8 +44,6 @@ import java.util.List;
 public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClickListener {
 
     private Context context;
-    private ShopABarText shopABarText;
-    private RecyclerView recyclerView;
     private ArrayList<ReceiveAddressBean> beanList = new ArrayList<>();//收货地址
     private ReceiveAddressBean defaultAddressBean;//默认收货地址
     private RelativeLayout receiveAddress, noReceiveAddress;
@@ -61,10 +59,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     private String balance;//账户余额
     private String orderId;//订单id
     private ConfirmOrderAdapter confirmOrderAdapter;
-    private TextView tailTicket;
-    private TextView tailZongyouhui;
-    private TextView tailShijiyouhui;
-    private TextView tailZengzhijifen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +86,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         //提交订单
         findViewById(R.id.confir_order_btn_commit).setOnClickListener(this);
         //导航栏
-        shopABarText = (ShopABarText) findViewById(R.id.shopbar);
+        ShopABarText shopABarText = (ShopABarText) findViewById(R.id.shopbar);
         shopABarText.setBtnEnable(false);
         shopABarText.setCallback(new ShopABarText.Callback() {
             @Override
@@ -106,7 +100,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
             }
         });
         //recyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         confirmOrderAdapter = new ConfirmOrderAdapter(context, getData());
@@ -134,10 +128,10 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
     private void initTailView() {
         View tailView= ViewUtils.getView(this, R.layout.confirm_order_footer);
-        tailTicket = ((TextView) tailView.findViewById(R.id.tv_ticket));
-        tailZongyouhui = ((TextView) tailView.findViewById(R.id.tv_zongyouhui));
-        tailShijiyouhui= ((TextView) tailView.findViewById(R.id.tv_shijiyouhui));
-        tailZengzhijifen= ((TextView) tailView.findViewById(R.id.tv_zengzhijifen));
+        TextView tailTicket = ((TextView) tailView.findViewById(R.id.tv_ticket));
+        TextView tailZongyouhui = ((TextView) tailView.findViewById(R.id.tv_zongyouhui));
+        TextView tailShijiyouhui= ((TextView) tailView.findViewById(R.id.tv_shijiyouhui));
+        TextView tailZengzhijifen = ((TextView) tailView.findViewById(R.id.tv_zengzhijifen));
         try {
             JSONObject dataObj = new JSONObject(json_data);
             JSONObject checkObj = dataObj.optJSONObject("checkout_data");
@@ -145,6 +139,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
             tailZongyouhui.setText("￥"+checkObj.optString("total_coupon_money"));
             tailShijiyouhui.setText("￥"+checkObj.optString("total_employ_coupon_money"));
             tailZengzhijifen.setText(checkObj.optString("increment_score"));
+            tvTotal.setText(checkObj.optString("pay_total_fee"));
             confirmOrderAdapter.addFooterView(tailView);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -185,7 +180,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
             //商品店铺信息
             JSONArray storeList = dataObj.optJSONArray("order_store_list");
             if (storeList != null && storeList.length() != 0) {
-                float totalPrice = 0;
                 for (int i = 0; i < storeList.length(); i++) {
                     JSONObject storeObj = storeList.optJSONObject(i);
                     if (storeObj != null) {
@@ -222,9 +216,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                             jsonObject.put("cart_ids", mesaagesCartId.toString());
                             jsonObject.put("message", "");
                             jsonMessage.put(String.valueOf(storeId), jsonObject);
-
-                            price += yunfei;
-                            totalPrice += price;
                             Goods goods = new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId, mesaagesCartId.toString());
                             //礼品券一些信息
                             JSONObject exeObj = storeObj.optJSONObject("extra_data");
@@ -235,7 +226,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
                     }
                 }
-                tvTotal.setText("￥" + fnum.format(totalPrice));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -243,9 +233,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         return goodsList;
     }
 
-    /*
-     * 获取收货地址数据
-     */
+    //获取收货地址数据
     private void getAddress() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
         jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getMemberAddress));
@@ -329,12 +317,9 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
         }
     }
 
-    /*
-     * 创建订单
-     */
+    //创建订单
     private void creatOrder(String receiveId, String message, final String payType) {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.createOrder, 0, true);
-        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         jsonRequest.add("extra_data", message);
         jsonRequest.add("member_address_id", receiveId);//用户收货地址id
         jsonRequest.add("payment_type", payType);//支付方式(余额支付：balance，支付宝：alipay，微信：wxpay)
@@ -348,13 +333,13 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handle404(String message) {
-                if (payType.equals("alipay") || payType.equals("wxpay")) {
+//                if (payType.equals("alipay") || payType.equals("wxpay")) {
                     PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
                     if (payCallBack != null) {
                         pay.getPayCallBack().onFinish(payType);
                         pay.getPayCallBack().onCancel(payType);
                     }
-                }
+//                }
                 getDm().buildAlertDialog(message);
             }
 

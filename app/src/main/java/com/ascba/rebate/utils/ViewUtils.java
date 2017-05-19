@@ -2,6 +2,7 @@ package com.ascba.rebate.utils;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,13 +43,19 @@ public class ViewUtils {
     }
 
     public static void showMyToast(Context context,int latId){
-        Toast toast = new Toast(context);
+        final Toast toast = new Toast(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(latId, null);
         toast.setView(view);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        },1000);
     }
 
 }

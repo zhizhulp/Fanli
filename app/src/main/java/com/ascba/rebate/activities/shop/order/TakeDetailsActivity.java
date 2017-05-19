@@ -27,6 +27,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -162,7 +163,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         if (intent != null) {
             orderId = intent.getStringExtra("order_id");
             if (orderId != null) {
-                requstData(UrlUtils.viewOrderGoods, 0);
+                requstData(UrlUtils.viewOrder, 0);
             } else {
                 showToast(getString(R.string.no_data_txt));
                 finish();
@@ -178,7 +179,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         switch (flag) {
             case 0:
-                jsonRequest.add("order_goods_id", orderId);//键值相同
+                jsonRequest.add("order_id", orderId);//键值相同
                 //jsonRequest.add("status", "wait_take");
                 break;
             case 1:
@@ -193,7 +194,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        requstData(UrlUtils.viewOrderGoods, 0);
+        requstData(UrlUtils.viewOrder, 0);
     }
 
 
@@ -247,13 +248,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         }
     }
 
-    /*
-         收货地址
-         "reciver_name": "刘小典",
-	     "reciver_mobile": "13400352743",
-		 "reciver_address": "河北省张家口市桥东区"
 
-        */
     private void getAddress(JSONObject dataObject) {
         try {
             JSONObject addressObject = dataObject.getJSONObject("order_member_address");
@@ -269,9 +264,8 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
     }
 
 
-    /*
-   订单信息
-    */
+
+    //订单信息
     private void getGoodsInfo(JSONObject dataObject) {
         try {
             JSONObject orderObject = dataObject.getJSONObject("order_info");
@@ -308,17 +302,21 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             }
 
             //商品信息
-            JSONObject goodObject = dataObject.optJSONObject("order_goods_info");
-            String goodName = goodObject.optString("goods_name");//商品名
-            String goodsPrice = goodObject.optString("goods_price");//商品价格
-            String specNames = goodObject.optString("spec_names");//商品规格
-            String goodNum = goodObject.optString("goods_num");//数量
-            String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
-            Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
-            String goods_id = goodObject.optString("goods_id");//商品id
-            goods.setTitleId(Integer.parseInt(goods_id));
-            goodsList.add(goods);
-
+            JSONArray goodsArray = orderObject.optJSONArray("orderGoods");
+            if (goodsArray != null && goodsArray.length() > 0) {
+                for (int i = 0; i < goodsArray.length(); i++) {
+                    JSONObject goodObject = goodsArray.optJSONObject(i);
+                    String goodName = goodObject.optString("goods_name");//商品名
+                    String goodsPrice = goodObject.optString("goods_price");//商品价格
+                    String specNames = goodObject.optString("spec_names");//商品规格
+                    String goodNum = goodObject.optString("goods_num");//数量
+                    String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
+                    Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
+                    String goods_id = goodObject.optString("goods_id");//商品id
+                    goods.setTitleId(Integer.parseInt(goods_id));
+                    goodsList.add(goods);
+                }
+            }
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();

@@ -167,20 +167,11 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         try {
                             JSONObject goodsObject = goodsArray.getJSONObject(j);
                             Goods good = new Goods();
-                            //good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
                             good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
                             good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
                             good.setGoodsId(goodsObject.optString("goods_id"));
                             good.setOrderGoodsId(goodsObject.optString("order_goods_id"));
-                            //再次判断头部状态
-                            int shipping_status = goodsObject.optInt("shipping_status");
-                            if(shipping_status==2){
-                                beanHead.setState("交易成功");
-                            }else if(shipping_status==1){
-                                beanHead.setState("卖家已发货");
-                            }
-                            good.setShippingStatus(shipping_status);
-                            Log.d(TAG, "json order_id:"+orderId+" ;id"+goodsObject.optString("id"));
+
                             int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
                             totalNum = num + totalNum;
 
@@ -256,7 +247,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderBean orderBean = beanArrayList.get(position);
                 String orderId = orderBean.getId();
-                Goods goods = orderBean.getGoods();
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         if (orderId != null) {
@@ -271,14 +261,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                                 intent.setClass(context, CancelOrderDetailsActivity.class);
                             } else if (orderStatus.equals("20")) {
                                 //等待卖家发货
-                                int status = goods.getShippingStatus();
-                                if(status==2){
-                                    intent.setClass(context, EvaluateDetailsActivity.class);
-                                }else if(status==1){
-                                    intent.setClass(context, TakeDetailsActivity.class);
-                                }else{
-                                    intent.setClass(context, DeliverDetailsActivity.class);
-                                }
+                                intent.setClass(context, DeliverDetailsActivity.class);
                             } else if (orderStatus.equals("30")) {
                                 //卖家已发货
                                 intent.setClass(context, TakeDetailsActivity.class);
