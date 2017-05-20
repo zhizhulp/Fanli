@@ -158,9 +158,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
     public void handle200Data(JSONObject dataObj, String message) {
         JSONObject jsonObject = dataObj.optJSONObject("my_page_info");
         initDat(jsonObject);
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
     }
 
     private void initDat(JSONObject Object) {
@@ -267,9 +264,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
     @Override
     public void handleReqFailed() {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
     }
 
     @Override
@@ -279,16 +273,10 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
     @Override
     public void handleReLogin() {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
     }
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
     }
 
     @Override
@@ -296,7 +284,10 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case MyOrderActivity.REQUEST_ORDER:
-                getMeData();
+                if(MyApplication.isRefreshOrderCount){
+                    getMeData();
+                    MyApplication.isRefreshOrderCount=false;
+                }
                 break;
         }
     }

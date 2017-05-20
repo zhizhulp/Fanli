@@ -54,6 +54,7 @@ public class MyApplication extends MultiDexApplication {
     public static boolean signOutSignInCart;//是否点击了设置里的退出 用于退出后登陆重新刷新界面(cartfrgment判断)
     public static boolean signOutSignInShopMe;//是否点击了设置里的退出 用于退出后登陆重新刷新界面(shopmefrgment判断)
     public static boolean isLoadCartData;//是否需要刷新购物车数据
+    public static boolean isRefreshOrderCount;//是否刷新订单的数字图标
 
     public static boolean isRequestSuccess;//网络请求是否成功
     public final IWXAPI msgApi= WXAPIFactory.createWXAPI(this, null);

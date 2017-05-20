@@ -138,27 +138,6 @@ public class MyOrderActivity extends BaseNetActivity {
 
         String[] title = new String[]{"全部", "待付款", "待发货", "待收货", "待评价"};
         slidingtablayout.setViewPager(mViewPager, title);
-
-        /**
-         * 遍历添加消息
-         */
-//        for (int i = 0; i < mTitleList.size(); i++) {
-//            Bean bean = mTitleList.get(i);
-//            if (bean.getNum() > 0) {
-//                slidingtablayout.showMsg(i, bean.getNum());
-//                /**
-//                 * position
-//                 * 偏移量
-//                 */
-//                slidingtablayout.setMsgMargin(i, 3, 12);
-//                MsgView msgView = slidingtablayout.getMsgView(i);
-//                if (msgView != null) {
-//                    msgView.setBackgroundColor(Color.parseColor("#ffffffff"));
-//                    msgView.setTextColor(Color.parseColor("#DD0E0E"));
-//                    msgView.setStrokeColor(Color.parseColor("#DD0E0E"));
-//                }
-//            }
-//        }
         slidingtablayout.setCurrentTab(index);
     }
 

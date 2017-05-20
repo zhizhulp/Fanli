@@ -18,6 +18,7 @@ import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -335,10 +336,12 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             case 1:
                 //取消订单,成功后刷新数据
                 requstListData();
+                MyApplication.isRefreshOrderCount=true;
                 break;
             case 2:
                 //删除订单,成功后刷新数据
                 requstListData();
+                MyApplication.isRefreshOrderCount=true;
                 break;
             case 3:
                 if ("balance".equals(payType)) {
@@ -352,6 +355,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     JSONObject wxpay = dataObj.optJSONObject("wxpay");
                     pay.requestForWX(wxpay);
                 }
+                MyApplication.isRefreshOrderCount=true;
                 break;
         }
     }

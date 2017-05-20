@@ -48,7 +48,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private EvaluateOrderAdapter adapter;
     private View view;
-    private View emptyView;
     private int flag = 0;//0——获取数据，1——删除订单
     private static final String TAG="EvaluateOrderFragment";
 
@@ -113,12 +112,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
             initRecylerView();
         } else {
             adapter.notifyDataSetChanged();
-        }
-
-        if (beanArrayList.size() > 0) {
-            emptyView.setVisibility(View.GONE);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
         }
     }
 

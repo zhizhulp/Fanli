@@ -13,6 +13,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -100,6 +101,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                 }
                 break;
             case NET_RECEIVE_GOODS:
+                MyApplication.isRefreshOrderCount=true;
                 requstData(UrlUtils.getOrderList, NET_LIST);
                 break;
         }

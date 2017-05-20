@@ -15,15 +15,11 @@ public class SendThread extends Thread {
     }
 
     public void run() {
-        OutputStream out = null;
+        OutputStream out ;
         try {
             out = s.getOutputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
             out.write(msg.getBytes());
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
