@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.CancelOrderDetailsActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
@@ -24,10 +23,8 @@ import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
-import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -45,15 +42,13 @@ import java.util.List;
  * 全部订单
  */
 
-public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback {
+public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback,SwipeRefreshLayout.OnRefreshListener {
 
     private static String TAG="AllOrderFragment";
     private RecyclerView recyclerView;
     private Context context;
 
-    /**
-     * 每笔订单中的商品列表
-     */
+    //每笔订单中的商品列表
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private AllOrderAdapter adapter;
     private View view;
@@ -88,10 +83,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         this.view = view;
     }
 
-
-    /*
-      获取列表数据
-    */
+    
+    //获取列表数据
     private void requstListData() {
         flag = 0;
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getOrderList, 0, true);
@@ -211,18 +204,19 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     //交易成功
                     beadFoot = new OrderBean(AllOrderAdapter.TYPE5, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
                 }
-                beadFoot.setId(orderId);
-                beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
-                beadFoot.setStateCode(orderStatus);
-                beanArrayList.add(beadFoot);
+                if (beadFoot != null) {
+                    beadFoot.setId(orderId);
+                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    beadFoot.setStateCode(orderStatus);
+                    beanArrayList.add(beadFoot);
+                }
             }
         }
 
         if (adapter == null) {
             initRecylerView();
         } else {
-            adapter = new AllOrderAdapter(beanArrayList, context);
-            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
 
         if (beanArrayList.size() > 0) {
@@ -240,8 +234,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         adapter = new AllOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
-        emptyView = view.findViewById(R.id.empty_view);
-
+        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -324,6 +317,12 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 }
             }
         });
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
+    }
+    @Override
+    public void onRefresh() {
+        requstListData();
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -34,7 +35,7 @@ import java.util.List;
  * 待收货订单
  */
 
-public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragment.CallbackWhat {
+public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragment.CallbackWhat,SwipeRefreshLayout.OnRefreshListener {
 
     private static final int NET_LIST = 1;//列表数据请求what
     private static final int NET_RECEIVE_GOODS = 2;//点击收货接口请求what
@@ -175,8 +176,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
         if (adapter == null) {
             initRecylerView();
         } else {
-            adapter = new TakeOrderAdapter(beanArrayList, context);
-            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
 
         if (beanArrayList.size() > 0) {
@@ -190,10 +190,9 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        emptyView = view.findViewById(R.id.empty_view);
-
         adapter = new TakeOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
+        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
 
@@ -219,6 +218,12 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                 }
             }
         });
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
+    }
+    @Override
+    public void onRefresh() {
+        requstData(UrlUtils.getOrderList, NET_LIST);
     }
 
     @Override
@@ -228,5 +233,4 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
             requstData(UrlUtils.getOrderList, NET_LIST);
         }
     }
-
 }

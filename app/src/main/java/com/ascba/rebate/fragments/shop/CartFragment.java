@@ -437,7 +437,7 @@ public class CartFragment extends BaseNetFragment implements
     }
 
 
-    private void stopRefresh() {
+    public void stopRefresh() {
         if(refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }

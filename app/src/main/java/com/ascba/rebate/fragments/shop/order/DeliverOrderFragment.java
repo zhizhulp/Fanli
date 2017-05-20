@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -34,7 +35,7 @@ import java.util.List;
  * 待发货
  */
 
-public class DeliverOrderFragment extends LazyLoadFragment {
+public class DeliverOrderFragment extends LazyLoadFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -158,8 +159,7 @@ public class DeliverOrderFragment extends LazyLoadFragment {
         if (adapter == null) {
             initRecylerView();
         } else {
-            adapter = new DeliverOrderAdapter(beanArrayList, context);
-            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
         if (beanArrayList.size() > 0) {
             emptyView.setVisibility(View.GONE);
@@ -174,8 +174,7 @@ public class DeliverOrderFragment extends LazyLoadFragment {
 
         adapter = new DeliverOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
-
-        emptyView = view.findViewById(R.id.empty_view);
+        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
@@ -198,6 +197,14 @@ public class DeliverOrderFragment extends LazyLoadFragment {
                 }
             }
         });
+
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        requstData();
     }
 
     @Override

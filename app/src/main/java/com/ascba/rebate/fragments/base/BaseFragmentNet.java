@@ -120,6 +120,7 @@ public abstract class BaseFragmentNet extends BaseFragment {
 
         @Override
         public void onFinish(int what) {
+            stopRefresh();
             dialog.dismiss();
             requstFinish(what);
         }

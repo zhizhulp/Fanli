@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -38,7 +39,7 @@ import java.util.List;
  * 待付款订单
  */
 
-public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback {
+public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback , SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -171,8 +172,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         if (adapter == null) {
             initRecylerView();
         } else {
-            adapter = new PayOrderAdapter(beanArrayList, context);
-            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
 
         if (beanArrayList.size() > 0) {
@@ -188,8 +188,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
         adapter = new PayOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
-
-        emptyView = view.findViewById(R.id.empty_view);
+        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
@@ -239,6 +238,13 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 }
             }
         });
+
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
+    }
+    @Override
+    public void onRefresh() {
+        requstListData();
     }
 
     // 付款
@@ -339,12 +345,10 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handleReLogin() {
-
     }
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 
     @Override
@@ -354,4 +358,5 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             requstListData();
         }
     }
+
 }

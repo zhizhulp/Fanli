@@ -465,7 +465,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
     }
 
-    private void stopRefresh() {
+    public void stopRefresh() {
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }

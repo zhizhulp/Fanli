@@ -51,6 +51,12 @@ public class BaseFragment extends Fragment {
         void requestPermissionAndBack(boolean isOk);
     }
 
+    public void stopRefresh(){
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
+    }
+
     /**
      * 申请权限
      *

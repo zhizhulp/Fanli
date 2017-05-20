@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,7 +37,7 @@ import java.util.List;
  * 待评价
  */
 
-public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback {
+public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback,SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -100,6 +101,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
     初始化数据
      */
     private void initData(JSONObject dataObj) {
+        stopRefresh();
         if (beanArrayList.size() > 0) {
             beanArrayList.clear();
         }
@@ -110,8 +112,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         if (adapter == null) {
             initRecylerView();
         } else {
-            adapter = new EvaluateOrderAdapter(beanArrayList, context);
-            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
 
         if (beanArrayList.size() > 0) {
@@ -175,10 +176,9 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        emptyView = view.findViewById(R.id.empty_view);
         adapter = new EvaluateOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
-
+        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -210,6 +210,13 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                 }
             }
         });
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        requstListData();
     }
 
     @Override
@@ -236,7 +243,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         getDm().buildAlertDialog(message);
     }
 
-
     @Override
     public void handleReLogin() {
 
@@ -244,6 +250,5 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_network));
     }
 }
