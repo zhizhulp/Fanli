@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
+import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -47,8 +48,6 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
     private RecyclerView recyclerView;
     private String orderId;
     private DeliverDetailsAdapter adapter;
-    //收货地址
-    private RelativeLayout addressView;
     private LinearLayout contactStoreTx, countdownView;
     private TextView phoneTx, nameTx, addressTx;
     private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
@@ -228,6 +227,8 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             case 1:
                 //确认收货
                 getDm().buildAlertDialog(message);
+                finish();
+                MyOrderActivity.setCurrTab(4);
                 break;
         }
     }
