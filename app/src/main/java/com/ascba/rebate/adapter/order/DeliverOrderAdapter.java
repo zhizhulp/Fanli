@@ -32,7 +32,6 @@ public class DeliverOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, Ba
         for (OrderBean bean : data) {
             addItemType(bean.getItemType(), bean.getLayout());
         }
-
     }
 
     @Override

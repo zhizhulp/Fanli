@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="44dp">
         <TextView
-            android:text="实际立减"
+            android:text="@string/ticket_reduce_cash"
             style="@style/shop_textView_style01" />
         <TextView
             android:id="@+id/tv_real_reduce"

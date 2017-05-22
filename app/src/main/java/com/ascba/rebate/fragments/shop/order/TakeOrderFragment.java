@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;
@@ -94,7 +95,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                 break;
             case NET_RECEIVE_GOODS:
                 MyApplication.isRefreshOrderCount=true;
-                requstData(UrlUtils.getOrderList, NET_LIST);
+                MyOrderActivity.setCurrTab(4);
                 break;
         }
 
@@ -133,7 +134,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                 //头部信息
                 OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
-                beanHead.setState("等待卖家发货");
+                beanHead.setState("卖家已发货");
                 beanArrayList.add(beanHead);
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");

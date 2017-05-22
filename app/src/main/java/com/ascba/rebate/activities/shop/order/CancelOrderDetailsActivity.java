@@ -203,6 +203,7 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
             orderPriceTx.setText("￥" + orderAmount);//实付款
             orderAmountTx.setText("￥" + goodsAmount);//商品总价
             shippingFeeTx.setText("￥" + shippingFee);
+            vouchersFeeTx.setText("￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
 
             if (goodsList.size() > 0) {
                 goodsList.clear();

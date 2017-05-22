@@ -331,7 +331,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="代金券"
+                            android:text="@string/ticket_reduce_cash"
                             android:textSize="14sp" />
 
                         <TextView
@@ -391,6 +391,7 @@
                 <include layout="@layout/goods_details_cuttingline_wide" />
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15.5dp"
@@ -416,9 +417,11 @@
                         android:textSize="14sp" />
                 </RelativeLayout>
 
-                <include layout="@layout/goods_details_cuttingline" />
+                <include layout="@layout/goods_details_cuttingline"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15.5dp"
@@ -445,7 +448,8 @@
                         android:textSize="14sp" />
                 </RelativeLayout>
 
-                <include layout="@layout/goods_details_cuttingline_wide" />
+                <include layout="@layout/goods_details_cuttingline_wide"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
