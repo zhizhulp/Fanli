@@ -55,7 +55,7 @@ public class SettingActivity extends BaseNetActivity {
                 .putString("token", "")
                 .putLong("expiring_time", -2000)
                 .putString("login_phone", "")
-                .putString("login_password", "").apply();
+                .apply();
         //setResult(RESULT_OK, getIntent());
         MyApplication.isLoad=false;
         MyApplication.isSignOut=true;

@@ -18,14 +18,12 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
-import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -50,7 +48,6 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private TakeOrderAdapter adapter;
     private View view;
-    private View emptyView;
 
 
     @Override
@@ -82,7 +79,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
         if (what == NET_LIST) {
             jsonRequest.add("status", "wait_take");
         } else if (what == NET_RECEIVE_GOODS) {
-            jsonRequest.add("order_goods_id", orderId);
+            jsonRequest.add("order_id", orderId);
         }
 
         executeNetWork(what, jsonRequest, "请稍后");
@@ -179,12 +176,6 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
             initRecylerView();
         } else {
             adapter.notifyDataSetChanged();
-        }
-
-        if (beanArrayList.size() > 0) {
-            emptyView.setVisibility(View.GONE);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
         }
     }
 

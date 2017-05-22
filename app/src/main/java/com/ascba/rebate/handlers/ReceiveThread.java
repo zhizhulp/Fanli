@@ -29,13 +29,13 @@ public class ReceiveThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "连接异常："+e.getMessage());
-        } finally {
+        } /*finally {
             try {
                 s.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     //关闭连接
