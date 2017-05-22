@@ -672,7 +672,12 @@
             android:name=".activities.BusinessBillActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
-        <activity android:name=".activities.shop.order.CancelOrderDetailsActivity"
+        <activity
+            android:name=".activities.shop.order.CancelOrderDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle"></activity>
+        <activity
+            android:name=".activities.BlindShootActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
     </application>
