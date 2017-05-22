@@ -52,7 +52,6 @@ import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.beans.IntegralValueItem;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
@@ -83,8 +82,8 @@ import java.util.List;
 @SuppressLint("SetTextI18n")
 public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClickListener
         , BaseNetActivity.Callback {
-    private static final int REQUEST_STD_LOGIN = 0;
-    private static final int REQUEST_ADD_TO_CART_LOGIN = 1;
+    private static final int REQUEST_STD_LOGIN = 2016;
+    private static final int REQUEST_ADD_TO_CART_LOGIN = 2018;
 
     // 商品id
     private int goodsId;
@@ -487,7 +486,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
         /**
          * 商品简单介绍
-         *
          */
         //商品名
         TextView goodsDesc1 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods1);
@@ -1220,7 +1218,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                         startActivityForResult(intent, REQUEST_ADD_TO_CART_LOGIN);
                     }
                 } else {
-                    getDm().buildAlertDialog("请先选择商品");
+                    getDm().buildAlertDialog("请选择商品");
                 }
 
             }
@@ -1318,11 +1316,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         }
         executeNetWork(request, "请稍后");
         setCallback(this);
-
     }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
+        stopRefresh();
         if (finalScene == 0) {
             if (sd != null) {
                 sd.dismiss();
@@ -1360,12 +1358,17 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     @Override
     public void handle404(String message) {
         getDm().buildAlertDialog(message);
-
+        stopRefresh();
     }
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_network));
+        stopRefresh();
+    }
+
+    @Override
+    protected void mhandleReLogin(int what) {
+        super.mhandleReLogin(what);
         stopRefresh();
     }
 

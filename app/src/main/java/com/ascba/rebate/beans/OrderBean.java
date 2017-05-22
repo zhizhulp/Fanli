@@ -112,7 +112,6 @@ public class OrderBean implements MultiItemEntity {
     }
 
     @Override
-
     public int getItemType() {
         return type;
     }

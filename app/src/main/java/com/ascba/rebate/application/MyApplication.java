@@ -131,21 +131,6 @@ public class MyApplication extends MultiDexApplication {
 
     }
 
-    // 遍历所有Activity并finish
-    public void exit() {
-        if (activities.size() > 0) {
-            for (Activity activity : activities) {
-                if (activity instanceof LoginActivity || activity instanceof MainActivity) {
-
-                } else {
-                    activity.finish();
-                }
-
-            }
-        }
-        //System.exit(0);
-    }
-
     public List<Activity> getActivities() {
         return activities;
     }

@@ -82,7 +82,6 @@ public class RefundOrderActivity extends BaseNetActivity {
 
             @Override
             public void handleNoNetWork() {
-                getDm().buildAlertDialog("请检查网络！");
             }
         });
     }
@@ -97,22 +96,23 @@ public class RefundOrderActivity extends BaseNetActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
+                //订单id
+                String orderId = object.optString("order_id");
                 //头部信息
                 String time = object.optString("add_time");//时间
                 time = TimeUtils.milli2String((Long.parseLong(time) * 1000));
                 OrderBean beanHead = new OrderBean(RefundOrderAdapter.TYPE1, R.layout.item_order_head, time, "退款中");
+                beanHead.setId(orderId);
                 beanArrayList.add(beanHead);
 
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
-                Log.d("DeliverOrderFragment", "goodsArray.length():" + goodsArray.length());
                 if (goodsArray != null && goodsArray.length() > 0) {
 
                     for (int j = 0; j < goodsArray.length(); j++) {
                         try {
                             JSONObject goodsObject = goodsArray.getJSONObject(j);
                             Goods good = new Goods();
-                            good.setTitleId(Integer.parseInt(goodsObject.optString("id")));//商品id
                             good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
                             good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
@@ -122,7 +122,9 @@ public class RefundOrderActivity extends BaseNetActivity {
                             good.setUserQuy(num);//购买数量
                             good.setGoodsPrice(goodsObject.optString("goods_pay_price"));//付款价格
                             good.setGoodsPriceOld(goodsObject.optString("goods_price"));//原价
-                            beanArrayList.add(new OrderBean(RefundOrderAdapter.TYPE2, R.layout.item_goods, good));
+                            OrderBean orderBean = new OrderBean(RefundOrderAdapter.TYPE2, R.layout.item_goods, good);
+                            orderBean.setId(orderId);
+                            beanArrayList.add(orderBean);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -134,6 +136,7 @@ public class RefundOrderActivity extends BaseNetActivity {
                 String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                 String goodsNum = "共" + totalNum + "件商品";//商品数量
                 OrderBean beadFoot = new OrderBean(RefundOrderAdapter.TYPE3, R.layout.item_order_refund_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                beadFoot.setId(orderId);
                 beanArrayList.add(beadFoot);
             }
         }
@@ -164,10 +167,12 @@ public class RefundOrderActivity extends BaseNetActivity {
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                OrderBean orderBean = beanArrayList.get(position);
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
                         Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                        intent.putExtra("order_id",orderBean.getId());
                         startActivity(intent);
                         break;
                 }

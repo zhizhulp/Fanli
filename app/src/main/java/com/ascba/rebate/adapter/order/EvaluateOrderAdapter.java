@@ -29,10 +29,8 @@ public class EvaluateOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
     public EvaluateOrderAdapter(List<OrderBean> data, Context context) {
         super(data);
         this.context = context;
-        if (data != null && data.size() > 0) {
-            for (OrderBean bean : data) {
-                addItemType(bean.getItemType(), bean.getLayout());
-            }
+        for (OrderBean bean : data) {
+            addItemType(bean.getItemType(), bean.getLayout());
         }
     }
 

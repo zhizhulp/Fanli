@@ -34,11 +34,9 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
     public ShopTypeRVAdapter(List<ShopBaseItem> data, Context context) {
         super(data);
         this.context = context;
-        if (data != null && data.size() > 0) {
-            for (int i = 0; i < data.size(); i++) {
-                ShopBaseItem sbI = data.get(i);
-                addItemType(sbI.getItemType(), sbI.getResLat());
-            }
+        for (int i = 0; i < data.size(); i++) {
+            ShopBaseItem sbI = data.get(i);
+            addItemType(sbI.getItemType(), sbI.getResLat());
         }
     }
 
@@ -49,11 +47,11 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 ShufflingViewPager pager = helper.getView(R.id.shop_pager);
                 ShufflingViewPagerAdapter adapter = pager.getAdapter();
 
-                if(adapter==null){
+                if (adapter == null) {
                     adapter = new ShufflingViewPagerAdapter(context, item.getPagerUrls());
                     pager.setAdapter(adapter);
                     pager.start();
-                }else {
+                } else {
                     adapter.notifyDataSetChanged();
                 }
                 break;

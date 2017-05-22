@@ -5,7 +5,6 @@ import android.content.Intent;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
-import com.ascba.rebate.application.MyApplication;
 
 import org.json.JSONObject;
 
@@ -44,7 +43,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
             Intent intent = new Intent(this, LoginActivity.class);
             AppConfig.getInstance().putInt("uuid", -1000);
             startActivityForResult(intent, REQUEST_LOGIN);
-            ((MyApplication) getApplication()).exit();
+            //((MyApplication) getApplication()).exit();
         } else if (status == 404) {
             if (callback != null) {
                 callback.handle404(message);
@@ -123,7 +122,6 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
     protected void mhandleReLogin(int what) {
     }
-
 
     protected void mhandleFinish(int what) {
     }

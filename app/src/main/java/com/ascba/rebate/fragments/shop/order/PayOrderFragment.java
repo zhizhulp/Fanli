@@ -50,7 +50,6 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private PayOrderAdapter adapter;
     private View view;
-    private View emptyView;
     private String orderStatus;//订单状态
     private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单,3——付款
@@ -175,11 +174,6 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             adapter.notifyDataSetChanged();
         }
 
-        if (beanArrayList.size() > 0) {
-            emptyView.setVisibility(View.GONE);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
-        }
     }
 
     private void initRecylerView() {
