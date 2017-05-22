@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities;
+package com.ascba.rebate.activities.shop.auction;
 
 import android.os.Bundle;
 import android.view.View;

@@ -677,9 +677,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
         <activity
-            android:name=".activities.BlindShootActivity"
+            android:name=".activities.shop.auction.BlindShootActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle"></activity>
+        <activity
+            android:name=".activities.shop.auction.AuctionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>
