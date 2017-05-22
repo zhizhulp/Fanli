@@ -147,7 +147,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
     private void requstData(String url, int flag) {
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
-        jsonRequest.add("order_goods_id", orderId);//键值相同
+        jsonRequest.add("order_id", orderId);//键值相同
         //jsonRequest.add("status", "wait_evaluate");
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
@@ -249,6 +249,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
             orderPriceTx.setText("￥" + orderAmount);
             orderAmountTx.setText("￥" + goodsAmount);
             shippingFeeTx.setText("￥" + shippingFee);
+            vouchersFeeTx.setText("￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
 
             if (goodsList.size()>0){
                 goodsList.clear();

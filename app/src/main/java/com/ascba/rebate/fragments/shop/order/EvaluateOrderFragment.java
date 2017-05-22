@@ -129,7 +129,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                 //头部信息
                 OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
-                beanHead.setState("等待卖家发货");
+                beanHead.setState("交易成功");
                 beanArrayList.add(beanHead);
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
