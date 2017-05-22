@@ -31,10 +31,8 @@ public class AllEvaluationAdapter extends BaseMultiItemQuickAdapter<EvaluationBe
     public AllEvaluationAdapter(List<EvaluationBean> data, Context context) {
         super(data);
         this.context = context;
-        if (data != null && data.size() > 0) {
-            addItemType(TYPE1, R.layout.all_evaluation_item);
-            addItemType(TYPE2, R.layout.all_evaluation_item_end);
-        }
+        addItemType(TYPE1, R.layout.all_evaluation_item);
+        addItemType(TYPE2, R.layout.all_evaluation_item_end);
     }
 
     @Override

@@ -35,10 +35,8 @@ public class FilterAdapter extends BaseMultiItemQuickAdapter<GoodsAttr, BaseView
         super(data);
         this.context = context;
         inflate = LayoutInflater.from(context);
-        if (data != null && data.size() > 0) {
-            for (GoodsAttr goodsAttr : data) {
-                addItemType(goodsAttr.getItemType(), goodsAttr.getLayout());
-            }
+        for (GoodsAttr goodsAttr : data) {
+            addItemType(goodsAttr.getItemType(), goodsAttr.getLayout());
         }
     }
 

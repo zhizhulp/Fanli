@@ -26,10 +26,8 @@ public class MyEvaluationAdapter extends BaseMultiItemQuickAdapter<CurriculumBea
     public MyEvaluationAdapter(List<CurriculumBean> data, Context context) {
         super(data);
         this.context = context;
-        if (data != null && data.size() > 0) {
-            for (CurriculumBean bean : data) {
-                addItemType(bean.getItemType(), bean.getLayout());
-            }
+        for (CurriculumBean bean : data) {
+            addItemType(bean.getItemType(), bean.getLayout());
         }
     }
 

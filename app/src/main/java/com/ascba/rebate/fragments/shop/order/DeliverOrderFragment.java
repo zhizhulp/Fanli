@@ -46,7 +46,6 @@ public class DeliverOrderFragment extends LazyLoadFragment implements SwipeRefre
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private DeliverOrderAdapter adapter;
     private View view;
-    private View emptyView;
 
 
     @Override
@@ -160,11 +159,6 @@ public class DeliverOrderFragment extends LazyLoadFragment implements SwipeRefre
             initRecylerView();
         } else {
             adapter.notifyDataSetChanged();
-        }
-        if (beanArrayList.size() > 0) {
-            emptyView.setVisibility(View.GONE);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
         }
     }
 

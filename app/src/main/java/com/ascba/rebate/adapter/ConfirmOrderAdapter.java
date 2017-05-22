@@ -39,11 +39,11 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
     public ConfirmOrderAdapter(Context context, List<Goods> data) {
         super(data);
         this.context = context;
-        if (data != null && data.size() > 0) {
-            for (Goods goods : data) {
-                addItemType(goods.getItemType(), goods.getLayout());
-            }
+
+        for (Goods goods : data) {
+            addItemType(goods.getItemType(), goods.getLayout());
         }
+
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
 
                 helper.setText(R.id.confir_order_text_num, "共" + item.getNum() + "件商品");
                 helper.setText(R.id.item_cost_price, "￥" + item.getTotalPrice());
-                
+
                 helper.setVisible(R.id.line_real_reduce, !StringUtils.isEmpty(item.getSubtract()));
                 helper.setVisible(R.id.lat_real_reduce, !StringUtils.isEmpty(item.getSubtract()));
                 helper.setText(R.id.tv_real_reduce, item.getSubtract());

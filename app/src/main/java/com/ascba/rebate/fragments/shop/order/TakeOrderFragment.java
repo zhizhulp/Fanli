@@ -91,11 +91,6 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
         switch (what) {
             case NET_LIST:
                 initData(dataObj);
-                if (adapter == null) {
-                    initRecylerView();
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
                 break;
             case NET_RECEIVE_GOODS:
                 MyApplication.isRefreshOrderCount=true;

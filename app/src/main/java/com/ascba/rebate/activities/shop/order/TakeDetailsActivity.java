@@ -59,7 +59,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
     private TextView btnTake, btnRefund;//确认收货、退款
 
     //倒计时
-    private int maxTime = 604800;//单位—秒 7天
+    private int maxTime = 7 * 24 * 60 * 60;//单位—秒 7天
     private Handler handler = new Handler();
     private int countdownSecond;
     private boolean isCountdown;
@@ -179,11 +179,10 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         switch (flag) {
             case 0:
-                jsonRequest.add("order_id", orderId);//键值相同
-                //jsonRequest.add("status", "wait_take");
+                jsonRequest.add("order_id", orderId);
                 break;
             case 1:
-                jsonRequest.add("order_goods_id", orderId);
+                jsonRequest.add("order_id", orderId);
                 break;
         }
 
@@ -228,7 +227,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 break;
             case 1:
                 //确认收货
-                getDm().buildAlertDialog("确认收货");
+                getDm().buildAlertDialog(message);
                 break;
         }
     }
