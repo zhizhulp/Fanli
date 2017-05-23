@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:text2="分类" />
+        app:text2="主会场" />
 
     <FrameLayout
         android:id="@+id/fl_change"
