@@ -1,6 +1,7 @@
 package com.ascba.rebate.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,23 +43,27 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
 
     public ShopTabs(Context context) {
         super(context);
-        initViews(context);
+        initViews(context, null);
     }
 
     public ShopTabs(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initViews(context);
+        initViews(context, attrs);
 
     }
 
     public ShopTabs(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initViews(context);
-
+        initViews(context, attrs);
     }
 
 
-    private void initViews(Context context) {
+    private void initViews(Context context, AttributeSet attrs) {
+
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ShopTabs);
+        String text2 = array.getString(R.styleable.ShopTabs_text2);
+        array.recycle();
+
         LayoutInflater.from(context).inflate(R.layout.shop_tabs, this, true);
 
         imZero = ((ImageView) findViewById(R.id.im_tabs_zero));
@@ -70,6 +75,8 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
         tvOne = ((TextView) findViewById(R.id.tv_tabs_one));
         tvThree = ((TextView) findViewById(R.id.tv_tabs_three));
         tvFour = ((TextView) findViewById(R.id.tv_tabs_four));
+
+        tvOne.setText(text2);
 
         tvThreeNoty = (TextView) findViewById(R.id.im_tabs_three_noty);
 
@@ -136,7 +143,7 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
     }
 
     public void statusChaByPosition(int currentPos, int beforePos) {
-        filPos=currentPos;
+        filPos = currentPos;
         if (beforePos != currentPos) {
             switch (beforePos) {
                 case 0:

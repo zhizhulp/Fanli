@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager
+        android:id="@+id/shufflingViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="143dp"></com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:src="@mipmap/auction_logo" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/main_line_light_gray" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/icon_loudspeaker" />
+
+        <TextView
+            android:id="@+id/text_auction_notif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="14dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="恭喜山西王先生以37元拍到iPhone7 32G土豪金私人定制版本"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="4.5dp"
+            android:layout_marginTop="14dp"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_qiangpai">
+
+            <TextView
+                android:id="@+id/text_qiangpai1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="9dp"
+                android:text="抢拍"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_qiangpai1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="限时抢拍 先到先得"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="14dp"
+                android:src="@mipmap/icon_shalou" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="4.5dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="14dp"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_mangpai">
+
+
+            <TextView
+                android:id="@+id/text_mangpai1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="9dp"
+                android:text="盲拍"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_mangpai1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="批量拍卖 一键搞定"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="14dp"
+                android:src="@mipmap/icon_chuizi" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="14dp"
+            android:layout_marginTop="14dp"
+            android:text="为你推荐"
+            android:gravity="center"
+            android:background="@mipmap/bg_tuijian"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+</LinearLayout>
