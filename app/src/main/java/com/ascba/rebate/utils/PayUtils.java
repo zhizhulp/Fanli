@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.FindPayPasswordActivity;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.PayTypeAdapter;
@@ -323,8 +322,9 @@ public class PayUtils {
                 dialogHome.buildAlertDialogSure(msg,"重新输入","忘记密码", new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        Intent intent=new Intent(context, FindPayPasswordActivity.class);
+                        Intent intent=new Intent(context, PayPsdSettingActivity.class);
                         context.startActivity(intent);
+                        psdDialog.showMyDialog();
                     }
 
                     @Override

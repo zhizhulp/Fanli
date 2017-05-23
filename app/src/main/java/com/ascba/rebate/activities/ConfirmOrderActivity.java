@@ -329,22 +329,11 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
             @Override
             public void handle404(String message) {
                 PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
-                if("对不起！您还未设置交易密码".equals(message)){
-                    getDm().buildAlertDialogSure(message,"取消","设置", new DialogHome.Callback() {
-                        @Override
-                        public void handleSure() {
-                            Intent intent=new Intent(context, PayPsdSettingActivity.class);
-                            context.startActivity(intent);
-                        }
-                    });
-                    return;
-                }else {
-                    getDm().buildAlertDialog(message);
-                }
                 if (payCallBack != null) {
                     pay.getPayCallBack().onFinish(payType);
                     pay.getPayCallBack().onCancel(payType);
                 }
+                getDm().buildAlertDialog(message);
 
             }
 

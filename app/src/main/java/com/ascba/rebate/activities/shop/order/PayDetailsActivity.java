@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
+import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -430,14 +431,24 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        if (flag == 2) {
+        if (flag == 3) {
             PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
             if (payCallBack != null) {
                 pay.getPayCallBack().onFinish(payType);
                 pay.getPayCallBack().onCancel(payType);
             }
+            if("对不起！您还未设置交易密码".equals(message)){
+                getDm().buildAlertDialogSure(message,"取消","设置", new DialogHome.Callback() {
+                    @Override
+                    public void handleSure() {
+                        Intent intent=new Intent(context, PayPsdSettingActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        }else {
+            getDm().buildAlertDialog(message);
         }
-        getDm().buildAlertDialog(message);
     }
 
     @Override
