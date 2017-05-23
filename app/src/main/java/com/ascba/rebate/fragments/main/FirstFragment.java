@@ -29,6 +29,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.main_page.BusinessDetailsActivity;
 import com.ascba.rebate.activities.main_page.CityList;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.adapter.RecBusinessAdapter;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.qr.CaptureActivity;

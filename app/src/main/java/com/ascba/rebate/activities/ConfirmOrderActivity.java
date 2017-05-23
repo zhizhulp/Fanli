@@ -20,6 +20,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.ReceiveAddressBean;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -127,19 +128,19 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     }
 
     private void initTailView() {
-        View tailView= ViewUtils.getView(this, R.layout.confirm_order_footer);
+        View tailView = ViewUtils.getView(this, R.layout.confirm_order_footer);
         TextView tailTicket = ((TextView) tailView.findViewById(R.id.tv_ticket));
         TextView tailZongyouhui = ((TextView) tailView.findViewById(R.id.tv_zongyouhui));
-        TextView tailShijiyouhui= ((TextView) tailView.findViewById(R.id.tv_shijiyouhui));
+        TextView tailShijiyouhui = ((TextView) tailView.findViewById(R.id.tv_shijiyouhui));
         TextView tailZengzhijifen = ((TextView) tailView.findViewById(R.id.tv_zengzhijifen));
         try {
             JSONObject dataObj = new JSONObject(json_data);
             JSONObject checkObj = dataObj.optJSONObject("checkout_data");
             tailTicket.setText(checkObj.optString("member_coupon"));
-            tailZongyouhui.setText("￥"+checkObj.optString("total_coupon_money"));
-            tailShijiyouhui.setText("￥"+checkObj.optString("total_employ_coupon_money"));
+            tailZongyouhui.setText("￥" + checkObj.optString("total_coupon_money"));
+            tailShijiyouhui.setText("￥" + checkObj.optString("total_employ_coupon_money"));
             tailZengzhijifen.setText(checkObj.optString("increment_score"));
-            tvTotal.setText("￥"+ checkObj.optString("pay_total_fee"));
+            tvTotal.setText("￥" + checkObj.optString("pay_total_fee"));
             confirmOrderAdapter.addFooterView(tailView);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -327,14 +328,24 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handle404(String message) {
-//                if (payType.equals("alipay") || payType.equals("wxpay")) {
-                    PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
-                    if (payCallBack != null) {
-                        pay.getPayCallBack().onFinish(payType);
-                        pay.getPayCallBack().onCancel(payType);
-                    }
-//                }
-                getDm().buildAlertDialog(message);
+                PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
+                if("对不起！您还未设置交易密码".equals(message)){
+                    getDm().buildAlertDialogSure(message,"取消","设置", new DialogHome.Callback() {
+                        @Override
+                        public void handleSure() {
+                            Intent intent=new Intent(context, PayPsdSettingActivity.class);
+                            context.startActivity(intent);
+                        }
+                    });
+                    return;
+                }else {
+                    getDm().buildAlertDialog(message);
+                }
+                if (payCallBack != null) {
+                    pay.getPayCallBack().onFinish(payType);
+                    pay.getPayCallBack().onCancel(payType);
+                }
+
             }
 
             @Override

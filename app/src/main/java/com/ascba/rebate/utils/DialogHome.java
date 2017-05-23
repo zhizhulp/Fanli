@@ -127,6 +127,44 @@ public class DialogHome {
         dialogAlterSure.show();
         return dialogAlterSure;
     }
+    /**
+     * 可以处理确定和取消的情况，可以自定义button文字
+     */
+    public Dialog buildAlertDialogSure(String message,String leftBtn,String rightBtn, final Callback dialogClick) {
+        if(dialogAlterSure!=null && dialogAlterSure.isShowing()){
+            dialogAlterSure.dismiss();
+        }
+        dialogAlterSure = new Dialog(context, R.style.AlertDialog);
+        View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view_with_2_button, null);
+        dialogAlterSure.setContentView(alertView);
+        TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
+        TextView btCancel = (TextView) alertView.findViewById(R.id.tv_alert_sure);//取消按钮
+        TextView btSure = (TextView) alertView.findViewById(R.id.tv_alert_cancel);//确定按钮
+        btCancel.setText(StringUtils.isEmpty(leftBtn) ? "取消" : leftBtn);
+        btSure.setText(StringUtils.isEmpty(rightBtn) ? "确定" : rightBtn);
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialogClick != null) {
+                    dialogClick.handleSure();
+                }
+                dialogAlterSure.dismiss();
+            }
+        });
+        btCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialogClick != null) {
+                    dialogClick.handleCancel();
+                }
+                dialogAlterSure.dismiss();
+            }
+        });
+
+        tvMsg.setText(message);
+        dialogAlterSure.show();
+        return dialogAlterSure;
+    }
 
     public static abstract class Callback {
         public abstract void handleSure();

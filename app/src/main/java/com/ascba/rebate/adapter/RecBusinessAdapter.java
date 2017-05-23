@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments.main;
+package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

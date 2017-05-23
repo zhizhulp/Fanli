@@ -183,8 +183,6 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         super.mhandle200Data(what, object, dataObj, message);
         if(what==0){//修改成功
-            /*getDm().buildAlertDialog(message);
-            finish();*/
             getDm().buildAlertDialog2(message, new DialogHome.Callback() {
                 @Override
                 public void handleSure() {
