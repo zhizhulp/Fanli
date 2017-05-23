@@ -161,7 +161,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                     String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                     String goodsNum = "共" + totalNum + "件商品";//商品数量
 
-                    OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_take_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_take_foot, goodsNum, orderAmount, shippingFee);
                     beadFoot.setId(orderId);
                     beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
                     beanArrayList.add(beadFoot);

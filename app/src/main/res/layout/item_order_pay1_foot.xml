@@ -26,9 +26,18 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/item_goods_order_freight"
-            android:text="合计:368.00元"
+            android:text="368.00元"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="15sp" />
+        <TextView
+            android:id="@+id/heji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/item_goods_order_total_price"
+            android:text="合计:"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/item_goods_order_total_num"
@@ -36,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
-            android:layout_toLeftOf="@id/item_goods_order_total_price"
+            android:layout_toLeftOf="@id/heji"
             android:text="共一件商品"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="12sp" />

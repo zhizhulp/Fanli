@@ -249,7 +249,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
             orderPriceTx.setText("￥" + orderAmount);
             orderAmountTx.setText("￥" + goodsAmount);
             shippingFeeTx.setText("￥" + shippingFee);
-            vouchersFeeTx.setText("￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
+            vouchersFeeTx.setText("-￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
 
             if (goodsList.size()>0){
                 goodsList.clear();

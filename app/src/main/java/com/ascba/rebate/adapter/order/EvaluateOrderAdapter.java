@@ -82,7 +82,7 @@ public class EvaluateOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                  * 订单尾部信息
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
-                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice()+"元");
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_after);//售后
                 helper.addOnClickListener(R.id.item_goods_order_total_evalute);//评价

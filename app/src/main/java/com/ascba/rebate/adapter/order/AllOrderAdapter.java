@@ -82,7 +82,7 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                  * 订单尾部信息——等待卖家付款
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
-                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice()+"元");
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_pay);//付款
                 helper.addOnClickListener(R.id.item_goods_order_total_cancel);//取消订单
@@ -93,7 +93,7 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                  * 订单尾部信息——交易关闭
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
-                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice()+"元");
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_delete);//删除订单
                 break;
@@ -102,7 +102,7 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                  * 订单尾部信息——等待卖家发货
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
-                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice()+"元");
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
                 helper.addOnClickListener(R.id.item_goods_order_total_logistics);//查看物流
@@ -113,7 +113,7 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                  * 订单尾部信息——等待买家收货
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
-                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice()+"元");
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
                 helper.addOnClickListener(R.id.item_goods_order_total_take);//确认收货
@@ -123,7 +123,7 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                  * 订单尾部信息——交易成功
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
-                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice()+"元");
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_after);//售后
                 helper.addOnClickListener(R.id.item_goods_order_total_evalute);//评价

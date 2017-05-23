@@ -191,19 +191,19 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 OrderBean beadFoot = null;
                 if (orderStatus.equals("10")) {
                     //等待卖家付款
-                    beadFoot = new OrderBean(AllOrderAdapter.TYPE1, R.layout.item_order_pay1_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE1, R.layout.item_order_pay1_foot, goodsNum, orderAmount, shippingFee);
                 } else if (orderStatus.equals("0")) {
                     //交易关闭
-                    beadFoot = new OrderBean(AllOrderAdapter.TYPE2, R.layout.item_order_pay2_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE2, R.layout.item_order_pay2_foot, goodsNum, orderAmount, shippingFee);
                 } else if (orderStatus.equals("20")) {
                     //等待卖家发货
-                    beadFoot = new OrderBean(AllOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, orderAmount, shippingFee);
                 } else if (orderStatus.equals("30")) {
                     //等待买家收货
-                    beadFoot = new OrderBean(AllOrderAdapter.TYPE4, R.layout.item_order_take_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE4, R.layout.item_order_take_foot, goodsNum,  orderAmount, shippingFee);
                 } else if (orderStatus.equals("40")) {
                     //交易成功
-                    beadFoot = new OrderBean(AllOrderAdapter.TYPE5, R.layout.item_order_evaluate_foot, goodsNum, "￥" + orderAmount, shippingFee);
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE5, R.layout.item_order_evaluate_foot, goodsNum, orderAmount, shippingFee);
                 }
                 if (beadFoot != null) {
                     beadFoot.setId(orderId);

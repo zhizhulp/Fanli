@@ -183,9 +183,6 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                         goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, titleObj.optString("store_name")));
                         JSONArray goodsArray = storeObj.optJSONArray("goods_list");
                         if (goodsArray != null && goodsArray.length() != 0) {
-                            float yunfei = 0;//运费
-                            int num = 0;
-                            float price = 0;
                             for (int j = 0; j < goodsArray.length(); j++) {
                                 JSONObject obj = goodsArray.optJSONObject(j);
                                 String goods_price = obj.optString("goods_price");
@@ -195,20 +192,15 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                                 jsonMessage.put("goods_id", goods_id);
                                 String goods_spec_id = obj.optString("goods_spec_id");
                                 jsonMessage.put("goods_spec_id", goods_spec_id);
-
                                 //商品信息
                                 goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.baseWebsite + obj.optString("goods_img"),
                                         obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
                                         "no_old_price", Integer.parseInt(goods_num)));
-
-                                num += Integer.parseInt(goods_num);
-                                price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
                             }
                             jsonMessage.put("message", "");
-                            price += yunfei;
-                            Goods goods = new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), 0, null);
-                            //礼品券一些信息
+                            //礼品券一些信息 共几件商品，合计多少金额，运费多少
                             JSONObject exeObj = storeObj.optJSONObject("extra_data");
+                            Goods goods = new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, exeObj.optString("shipping_fee"), exeObj.optInt("total_num"), exeObj.optString("total_fee"), 0, null);
                             goods.setSubtract(exeObj.optString("employ_coupon_money"));
                             goods.setSubDesc(exeObj.optString("coupon_info"));
                             goodsList.add(goods);
