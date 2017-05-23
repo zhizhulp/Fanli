@@ -105,5 +105,9 @@
 -keep class com.ascba.rebate.beans.**{
     *;
 }
+#adapter不混淆
+-keep class com.ascba.rebate.adapter.**{
+    *;
+}
 
 

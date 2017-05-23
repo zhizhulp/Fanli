@@ -84,11 +84,11 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
                 });
 
                 helper.setText(R.id.confir_order_text_num, "共" + item.getNum() + "件商品");
-                helper.setText(R.id.item_cost_price, "￥" + item.getTotalPrice());
+                helper.setText(R.id.item_cost_price, item.getTotalPrice()+"元");
 
                 helper.setVisible(R.id.line_real_reduce, !StringUtils.isEmpty(item.getSubtract()));
                 helper.setVisible(R.id.lat_real_reduce, !StringUtils.isEmpty(item.getSubtract()));
-                helper.setText(R.id.tv_real_reduce, item.getSubtract());
+                helper.setText(R.id.tv_real_reduce, "-￥"+item.getSubtract());
 
                 helper.setVisible(R.id.line_cheap_desc, !StringUtils.isEmpty(item.getSubDesc()));
                 helper.setVisible(R.id.tv_cheap_desc, !StringUtils.isEmpty(item.getSubDesc()));

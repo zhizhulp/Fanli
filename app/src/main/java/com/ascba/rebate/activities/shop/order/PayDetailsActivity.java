@@ -255,7 +255,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
 
             orderSnTx.setText(orderSn);
             orderTimeTx.setText(orderTime);
-            vouchersFeeTx.setText("￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
+            vouchersFeeTx.setText("-￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
             orderPriceTx.setText("￥" + orderAmount);//实付款
             orderAmountTx.setText("￥" + goodsAmount);//商品总价
             shippingFeeTx.setText("￥" + shippingFee);

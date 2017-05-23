@@ -82,7 +82,7 @@ public class TakeOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseV
                  * 订单尾部信息
                  */
                 helper.setText(R.id.item_goods_order_freight, item.getFreight());
-                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice());
+                helper.setText(R.id.item_goods_order_total_price, item.getOrderPrice()+"元");
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
                 helper.addOnClickListener(R.id.item_goods_order_total_take);//确认收货

@@ -139,7 +139,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
             tailZongyouhui.setText("￥"+checkObj.optString("total_coupon_money"));
             tailShijiyouhui.setText("￥"+checkObj.optString("total_employ_coupon_money"));
             tailZengzhijifen.setText(checkObj.optString("increment_score"));
-            tvTotal.setText(checkObj.optString("pay_total_fee"));
+            tvTotal.setText("￥"+ checkObj.optString("pay_total_fee"));
             confirmOrderAdapter.addFooterView(tailView);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -187,9 +187,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                         goodsList.add(new Goods(ConfirmOrderAdapter.TYPE1, R.layout.item_store, titleObj.optString("store_name")));
                         JSONArray goodsArray = storeObj.optJSONArray("goods_list");
                         if (goodsArray != null && goodsArray.length() != 0) {
-                            float yunfei = 0;//运费
-                            int num = 0;
-                            float price = 0;
                             int storeId = 0;
                             String cartId;
                             StringBuffer mesaagesCartId = new StringBuffer();
@@ -201,9 +198,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                                 goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.baseWebsite + obj.optString("goods_img"),
                                         obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
                                         "no_old_price", Integer.parseInt(goods_num)));
-
-                                num += Integer.parseInt(goods_num);
-                                price += Float.parseFloat(goods_price) * Integer.parseInt(goods_num);
                                 //店铺id
                                 storeId = Integer.valueOf(String.valueOf(obj.opt("store_id")));
                                 //购物车id
@@ -216,9 +210,9 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                             jsonObject.put("cart_ids", mesaagesCartId.toString());
                             jsonObject.put("message", "");
                             jsonMessage.put(String.valueOf(storeId), jsonObject);
-                            Goods goods = new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, fnum.format(yunfei), num, fnum.format(price), storeId, mesaagesCartId.toString());
-                            //礼品券一些信息
+                            //礼品券一些信息 共几件商品，合计多少金额，运费多少
                             JSONObject exeObj = storeObj.optJSONObject("extra_data");
+                            Goods goods = new Goods(ConfirmOrderAdapter.TYPE3, R.layout.item_cost, exeObj.optString("shipping_fee"), exeObj.optInt("total_num"), exeObj.optString("total_fee"), storeId, mesaagesCartId.toString());
                             goods.setSubtract(exeObj.optString("employ_coupon_money"));
                             goods.setSubDesc(exeObj.optString("coupon_info"));
                             goodsList.add(goods);
