@@ -268,31 +268,28 @@ public class CartFragment extends BaseNetFragment implements
                     boolean isChild = true;
                     for (int j = 0; j < gl.length(); j++) {
                         JSONObject goodsOBj = gl.optJSONObject(j);
-                        String goods_id = (String) goodsOBj.opt("goods_id");//商品id
+                        int goods_id = goodsOBj.optInt("goods_id");//商品id
                         String goods_number = (String) goodsOBj.opt("goods_number");//商品编号
                         String goods_name = (String) goodsOBj.opt("goods_name");//商品名称
                         String goods_price = (String) goodsOBj.opt("goods_price");//商品价格
-                        String goods_num = (String) goodsOBj.opt("goods_num");//商品数量
+                        int goods_num = goodsOBj.optInt("goods_num");//商品数量
                         String goods_img = UrlUtils.baseWebsite + goodsOBj.optString("goods_img");//商品图片
                         String spec_names = (String) goodsOBj.opt("spec_names");//商品规格
-                        String selected = (String) goodsOBj.opt("selected");//商品是否被选中
-                        String cart_id = String.valueOf(goodsOBj.opt("cart_id"));//
+                        int selected = goodsOBj.optInt("selected");//商品是否被选中
+                        int cart_id = goodsOBj.optInt("cart_id");//
                         Goods goods = new Goods();
                         goods.setGoodsNumber(goods_number);
                         goods.setGoodsTitle(goods_name);
                         goods.setGoodsPrice(goods_price);
-                        goods.setUserQuy(Integer.parseInt(goods_num));
-                        allGoodsNum = allGoodsNum + Integer.parseInt(goods_num);
+                        goods.setUserQuy(goods_num);
+                        allGoodsNum = allGoodsNum + goods_num;
                         goods.setImgUrl(goods_img);
                         goods.setGoodsStandard(spec_names);
-                        goods.setCartId(cart_id);
-                        if (!StringUtils.isEmpty(goods_id)) {
-                            goods.setTitleId(Integer.parseInt(goods_id));
-                        }
-                        int sele = Integer.parseInt(selected);
-                        CartGoods dg = new CartGoods(goods, Integer.parseInt(store_id), sele != 0);
+                        goods.setCartId(cart_id+"");
+                        goods.setTitleId(goods_id);
+                        CartGoods dg = new CartGoods(goods, Integer.parseInt(store_id), selected != 0);
                         data.add(dg);
-                        if (sele == 0) {//未选择
+                        if (selected == 0) {//未选择
                             isChild = false;
                         }
                     }
