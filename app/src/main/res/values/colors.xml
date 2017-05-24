@@ -110,4 +110,6 @@
     <color name="main_content_bg">#fff</color>
     <!--ShopActivity颜色管理-->
 
+    <color name="tab_auction_unselectd">#28272D</color>
+
 </resources>

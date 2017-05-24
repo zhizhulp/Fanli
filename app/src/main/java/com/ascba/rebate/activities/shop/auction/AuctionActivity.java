@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.WindowManager;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
@@ -14,8 +15,8 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.shop.CartFragment;
 import com.ascba.rebate.fragments.shop.ShopMeFragment;
-import com.ascba.rebate.fragments.shop.TypeFragment;
 import com.ascba.rebate.fragments.shop.auction.AuctionHomePageFragment;
+import com.ascba.rebate.fragments.shop.auction.AuctionMainPlaceFragment;
 import com.ascba.rebate.view.ShopTabs;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
     private static final int REQUEST_LOGIN_ME = 1;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private Fragment mFirstFragment=new AuctionHomePageFragment();
-    private Fragment mSecondFragment=new TypeFragment();
+    private Fragment mSecondFragment=new AuctionMainPlaceFragment();
     private Fragment mThirdFragment=new CartFragment();
     private Fragment mFourthFragment = new ShopMeFragment();
     private ShopTabs shopTabs;
@@ -59,7 +60,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
                     if (fragment instanceof AuctionHomePageFragment)
                         mFirstFragment = fragment;
                     mFragments.add(fragment);
-                    if (fragment instanceof TypeFragment)
+                    if (fragment instanceof AuctionMainPlaceFragment)
                         mSecondFragment = fragment;
                     mFragments.add(fragment);
                     if (fragment instanceof CartFragment)
@@ -137,7 +138,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
             }
             for (int i = 0; i < mFragments.size(); i++) {
                 Fragment fragment = mFragments.get(i);
-                if (fragment instanceof TypeFragment ) {
+                if (fragment instanceof AuctionMainPlaceFragment ) {
                     ft.show(fragment);
                 } else {
                     ft.hide(fragment);

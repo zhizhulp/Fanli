@@ -11,7 +11,8 @@ public class AcutionGoodsBean {
     private String specialOffer;//优惠活动
     private String timeRemaining;//剩余时间
     private String personNum;//竞拍人数
-    private String price;
+    private String price;//价格
+    private String score;//积分
 
     public String getImgUrl() {
         return imgUrl;
@@ -67,5 +68,13 @@ public class AcutionGoodsBean {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 }
