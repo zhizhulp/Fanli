@@ -14,9 +14,9 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.shop.CartFragment;
-import com.ascba.rebate.fragments.shop.ShopMeFragment;
 import com.ascba.rebate.fragments.shop.auction.AuctionHomePageFragment;
 import com.ascba.rebate.fragments.shop.auction.AuctionMainPlaceFragment;
+import com.ascba.rebate.fragments.shop.auction.AuctionMeFragment;
 import com.ascba.rebate.view.ShopTabs;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
     private Fragment mFirstFragment=new AuctionHomePageFragment();
     private Fragment mSecondFragment=new AuctionMainPlaceFragment();
     private Fragment mThirdFragment=new CartFragment();
-    private Fragment mFourthFragment = new ShopMeFragment();
+    private Fragment mFourthFragment = new AuctionMeFragment();
     private ShopTabs shopTabs;
     private int currIndex = HOMEPAGE;//当前位置
     private static int index=0;
@@ -66,7 +66,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
                     if (fragment instanceof CartFragment)
                         mThirdFragment = fragment;
                     mFragments.add(fragment);
-                    if (fragment instanceof ShopMeFragment)
+                    if (fragment instanceof AuctionMeFragment)
                         mFourthFragment = fragment;
                     mFragments.add(fragment);
                 }
@@ -174,7 +174,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
             }
             for (int i = 0; i < mFragments.size(); i++) {
                 Fragment fragment = mFragments.get(i);
-                if (fragment instanceof ShopMeFragment ) {
+                if (fragment instanceof AuctionMeFragment ) {
                     ft.show(fragment);
                 } else {
                     ft.hide(fragment);

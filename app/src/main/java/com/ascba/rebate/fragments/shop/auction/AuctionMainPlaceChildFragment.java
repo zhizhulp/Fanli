@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.shop.auction.BlindShootActivity;
 import com.ascba.rebate.adapter.AuctionMainPlaceChildAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -56,6 +57,18 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
+                switch (position) {
+                    case 0:
+                        BlindShootActivity.startIntent(getActivity(), 0);
+                        break;
+                    case 1:
+                        BlindShootActivity.startIntent(getActivity(), 1);
+                        break;
+                    case 2:
+                        BlindShootActivity.startIntent(getActivity(), 2);
+                        break;
+                }
+
             }
 
             @Override
@@ -63,16 +76,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
                 switch (view.getId()) {
                     case R.id.btn_sub:
-                        showToast("减号-->"+position);
+                        showToast("减号-->" + position);
                         break;
                     case R.id.btn_add:
-                        showToast("加号-->"+position);
+                        showToast("加号-->" + position);
                         break;
                     case R.id.btn_auction_goods_add_cart:
-                        showToast("加入购物车-->"+position);
+                        showToast("加入购物车-->" + position);
                         break;
                     case R.id.btn_auction_goods_apply:
-                        showToast("立即报名-->"+position);
+                        showToast("立即报名-->" + position);
                         break;
                 }
 

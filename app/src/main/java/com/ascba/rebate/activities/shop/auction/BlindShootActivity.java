@@ -1,5 +1,7 @@
 package com.ascba.rebate.activities.shop.auction;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,9 +15,9 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 
 public class BlindShootActivity extends BaseNetActivity {
 
-    public static final int STATE_NO_PAY = 1; //未交保证金
-    public static final int STATE_NO_START = 2; //未开始
-    public static final int STATE_START = 3; //开始
+    public static final int STATE_NO_PAY = 0; //未交保证金
+    public static final int STATE_NO_START = 1; //未开始
+    public static final int STATE_START = 2; //开始
 
     private View noPay;//未交保证金
     private View noStart, viewNotic;//未开始
@@ -38,6 +40,26 @@ public class BlindShootActivity extends BaseNetActivity {
 
         //开始竞拍
         payStart = findViewById(R.id.view_pay);
+
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        getFlag();
+    }
+
+    public static void startIntent(Context context, int flag) {
+        Intent intent = new Intent(context, BlindShootActivity.class);
+        intent.putExtra("flag", flag);
+        context.startActivity(intent);
+    }
+
+    private void getFlag() {
+        Intent intent = getIntent();
+        setState(intent.getIntExtra("flag", 0));
     }
 
     /*
@@ -50,6 +72,7 @@ public class BlindShootActivity extends BaseNetActivity {
         payStart.setVisibility(View.GONE);
         switch (flag) {
             case STATE_NO_PAY:
+                viewNotic.setVisibility(View.VISIBLE);
                 noPay.setVisibility(View.VISIBLE);
                 break;
 
@@ -58,6 +81,7 @@ public class BlindShootActivity extends BaseNetActivity {
                 noStart.setVisibility(View.VISIBLE);
                 break;
             case STATE_START:
+                viewNotic.setVisibility(View.VISIBLE);
                 payStart.setVisibility(View.VISIBLE);
                 break;
         }

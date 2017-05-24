@@ -64,4 +64,5 @@
     <dimen name="text_size_zhuhuichang_goods_price">13sp</dimen>
     <dimen name="text_size_zhuhuichang_goods_integral">11sp</dimen>
     <dimen name="text_size_zhuhuichang_goods_person">11sp</dimen>
+    <dimen name="text_size_auction_me_username">17sp</dimen>
 </resources>
