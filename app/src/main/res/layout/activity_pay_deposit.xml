@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ascba.rebate.view.ShopABarText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:abar_title="交保证金报名" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/main_line_light_gray"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="请确认信息(竞拍成功后拍品将快递到此地址)"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <!--收货人信息-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+
+            android:orientation="vertical">
+            <!--收货人信息-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="李平"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:text="15350732091"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="7dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="北京市丰台区光彩路"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="建邦华府底商，钱来钱往网络科技有限公司"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:background="@color/main_line_light_gray"></View>
+
+        <!--发票信息-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="发票：不开发票"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <include layout="@layout/goods_details_cuttingline_wide" />
+
+    <!--保证金协议-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共计5件"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:text="保证金："
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥500.00"
+                android:textColor="@color/fragment_money_red"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="10dp"
+            android:text="1.若竞拍不成功，保证金将全额退还。"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="8dp"
+            android:text="2.若竞拍成功，72小时内完成货款支付后全额退还。"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="19dp"
+        android:layout_marginTop="19dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/radio_unchecked"
+            android:button="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="《用户竞拍服务协议》"
+            android:textColor="#2D80E7"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="和"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《保证金规则》"
+            android:textColor="#2D80E7"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/red_juxing"
+        android:gravity="center"
+        android:text="同意并支付保证金"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

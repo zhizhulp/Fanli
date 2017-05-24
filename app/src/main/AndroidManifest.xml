@@ -684,6 +684,10 @@
             android:name=".activities.shop.auction.AuctionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.shop.auction.PayDepositActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
     </application>
 
 </manifest>
