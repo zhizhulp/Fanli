@@ -20,6 +20,7 @@ import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -168,6 +169,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         String headImg = UrlUtils.baseWebsite + meObject.optString("avatar");
         String realname = meObject.optString("realname");
         String nickname = meObject.optString("nickname");
+        AppConfig.getInstance().putInt("is_level_pwd",meObject.optInt("is_level_pwd"));//是设置支付密码 还是修改支付密码
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_0, R.mipmap.pc_xiaoxi, R.mipmap.pc_dianpu, headImg, nickname));
 
         //我的订单

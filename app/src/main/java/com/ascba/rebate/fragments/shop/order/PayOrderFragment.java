@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -326,13 +327,23 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
         if (flag == 3) {
             PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
             if (payCallBack != null) {
                 pay.getPayCallBack().onFinish(payType);
                 pay.getPayCallBack().onCancel(payType);
             }
+            if("对不起！您还未设置交易密码".equals(message)){
+                getDm().buildAlertDialogSure(message,"取消","设置", new DialogHome.Callback() {
+                    @Override
+                    public void handleSure() {
+                        Intent intent=new Intent(context, PayPsdSettingActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        }else {
+            getDm().buildAlertDialog(message);
         }
     }
 

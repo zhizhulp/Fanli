@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -98,7 +99,7 @@ public class PayUtils {
                         }
                     } else {
                         if (payCallBack != null) {
-                            payCallBack.onFailed(payType,"支付失败");
+                            payCallBack.onFailed(payType, "支付失败");
                         }
                     }
                     if (dialog != null && dialog.isShowing()) {
@@ -111,6 +112,7 @@ public class PayUtils {
 
     };
     private ProgressDialog progressDialog;
+    private PsdDialog psdDialog;
 
     public PayUtils(Activity activity, String price, String balance) {
         this.context = activity;
@@ -135,7 +137,7 @@ public class PayUtils {
         public void onSuccess(String payStype) {
         }
 
-        public void onFailed(String payStype,String msg) {
+        public void onFailed(String payStype, String msg) {
         }
 
         public abstract void onFinish(String payStype);
@@ -252,11 +254,11 @@ public class PayUtils {
             payCallBack.onFinish(payType);
         }
         //显示密码输入框
-        final PsdDialog dialog=new PsdDialog(context,R.style.AlertDialog);
-        dialog.setOnPasswordInputFinish(new OnPasswordInput() {
+        psdDialog = new PsdDialog(context, R.style.AlertDialog);
+        psdDialog.setOnPasswordInputFinish(new OnPasswordInput() {
             @Override
             public void inputFinish(String number) {
-                dialog.dismiss();
+                psdDialog.dismiss();
                 if (!StringUtils.isEmpty(number)) {
                     PayUtils.this.password = PsdUtils.getPayPsd(number);
                     requstYuEResult(object1);
@@ -265,7 +267,7 @@ public class PayUtils {
 
             @Override
             public void inputCancel() {
-                dialog.dismiss();
+                psdDialog.dismiss();
                 if (payCallBack != null) {
                     payCallBack.onCancel(payType);
                 }
@@ -276,7 +278,7 @@ public class PayUtils {
 
             }
         });
-        dialog.showMyDialog();
+        psdDialog.showMyDialog();
     }
 
 
@@ -307,31 +309,39 @@ public class PayUtils {
         int status = jObj.optInt("status");
         String msg = jObj.optString("msg");
         if (status == 200) {
-            switch (what) {
-                case 1:
-                    //余额支付
-                    if (payCallBack != null) {
-                        payCallBack.onSuccess(payType);
-                    }
-                    break;
+            //余额支付
+            if (payCallBack != null) {
+                payCallBack.onSuccess(payType);
             }
         } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
             Intent intent = new Intent(context, LoginActivity.class);
             AppConfig.getInstance().putInt("uuid", -1000);
             context.startActivityForResult(intent, REQUEST_LOGIN);
         } else if (status == 404) {
-            switch (what) {
-                case 1:
-                    //余额支付
-                    if (payCallBack != null) {
-                        payCallBack.onFailed(payType,msg);
+            if("密码错误".equals(msg)){
+                dialogHome.buildAlertDialogSure(msg,"重新输入","忘记密码", new DialogHome.Callback() {
+                    @Override
+                    public void handleSure() {
+                        Intent intent=new Intent(context, PayPsdSettingActivity.class);
+                        context.startActivity(intent);
+                        psdDialog.showMyDialog();
                     }
-                    break;
+
+                    @Override
+                    void handleCancel() {
+                        psdDialog.showMyDialog();
+                    }
+                });
+                return;
+            }
+            if (payCallBack != null) {
+                payCallBack.onFailed(payType, msg);
             }
         } else {
             Toast.makeText(context, "未知status" + status, Toast.LENGTH_SHORT).show();
         }
     }
+
     //请求余额支付验证
     private void requstYuEResult(JSONObject object) {
         JSONObject payObj = object.optJSONObject("payInfo");

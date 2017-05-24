@@ -3,14 +3,15 @@ package com.ascba.rebate.activities.shop.order;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
@@ -18,7 +19,6 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -52,7 +52,6 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
     private TextView deleteTx;
     private int flag = 0;//0-获取数据，1-取消订单,2-付款
     private String payType;
-    private PayUtils pay;
     private String balance;//账户余额
     private TextView tvMsg;
     private View msgView;
@@ -310,13 +309,6 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
     public void handle404(String message) {
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
-        }
-        if (flag == 2) {
-            PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
-            if (payCallBack != null) {
-                pay.getPayCallBack().onFinish(payType);
-                pay.getPayCallBack().onCancel(payType);
-            }
         }
         getDm().buildAlertDialog(message);
     }
