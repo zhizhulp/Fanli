@@ -58,4 +58,10 @@
     <dimen name="et_radius">6dp</dimen>
     <dimen name="dimen_6">6dp</dimen>
     <dimen name="et_board">0.5dp</dimen>
+    <dimen name="text_size_zhe_kou_pai">11sp</dimen>
+    <dimen name="text_size_zhuhuizhang_goods_time">12sp</dimen>
+    <dimen name="text_size_zhuhuichang_goods_name">13sp</dimen>
+    <dimen name="text_size_zhuhuichang_goods_price">13sp</dimen>
+    <dimen name="text_size_zhuhuichang_goods_integral">11sp</dimen>
+    <dimen name="text_size_zhuhuichang_goods_person">11sp</dimen>
 </resources>

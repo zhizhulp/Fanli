@@ -220,6 +220,7 @@
         <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
         <!-- 退出时的动画 -->
     </style>
+
     <style name="dialog_imageview">
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowNoTitle">true</item>
@@ -227,11 +228,17 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
+
     <style name="shop_textView_style01">
         <item name="android:textColor">@color/shop_normal_text_color</item>
         <item name="android:textSize">@dimen/main_text_14</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:lineSpacingExtra">8dp</item>
     </style>
 </resources>

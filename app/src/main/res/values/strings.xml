@@ -45,4 +45,5 @@
     <string name="no_permission">部分功能可能无法使用，因为你拒绝了权限</string>
     <string name="no_response">请求失败</string>
     <string name="ticket_reduce_cash">礼品券立减金额</string>
+    <string name="zhe_kou_pai">折扣拍</string>
 </resources>
