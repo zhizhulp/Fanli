@@ -1,16 +1,12 @@
 package com.ascba.rebate.activities.main;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,10 +22,14 @@ import com.ascba.rebate.fragments.main.HomePageFragment;
 import com.ascba.rebate.fragments.main.MeFragment;
 import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.fragments.main.SideFragment;
+import com.ascba.rebate.handlers.ReceiveThread;
+import com.ascba.rebate.handlers.SendThread;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -87,6 +87,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private AppTabs appTabs;
     private boolean debug = true;
     private static final String TAG = "MainActivityFragment";
+    private ReceiveThread receiveThread;
+    private SendThread sendThread;
 
 
     @Override
@@ -101,29 +103,36 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     Fragment fragment = fragments.get(i);
                     if (mHomePageFragment == null && fragment instanceof HomePageFragment)
                         mHomePageFragment = fragment;
-                        fgts.add(fragment);
+                    fgts.add(fragment);
                     if (mSideFragment == null && fragment instanceof SideFragment)
                         mSideFragment = fragment;
-                        fgts.add(fragment);
+                    fgts.add(fragment);
                     if (mMoneyFragment == null && fragment instanceof MoneyFragment)
                         mMoneyFragment = fragment;
-                        fgts.add(fragment);
+                    fgts.add(fragment);
                     if (mMeFragment == null && fragment instanceof MeFragment)
                         mMeFragment = fragment;
-                        fgts.add(fragment);
+                    fgts.add(fragment);
                 }
-                index=0;
+                index = 0;
             }
         }
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findViews();
+        //接受消息
+//        receiveThread = new ReceiveThread();
+//        receiveThread.start();
+//        //发送消息
+//        sendThread = new SendThread("{\"from_type\":\"login\",\"member_id\":85,\"nickname\":\"疯狂牛仔\",\"avatar\":\"http://www.qlqwshop.com\"}");
+//        sendThread.start();
+
     }
 
     private void findViews() {
         appTabs = ((AppTabs) findViewById(R.id.tabs));
         appTabs.setCallback(this);
-        appTabs.statusChaByPosition(index,currIndex);
+        appTabs.statusChaByPosition(index, currIndex);
         selFrgByPos(index);
         init();//设置极光推送用户标识
     }
@@ -334,6 +343,9 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     @Override
     protected void onDestroy() {
+        if (sendThread != null) {
+            sendThread.disConnect();
+        }
         if (debug)
             Log.d(TAG, "onDestroy: ");
         super.onDestroy();
