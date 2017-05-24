@@ -25,59 +25,71 @@
         android:background="@color/white"
         android:orientation="vertical">
         <!--收货人信息-->
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="82dp"
+            android:layout_height="82dp">
 
-            android:orientation="vertical">
-            <!--收货人信息-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:layout_marginTop="14dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!--收货人信息-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="李平"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:text="15350732091"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="李平"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="7dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="北京市丰台区光彩路"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:text="15350732091"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="6dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="建邦华府底商，钱来钱往网络科技有限公司"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
-                android:layout_marginTop="7dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="北京市丰台区光彩路"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="12sp" />
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/right2_arrow"
+                android:layout_gravity="center_vertical|right"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
-                android:layout_marginTop="6dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="建邦华府底商，钱来钱往网络科技有限公司"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="12sp" />
-        </LinearLayout>
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
