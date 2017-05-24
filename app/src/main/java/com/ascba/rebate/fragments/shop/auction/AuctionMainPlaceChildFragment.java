@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.auction.BlindShootActivity;
+import com.ascba.rebate.activities.shop.auction.GrabShootActivity;
 import com.ascba.rebate.adapter.AuctionMainPlaceChildAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -66,6 +67,15 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                         break;
                     case 2:
                         BlindShootActivity.startIntent(getActivity(), 2);
+                        break;
+                    case 3:
+                        GrabShootActivity.startIntent(getActivity(), 0);
+                        break;
+                    case 4:
+                        GrabShootActivity.startIntent(getActivity(), 1);
+                        break;
+                    case 5:
+                        GrabShootActivity.startIntent(getActivity(), 2);
                         break;
                 }
 
