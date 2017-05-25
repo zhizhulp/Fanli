@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
@@ -22,14 +22,12 @@ import com.ascba.rebate.fragments.base.LazyLoadFragment;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
-import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

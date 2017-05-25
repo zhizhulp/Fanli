@@ -10,15 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.RechargeBillActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.me_page.AllAccountActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.IDsUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.view.MoneyBar;

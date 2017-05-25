@@ -1,5 +1,6 @@
 package com.ascba.rebate.fragments.shop.auction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.shop.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.AcutionHPAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -86,6 +88,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 switch (view.getId()) {
                     case R.id.auction_btn_get:
                         //立即拍
+                        startActivity(new Intent(getActivity(), PayDepositActivity.class));
                         break;
                 }
             }

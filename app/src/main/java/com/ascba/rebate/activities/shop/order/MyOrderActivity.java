@@ -1,7 +1,6 @@
-package com.ascba.rebate.activities;
+package com.ascba.rebate.activities.shop.order;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
 import com.ascba.rebate.fragments.shop.order.AllOrderFragment;

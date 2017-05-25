@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;

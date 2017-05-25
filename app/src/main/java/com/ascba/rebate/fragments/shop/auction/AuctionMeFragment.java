@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.shop.auction.MyAuctionOrderActivity;
 import com.ascba.rebate.activities.shop.auction.MyCashDepositActivity;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 
@@ -40,6 +41,10 @@ public class AuctionMeFragment extends BaseNetFragment implements View.OnClickLi
         });
 
         view.findViewById(R.id.btn_auction_me_bao_zheng_jin).setOnClickListener(this);
+
+        view.findViewById(R.id.btn_auction_me_jing_pai).setOnClickListener(this);
+
+        view.findViewById(R.id.btn_auction_me_huo_pai).setOnClickListener(this);
     }
 
     @Override
@@ -48,6 +53,14 @@ public class AuctionMeFragment extends BaseNetFragment implements View.OnClickLi
             case R.id.btn_auction_me_bao_zheng_jin:
                 //我的保证金
                 startActivity(new Intent(getActivity(), MyCashDepositActivity.class));
+                break;
+            case R.id.btn_auction_me_jing_pai:
+                //我的竞拍
+
+                break;
+            case R.id.btn_auction_me_huo_pai:
+                //我的获拍
+                MyAuctionOrderActivity.startIntent(getActivity(), 0);
                 break;
         }
     }

@@ -10,13 +10,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
-import com.ascba.rebate.activities.MyOrderActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;

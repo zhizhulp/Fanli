@@ -504,7 +504,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.MyOrderActivity"
+            android:name=".activities.shop.order.MyOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
@@ -690,6 +690,10 @@
             android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.shop.auction.MyCashDepositActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppStyle" />
+        <activity
+            android:name=".activities.shop.auction.MyAuctionOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
     </application>

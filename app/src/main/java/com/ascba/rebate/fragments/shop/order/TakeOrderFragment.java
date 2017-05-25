@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;

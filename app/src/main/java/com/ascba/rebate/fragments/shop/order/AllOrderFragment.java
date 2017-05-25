@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.MyOrderActivity;
+import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.CancelOrderDetailsActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
