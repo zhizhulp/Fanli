@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/goods_details_cuttingline_wide" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="11dp"
+        android:orientation="horizontal"
+        android:paddingBottom="9dp"
+        android:paddingTop="9dp">
+
+        <!--商品图片-->
+        <FrameLayout
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+            <ImageView
+                android:id="@+id/img_goods"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_bg"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/text_state"
+                android:layout_width="39dp"
+                android:layout_height="16dp"
+                android:background="#FFA24F"
+                android:gravity="center"
+                android:text="未开始"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:orientation="vertical">
+            <!--商品名-->
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="3dp"
+                android:maxLines="2"
+                android:text="苹果iPhone7手机限时抢拍  白色128G 全网通，充电5分钟通话2小时..."
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="离开始：00时 02分 54秒"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="13sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!--保证金-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="保证金："
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/text_cash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="￥100.00"
+                        android:textColor="@color/fragment_money_red"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <!--按钮-->
+                <TextView
+                    android:id="@+id/text_btn"
+                    android:layout_width="63dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/red_bg2"
+                    android:gravity="center"
+                    android:text="已支付"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

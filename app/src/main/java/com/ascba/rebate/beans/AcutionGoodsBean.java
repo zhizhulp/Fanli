@@ -13,6 +13,8 @@ public class AcutionGoodsBean {
     private String personNum;//竞拍人数
     private String price;//价格
     private String score;//积分
+    private String cashDeposit;//保证金
+    private String payState;//支付状态
 
     public String getImgUrl() {
         return imgUrl;
@@ -76,5 +78,21 @@ public class AcutionGoodsBean {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public String getCashDeposit() {
+        return cashDeposit;
+    }
+
+    public void setCashDeposit(String cashDeposit) {
+        this.cashDeposit = cashDeposit;
+    }
+
+    public String getPayState() {
+        return payState;
+    }
+
+    public void setPayState(String payState) {
+        this.payState = payState;
     }
 }
