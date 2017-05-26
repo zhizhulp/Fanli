@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities.base;
 
 import android.app.Dialog;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.ascba.rebate.R;
@@ -25,10 +26,13 @@ import org.json.JSONObject;
 public abstract class BaseActivityNet extends BaseActivity {
 
     protected DialogHome dialogManager;
+    protected String TAG=getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppStyle);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         dialogManager = new DialogHome(this);
     }
 

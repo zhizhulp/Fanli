@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.offline_business.OfflinePayActivity">
+    <com.ascba.rebate.view.MoneyBar
+        app:textTitle="付款"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:paddingTop="25dp"
+        android:paddingBottom="12dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.ascba.rebate.view.RoundImageView
+            android:id="@+id/im_busi_icon"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
+            app:type="circle"/>
+        <TextView
+            android:layout_marginTop="12dp"
+            android:id="@+id/tv_busi_name"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_marginTop="12dp"
+            android:src="@drawable/weak_line"
+            android:background="@drawable/weak_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <TextView
+            android:layout_marginTop="12dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:text="金额"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_marginTop="12dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/symbol"
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_17"
+                android:text="￥"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.ascba.rebate.view.EditTextWithCustomHint
+                android:layout_toRightOf="@id/symbol"
+                android:textColorHint="@color/main_text_gary"
+                android:id="@+id/et_busi_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:background="@null"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:textSize="37sp"
+                app:hintSize="@dimen/main_text_15" />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <Button
+        android:layout_marginTop="30dp"
+        android:onClick="goPay"
+        android:text="付款"
+        style="@style/btnNormal" />
+    <TextView
+        android:id="@+id/tv_pay_type"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

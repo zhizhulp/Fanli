@@ -48,7 +48,8 @@
     </style>
 
     <style name="AppStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">#ff000000</item><!--action_bar颜色-->
+        <item name="colorPrimaryDark">#ff000000</item><!--status_bar颜色-->
+        <item name="android:windowBackground">@color/main_bg</item>
     </style>
 
     <style name="NotitleTheme" parent="Theme.AppCompat.NoActionBar">

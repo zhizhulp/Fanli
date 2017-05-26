@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.main_page.sweep.PayActivity;
+import com.ascba.rebate.activities.offline_business.OfflinePayActivity;
 import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
@@ -70,6 +71,8 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
+        Intent intent1 = new Intent(this, OfflinePayActivity.class);
+        startActivity(intent1);
 
     }
 
@@ -262,7 +265,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         JSONObject infoObj = dataObj.optJSONObject("info");
-        Intent intent1 = new Intent(this, PayActivity.class);
+        Intent intent1 = new Intent(this, OfflinePayActivity.class);
         intent1.putExtra("bus_uuid", infoObj.optInt("seller"));
         intent1.putExtra("avatar", infoObj.optString("seller_avatar"));
         startActivity(intent1);

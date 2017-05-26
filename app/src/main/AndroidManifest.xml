@@ -61,7 +61,6 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="11d31c62f7f344c66c4f0fc80a15c4ce" />
-
         <activity
             android:name=".activities.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -675,11 +674,11 @@
         <activity
             android:name=".activities.shop.order.CancelOrderDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.shop.auction.BlindShootActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle"></activity>
+            android:theme="@style/AppStyle" />
         <activity
             android:name=".activities.shop.auction.AuctionActivity"
             android:screenOrientation="portrait"
@@ -696,6 +695,7 @@
             android:name=".activities.shop.auction.MyAuctionOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
+        <activity android:name=".activities.offline_business.OfflinePayActivity"></activity>
     </application>
 
 </manifest>

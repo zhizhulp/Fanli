@@ -3,52 +3,57 @@
     android:id="@+id/money_bar_parent"
     android:layout_width="match_parent"
     android:layout_height="48dp">
-
-    <ImageView
-        android:id="@+id/money_bar_back"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:paddingLeft="15dp"
-        android:paddingRight="55dp"
-        android:scaleType="center"
-        android:src="@mipmap/abar_back" />
-
-    <TextView
-        android:textStyle="bold"
-        android:id="@+id/money_bar_title"
+    <RelativeLayout
+        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:maxLines="1"
-        android:textColor="@color/main_text_normal"
-        android:textSize="@dimen/main_text_16" />
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/money_bar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="55dp"
+            android:scaleType="center"
+            android:src="@mipmap/abar_back" />
 
-    <ImageView
-        android:id="@+id/money_bar_tail_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:src="@mipmap/ic_search"
-        android:visibility="gone" />
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/money_bar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:maxLines="1"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_16" />
 
-    <TextView
-        android:id="@+id/money_bar_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:gravity="center"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text="完成"
-        android:textColor="@color/main_text_blue"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/money_bar_tail_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/ic_search"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/money_bar_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="完成"
+            android:textColor="@color/main_text_blue"
+            android:visibility="gone" />
+    </RelativeLayout>
+
     <View
         android:id="@+id/money_bar_line"
         android:layout_alignParentBottom="true"

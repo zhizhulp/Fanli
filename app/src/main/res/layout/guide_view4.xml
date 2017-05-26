@@ -21,6 +21,6 @@
         android:text="@string/entry"
         android:textColor="#333333"
         android:textSize="17sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </FrameLayout>
