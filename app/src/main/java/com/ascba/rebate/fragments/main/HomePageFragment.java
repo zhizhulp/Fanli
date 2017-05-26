@@ -37,6 +37,7 @@ import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.activities.offline_business.OfflinePayActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -281,7 +282,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), CaptureActivity.class));
+                    startActivity(new Intent(getActivity(), OfflinePayActivity.class));
                     popupWindow.dismiss();
                 }
             });

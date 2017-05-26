@@ -76,6 +76,7 @@
 
     </LinearLayout>
     <Button
+        android:id="@+id/btn_pay"
         android:layout_marginTop="30dp"
         android:onClick="goPay"
         android:text="付款"

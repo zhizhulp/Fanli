@@ -1,5 +1,6 @@
 package com.ascba.rebate.qr;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
@@ -37,6 +38,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.Permission;
 import java.util.Vector;
 
 public class CaptureActivity extends BaseNetActivity implements Callback, BaseNetActivity.Callback {
@@ -53,6 +55,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     // private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     CameraManager cameraManager;
+    private String [] permissions={Manifest.permission.CAMERA};
 
     /**
      * Called when the activity is first created.
@@ -60,9 +63,15 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_capture);
+        checkAndRequestAllPermission(permissions, new PermissionCallback() {
+            @Override
+            public void requestPermissionAndBack(boolean isOk) {
+                if(!isOk){
+                    finish();
+                }
+            }
+        });
         surfaceView = (SurfaceView) findViewById(R.id.surfaceview);
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinderview);
 
@@ -70,10 +79,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         hasSurface = false;
-        inactivityTimer = new InactivityTimer(this);
-        Intent intent1 = new Intent(this, OfflinePayActivity.class);
-        startActivity(intent1);
-
+        inactivityTimer = new InactivityTimer(CaptureActivity.this);
     }
 
     @Override
@@ -83,8 +89,8 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         // CameraManager.init(getApplication());
-        cameraManager = new CameraManager(getApplication());
 
+        cameraManager = new CameraManager(getApplication());
         viewfinderView.setCameraManager(cameraManager);
 
         SurfaceHolder surfaceHolder = surfaceView.getHolder();

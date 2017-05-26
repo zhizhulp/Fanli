@@ -28,6 +28,7 @@ import org.json.JSONObject;
 public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFocusChangeListener
         ,View.OnTouchListener {
     private static final int REQUEST_FORGET = 1;
+    private static final int REQUEST_PAY = 2;
     private PasswordInputView edtPwd;
     private NumKeyboardUtil keyboardUtil;
     private String firstNum;//第一次输入的密码
@@ -54,7 +55,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
             int type = intent.getIntExtra("type",0);
             if(type==1){
                 AppConfig.getInstance().putInt("is_level_pwd",0);
-                startActivity(new Intent(this,FindPayPasswordActivity.class));
+                startActivityForResult(new Intent(this,FindPayPasswordActivity.class),REQUEST_PAY);
             }
         }
     }
@@ -214,26 +215,33 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
     @Override
     protected void mhandle404(int what, JSONObject object, String message) {
         super.mhandle404(what, object, message);
-        getDm().buildAlertDialog(message);
         resetData();
     }
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
         super.mhandleFailed(what, e);
-        getDm().buildAlertDialog(getString(R.string.no_response));
         resetData();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null){
-            return;
-        }
-        if(resultCode==RESULT_OK){
-            type=0;
-            resetData();
+        switch (requestCode){
+            case REQUEST_FORGET:
+                if(resultCode==RESULT_OK){
+                    type=0;
+                    resetData();
+                }
+                break;
+            case REQUEST_PAY:
+                if(resultCode==RESULT_OK){
+                    type=0;
+                    resetData();
+                }else {
+                    finish();
+                }
+                break;
         }
     }
 

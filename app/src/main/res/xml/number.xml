@@ -44,7 +44,7 @@
     <Row>
         <Key
             android:codes="-3"
-            android:keyLabel="完成" />
+            />
         <Key
             android:codes="48"
             android:keyLabel="0" />
