@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
@@ -66,6 +67,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
     private View searchHeadLine;//分割线
     private int mDistanceY = 0;//下拉刷新滑动距离
     private MsgView msgView;
+    private String subTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +78,10 @@ public class TypeMarketActivity extends BaseNetActivity implements
         initViews();
     }
 
-    public static void startIntent(Context context, int id) {
+    public static void startIntent(Context context, int id,String subTitle) {
         Intent intent = new Intent(context, TypeMarketActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("sub_title", subTitle);
         context.startActivity(intent);
     }
 
@@ -86,6 +89,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
         Intent intent = getIntent();
         if (intent != null) {
             categoryId = intent.getIntExtra("id", 0);
+            subTitle = intent.getStringExtra("sub_title");
         }
     }
 
@@ -94,6 +98,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
         //标题栏
         searchHead = (RelativeLayout) findViewById(R.id.head_search_rr);
         searchHeadLine = findViewById(R.id.homepage_head_view);
+        ((TextView) findViewById(R.id.tv_title)).setText(subTitle);
 
         //返回图标
         findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
@@ -125,8 +130,11 @@ public class TypeMarketActivity extends BaseNetActivity implements
                     if (shopBaseItem.getItemType() == ShopItemType.TYPE_GOODS) {
                         GoodsDetailsActivity.startIntent(TypeMarketActivity.this, shopBaseItem.getColor());
                     } else if (shopBaseItem.getItemType() == ShopItemType.TYPE_NAVIGATION) {
-                        Intent intent = new Intent(TypeMarketActivity.this, GoodsListActivity.class);
-                        startActivity(intent);
+
+                        TypeMarketActivity.startIntent(TypeMarketActivity.this, shopBaseItem.getColor(),shopBaseItem.getDesc());
+
+                        /*Intent intent = new Intent(TypeMarketActivity.this, GoodsListActivity.class);
+                        startActivity(intent);*/
                     }
                 }
             }

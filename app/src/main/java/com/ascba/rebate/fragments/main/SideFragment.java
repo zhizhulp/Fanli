@@ -99,6 +99,7 @@ public class SideFragment extends BaseNetFragment implements
     private int finalScene;
     private EditTextWithCustomHint etSearch;
     private String keywords;
+    private boolean isLocateSuss;
 
     public SideFragment() {
 
@@ -252,11 +253,13 @@ public class SideFragment extends BaseNetFragment implements
 
     @Override
     public void onRefresh() {
-
         resetPage();
         clearData();
-        initLocation();
-        //requestNetwork(finalScene);
+        if(isLocateSuss){
+            requestNetwork(finalScene);
+        }else {
+            initLocation();
+        }
 
     }
 
@@ -390,7 +393,7 @@ public class SideFragment extends BaseNetFragment implements
      */
     private AMapLocationClientOption getDefaultOption() {
         AMapLocationClientOption mOption = new AMapLocationClientOption();
-        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
         mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
         mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
         mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
@@ -410,17 +413,23 @@ public class SideFragment extends BaseNetFragment implements
         @Override
         public void onLocationChanged(AMapLocation loc) {
             if (null != loc) {
-                stopLocation();
-                tvLocate.setText(loc.getCity());
                 region_name = loc.getCity();
-                lat = loc.getLatitude();
-                lon = loc.getLongitude();
-                clearData();
-                finalScene = 0;
-                requestNetwork(finalScene);
+                if(!StringUtils.isEmpty(region_name)){
+                    stopLocation();
+                    isLocateSuss=true;
+                    tvLocate.setText(loc.getCity());
+                    lat = loc.getLatitude();
+                    lon = loc.getLongitude();
+                    clearData();
+                    finalScene = 0;
+                    requestNetwork(finalScene);
+                }else {
+                    Toast.makeText(getActivity(), "定位失败", Toast.LENGTH_SHORT).show();
+                }
+
             } else {
                 Toast.makeText(getActivity(), "定位失败", Toast.LENGTH_SHORT).show();
-                stopLocation();
+
             }
         }
     };
@@ -490,5 +499,11 @@ public class SideFragment extends BaseNetFragment implements
             }
         });
         expandTabView.addItemToExpandTab(defaultShowText, popTwoListView);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopLocation();
     }
 }

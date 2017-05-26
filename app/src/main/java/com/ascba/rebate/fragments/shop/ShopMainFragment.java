@@ -167,7 +167,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                     if (shopBaseItem.getItemType() == ShopItemType.TYPE_GOODS) {
                         GoodsDetailsActivity.startIntent(getActivity(), shopBaseItem.getColor());
                     } else if (shopBaseItem.getItemType() == ShopItemType.TYPE_NAVIGATION) {
-                        TypeMarketActivity.startIntent(getActivity(), shopBaseItem.getColor());
+                        TypeMarketActivity.startIntent(getActivity(), shopBaseItem.getColor(),shopBaseItem.getDesc());
                     }
                 }
             }

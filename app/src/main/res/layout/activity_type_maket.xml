@@ -72,11 +72,12 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="精选超市"
-            android:textColor="@color/shop_normal_text_color"
+            android:textColor="@color/white"
             android:textSize="15sp" />
 
         <View
