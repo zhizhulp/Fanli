@@ -324,6 +324,12 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                         @Override
                         public void onCreatOrder(String arg) {
                             payType = arg;
+                            if(StringUtils.isEmpty(balance)){
+                                balance="0";
+                            }
+                            if(StringUtils.isEmpty(orderAmount)){
+                                orderAmount="0";
+                            }
                             if("balance".equals(payType) && Double.parseDouble(orderAmount ) > Double.parseDouble(balance)){
                                 showToast("余额不足");
                                 return;

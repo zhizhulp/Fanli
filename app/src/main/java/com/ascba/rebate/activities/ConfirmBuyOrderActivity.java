@@ -365,6 +365,12 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                         pay.showDialog(new PayUtils.OnCreatOrder() {
                             @Override
                             public void onCreatOrder(String payType) {
+                                if(StringUtils.isEmpty(balance)){
+                                    balance="0";
+                                }
+                                if(StringUtils.isEmpty(pay_total_fee)){
+                                    pay_total_fee="0";
+                                }
                                 if("balance".equals(payType) && Double.parseDouble(balance) < Double.parseDouble(pay_total_fee)){
                                     showToast("余额不足");
                                     return;

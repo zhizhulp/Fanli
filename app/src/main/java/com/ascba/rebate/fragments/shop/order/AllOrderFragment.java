@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.CancelOrderDetailsActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
@@ -18,6 +19,7 @@ import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.AllOrderAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
@@ -43,9 +45,9 @@ import java.util.List;
  * 全部订单
  */
 
-public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback,SwipeRefreshLayout.OnRefreshListener {
+public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback, SwipeRefreshLayout.OnRefreshListener {
 
-    private static String TAG="AllOrderFragment";
+    private static String TAG = "AllOrderFragment";
     private RecyclerView recyclerView;
     private Context context;
 
@@ -56,10 +58,10 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private String orderStatus;//订单状态：0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;
     private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单
-    private View emptyView;
     private String balance;//账户余额
     private PayUtils pay;
     private String payType;
+    private String orderAmount;
 
     @Override
     protected int setContentView() {
@@ -84,7 +86,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         this.view = view;
     }
 
-    
+
     //获取列表数据
     private void requstListData() {
         flag = 0;
@@ -116,6 +118,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
             balance = member_info.optString("money");//余额
+            int is_level_pwd = member_info.optInt("is_level_pwd");//是否设置支付密码
+            AppConfig.getInstance().putInt("is_level_pwd", is_level_pwd);
         }
         //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
@@ -200,7 +204,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     beadFoot = new OrderBean(AllOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, orderAmount, shippingFee);
                 } else if (orderStatus.equals("30")) {
                     //等待买家收货
-                    beadFoot = new OrderBean(AllOrderAdapter.TYPE4, R.layout.item_order_take_foot, goodsNum,  orderAmount, shippingFee);
+                    beadFoot = new OrderBean(AllOrderAdapter.TYPE4, R.layout.item_order_take_foot, goodsNum, orderAmount, shippingFee);
                 } else if (orderStatus.equals("40")) {
                     //交易成功
                     beadFoot = new OrderBean(AllOrderAdapter.TYPE5, R.layout.item_order_evaluate_foot, goodsNum, orderAmount, shippingFee);
@@ -219,12 +223,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         } else {
             adapter.notifyDataSetChanged();
         }
-
-        if (beanArrayList.size() > 0) {
-            emptyView.setVisibility(View.GONE);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
-        }
     }
 
     private void initRecylerView() {
@@ -235,7 +233,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         adapter = new AllOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
 
-        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
+        adapter.setEmptyView(R.layout.order_empty_view, recyclerView);
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -321,6 +319,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(this);
     }
+
     @Override
     public void onRefresh() {
         requstListData();
@@ -336,12 +335,12 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             case 1:
                 //取消订单,成功后刷新数据
                 requstListData();
-                MyApplication.isRefreshOrderCount=true;
+                MyApplication.isRefreshOrderCount = true;
                 break;
             case 2:
                 //删除订单,成功后刷新数据
                 requstListData();
-                MyApplication.isRefreshOrderCount=true;
+                MyApplication.isRefreshOrderCount = true;
                 break;
             case 3:
                 if ("balance".equals(payType)) {
@@ -355,7 +354,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     JSONObject wxpay = dataObj.optJSONObject("wxpay");
                     pay.requestForWX(wxpay);
                 }
-                MyApplication.isRefreshOrderCount=true;
+                MyApplication.isRefreshOrderCount = true;
                 break;
         }
     }
@@ -366,7 +365,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        if(flag==3){
+        if (flag == 3) {
             PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
             if (payCallBack != null) {
                 pay.getPayCallBack().onFinish(payType);
@@ -385,51 +384,71 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     //点击付款
     private void payPrice(int position, final String orderId) {
-        String price = beanArrayList.get(position).getOrderPrice();
-        if (StringUtils.isEmpty(price)) {
-            showToast("正在加载订单信息，请稍后");
-        } else {
-            //开启支付
-            pay = new PayUtils(getActivity(), price, balance);
-            //支付回调
-            pay.setPayCallBack(new PayUtils.onPayCallBack() {
-                @Override
-                public void onFinish(String payStype) {
-
+        orderAmount = beanArrayList.get(position).getOrderPrice();
+        //开启支付
+        pay = new PayUtils(getActivity(), orderAmount, balance);
+        pay.showDialog(new PayUtils.OnCreatOrder() {
+            @Override
+            public void onCreatOrder(String arg) {
+                payType = arg;
+                if (StringUtils.isEmpty(balance)) {
+                    balance = "0";
+                }
+                if (StringUtils.isEmpty(orderAmount)) {
+                    orderAmount = "0";
                 }
 
-                @Override
-                public void onSuccess(String payStype) {
-                    //刷新数据
-                    requstListData();
-                    MyOrderActivity.setCurrTab(2);
-                    showToast("成功支付");
+                if ("balance".equals(payType) && Double.parseDouble(orderAmount) > Double.parseDouble(balance)) {
+                    showToast("余额不足");
+                    return;
                 }
+                //检测用户是否设置了支付密码
+                if ("balance".equals(payType) && AppConfig.getInstance().getInt("is_level_pwd", 0) == 0) {
+                    getDm().buildAlertDialogSure("您还未设置支付密码，是否去设置？", new DialogHome.Callback() {
+                        @Override
+                        public void handleSure() {
+                            Intent intent1 = new Intent(getActivity(), PayPsdSettingActivity.class);
+                            startActivity(intent1);
+                        }
+                    });
+                    return;
+                }
+                requstData(3, UrlUtils.orderPay, orderId);
+            }
+        });
+        //支付回调
+        pay.setPayCallBack(new PayUtils.onPayCallBack() {
+            @Override
+            public void onFinish(String payStype) {
 
-                @Override
-                public void onCancel(String payStype) {
-                    showToast("取消支付");
-                }
+            }
 
-                @Override
-                public void onFailed(String payStype, String msg) {
-                    showToast(msg);
-                }
+            @Override
+            public void onSuccess(String payStype) {
+                //刷新数据
+                //requstListData();
+                MyOrderActivity.setCurrTab(2);
+                showToast("成功支付");
+            }
 
-                @Override
-                public void onNetProblem(String payStype) {
-                    showToast("手机网络有问题");
-                }
-            });
-            pay.showDialog(new PayUtils.OnCreatOrder() {
-                @Override
-                public void onCreatOrder(String arg) {
-                    payType = arg;
-                    requstData(3, UrlUtils.orderPay, orderId);
-                }
-            });
-        }
+            @Override
+            public void onCancel(String payStype) {
+                showToast("取消支付");
+            }
+
+            @Override
+            public void onFailed(String payStype, String msg) {
+                showToast(msg);
+            }
+
+            @Override
+            public void onNetProblem(String payStype) {
+                showToast("手机网络有问题");
+            }
+        });
+
     }
+
     @Override
     public void handleReLogin() {
 

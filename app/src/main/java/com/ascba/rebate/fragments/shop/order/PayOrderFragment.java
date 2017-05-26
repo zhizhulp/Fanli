@@ -40,7 +40,7 @@ import java.util.List;
  * 待付款订单
  */
 
-public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback , SwipeRefreshLayout.OnRefreshListener {
+public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private Context context;
@@ -115,7 +115,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         if (member_info != null) {
             balance = member_info.optString("money");//余额
             is_level_pwd = member_info.optInt("is_level_pwd");//是否设置支付密码
-            AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
+            AppConfig.getInstance().putInt("is_level_pwd", is_level_pwd);
         }
 
         //商品信息
@@ -162,7 +162,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         beanArrayList.add(orderBean);
                     }
                     //底部信息
-                    orderAmount = object.optString("order_amount");//订单总价
+                    String orderAmount = object.optString("order_amount");//订单总价
                     String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                     String goodsNum = "共" + totalNum + "件商品";//商品数量
 
@@ -188,7 +188,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
         adapter = new PayOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
-        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
+        adapter.setEmptyView(R.layout.order_empty_view, recyclerView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
@@ -206,7 +206,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款
-                        payPrice();
+                        payPrice(position);
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
@@ -242,70 +242,74 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(this);
     }
+
     @Override
     public void onRefresh() {
         requstListData();
     }
 
     // 付款
-    private void payPrice() {
-        if (StringUtils.isEmpty(orderAmount)) {
-            showToast("正在加载订单信息，请稍后");
-        } else {
-            //开启支付
-            pay = new PayUtils(getActivity(), orderAmount, balance);
-            pay.showDialog(new PayUtils.OnCreatOrder() {
-                @Override
-                public void onCreatOrder(String arg) {
-                    payType = arg;
-                    if("balance".equals(payType) && Double.parseDouble(orderAmount) > Double.parseDouble(balance)){
-                        showToast("余额不足");
-                        return;
-                    }
-                    //检测用户是否设置了支付密码
-                    if("balance".equals(payType) && AppConfig.getInstance().getInt("is_level_pwd",0)==0){
-                        getDm().buildAlertDialogSure("您还未设置支付密码，是否去设置？", new DialogHome.Callback() {
-                            @Override
-                            public void handleSure() {
-                                Intent intent1=new Intent(getActivity(),PayPsdSettingActivity.class);
-                                startActivity(intent1);
-                            }
-                        });
-                        return;
-                    }
-                    requstData(3, UrlUtils.orderPay, orderId);
+    private void payPrice(int position) {
+        //开启支付
+        orderAmount = beanArrayList.get(position).getOrderPrice();
+        pay = new PayUtils(getActivity(), orderAmount, balance);
+        pay.showDialog(new PayUtils.OnCreatOrder() {
+            @Override
+            public void onCreatOrder(String arg) {
+                payType = arg;
+                if (StringUtils.isEmpty(balance)) {
+                    balance = "0";
                 }
-            });
-            //支付回调
-            pay.setPayCallBack(new PayUtils.onPayCallBack() {
-                @Override
-                public void onFinish(String payStype) {
+                if (StringUtils.isEmpty(orderAmount)) {
+                    orderAmount = "0";
                 }
+                if ("balance".equals(payType) && Double.parseDouble(orderAmount) > Double.parseDouble(balance)) {
+                    showToast("余额不足");
+                    return;
+                }
+                //检测用户是否设置了支付密码
+                if ("balance".equals(payType) && AppConfig.getInstance().getInt("is_level_pwd", 0) == 0) {
+                    getDm().buildAlertDialogSure("您还未设置支付密码，是否去设置？", new DialogHome.Callback() {
+                        @Override
+                        public void handleSure() {
+                            Intent intent1 = new Intent(getActivity(), PayPsdSettingActivity.class);
+                            startActivity(intent1);
+                        }
+                    });
+                    return;
+                }
+                requstData(3, UrlUtils.orderPay, orderId);
+            }
+        });
+        //支付回调
+        pay.setPayCallBack(new PayUtils.onPayCallBack() {
+            @Override
+            public void onFinish(String payStype) {
+            }
 
-                @Override
-                public void onSuccess(String payStype) {
-                    showToast("支付成功");
-                    requstListData();
-                    MyOrderActivity.setCurrTab(2);
-                }
+            @Override
+            public void onSuccess(String payStype) {
+                showToast("支付成功");
+                //requstListData();
+                MyOrderActivity.setCurrTab(2);
+            }
 
-                @Override
-                public void onCancel(String payStype) {
-                    showToast("支付取消");
-                }
+            @Override
+            public void onCancel(String payStype) {
+                showToast("支付取消");
+            }
 
-                @Override
-                public void onFailed(String payStype, String msg) {
-                    showToast(msg);
-                }
+            @Override
+            public void onFailed(String payStype, String msg) {
+                showToast(msg);
+            }
 
-                @Override
-                public void onNetProblem(String payStype) {
-                    showToast("手机网络有问题");
-                }
-            });
+            @Override
+            public void onNetProblem(String payStype) {
+                showToast("手机网络有问题");
+            }
+        });
 
-        }
     }
 
     @Override

@@ -200,6 +200,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
             getDm().buildAlertDialog2(message, new DialogHome.Callback() {
                 @Override
                 public void handleSure() {
+                    AppConfig.getInstance().putInt("is_level_pwd",1);
                     setResult(RESULT_OK,getIntent());
                     finish();
                 }
