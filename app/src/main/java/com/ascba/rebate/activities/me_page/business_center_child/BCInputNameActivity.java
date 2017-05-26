@@ -65,7 +65,8 @@ public class BCInputNameActivity extends BaseNetActivity implements BaseNetActiv
         intent.putExtra("company_status", company_status);
         intent.putExtra("scope", scope);
         intent.putExtra("is_oper_name", is_oper_name);
-        startActivityForResult(intent, FourthFragment.REQUEST_APPLY);
+        startActivity(intent);
+        //startActivityForResult(intent, FourthFragment.REQUEST_APPLY);
     }
 
     @Override

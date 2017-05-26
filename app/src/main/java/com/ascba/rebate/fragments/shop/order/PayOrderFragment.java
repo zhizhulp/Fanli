@@ -11,10 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -55,6 +57,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private String payType;
     private PayUtils pay;
     private String balance;//账户余额
+    private int is_level_pwd;
 
 
     @Override
@@ -110,7 +113,10 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
             balance = member_info.optString("money");//余额
+            is_level_pwd = member_info.optInt("is_level_pwd");//是否设置支付密码
+            AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
         }
+
         //商品信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
@@ -242,12 +248,34 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     // 付款
     private void payPrice(int position) {
-        String price = beanArrayList.get(position).getOrderPrice();
+        final String price = beanArrayList.get(position).getOrderPrice();
         if (StringUtils.isEmpty(price)) {
             showToast("正在加载订单信息，请稍后");
         } else {
             //开启支付
             pay = new PayUtils(getActivity(), price, balance);
+            pay.showDialog(new PayUtils.OnCreatOrder() {
+                @Override
+                public void onCreatOrder(String arg) {
+                    payType = arg;
+                    if("balance".equals(payType) && Double.parseDouble(price) < Double.parseDouble(balance)){
+                        showToast("余额不足");
+                        return;
+                    }
+                    //检测用户是否设置了支付密码
+                    if("balance".equals(payType) && AppConfig.getInstance().getInt("is_level_pwd",0)==0){
+                        getDm().buildAlertDialogSure("您还未设置支付密码，是否去设置？", new DialogHome.Callback() {
+                            @Override
+                            public void handleSure() {
+                                Intent intent1=new Intent(getActivity(),PayPsdSettingActivity.class);
+                                startActivity(intent1);
+                            }
+                        });
+                        return;
+                    }
+                    requstData(3, UrlUtils.orderPay, orderId);
+                }
+            });
             //支付回调
             pay.setPayCallBack(new PayUtils.onPayCallBack() {
                 @Override
@@ -276,13 +304,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     showToast("手机网络有问题");
                 }
             });
-            pay.showDialog(new PayUtils.OnCreatOrder() {
-                @Override
-                public void onCreatOrder(String arg) {
-                    payType = arg;
-                    requstData(3, UrlUtils.orderPay, orderId);
-                }
-            });
+
         }
     }
 
@@ -325,12 +347,12 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        if (flag == 3) {
-            PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
+        /*if (flag == 3) {
+            *//*PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
             if (payCallBack != null) {
                 pay.getPayCallBack().onFinish(payType);
                 pay.getPayCallBack().onCancel(payType);
-            }
+            }*//*
             if("对不起！您还未设置交易密码".equals(message)){
                 getDm().buildAlertDialogSure(message,"取消","设置", new DialogHome.Callback() {
                     @Override
@@ -342,7 +364,8 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             }
         }else {
             getDm().buildAlertDialog(message);
-        }
+        }*/
+        getDm().buildAlertDialog(message);
     }
 
 

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.SelectIconManager;
 import com.squareup.picasso.Picasso;
@@ -66,7 +67,8 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private int scene;//区分网络请求
-    private int type;//区分公司状态
+    private int type=-1;//区分公司状态
+    private int iconStatus;//区分点击了哪个图片
 
 
     @Override
@@ -74,7 +76,36 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_center);
         initViews();
-        requestNetwork();
+        getDataFromIntent();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            String name = intent.getStringExtra("name");
+            String oper_name = intent.getStringExtra("oper_name");
+            String regist_capi = intent.getStringExtra("regist_capi");
+            String company_status = intent.getStringExtra("company_status");
+            String scope = intent.getStringExtra("scope");
+            String clientele_name = intent.getStringExtra("clientele_name");
+            int is_oper_name = intent.getIntExtra("is_oper_name",1);
+            if(!StringUtils.isEmpty(name)){
+                if (is_oper_name == 0) {
+                    authView.setVisibility(View.GONE);
+                } else if (is_oper_name == 1) {
+                    authView.setVisibility(View.VISIBLE);
+                    edAuthName.setText(clientele_name);
+                }
+                tvName.setText(name);
+                tvOperName.setText(oper_name);
+                tvRegMon.setText(regist_capi);
+                tvStatus.setText(company_status);
+                tvScope.setText(scope);
+
+            }else {
+                requestNetwork();
+            }
+        }
     }
 
     private void requestNetwork() {
@@ -109,7 +140,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             String regist_capi = intent.optString("regist_capi");
             String company_status = intent.optString("company_status");
             String scope = intent.optString("scope");
-            int is_oper_name = intent.optInt("is_oper_name", -1);// 0:与法人信息一致，1：与法人信息不一致
+            int is_oper_name = intent.optInt("is_oper_name", 1);// 0:与法人信息一致，1：与法人信息不一致
             chartered = intent.optString("chartered");//营业执照图片链接
             if (chartered != null) {
                 Picasso.with(this).load(UrlUtils.baseWebsite + chartered).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
@@ -130,14 +161,16 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             tvRegMon.setText(regist_capi);
             tvStatus.setText(company_status);
             tvScope.setText(scope);
+            int status = intent.optInt("status");
+            type=status;
             if (type == -1) {//用户填写的资料
                 btnCommit.setText("提交");
                 btnCommit.setEnabled(true);
-            } else if (type == 0) {//审核中的资料
+            } else if (type == 1) {//审核中的资料
                 btnCommit.setText("已提交，等待客服审核中");
                 btnCommit.setEnabled(false);
                 btnCommit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
-            } else if (type == 1) {//资料有误的资料
+            } else if (type == 2) {//资料有误的资料
                 btnCommit.setText("资料有误,点击重新审核");
                 btnCommit.setEnabled(true);
             }
@@ -168,7 +201,9 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
 
     //提交商家资料
     public void goCommit(View view) {
-        if (type == -1) {//提交商家资料
+
+        if (type == -1 ) {//提交商家资料
+            scene=0;
             Request<JSONObject> request = buildNetRequest(UrlUtils.addCompany, 0, true);
             request.add("company_name", tvName.getText().toString());
             if (fileWork == null) {
@@ -187,7 +222,8 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             }
             executeNetWork(request, "请稍后");
             setCallback(this);
-        } else if (type == 1) {//资料有误
+        } else if (type == 2) {//资料有误
+            scene=3;
             Request<JSONObject> request = buildNetRequest(UrlUtils.resubmitCompany, 0, true);
             request.add("company_name", tvName.getText().toString());
             if (fileWork == null) {
@@ -212,9 +248,10 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
 
     //选择营业执照
     public void uploadWorkPic(View view) {
-        if (type == -1 || type == 1) {
+        iconStatus=0;
+        if (type == -1 || type == 2) {
             checkPermission();
-        } else if (type == 0) {//审核中，展示图片
+        } else if (type == 1) {//审核中，展示图片
             Intent intent = new Intent(this, ShowPicActivity.class);
             if (chartered != null) {
                 intent.putExtra("image", chartered);
@@ -225,10 +262,10 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
 
     //选择授权书
     public void uploadAuthPic(View view) {
-        if (type == -1 || type == 1) {
-            type = 1;
+        iconStatus=1;
+        if (type == -1 || type == 2) {
             checkPermission();
-        } else if (type == 0) {//审核中，展示图片
+        } else if (type == 1) {//审核中，展示图片
             Intent intent = new Intent(this, ShowPicActivity.class);
             if (warrant != null) {
                 intent.putExtra("image", warrant);
@@ -242,10 +279,10 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             if (ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, permissions, 1);
             } else {
-                showPop(type);
+                showPop();
             }
         } else {
-            showPop(type);
+            showPop();
         }
     }
 
@@ -255,7 +292,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
         if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             //用户同意使用read
-            showPop(type);
+            showPop();
         } else {
             //用户不同意，自行处理即可
             Toast.makeText(this, "无法使用此功能，因为你拒绝了权限", Toast.LENGTH_SHORT).show();
@@ -263,8 +300,8 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void showPop(int type) {
-        if (type == 0) {//显示营业执照
+    private void showPop() {
+        if (iconStatus == 0) {//显示营业执照
             SelectIconManager smWorkPic = new SelectIconManager(this);
             smWorkPic.setCallback(new SelectIconManager.Callback() {
                 @Override
@@ -288,7 +325,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                     startActivityForResult(intent2, GO_ALBUM_WORK);
                 }
             });
-        } else if (type == 1) {//显示授权书
+        } else if (iconStatus == 1) {//显示授权书
             SelectIconManager smAuthPic = new SelectIconManager(this);
             smAuthPic.setCallback(new SelectIconManager.Callback() {
                 @Override

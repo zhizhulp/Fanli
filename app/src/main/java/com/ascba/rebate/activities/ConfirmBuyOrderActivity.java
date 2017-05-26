@@ -20,6 +20,7 @@ import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.ReceiveAddressBean;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
@@ -43,6 +44,7 @@ import java.util.List;
 
 public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnClickListener {
 
+    private static final int REQUEST_SETTING_PAY_PSD = 0;
     private Context context;
     private ArrayList<ReceiveAddressBean> beanList = new ArrayList<>();//收货地址
     private ReceiveAddressBean defaultAddressBean;//默认收货地址
@@ -59,6 +61,8 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
     private String balance;//账户余额
     private String orderId;//订单id
     private ConfirmOrderAdapter confirmOrderAdapter;
+    private String pay_total_fee;
+    private int is_level_pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +138,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
             tailZongyouhui.setText("￥"+checkObj.optString("total_coupon_money"));
             tailShijiyouhui.setText("￥"+checkObj.optString("total_employ_coupon_money"));
             tailZengzhijifen.setText(checkObj.optString("increment_score"));
+            pay_total_fee = checkObj.optString("pay_total_fee");
             tvTotal.setText("￥"+ checkObj.optString("pay_total_fee"));
             confirmOrderAdapter.addFooterView(tailView);
         } catch (JSONException e) {
@@ -352,69 +357,92 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                 break;
             case R.id.confir_order_btn_commit:
                 //提交订单
-                if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
-                    pay = new PayUtils(this, tvTotal.getText().toString(), balance);
-                    //支付结果回调
-                    pay.setPayCallBack(new PayUtils.onPayCallBack() {
-                        @Override
-                        public void onFinish(String payStype) {
-                        }
-
-                        @Override
-                        public void onSuccess(String payStype) {
-                            showToast("成功支付");
-                            if (StringUtils.isEmpty(orderId)) {
-                                //跳转待付款列表
-                                MyOrderActivity.startIntent(context, 2);
-                            } else {
-                                Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                                intent.putExtra("order_id", orderId);
-                                startActivity(intent);
+                try {
+                    JSONObject dataObj = new JSONObject(json_data);
+                    JSONObject object = dataObj.optJSONObject("checkout_data");
+                    is_level_pwd = object.optInt("is_level_pwd");
+                    if (defaultAddressBean != null && !StringUtils.isEmpty(defaultAddressBean.getId())) {
+                        pay = new PayUtils(this, tvTotal.getText().toString(), balance);
+                        pay.showDialog(new PayUtils.OnCreatOrder() {
+                            @Override
+                            public void onCreatOrder(String payType) {
+                                if("balance".equals(payType) && Double.parseDouble(balance) < Double.parseDouble(pay_total_fee)){
+                                    showToast("余额不足");
+                                    return;
+                                }
+                                //检测用户是否设置了支付密码
+                                if("balance".equals(payType) && is_level_pwd==0){
+                                    getDm().buildAlertDialogSure("您还未设置支付密码，是否去设置？", new DialogHome.Callback() {
+                                        @Override
+                                        public void handleSure() {
+                                            Intent intent1=new Intent(ConfirmBuyOrderActivity.this,PayPsdSettingActivity.class);
+                                            startActivityForResult(intent1,REQUEST_SETTING_PAY_PSD);
+                                        }
+                                    });
+                                    return;
+                                }
+                                MyApplication.isLoadCartData = true;//需要刷新购物车数据
+                                creatOrder(defaultAddressBean.getId(), jsonMessage.toString(), payType);
                             }
-                            finish();
-                        }
-
-                        @Override
-                        public void onCancel(String payStype) {
-                            showToast("取消支付");
-                            if (StringUtils.isEmpty(orderId)) {
-                                //跳转待付款列表
-                                MyOrderActivity.startIntent(context, 1);
-                            } else {
-                                Intent intent = new Intent(context, PayDetailsActivity.class);
-                                intent.putExtra("order_id", orderId);
-                                startActivity(intent);
+                        });
+                        //支付结果回调
+                        pay.setPayCallBack(new PayUtils.onPayCallBack() {
+                            @Override
+                            public void onFinish(String payStype) {
                             }
-                            finish();
-                        }
 
-                        @Override
-                        public void onFailed(String payStype,String msg) {
-                            showToast(msg);
-                            if (StringUtils.isEmpty(orderId)) {
-                                //跳转待付款列表
-                                MyOrderActivity.startIntent(context, 1);
-                            } else {
-                                Intent intent = new Intent(context, PayDetailsActivity.class);
-                                intent.putExtra("order_id", orderId);
-                                startActivity(intent);
+                            @Override
+                            public void onSuccess(String payStype) {
+                                showToast("支付成功");
+                                if (StringUtils.isEmpty(orderId)) {
+                                    //跳转待付款列表
+                                    MyOrderActivity.startIntent(context, 2);
+                                } else {
+                                    Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                                    intent.putExtra("order_id", orderId);
+                                    startActivity(intent);
+                                }
+                                finish();
                             }
-                            finish();
-                        }
 
-                        @Override
-                        public void onNetProblem(String payStype) {
-                            showToast("手机网络有问题");
-                        }
-                    });
-                    pay.showDialog(new PayUtils.OnCreatOrder() {
-                        @Override
-                        public void onCreatOrder(String payType) {
-                            creatOrder(defaultAddressBean.getId(), jsonMessage.toString(), payType);
-                        }
-                    });
-                } else {
-                    showToast("请先填写收货地址");
+                            @Override
+                            public void onCancel(String payStype) {
+                                showToast("支付取消");
+                                if (StringUtils.isEmpty(orderId)) {
+                                    //跳转待付款列表
+                                    MyOrderActivity.startIntent(context, 1);
+                                } else {
+                                    Intent intent = new Intent(context, PayDetailsActivity.class);
+                                    intent.putExtra("order_id", orderId);
+                                    startActivity(intent);
+                                }
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailed(String payStype, String msg) {
+                                showToast(msg);
+                                if (StringUtils.isEmpty(orderId)) {
+                                    //跳转待付款列表
+                                    MyOrderActivity.startIntent(context, 1);
+                                } else {
+                                    Intent intent = new Intent(context, PayDetailsActivity.class);
+                                    intent.putExtra("order_id", orderId);
+                                    startActivity(intent);
+                                }
+                                finish();
+                            }
+
+                            @Override
+                            public void onNetProblem(String payStype) {
+                                showToast("手机网络出现问题");
+                            }
+                        });
+                    } else {
+                        showToast("请先填写收货地址");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 break;
         }
@@ -422,10 +450,6 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
 
     /**
      * 接受选择地址回调结果
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -437,6 +461,11 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                 //更改当前收货地址
                 defaultAddressBean = data.getParcelableExtra("address");
                 setReceiveData();
+            }
+        }else if(requestCode==REQUEST_SETTING_PAY_PSD){
+            if(resultCode==RESULT_OK){
+                AppConfig.getInstance().putInt("is_level_pwd",1);
+                is_level_pwd=1;
             }
         }
     }

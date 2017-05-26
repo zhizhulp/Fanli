@@ -48,7 +48,7 @@
                     android:layout_below="@id/cash_left"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="7dp"
-                    android:text="账户总余额(元)"
+                    android:text="现金账户余额(元)"
                     android:textColor="@color/white"
                     android:textSize="@dimen/main_text_14" />
             </RelativeLayout>

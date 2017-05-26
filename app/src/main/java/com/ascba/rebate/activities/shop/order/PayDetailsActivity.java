@@ -20,6 +20,7 @@ import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.PayUtils;
@@ -89,6 +90,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     private TextView tvMsg;
     private View msgView;
     private String store_id;
+    private int is_level_pwd;
 
 
     @Override
@@ -207,6 +209,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
             balance = member_info.optString("money");//余额
+            is_level_pwd = member_info.optInt("is_level_pwd");//是否设置支付密码
+            AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
         }
     }
 
@@ -311,11 +315,33 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 break;
             case R.id.tx_pay:
                 //付款
-                String price = orderAmountTx.getText().toString();
+                final String price = orderAmountTx.getText().toString();
                 if (StringUtils.isEmpty(price)) {
                     showToast("正在加载订单信息，请稍后");
                 } else {
                     pay = new PayUtils(this, price, balance);
+                    pay.showDialog(new PayUtils.OnCreatOrder() {
+                        @Override
+                        public void onCreatOrder(String arg) {
+                            payType = arg;
+                            if("balance".equals(payType) && Double.parseDouble(price) < Double.parseDouble(balance)){
+                                showToast("余额不足");
+                                return;
+                            }
+                            //检测用户是否设置了支付密码
+                            if("balance".equals(payType) && AppConfig.getInstance().getInt("is_level_pwd",0)==0){
+                                getDm().buildAlertDialogSure("您还未设置支付密码，是否去设置？", new DialogHome.Callback() {
+                                    @Override
+                                    public void handleSure() {
+                                        Intent intent1=new Intent(PayDetailsActivity.this,PayPsdSettingActivity.class);
+                                        startActivity(intent1);
+                                    }
+                                });
+                                return;
+                            }
+                            requstData(UrlUtils.orderPay, 2);
+                        }
+                    });
                     pay.setPayCallBack(new PayUtils.onPayCallBack() {
                         @Override
                         public void onFinish(String payStype) {
@@ -347,13 +373,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                             showToast("手机网络有问题");
                         }
                     });
-                    pay.showDialog(new PayUtils.OnCreatOrder() {
-                        @Override
-                        public void onCreatOrder(String arg) {
-                            payType = arg;
-                            requstData(UrlUtils.orderPay, 2);
-                        }
-                    });
+
                 }
 
                 break;
@@ -431,24 +451,9 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        if (flag == 3) {
-            PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
-            if (payCallBack != null) {
-                pay.getPayCallBack().onFinish(payType);
-                pay.getPayCallBack().onCancel(payType);
-            }
-            if("对不起！您还未设置交易密码".equals(message)){
-                getDm().buildAlertDialogSure(message,"取消","设置", new DialogHome.Callback() {
-                    @Override
-                    public void handleSure() {
-                        Intent intent=new Intent(context, PayPsdSettingActivity.class);
-                        context.startActivity(intent);
-                    }
-                });
-            }
-        }else {
-            getDm().buildAlertDialog(message);
-        }
+
+        getDm().buildAlertDialog(message);
+
     }
 
     @Override

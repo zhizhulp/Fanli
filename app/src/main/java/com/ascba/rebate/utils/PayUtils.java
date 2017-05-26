@@ -196,7 +196,7 @@ public class PayUtils {
     private void initPayTypesData(List<PayType> types) {
         types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付 账户余额￥" + balance, "balance"));
         types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡", "alipay"));
-        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "大额支付，支持银行卡、信用卡", "wxpay"));
+        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "支付安全，支持银行卡、信用卡", "wxpay"));
     }
 
     //调起支付宝
@@ -275,7 +275,10 @@ public class PayUtils {
 
             @Override
             public void forgetPsd() {
-
+                AppConfig.getInstance().putInt("is_level_pwd",0);
+                Intent intent=new Intent(context, PayPsdSettingActivity.class);
+                intent.putExtra("type",1);
+                context.startActivity(intent);
             }
         });
         psdDialog.showMyDialog();
@@ -323,7 +326,9 @@ public class PayUtils {
                     @Override
                     public void handleSure() {
                         Intent intent=new Intent(context, PayPsdSettingActivity.class);
+                        intent.putExtra("type",1);
                         context.startActivity(intent);
+                        AppConfig.getInstance().putInt("is_level_pwd",0);
                         psdDialog.showMyDialog();
                     }
 

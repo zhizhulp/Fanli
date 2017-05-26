@@ -44,7 +44,21 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_psd_setting);
         initView();
+        getDataFromIntent();
     }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if(intent!=null){
+            //type 0 从设置进来的 1 从支付时候进来的
+            int type = intent.getIntExtra("type",0);
+            if(type==1){
+                AppConfig.getInstance().putInt("is_level_pwd",0);
+                startActivity(new Intent(this,FindPayPasswordActivity.class));
+            }
+        }
+    }
+
     private void initMoneyBar() {
         mb = ((MoneyBar) findViewById(R.id.mb));
         if(type==0){
@@ -186,6 +200,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
             getDm().buildAlertDialog2(message, new DialogHome.Callback() {
                 @Override
                 public void handleSure() {
+                    setResult(RESULT_OK,getIntent());
                     finish();
                 }
             });
