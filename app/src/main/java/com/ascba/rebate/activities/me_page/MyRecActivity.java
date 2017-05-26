@@ -276,11 +276,9 @@ public class MyRecActivity extends BaseNetActivity implements
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getResources().getString(R.string.no_network));
     }
 }

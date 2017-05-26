@@ -298,7 +298,6 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

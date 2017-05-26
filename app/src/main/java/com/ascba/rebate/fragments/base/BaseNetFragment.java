@@ -207,10 +207,13 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
                     callbackWhat.handle404(what, message, dataObj);
                 }
                 mhandle404(what, message, dataObj);
+                showToast(message);
             } else if (status == 500) {
-                getDm().buildAlertDialog(message);
+                showToast(message);
+                //getDm().buildAlertDialog(message);
             } else if (status == 6) {
-                getDm().buildAlertDialog(message);
+                showToast(message);
+                //getDm().buildAlertDialog(message);
             }
         } catch (Exception e) {
             e.printStackTrace();

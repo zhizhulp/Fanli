@@ -111,14 +111,13 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
                 mb.setTailEnable(true);
             }else {
                 mb.setTailEnable(false);
+                mb.setTailTitle("");
             }
             JSONObject memberAgencyObj = agentObj.optJSONObject("member_agency");
             tvProxyName.setText(memberAgencyObj.optString("member_realname")+"("+memberAgencyObj.optString("name")+")");
             tvProxyRegion.setText(memberAgencyObj.optString("cascade_name"));
         }else if(what==1){
-            /*for (int i = 0; i < 10; i++) {
-                strs.add("just a test");
-            }*/
+
             if(strs.size()!=0){
                 strs.clear();
             }
@@ -146,6 +145,7 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
 
     protected void mhandle404(int what, JSONObject object, String message) {
         stopRefresh();
+        finish();
     }
 
 

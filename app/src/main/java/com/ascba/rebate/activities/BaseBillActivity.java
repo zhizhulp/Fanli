@@ -258,13 +258,11 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
     @Override
     protected void mhandle404(int what, JSONObject object, String message) {
         refreshLat.setRefreshing(false);
-        getDm().buildAlertDialog(message);
     }
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
         refreshLat.setRefreshing(false);
-        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     @Override

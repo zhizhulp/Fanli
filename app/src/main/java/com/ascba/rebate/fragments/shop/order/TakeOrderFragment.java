@@ -107,7 +107,6 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
 
     @Override
     public void handle404(int what, String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

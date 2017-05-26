@@ -464,7 +464,6 @@ public class ShopMainFragment extends BaseNetFragment implements
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
 

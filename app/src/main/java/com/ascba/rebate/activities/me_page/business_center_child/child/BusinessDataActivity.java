@@ -519,7 +519,6 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

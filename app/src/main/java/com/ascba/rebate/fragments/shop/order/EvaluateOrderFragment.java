@@ -233,7 +233,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

@@ -236,7 +236,6 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        getDm().buildAlertDialog(message);
     }
 
     @Override

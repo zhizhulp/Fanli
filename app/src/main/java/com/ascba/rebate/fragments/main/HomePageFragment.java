@@ -502,30 +502,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     @Override
     public void handle404(String message, JSONObject dataObj) {
         stopRefresh();
-        getDm().buildAlertDialog(message);
-        /*if (finalScene == 1) {
-            int tip_status = dataObj.optInt("tip_status");
-            if (tip_status == 2) {//打电话
-                final String tel = dataObj.optString("tel");
-                getDm().buildAlertDialogSure(message, new DialogHome.Callback() {
-                    @Override
-                    public void handleSure() {
-                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tel));
-                        startActivity(intent);
-                    }
-                });
-            } else if (tip_status == 1) {//未开通
-                getDm().buildAlertDialogSure(message, new DialogHome.Callback() {
-                    @Override
-                    public void handleSure() {
-                        Intent intent = new Intent(getActivity(), BCProcessActivity.class);
-                        startActivity(intent);
-                    }
-                });
-            }
-        } else {
-
-        }*/
     }
 
     @Override

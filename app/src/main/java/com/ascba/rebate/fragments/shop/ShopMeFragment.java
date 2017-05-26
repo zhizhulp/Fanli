@@ -270,7 +270,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

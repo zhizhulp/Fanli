@@ -203,7 +203,6 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

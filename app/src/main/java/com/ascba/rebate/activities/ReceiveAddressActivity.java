@@ -174,7 +174,6 @@ public class ReceiveAddressActivity extends BaseNetActivity implements
             @Override
             public void handle404(String message) {
                 getDm().buildAlertDialog(message);
-                refreshLayout.setRefreshing(false);
             }
 
             @Override

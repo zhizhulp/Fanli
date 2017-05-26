@@ -166,7 +166,6 @@ public class SecReccFragment extends BaseReccFragment implements BaseNetFragment
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

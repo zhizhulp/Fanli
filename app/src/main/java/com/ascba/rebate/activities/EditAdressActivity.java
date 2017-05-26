@@ -339,7 +339,6 @@ public class EditAdressActivity extends BaseNetActivity implements View.OnClickL
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

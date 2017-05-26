@@ -366,7 +366,6 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
         if(flag==3){
             PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
             if (payCallBack != null) {

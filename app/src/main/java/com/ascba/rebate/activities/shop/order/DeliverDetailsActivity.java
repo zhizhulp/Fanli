@@ -192,7 +192,6 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        getDm().buildAlertDialog(message);
     }
 
     @Override

@@ -216,7 +216,6 @@ public class SelectAddrssActivity extends BaseNetActivity {
 
             @Override
             public void handle404(String message) {
-                getDm().buildAlertDialog(message);
             }
 
             @Override
@@ -245,7 +244,6 @@ public class SelectAddrssActivity extends BaseNetActivity {
 
             @Override
             public void handle404(String message) {
-                getDm().buildAlertDialog(message);
             }
 
             @Override

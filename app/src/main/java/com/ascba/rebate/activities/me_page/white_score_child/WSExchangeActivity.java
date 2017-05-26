@@ -123,7 +123,6 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
         btnGo.setEnabled(false);
         btnGo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ticket_no_shop_bg));
     }

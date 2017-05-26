@@ -192,7 +192,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

@@ -130,7 +130,6 @@ public class LoginActivity extends BaseNetActivity {
 
             @Override
             public void handle404(String message) {
-                getDm().buildAlertDialog(message);
             }
 
             @Override

@@ -58,6 +58,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     private PayUtils pay;
     private String balance;//账户余额
     private int is_level_pwd;
+    private String orderAmount;
 
 
     @Override
@@ -161,7 +162,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         beanArrayList.add(orderBean);
                     }
                     //底部信息
-                    String orderAmount = object.optString("order_amount");//订单总价
+                    orderAmount = object.optString("order_amount");//订单总价
                     String shippingFee = "(含" + object.optString("shipping_fee") + "元运费)";//运费
                     String goodsNum = "共" + totalNum + "件商品";//商品数量
 
@@ -205,7 +206,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_pay:
                         //付款
-                        payPrice(position);
+                        payPrice();
                         break;
                     case R.id.item_goods_order_total_cancel:
                         //取消订单
@@ -247,18 +248,17 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
     }
 
     // 付款
-    private void payPrice(int position) {
-        final String price = beanArrayList.get(position).getOrderPrice();
-        if (StringUtils.isEmpty(price)) {
+    private void payPrice() {
+        if (StringUtils.isEmpty(orderAmount)) {
             showToast("正在加载订单信息，请稍后");
         } else {
             //开启支付
-            pay = new PayUtils(getActivity(), price, balance);
+            pay = new PayUtils(getActivity(), orderAmount, balance);
             pay.showDialog(new PayUtils.OnCreatOrder() {
                 @Override
                 public void onCreatOrder(String arg) {
                     payType = arg;
-                    if("balance".equals(payType) && Double.parseDouble(price) < Double.parseDouble(balance)){
+                    if("balance".equals(payType) && Double.parseDouble(orderAmount) > Double.parseDouble(balance)){
                         showToast("余额不足");
                         return;
                     }
@@ -347,25 +347,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        /*if (flag == 3) {
-            *//*PayUtils.onPayCallBack payCallBack = pay.getPayCallBack();
-            if (payCallBack != null) {
-                pay.getPayCallBack().onFinish(payType);
-                pay.getPayCallBack().onCancel(payType);
-            }*//*
-            if("对不起！您还未设置交易密码".equals(message)){
-                getDm().buildAlertDialogSure(message,"取消","设置", new DialogHome.Callback() {
-                    @Override
-                    public void handleSure() {
-                        Intent intent=new Intent(context, PayPsdSettingActivity.class);
-                        context.startActivity(intent);
-                    }
-                });
-            }
-        }else {
-            getDm().buildAlertDialog(message);
-        }*/
-        getDm().buildAlertDialog(message);
+
     }
 
 

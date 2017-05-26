@@ -287,7 +287,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
 
             @Override
             public void handle404(String message) {
-                getDm().buildAlertDialog(message);
             }
 
             @Override

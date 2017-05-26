@@ -107,7 +107,6 @@ public class FirstAwardFragment extends BaseAwardFragment implements BaseNetFrag
     @Override
     public void handle404(String message, JSONObject dataObj) {
         refreshLayout.setRefreshing(false);
-        getDm().buildAlertDialog(message);
     }
 
 

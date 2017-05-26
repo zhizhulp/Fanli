@@ -231,7 +231,6 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

@@ -98,7 +98,6 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

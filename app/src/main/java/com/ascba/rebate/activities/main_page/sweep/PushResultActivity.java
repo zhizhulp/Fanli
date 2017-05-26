@@ -122,7 +122,6 @@ public class PushResultActivity extends BaseNetActivity implements BaseNetActivi
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

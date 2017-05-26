@@ -138,7 +138,6 @@ public class CardActivity extends BaseNetActivity implements BaseNetActivity.Cal
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

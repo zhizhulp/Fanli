@@ -91,6 +91,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     private View msgView;
     private String store_id;
     private int is_level_pwd;
+    private String orderAmount;//订单总价格
 
 
     @Override
@@ -248,7 +249,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             String shippingFee = orderObject.optString("shipping_fee");//邮费
             String orderSn = orderObject.optString("order_sn");//订单号
             String goodsAmount = orderObject.optString("goods_amount");//商品价格
-            String orderAmount = orderObject.optString("order_amount");//订单价格
+            orderAmount = orderObject.optString("order_amount");//订单价格
             String orderTime = orderObject.optString("add_time");//订单时间
             orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
             //开始支付倒计时
@@ -315,16 +316,15 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 break;
             case R.id.tx_pay:
                 //付款
-                final String price = orderAmountTx.getText().toString();
-                if (StringUtils.isEmpty(price)) {
+                if (StringUtils.isEmpty(orderAmount)) {
                     showToast("正在加载订单信息，请稍后");
                 } else {
-                    pay = new PayUtils(this, price, balance);
+                    pay = new PayUtils(this, orderAmount, balance);
                     pay.showDialog(new PayUtils.OnCreatOrder() {
                         @Override
                         public void onCreatOrder(String arg) {
                             payType = arg;
-                            if("balance".equals(payType) && Double.parseDouble(price) < Double.parseDouble(balance)){
+                            if("balance".equals(payType) && Double.parseDouble(orderAmount ) > Double.parseDouble(balance)){
                                 showToast("余额不足");
                                 return;
                             }
@@ -452,7 +452,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             refreshLayout.setRefreshing(false);
         }
 
-        getDm().buildAlertDialog(message);
 
     }
 

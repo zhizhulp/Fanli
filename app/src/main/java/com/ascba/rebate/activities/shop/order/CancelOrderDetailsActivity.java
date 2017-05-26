@@ -310,7 +310,6 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        getDm().buildAlertDialog(message);
     }
 
     @Override

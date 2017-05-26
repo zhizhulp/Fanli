@@ -313,7 +313,6 @@ public class CartFragment extends BaseNetFragment implements
     @Override
     public void handle404(String message, JSONObject dataObj) {
         stopRefresh();
-        getDm().buildAlertDialog(message);
     }
 
     @Override

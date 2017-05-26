@@ -163,7 +163,6 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
 
     @Override
     public void handle404(String message, JSONObject dataObj) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override
@@ -174,7 +173,6 @@ public class FirstReccFragment extends BaseReccFragment implements BaseNetFragme
     @Override
     public void handleNoNetWork() {
         refreshLayout.setRefreshing(false);
-        getDm().buildAlertDialog(getActivity().getResources().getString(R.string.no_network));
     }
 
     @Override

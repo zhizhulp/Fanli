@@ -195,7 +195,6 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
-        getDm().buildAlertDialog(message);
     }
 
     @Override

@@ -143,12 +143,10 @@ public class WhiteScoreActivity extends BaseNetActivity implements BaseNetActivi
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override
     public void handleNoNetWork() {
-        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     private String formatTime(SimpleDateFormat sdf, Long time) {

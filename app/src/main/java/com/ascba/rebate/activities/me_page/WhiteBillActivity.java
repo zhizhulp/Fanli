@@ -369,13 +369,11 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
     @Override
     protected void mhandle404(int what, JSONObject object, String message) {
         refreshLayout.setRefreshing(false);
-        getDm().buildAlertDialog(message);
     }
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
         refreshLayout.setRefreshing(false);
-        getDm().buildAlertDialog(getString(R.string.no_response));
     }
 
     @Override

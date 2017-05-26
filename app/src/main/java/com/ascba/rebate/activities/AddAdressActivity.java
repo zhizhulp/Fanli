@@ -243,12 +243,10 @@ public class AddAdressActivity extends BaseNetActivity implements View.OnClickLi
 
             @Override
             public void handle404(String message) {
-                getDm().buildAlertDialog(message);
             }
 
             @Override
             public void handleNoNetWork() {
-                getDm().buildAlertDialog("请检查网络！");
             }
         });
     }

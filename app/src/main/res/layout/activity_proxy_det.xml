@@ -46,7 +46,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="9dp"
-                        android:text="白菜帮子(精英代理)"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_text_17" />
 
@@ -56,7 +55,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
-                        android:text="代理区域:安徽省滁州市琅琊区"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_text_13" />
 

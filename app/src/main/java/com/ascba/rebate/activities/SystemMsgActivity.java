@@ -129,7 +129,6 @@ public class SystemMsgActivity extends BaseNetActivity implements BaseNetActivit
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

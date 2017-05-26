@@ -358,7 +358,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
 

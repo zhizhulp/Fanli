@@ -255,7 +255,6 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override
