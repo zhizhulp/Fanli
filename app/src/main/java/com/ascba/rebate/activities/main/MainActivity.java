@@ -85,10 +85,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private Fragment mMoneyFragment;
     private Fragment mMeFragment;
     private AppTabs appTabs;
-    private boolean debug = true;
+    private boolean debug = false;
     private static final String TAG = "MainActivityFragment";
-    private ReceiveThread receiveThread;
-    private SendThread sendThread;
 
 
     @Override
@@ -120,12 +118,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findViews();
-        //接受消息
-//        receiveThread = new ReceiveThread();
-//        receiveThread.start();
-//        //发送消息
-//        sendThread = new SendThread("{\"from_type\":\"login\",\"member_id\":85,\"nickname\":\"疯狂牛仔\",\"avatar\":\"http://www.qlqwshop.com\"}");
-//        sendThread.start();
 
     }
 
@@ -343,9 +335,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     @Override
     protected void onDestroy() {
-        if (sendThread != null) {
-            sendThread.disConnect();
-        }
         if (debug)
             Log.d(TAG, "onDestroy: ");
         super.onDestroy();

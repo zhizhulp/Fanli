@@ -16,9 +16,10 @@ import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
+import android.widget.ImageView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.main_page.sweep.PayActivity;
@@ -27,22 +28,16 @@ import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
 import com.ascba.rebate.qr.view.ViewfinderView;
-import com.ascba.rebate.utils.StringUtils;
-import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.UrlUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.jaeger.library.StatusBarUtil;
 import com.yanzhenjie.nohttp.rest.Request;
-
 import org.json.JSONObject;
-
 import java.io.IOException;
-import java.security.Permission;
 import java.util.Vector;
 
 public class CaptureActivity extends BaseNetActivity implements Callback, BaseNetActivity.Callback {
-    private static final String TAG = "CaptureActivity";
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
     private SurfaceView surfaceView;
@@ -55,7 +50,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     // private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     CameraManager cameraManager;
-    private String [] permissions={Manifest.permission.CAMERA};
+    private String [] permissions = {Manifest.permission.CAMERA};
 
     /**
      * Called when the activity is first created.
@@ -64,14 +59,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
-        checkAndRequestAllPermission(permissions, new PermissionCallback() {
-            @Override
-            public void requestPermissionAndBack(boolean isOk) {
-                if(!isOk){
-                    finish();
-                }
-            }
-        });
         surfaceView = (SurfaceView) findViewById(R.id.surfaceview);
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinderview);
 
@@ -79,20 +66,16 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         hasSurface = false;
-        inactivityTimer = new InactivityTimer(CaptureActivity.this);
-    }
+        inactivityTimer = new InactivityTimer(this);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         // CameraManager.init(getApplication());
-
         cameraManager = new CameraManager(getApplication());
-        viewfinderView.setCameraManager(cameraManager);
 
+        viewfinderView.setCameraManager(cameraManager);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             initCamera(surfaceHolder);
@@ -110,6 +93,23 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
         }
         initBeepSound();
         vibrate = true;
+
+      /*  checkAndRequestAllPermission(permissions, new PermissionCallback() {
+            @Override
+            public void requestPermissionAndBack(boolean isOk) {
+                if(!isOk){
+                    finish();
+                }
+            }
+        });*/
+
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+
     }
 
     @Override
@@ -176,6 +176,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
     public void drawViewfinder() {
         viewfinderView.drawViewfinder();
+
     }
 
     public void handleDecode(Result obj, Bitmap barcode) {
@@ -186,24 +187,10 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
     private void showResult(final Result rawResult, Bitmap barcode) {
         Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
-        String text = rawResult.getText();
-        if (!StringUtils.isEmpty(text)) {
-            objRequest.add("seller", handleString(text));
-            objRequest.add("scenetype", 2);
-            executeNetWork(objRequest, "请稍后");
-            setCallback(this);
-        } else {
-            showToast("无法识别商家二维码");
-        }
-
-    }
-
-    //商家信息截取
-    private String handleString(String text) {
-        Log.d(TAG, "handleString: original " + text);
-        String[] split = text.split("/");
-        Log.d(TAG, "handleString: handle " + split[split.length - 1]);
-        return split[split.length - 1];
+        objRequest.add("seller", rawResult.getText());
+        objRequest.add("scenetype", 2);
+        executeNetWork(objRequest, "请稍后");
+        setCallback(this);
     }
 
     //重新扫描
@@ -271,7 +258,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         JSONObject infoObj = dataObj.optJSONObject("info");
-        Intent intent1 = new Intent(this, OfflinePayActivity.class);
+        Intent intent1 = new Intent(this, PayActivity.class);
         intent1.putExtra("bus_uuid", infoObj.optInt("seller"));
         intent1.putExtra("avatar", infoObj.optString("seller_avatar"));
         startActivity(intent1);
@@ -281,16 +268,35 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     @Override
     public void handle404(String message) {
 
-        getDm().buildAlertDialogSure(message, new DialogHome.Callback() {
+        getDm().buildAlertDialog(message);
+        getDm().setCallback(new DialogHome.Callback() {
             @Override
             public void handleSure() {
                 restartPreviewAfterDelay(0L);
             }
         });
+
+
     }
 
     @Override
     public void handleNoNetWork() {
 
+    }
+    private boolean defaultLightOn;//默认关闭
+    //灯的图标，打开关闭
+    public void exchangeLightIcon(View view) {
+        defaultLightOn = !defaultLightOn;
+        ImageView imageView = (ImageView) view;
+        if(defaultLightOn){
+            imageView.setImageResource(R.mipmap.light_on);
+        }else {
+            imageView.setImageResource(R.mipmap.light_off);
+        }
+        cameraManager.switchFlashLight();
+    }
+
+    public void goIntent(View view) {
+        startActivity(new Intent(this,OfflinePayActivity.class));
     }
 }

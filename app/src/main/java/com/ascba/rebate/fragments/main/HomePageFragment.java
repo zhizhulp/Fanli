@@ -282,7 +282,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), OfflinePayActivity.class));
+                    startActivity(new Intent(getActivity(), CaptureActivity.class));
                     popupWindow.dismiss();
                 }
             });

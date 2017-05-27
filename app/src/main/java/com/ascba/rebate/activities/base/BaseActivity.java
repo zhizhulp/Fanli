@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -15,6 +16,7 @@ import com.ascba.rebate.R;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private static final String TAG = "BaseActivity";
     protected PermissionCallback requestPermissionAndBack;
     protected SwipeRefreshLayout refreshLayout;
 

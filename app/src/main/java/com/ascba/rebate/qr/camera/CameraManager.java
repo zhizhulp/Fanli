@@ -334,4 +334,8 @@ public final class CameraManager {
 			camera.setParameters(parameter);
 		}
 	}
+
+	public static void init() {
+
+	}
 }
