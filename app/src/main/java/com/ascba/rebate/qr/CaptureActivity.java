@@ -68,11 +68,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
 
-
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-        // CameraManager.init(getApplication());
         cameraManager = new CameraManager(getApplication());
 
         viewfinderView.setCameraManager(cameraManager);
@@ -94,14 +89,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
         initBeepSound();
         vibrate = true;
 
-      /*  checkAndRequestAllPermission(permissions, new PermissionCallback() {
-            @Override
-            public void requestPermissionAndBack(boolean isOk) {
-                if(!isOk){
-                    finish();
-                }
-            }
-        });*/
+
 
     }
 
@@ -128,18 +116,28 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
         super.onDestroy();
     }
 
-    private void initCamera(SurfaceHolder surfaceHolder) {
-        try {
-            // CameraManager.get().openDriver(surfaceHolder);
-            cameraManager.openDriver(surfaceHolder);
-        } catch (IOException ioe) {
-            return;
-        } catch (RuntimeException e) {
-            return;
-        }
-        if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats, characterSet);
-        }
+    private void initCamera(final SurfaceHolder surfaceHolder) {
+        checkAndRequestAllPermission(permissions, new PermissionCallback() {
+            @Override
+            public void requestPermissionAndBack(boolean isOk) {
+                if(!isOk){
+                    finish();
+                }else{
+                    try {
+                        // CameraManager.get().openDriver(surfaceHolder);
+                        cameraManager.openDriver(surfaceHolder);
+                    } catch (IOException ioe) {
+                        return;
+                    } catch (RuntimeException e) {
+                        return;
+                    }
+                    if (handler == null) {
+                        handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
@@ -294,9 +292,5 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
             imageView.setImageResource(R.mipmap.light_off);
         }
         cameraManager.switchFlashLight();
-    }
-
-    public void goIntent(View view) {
-        startActivity(new Intent(this,OfflinePayActivity.class));
     }
 }

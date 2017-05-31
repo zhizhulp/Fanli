@@ -83,7 +83,8 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         //设置返回图标
         mImageView.setImageResource(backImgId);
         //设置背景
-        bgView.setBackgroundDrawable(new ColorDrawable(this.color));
+        bgView.setBackgroundColor(color);
+        //bgView.setBackgroundDrawable(new ColorDrawable(this.color));
         //设置是否需要完成选项
         if(needComplete){
             completeText.setVisibility(VISIBLE);
