@@ -13,7 +13,7 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.fragments.shop.CartFragment;
+import com.ascba.rebate.fragments.shop.auction.AuctionCartFragment;
 import com.ascba.rebate.fragments.shop.auction.AuctionHomePageFragment;
 import com.ascba.rebate.fragments.shop.auction.AuctionMainPlaceFragment;
 import com.ascba.rebate.fragments.shop.auction.AuctionMeFragment;
@@ -38,7 +38,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private Fragment mFirstFragment=new AuctionHomePageFragment();
     private Fragment mSecondFragment=new AuctionMainPlaceFragment();
-    private Fragment mThirdFragment=new CartFragment();
+    private Fragment mThirdFragment=new AuctionCartFragment();
     private Fragment mFourthFragment = new AuctionMeFragment();
     private ShopTabs shopTabs;
     private int currIndex = HOMEPAGE;//当前位置
@@ -53,30 +53,12 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-            if (fragments != null && fragments.size() != 0) {
-                for (int i = 0; i < fragments.size(); i++) {
-                    Fragment fragment = fragments.get(i);
-                    if (fragment instanceof AuctionHomePageFragment)
-                        mFirstFragment = fragment;
-                    mFragments.add(fragment);
-                    if (fragment instanceof AuctionMainPlaceFragment)
-                        mSecondFragment = fragment;
-                    mFragments.add(fragment);
-                    if (fragment instanceof CartFragment)
-                        mThirdFragment = fragment;
-                    mFragments.add(fragment);
-                    if (fragment instanceof AuctionMeFragment)
-                        mFourthFragment = fragment;
-                    mFragments.add(fragment);
-                }
-                index=0;
-            }
+            solveRebuildFragment();
         }
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_auction);
         findViews();
     }
+
 
     private void findViews() {
         shopTabs = ((ShopTabs) findViewById(R.id.shop_tabs));
@@ -113,6 +95,55 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
         MyApplication.isLoad = true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //取消登陆
+        if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME || requestCode == REQUEST_LOGIN_CART)) {
+            index = HOMEPAGE;
+            getShopTabs().statusChaByPosition(index, currIndex);
+            selFrgByPos(index);
+        }
+
+        //点击我的，登陆成功
+        if (requestCode == REQUEST_LOGIN_ME && resultCode == RESULT_OK) {
+            index = ME;
+            selFrgByPos(index);
+        }
+
+        //点击购物车，登陆成功
+        if (requestCode == REQUEST_LOGIN_CART && resultCode == RESULT_OK) {
+            index = CART;
+            selFrgByPos(index);
+        }
+    }
+
+    public static void setIndex(int position) {
+        index = position;
+    }
+    //解决fragment重叠问题
+    private void solveRebuildFragment() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null && fragments.size() != 0) {
+            for (int i = 0; i < fragments.size(); i++) {
+                Fragment fragment = fragments.get(i);
+                if (fragment instanceof AuctionHomePageFragment)
+                    mFirstFragment = fragment;
+                mFragments.add(fragment);
+                if (fragment instanceof AuctionMainPlaceFragment)
+                    mSecondFragment = fragment;
+                mFragments.add(fragment);
+                if (fragment instanceof AuctionCartFragment)
+                    mThirdFragment = fragment;
+                mFragments.add(fragment);
+                if (fragment instanceof AuctionMeFragment)
+                    mFourthFragment = fragment;
+                mFragments.add(fragment);
+            }
+            index=0;
+        }
+    }
     public void selFrgByPos(int position) {
         index = currIndex = position;
         FragmentManager fm = getSupportFragmentManager();
@@ -156,7 +187,7 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
             }
             for (int i = 0; i < mFragments.size(); i++) {
                 Fragment fragment = mFragments.get(i);
-                if (fragment instanceof CartFragment ) {
+                if (fragment instanceof AuctionCartFragment ) {
                     ft.show(fragment);
                 } else {
                     ft.hide(fragment);
@@ -182,59 +213,6 @@ public class AuctionActivity extends BaseNetActivity implements ShopTabs.Callbac
             }
         }
         ft.commit();
-
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //取消登陆
-        if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME || requestCode == REQUEST_LOGIN_CART)) {
-            index = HOMEPAGE;
-            getShopTabs().statusChaByPosition(index, currIndex);
-            selFrgByPos(index);
-        }
-
-        //点击我的，登陆成功
-        if (requestCode == REQUEST_LOGIN_ME && resultCode == RESULT_OK) {
-            index = ME;
-            selFrgByPos(index);
-        }
-
-        //点击购物车，登陆成功
-        if (requestCode == REQUEST_LOGIN_CART && resultCode == RESULT_OK) {
-            index = CART;
-            selFrgByPos(index);
-        }
-    }
-
-    public static void setIndex(int position) {
-        index = position;
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*if (currIndex != index) {
-            getShopTabs().statusChaByPosition(index, currIndex);
-            selFrgByPos(index);
-        }
-        if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
-            try {
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                if (index == 2) {
-                    ft.remove(fragments[3]);
-                    mFragments.remove(fragments[3]);
-                } else if (index == 3) {
-                    ft.remove(fragments[2]);
-                    mFragments.remove(fragments[2]);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 }
 

@@ -701,6 +701,7 @@
         <activity android:name=".activities.offline_business.OfflinePayActivity" />
         <activity android:name=".activities.offline_business.OfflinePaySuccessActivity" />
         <activity android:name=".activities.offline_business.OfflineReceiveSuccessActivity"></activity>
+        <activity android:name=".activities.shop.auction.GrabShootActivity"/>
     </application>
 
 </manifest>
