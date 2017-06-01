@@ -90,6 +90,8 @@ public class LoginActivity extends BaseNetActivity {
 
     //返回
     public void goBack(View view) {
+        MyApplication.isLoad = false;
+        setResult(RESULT_CANCELED, getIntent());
         finish();
     }
 

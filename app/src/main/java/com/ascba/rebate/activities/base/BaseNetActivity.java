@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.application.MyApplication;
 
 import org.json.JSONObject;
 
@@ -41,9 +42,12 @@ public abstract class BaseNetActivity extends BaseActivityNet {
         } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
             mhandleReLogin(what);
             Intent intent = new Intent(this, LoginActivity.class);
+            MyApplication.isSignOut=true;
+            MyApplication.isLoadCartData=true;
+            AppConfig.getInstance().putString("token", null);
+            AppConfig.getInstance().putLong("expiring_time", -2000);
             AppConfig.getInstance().putInt("uuid", -1000);
             startActivityForResult(intent, REQUEST_LOGIN);
-            //((MyApplication) getApplication()).exit();
         } else if (status == 404) {
             if (callback != null) {
                 callback.handle404(message);
@@ -85,7 +89,8 @@ public abstract class BaseNetActivity extends BaseActivityNet {
                 callbackWhat.handleNoNetWork();
             }
             mhandleNoNetWord();
-            getDm().buildAlertDialog(getString(R.string.no_network));
+            showToast(getString(R.string.no_network));
+            //getDm().buildAlertDialog(getString(R.string.no_network));
         }
     }
 

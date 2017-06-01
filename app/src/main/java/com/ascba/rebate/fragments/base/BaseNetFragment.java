@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -191,6 +193,8 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 MyApplication.isSignOut=true;
                 MyApplication.isLoadCartData=true;
+                AppConfig.getInstance().putString("token", null);
+                AppConfig.getInstance().putLong("expiring_time", -2000);
                 AppConfig.getInstance().putInt("uuid", -1000);
                 getActivity().startActivityForResult(intent, BaseNetActivity.REQUEST_LOGIN);
                 if(callback!=null){
@@ -247,6 +251,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
             if (callbackWhat != null) {
                 callbackWhat.handleNoNetWork();
             }
+            showToast(getString(R.string.no_network));
         }
     }
 
