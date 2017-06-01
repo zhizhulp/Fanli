@@ -691,7 +691,6 @@ public class TimeUtils {
 
     /**
      * 倒计时
-     *
      * @param maxTime   倒计时长-秒
      * @param orderTime 订单创建时间
      * @return 剩余秒数
@@ -703,5 +702,21 @@ public class TimeUtils {
         }
         int second = maxTime - (timeDiff[2] * 60 + timeDiff[3]);//倒计时秒
         return second;
+    }
+
+    /**
+     * 倒计时
+     * @param time 未来时间 ms
+     * @return 剩余 天 时 分 秒
+     */
+    public static int[] timeDifference(long time) {
+        int between = (int) (time - System.currentTimeMillis()) / 1000;// 除以1000是为了转换成秒
+
+        int day = between / (24 * 3600);
+        int hour = between % (24 * 3600) / 3600;
+        int minute = between % 3600 / 60;
+        int second = between % 60;
+
+        return new int[]{day, hour, minute, second};
     }
 }

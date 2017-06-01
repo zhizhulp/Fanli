@@ -405,7 +405,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             @Override
             public void onRefresh() {
                 requestNetwork(UrlUtils.history,2);
-
             }
 
             @Override

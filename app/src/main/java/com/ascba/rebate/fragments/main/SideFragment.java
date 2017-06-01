@@ -234,7 +234,6 @@ public class SideFragment extends BaseNetFragment implements
 
 
     private void initLoadMore() {
-
         if (loadMoreView == null) {
             loadMoreView = new CustomLoadMoreView();
             adapter.setLoadMoreView(loadMoreView);

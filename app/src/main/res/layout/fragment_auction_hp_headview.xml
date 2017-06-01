@@ -7,7 +7,7 @@
     <com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager
         android:id="@+id/shufflingViewPager"
         android:layout_width="match_parent"
-        android:layout_height="143dp"></com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager>
+        android:layout_height="143dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -138,16 +138,16 @@
         </RelativeLayout>
     </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="14dp"
-            android:layout_marginTop="14dp"
-            android:text="为你推荐"
-            android:gravity="center"
-            android:background="@mipmap/bg_tuijian"
-            android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="14dp"
+        android:layout_marginTop="14dp"
+        android:background="@mipmap/bg_tuijian"
+        android:gravity="center"
+        android:text="为你推荐"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="14sp" />
 
 </LinearLayout>

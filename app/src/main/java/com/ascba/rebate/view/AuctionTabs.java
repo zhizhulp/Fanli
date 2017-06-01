@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.application.MyApplication;
 
 /**
  * 竞拍底部导航
@@ -116,9 +117,11 @@ public class AuctionTabs extends RelativeLayout implements View.OnClickListener 
                 break;
 
             case R.id.tabs_three_par://购物车(需要登陆)
+                statusChaByPosition(2, filPos);
                 callback.clickThree(v);
                 break;
             case R.id.tabs_four_par://我(需要登陆)
+                statusChaByPosition(3, filPos);
                 callback.clickFour(v);
                 break;
         }

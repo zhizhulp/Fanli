@@ -76,8 +76,10 @@ public class ShufflingViewPager extends RelativeLayout {
 
 
     public void start() {
-        if (handler != null && !handler.hasMessages(0)) {
-            handler.sendEmptyMessageDelayed(0, 2000);
+        if(getList.size()>1){
+            if (handler != null && !handler.hasMessages(0)) {
+                handler.sendEmptyMessageDelayed(0, 2000);
+            }
         }
     }
 

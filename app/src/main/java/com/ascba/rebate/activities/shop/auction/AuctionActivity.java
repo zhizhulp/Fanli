@@ -27,8 +27,8 @@ import java.util.List;
 
 public class AuctionActivity extends BaseNetActivity implements AuctionTabs.Callback {
 
-    private static final int REQUEST_LOGIN_CART = 0;
-    private static final int REQUEST_LOGIN_ME = 1;
+    private static final int REQUEST_LOGIN_CART = 1;
+    private static final int REQUEST_LOGIN_ME = 2;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private Fragment mFirstFragment=new AuctionHomePageFragment();
     private Fragment mSecondFragment=new AuctionMainPlaceFragment();
@@ -91,19 +91,26 @@ public class AuctionActivity extends BaseNetActivity implements AuctionTabs.Call
         super.onActivityResult(requestCode, resultCode, data);
 
         //取消登陆
-        if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME || requestCode == REQUEST_LOGIN_CART)) {
-            selFrgByPos(shopTabs.getFilPos());
+        if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_ME )) {
+            shopTabs.statusChaByPosition(0, shopTabs.getFilPos());
+            selFrgByPos(0);
+        }
+
+        //取消登陆
+        if (resultCode == RESULT_CANCELED && (requestCode == REQUEST_LOGIN_CART )) {
+            shopTabs.statusChaByPosition(0, shopTabs.getFilPos());
+            selFrgByPos(0);
         }
 
         //点击购物车，登陆成功
         if (requestCode == REQUEST_LOGIN_CART && resultCode == RESULT_OK) {
-            getShopTabs().statusChaByPosition(2, shopTabs.getFilPos());
+            shopTabs.statusChaByPosition(2, shopTabs.getFilPos());
             selFrgByPos(2);
         }
 
         //点击我的，登陆成功
         if (requestCode == REQUEST_LOGIN_ME && resultCode == RESULT_OK) {
-            getShopTabs().statusChaByPosition(3, shopTabs.getFilPos());
+            shopTabs.statusChaByPosition(3, shopTabs.getFilPos());
             selFrgByPos(3);
         }
 
@@ -178,7 +185,7 @@ public class AuctionActivity extends BaseNetActivity implements AuctionTabs.Call
                     ft.hide(fragment);
                 }
             }
-        }else if(position==3){//我
+        }else if(position==3){//
             if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, REQUEST_LOGIN_ME);

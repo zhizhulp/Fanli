@@ -6,10 +6,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.view.WindowManager;
 
-import com.ascba.rebate.activities.login.LoginActivity;
-import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.IDsUtils;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.nohttp.Logger;
@@ -57,7 +54,7 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isRefreshOrderCount;//是否刷新订单的数字图标
 
     public static boolean isRequestSuccess;//网络请求是否成功
-    public final IWXAPI msgApi= WXAPIFactory.createWXAPI(this, null);
+    public final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
     @Override
     protected void attachBaseContext(Context base) {

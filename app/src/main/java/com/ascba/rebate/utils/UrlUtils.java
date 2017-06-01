@@ -233,4 +233,7 @@ public class UrlUtils {
     public static final String switchLocale = urlPrefix + "switchLocale";
     //足迹墙数据
     public static final String history = urlPrefix + "history";
+    /**------------------------------竞拍--------------------------------------**/
+    public static final String auction = urlPrefix + "auction";//竞拍首页
+    public static final String auctionInfo = urlPrefix + "auctionInfo";//竞拍-我
 }

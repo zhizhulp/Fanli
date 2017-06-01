@@ -1,270 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.ascba.rebate.view.ShopABarText
+        android:id="@+id/shopBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="48dp"
+        app:abar_title="我" />
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <com.ascba.rebate.view.ShopABarText
-            android:id="@+id/shopBar"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:abar_title="我"></com.ascba.rebate.view.ShopABarText>
+            android:layout_height="wrap_content">
 
-        <include layout="@layout/goods_details_cuttingline" />
-        <!--第一个-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="72.5dp"
-            android:orientation="horizontal">
-
-            <com.ascba.rebate.view.RoundImageView
-                android:id="@+id/me_user_img"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
-                android:scaleType="centerCrop"
-                app:type="circle"
-                android:src="@mipmap/me_user_img"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="钱来钱往"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="@dimen/text_size_auction_me_username" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="（金钻会员）"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="@dimen/text_size_auction_me_username" />
-        </LinearLayout>
-
-        <include layout="@layout/goods_details_cuttingline_wide" />
-        <!--资产积分-->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="94dp">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_1"
-                    android:layout_width="wrap_content"
+                <include layout="@layout/goods_details_cuttingline" />
+                <!--第一个-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="72.5dp"
+                    android:orientation="horizontal">
+
+                    <com.ascba.rebate.view.RoundImageView
+                        android:id="@+id/me_user_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/busi_loading"
+                        app:type="circle" />
+
+                    <TextView
+                        android:id="@+id/tv_nick_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="@dimen/text_size_auction_me_username" />
+
+                    <TextView
+                        android:id="@+id/tv_user_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="@dimen/text_size_auction_me_username" />
+                </LinearLayout>
+
+                <include layout="@layout/goods_details_cuttingline_wide" />
+                <!--资产积分-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="19dp"
-                    android:text="总资产（元）"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
 
-                <TextView
-                    android:id="@+id/tv_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_1"
-                    android:layout_marginTop="14dp"
-                    android:text="52.23"
-                    android:textColor="@color/black"
-                    android:textSize="29sp"
-                    android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="94dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="17dp"
-                    android:background="@drawable/shop_rush_bg_blue"
-                    android:paddingBottom="3dp"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp"
-                    android:paddingTop="3dp"
-                    android:text="充值"
-                    android:textColor="#5EAEE5"
-                    android:textSize="13sp" />
-            </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="19dp"
+                            android:text="总资产（元）"
+                            android:textColor="@color/shop_normal_text_color"
+                            android:textSize="15sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/main_line_light_gray" />
+                        <TextView
+                            android:id="@+id/tv_cash_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_1"
+                            android:layout_marginTop="14dp"
+                            android:text="0.00"
+                            android:textColor="@color/black"
+                            android:textSize="29sp"
+                            android:textStyle="bold" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="53dp">
+                        <TextView
+                            android:id="@+id/tv_recharge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="17dp"
+                            android:background="@drawable/shop_rush_bg_blue"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:paddingTop="3dp"
+                            android:text="充值"
+                            android:textColor="#5EAEE5"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="我的积分"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/main_line_light_gray" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="1234000积分"
-                    android:textColor="@color/fragment_money_red"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-        </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp">
 
-        <include layout="@layout/goods_details_cuttingline_wide" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="我的积分"
+                            android:textColor="@color/shop_normal_text_color"
+                            android:textSize="15sp" />
 
-        <!--竞拍-->
-        <RelativeLayout
-            android:id="@+id/btn_auction_me_jing_pai"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp">
+                        <TextView
+                            android:id="@+id/tv_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="0积分"
+                            android:textColor="@color/fragment_money_red"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:drawableLeft="@mipmap/icon_me_jingpai"
-                android:drawablePadding="17dp"
-                android:text="我的竞拍"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp" />
+                <include layout="@layout/goods_details_cuttingline_wide" />
 
+                <!--竞拍-->
+                <RelativeLayout
+                    android:id="@+id/btn_auction_me_jing_pai"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:drawablePadding="6dp"
-                android:drawableRight="@mipmap/right2_arrow"
-                android:text="8件"
-                android:textSize="14sp" />
-
-
-        </RelativeLayout>
-
-        <include layout="@layout/goods_details_cuttingline" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_me_jingpai"
+                        android:drawablePadding="17dp"
+                        android:text="我的竞拍"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
 
 
-        <!--获拍-->
-        <RelativeLayout
-            android:id="@+id/btn_auction_me_huo_pai"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:drawableLeft="@mipmap/icon_me_huopai"
-                android:drawablePadding="17dp"
-                android:text="我的获拍"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/tv_my_auction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="6dp"
+                        android:drawableRight="@mipmap/right2_arrow"
+                        android:text="0件"
+                        android:textSize="14sp" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:drawablePadding="6dp"
-                android:drawableRight="@mipmap/right2_arrow"
-                android:text="暂无获拍"
-                android:textSize="14sp" />
+                </RelativeLayout>
+
+                <include layout="@layout/goods_details_cuttingline" />
 
 
-        </RelativeLayout>
+                <!--获拍-->
+                <RelativeLayout
+                    android:id="@+id/btn_auction_me_huo_pai"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp">
 
-        <include layout="@layout/goods_details_cuttingline" />
-
-        <!--提醒-->
-        <RelativeLayout
-            android:id="@+id/btn_auction_me_ti_xing"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:drawableLeft="@mipmap/icon_me_tixing"
-                android:drawablePadding="17dp"
-                android:text="我的提醒"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_me_huopai"
+                        android:drawablePadding="17dp"
+                        android:text="我的获拍"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:drawablePadding="6dp"
-                android:drawableRight="@mipmap/right2_arrow"
-                android:text="24件"
-                android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/tv_receive_auction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="6dp"
+                        android:drawableRight="@mipmap/right2_arrow"
+                        android:text="暂无获拍"
+                        android:textSize="14sp" />
 
 
-        </RelativeLayout>
+                </RelativeLayout>
 
-        <include layout="@layout/goods_details_cuttingline" />
+                <include layout="@layout/goods_details_cuttingline" />
 
-        <!--保证金-->
-        <RelativeLayout
-            android:id="@+id/btn_auction_me_bao_zheng_jin"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp">
+                <!--提醒-->
+                <RelativeLayout
+                    android:id="@+id/btn_auction_me_ti_xing"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:drawableLeft="@mipmap/icon_me_baozheng"
-                android:drawablePadding="17dp"
-                android:text="我的保证金"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="14sp" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:drawablePadding="6dp"
-                android:drawableRight="@mipmap/right2_arrow"
-                android:text="3笔"
-                android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_me_tixing"
+                        android:drawablePadding="17dp"
+                        android:text="我的提醒"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
 
 
-        </RelativeLayout>
-    </LinearLayout>
-</ScrollView>
+                    <TextView
+                        android:id="@+id/tv_my_attention"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="6dp"
+                        android:drawableRight="@mipmap/right2_arrow"
+                        android:text="0件"
+                        android:textSize="14sp" />
+
+
+                </RelativeLayout>
+
+                <include layout="@layout/goods_details_cuttingline" />
+
+                <!--保证金-->
+                <RelativeLayout
+                    android:id="@+id/btn_auction_me_bao_zheng_jin"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_me_baozheng"
+                        android:drawablePadding="17dp"
+                        android:text="我的保证金"
+                        android:textColor="@color/shop_normal_text_color"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_my_ensure_cash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="6dp"
+                        android:drawableRight="@mipmap/right2_arrow"
+                        android:text="0笔"
+                        android:textSize="14sp" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

@@ -5,6 +5,8 @@ package com.ascba.rebate.beans;
  */
 
 public class AcutionGoodsBean {
+    private int id;
+    private int type;//竞拍类型 抢拍和盲拍
     private String imgUrl;
     private String name;//商品名
     private String state;//状态
@@ -16,6 +18,20 @@ public class AcutionGoodsBean {
     private String cashDeposit;//保证金
     private String payState;//支付状态
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getImgUrl() {
         return imgUrl;
     }
