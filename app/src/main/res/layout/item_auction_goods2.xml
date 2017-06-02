@@ -104,7 +104,7 @@
                     android:textSize="11sp" />
 
                 <TextView
-                    android:id="@+id/text_jiangjia"
+                    android:id="@+id/text_reduce_times"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20次"
@@ -115,11 +115,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="19dp"
-                    android:text="降价:"
+                    android:text="保证金:"
                     android:textSize="11sp" />
 
                 <TextView
-                    android:id="@+id/text_canyu"
+                    android:id="@+id/text_auction_goods_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100人"
@@ -167,9 +167,9 @@
                     android:layout_toLeftOf="@id/btn_auction_goods_apply"
                     android:src="@mipmap/icon_add_cart" />
 
-                <!--参与人数-->
+                <!--商品价格-->
                 <TextView
-                    android:id="@+id/text_price"
+                    android:id="@+id/text_auction_goods_price"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"

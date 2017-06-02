@@ -29,7 +29,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
     private Callback callback;
     private CallbackWhat callbackWhat;
     private View view;
-    private String TAG;
+    public String TAG;
     private boolean debug=false;
 
     public BaseNetFragment() {
@@ -39,110 +39,11 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onCreateView: ");
         view = inflater.inflate(setContentView(), container, false);
 
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onViewCreated: ");
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if(debug)
-            Log.d(TAG, "onHiddenChanged: ");
-        super.onHiddenChanged(hidden);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if(debug)
-            Log.d(TAG, "setUserVisibleHint: ");
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    @Override
-    public boolean getUserVisibleHint() {
-        if(debug)
-            Log.d(TAG, "getUserVisibleHint: ");
-        return super.getUserVisibleHint();
-    }
-
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        if(debug)
-            Log.d(TAG, "onAttachFragment: ");
-        super.onAttachFragment(childFragment);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        if(debug)
-            Log.d(TAG, "onAttach: ");
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onActivityCreated: ");
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onViewStateRestored: ");
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if(debug)
-            Log.d(TAG, "onSaveInstanceState: ");
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if(debug)
-            Log.d(TAG, "onConfigurationChanged: ");
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onStop() {
-        if(debug)
-            Log.d(TAG, "onStop: ");
-        super.onStop();
-    }
-
-    @Override
-    public void onLowMemory() {
-        if(debug)
-            Log.d(TAG, "onLowMemory: ");
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onDestroyView() {
-        if(debug)
-            Log.d(TAG, "onDestroyView: ");
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDetach() {
-        if(debug)
-            Log.d(TAG, "onDetach: ");
-        super.onDetach();
-    }
 
     /**
      * 设置Fragment要显示的布局

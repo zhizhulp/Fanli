@@ -9,7 +9,7 @@
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="主会场"></com.ascba.rebate.view.ShopABar>
+        app:abar_title="主会场"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
@@ -38,6 +38,7 @@
 
         <!--交保证金-->
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:background="@color/white"
@@ -97,6 +98,7 @@
 
         <!--悬浮按钮-->
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/btn_cart"
             android:layout_width="50dp"
             android:layout_height="50dp"

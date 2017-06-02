@@ -182,7 +182,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="参与:"
+                        android:text="保证金:"
                         android:textSize="11sp" />
 
                     <TextView
@@ -190,14 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:text="100"
-                        android:textColor="@color/fragment_money_red"
-                        android:textSize="@dimen/text_size_zhuhuichang_goods_person" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="人"
+                        android:text="100人"
                         android:textColor="@color/fragment_money_red"
                         android:textSize="@dimen/text_size_zhuhuichang_goods_person" />
                 </LinearLayout>

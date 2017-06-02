@@ -236,4 +236,5 @@ public class UrlUtils {
     /**------------------------------竞拍--------------------------------------**/
     public static final String auction = urlPrefix + "auction";//竞拍首页
     public static final String auctionInfo = urlPrefix + "auctionInfo";//竞拍-我
+    public static final String auctionType = urlPrefix + "auctionType";//竞拍-列表
 }

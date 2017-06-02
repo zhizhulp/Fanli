@@ -41,7 +41,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         helper.setText(R.id.auction_text_person, item.getPersonNum());
 
         //价格
-        helper.setText(R.id.auction_text_price, item.getPrice());
+        helper.setText(R.id.auction_text_price, item.getPrice()+"");
 
         helper.addOnClickListener(R.id.auction_btn_get);
     }

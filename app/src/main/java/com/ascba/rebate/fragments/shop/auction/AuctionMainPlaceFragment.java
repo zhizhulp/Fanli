@@ -5,15 +5,22 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.adapter.MyFragmentPagerAdapter;
+import com.ascba.rebate.beans.TittleBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.shop.TypeFragment;
+import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
+import com.yanzhenjie.nohttp.rest.Request;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +31,8 @@ import java.util.List;
  */
 
 public class AuctionMainPlaceFragment extends BaseNetFragment {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     private List<Fragment> fragmentList=new ArrayList<>();//fragment列表
-    private List<String> stringList=new ArrayList<>();//tab名的列表
+    private List<TittleBean> titleList=new ArrayList<>();//tab名的列表
     private MyFragmentPagerAdapter adapter;
 
     @Nullable
@@ -40,51 +45,50 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+        requestNetwork(UrlUtils.auctionType,0);
+    }
+
+    private void requestNetwork(String url, int what) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        request.add("type",1);
+        request.add("start_time",0);
+        request.add("end_time",0);
+        request.add("now_page",1);
+        executeNetWork(what,request,"请稍后");
+    }
+
+    @Override
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+        JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
+        if(jsonArray!=null && jsonArray.length()>0){
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.optJSONObject(i);
+                TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
+                titleList.add(tb);
+                fragmentList.add(AuctionMainPlaceChildFragment.newInstance(1,tb));
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void initView(View view) {
         ShopABar shopABar = (ShopABar) view.findViewById(R.id.shopBar);
         shopABar.setImageOtherEnable(false);
         shopABar.setMsgEnable(false);
-        shopABar.setCallback(new ShopABar.Callback() {
-            @Override
-            public void back(View v) {
-                getActivity().finish();
-            }
-
-            @Override
-            public void clkMsg(View v) {
-            }
-
-            @Override
-            public void clkOther(View v) {
-
-            }
-        });
-
-        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-
-        getData();
-
-        for (int i=0;i<stringList.size();i++){
-            tabLayout.addTab(tabLayout.newTab().setText(stringList.get(i)));
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        //getData();
+        adapter=new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList,titleList);
+        for (int i=0;i<titleList.size();i++){
+            tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i).getNowTime()+"\n"+titleList.get(i).getStatus()));
         }
-
-        adapter=new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(),fragmentList,stringList);
         viewPager.setAdapter(adapter);
-
         tabLayout.setupWithViewPager(viewPager);
     }
-    private void getData(){
-        fragmentList.add(new AuctionMainPlaceChildFragment());
-        fragmentList.add(new AuctionMainPlaceChildFragment());
-        fragmentList.add(new AuctionMainPlaceChildFragment());
-        fragmentList.add(new AuctionMainPlaceChildFragment());
 
-        stringList.add("16:00\n拍卖结束");
-        stringList.add("17:00\n疯狂抢购中");
-        stringList.add("18:00\n即将开始");
-        stringList.add("19:00\n即将开始");
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        Log.d(TAG, "onAttachChildFragment: "+childFragment);
     }
 }

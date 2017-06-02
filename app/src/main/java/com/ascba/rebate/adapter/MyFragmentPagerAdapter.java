@@ -3,6 +3,9 @@ package com.ascba.rebate.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.ascba.rebate.beans.TittleBean;
+import com.ascba.rebate.view.cityList.TitleButton;
+
 import java.util.List;
 
 /**
@@ -12,11 +15,11 @@ import java.util.List;
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragmentList;//fragment列表
-    private List<String> stringList;//tab名的列表
+    private List<TittleBean> titleList;//tab名的列表
 
-    public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> stringList) {
+    public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<TittleBean> titleList) {
         super(fm, fragmentList);
-        if (fragmentList.size() != stringList.size()) {
+        if (fragmentList.size() != titleList.size()) {
             try {
                 throw new Exception("fragmentList.size must equals stringList.size!");
             } catch (Exception e) {
@@ -24,7 +27,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
             }
         }
         this.fragmentList = fragmentList;
-        this.stringList = stringList;
+        this.titleList = titleList;
     }
 
     @Override
@@ -34,12 +37,14 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return stringList.size();
+        return titleList.size();
     }
 
     //此方法用来显示tab上的名字
     @Override
     public CharSequence getPageTitle(int position) {
-        return stringList.get(position % stringList.size());
+        int newPosition = position % titleList.size();
+        TittleBean tittleBean = titleList.get(newPosition);
+        return tittleBean.getNowTime()+"\n"+tittleBean.getStatus();
     }
 }

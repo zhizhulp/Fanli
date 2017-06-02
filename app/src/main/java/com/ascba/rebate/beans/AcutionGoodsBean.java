@@ -13,10 +13,73 @@ public class AcutionGoodsBean {
     private String specialOffer;//优惠活动
     private String timeRemaining;//剩余时间
     private String personNum;//竞拍人数
-    private String price;//价格
     private String score;//积分
     private String cashDeposit;//保证金
     private String payState;//支付状态
+
+    private Double price;//当前价格
+    private Double gapPrice;//降价幅度
+
+    private int maxReduceTimes;//最大降价次数
+    private int reduceTimes;//当前降价次数
+
+    private int currentLeftTime;//本次剩余秒数
+    private int gapTime;//降价时间间隔（s）
+
+    public AcutionGoodsBean() {
+
+    }
+
+    public AcutionGoodsBean(int id, int type, String imgUrl, String name, Double price, String score, String cashDeposit, int reduceTimes) {
+        this.id = id;
+        this.type = type;
+        this.imgUrl = imgUrl;
+        this.name = name;
+        this.price = price;
+        this.score = score;
+        this.cashDeposit = cashDeposit;
+        this.reduceTimes = reduceTimes;
+    }
+
+    public Double getGapPrice() {
+        return gapPrice;
+    }
+
+    public void setGapPrice(Double gapPrice) {
+        this.gapPrice = gapPrice;
+    }
+
+    public int getMaxReduceTimes() {
+        return maxReduceTimes;
+    }
+
+    public void setMaxReduceTimes(int maxReduceTimes) {
+        this.maxReduceTimes = maxReduceTimes;
+    }
+
+    public int getCurrentLeftTime() {
+        return currentLeftTime;
+    }
+
+    public void setCurrentLeftTime(int currentLeftTime) {
+        this.currentLeftTime = currentLeftTime;
+    }
+
+    public int getGapTime() {
+        return gapTime;
+    }
+
+    public void setGapTime(int gapTime) {
+        this.gapTime = gapTime;
+    }
+
+    public int getReduceTimes() {
+        return reduceTimes;
+    }
+
+    public void setReduceTimes(int reduceTimes) {
+        this.reduceTimes = reduceTimes;
+    }
 
     public int getType() {
         return type;
@@ -80,11 +143,11 @@ public class AcutionGoodsBean {
         this.personNum = personNum;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
