@@ -1,15 +1,14 @@
 package com.ascba.rebate.adapter;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
-import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -19,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/5/24.
+ * 抢拍盲拍列表适配器
  */
 
 public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseViewHolder> {
@@ -31,15 +31,21 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
 
     @Override
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
-
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
         Picasso.with(context).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
         helper.setText(R.id.text_auction_goods_price,item.getPrice()+"");//价格
-        if(item.getState().equals("即将开始") ||item.getState().equals("拍卖结束") ){
-            helper.setText(R.id.text_auction_goods_time,item.getState());
-        }else if(item.getState().equals("进行中")){
+        TextView view = helper.getView(R.id.btn_auction_goods_apply);//按钮
+        int intState = item.getIntState();
+        if(intState==3 ||intState==1 ){
+            view.setEnabled(false);
+            helper.setVisible(R.id.btn_auction_goods_add_cart,false);
+            helper.setText(R.id.text_auction_goods_time,item.getStrState());
+        }else if(intState==2){
+            view.setEnabled(true);
+            helper.setVisible(R.id.btn_auction_goods_add_cart,true);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
         }
+        view.setText(item.getStrState());
         helper.setText(R.id.text_auction_goods_name,item.getName());//名称
         helper.setText(R.id.text_auction_goods_score,"购买增值"+item.getScore()+"积分");//增值积分
         helper.setText(R.id.text_auction_goods_person,item.getCashDeposit());//人数改为保证金
@@ -57,7 +63,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     }
     //时间倒计时
     private String getRemainingTime(AcutionGoodsBean item){
-        int leftTime = item.getCurrentLeftTime();
+        int leftTime = item.getCurrentLeftTime();//单位s
         if(leftTime==0){
             if(item.getReduceTimes()< item.getMaxReduceTimes()){
                 leftTime = item.getGapTime();

@@ -26,6 +26,9 @@ public class AcutionGoodsBean {
     private int currentLeftTime;//本次剩余秒数
     private int gapTime;//降价时间间隔（s）
 
+    private int intState;//1 拍卖结束 2 即将开始 3拍卖结束
+    private String strState;//对应intState
+
     public AcutionGoodsBean() {
 
     }
@@ -41,6 +44,21 @@ public class AcutionGoodsBean {
         this.reduceTimes = reduceTimes;
     }
 
+    public int getIntState() {
+        return intState;
+    }
+
+    public void setIntState(int intState) {
+        this.intState = intState;
+    }
+
+    public String getStrState() {
+        return strState;
+    }
+
+    public void setStrState(String strState) {
+        this.strState = strState;
+    }
     public Double getGapPrice() {
         return gapPrice;
     }

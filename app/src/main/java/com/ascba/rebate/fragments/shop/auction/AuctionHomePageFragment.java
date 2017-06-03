@@ -124,6 +124,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 bean.setName(obj.optString("name"));
                 bean.setImgUrl(UrlUtils.baseWebsite+obj.optString("index_img"));
                 bean.setType(obj.optInt("type"));
+                bean.setPrice(obj.optDouble("end_price"));
                 int[] diff = TimeUtils.timeDifference(obj.optLong("endtime") * 1000);
                 bean.setTimeRemaining("距离结束："+diff[1]+"时"+diff[2]+"分"+diff[3]+"秒" );
                 acutionGoodsBeanList.add(bean);

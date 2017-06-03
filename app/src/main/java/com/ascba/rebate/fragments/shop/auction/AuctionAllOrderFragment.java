@@ -69,7 +69,7 @@ public class AuctionAllOrderFragment extends LazyLoadFragment {
         AcutionGoodsBean bean = new AcutionGoodsBean();
         bean.setImgUrl(imgUl);
         bean.setName("小米MIX 全网通 标准版 4GB内存 128GB ROM 陶瓷黑 移动联通电信4G手机");
-        bean.setPrice("￥100.00");
+        bean.setPrice(100.00);
         bean.setPayState("0");
         bean.setScore("购买增值100000积分");
         beanList.add(bean);
@@ -77,7 +77,7 @@ public class AuctionAllOrderFragment extends LazyLoadFragment {
         bean = new AcutionGoodsBean();
         bean.setImgUrl(imgUl);
         bean.setName("小米MIX 全网通 标准版 4GB内存 128GB ROM 陶瓷黑 移动联通电信4G手机");
-        bean.setPrice("￥100.00");
+        bean.setPrice(100.00);
         bean.setPayState("1");
         bean.setScore("购买增值100000积分");
         beanList.add(bean);
@@ -85,7 +85,7 @@ public class AuctionAllOrderFragment extends LazyLoadFragment {
         bean = new AcutionGoodsBean();
         bean.setImgUrl(imgUl);
         bean.setName("小米MIX 全网通 标准版 4GB内存 128GB ROM 陶瓷黑 移动联通电信4G手机");
-        bean.setPrice("￥100.00");
+        bean.setPrice(100.00);
         bean.setPayState("2");
         bean.setScore("购买增值100000积分");
         beanList.add(bean);

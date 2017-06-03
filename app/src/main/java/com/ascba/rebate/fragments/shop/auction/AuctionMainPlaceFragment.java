@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments.shop.auction;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,8 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     private List<Fragment> fragmentList=new ArrayList<>();//fragment列表
     private List<TittleBean> titleList=new ArrayList<>();//tab名的列表
     private MyFragmentPagerAdapter adapter;
+    private TabLayout tabLayout;
+    private int position;
 
     @Nullable
     @Override
@@ -49,9 +52,9 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     }
 
     private void requestNetwork(String url, int what) {
-        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        Request<JSONObject> request = buildNetRequest(url, 0, false);
         request.add("type",1);
-        request.add("start_time",0);
+        request.add("strat_time",0);
         request.add("end_time",0);
         request.add("now_page",1);
         executeNetWork(what,request,"请稍后");
@@ -69,26 +72,44 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
             }
         }
         adapter.notifyDataSetChanged();
+        int tabCount = tabLayout.getTabCount();
+        if(tabCount >0){
+            if(isGoing()){
+                TabLayout.Tab tabAt = tabLayout.getTabAt(position);
+                if(tabAt!=null){
+                    tabAt.select();
+                }
+            }
+        }
     }
 
     private void initView(View view) {
         ShopABar shopABar = (ShopABar) view.findViewById(R.id.shopBar);
         shopABar.setImageOtherEnable(false);
         shopABar.setMsgEnable(false);
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        //getData();
-        adapter=new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList,titleList);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         for (int i=0;i<titleList.size();i++){
-            tabLayout.addTab(tabLayout.newTab().setText(titleList.get(i).getNowTime()+"\n"+titleList.get(i).getStatus()));
+            TittleBean tb = titleList.get(i);
+            TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
+            tabLayout.addTab(tab);
         }
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        adapter=new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList,titleList);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
-
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        super.onAttachFragment(childFragment);
-        Log.d(TAG, "onAttachChildFragment: "+childFragment);
+    //是否有正在进行的商品
+    private boolean isGoing(){
+        boolean hasGoing=false;//是否有正在进行中
+        for (int i = 0; i < titleList.size(); i++) {
+            TittleBean bean= titleList.get(i);
+            String status = bean.getStatus();
+            if(status.equals("进行中")){
+                position=i;
+                hasGoing=true;
+                break;
+            }
+        }
+        return hasGoing;
     }
 }
