@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities.shop.auction;
+package com.ascba.rebate.activities.auction;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,10 +12,10 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.FragmentPagerAdapter;
-import com.ascba.rebate.fragments.shop.auction.AuctionAllOrderFragment;
-import com.ascba.rebate.fragments.shop.auction.AuctionCompleteOrderFragment;
-import com.ascba.rebate.fragments.shop.auction.AuctionPaiedOrderFragment;
-import com.ascba.rebate.fragments.shop.auction.AuctionPayOrderFragment;
+import com.ascba.rebate.fragments.auction.AuctionAllOrderFragment;
+import com.ascba.rebate.fragments.auction.AuctionCompleteOrderFragment;
+import com.ascba.rebate.fragments.auction.AuctionPaiedOrderFragment;
+import com.ascba.rebate.fragments.auction.AuctionPayOrderFragment;
 import com.ascba.rebate.view.ShopABar;
 import com.flyco.tablayout.SlidingTabLayout;
 

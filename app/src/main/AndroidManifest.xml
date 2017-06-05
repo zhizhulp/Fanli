@@ -47,7 +47,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!--闪光灯权限-->
+    <!-- 闪光灯权限 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
@@ -679,29 +679,30 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.shop.auction.BlindShootActivity"
+            android:name=".activities.auction.BlindShootActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.shop.auction.AuctionActivity"
+            android:name=".activities.auction.AuctionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.shop.auction.PayDepositActivity"
+            android:name=".activities.auction.PayDepositActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.shop.auction.MyCashDepositActivity"
+            android:name=".activities.auction.MyCashDepositActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.shop.auction.MyAuctionOrderActivity"
+            android:name=".activities.auction.MyAuctionOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity android:name=".activities.offline_business.OfflinePayActivity" />
         <activity android:name=".activities.offline_business.OfflinePaySuccessActivity" />
-        <activity android:name=".activities.offline_business.OfflineReceiveSuccessActivity"></activity>
-        <activity android:name=".activities.shop.auction.GrabShootActivity"/>
+        <activity android:name=".activities.offline_business.OfflineReceiveSuccessActivity" />
+        <activity android:name=".activities.auction.GrabShootActivity" />
+        <activity android:name=".activities.auction.AuctionListActivity"></activity>
     </application>
 
 </manifest>

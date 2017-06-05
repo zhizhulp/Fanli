@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities.shop.auction;
+package com.ascba.rebate.activities.auction;
 
 import android.content.Context;
 import android.content.Intent;

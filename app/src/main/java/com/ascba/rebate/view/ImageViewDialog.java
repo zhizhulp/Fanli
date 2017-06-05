@@ -58,11 +58,6 @@ public class ImageViewDialog {
         dialog.show();
     }
 
-    public void setImgList(List<String> imgList) {
-        this.imgList = imgList;
-        initDialog();
-    }
-
     public Dialog getDialog() {
         return dialog;
     }

@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments.shop.auction;
+package com.ascba.rebate.fragments.auction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,7 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.auction.PayDepositActivity;
+import com.ascba.rebate.activities.auction.AuctionListActivity;
+import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.AcutionHPAdapter;
 import com.ascba.rebate.adapter.ShufflingViewPagerAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
@@ -212,6 +213,24 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         }else {
             viewPager.setVisibility(View.GONE);
         }
+        //抢拍
+        headView.findViewById(R.id.lat_rush_auction).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), AuctionListActivity.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
+            }
+        });
+        //盲拍
+        headView.findViewById(R.id.lat_blind_auction).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), AuctionListActivity.class);
+                intent.putExtra("type",2);
+                startActivity(intent);
+            }
+        });
         this.adapter.setHeaderView(headView);
     }
 

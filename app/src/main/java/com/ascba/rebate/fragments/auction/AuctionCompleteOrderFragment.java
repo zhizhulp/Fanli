@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments.shop.auction;
+package com.ascba.rebate.fragments.auction;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;

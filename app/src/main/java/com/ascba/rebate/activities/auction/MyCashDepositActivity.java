@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities.shop.auction;
+package com.ascba.rebate.activities.auction;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;

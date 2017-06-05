@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.auction.AuctionActivity;
+import com.ascba.rebate.activities.auction.AuctionActivity;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 
 /**

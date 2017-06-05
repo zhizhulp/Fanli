@@ -237,4 +237,8 @@ public class UrlUtils {
     public static final String auction = urlPrefix + "auction";//竞拍首页
     public static final String auctionInfo = urlPrefix + "auctionInfo";//竞拍-我
     public static final String auctionType = urlPrefix + "auctionType";//竞拍-列表
+    public static final String addCard = urlPrefix + "addCard";//竞拍-加入购物车
+    public static final String payBond = urlPrefix + "payBond";//竞拍-交纳保证金页面
+    public static final String systemPayBond = urlPrefix + "systemPayBond";//立即交保证金
+    public static final String auctionArticle = urlPrefix + "auctionArticle";//商品详情
 }

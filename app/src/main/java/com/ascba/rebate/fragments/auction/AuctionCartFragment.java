@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments.shop.auction;
+package com.ascba.rebate.fragments.auction;
 
 
 import android.os.Bundle;

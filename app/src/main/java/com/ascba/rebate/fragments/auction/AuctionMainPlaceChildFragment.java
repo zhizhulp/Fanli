@@ -1,10 +1,13 @@
-package com.ascba.rebate.fragments.shop.auction;
+package com.ascba.rebate.fragments.auction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.auction.BlindShootActivity;
-import com.ascba.rebate.activities.shop.auction.GrabShootActivity;
+import com.ascba.rebate.activities.auction.AuctionListActivity;
+import com.ascba.rebate.activities.auction.BlindShootActivity;
+import com.ascba.rebate.activities.auction.GrabShootActivity;
+import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.AuctionMainPlaceChildAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.beans.TittleBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -82,6 +88,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     };
     private Timer timer ;
     private boolean isRefresh=true;
+    private AcutionGoodsBean selectAGB;
 
     public static AuctionMainPlaceChildFragment newInstance(int type, TittleBean tb) {
         Bundle b = new Bundle();
@@ -107,7 +114,9 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 price -= agb.getGapPrice();
                 currentLeftTime=agb.getGapTime();
                 agb.setReduceTimes(reduceTimes);
-                agb.setPrice(price);
+                if(type==1){
+                    agb.setPrice(price);
+                }
             }
             agb.setCurrentLeftTime(currentLeftTime);
         }
@@ -122,8 +131,8 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView(view);
         getParams();
+        initView(view);
         requestNetwork(UrlUtils.auctionType, 0);
     }
 
@@ -132,52 +141,85 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         if (b != null) {
             this.type = b.getInt("type");
             this.tb = b.getParcelable("title_bean");
+
+            if(tb!=null){//一场结束后切换到下一场
+                if(tb.getStatus().equals("进行中")){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Fragment parentFragment = getParentFragment();
+                            FragmentActivity activity = getActivity();
+                            if(isVisible() && parentFragment !=null && parentFragment instanceof AuctionMainPlaceFragment){
+                                ((AuctionMainPlaceFragment) parentFragment).requestNetwork(UrlUtils.auctionType,0);
+                            }
+                            if(isVisible() && activity !=null && activity instanceof AuctionListActivity){
+                                ((AuctionListActivity) activity).requestNetwork(UrlUtils.auctionType,0);
+                            }
+                        }
+                    },tb.getEndTime()*1000-System.currentTimeMillis());
+                }
+            }
         }
     }
 
 
     private void requestNetwork(String url, int what) {
-        Request<JSONObject> request = buildNetRequest(url, 0, false);
-        request.add("type", type);
-        request.add("strat_time", tb.getStartTime());
-        request.add("end_time", tb.getEndTime());
-        request.add("now_page", now_page);
-        executeNetWork(what, request, "请稍后");
+        if(what==0){
+            Request<JSONObject> request = buildNetRequest(url, 0, false);
+            request.add("type", type);
+            request.add("strat_time", tb.getStartTime());
+            request.add("end_time", tb.getEndTime());
+            request.add("now_page", now_page);
+            executeNetWork(what, request, "请稍后");
+        }else if(what==1){
+            Request<JSONObject> request = buildNetRequest(url, 0, true);
+            request.add("goods_id", selectAGB.getId());
+            request.add("reserve_money",selectAGB.getPrice());
+            executeNetWork(what, request, "请稍后");
+        }
     }
 
 
 
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
-        stopLoadMore();
-        if(isRefresh){//下拉刷新
-            clearData();
-        }
-        getPageCount(dataObj);
-        JSONArray array = dataObj.optJSONArray("auction_list");
-        if (array != null && array.length() > 0) {
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.optJSONObject(i);
-                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("imghead"),
-                        obj.optString("name"), obj.optDouble("transaction_price"),
-                        obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
-                agb.setState(tb.getStatus());
-                agb.setGapPrice(obj.optDouble("range"));
-                agb.setMaxReduceTimes(obj.optInt("depreciate_count"));
-                agb.setCurrentLeftTime(obj.optInt("count_down"));
-                agb.setGapTime(obj.optInt("interval_second"));
-                agb.setIntState(obj.optInt("is_status"));
-                agb.setStrState(obj.optString("auction_tip"));
-                beanList.add(agb);
+        if(what==0){
+            stopLoadMore();
+            if(isRefresh){//下拉刷新
+                clearData();
             }
+            getPageCount(dataObj);
+            JSONArray array = dataObj.optJSONArray("auction_list");
+            if (array != null && array.length() > 0) {
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject obj = array.optJSONObject(i);
+                    AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("imghead"),
+                            obj.optString("name"), obj.optDouble("transaction_price"),
+                            obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
+                    agb.setState(tb.getStatus());
+                    agb.setGapPrice(obj.optDouble("range"));
+                    agb.setMaxReduceTimes(obj.optInt("depreciate_count"));
+                    agb.setCurrentLeftTime(obj.optInt("count_down"));
+                    agb.setGapTime(obj.optInt("interval_second"));
+                    agb.setIntState(obj.optInt("is_status"));
+                    agb.setStrState(obj.optString("auction_tip"));
+                    agb.setStartPrice(obj.optDouble("begin_price"));
+                    agb.setEndPrice(obj.optDouble("end_price"));
+                    beanList.add(agb);
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }else if(what==1){
+            ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
         }
-        adapter.notifyDataSetChanged();
     }
 
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
-        handler.sendEmptyMessage(LOAD_MORE_ERROR);
+        if(what==1){
+            handler.sendEmptyMessage(LOAD_MORE_ERROR);
+        }
     }
 
     private void getPageCount(JSONObject dataObj) {
@@ -200,24 +242,28 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                AcutionGoodsBean agb = beanList.get(position);
                 switch (position) {
                     case 0:
-                        BlindShootActivity.startIntent(getActivity(), 0);
+                        GrabShootActivity.startIntent(getActivity(), agb);
+                        //BlindShootActivity.startIntent(getActivity(), 0);
                         break;
                     case 1:
-                        BlindShootActivity.startIntent(getActivity(), 1);
+                        GrabShootActivity.startIntent(getActivity(), agb);
+                        //BlindShootActivity.startIntent(getActivity(), 1);
                         break;
                     case 2:
-                        BlindShootActivity.startIntent(getActivity(), 2);
+                        GrabShootActivity.startIntent(getActivity(), agb);
+                        //BlindShootActivity.startIntent(getActivity(), 2);
                         break;
                     case 3:
-                        GrabShootActivity.startIntent(getActivity(), 0);
+                        //GrabShootActivity.startIntent(getActivity(), 0);
                         break;
                     case 4:
-                        GrabShootActivity.startIntent(getActivity(), 1);
+                        //GrabShootActivity.startIntent(getActivity(), 1);
                         break;
                     case 5:
-                        GrabShootActivity.startIntent(getActivity(), 2);
+                        //GrabShootActivity.startIntent(getActivity(), 2);
                         break;
                 }
 
@@ -225,19 +271,35 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
+                selectAGB = beanList.get(position);
+                Double gapPrice = selectAGB.getGapPrice();
+                Double startPrice = selectAGB.getStartPrice();
+                Double endPrice = selectAGB.getEndPrice();
+                Double nowPrice = selectAGB.getPrice();
                 switch (view.getId()) {
                     case R.id.btn_sub:
-                        showToast("减号-->" + position);
+                        if(nowPrice<= endPrice){
+                            showToast("已经到最低价了");
+                        }else {
+                            selectAGB.setPrice(nowPrice -gapPrice);
+                            adapter.notifyItemChanged(position);
+                        }
+
                         break;
                     case R.id.btn_add:
-                        showToast("加号-->" + position);
+                        if(nowPrice >= startPrice){
+                            showToast("已经到最高价了");
+                        }else {
+                            selectAGB.setPrice(nowPrice +gapPrice);
+                            adapter.notifyItemChanged(position);
+                        }
                         break;
-                    case R.id.btn_auction_goods_add_cart:
-                        showToast("加入购物车-->" + position);
+                    case R.id.btn_auction_goods_add_cart://加入购物车
+                        requestNetwork(UrlUtils.addCard,1);
                         break;
-                    case R.id.btn_auction_goods_apply:
-                        showToast("立即报名-->" + position);
+                    case R.id.btn_auction_goods_apply://立即报名
+                        Intent intent=new Intent(getActivity(), PayDepositActivity.class);
+                        startActivity(intent);
                         break;
                 }
 
@@ -271,7 +333,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 } else if(total_page==0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.auction,0);
+                    requestNetwork(UrlUtils.auctionType,0);
                 }
             }
         });

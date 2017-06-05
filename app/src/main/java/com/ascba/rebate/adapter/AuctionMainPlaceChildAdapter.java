@@ -33,7 +33,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
         Picasso.with(context).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
-        helper.setText(R.id.text_auction_goods_price,item.getPrice()+"");//价格
+        helper.setText(R.id.text_auction_goods_price,"￥"+item.getPrice());//价格
         TextView view = helper.getView(R.id.btn_auction_goods_apply);//按钮
         int intState = item.getIntState();
         if(intState==3 ||intState==1 ){

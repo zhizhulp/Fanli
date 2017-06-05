@@ -1,4 +1,4 @@
-package com.ascba.rebate.fragments.shop.auction;
+package com.ascba.rebate.fragments.auction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.shop.auction.MyAuctionOrderActivity;
-import com.ascba.rebate.activities.shop.auction.MyCashDepositActivity;
+import com.ascba.rebate.activities.auction.MyAuctionOrderActivity;
+import com.ascba.rebate.activities.auction.MyCashDepositActivity;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.RoundImageView;

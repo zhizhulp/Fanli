@@ -1,14 +1,14 @@
-package com.ascba.rebate.fragments.shop.auction;
+package com.ascba.rebate.fragments.auction;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
 
 /**
  * Created by 李鹏 on 2017/5/25.
- * 未支付竞拍订单
+ * 已支付竞拍订单
  */
 
-public class AuctionPayOrderFragment extends LazyLoadFragment {
+public class AuctionPaiedOrderFragment extends LazyLoadFragment {
 
     @Override
     protected int setContentView() {

@@ -1,65 +1,55 @@
-package com.ascba.rebate.fragments.shop.auction;
+package com.ascba.rebate.activities.auction;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.MyFragmentPagerAdapter;
 import com.ascba.rebate.beans.TittleBean;
-import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.fragments.shop.TypeFragment;
+import com.ascba.rebate.fragments.auction.AuctionMainPlaceChildFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABar;
 import com.yanzhenjie.nohttp.rest.Request;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 李鹏 on 2017/5/23.
- * 主会场
- */
-
-public class AuctionMainPlaceFragment extends BaseNetFragment {
+public class AuctionListActivity extends BaseNetActivity {
     private List<Fragment> fragmentList=new ArrayList<>();//fragment列表
     private List<TittleBean> titleList=new ArrayList<>();//tab名的列表
     private MyFragmentPagerAdapter adapter;
     private TabLayout tabLayout;
     private int position;
-
-    @Nullable
+    private int type;
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_auction_main_place, null);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initView(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_auction_main_place);
+        getParams();
+        initView();
         requestNetwork(UrlUtils.auctionType,0);
     }
+    private void getParams() {
+        Intent b = getIntent();
+        if (b != null) {
+            this.type = b.getIntExtra("type",1);
+        }
+    }
 
-    private void requestNetwork(String url, int what) {
+    public void requestNetwork(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, false);
-        request.add("type",1);
+        request.add("type",type);
         request.add("strat_time",0);
         request.add("end_time",0);
         request.add("now_page",1);
         executeNetWork(what,request,"请稍后");
     }
-
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
@@ -68,7 +58,8 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
                 JSONObject obj = jsonArray.optJSONObject(i);
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
                 titleList.add(tb);
-                fragmentList.add(AuctionMainPlaceChildFragment.newInstance(1,tb));
+                Log.d(TAG, "mhandle200Data:type--> "+type);
+                fragmentList.add(AuctionMainPlaceChildFragment.newInstance(type,tb));
             }
         }
         adapter.notifyDataSetChanged();
@@ -83,18 +74,18 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
         }
     }
 
-    private void initView(View view) {
-        ShopABar shopABar = (ShopABar) view.findViewById(R.id.shopBar);
+    private void initView() {
+        ShopABar shopABar = (ShopABar) findViewById(R.id.shopBar);
         shopABar.setImageOtherEnable(false);
         shopABar.setMsgEnable(false);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         for (int i=0;i<titleList.size();i++){
             TittleBean tb = titleList.get(i);
             TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
             tabLayout.addTab(tab);
         }
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        adapter=new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList,titleList);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        adapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),fragmentList,titleList);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

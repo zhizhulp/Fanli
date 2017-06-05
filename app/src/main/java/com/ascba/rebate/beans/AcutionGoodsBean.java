@@ -1,10 +1,13 @@
 package com.ascba.rebate.beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by 李鹏 on 2017/5/22.
  */
 
-public class AcutionGoodsBean {
+public class AcutionGoodsBean implements Parcelable {
     private int id;
     private int type;//竞拍类型 抢拍和盲拍
     private String imgUrl;
@@ -28,6 +31,11 @@ public class AcutionGoodsBean {
 
     private int intState;//1 拍卖结束 2 即将开始 3拍卖结束
     private String strState;//对应intState
+    private Double startPrice;//起始价格
+    private Double endPrice;//最低价
+
+    private long startTime;
+    private long endTime;
 
     public AcutionGoodsBean() {
 
@@ -192,4 +200,102 @@ public class AcutionGoodsBean {
     public void setPayState(String payState) {
         this.payState = payState;
     }
+
+    public Double getStartPrice() {
+        return startPrice;
+    }
+
+    public void setStartPrice(Double startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public Double getEndPrice() {
+        return endPrice;
+    }
+
+    public void setEndPrice(Double endPrice) {
+        this.endPrice = endPrice;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.type);
+        dest.writeString(this.imgUrl);
+        dest.writeString(this.name);
+        dest.writeString(this.state);
+        dest.writeString(this.specialOffer);
+        dest.writeString(this.timeRemaining);
+        dest.writeString(this.personNum);
+        dest.writeString(this.score);
+        dest.writeString(this.cashDeposit);
+        dest.writeString(this.payState);
+        dest.writeValue(this.price);
+        dest.writeValue(this.gapPrice);
+        dest.writeInt(this.maxReduceTimes);
+        dest.writeInt(this.reduceTimes);
+        dest.writeInt(this.currentLeftTime);
+        dest.writeInt(this.gapTime);
+        dest.writeInt(this.intState);
+        dest.writeString(this.strState);
+        dest.writeValue(this.startPrice);
+        dest.writeValue(this.endPrice);
+    }
+
+    protected AcutionGoodsBean(Parcel in) {
+        this.id = in.readInt();
+        this.type = in.readInt();
+        this.imgUrl = in.readString();
+        this.name = in.readString();
+        this.state = in.readString();
+        this.specialOffer = in.readString();
+        this.timeRemaining = in.readString();
+        this.personNum = in.readString();
+        this.score = in.readString();
+        this.cashDeposit = in.readString();
+        this.payState = in.readString();
+        this.price = (Double) in.readValue(Double.class.getClassLoader());
+        this.gapPrice = (Double) in.readValue(Double.class.getClassLoader());
+        this.maxReduceTimes = in.readInt();
+        this.reduceTimes = in.readInt();
+        this.currentLeftTime = in.readInt();
+        this.gapTime = in.readInt();
+        this.intState = in.readInt();
+        this.strState = in.readString();
+        this.startPrice = (Double) in.readValue(Double.class.getClassLoader());
+        this.endPrice = (Double) in.readValue(Double.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<AcutionGoodsBean> CREATOR = new Parcelable.Creator<AcutionGoodsBean>() {
+        @Override
+        public AcutionGoodsBean createFromParcel(Parcel source) {
+            return new AcutionGoodsBean(source);
+        }
+
+        @Override
+        public AcutionGoodsBean[] newArray(int size) {
+            return new AcutionGoodsBean[size];
+        }
+    };
 }

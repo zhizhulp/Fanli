@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities.shop.auction;
+package com.ascba.rebate.activities.auction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.fragments.shop.auction.AuctionCartFragment;
-import com.ascba.rebate.fragments.shop.auction.AuctionHomePageFragment;
-import com.ascba.rebate.fragments.shop.auction.AuctionMainPlaceFragment;
-import com.ascba.rebate.fragments.shop.auction.AuctionMeFragment;
+import com.ascba.rebate.fragments.auction.AuctionCartFragment;
+import com.ascba.rebate.fragments.auction.AuctionHomePageFragment;
+import com.ascba.rebate.fragments.auction.AuctionMainPlaceFragment;
+import com.ascba.rebate.fragments.auction.AuctionMeFragment;
 import com.ascba.rebate.view.AuctionTabs;
 
 import java.util.ArrayList;
