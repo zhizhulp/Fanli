@@ -37,7 +37,7 @@ public class ImageAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) view.findViewById(R.id.goods_details_viewpager_item_img);
         TextView textView = (TextView) view.findViewById(R.id.goods_details_viewpager_item_text);
         Picasso.with(container.getContext()).load(urls.get(position)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
-        textView.setText(position + "/" + (urls.size()));
+        textView.setText((position+1) + "/" + (urls.size()));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

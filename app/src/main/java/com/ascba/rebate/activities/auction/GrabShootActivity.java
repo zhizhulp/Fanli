@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -176,7 +177,8 @@ public class GrabShootActivity extends BaseNetActivity {
     }
 
     private void refreshViewPagerData(JSONObject dataObj) {
-        JSONArray photos = dataObj.optJSONArray("photos");
+        JSONObject obj = dataObj.optJSONObject("auctionArticle");
+        JSONArray photos = obj.optJSONArray("photos");
         if(photos!=null && photos.length()!=0){
             if(urls.size()>0){
                 urls.clear();
@@ -225,7 +227,8 @@ public class GrabShootActivity extends BaseNetActivity {
 
         tvStatus.setText(obj.optString("is_endtime_tip"));
         tvName.setText(name);
-        tvGoodsDet.setText(obj.optString("content"));
+        CharSequence content= Html.fromHtml(obj.optString("content"));
+        tvGoodsDet.setText(content);
         tvPrice.setText(transaction_price + "");
         tvOrgPrice.setText(begin_price + "");
         tvTD.setText(count_down + "s");
