@@ -175,7 +175,7 @@ public class SelectAddrssActivity extends BaseNetActivity {
      */
     private void getData() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
-        jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
+        //jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
             @Override

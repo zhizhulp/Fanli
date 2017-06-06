@@ -235,7 +235,6 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
     //获取收货地址数据
     private void getAddress() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getMemberAddress, 0, true);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getMemberAddress));
         jsonRequest.add("member_id", AppConfig.getInstance().getInt("uuid", -1000));
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {

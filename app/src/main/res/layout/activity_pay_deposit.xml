@@ -25,13 +25,34 @@
         android:background="@color/white"
         android:orientation="vertical">
         <!--收货人信息-->
-        <FrameLayout
+        <RelativeLayout
+            android:id="@+id/lat_address_details"
             android:layout_width="match_parent"
             android:layout_height="82dp">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/tail_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/right2_arrow" />
+            <TextView
+                android:id="@+id/tv_no_address"
+                android:text="点击添加收获地址"
+                android:gravity="center"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="13sp"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lat_has_address"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/tail_icon"
                 android:orientation="vertical">
                 <!--收货人信息-->
                 <LinearLayout
@@ -45,7 +66,6 @@
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="李平"
                         android:textColor="@color/shop_normal_text_color"
                         android:textSize="14sp" />
 
@@ -54,7 +74,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
-                        android:text="15350732091"
                         android:textColor="@color/shop_normal_text_color"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -68,7 +87,6 @@
                     android:layout_marginTop="7dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="北京市丰台区光彩路"
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="12sp" />
 
@@ -81,29 +99,23 @@
                     android:layout_marginTop="6dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="建邦华府底商，钱来钱往网络科技有限公司"
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:src="@mipmap/right2_arrow"
-                android:layout_gravity="center_vertical|right"/>
 
-        </FrameLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:background="@color/main_line_light_gray"></View>
+            android:background="@color/main_line_light_gray" />
 
         <!--发票信息-->
         <TextView
+            android:id="@+id/tv_info_ticket"
             android:layout_width="wrap_content"
             android:layout_height="41dp"
             android:layout_marginLeft="14dp"
@@ -111,7 +123,6 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="发票：不开发票"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="13sp" />
     </LinearLayout>
@@ -136,7 +147,7 @@
                 android:id="@+id/tv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="共计5件"
+                android:text="共计0件"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="14sp" />
 
@@ -152,7 +163,7 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥500.00"
+                android:text="￥0.00"
                 android:textColor="@color/fragment_money_red"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -185,11 +196,10 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:background="@drawable/radio_unchecked"
-            android:button="@null" />
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -703,6 +703,7 @@
         <activity android:name=".activities.offline_business.OfflineReceiveSuccessActivity" />
         <activity android:name=".activities.auction.GrabShootActivity" />
         <activity android:name=".activities.auction.AuctionListActivity"></activity>
+        <activity android:name=".activities.SelectAddrssUpdateActivity"></activity>
     </application>
 
 </manifest>

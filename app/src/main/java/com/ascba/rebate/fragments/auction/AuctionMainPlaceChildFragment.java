@@ -243,30 +243,12 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 AcutionGoodsBean agb = beanList.get(position);
-                switch (position) {
-                    case 0:
-                        GrabShootActivity.startIntent(getActivity(), agb);
-                        //BlindShootActivity.startIntent(getActivity(), 0);
-                        break;
-                    case 1:
-                        GrabShootActivity.startIntent(getActivity(), agb);
-                        //BlindShootActivity.startIntent(getActivity(), 1);
-                        break;
-                    case 2:
-                        GrabShootActivity.startIntent(getActivity(), agb);
-                        //BlindShootActivity.startIntent(getActivity(), 2);
-                        break;
-                    case 3:
-                        //GrabShootActivity.startIntent(getActivity(), 0);
-                        break;
-                    case 4:
-                        //GrabShootActivity.startIntent(getActivity(), 1);
-                        break;
-                    case 5:
-                        //GrabShootActivity.startIntent(getActivity(), 2);
-                        break;
+                int type = agb.getType();
+                if(type==1){
+                    GrabShootActivity.startIntent(getActivity(), agb);
+                }else {
+                    //BlindShootActivity.startIntent(getActivity(), agb);
                 }
-
             }
 
             @Override
@@ -299,6 +281,8 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                         break;
                     case R.id.btn_auction_goods_apply://立即报名
                         Intent intent=new Intent(getActivity(), PayDepositActivity.class);
+                        intent.putExtra("client_ids",getClientIds());
+                        intent.putExtra("total_price",selectAGB.getCashDeposit());
                         startActivity(intent);
                         break;
                 }
@@ -317,6 +301,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         });
 
         initLoadMore();
+    }
+
+    private String getClientIds() {
+        return "\"" +
+                selectAGB.getId() +
+                "\"" +
+                ":" +
+                "\"" +
+                selectAGB.getCashDeposit() +
+                "\"";
     }
 
     private void initLoadMore() {

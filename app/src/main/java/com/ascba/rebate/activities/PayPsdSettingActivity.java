@@ -51,7 +51,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
     private void getDataFromIntent() {
         Intent intent = getIntent();
         if(intent!=null){
-            //type 0 从设置进来的 1 从支付时候进来的
+            //type 0 从设置进来的 1 从支付时候进来的或从支付保证金进来的
             int type = intent.getIntExtra("type",0);
             if(type==1){
                 AppConfig.getInstance().putInt("is_level_pwd",0);
