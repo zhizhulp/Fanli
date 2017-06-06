@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/5/25.
+ * 保证金列表适配器
  */
 
 public class CashDepositAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseViewHolder> {

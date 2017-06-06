@@ -216,6 +216,7 @@
 
                 <!--提醒-->
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/btn_auction_me_ti_xing"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
@@ -247,7 +248,8 @@
 
                 </RelativeLayout>
 
-                <include layout="@layout/goods_details_cuttingline" />
+                <include layout="@layout/goods_details_cuttingline"
+                    android:visibility="gone"/>
 
                 <!--保证金-->
                 <RelativeLayout

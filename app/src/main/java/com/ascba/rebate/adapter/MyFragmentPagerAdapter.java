@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.ascba.rebate.beans.TittleBean;
-import com.ascba.rebate.view.cityList.TitleButton;
 
 import java.util.List;
 

@@ -241,4 +241,6 @@ public class UrlUtils {
     public static final String payBond = urlPrefix + "payBond";//竞拍-交纳保证金页面
     public static final String systemPayBond = urlPrefix + "systemPayBond";//立即交保证金
     public static final String auctionArticle = urlPrefix + "auctionArticle";//商品详情
+    public static final String auctionCard = urlPrefix + "auctionCard";//竞拍购物车列表
+
 }
