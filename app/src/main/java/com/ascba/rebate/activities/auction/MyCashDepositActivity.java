@@ -23,8 +23,6 @@ import java.util.List;
 
 public class MyCashDepositActivity extends BaseNetActivity {
 
-    private ShopABarText shopBar;
-    private RecyclerView recyclerView;
     private CashDepositAdapter adapter;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
 
@@ -36,24 +34,10 @@ public class MyCashDepositActivity extends BaseNetActivity {
     }
 
     private void initView() {
-        shopBar = (ShopABarText) findViewById(R.id.shopBar);
-        shopBar.setCallback(new ShopABarText.Callback() {
-            @Override
-            public void back(View v) {
-                finish();
-            }
-
-            @Override
-            public void clkBtn(View v) {
-
-            }
-        });
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        gerData();
+        beanList = new ArrayList<>();
         adapter = new CashDepositAdapter(this, R.layout.item_auction_cash_deposit, beanList);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -64,7 +48,6 @@ public class MyCashDepositActivity extends BaseNetActivity {
 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                super.onItemChildClick(adapter, view, position);
             }
         });
     }
