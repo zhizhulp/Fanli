@@ -2,16 +2,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_auction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="拍卖场" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="正在开发" />
+    <Button
+        android:layout_centerInParent="true"
+        android:id="@+id/btn_auction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="拍卖场" />
 
 </RelativeLayout>

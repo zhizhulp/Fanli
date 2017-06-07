@@ -5,7 +5,6 @@
     tools:context="com.ascba.rebate.fragments.auction.CartChildFragment">
 
     <RelativeLayout
-        android:descendantFocusability="blocksDescendants"
         android:id="@+id/cart_clear"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -13,7 +12,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/cart_cb_total"
@@ -28,7 +27,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_all_sure_money"
+            android:id="@+id/tv_btm_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -40,10 +39,11 @@
             android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/tv_btm_btm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_all_sure_money"
-            android:layout_below="@id/tv_all_sure_money"
+            android:layout_alignLeft="@id/tv_btm_top"
+            android:layout_below="@id/tv_btm_top"
             android:layout_centerVertical="true"
             android:layout_marginTop="3dp"
             android:maxLines="1"
@@ -66,6 +66,7 @@
             android:textSize="16sp" />
     </RelativeLayout>
     <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_above="@id/cart_clear"
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

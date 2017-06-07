@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.auction.MyAuctionActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.auction.MyAuctionOrderActivity;
 import com.ascba.rebate.activities.auction.MyCashDepositActivity;
@@ -110,6 +111,7 @@ public class AuctionMeFragment extends BaseNetFragment implements View.OnClickLi
                 break;
             case R.id.btn_auction_me_jing_pai:
                 //我的竞拍
+                startActivity(new Intent(getActivity(), MyAuctionActivity.class));
                 break;
             case R.id.btn_auction_me_huo_pai:
                 //我的获拍

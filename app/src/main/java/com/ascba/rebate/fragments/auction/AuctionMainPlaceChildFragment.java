@@ -148,10 +148,10 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                             Fragment parentFragment = getParentFragment();
                             FragmentActivity activity = getActivity();
                             if(isVisible() && parentFragment !=null && parentFragment instanceof AuctionMainPlaceFragment){
-                                ((AuctionMainPlaceFragment) parentFragment).requestNetwork(UrlUtils.auctionType,0);
+                                ((AuctionMainPlaceFragment) parentFragment).setTabNextSelect();
                             }
                             if(isVisible() && activity !=null && activity instanceof AuctionListActivity){
-                                ((AuctionListActivity) activity).requestNetwork(UrlUtils.auctionType,0);
+                                ((AuctionListActivity) activity).setTabNextSelect();
                             }
                         }
                     },tb.getEndTime()*1000-System.currentTimeMillis());

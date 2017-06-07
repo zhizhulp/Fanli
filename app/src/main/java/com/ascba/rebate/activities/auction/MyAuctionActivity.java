@@ -11,10 +11,11 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.adapter.AuctionListAdapter;
 import com.ascba.rebate.adapter.CashDepositAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.ShopABarText;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -25,19 +26,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 /**
- * Created by 李鹏 on 2017/5/25.
- * 我的保证金列表
+ * 我的竞拍列表
  */
+public class MyAuctionActivity extends BaseNetActivity {
 
-public class MyCashDepositActivity extends BaseNetActivity {
-
-    private CashDepositAdapter adapter;
+    private AuctionListAdapter adapter;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private int now_page = 1;
     private int total_page;
@@ -68,9 +65,9 @@ public class MyCashDepositActivity extends BaseNetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cash_deposit);
+        setContentView(R.layout.activity_my_auction);
         initView();
-        requestNetwork(UrlUtils.bondList,0);
+        requestNetwork(UrlUtils.auctionList,0);
     }
 
     private void requestNetwork(String url, int what) {
@@ -87,7 +84,8 @@ public class MyCashDepositActivity extends BaseNetActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         beanList = new ArrayList<>();
-        adapter = new CashDepositAdapter(this, R.layout.item_auction_cash_deposit, beanList);
+        adapter = new AuctionListAdapter( R.layout.auction_list_item, beanList);
+        adapter.setEmptyView(ViewUtils.getEmptyView(this,"暂无数据"));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -111,7 +109,7 @@ public class MyCashDepositActivity extends BaseNetActivity {
             public void onRefresh() {
                 isRefresh=true;
                 resetPage();
-                requestNetwork(UrlUtils.bondList,0);
+                requestNetwork(UrlUtils.auctionList,0);
             }
         });
     }
@@ -123,7 +121,7 @@ public class MyCashDepositActivity extends BaseNetActivity {
             if(isRefresh){
                 clearData();
             }
-            parseData(dataObj.optJSONArray("bondList"));
+            parseData(dataObj.optJSONArray("auctionPayList"));
         }
     }
 
@@ -167,7 +165,7 @@ public class MyCashDepositActivity extends BaseNetActivity {
                 } else if(total_page==0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.auctionType,0);
+                    requestNetwork(UrlUtils.auctionList,0);
                 }
             }
         });

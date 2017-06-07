@@ -34,6 +34,8 @@ public class AcutionGoodsBean implements Parcelable {
     private Double startPrice;//起始价格
     private Double endPrice;//最低价
 
+    private boolean isSelect;
+
     private long startTime;
     private long endTime;
 
@@ -51,6 +53,14 @@ public class AcutionGoodsBean implements Parcelable {
         this.score = score;
         this.cashDeposit = cashDeposit;
         this.reduceTimes = reduceTimes;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public int getIntState() {

@@ -63,8 +63,9 @@ public class AuctionCartFragment extends BaseNetFragment {
 
     private void initTitles() {
         titles= new String[2];
-        titles[0]="竞拍商品";
-        titles[1]="交保证金";
+        titles[0]="待交保证金";
+        titles[1]="竞拍商品";
+
     }
 
     private void initFragments() {

@@ -83,7 +83,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <!--商品名-->
             <TextView
                 android:id="@+id/text_auction_goods_name"
@@ -95,64 +94,6 @@
                 android:text="苹果iph7手机限时抢拍  白色128G 全网通苹果iph7手机限时抢拍  白色128G 全网通"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="11sp" />
-
-            <!--盲拍价格-->
-            <RelativeLayout
-                android:id="@+id/lat_auction_goods_price_blind"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="8dp">
-
-                <Button
-                    android:id="@+id/btn_sub"
-                    android:layout_width="32dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
-                    android:background="#F3F3F3"
-                    android:text="—"
-                    android:textColor="@color/shop_normal_text_color" />
-
-                <Button
-                    android:id="@+id/btn_add"
-                    android:layout_width="32dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="5dp"
-                    android:background="#F3F3F3"
-                    android:text="十"
-                    android:textColor="@color/shop_normal_text_color" />
-
-                <TextView
-                    android:id="@+id/text_auction_goods_price_blind"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toLeftOf="@id/btn_add"
-                    android:layout_toRightOf="@id/btn_sub"
-                    android:background="#F3F3F3"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="降价至:￥5000.00"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="13sp" />
-            </RelativeLayout>
-            <!--抢拍价格-->
-            <TextView
-                android:visibility="gone"
-                android:layout_marginTop="8dp"
-                android:id="@+id/text_auction_goods_price_rush"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="￥5000.00"
-                android:textColor="@color/shop_red_text_color"
-                android:textSize="13sp" />
-            <!--保证金-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,11 +105,11 @@
                     android:textColor="@color/main_text_gary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="保证金："
+                    android:text="出价："
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/text_auction_goods_person"
+                    android:id="@+id/text_auction_goods_price_rush"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -176,6 +117,31 @@
                     android:textColor="@color/fragment_money_red"
                     android:textSize="12sp" />
             </LinearLayout>
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="25dp">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/text_auction_goods_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="购买增值5000.00积分"
+                    android:textColor="@color/main_text_gary"
+                    android:textSize="12sp" />
+                <TextView
+                    android:background="@drawable/btn_gray_bg"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="领先"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
         </LinearLayout>
     </LinearLayout>

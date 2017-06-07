@@ -103,4 +103,17 @@ public class AuctionListActivity extends BaseNetActivity {
         }
         return hasGoing;
     }
+
+    public void setTabNextSelect() {
+        int tabCount = tabLayout.getTabCount();
+        if (tabCount > 0) {
+            int position = tabLayout.getSelectedTabPosition();
+            TabLayout.Tab tabAt = tabLayout.getTabAt(position+1);
+            if (tabAt != null) {
+                if (!tabAt.isSelected()) {
+                    tabAt.select();
+                }
+            }
+        }
+    }
 }
