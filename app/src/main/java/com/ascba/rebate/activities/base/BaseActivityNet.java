@@ -83,7 +83,7 @@ public abstract class BaseActivityNet extends BaseActivity {
             dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
             return;
         }
-        MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener());
+        MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener(message));
     }
 
     //执行网络请求
@@ -94,16 +94,21 @@ public abstract class BaseActivityNet extends BaseActivity {
             dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
             return;
         }
-        MyApplication.getRequestQueue().add(0, jsonRequest, new NetResponseListener());
+        MyApplication.getRequestQueue().add(0, jsonRequest, new NetResponseListener(message));
     }
 
 
-    class NetResponseListener implements OnResponseListener<JSONObject> {
+    private class NetResponseListener implements OnResponseListener<JSONObject> {
+        private String message;
+        public NetResponseListener(String message) {
+            this.message=message;
+        }
+
         private Dialog dialog;
 
         @Override
         public void onStart(int what) {
-            dialog = dialogManager.buildWaitDialog("请稍候");
+            dialog = dialogManager.buildWaitDialog(message);
         }
 
         @Override
@@ -119,6 +124,7 @@ public abstract class BaseActivityNet extends BaseActivity {
 
         @Override
         public void onFinish(int what) {
+            stopRefresh();
             dialog.dismiss();
             requstFinish(what);
         }
@@ -136,6 +142,12 @@ public abstract class BaseActivityNet extends BaseActivity {
      */
     protected boolean hasCache() {
         return false;
+    }
+
+    private void stopRefresh(){
+        if(refreshLayout!=null && refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
     }
 
 }

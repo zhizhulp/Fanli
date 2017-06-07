@@ -37,6 +37,7 @@ public class AcutionGoodsBean implements Parcelable {
     private long startTime;
     private long endTime;
 
+
     public AcutionGoodsBean() {
 
     }

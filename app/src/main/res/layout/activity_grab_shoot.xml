@@ -169,18 +169,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!--商品图片轮播-->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="312dp">
+                android:layout_height="match_parent">
 
+                <!--商品图片轮播-->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="312dp">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
                 <!--返回按钮-->
                 <FrameLayout
                     android:id="@+id/btn_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:paddingBottom="15dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="35dp"
@@ -193,14 +200,7 @@
                         android:scaleType="centerCrop"
                         android:src="@mipmap/abar_back" />
                 </FrameLayout>
-
-                <!--商品轮播-->
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <!--尚未开始-->
+                <!--竞拍状态-->
                 <FrameLayout
                     android:layout_width="90dp"
                     android:layout_height="25dp"
@@ -221,7 +221,6 @@
                         android:textSize="14sp" />
 
                 </FrameLayout>
-
 
             </FrameLayout>
 

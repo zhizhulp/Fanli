@@ -9,10 +9,15 @@
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="我的保证金"></com.ascba.rebate.view.ShopABarText>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        app:abar_title="我的保证金"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

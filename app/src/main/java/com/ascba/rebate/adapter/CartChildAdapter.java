@@ -26,7 +26,6 @@ public class CartChildAdapter extends BaseQuickAdapter <AcutionGoodsBean,BaseVie
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
         Picasso.with(mContext).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
-        helper.setText(R.id.text_auction_goods_price,"￥"+item.getPrice());//价格
         int intState = item.getIntState();
         if(intState==3 ||intState==1 ){//本次剩余时间
             helper.setText(R.id.text_auction_goods_time,item.getStrState());
