@@ -704,7 +704,8 @@
         <activity android:name=".activities.auction.GrabShootActivity" />
         <activity android:name=".activities.auction.AuctionListActivity" />
         <activity android:name=".activities.SelectAddrssUpdateActivity" />
-        <activity android:name=".activities.auction.MyAuctionActivity"></activity>
+        <activity android:name=".activities.auction.MyAuctionActivity" />
+        <activity android:name=".activities.auction.AuctionConfirmOrderActivity"></activity>
     </application>
 
 </manifest>

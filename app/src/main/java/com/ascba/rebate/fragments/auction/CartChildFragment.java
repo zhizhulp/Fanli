@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.CartChildAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
@@ -343,6 +344,8 @@ public class CartChildFragment extends BaseNetFragment {
             caculateMoneyAndNum();
         }else if(what==1){
             showToast(message);
+            Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
+            startActivity(intent);
         }
     }
 

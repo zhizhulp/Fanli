@@ -84,7 +84,7 @@ public class MyAuctionActivity extends BaseNetActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         beanList = new ArrayList<>();
-        adapter = new AuctionListAdapter( R.layout.auction_list_item, beanList);
+        adapter = new AuctionListAdapter( R.layout.auction_my_list_item, beanList);
         adapter.setEmptyView(ViewUtils.getEmptyView(this,"暂无数据"));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -121,7 +121,7 @@ public class MyAuctionActivity extends BaseNetActivity {
             if(isRefresh){
                 clearData();
             }
-            parseData(dataObj.optJSONArray("auctionPayList"));
+            parseData(dataObj.optJSONArray("auctionList"));
         }
     }
 
@@ -136,15 +136,12 @@ public class MyAuctionActivity extends BaseNetActivity {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 AcutionGoodsBean bean = new AcutionGoodsBean();
-                bean.setId(obj.optInt("id"));
+                bean.setId(obj.optInt("goods_id"));
                 bean.setImgUrl(UrlUtils.baseWebsite+ obj.optString("imghead"));
-                bean.setType(obj.optInt("type"));
                 bean.setName(obj.optString("name"));
-                bean.setStartTime(obj.optLong("starttime"));
-                bean.setEndTime(obj.optLong("endtime"));
-                bean.setPayState(obj.optString("bond_pay_tip"));
-                bean.setCashDeposit(obj.optString("guarantee_money"));
-                bean.setState("0");
+                bean.setBlindState(obj.optString("auction_tip"));
+                bean.setPrice(obj.optDouble("reserve_money"));
+                bean.setScore(obj.optString("points"));
                 beanList.add(bean);
             }
         }

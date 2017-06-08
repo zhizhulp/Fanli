@@ -245,5 +245,6 @@ public class UrlUtils {
     public static final String bondList = urlPrefix + "bondList";//保证金列表
     public static final String payAuction = urlPrefix + "payAuction";//竞拍购物车列表(待拍商品)
     public static final String auctionList = urlPrefix + "auctionList";//我的竞拍列表
-
+    public static final String payAuctionOrder = urlPrefix + "payAuctionOrder";//提交订单数据
+    public static final String payAuctionMent  = urlPrefix + "payAuctionMent";//竞拍支付
 }

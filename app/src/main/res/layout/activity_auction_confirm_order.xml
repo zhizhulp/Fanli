@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.ascba.rebate.view.ShopABarText
-        android:id="@+id/shopbar"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity">
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
+        app:textTitle="确认订单"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white"
-        app:abar_title="确认订单" />
-
+        android:layout_height="wrap_content"/>
     <!--底部-->
     <RelativeLayout
-        android:id="@+id/confir_order_bottom"
+        android:id="@+id/confirm_order_bottom"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_alignParentBottom="true"
@@ -55,12 +54,9 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:background="@color/white"
-        android:id="@+id/recyclerview"
+        android:layout_below="@id/mb"
+        android:layout_above="@id/confirm_order_bottom"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/confir_order_bottom"
-        android:layout_below="@id/shopbar" />
-
-
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

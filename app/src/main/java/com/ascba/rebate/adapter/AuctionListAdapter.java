@@ -2,7 +2,10 @@ package com.ascba.rebate.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.UrlUtils;
@@ -36,6 +39,14 @@ public class AuctionListAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
         helper.setText(R.id.text_auction_goods_score, "购买增值" + item.getScore()+"积分");
         helper.setText(R.id.text_auction_goods_price_rush, "￥" + item.getPrice());
+
+        TextView view = helper.getView(R.id.tv_blind_state);
+        String blindState = item.getBlindState();
+        if("领先".equals(blindState)){
+            view.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.btn_red_bg));
+        }else if("出局".equals(blindState)){
+            view.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.btn_gray_bg));
+        }
     }
 
     //时间倒计时

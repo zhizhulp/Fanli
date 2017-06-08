@@ -37,7 +37,10 @@ public class AcutionGoodsBean implements Parcelable {
     private boolean isSelect;
 
     private long startTime;
+    private String startTimeStr;
     private long endTime;
+
+    private String blindState;//盲拍状态
 
 
     public AcutionGoodsBean() {
@@ -53,6 +56,22 @@ public class AcutionGoodsBean implements Parcelable {
         this.score = score;
         this.cashDeposit = cashDeposit;
         this.reduceTimes = reduceTimes;
+    }
+
+    public String getStartTimeStr() {
+        return startTimeStr;
+    }
+
+    public void setStartTimeStr(String startTimeStr) {
+        this.startTimeStr = startTimeStr;
+    }
+
+    public String getBlindState() {
+        return blindState;
+    }
+
+    public void setBlindState(String blindState) {
+        this.blindState = blindState;
     }
 
     public boolean isSelect() {

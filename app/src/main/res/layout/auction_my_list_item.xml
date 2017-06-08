@@ -12,13 +12,6 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/cb_item"
-            android:paddingRight="10dp"
-            android:layout_gravity="center_vertical"
-            android:button="@drawable/cart_cb_bg"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
         <!--商品图片-->
         <FrameLayout
             android:layout_gravity="center_vertical"
@@ -133,6 +126,7 @@
                     android:textColor="@color/main_text_gary"
                     android:textSize="12sp" />
                 <TextView
+                    android:id="@+id/tv_blind_state"
                     android:background="@drawable/btn_gray_bg"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
