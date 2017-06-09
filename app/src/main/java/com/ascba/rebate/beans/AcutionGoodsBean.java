@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 /**
  * Created by 李鹏 on 2017/5/22.
+ * 竞拍商品实体类
  */
 
 public class AcutionGoodsBean implements Parcelable {
@@ -29,13 +30,14 @@ public class AcutionGoodsBean implements Parcelable {
     private int currentLeftTime;//本次剩余秒数
     private int gapTime;//降价时间间隔（s）
 
-    private int intState;//1 拍卖结束 2 即将开始 3拍卖结束
+    private int intState;//1 拍卖结束 2 进行中 3即将开始
     private String strState;//对应intState
+    private int intPriceState;//0：待交保证金，2：已交保证金，4：已拍
+    private String strPriceState;//对应intPriceState
+
     private Double startPrice;//起始价格
     private Double endPrice;//最低价
-
     private boolean isSelect;
-
     private long startTime;
     private String startTimeStr;
     private long endTime;
@@ -56,6 +58,22 @@ public class AcutionGoodsBean implements Parcelable {
         this.score = score;
         this.cashDeposit = cashDeposit;
         this.reduceTimes = reduceTimes;
+    }
+
+    public int getIntPriceState() {
+        return intPriceState;
+    }
+
+    public void setIntPriceState(int intPriceState) {
+        this.intPriceState = intPriceState;
+    }
+
+    public String getStrPriceState() {
+        return strPriceState;
+    }
+
+    public void setStrPriceState(String strPriceState) {
+        this.strPriceState = strPriceState;
     }
 
     public String getStartTimeStr() {
@@ -263,6 +281,7 @@ public class AcutionGoodsBean implements Parcelable {
         this.endTime = endTime;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -289,8 +308,15 @@ public class AcutionGoodsBean implements Parcelable {
         dest.writeInt(this.gapTime);
         dest.writeInt(this.intState);
         dest.writeString(this.strState);
+        dest.writeInt(this.intPriceState);
+        dest.writeString(this.strPriceState);
         dest.writeValue(this.startPrice);
         dest.writeValue(this.endPrice);
+        dest.writeByte(this.isSelect ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.startTime);
+        dest.writeString(this.startTimeStr);
+        dest.writeLong(this.endTime);
+        dest.writeString(this.blindState);
     }
 
     protected AcutionGoodsBean(Parcel in) {
@@ -313,11 +339,18 @@ public class AcutionGoodsBean implements Parcelable {
         this.gapTime = in.readInt();
         this.intState = in.readInt();
         this.strState = in.readString();
+        this.intPriceState = in.readInt();
+        this.strPriceState = in.readString();
         this.startPrice = (Double) in.readValue(Double.class.getClassLoader());
         this.endPrice = (Double) in.readValue(Double.class.getClassLoader());
+        this.isSelect = in.readByte() != 0;
+        this.startTime = in.readLong();
+        this.startTimeStr = in.readString();
+        this.endTime = in.readLong();
+        this.blindState = in.readString();
     }
 
-    public static final Parcelable.Creator<AcutionGoodsBean> CREATOR = new Parcelable.Creator<AcutionGoodsBean>() {
+    public static final Creator<AcutionGoodsBean> CREATOR = new Creator<AcutionGoodsBean>() {
         @Override
         public AcutionGoodsBean createFromParcel(Parcel source) {
             return new AcutionGoodsBean(source);

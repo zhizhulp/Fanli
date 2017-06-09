@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.auction.AuctionListActivity;
-import com.ascba.rebate.activities.auction.GrabShootActivity;
+import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.AuctionMainPlaceChildAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
@@ -79,7 +76,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                         return;
                     }
                     setBeanProperty();
-                    adapter.notifyDataSetChanged();
                     break;
             }
         }
@@ -101,23 +97,24 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             AcutionGoodsBean agb = beanList.get(i);
             int currentLeftTime = agb.getCurrentLeftTime();
             int reduceTimes = agb.getReduceTimes();
-            int maxReduceTimes = agb.getMaxReduceTimes();
             Double price = agb.getPrice();
-            if(reduceTimes >= maxReduceTimes ){
-                return;
+            if(agb.getIntState()!=2){
+                continue;
             }
-            currentLeftTime--;
             if(currentLeftTime <=0){
                 reduceTimes++;
                 price -= agb.getGapPrice();
-                currentLeftTime=agb.getGapTime();
+                currentLeftTime = agb.getGapTime();
                 agb.setReduceTimes(reduceTimes);
                 if(type==1){
                     agb.setPrice(price);
                 }
+            }else {
+                currentLeftTime--;
             }
             agb.setCurrentLeftTime(currentLeftTime);
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Nullable
@@ -140,7 +137,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             this.type = b.getInt("type");
             this.tb = b.getParcelable("title_bean");
 
-            if(tb!=null){//一场结束后切换到下一场
+            /*if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -156,7 +153,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                         }
                     },tb.getEndTime()*1000-System.currentTimeMillis());
                 }
-            }
+            }*/
         }
     }
 
@@ -206,6 +203,12 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     beanList.add(agb);
                 }
             }
+            if(beanList.size()>0){
+                if(timer==null){
+                    timer = new Timer();
+                    timer.schedule(new MyTimerTask(),0,1000);
+                }
+            }
             adapter.notifyDataSetChanged();
         }else if(what==1){
             ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
@@ -235,18 +238,12 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             adapter = new AuctionMainPlaceChildAdapter(getActivity(), R.layout.item_auction_goods, beanList);
         }
         recyclerView.setAdapter(adapter);
-        timer = new Timer();
-        timer.schedule(new MyTimerTask(),0,1000);
+
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 AcutionGoodsBean agb = beanList.get(position);
-                int type = agb.getType();
-                if(type==1){
-                    GrabShootActivity.startIntent(getActivity(), agb);
-                }else {
-                    //BlindShootActivity.startIntent(getActivity(), agb);
-                }
+                AuctionDetailsActivity.startIntent(getActivity(), agb);
             }
 
             @Override

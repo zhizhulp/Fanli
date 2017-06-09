@@ -16,9 +16,14 @@ import com.ascba.rebate.adapter.AuctionConfirmOrderAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.beans.ReceiveAddressBean;
+import com.ascba.rebate.handlers.OnPasswordInput;
 import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.PayUtils;
+import com.ascba.rebate.utils.PsdUtils;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
+import com.ascba.rebate.view.PsdDialog;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -28,11 +33,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 竞拍确认订单界面
+ */
 public class AuctionConfirmOrderActivity extends BaseNetActivity {
 
-    private RecyclerView recyclerView;
     private TextView tvTotalPrice;
-    private TextView tvApply;
     private AuctionConfirmOrderAdapter adapter;
     private List<AcutionGoodsBean> beanList;
     private RelativeLayout receiveAddress;
@@ -51,6 +57,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     private int address_id;
     private String total_price;
     private String total_points;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +83,12 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
             request.add("total_price",total_price);
             request.add("total_points",total_points);
             request.add("address_id",address_id);
+        }else if(what==2){
+            request.add("goods_id",address_id);
+            request.add("pay_type","balance");
+            request.add("total_price",total_price);
+            request.add("total_points",total_points);
+            request.add("pay_password",password);
         }
         executeNetWork(what,request,"请稍后");
     }
@@ -87,10 +100,14 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
 
     private void initBtmView() {
         tvTotalPrice = ((TextView) findViewById(R.id.confir_order_text_total_price));
-        tvApply = ((TextView) findViewById(R.id.confir_order_btn_commit));
+        TextView tvApply = ((TextView) findViewById(R.id.confir_order_btn_commit));
         tvApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(address_id==0){
+                    showToast("请设置收获地址");
+                    return;
+                }
                 if(is_pay_money==0){
                     showToast("账户余额不足");
                     return;
@@ -111,7 +128,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     }
 
     private void initRecyclerView() {
-        recyclerView = ((RecyclerView) findViewById(R.id.recyclerView));
+        RecyclerView recyclerView = ((RecyclerView) findViewById(R.id.recyclerView));
         beanList= new ArrayList<>();
         adapter = new AuctionConfirmOrderAdapter(R.layout.aution_confirm_order_item,beanList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -158,25 +175,55 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
+            int is_level_pwd = dataObj.optInt("is_level_pwd");
+            AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
+            is_pay_money = dataObj.optInt("is_pay_money");
             JSONObject addressObj = dataObj.optJSONObject("address");
             if(addressObj!=null){
                 receiveAddress.setVisibility(View.VISIBLE);
                 noReceiveAddress.setVisibility(View.GONE);
                 refreshHeadData(addressObj);
-                refreshFootData(dataObj);
-                refreshData(dataObj.optJSONArray("order_list"));
-                int is_level_pwd = dataObj.optInt("is_level_pwd");
-                AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
-                is_pay_money = dataObj.optInt("is_pay_money");
             }else {
                 receiveAddress.setVisibility(View.GONE);
                 noReceiveAddress.setVisibility(View.VISIBLE);
             }
+            refreshData(dataObj.optJSONArray("order_list"));
+            refreshFootData(dataObj);
             adapter.notifyDataSetChanged();
         }else if(what==1){
+            String notify_url = dataObj.optString("notify_url");
+            showPasswordDialog(notify_url);
+        }else if(what==2){
             showToast(message);
         }
+    }
 
+    private void showPasswordDialog(final String notify_url) {
+        final PsdDialog psdDialog = new PsdDialog(this, R.style.AlertDialog);
+        psdDialog.setOnPasswordInputFinish(new OnPasswordInput() {
+            @Override
+            public void inputFinish(String number) {
+                psdDialog.dismiss();
+                if (!StringUtils.isEmpty(number)) {
+                    AuctionConfirmOrderActivity.this.password= PsdUtils.getPayPsd(number);
+                    requestNetwork(notify_url,2);
+                }
+            }
+            @Override
+            public void inputCancel() {
+                psdDialog.dismiss();
+                showToast("支付取消");
+            }
+
+            @Override
+            public void forgetPsd() {
+                AppConfig.getInstance().putInt("is_level_pwd",0);
+                Intent intent=new Intent(AuctionConfirmOrderActivity.this, PayPsdSettingActivity.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
+            }
+        });
+        psdDialog.showMyDialog();
     }
 
     private void refreshData(JSONArray array) {
@@ -224,6 +271,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
                     receiveAddress.setVisibility(View.VISIBLE);
                     noReceiveAddress.setVisibility(View.GONE);
                     setReceiveData(addressBean);
+                    address_id= Integer.parseInt(addressBean.getId());
                 }
                 break;
         }

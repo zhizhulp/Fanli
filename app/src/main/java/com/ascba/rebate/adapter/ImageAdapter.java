@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.auction.GrabShootActivity;
 import com.ascba.rebate.view.ImageViewDialog;
 import com.squareup.picasso.Picasso;
 

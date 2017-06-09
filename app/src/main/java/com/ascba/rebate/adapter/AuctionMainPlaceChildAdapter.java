@@ -65,10 +65,12 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     private String getRemainingTime(AcutionGoodsBean item){
         int leftTime = item.getCurrentLeftTime();//单位s
         if(leftTime==0){
-            if(item.getReduceTimes()< item.getMaxReduceTimes()){
-                leftTime = item.getGapTime();
-            }else {
-                return "竞拍结束";
+            if(item.getIntState()!=2){
+                if(item.getReduceTimes()< item.getMaxReduceTimes()){
+                    leftTime = item.getGapTime();
+                }else {
+                    return "竞拍结束";
+                }
             }
         }
         int hour = leftTime % (24 * 3600) / 3600;

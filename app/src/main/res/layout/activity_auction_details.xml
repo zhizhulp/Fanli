@@ -4,170 +4,223 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-    <!--未交保证金、未开始、已交保证金-->
+
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/lat_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
         <!--倒计时-->
         <TextView
             android:id="@+id/tv_time_down_over"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="22dp"
             android:background="#4B4B4B"
+            android:gravity="center"
             android:text="0时 0分 0秒 后结束"
             android:textColor="@color/white"
             android:textSize="12sp" />
-        <!--未交保证金-->
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/view_noPay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+        <!--未开始 未交保证金-->
 
-            <!--交保证金报名-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="#585858">
-
-                <TextView
-                    android:id="@+id/tv_apply"
-                    android:layout_width="129dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="#F63C3C"
-                    android:gravity="center"
-                    android:text="交保证金报名"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toLeftOf="@id/btn_noPau_apply"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_sure_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="保证金￥20000"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="（未拍到全额退还）"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-
-        <!--尚未开始已交保证金-->
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/view_noStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_centerInParent="true"
-                android:background="#585858"
-                android:gravity="center"
-                android:text="已交保证金，等待开拍"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
-
-        </LinearLayout>
-
-        <!--已交保证金-->
-        <LinearLayout
-            android:visibility="visible"
-            android:id="@+id/view_pay"
+        <!--已开始 未交保证金-->
+        <RelativeLayout
+            android:id="@+id/lat_going_noSureMoney"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#585858"
-            android:orientation="vertical">
-            <!--拍-->
-            <RelativeLayout
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/tv_apply_sure_money"
+                android:layout_width="129dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="#F63C3C"
+                android:gravity="center"
+                android:text="交保证金报名"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/tv_apply_sure_money"
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/btn_pay_apply"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="#F63C3C"
-                    android:gravity="center"
-                    android:text="拍"
+                    android:id="@+id/tv_sure_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保证金￥20000"
                     android:textColor="@color/white"
-                    android:textSize="19sp" />
+                    android:textSize="12sp" />
 
-                <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="（未拍到全额退还）"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+        <!--已开始 已交保证金（抢拍）-->
+        <RelativeLayout
+            android:id="@+id/lat_going_SureMoney_rush"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/btn_pay_apply_rush"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="#F63C3C"
+                android:gravity="center"
+                android:text="拍"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/tv_price_rush"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_toLeftOf="@id/btn_pay_apply_rush"
+                android:background="#585858"
+                android:gravity="center"
+                android:text="当前价：￥0.00"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </RelativeLayout>
+        <!--已开始 已交保证金（盲拍）-->
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/lat_going_SureMoney_blind"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#585858">
+            <TextView
+                android:id="@+id/btn_pay_apply_blind"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="#F63C3C"
+                android:gravity="center"
+                android:text="拍"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/btn_pay_apply_blind"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toLeftOf="@id/btn_pay_apply"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/gray_bg"
                     android:gravity="center"
-                    android:orientation="vertical">
-
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="当前价：￥0.00"
+                        android:id="@+id/pay_btn_down"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center"
+                        android:text="—"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
+                    <View
+                        android:id="@+id/pay_view_down"
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/pay_btn_down"
+                        android:background="@color/textgray" />
 
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/noPay_text_info1"
-        android:layout_width="98dp"
-        android:layout_height="67dp"
-        android:layout_above="@id/lat_bottom"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="11dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/yellow_bg"
-        android:gravity="center_vertical"
-        android:padding="4dp"
-        android:text="目前有0人正要下手！"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/pay_btn_up"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:text="十"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:id="@+id/pay_view_up"
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@id/pay_btn_up"
+                        android:background="@color/textgray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@id/pay_view_up"
+                        android:layout_toRightOf="@id/pay_btn_down"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="18dp"
+                            android:gravity="center"
+                            android:text="降价至"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_price_blind"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center_vertical"
+                            android:text="￥599.00"
+                            android:textColor="@color/shop_red_text_color"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <!--结束 获拍--><!--结束 未获拍-->
+        <TextView
+            android:id="@+id/tv_over_auction_state"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_centerInParent="true"
+            android:background="#585858"
+            android:gravity="center"
+            android:text="拍卖已结束(已获拍)"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:visibility="gone" />
+    </LinearLayout>
     <ScrollView
-        android:layout_above="@id/lat_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
+        android:layout_above="@id/lat_bottom"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -681,29 +734,28 @@
                 android:id="@+id/goods_details_cuttingline_view"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/main_bg"/>
+                android:background="@color/main_bg" />
 
             <TextView
-                android:paddingTop="10dp"
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
                 android:text="拍品信息"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="@dimen/main_text_14" />
 
             <TextView
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:layout_marginTop="5dp"
                 android:id="@+id/tv_goods_details"
-                android:textSize="@dimen/main_text_14"
-                android:textColor="@color/main_text_gary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColor="@color/main_text_gary"
+                android:textSize="@dimen/main_text_14" />
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>

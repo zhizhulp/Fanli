@@ -679,10 +679,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.auction.BlindShootActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.auction.AuctionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
@@ -701,7 +697,7 @@
         <activity android:name=".activities.offline_business.OfflinePayActivity" />
         <activity android:name=".activities.offline_business.OfflinePaySuccessActivity" />
         <activity android:name=".activities.offline_business.OfflineReceiveSuccessActivity" />
-        <activity android:name=".activities.auction.GrabShootActivity" />
+        <activity android:name=".activities.auction.AuctionDetailsActivity" />
         <activity android:name=".activities.auction.AuctionListActivity" />
         <activity android:name=".activities.SelectAddrssUpdateActivity" />
         <activity android:name=".activities.auction.MyAuctionActivity" />
