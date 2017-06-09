@@ -325,7 +325,7 @@ public class CartChildFragment extends BaseNetFragment {
                 } else if(total_page==0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.auctionType,0);
+                    requestNetwork(UrlUtils.auctionCard,0);
                 }
             }
         });

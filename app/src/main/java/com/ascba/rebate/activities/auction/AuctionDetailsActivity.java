@@ -34,6 +34,7 @@ import java.util.TimerTask;
 public class AuctionDetailsActivity extends BaseNetActivity {
 
     private static final int REDUCE_TIME = 3;
+    private static final int REQUEST_PAY_DEPOSIT = 2;
     private AcutionGoodsBean agb;
     private TextView tvStatus;
     private TextView tvName;
@@ -89,6 +90,15 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         initStateLat();
         initViewPager();
     }
+    private String getClientIds(AcutionGoodsBean selectAGB) {
+        return "\"" +
+                selectAGB.getId() +
+                "\"" +
+                ":" +
+                "\"" +
+                selectAGB.getCashDeposit() +
+                "\"";
+    }
 
     private void initStateLat() {
         //未开始
@@ -98,7 +108,10 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         findViewById(R.id.tv_apply_sure_money).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(AuctionDetailsActivity.this,PayDepositActivity.class);
+                intent.putExtra("client_ids",getClientIds(agb));
+                intent.putExtra("total_price",agb.getCashDeposit());
+                startActivityForResult(intent,REQUEST_PAY_DEPOSIT);
             }
         });
         //已开始 已交保证金（抢拍）
@@ -107,22 +120,57 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         findViewById(R.id.btn_pay_apply_rush).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                requestNetwork(UrlUtils.payAuction,1);
             }
         });
         //已开始 已交保证金（盲拍）
         viewGoingSureMoneyBlind = findViewById(R.id.lat_going_SureMoney_blind);
         tvPriceBlind = ((TextView) findViewById(R.id.tv_price_blind));
+        final Double endPrice = agb.getEndPrice();
+        final Double startPrice = agb.getStartPrice();
+        final Double nowPrice = agb.getPrice();
+        final Double gapPrice = agb.getGapPrice();
+        findViewById(R.id.pay_btn_down).setOnClickListener(new View.OnClickListener() {//减
+            @Override
+            public void onClick(View v) {
+                if(nowPrice<= endPrice){
+                    showToast("已经到最低价了");
+                }else {
+                    agb.setPrice(nowPrice -gapPrice);
+                    tvPrice.setText(agb.getPrice()+"");
+                    tvPriceBlind.setText(agb.getPrice()+"");
+                }
+            }
+        });
+        findViewById(R.id.pay_btn_up).setOnClickListener(new View.OnClickListener() {//加
+            @Override
+            public void onClick(View v) {
+                if(nowPrice >= startPrice){
+                    showToast("已经到最高价了");
+                }else {
+                    agb.setPrice(nowPrice -gapPrice);
+                    tvPrice.setText(agb.getPrice()+"");
+                    tvPriceBlind.setText(agb.getPrice()+"");
+                }
+            }
+        });
         findViewById(R.id.btn_pay_apply_blind).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                requestNetwork(UrlUtils.payAuction,1);
             }
         });
         //<!--结束 获拍--><!--结束 未获拍-->
         tvAuctionState = ((TextView) findViewById(R.id.tv_over_auction_state));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_PAY_DEPOSIT && resultCode==RESULT_OK){
+            setState(2,2);
+        }
+    }
 
     //初始化Viewpager
     private void initViewPager() {
@@ -148,6 +196,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
             agb.setPrice(price);
             tvCount.setText("降价次数："+reduceTimes + "次");
             tvPrice.setText(price + "");
+            tvPriceBlind.setText("￥"+price);
+            tvPriceRush.setText("当前价￥"+price);
         }else {
             currentLeftTime--;
         }
@@ -155,13 +205,27 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvTD.setText(currentLeftTime + "s");
         tvTDOver.setText(getRemainingTime(agb));
     }
+    private String getAutionIds() {
+        return "\"" +
+                agb.getId() +
+                "\"" +
+                ":" +
+                "\"" +
+                agb.getPrice() +
+                "\"";
+    }
 
     private void requestNetwork(String url, int what) {
+        Request<JSONObject> request=null;
         if (what == 0) {
-            Request<JSONObject> request = buildNetRequest(url, 0, false);
+            request = buildNetRequest(url, 0, false);
             request.add("goods_id", agb.getId());
-            executeNetWork(what, request, "请稍后");
+        }else if(what==1){
+            request = buildNetRequest(url, 0, true);
+            request.add("client_str",getAutionIds());
+            request.add("total_price",agb.getPrice());
         }
+        executeNetWork(what, request, "请稍后");
     }
 
     @Override
@@ -173,6 +237,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
                 timer = new Timer();
                 timer.schedule(new MyTimerTask(), 0, 1000);
             }
+        }else if(what==1){
+            showToast(message);
         }
     }
 
@@ -205,8 +271,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         int depreciate_count = obj.optInt("depreciate_count");
         int count_down = obj.optInt("count_down");
         int interval_second = obj.optInt("interval_second");
-        int status = obj.optInt("is_endtime");
-        String auction_tip = obj.optString("is_endtime_tip");
+        int status = obj.optInt("is_status");
+        String auction_tip = obj.optString("is_status_tip");
 
         int cart_status = obj.optInt("cart_status");
         String cart_status_tip = obj.optString("cart_status_tip");
@@ -236,7 +302,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         CharSequence content= Html.fromHtml(obj.optString("content"));
         tvGoodsDet.setText(content);
         tvPrice.setText(transaction_price + "");
-        tvOrgPrice.setText(begin_price + "");
+        tvOrgPrice.setText("原价"+begin_price );
         tvTD.setText(count_down + "s");
         tvScore.setText(points + "");
         tvStartPrice.setText("起拍价：￥" + begin_price);
@@ -249,8 +315,9 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvSureMoney.setText("保证金￥" + cash_deposit);
         tvPriceRush.setText("当前价￥"+transaction_price + "");
         tvPriceBlind.setText("￥"+transaction_price + "");
-        //tvAuctionState.setText(cart_status_tip);
-
+        if(cart_status==4){
+            tvAuctionState.setText(cart_status_tip);
+        }
     }
 
     /**
@@ -299,43 +366,50 @@ public class AuctionDetailsActivity extends BaseNetActivity {
 
     /**
      * 设置页面相关状态
-     * @param state 0：结束，1：进行中,2:即将开始
+     * @param state 1：结束，2：进行中,3:即将开始
      * @param priceState 0：待交，2：已交，4：已拍，5：已支付，6：已退款，7：违约惩罚 8：获拍 9:未获拍
      * 1进行中 待交保证金   2进行中 已交保证金（抢拍）  3进行中 已交保证金（盲拍）  4结束 获拍   5结束 未获拍
      */
     private void setState(int state,int priceState) {
-        if(state==2){
-            tvTDOver.setVisibility(View.VISIBLE);
+        if(state==3){
+            tvTDOver.setVisibility(View.GONE);
             viewGoingNoSureMoney.setVisibility(View.GONE);
             viewGoingSureMoney.setVisibility(View.GONE);
             viewGoingSureMoneyBlind.setVisibility(View.GONE);
             tvAuctionState.setVisibility(View.GONE);
-        }else if(state==1 && priceState==0){
+        }else if(state==2 && priceState==0){
             tvTDOver.setVisibility(View.VISIBLE);
             viewGoingNoSureMoney.setVisibility(View.VISIBLE);
             viewGoingSureMoney.setVisibility(View.GONE);
             viewGoingSureMoneyBlind.setVisibility(View.GONE);
             tvAuctionState.setVisibility(View.GONE);
-        }else if(state==1 && priceState==2 && agb.getType()==1){
+        }else if(state==2 && priceState==2 && agb.getType()==1){
             tvTDOver.setVisibility(View.VISIBLE);
             viewGoingNoSureMoney.setVisibility(View.GONE);
             viewGoingSureMoney.setVisibility(View.VISIBLE);
             viewGoingSureMoneyBlind.setVisibility(View.GONE);
             tvAuctionState.setVisibility(View.GONE);
-        }else if(state==1 && priceState==2 && agb.getType()==2){
+        }else if(state==2 && priceState==2 && agb.getType()==2){
             tvTDOver.setVisibility(View.VISIBLE);
             viewGoingNoSureMoney.setVisibility(View.GONE);
             viewGoingSureMoney.setVisibility(View.GONE);
             viewGoingSureMoneyBlind.setVisibility(View.VISIBLE);
             tvAuctionState.setVisibility(View.GONE);
-        }else if(state==0 && priceState==8){
+        }else if(state==1 && priceState==4){//等待结果
+            tvTDOver.setVisibility(View.GONE);
+            viewGoingNoSureMoney.setVisibility(View.GONE);
+            viewGoingSureMoney.setVisibility(View.GONE);
+            viewGoingSureMoneyBlind.setVisibility(View.GONE);
+            tvAuctionState.setVisibility(View.VISIBLE);
+            //tvAuctionState.setText("拍卖已结束(未获拍)");
+        }else if(state==1 && priceState==8){
             tvTDOver.setVisibility(View.GONE);
             viewGoingNoSureMoney.setVisibility(View.GONE);
             viewGoingSureMoney.setVisibility(View.GONE);
             viewGoingSureMoneyBlind.setVisibility(View.GONE);
             tvAuctionState.setVisibility(View.VISIBLE);
             tvAuctionState.setText("拍卖已结束(未获拍)");
-        }else if(state==0 && priceState==9){
+        }else if(state==1 && priceState==9){
             tvTDOver.setVisibility(View.GONE);
             viewGoingNoSureMoney.setVisibility(View.GONE);
             viewGoingSureMoney.setVisibility(View.GONE);

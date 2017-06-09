@@ -173,6 +173,7 @@ public class PayDepositActivity extends BaseNetActivity{
             int is_level_pwd = dataObj.optInt("is_level_pwd");//0没有设置支付密码 1有
             AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
         }else if(what==1){//支付保证金成功
+            setResult(RESULT_OK,getIntent());
             showToast(message);
             finish();
         }

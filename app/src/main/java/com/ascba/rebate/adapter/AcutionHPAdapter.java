@@ -3,6 +3,7 @@ package com.ascba.rebate.adapter;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
@@ -30,19 +31,33 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
         ImageView imageView = helper.getView(R.id.auction_img);
         Picasso.with(context).load(item.getImgUrl()).error(R.mipmap.loading_rect).placeholder(R.mipmap.loading_rect).into(imageView);
-
         //剩余时间
-        helper.setText(R.id.auction_text_time, item.getTimeRemaining());
+        helper.setText(R.id.auction_text_time, getTimeRemainning(item));
 
         //名称
         helper.setText(R.id.auction_text_name, item.getName());
 
         //竞拍人数
-        helper.setText(R.id.auction_text_person, item.getPersonNum());
+        helper.setText(R.id.auction_text_person, null);
 
         //价格
-        helper.setText(R.id.auction_text_price, item.getPrice()+"");
+        helper.setText(R.id.auction_text_price, item.getPrice() + "");
 
         helper.addOnClickListener(R.id.auction_btn_get);
+    }
+
+    private String getTimeRemainning(AcutionGoodsBean item) {
+        int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
+        /*if (item.getIntState() != 2) {
+            if (item.getReduceTimes() < item.getMaxReduceTimes()) {
+                leftTime = item.getGapTime();
+            } else {
+                return "竞拍结束";
+            }
+        }*/
+        int hour = leftTime % (24 * 3600) / 3600;
+        int minute = leftTime % 3600 / 60;
+        int second = leftTime % 60;
+        return hour + "时" + minute + "分" + second + "秒";
     }
 }

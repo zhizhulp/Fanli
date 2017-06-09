@@ -72,9 +72,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     }
                     break;
                 case REDUCE_TIME:
-                    if(beanList.size()==0){
-                        return;
-                    }
                     setBeanProperty();
                     break;
             }
@@ -93,6 +90,9 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         return fragment;
     }
     private void setBeanProperty(){
+        if(beanList.size()==0){
+            return;
+        }
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
             int currentLeftTime = agb.getCurrentLeftTime();
