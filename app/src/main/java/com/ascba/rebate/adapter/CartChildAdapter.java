@@ -72,6 +72,8 @@ public class CartChildAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         CheckBox cbChild = helper.getView(R.id.cb_item);
         cbChild.setChecked(item.isSelect());
         cbChild.setOnClickListener(createChildClickListener(cbChild, item));
+
+        helper.addOnClickListener(R.id.lat_see_details);
     }
 
     private View.OnClickListener createChildClickListener(final CheckBox cbChild, final AcutionGoodsBean item) {

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
+import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.CartChildAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
@@ -29,6 +30,7 @@ import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -263,9 +265,10 @@ public class CartChildFragment extends BaseNetFragment {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+
             }
 
             @Override
@@ -278,7 +281,7 @@ public class CartChildFragment extends BaseNetFragment {
                 Double nowPrice = selectAGB.getPrice();
                 switch (view.getId()) {
                     case R.id.btn_sub:
-                        if (nowPrice <= endPrice) {
+                        if (nowPrice < endPrice+gapPrice) {
                             showToast("已经到最低价了");
                         } else {
                             selectAGB.setPrice(nowPrice - gapPrice);
@@ -287,13 +290,17 @@ public class CartChildFragment extends BaseNetFragment {
                         }
                         break;
                     case R.id.btn_add:
-                        if (nowPrice >= startPrice) {
+                        if (nowPrice >= startPrice-gapPrice) {
                             showToast("已经到最高价了");
                         } else {
                             selectAGB.setPrice(nowPrice + gapPrice);
                             adapter.notifyItemChanged(position);
                             caculateAllMoney();
                         }
+                        break;
+                    case R.id.lat_see_details:
+                        AcutionGoodsBean agb = beanList.get(position);
+                        AuctionDetailsActivity.startIntent(getActivity(), agb);
                         break;
                 }
             }

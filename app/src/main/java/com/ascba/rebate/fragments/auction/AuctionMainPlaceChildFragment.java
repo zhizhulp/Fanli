@@ -191,13 +191,13 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("imghead"),
                             obj.optString("name"), obj.optDouble("transaction_price"),
                             obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
-                    agb.setState(tb.getStatus());
                     agb.setGapPrice(obj.optDouble("range"));
                     agb.setMaxReduceTimes(obj.optInt("depreciate_count"));
                     agb.setCurrentLeftTime(obj.optInt("count_down"));
                     agb.setGapTime(obj.optInt("interval_second"));
                     agb.setIntState(obj.optInt("is_status"));
                     agb.setStrState(obj.optString("auction_tip"));
+                    agb.setIntPriceState(obj.optInt(""));
                     agb.setStartPrice(obj.optDouble("begin_price"));
                     agb.setEndPrice(obj.optDouble("end_price"));
                     beanList.add(agb);
@@ -255,7 +255,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 Double nowPrice = selectAGB.getPrice();
                 switch (view.getId()) {
                     case R.id.btn_sub:
-                        if(nowPrice<= endPrice){
+                        if(nowPrice<= endPrice+gapPrice){
                             showToast("已经到最低价了");
                         }else {
                             selectAGB.setPrice(nowPrice -gapPrice);
@@ -264,7 +264,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
                         break;
                     case R.id.btn_add:
-                        if(nowPrice >= startPrice){
+                        if(nowPrice >= startPrice -gapPrice){
                             showToast("已经到最高价了");
                         }else {
                             selectAGB.setPrice(nowPrice +gapPrice);

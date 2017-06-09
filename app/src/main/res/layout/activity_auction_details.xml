@@ -13,6 +13,7 @@
         android:orientation="vertical">
         <!--倒计时-->
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_time_down_over"
             android:layout_width="match_parent"
             android:layout_height="22dp"
