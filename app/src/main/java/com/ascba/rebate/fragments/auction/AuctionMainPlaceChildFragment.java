@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
+import com.ascba.rebate.activities.auction.AuctionListActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.AuctionMainPlaceChildAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
@@ -41,12 +44,13 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 /**
  * Created by 李鹏 on 2017/5/24.
- * 主会场——盲拍列表
+ * 主会场——竞拍列表
  */
 
 public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
     private static final int REQUEST_PAY_DEPOSIT = 3;
+    private static final int NEXT = 4;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private AuctionMainPlaceChildAdapter adapter;
     private int type = 1;
@@ -76,6 +80,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 case REDUCE_TIME:
                     setBeanProperty();
                     break;
+                case NEXT:
+                    Fragment parentFragment = getParentFragment();
+                    FragmentActivity activity = getActivity();
+                    if(isVisible() && parentFragment !=null && parentFragment instanceof AuctionMainPlaceFragment){
+                        ((AuctionMainPlaceFragment) parentFragment).setTabNextSelect();
+                    }
+                    if(isVisible() && activity !=null && activity instanceof AuctionListActivity){
+                        ((AuctionListActivity) activity).setTabNextSelect();
+                    }
+                    break;
             }
         }
     };
@@ -90,33 +104,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         AuctionMainPlaceChildFragment fragment = new AuctionMainPlaceChildFragment();
         fragment.setArguments(b);
         return fragment;
-    }
-    private void setBeanProperty(){
-        if(beanList.size()==0){
-            return;
-        }
-        for (int i = 0; i < beanList.size(); i++) {
-            AcutionGoodsBean agb = beanList.get(i);
-            int currentLeftTime = agb.getCurrentLeftTime();
-            int reduceTimes = agb.getReduceTimes();
-            Double price = agb.getPrice();
-            if(agb.getIntState()==1 ||agb.getIntState()==3){
-                continue;
-            }
-            if(currentLeftTime <=0){
-                reduceTimes++;
-                price -= agb.getGapPrice();
-                currentLeftTime = agb.getGapTime();
-                agb.setReduceTimes(reduceTimes);
-                if(type==1){
-                    agb.setPrice(price);
-                }
-            }else {
-                currentLeftTime--;
-            }
-            agb.setCurrentLeftTime(currentLeftTime);
-        }
-        adapter.notifyDataSetChanged();
     }
 
     @Nullable
@@ -138,24 +125,11 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         if (b != null) {
             this.type = b.getInt("type");
             this.tb = b.getParcelable("title_bean");
-
-            /*if(tb!=null){//一场结束后切换到下一场
+            if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Fragment parentFragment = getParentFragment();
-                            FragmentActivity activity = getActivity();
-                            if(isVisible() && parentFragment !=null && parentFragment instanceof AuctionMainPlaceFragment){
-                                ((AuctionMainPlaceFragment) parentFragment).setTabNextSelect();
-                            }
-                            if(isVisible() && activity !=null && activity instanceof AuctionListActivity){
-                                ((AuctionListActivity) activity).setTabNextSelect();
-                            }
-                        }
-                    },tb.getEndTime()*1000-System.currentTimeMillis());
+                    //handler.sendEmptyMessageDelayed(NEXT,/*tb.getEndTime()*1000-System.currentTimeMillis()*/2000);
                 }
-            }*/
+            }
         }
     }
 
@@ -408,12 +382,42 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         }
         return isOver;
     }
+    private void setBeanProperty(){
+        if(beanList.size()==0){
+            return;
+        }
+        for (int i = 0; i < beanList.size(); i++) {
+            AcutionGoodsBean agb = beanList.get(i);
+            int currentLeftTime = agb.getCurrentLeftTime();
+            int reduceTimes = agb.getReduceTimes();
+            Double price = agb.getPrice();
+            if(agb.getIntState()==1 ||agb.getIntState()==3){
+                continue;
+            }
+            if(currentLeftTime <=0){
+                reduceTimes++;
+                price -= agb.getGapPrice();
+                currentLeftTime = agb.getGapTime();
+                agb.setReduceTimes(reduceTimes);
+                if(type==1){
+                    agb.setPrice(price);
+                }
+            }else {
+                currentLeftTime--;
+            }
+            agb.setCurrentLeftTime(currentLeftTime);
+        }
+        adapter.notifyDataSetChanged();
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         resetPage();
         clearData();
         isRefresh=true;
+        if(handler.hasMessages(NEXT)){
+            handler.removeMessages(NEXT);
+        }
         if(timer!=null){
             timer.cancel();
         }

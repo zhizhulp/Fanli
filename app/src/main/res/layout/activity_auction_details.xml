@@ -197,6 +197,8 @@
         </RelativeLayout>
         <!--结束 获拍--><!--结束 未获拍-->
         <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/tv_over_auction_state"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -338,6 +340,7 @@
 
             <!--距离下次降价-->
             <LinearLayout
+                android:id="@+id/lat_reduce_time_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
@@ -399,9 +402,10 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_auction_person_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="抢拍：0人"
+                    android:text="竞拍：0人"
                     android:textColor="@color/main_text_gary"
                     android:textSize="14sp" />
 
@@ -413,6 +417,7 @@
                     android:background="@color/main_text_gary" />
 
                 <TextView
+                    android:id="@+id/tv_other_person_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="围观：0人"
