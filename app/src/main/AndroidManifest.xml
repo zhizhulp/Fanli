@@ -691,7 +691,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.auction.MyAuctionOrderActivity"
+            android:name=".activities.auction.MyGetAuctionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity android:name=".activities.offline_business.OfflinePayActivity" />
@@ -702,6 +702,7 @@
         <activity android:name=".activities.SelectAddrssUpdateActivity" />
         <activity android:name=".activities.auction.MyAuctionActivity" />
         <activity android:name=".activities.auction.AuctionConfirmOrderActivity"></activity>
+        <activity android:name=".activities.auction.MyGetAuction2Activity"/>
     </application>
 
 </manifest>

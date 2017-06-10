@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 主界面
+ * 商城主界面
  */
 public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
 

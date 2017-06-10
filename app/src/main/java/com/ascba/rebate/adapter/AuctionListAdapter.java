@@ -29,7 +29,7 @@ public class AuctionListAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
     @Override
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
-        Picasso.with(mContext).load(UrlUtils.baseWebsite + item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
+        Picasso.with(mContext).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
         int intState = item.getIntState();
         if (intState == 3 || intState == 1) {//本次剩余时间
             helper.setText(R.id.text_auction_goods_time, item.getStrState());
@@ -41,10 +41,14 @@ public class AuctionListAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
         helper.setText(R.id.text_auction_goods_price_rush, "￥" + item.getPrice());
 
         TextView view = helper.getView(R.id.tv_blind_state);
-        String blindState = item.getBlindState();
-        if("领先".equals(blindState)){
+        view.setText(item.getStrState());
+        int intPriceState = item.getIntPriceState();
+        //String blindState = item.getBlindState();0:出局，1：领先，2：等待结果
+        if(intPriceState==1){
             view.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.btn_red_bg));
-        }else if("出局".equals(blindState)){
+        }else if(intPriceState==0){
+            view.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.btn_gray_bg));
+        }else if(intPriceState==2){
             view.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.btn_gray_bg));
         }
     }

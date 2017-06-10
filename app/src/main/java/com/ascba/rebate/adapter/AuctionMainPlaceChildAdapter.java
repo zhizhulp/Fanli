@@ -30,7 +30,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
+    protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {//1:拍卖结束,2:立即报名,3:即将开始,4:已报名,5:已拍
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
         Picasso.with(context).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
         helper.setText(R.id.text_auction_goods_price,"￥"+item.getPrice());//价格
@@ -43,6 +43,14 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         }else if(intState==2){
             view.setEnabled(true);
             helper.setVisible(R.id.btn_auction_goods_add_cart,true);
+            helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
+        }else if(intState==4){
+            view.setEnabled(true);
+            helper.setVisible(R.id.btn_auction_goods_add_cart,true);
+            helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
+        }else if(intState==5){
+            view.setEnabled(false);
+            helper.setVisible(R.id.btn_auction_goods_add_cart,false);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
         }
         view.setText(item.getStrState());

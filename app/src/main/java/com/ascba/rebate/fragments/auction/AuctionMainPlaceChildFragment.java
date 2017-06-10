@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments.auction;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,6 +46,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
+    private static final int REQUEST_PAY_DEPOSIT = 3;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private AuctionMainPlaceChildAdapter adapter;
     private int type = 1;
@@ -159,21 +161,36 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
 
     private void requestNetwork(String url, int what) {
+        Request<JSONObject> request=null;
         if(what==0){
-            Request<JSONObject> request = buildNetRequest(url, 0, false);
+            request = buildNetRequest(url, 0, false);
             request.add("type", type);
             request.add("strat_time", tb.getStartTime());
             request.add("end_time", tb.getEndTime());
             request.add("now_page", now_page);
-            executeNetWork(what, request, "请稍后");
+
         }else if(what==1){
-            Request<JSONObject> request = buildNetRequest(url, 0, true);
+            request = buildNetRequest(url, 0, true);
             request.add("goods_id", selectAGB.getId());
             request.add("reserve_money",selectAGB.getPrice());
             executeNetWork(what, request, "请稍后");
+        }else if(what==2){
+            request = buildNetRequest(url, 0, true);
+            request.add("client_str",getAutionIds());
+            request.add("total_price",selectAGB.getPrice());
         }
+        executeNetWork(what, request, "请稍后");
     }
 
+    private String getAutionIds() {
+        return "\"" +
+                selectAGB.getId() +
+                "\"" +
+                ":" +
+                "\"" +
+                selectAGB.getPrice() +
+                "\"";
+    }
 
 
     @Override
@@ -212,6 +229,11 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             adapter.notifyDataSetChanged();
         }else if(what==1){
             ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
+        }else if(what==2){
+            showToast(message);
+            selectAGB.setIntState(5);
+            selectAGB.setStrState("已拍");
+            adapter.notifyItemChanged(beanList.indexOf(selectAGB));
         }
     }
 
@@ -253,6 +275,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 Double startPrice = selectAGB.getStartPrice();
                 Double endPrice = selectAGB.getEndPrice();
                 Double nowPrice = selectAGB.getPrice();
+                int state = selectAGB.getIntState();
                 switch (view.getId()) {
                     case R.id.btn_sub:
                         if(nowPrice<= endPrice+gapPrice){
@@ -274,11 +297,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     case R.id.btn_auction_goods_add_cart://加入购物车
                         requestNetwork(UrlUtils.addCard,1);
                         break;
-                    case R.id.btn_auction_goods_apply://立即报名
-                        Intent intent=new Intent(getActivity(), PayDepositActivity.class);
-                        intent.putExtra("client_ids",getClientIds());
-                        intent.putExtra("total_price",selectAGB.getCashDeposit());
-                        startActivity(intent);
+                    case R.id.btn_auction_goods_apply:
+                        if(state==2){//立即报名
+                            Intent intent=new Intent(getActivity(), PayDepositActivity.class);
+                            intent.putExtra("client_ids",getClientIds());
+                            intent.putExtra("total_price",selectAGB.getCashDeposit());
+                            startActivityForResult(intent,REQUEST_PAY_DEPOSIT);
+                        }else if(state==4){//拍
+                            requestNetwork(UrlUtils.payAuction,2);
+                        }
+
                         break;
                 }
 
@@ -296,6 +324,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         });
 
         initLoadMore();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_PAY_DEPOSIT && resultCode== Activity.RESULT_OK){
+            selectAGB.setIntState(4);//可拍
+            selectAGB.setStrState("立即拍");
+            adapter.notifyItemChanged(beanList.indexOf(selectAGB));
+        }
     }
 
     private String getClientIds() {

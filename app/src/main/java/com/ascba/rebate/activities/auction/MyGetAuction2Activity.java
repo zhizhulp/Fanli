@@ -1,6 +1,8 @@
 package com.ascba.rebate.activities.auction;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,14 +12,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.adapter.CashDepositAdapter;
+import com.ascba.rebate.adapter.AuctionOrderAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.ShopABarText;
+import com.ascba.rebate.utils.ViewUtils;
+import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -25,20 +30,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 /**
- * Created by 李鹏 on 2017/5/25.
- * 我的保证金列表
+ * Created by 李鹏 on 2017/05/25.
+ * 我的获拍页面
  */
 
-public class MyCashDepositActivity extends BaseNetActivity {
+public class MyGetAuction2Activity extends BaseNetActivity {
 
-    private CashDepositAdapter adapter;
-    private List<AcutionGoodsBean> beanList = new ArrayList<>();
+    private AuctionOrderAdapter adapter;
+    private List<AcutionGoodsBean> beanList;
     private int now_page = 1;
     private int total_page;
     private CustomLoadMoreView loadMoreView;
@@ -64,13 +67,12 @@ public class MyCashDepositActivity extends BaseNetActivity {
         }
     };
     private boolean isRefresh;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cash_deposit);
+        setContentView(R.layout.activity_my_get_auction);
         initView();
-        requestNetwork(UrlUtils.bondList,0);
+        requestNetwork(UrlUtils.auctionPayList,0);
     }
 
     private void requestNetwork(String url, int what) {
@@ -81,41 +83,6 @@ public class MyCashDepositActivity extends BaseNetActivity {
         executeNetWork(what,request,"请稍后");
     }
 
-    private void initView() {
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        beanList = new ArrayList<>();
-        adapter = new CashDepositAdapter(this, R.layout.item_auction_cash_deposit, beanList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AuctionDetailsActivity.startIntent(MyCashDepositActivity.this,beanList.get(position));
-            }
-
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-            }
-        });
-
-        initMyRefreshLayout();
-        initLoadMore();
-    }
-
-    private void initMyRefreshLayout() {
-        initRefreshLayout();
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                isRefresh=true;
-                resetPage();
-                requestNetwork(UrlUtils.bondList,0);
-            }
-        });
-    }
-
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
@@ -123,37 +90,45 @@ public class MyCashDepositActivity extends BaseNetActivity {
             if(isRefresh){
                 clearData();
             }
-            parseData(dataObj.optJSONArray("bondList"));
+            parseData(dataObj.optJSONArray("auctionPayList"));
         }
     }
 
-    @Override
-    protected void mhandle404(int what, JSONObject object, String message) {
-        if(what==0){
-            handler.sendEmptyMessage(LOAD_MORE_ERROR);
-        }
-    }
     private void parseData(JSONArray array) {
         if(array!=null && array.length()>0){
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
-                AcutionGoodsBean bean = new AcutionGoodsBean();
-                bean.setId(obj.optInt("goods_id"));
-                bean.setImgUrl(UrlUtils.baseWebsite+ obj.optString("imghead"));
-                bean.setType(obj.optInt("type"));
-                bean.setName(obj.optString("name"));
-                bean.setStartTime(obj.optLong("starttime"));
-                bean.setEndTime(obj.optLong("endtime"));
-                bean.setPayState(obj.optString("bond_pay_tip"));
-                bean.setCashDeposit(obj.optString("guarantee_money"));
-                bean.setIntState(obj.optInt("is_status"));
-                bean.setStrState(obj.optString("auction_tip"));
-                bean.setStrPriceState(obj.optString("bond_pay_tip"));
-                bean.setEndTime(obj.optLong("endtime"));
-                beanList.add(bean);
+                AcutionGoodsBean agb=new AcutionGoodsBean();
+                agb.setId(obj.optInt("goods_id"));
+                agb.setImgUrl(UrlUtils.baseWebsite+obj.optString("imghead"));
+                agb.setName(obj.optString("name"));
+                agb.setPrice(obj.optDouble("reserve_money"));
+                agb.setScore(obj.optString("points"));
+                agb.setIntPriceState(obj.optInt("auction_status"));
+                agb.setStrPriceState(obj.optString("auction_status_tip"));
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void mhandleFailed(int what, Exception e) {
+        if(what==0){
+            handler.sendEmptyMessage(LOAD_MORE_ERROR);
+        }
+    }
+
+    public static void startIntent(Context context, int index) {
+        Intent intent = new Intent(context, MyGetAuction2Activity.class);
+        intent.putExtra("index", index);
+        context.startActivity(intent);
+    }
+
+    private void initView() {
+        initShopBar();
+        initRefresh();
+        initRecyclerView();
+        initLoadMore();
     }
 
     private void initLoadMore() {
@@ -161,6 +136,7 @@ public class MyCashDepositActivity extends BaseNetActivity {
             loadMoreView = new CustomLoadMoreView();
             adapter.setLoadMoreView(loadMoreView);
         }
+
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -170,15 +146,70 @@ public class MyCashDepositActivity extends BaseNetActivity {
                 } else if(total_page==0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.auctionType,0);
+                    requestNetwork(UrlUtils.auctionList,0);
                 }
             }
         });
     }
 
+    private void initRecyclerView() {
+        beanList=new ArrayList<>();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new AuctionOrderAdapter(this, R.layout.item_auction_goods3, beanList);
+        adapter.setEmptyView(ViewUtils.getEmptyView(this,"暂无数据"));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemChildClick(adapter, view, position);
+            }
+        });
+    }
+
+    private void initRefresh() {
+        initRefreshLayout();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                resetPage();
+                isRefresh=true;
+                requestNetwork(UrlUtils.auctionPayList,0);
+            }
+        });
+    }
+
+    private void initShopBar() {
+        ShopABar shopABar = (ShopABar) findViewById(R.id.activity_order_bar);
+        shopABar.setImageOtherEnable(false);
+        shopABar.setCallback(new ShopABar.Callback() {
+            @Override
+            public void back(View v) {
+
+            }
+
+            @Override
+            public void clkMsg(View v) {
+                ShopMessageActivity.startIntent(MyGetAuction2Activity.this);
+            }
+
+            @Override
+            public void clkOther(View v) {
+
+            }
+        });
+    }
     private void clearData(){
-        if(beanList.size()!=0){
-            beanList.clear();
+        if(isRefresh){
+            if(beanList.size()!=0){
+                beanList.clear();
+            }
         }
     }
 

@@ -20,6 +20,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 抢拍盲拍列表
+ */
 public class AuctionListActivity extends BaseNetActivity {
     private List<Fragment> fragmentList=new ArrayList<>();//fragment列表
     private List<TittleBean> titleList=new ArrayList<>();//tab名的列表

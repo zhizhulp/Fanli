@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -90,7 +91,7 @@ public class MyAuctionActivity extends BaseNetActivity {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                AuctionDetailsActivity.startIntent(MyAuctionActivity.this,beanList.get(position));
             }
 
             @Override
@@ -118,9 +119,7 @@ public class MyAuctionActivity extends BaseNetActivity {
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
             stopLoadMore();
-            if(isRefresh){
-                clearData();
-            }
+            clearData();
             parseData(dataObj.optJSONArray("auctionList"));
         }
     }
@@ -139,9 +138,10 @@ public class MyAuctionActivity extends BaseNetActivity {
                 bean.setId(obj.optInt("goods_id"));
                 bean.setImgUrl(UrlUtils.baseWebsite+ obj.optString("imghead"));
                 bean.setName(obj.optString("name"));
-                bean.setBlindState(obj.optString("auction_tip"));
+                bean.setStrState(obj.optString("auction_tip"));
                 bean.setPrice(obj.optDouble("reserve_money"));
                 bean.setScore(obj.optString("points"));
+                bean.setIntPriceState(obj.optInt("is_win"));
                 beanList.add(bean);
             }
         }
@@ -169,8 +169,10 @@ public class MyAuctionActivity extends BaseNetActivity {
     }
 
     private void clearData(){
-        if(beanList.size()!=0){
-            beanList.clear();
+        if(isRefresh){
+            if(beanList.size()!=0){
+                beanList.clear();
+            }
         }
     }
 

@@ -36,44 +36,48 @@ public class CashDepositAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
         ImageView imageView = helper.getView(R.id.img_goods);
         Picasso.with(context).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
 
-        switch (item.getState()) {
-            case "0":
+        switch (item.getIntState()) {
+            case 3:
                 //未开始
                 helper.setBackgroundColor(R.id.text_state, Color.parseColor("#FFA24F"));
-                helper.setText(R.id.text_state, "未开始");
-                helper.setVisible(R.id.text_time, true);
-                helper.setText(R.id.text_time, item.getTimeRemaining());
+                helper.setVisible(R.id.text_time, false);
                 break;
-            case "1":
+            case 2:
                 //已开始
                 helper.setBackgroundColor(R.id.text_state, Color.parseColor("#F63C3C"));
-                helper.setText(R.id.text_state, "已开始");
                 helper.setVisible(R.id.text_time, true);
-                helper.setText(R.id.text_time, item.getTimeRemaining());
+                helper.setText(R.id.text_time, getTimeRemaining(item));
                 break;
-            case "2":
+            case 1:
                 //已结束
                 helper.setBackgroundColor(R.id.text_state, Color.parseColor("#A0A0A0"));
-                helper.setText(R.id.text_state, "已结束");
-                helper.getView(R.id.text_time).setVisibility(View.INVISIBLE);
+                helper.setVisible(R.id.text_time, false);
                 break;
         }
-
+        helper.setText(R.id.text_state, item.getStrState());
         helper.setText(R.id.text_cash, item.getCashDeposit());//保证金
         helper.addOnClickListener(R.id.text_btn);
-
-        switch (item.getPayState()) {
-            case "0":
-                //已支付
+        switch (item.getStrPriceState()) {
+            case "已支付":
                 helper.setBackgroundRes(R.id.text_btn,R.drawable.red_bg2);
-                helper.setText(R.id.text_btn, "已支付");
                 break;
-            case "1":
-                //已退还
+            case "已退还":
                 helper.setBackgroundRes(R.id.text_btn,R.drawable.gray_bg4);
-                helper.setText(R.id.text_btn, "已退还");
                 break;
         }
+        helper.setText(R.id.text_btn, item.getStrPriceState());
 
     }
+
+    private String getTimeRemaining(AcutionGoodsBean item) {
+        int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
+        if(leftTime <=0){
+            return "竞拍结束";
+        }
+        int hour = leftTime % (24 * 3600) / 3600;
+        int minute = leftTime % 3600 / 60;
+        int second = leftTime % 60;
+        return "离结束:" +hour + "时" + minute + "分" + second + "秒";
+    }
+
 }

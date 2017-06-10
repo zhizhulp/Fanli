@@ -44,6 +44,7 @@
             </FrameLayout>
             <!--倒计时-->
             <FrameLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="17dp"
                 android:layout_gravity="bottom">

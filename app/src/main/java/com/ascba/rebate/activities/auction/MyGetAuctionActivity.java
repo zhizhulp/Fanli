@@ -24,10 +24,10 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/05/25.
- * 我的竞拍订单页面
+ * 我的获拍页面
  */
 
-public class MyAuctionOrderActivity extends BaseNetActivity {
+public class MyGetAuctionActivity extends BaseNetActivity {
 
     private ShopABar shopABar;
     private Context context;
@@ -49,7 +49,7 @@ public class MyAuctionOrderActivity extends BaseNetActivity {
 
 
     public static void startIntent(Context context, int index) {
-        Intent intent = new Intent(context, MyAuctionOrderActivity.class);
+        Intent intent = new Intent(context, MyGetAuctionActivity.class);
         intent.putExtra("index", index);
         context.startActivity(intent);
     }

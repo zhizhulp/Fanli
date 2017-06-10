@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.MyAuctionActivity;
-import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
-import com.ascba.rebate.activities.auction.MyAuctionOrderActivity;
 import com.ascba.rebate.activities.auction.MyCashDepositActivity;
+import com.ascba.rebate.activities.auction.MyGetAuction2Activity;
+import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.RoundImageView;
@@ -115,7 +115,7 @@ public class AuctionMeFragment extends BaseNetFragment implements View.OnClickLi
                 break;
             case R.id.btn_auction_me_huo_pai:
                 //我的获拍
-                MyAuctionOrderActivity.startIntent(getActivity(), 0);
+                MyGetAuction2Activity.startIntent(getActivity(), 0);
                 break;
             case R.id.tv_recharge:
                 startActivity(new Intent(getActivity(), AccountRechargeActivity.class));

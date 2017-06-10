@@ -237,7 +237,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
             }
         }else if(what==1){
             showToast(message);
-            setState(1,4);
+            requestNetwork(UrlUtils.auctionArticle, 0);
         }
     }
 

@@ -13,7 +13,6 @@ public class AcutionGoodsBean implements Parcelable {
     private int type;//竞拍类型 抢拍和盲拍
     private String imgUrl;
     private String name;//商品名
-    private String state;//状态
     private String specialOffer;//优惠活动
     private String timeRemaining;//剩余时间
     private String personNum;//竞拍人数
@@ -41,9 +40,6 @@ public class AcutionGoodsBean implements Parcelable {
     private long startTime;
     private String startTimeStr;
     private long endTime;
-
-    private String blindState;//盲拍状态
-
 
     public AcutionGoodsBean() {
 
@@ -82,14 +78,6 @@ public class AcutionGoodsBean implements Parcelable {
 
     public void setStartTimeStr(String startTimeStr) {
         this.startTimeStr = startTimeStr;
-    }
-
-    public String getBlindState() {
-        return blindState;
-    }
-
-    public void setBlindState(String blindState) {
-        this.blindState = blindState;
     }
 
     public boolean isSelect() {
@@ -183,14 +171,6 @@ public class AcutionGoodsBean implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getSpecialOffer() {
@@ -293,7 +273,6 @@ public class AcutionGoodsBean implements Parcelable {
         dest.writeInt(this.type);
         dest.writeString(this.imgUrl);
         dest.writeString(this.name);
-        dest.writeString(this.state);
         dest.writeString(this.specialOffer);
         dest.writeString(this.timeRemaining);
         dest.writeString(this.personNum);
@@ -316,7 +295,6 @@ public class AcutionGoodsBean implements Parcelable {
         dest.writeLong(this.startTime);
         dest.writeString(this.startTimeStr);
         dest.writeLong(this.endTime);
-        dest.writeString(this.blindState);
     }
 
     protected AcutionGoodsBean(Parcel in) {
@@ -324,7 +302,6 @@ public class AcutionGoodsBean implements Parcelable {
         this.type = in.readInt();
         this.imgUrl = in.readString();
         this.name = in.readString();
-        this.state = in.readString();
         this.specialOffer = in.readString();
         this.timeRemaining = in.readString();
         this.personNum = in.readString();
@@ -347,7 +324,6 @@ public class AcutionGoodsBean implements Parcelable {
         this.startTime = in.readLong();
         this.startTimeStr = in.readString();
         this.endTime = in.readLong();
-        this.blindState = in.readString();
     }
 
     public static final Creator<AcutionGoodsBean> CREATOR = new Creator<AcutionGoodsBean>() {
