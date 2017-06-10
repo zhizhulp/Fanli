@@ -152,7 +152,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AuctionOrderAdapter(this, R.layout.item_auction_goods3, beanList);
+        adapter = new AuctionOrderAdapter( R.layout.item_auction_goods3, beanList);
         adapter.setEmptyView(ViewUtils.getEmptyView(this,"暂无数据"));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {

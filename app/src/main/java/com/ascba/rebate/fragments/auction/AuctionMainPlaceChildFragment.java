@@ -100,7 +100,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             int currentLeftTime = agb.getCurrentLeftTime();
             int reduceTimes = agb.getReduceTimes();
             Double price = agb.getPrice();
-            if(agb.getIntState()!=2){
+            if(agb.getIntState()==1 ||agb.getIntState()==3){
                 continue;
             }
             if(currentLeftTime <=0){

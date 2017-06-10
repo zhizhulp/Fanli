@@ -110,12 +110,10 @@ public class CartChildFragment extends BaseNetFragment {
             AcutionGoodsBean agb = beanList.get(i);
             int currentLeftTime = agb.getCurrentLeftTime();
             int reduceTimes = agb.getReduceTimes();
-            int maxReduceTimes = agb.getMaxReduceTimes();
             Double price = agb.getPrice();
-            if(reduceTimes >= maxReduceTimes ){
-                return;
+            if(agb.getIntState()==1 ||agb.getIntState()==3){
+                continue;
             }
-            currentLeftTime--;
             if(currentLeftTime <=0){
                 reduceTimes++;
                 price -= agb.getGapPrice();
@@ -124,6 +122,8 @@ public class CartChildFragment extends BaseNetFragment {
                 if(agb.getType()==1){
                     agb.setPrice(price);
                 }
+            }else {
+                currentLeftTime--;
             }
             agb.setCurrentLeftTime(currentLeftTime);
         }

@@ -20,24 +20,18 @@ import java.util.List;
  */
 
 public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseViewHolder> {
-    private Context context;
 
-    public AuctionOrderAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<AcutionGoodsBean> data) {
+    public AuctionOrderAdapter( @LayoutRes int layoutResId, @Nullable List<AcutionGoodsBean> data) {
         super(layoutResId, data);
-        this.context = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
         ImageView imageView = helper.getView(R.id.img_goods);
-        Picasso.with(context).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
-
+        Picasso.with(mContext).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
-
-        helper.setText(R.id.text_price, item.getPrice()+"");//出价
-
-        helper.setText(R.id.text_auction_goods_score, item.getScore());//积分
-
+        helper.setText(R.id.text_price, "￥"+item.getPrice());//出价
+        helper.setText(R.id.text_auction_goods_score, "购买增值"+item.getScore()+"积分");//积分
         helper.addOnClickListener(R.id.btn_auction);
         TextView view= helper.getView(R.id.btn_auction);
         view.setText(item.getStrPriceState());
@@ -51,29 +45,6 @@ public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, Base
         }else if(state==3){
             setBgAndEnable(view,R.drawable.btn_gray_bg,false);
         }
-        /*switch (item.getPayState()) {
-            case "0":
-                //待支付
-                helper.setText(R.id.btn_auction, "去支付");
-                helper.setText(R.id.text_youhui, "待支付");
-                helper.setBackgroundRes(R.id.btn_auction, R.drawable.red_bg2);
-                helper.setTextColor(R.id.btn_auction, context.getResources().getColor(R.color.white));
-                break;
-            case "1":
-                //待收货
-                helper.setText(R.id.btn_auction, "查物流");
-                helper.setText(R.id.text_youhui, "待收货");
-                helper.setBackgroundRes(R.id.btn_auction, R.drawable.red_bg);
-                helper.setTextColor(R.id.btn_auction, context.getResources().getColor(R.color.fragment_money_red));
-                break;
-            case "2":
-                //已收货
-                helper.setText(R.id.btn_auction, "交易完成");
-                helper.setText(R.id.text_youhui, "已收货");
-                helper.setBackgroundRes(R.id.btn_auction, R.color.white);
-                helper.setTextColor(R.id.btn_auction, context.getResources().getColor(R.color.fragment_money_red));
-                break;
-        }*/
     }
 
     private void setBgAndEnable(View view, int resID, boolean enable){

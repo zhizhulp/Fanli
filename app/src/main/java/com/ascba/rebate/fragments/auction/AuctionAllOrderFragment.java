@@ -48,7 +48,7 @@ public class AuctionAllOrderFragment extends LazyLoadFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new AuctionOrderAdapter(getActivity(), R.layout.item_auction_goods3, beanList);
+        adapter = new AuctionOrderAdapter( R.layout.item_auction_goods3, beanList);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override

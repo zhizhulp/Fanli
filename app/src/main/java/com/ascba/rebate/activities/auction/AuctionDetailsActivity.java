@@ -68,6 +68,9 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     private View viewGoingSureMoneyBlind;
     private TextView tvPriceBlind;
     private TextView tvAuctionState;
+    private TextView tvPersonNum;
+    private TextView tvOtherPersonNum;
+    private View viewTimeDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +181,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     }
 
     private void setBeanProperty() {
-        if(agb.getIntState()!=2){
+        if(agb.getIntState()==1 ||agb.getIntState()==3){
             return;
         }
         int currentLeftTime = agb.getCurrentLeftTime();
@@ -186,10 +189,10 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         Double price = agb.getPrice();
         if (currentLeftTime <= 0) {
             reduceTimes++;
-            price -= agb.getGapPrice();
-            currentLeftTime = agb.getGapTime();
-            agb.setReduceTimes(reduceTimes);
+            price -= agb.getGapPrice();//减价格
+            currentLeftTime = agb.getGapTime();//重置时间
             agb.setPrice(price);
+            agb.setReduceTimes(reduceTimes);
             tvCount.setText("降价次数："+reduceTimes + "次");
             if(agb.getType()==1){
                 tvPrice.setText(price + "");
@@ -198,6 +201,9 @@ public class AuctionDetailsActivity extends BaseNetActivity {
             }
         }else {
             currentLeftTime--;
+            if(currentLeftTime==0){
+
+            }
         }
         agb.setCurrentLeftTime(currentLeftTime);
         tvTD.setText(currentLeftTime + "s");
@@ -295,6 +301,11 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         agb.setEndPrice(end_price);
         agb.setStartTime(starttime);
         agb.setEndTime(endtime);
+        if(type==1){
+            viewTimeDown.setVisibility(View.VISIBLE);
+        }else if(type==2){
+            viewTimeDown.setVisibility(View.GONE);
+        }
         tvStatus.setText(auction_tip);
         tvName.setText(name);
         CharSequence content= Html.fromHtml(obj.optString("content"));
@@ -316,6 +327,9 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         if(cart_status==4){
             tvAuctionState.setText(cart_status_tip);
         }
+
+        tvPersonNum.setText("竞拍："+obj.optInt("auction_people")+"人");
+        tvOtherPersonNum.setText("围观："+obj.optInt("flow")+"人");
     }
 
     /**
@@ -331,7 +345,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         int hour = leftTime % (24 * 3600) / 3600;
         int minute = leftTime % 3600 / 60;
         int second = leftTime % 60;
-        return hour + "时" + minute + "分" + second + "秒 后结束";
+        return hour + "小时" + minute + "分钟" + second + "秒 后结束";
     }
 
     private class MyTimerTask extends TimerTask {
@@ -437,6 +451,11 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvGapTime = ((TextView) findViewById(R.id.tv_gap_time));
         tvCount = ((TextView) findViewById(R.id.tv_reduce_count));
         tvGoodsDet = ((TextView) findViewById(R.id.tv_goods_details));
+
+        tvPersonNum = ((TextView) findViewById(R.id.tv_auction_person_num));
+        tvOtherPersonNum = ((TextView) findViewById(R.id.tv_other_person_num));
+
+        viewTimeDown = findViewById(R.id.lat_reduce_time_down);
     }
 
     @Override
