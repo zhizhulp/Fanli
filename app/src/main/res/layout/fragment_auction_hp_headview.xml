@@ -10,6 +10,8 @@
         android:layout_height="143dp" />
 
     <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/lat_msg"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white"
@@ -36,19 +38,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/icon_loudspeaker" />
-
-        <TextView
-            android:id="@+id/text_auction_notif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.ascba.rebate.view.MarqueeTextView
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="14dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="恭喜山西王先生以37元拍到iPhone7 32G土豪金私人定制版本"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:id="@+id/text_auction_notif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="12sp" />
+            android:textSize="@dimen/main_text_12" />
+
     </LinearLayout>
 
     <LinearLayout

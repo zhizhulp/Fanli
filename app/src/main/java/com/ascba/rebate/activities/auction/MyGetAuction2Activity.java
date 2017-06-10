@@ -106,6 +106,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 agb.setScore(obj.optString("points"));
                 agb.setIntPriceState(obj.optInt("auction_status"));
                 agb.setStrPriceState(obj.optString("auction_status_tip"));
+                beanList.add(agb);
             }
         }
         adapter.notifyDataSetChanged();
@@ -116,12 +117,6 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         if(what==0){
             handler.sendEmptyMessage(LOAD_MORE_ERROR);
         }
-    }
-
-    public static void startIntent(Context context, int index) {
-        Intent intent = new Intent(context, MyGetAuction2Activity.class);
-        intent.putExtra("index", index);
-        context.startActivity(intent);
     }
 
     private void initView() {
@@ -169,6 +164,12 @@ public class MyGetAuction2Activity extends BaseNetActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
+                AcutionGoodsBean agb = beanList.get(position);
+                if(view.getId()==R.id.btn_auction){
+                    if( agb.getIntPriceState()==0){
+                        showToast("去支付");
+                    }
+                }
             }
         });
     }

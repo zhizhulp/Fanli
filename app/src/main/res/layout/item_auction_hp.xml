@@ -63,7 +63,6 @@
                     android:layout_alignLeft="@id/auction_text_time_bg"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="11dp"
-                    android:text="距离结束：01小时 02分钟 03秒"
                     android:textColor="@color/white"
                     android:textSize="11sp" />
             </FrameLayout>
@@ -84,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="11dp"
             android:layout_marginTop="13dp"
-            android:text="高档腕表，百搭，实用"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="12sp" />
 
@@ -100,7 +98,6 @@
                 android:id="@+id/auction_text_person"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55"
                 android:textColor="@color/fragment_money_red"
                 android:textSize="12sp" />
 
@@ -120,12 +117,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:layout_marginLeft="6dp"
-                android:text="当前价"/>
+                android:text="当前价 "/>
             <TextView
                 android:id="@+id/auction_text_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥155.00"
                 android:textColor="@color/fragment_money_red"
                 android:textSize="14sp" />
         </LinearLayout>

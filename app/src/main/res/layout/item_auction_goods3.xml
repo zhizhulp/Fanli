@@ -39,7 +39,8 @@
                 android:paddingTop="2dp">
 
                 <TextView
-                    android:id="@+id/text_youhui"
+                    android:text="折扣拍"
+                    android:id="@+id/text_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"

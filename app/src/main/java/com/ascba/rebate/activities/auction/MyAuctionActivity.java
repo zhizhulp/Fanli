@@ -138,7 +138,7 @@ public class MyAuctionActivity extends BaseNetActivity {
                 bean.setId(obj.optInt("goods_id"));
                 bean.setImgUrl(UrlUtils.baseWebsite+ obj.optString("imghead"));
                 bean.setName(obj.optString("name"));
-                bean.setStrState(obj.optString("auction_tip"));
+                bean.setStrState(obj.optString("is_win_tip"));
                 bean.setPrice(obj.optDouble("reserve_money"));
                 bean.setScore(obj.optString("points"));
                 bean.setIntPriceState(obj.optInt("is_win"));

@@ -2,6 +2,7 @@ package com.ascba.rebate.fragments.auction;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,6 +58,7 @@ public class CartChildFragment extends BaseNetFragment {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REDUCE_TIME = 2;
+    private static final int REQUEST_PAY_PDEPOSIT=3;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -86,6 +88,7 @@ public class CartChildFragment extends BaseNetFragment {
     private TextView tvBtmBtm;
     private TextView tvApply;
     private View btmView;
+
 
     public CartChildFragment() {
 
@@ -223,7 +226,7 @@ public class CartChildFragment extends BaseNetFragment {
                         Intent intent=new Intent(getActivity(), PayDepositActivity.class);
                         intent.putExtra("client_ids",getClientIds()[0]);
                         intent.putExtra("total_price",getClientIds()[1]);
-                        startActivity(intent);
+                        startActivityForResult(intent,REQUEST_PAY_PDEPOSIT);
                     }else if(status.equals("2,3")){
                         requestNetwork(UrlUtils.payAuction,1);
                     }
@@ -307,6 +310,14 @@ public class CartChildFragment extends BaseNetFragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_PAY_PDEPOSIT && resultCode== Activity.RESULT_OK){
+            requestNetwork(UrlUtils.auctionCard,0);
+        }
+    }
+
     private void initMyRefreshLayout(View view) {
         initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -351,8 +362,9 @@ public class CartChildFragment extends BaseNetFragment {
             caculateMoneyAndNum();
         }else if(what==1){
             showToast(message);
-            Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
-            startActivity(intent);
+            requestNetwork(UrlUtils.auctionCard,0);
+            /*Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
+            startActivity(intent);*/
         }
     }
 

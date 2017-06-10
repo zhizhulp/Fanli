@@ -115,7 +115,7 @@ public class AuctionMeFragment extends BaseNetFragment implements View.OnClickLi
                 break;
             case R.id.btn_auction_me_huo_pai:
                 //我的获拍
-                MyGetAuction2Activity.startIntent(getActivity(), 0);
+                startActivity(new Intent(getActivity(),MyGetAuction2Activity.class));
                 break;
             case R.id.tv_recharge:
                 startActivity(new Intent(getActivity(), AccountRechargeActivity.class));

@@ -27,6 +27,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 代理专区
+ */
 public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBack
         ,SwipeRefreshLayout.OnRefreshListener {
 

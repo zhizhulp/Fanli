@@ -1,6 +1,7 @@
 package com.ascba.rebate.fragments.auction;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
@@ -21,8 +23,8 @@ import com.ascba.rebate.adapter.AcutionHPAdapter;
 import com.ascba.rebate.adapter.ShufflingViewPagerAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MarqueeTextView;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
@@ -46,6 +48,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  */
 
 public class AuctionHomePageFragment extends BaseNetFragment {
+    private static final int REQUEST_PAY_DEPOSIT = 3;
     private AcutionHPAdapter adapter;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private int now_page = 1;
@@ -78,31 +81,11 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         }
     };
     private Timer timer;
+    private AcutionGoodsBean selectAGB;
 
     private void setBeanProperty() {
         if (beanList.size() == 0) {
             return;
-        }
-        for (int i = 0; i < beanList.size(); i++) {
-            AcutionGoodsBean agb = beanList.get(i);
-            int currentLeftTime = agb.getCurrentLeftTime();
-            int reduceTimes = agb.getReduceTimes();
-            Double price = agb.getPrice();
-            if (agb.getIntState() != 2) {
-                continue;
-            }
-            if (currentLeftTime <= 0) {
-                reduceTimes++;
-                price -= agb.getGapPrice();
-                currentLeftTime = agb.getGapTime();
-                agb.setReduceTimes(reduceTimes);
-                if (agb.getType() == 1) {
-                    agb.setPrice(price);
-                }
-            } else {
-                currentLeftTime--;
-            }
-            agb.setCurrentLeftTime(currentLeftTime);
         }
         adapter.notifyDataSetChanged();
     }
@@ -121,10 +104,19 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     }
 
     private void requestNetwork(String url, int what) {
-        Request<JSONObject> request = buildNetRequest(url, 0, false);
-        request.add("now_page", now_page);
-        executeNetWork(what, request, "请稍后");
+        if (what == 0) {
+            Request<JSONObject> request = buildNetRequest(url, 0, false);
+            request.add("now_page", now_page);
+            executeNetWork(what, request, "请稍后");
+        } else if (what == 1) {
+            Request<JSONObject> request = buildNetRequest(url, 0, true);
+            request.add("client_str", getAutionIds());
+            request.add("total_price", selectAGB.getPrice());
+            executeNetWork(what, request, "请稍后");
+        }
+
     }
+
 
     private void initView(View view) {
         initShopABar(view);
@@ -163,6 +155,8 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 agb.setEndPrice(obj.optDouble("end_price"));
                 agb.setStartTime(obj.optLong("starttime"));
                 agb.setEndTime(obj.optLong("endtime"));
+                agb.setIntState(obj.optInt("is_status"));
+                agb.setStrState(obj.optString("auction_tip"));
                 beanList.add(agb);
             }
         }
@@ -229,25 +223,40 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent=new Intent(getActivity(), AuctionDetailsActivity.class);
-                intent.putExtra("agb",beanList.get(position));
+                Intent intent = new Intent(getActivity(), AuctionDetailsActivity.class);
+                intent.putExtra("agb", beanList.get(position));
                 startActivity(intent);
             }
 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
-                AcutionGoodsBean agb = beanList.get(position);
+                selectAGB = beanList.get(position);
                 switch (view.getId()) {
-                    case R.id.auction_btn_get://立即拍
-                        Intent intent = new Intent(getActivity(), PayDepositActivity.class);
-                        intent.putExtra("client_ids", getClientIds(agb));
-                        intent.putExtra("total_price", agb.getCashDeposit());
-                        startActivity(intent);
+                    case R.id.auction_btn_get:
+                        if (selectAGB.getIntState() == 2) {//交保证金
+                            Intent intent = new Intent(getActivity(), PayDepositActivity.class);
+                            intent.putExtra("client_ids", getClientIds(selectAGB));
+                            intent.putExtra("total_price", selectAGB.getCashDeposit());
+                            startActivityForResult(intent, REQUEST_PAY_DEPOSIT);
+                        } else if (selectAGB.getIntState() == 4) {//立即拍
+                            requestNetwork(UrlUtils.payAuction, 1);
+                        } else if (selectAGB.getIntState() == 5) {//已拍
+
+                        }
+
                         break;
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PAY_DEPOSIT && resultCode == Activity.RESULT_OK) {
+            requestNetwork(UrlUtils.auction, 0);
+        }
     }
 
     private String getClientIds(AcutionGoodsBean selectAGB) {
@@ -275,6 +284,22 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         } else {
             viewPager.setVisibility(View.GONE);
         }
+        //消息
+        JSONArray msgArray = dataObj.optJSONArray("notice_list");
+        MarqueeTextView textView = (MarqueeTextView) headView.findViewById(R.id.text_auction_notif);
+        View viewMsg = headView.findViewById(R.id.lat_msg);
+        if (msgArray != null && msgArray.length() >= 0) {
+            viewMsg.setVisibility(View.VISIBLE);
+            StringBuilder sb=new StringBuilder();
+            for (int i = 0; i < msgArray.length(); i++) {
+                sb.append(msgArray.optJSONObject(i).optString("notice"));
+                sb.append("\t");
+            }
+            textView.setText(sb.toString());
+        } else {
+            viewMsg.setVisibility(View.GONE);
+        }
+
         //抢拍
         headView.findViewById(R.id.lat_rush_auction).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -340,7 +365,9 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-            handler.sendEmptyMessage(REDUCE_TIME);
+            if (!isTimerOver()) {
+                handler.sendEmptyMessage(REDUCE_TIME);
+            }
         }
 
     }
@@ -350,14 +377,20 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         boolean isOver = true;
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            int reduceTimes = agb.getReduceTimes();
-            int maxReduceTimes = agb.getMaxReduceTimes();
-            if (reduceTimes < maxReduceTimes) {
+            if ((agb.getEndTime() - System.currentTimeMillis() / 1000) >= 0) {
                 isOver = false;
-                break;
             }
         }
         return isOver;
+    }
+    private String getAutionIds() {
+        return "\"" +
+                selectAGB.getId() +
+                "\"" +
+                ":" +
+                "\"" +
+                selectAGB.getPrice() +
+                "\"";
     }
 
     @Override
