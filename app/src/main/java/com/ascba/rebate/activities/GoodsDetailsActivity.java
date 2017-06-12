@@ -237,7 +237,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         Intent intent = getIntent();
         if (intent != null) {
             goodsId = intent.getIntExtra("goodsId", 0);
-
             //获取商品详情
             getdata();
         }
@@ -651,7 +650,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
 
         //进店看看
-        FrameLayout shopEnter = (FrameLayout) findViewById(R.id.goods_details_shop_img_enter);
+        View shopEnter = findViewById(R.id.goods_details_shop_img_enter);
         shopEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

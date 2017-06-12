@@ -138,6 +138,10 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 initAuctionData(dataObj);//列表数据
             }
 
+        }else if(what==1){
+            showToast(message);
+            resetPage();
+            requestNetwork(UrlUtils.auction, 0);
         }
     }
 
@@ -170,49 +174,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     }
 
 
-    @Override
-    protected void mhandleFailed(int what, Exception e) {
-        if (what == 0) {
-            handler.sendEmptyMessage(LOAD_MORE_ERROR);
-        }
-    }
 
-    private void getPageCount(JSONObject dataObj) {
-        total_page = dataObj.optInt("total_page");
-        now_page++;
-    }
-
-    private void initLoadMore() {
-        if (loadMoreView == null) {
-            loadMoreView = new CustomLoadMoreView();
-            adapter.setLoadMoreView(loadMoreView);
-        }
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                isRefresh = false;
-                if (now_page > total_page && total_page != 0) {
-                    handler.sendEmptyMessage(LOAD_MORE_END);
-                } else if (total_page == 0) {
-                    handler.sendEmptyMessage(LOAD_MORE_END);
-                } else {
-                    requestNetwork(UrlUtils.auction, 0);
-                }
-            }
-        });
-    }
-
-    private void initRefreshLayoutView(View view) {
-        initRefreshLayout(view);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                resetPage();
-                isRefresh = true;
-                requestNetwork(UrlUtils.auction, 0);
-            }
-        });
-    }
 
     private void initRecyclerView(View view) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -255,6 +217,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PAY_DEPOSIT && resultCode == Activity.RESULT_OK) {
+            resetPage();
             requestNetwork(UrlUtils.auction, 0);
         }
     }
@@ -358,6 +321,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     }
 
     private void resetPage() {
+        isRefresh=true;
         now_page = 1;
         total_page = 0;
     }
@@ -391,6 +355,49 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 "\"" +
                 selectAGB.getPrice() +
                 "\"";
+    }
+    @Override
+    protected void mhandleFailed(int what, Exception e) {
+        if (what == 0) {
+            handler.sendEmptyMessage(LOAD_MORE_ERROR);
+        }
+    }
+
+    private void getPageCount(JSONObject dataObj) {
+        total_page = dataObj.optInt("total_page");
+        now_page++;
+    }
+
+    private void initLoadMore() {
+        if (loadMoreView == null) {
+            loadMoreView = new CustomLoadMoreView();
+            adapter.setLoadMoreView(loadMoreView);
+        }
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                isRefresh = false;
+                if (now_page > total_page && total_page != 0) {
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                } else if (total_page == 0) {
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                } else {
+                    requestNetwork(UrlUtils.auction, 0);
+                }
+            }
+        });
+    }
+
+    private void initRefreshLayoutView(View view) {
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                resetPage();
+                isRefresh = true;
+                requestNetwork(UrlUtils.auction, 0);
+            }
+        });
     }
 
     @Override

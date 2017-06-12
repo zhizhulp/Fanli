@@ -134,6 +134,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
                     handler.sendEmptyMessageDelayed(NEXT,tb.getEndTime()*1000-System.currentTimeMillis());
+                    //requestNetwork(UrlUtils.auctionType, 0);
                 }
             }
         }

@@ -11,10 +11,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:paddingLeft="14dp">
+        <FrameLayout
+            android:layout_alignParentRight="true"
+            android:id="@+id/goods_details_shop_img_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="13dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="13dp">
 
+            <TextView
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/red_bg"
+                android:padding="3dp"
+                android:text="进店逛逛"
+                android:textColor="@color/shop_red_text_color"
+                android:textSize="13sp" />
+        </FrameLayout>
         <LinearLayout
+            android:gravity="left"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/goods_details_shop_img_enter"
             android:id="@+id/goods_details_shop_l1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="horizontal">
@@ -27,6 +50,8 @@
                 android:scaleType="centerCrop" />
 
             <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:id="@+id/goods_details_shop_text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,27 +62,7 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/goods_details_shop_img_enter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingBottom="13dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="13dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/red_bg"
-                android:padding="3dp"
-                android:text="进店逛逛"
-                android:textColor="@color/shop_red_text_color"
-                android:textSize="13sp" />
-        </FrameLayout>
 
     </RelativeLayout>
 
@@ -275,7 +280,6 @@
                     android:id="@+id/goods_details_shop_img1_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥499"
                     android:textColor="@color/shop_red_text_color"
                     android:textSize="14dp" />
 
@@ -315,7 +319,6 @@
                     android:id="@+id/goods_details_shop_img2_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥499"
                     android:textColor="@color/shop_red_text_color"
                     android:textSize="14dp" />
 
@@ -355,7 +358,6 @@
                     android:id="@+id/goods_details_shop_img3_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥499"
                     android:textColor="@color/shop_red_text_color"
                     android:textSize="14dp" />
 

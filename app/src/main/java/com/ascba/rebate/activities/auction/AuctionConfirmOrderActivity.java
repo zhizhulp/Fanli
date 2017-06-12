@@ -84,7 +84,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
             request.add("total_points",total_points);
             request.add("address_id",address_id);
         }else if(what==2){
-            request.add("goods_id",address_id);
+            request.add("goods_id",goods_id);
             request.add("pay_type","balance");
             request.add("total_price",total_price);
             request.add("total_points",total_points);

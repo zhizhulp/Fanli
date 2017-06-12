@@ -339,13 +339,13 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             //ASK商学院  创业扶持
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
             //分割线
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //券购商城
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "券购商城"));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "券购商城"));
             //分割线
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //全球券购 天天特价 品牌精选
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
             //宽分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
 
@@ -361,22 +361,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             } else {
                 msgView.setIsIndicator(false);
             }
-
-        /*String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";
-        String video2  = "http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal";
-        VideoBean videoBean2 = new VideoBean(img2, video2);
-        videoBeen.add(videoBean2);
-
-        String img3 = "http://image18-c.poco.cn/mypoco/myphoto/20170315/16/18505011120170315160125061_640.jpg";
-        String video3 = "http://baobab.wandoujia.com/api/v1/playUrl?vid=8438&editionType=normal";
-        VideoBean videoBean3 = new VideoBean(img3, video3);
-        videoBeen.add(videoBean3);
-
-        items.add(new HomePageMultiItemItem(videoBeen, HomePageMultiItemItem.TYPE9, R.layout.home_page_videopage));
-        //宽分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
-        */
-
             initAdapterAndRefresh();
         } else if (finalScene == 1) {
             JSONObject obj = dataObj.optJSONObject("receivables");
@@ -399,7 +383,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     解析新闻内容
      */
     private void initNews(JSONObject dataObj) {
-
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
         //最新动态
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE10, R.layout.home_page_more_news, "最新动态"));
         //分割线

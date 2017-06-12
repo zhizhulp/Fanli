@@ -167,7 +167,10 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 AcutionGoodsBean agb = beanList.get(position);
                 if(view.getId()==R.id.btn_auction){
                     if( agb.getIntPriceState()==0){
-                        showToast("去支付");
+                        //showToast("去支付");
+                        Intent intent=new Intent(MyGetAuction2Activity.this,AuctionConfirmOrderActivity.class);
+                        intent.putExtra("goods_id",agb.getId());
+                        startActivity(intent);
                     }
                 }
             }
@@ -180,7 +183,6 @@ public class MyGetAuction2Activity extends BaseNetActivity {
             @Override
             public void onRefresh() {
                 resetPage();
-                isRefresh=true;
                 requestNetwork(UrlUtils.auctionPayList,0);
             }
         });
@@ -215,6 +217,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
     }
 
     private void resetPage(){
+        isRefresh=true;
         now_page=1;
         total_page=0;
     }

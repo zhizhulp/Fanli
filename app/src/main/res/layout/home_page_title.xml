@@ -27,6 +27,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/homepage_text_more"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
