@@ -133,7 +133,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             this.tb = b.getParcelable("title_bean");
             if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
-                    handler.sendEmptyMessageDelayed(NEXT,/*tb.getEndTime()*1000-System.currentTimeMillis()*/2000);
+                    handler.sendEmptyMessageDelayed(NEXT,tb.getEndTime()*1000-System.currentTimeMillis());
                 }
             }
         }
