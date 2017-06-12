@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.auction.AuctionActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -29,9 +30,8 @@ import java.util.List;
 public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
 
     public static final int HOMEPAGE = 0;
-    public static final int CLASSIFY = 1;
-    public static final int CART = 2;
-    public static final int ME = 3;
+    public static final int CART = 1;
+    public static final int ME = 2;
     private static final int REQUEST_LOGIN_CART = 0;
     private static final int REQUEST_LOGIN_ME = 1;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
@@ -93,7 +93,9 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
     //分类
     @Override
     public void clickOne(View v) {
-        selFrgByPos(CLASSIFY);
+        /*selFrgByPos(CLASSIFY);*/
+        Intent intent= new Intent(this, AuctionActivity.class);
+        startActivity(intent);
     }
 
     //购物车
@@ -130,7 +132,7 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
                 }
             }
 
-        }else if(position==1){//分类
+        }/*else if(position==1){//分类
             if (!mSecondFragment.isAdded()) {
                 ft.add(R.id.fl_change, mSecondFragment,String.valueOf(position));
                 mFragments.add(mSecondFragment);
@@ -143,7 +145,7 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
                     ft.hide(fragment);
                 }
             }
-        }else if(position==2){//购物车
+        }*/else if(position==1){//购物车
             if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, REQUEST_LOGIN_CART);
@@ -161,7 +163,7 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
                     ft.hide(fragment);
                 }
             }
-        }else if(position==3){//我
+        }else if(position==2){//我
             if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, REQUEST_LOGIN_ME);
@@ -181,8 +183,6 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
             }
         }
         ft.commit();
-
-
     }
 
     @Override
@@ -211,29 +211,6 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
 
     public static void setIndex(int position) {
         index = position;
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*if (currIndex != index) {
-            getShopTabs().statusChaByPosition(index, currIndex);
-            selFrgByPos(index);
-        }
-        if (AppConfig.getInstance().getInt("uuid", -1000) == -1000) {
-            try {
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                if (index == 2) {
-                    ft.remove(fragments[3]);
-                    mFragments.remove(fragments[3]);
-                } else if (index == 3) {
-                    ft.remove(fragments[2]);
-                    mFragments.remove(fragments[2]);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 }
 

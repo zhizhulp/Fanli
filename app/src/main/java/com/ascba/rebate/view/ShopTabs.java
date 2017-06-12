@@ -61,7 +61,6 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
     private void initViews(Context context, AttributeSet attrs) {
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ShopTabs);
-        String text2 = array.getString(R.styleable.ShopTabs_text2);
         array.recycle();
 
         LayoutInflater.from(context).inflate(R.layout.shop_tabs, this, true);
@@ -76,7 +75,6 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
         tvThree = ((TextView) findViewById(R.id.tv_tabs_three));
         tvFour = ((TextView) findViewById(R.id.tv_tabs_four));
 
-        tvOne.setText(text2);
 
         tvThreeNoty = (TextView) findViewById(R.id.im_tabs_three_noty);
 
@@ -120,23 +118,23 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
                 filPos = 0;
                 callback.clickZero(v);
                 break;
-            case R.id.tabs_one_par://周边
+            case R.id.tabs_one_par://竞拍
 
-                statusChaByPosition(1, filPos);
-                filPos = 1;
+                /*statusChaByPosition(1, filPos);
+                filPos = 1;*/
                 callback.clickOne(v);
                 break;
 
-            case R.id.tabs_three_par://财富
+            case R.id.tabs_three_par://购物车
 
-                statusChaByPosition(2, filPos);
-                filPos = 2;
+                statusChaByPosition(1, filPos);
+                filPos = 1;
                 callback.clickThree(v);
                 break;
             case R.id.tabs_four_par://我
 
-                statusChaByPosition(3, filPos);
-                filPos = 3;
+                statusChaByPosition(2, filPos);
+                filPos = 2;
                 callback.clickFour(v);
                 break;
         }
@@ -150,15 +148,15 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
                     imZero.setImageResource(R.mipmap.tab_main);
                     tvZero.setTextColor(getResources().getColor(R.color.textgray));
                     break;
-                case 1:
+                /*case 1:
                     imOne.setImageResource(R.mipmap.fenlei);
                     tvOne.setTextColor(getResources().getColor(R.color.textgray));
-                    break;
-                case 2:
+                    break;*/
+                case 1:
                     imThree.setImageResource(R.mipmap.tab_shop);
                     tvThree.setTextColor(getResources().getColor(R.color.textgray));
                     break;
-                case 3:
+                case 2:
                     imFour.setImageResource(R.mipmap.tab_me);
                     tvFour.setTextColor(getResources().getColor(R.color.textgray));
                     break;
@@ -170,15 +168,15 @@ public class ShopTabs extends RelativeLayout implements View.OnClickListener {
                     tvZero.setTextColor(getResources().getColor(R.color.moneyBarColor));
                     imZero.setImageResource(R.mipmap.tab_main_select);
                     break;
-                case 1:
+                /*case 1:
                     tvOne.setTextColor(getResources().getColor(R.color.moneyBarColor));
                     imOne.setImageResource(R.mipmap.tab_type_select);
-                    break;
-                case 2:
+                    break;*/
+                case 1:
                     tvThree.setTextColor(getResources().getColor(R.color.moneyBarColor));
                     imThree.setImageResource(R.mipmap.tab_shop_select);
                     break;
-                case 3:
+                case 2:
                     tvFour.setTextColor(getResources().getColor(R.color.moneyBarColor));
                     imFour.setImageResource(R.mipmap.tab_me_select);
                     break;
