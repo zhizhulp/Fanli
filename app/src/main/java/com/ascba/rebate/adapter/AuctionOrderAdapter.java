@@ -1,6 +1,5 @@
 package com.ascba.rebate.adapter;
 
-import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -36,6 +36,7 @@ public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, Base
         TextView view= helper.getView(R.id.btn_auction);
         view.setText(item.getStrPriceState());
         int state = item.getIntPriceState();
+        boolean isEmpty = StringUtils.isEmpty(item.getExpressNum());//物流账号是否为空
         if(state==0){// 0：未支付，1：已支付，2：已收货（交易完成），3：已退款
             setBgAndEnable(view,R.drawable.red_bg2,true);
         }else if(state==1){
@@ -45,6 +46,8 @@ public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, Base
         }else if(state==3){
             setBgAndEnable(view,R.drawable.btn_gray_bg,false);
         }
+        helper.setVisible(R.id.btn_sure_receive, state == 1 && !isEmpty);//确认收货是否显示
+        helper.addOnClickListener(R.id.btn_sure_receive);
     }
 
     private void setBgAndEnable(View view, int resID, boolean enable){

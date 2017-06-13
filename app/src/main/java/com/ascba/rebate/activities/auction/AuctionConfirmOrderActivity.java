@@ -194,6 +194,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
             showPasswordDialog(notify_url);
         }else if(what==2){
             showToast(message);
+            setResult(RESULT_OK,getIntent());
             finish();
         }
     }
