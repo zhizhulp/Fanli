@@ -56,7 +56,7 @@
         <TextView
             android:id="@+id/tv_desc_04"
             style="@style/shop_textView_style01"
-            android:text="增值积分" />
+            android:text="获赠礼品分" />
 
         <TextView
             android:textColor="@color/shop_red_text_color"

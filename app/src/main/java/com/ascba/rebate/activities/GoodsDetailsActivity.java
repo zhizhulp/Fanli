@@ -529,7 +529,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          * 增值：购买送积分
          */
         TextView appreciationText = (TextView) findViewById(R.id.goods_details_appreciation_text);
-        appreciationText.setText("购买即账户增值" + fnum.format(Float.valueOf(goods.getGoodsPrice()) * 100) + "积分");
+        appreciationText.setText("购买即送" + fnum.format(Float.valueOf(goods.getGoodsPrice()) * 100) + "礼品分");
         RelativeLayout appreciationRL = (RelativeLayout) findViewById(R.id.goods_details_appreciation_rl);
         appreciationRL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1056,8 +1056,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
     private List<IntegralValueItem> getData() {
         List<IntegralValueItem> data = new ArrayList<>();
-        data.add(new IntegralValueItem("购买后送20积分", "购买后可获得20积分，会员等级越高购买商品送的积分越多"));
-        data.add(new IntegralValueItem("积分有什么用", "在购买商品时，可使用积分抵扣一部分现金"));
+        data.add(new IntegralValueItem("购买后赠送599900礼品分", "购买后可获得599900礼品分，会员等级越高购买商品送的礼品分越多"));
+        data.add(new IntegralValueItem("礼品分有什么用", "礼品分可转化成商品分和代金券，在购买商品时，可使用商品分和代金券抵扣一部分现金。"));
         return data;
     }
 

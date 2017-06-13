@@ -199,6 +199,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                         if(!isEmpty){//查看物流
                             requestNetwork(UrlUtils.getAuctionExp,1);
                         }else {//等待发货
+
                         }
                     }else if(state==2){//已收货
                     }else if(state==3){//已退款

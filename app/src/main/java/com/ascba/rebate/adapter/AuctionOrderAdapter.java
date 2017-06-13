@@ -31,7 +31,7 @@ public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, Base
         Picasso.with(mContext).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
         helper.setText(R.id.text_price, "￥"+item.getPrice());//出价
-        helper.setText(R.id.text_auction_goods_score, "购买增值"+item.getScore()+"积分");//积分
+        helper.setText(R.id.text_auction_goods_score, "获赠礼品分"+item.getScore()+"分");//积分
         helper.addOnClickListener(R.id.btn_auction);
         TextView view= helper.getView(R.id.btn_auction);
         view.setText(item.getStrPriceState());
