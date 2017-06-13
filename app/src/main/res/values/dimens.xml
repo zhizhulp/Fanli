@@ -66,4 +66,7 @@
     <dimen name="text_size_zhuhuichang_goods_person">11sp</dimen>
     <dimen name="text_size_auction_me_username">17sp</dimen>
     <dimen name="main_line_space">40dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

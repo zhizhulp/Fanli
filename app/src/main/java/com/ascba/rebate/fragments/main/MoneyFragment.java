@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,11 +14,11 @@ import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.CashGetActivity;
 import com.ascba.rebate.activities.me_page.RedScoreUpdateActivity;
-import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.activities.me_page.WhiteBillActivity;
 import com.ascba.rebate.activities.me_page.WhiteScoreActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
+import com.ascba.rebate.activities.scoring.ScoringActivity;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.DialogHome;
@@ -90,7 +89,7 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
         viewDuiHuan.setOnClickListener(this);
         View viewJiaoYi = view.findViewById(R.id.me_lat_jiaoyi);
         viewJiaoYi.setOnClickListener(this);
-        View viewDjq = view.findViewById(R.id.me_lat_djq);
+        View viewDjq = view.findViewById(R.id.me_lat_scoring);
         viewDjq.setOnClickListener(this);
         View viewGrzh = view.findViewById(R.id.me_lat_grzh);
         viewGrzh.setOnClickListener(this);
@@ -124,8 +123,8 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
                 Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
                 startActivityForResult(intent1,REQUEST_EXCHANGE_TICKET);
                 break;
-            case R.id.me_lat_djq://代金券
-                Intent intent8 = new Intent(getActivity(), TicketActivity.class);
+            case R.id.me_lat_scoring://代金券
+                Intent intent8 = new Intent(getActivity(), ScoringActivity.class);
                 startActivity(intent8);
                 break;
             case R.id.me_lat_grzh://现金账户

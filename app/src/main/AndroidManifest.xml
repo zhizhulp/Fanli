@@ -701,8 +701,9 @@
         <activity android:name=".activities.auction.AuctionListActivity" />
         <activity android:name=".activities.SelectAddrssUpdateActivity" />
         <activity android:name=".activities.auction.MyAuctionActivity" />
-        <activity android:name=".activities.auction.AuctionConfirmOrderActivity"></activity>
-        <activity android:name=".activities.auction.MyGetAuction2Activity"/>
+        <activity android:name=".activities.auction.AuctionConfirmOrderActivity" />
+        <activity android:name=".activities.auction.MyGetAuction2Activity" />
+        <activity android:name=".activities.scoring.ScoringActivity"></activity>
     </application>
 
 </manifest>

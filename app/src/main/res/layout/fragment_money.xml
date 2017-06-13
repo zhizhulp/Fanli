@@ -382,7 +382,7 @@
                         android:background="@color/main_line_light_gray" />
 
                     <RelativeLayout
-                        android:id="@+id/me_lat_djq"
+                        android:id="@+id/me_lat_scoring"
                         android:layout_width="0dp"
                         android:layout_height="62dp"
                         android:layout_weight="1">
@@ -393,7 +393,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
-                            android:src="@mipmap/me_djq" />
+                            android:src="@mipmap/scoring" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -407,7 +407,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="代金券管理"
+                                android:text="来往评分"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
