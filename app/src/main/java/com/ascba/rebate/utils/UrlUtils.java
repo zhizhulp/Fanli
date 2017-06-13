@@ -248,4 +248,6 @@ public class UrlUtils {
     public static final String payAuctionOrder = urlPrefix + "payAuctionOrder";//提交订单数据
     public static final String payAuctionMent  = urlPrefix + "payAuctionMent";//竞拍支付
     public static final String auctionPayList  = urlPrefix + "auctionPayList";//我的获拍列表
+    public static final String getAuctionExp  = urlPrefix + "getAuctionExp";//物流信息
+
 }

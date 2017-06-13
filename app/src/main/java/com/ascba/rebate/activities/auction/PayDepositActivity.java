@@ -11,6 +11,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.SelectAddrssUpdateActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.utils.DialogHome;
@@ -42,6 +43,8 @@ public class PayDepositActivity extends BaseNetActivity{
     private double pay_bond_price;//保证金
     private TextView tvTicketInfo;
     private int is_pay_money;
+    private String auction_url;
+    private String deposit_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +175,9 @@ public class PayDepositActivity extends BaseNetActivity{
             is_pay_money = dataObj.optInt("is_pay_money");//0余额不足 1可以
             int is_level_pwd = dataObj.optInt("is_level_pwd");//0没有设置支付密码 1有
             AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
+
+            auction_url = dataObj.optString("auction_url");
+            deposit_url = dataObj.optString("deposit_url");
         }else if(what==1){//支付保证金成功
             setResult(RESULT_OK,getIntent());
             showToast(message);
@@ -183,5 +189,19 @@ public class PayDepositActivity extends BaseNetActivity{
     private void setBtnStatus(int id, boolean enable) {
         btnApply.setBackgroundDrawable(getResources().getDrawable(id));
         btnApply.setEnabled(enable);
+    }
+
+    public void seeAuctionProxy(View view) {
+        Intent intent=new Intent(this, WebViewBaseActivity.class);
+        intent.putExtra("name","用户竞拍服务协议");
+        intent.putExtra("url",auction_url);
+        startActivity(intent);
+    }
+
+    public void seeDepositProxy(View view) {
+        Intent intent=new Intent(this, WebViewBaseActivity.class);
+        intent.putExtra("name","保证金规则");
+        intent.putExtra("url",deposit_url);
+        startActivity(intent);
     }
 }

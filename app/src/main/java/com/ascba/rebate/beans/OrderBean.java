@@ -18,9 +18,10 @@ public class OrderBean implements MultiItemEntity {
     private String freight;//运费
     private int type;
     private int layout;
-    private String id;//订单号
+    private String id;//订单id
     private String imgUrl;//订单商品缩略图
     private String phone;//商家电话
+    private String orderNum;//订单号
 
     public OrderBean(String time, String id, String imgUrl) {
         this.time = time;
@@ -146,5 +147,13 @@ public class OrderBean implements MultiItemEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
     }
 }

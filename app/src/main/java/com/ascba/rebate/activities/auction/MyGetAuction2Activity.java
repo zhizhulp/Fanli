@@ -14,8 +14,10 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.adapter.AuctionOrderAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ShopABar;
@@ -79,6 +81,8 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if(what==0){
             request.add("now_page",now_page);
+        }else if(what==1){
+            request.add("ordertraces","58466927852");
         }
         executeNetWork(what,request,"请稍后");
     }
@@ -91,6 +95,12 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 clearData();
             }
             parseData(dataObj.optJSONArray("auctionPayList"));
+        }else if(what==1){
+            String url = dataObj.optJSONObject("auction_exp").optString("exp_url");
+            Intent intent=new Intent(this, WebViewBaseActivity.class);
+            intent.putExtra("name","物流信息");
+            intent.putExtra("url",url);
+            startActivity(intent);
         }
     }
 
@@ -106,6 +116,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 agb.setScore(obj.optString("points"));
                 agb.setIntPriceState(obj.optInt("auction_status"));
                 agb.setStrPriceState(obj.optString("auction_status_tip"));
+                agb.setExpressNum(obj.optString("express_number"));
                 beanList.add(agb);
             }
         }
@@ -165,12 +176,23 @@ public class MyGetAuction2Activity extends BaseNetActivity {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
                 AcutionGoodsBean agb = beanList.get(position);
+                int state = agb.getIntPriceState();
+                boolean isEmpty = StringUtils.isEmpty(agb.getExpressNum());//物流账号是否为空
                 if(view.getId()==R.id.btn_auction){
-                    if( agb.getIntPriceState()==0){
-                        //showToast("去支付");
+                    if(state==0){//待支付
                         Intent intent=new Intent(MyGetAuction2Activity.this,AuctionConfirmOrderActivity.class);
                         intent.putExtra("goods_id",agb.getId());
                         startActivity(intent);
+                    }else if(state==1){
+                        if(!isEmpty){//查看物流
+                            requestNetwork(UrlUtils.getAuctionExp,1);
+                        }else {//等待发货
+                            showToast("等待发货");
+                        }
+                    }else if(state==2){//已收货
+                        showToast("已收货");
+                    }else if(state==3){
+                        showToast("已退款");
                     }
                 }
             }

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
@@ -39,9 +40,10 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
 
     private static final int NET_LIST = 1;//列表数据请求what
     private static final int NET_RECEIVE_GOODS = 2;//点击收货接口请求what
-    private RecyclerView recyclerView;
+    private static final int NET_DELEVER_FLOW = 3;//物流接口
     private Context context;
     private String orderId;
+    private String ordertraces;
 
     /**
      * 每笔订单中的商品列表
@@ -81,6 +83,8 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
             jsonRequest.add("status", "wait_take");
         } else if (what == NET_RECEIVE_GOODS) {
             jsonRequest.add("order_id", orderId);
+        }else if(what==NET_DELEVER_FLOW){
+            jsonRequest.add("ordertraces","58466927852");
         }
 
         executeNetWork(what, jsonRequest, "请稍后");
@@ -96,6 +100,13 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
             case NET_RECEIVE_GOODS:
                 MyApplication.isRefreshOrderCount=true;
                 MyOrderActivity.setCurrTab(4);
+                break;
+            case NET_DELEVER_FLOW:
+                String url = dataObj.optJSONObject("auction_exp").optString("exp_url");
+                Intent intent=new Intent(getActivity(), WebViewBaseActivity.class);
+                intent.putExtra("name","物流信息");
+                intent.putExtra("url",url);
+                startActivity(intent);
                 break;
         }
 
@@ -128,8 +139,8 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
-                //订单id
-                String orderId = object.optString("order_id");
+                String orderId = object.optString("order_id");//订单id
+                String order_sn = object.optString("order_sn");//订单号
                 //头部信息
                 OrderBean beanHead = new OrderBean(PayOrderAdapter.TYPE1, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
@@ -163,6 +174,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                     OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_take_foot, goodsNum, orderAmount, shippingFee);
                     beadFoot.setId(orderId);
                     beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    beadFoot.setOrderNum(order_sn);
                     beanArrayList.add(beadFoot);
                 }
             }
@@ -176,13 +188,14 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
 
     private void initRecylerView() {
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new TakeOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
-        adapter.setEmptyView(R.layout.order_empty_view,recyclerView);
+        adapter.setEmptyView(R.layout.order_empty_view, recyclerView);
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+
 
 
             @Override
@@ -202,6 +215,10 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                     case R.id.item_goods_order_total_take:
                         //确认收货
                         requstData(UrlUtils.orderReceive, NET_RECEIVE_GOODS);
+                        break;
+                    case R.id.tv_deliver_flow://查看物流
+                        ordertraces=orderBean.getOrderNum();
+                        requstData(UrlUtils.getAuctionExp,NET_DELEVER_FLOW);
                         break;
                 }
             }

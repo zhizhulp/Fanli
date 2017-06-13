@@ -40,6 +40,7 @@ public class AcutionGoodsBean implements Parcelable {
     private long startTime;
     private String startTimeStr;
     private long endTime;
+    private String expressNum;//物流单号
 
     public AcutionGoodsBean() {
 
@@ -54,6 +55,14 @@ public class AcutionGoodsBean implements Parcelable {
         this.score = score;
         this.cashDeposit = cashDeposit;
         this.reduceTimes = reduceTimes;
+    }
+
+    public String getExpressNum() {
+        return expressNum;
+    }
+
+    public void setExpressNum(String expressNum) {
+        this.expressNum = expressNum;
     }
 
     public int getIntPriceState() {

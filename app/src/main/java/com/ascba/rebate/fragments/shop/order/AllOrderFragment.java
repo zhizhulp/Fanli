@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.CancelOrderDetailsActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
@@ -103,6 +104,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
         jsonRequest.add("order_id", order_id);
         if (flag == 3) {
             jsonRequest.add("pay_type", payType);
+        }else if(flag ==4){
+            jsonRequest.add("ordertraces","58466927852");
         }
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
@@ -313,6 +316,9 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     case R.id.item_goods_order_total_evalute:
                         //评价
                         break;
+                    case R.id.tv_deliver_flow:
+                        requstData(4,UrlUtils.getAuctionExp,null);
+                        break;
                 }
             }
         });
@@ -355,6 +361,13 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     pay.requestForWX(wxpay);
                 }
                 MyApplication.isRefreshOrderCount = true;
+                break;
+            case 4:
+                String url = dataObj.optJSONObject("auction_exp").optString("exp_url");
+                Intent intent=new Intent(getActivity(), WebViewBaseActivity.class);
+                intent.putExtra("name","物流信息");
+                intent.putExtra("url",url);
+                startActivity(intent);
                 break;
         }
     }
