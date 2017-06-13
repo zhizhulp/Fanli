@@ -53,6 +53,8 @@ public abstract class BaseActivityNet extends BaseActivity {
      * @param url          请求网址
      * @param method       请求方式 0 post 1 get
      * @param defaultParam 是否有默认请求参数
+     *
+     *
      */
     protected Request<JSONObject> buildNetRequest(String url, int method, boolean defaultParam) {
         Request<JSONObject> jsonRequest = NoHttp.createJsonObjectRequest(url, method == 0 ? RequestMethod.POST : RequestMethod.GET);
