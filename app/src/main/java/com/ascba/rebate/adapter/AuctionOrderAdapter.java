@@ -38,9 +38,9 @@ public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, Base
         int state = item.getIntPriceState();
         boolean isEmpty = StringUtils.isEmpty(item.getExpressNum());//物流账号是否为空
         if(state==0){// 0：未支付，1：已支付，2：已收货（交易完成），3：已退款
-            setBgAndEnable(view,R.drawable.red_bg2,true);
+            setBgAndEnable(view,R.drawable.btn_red_bg,true);
         }else if(state==1){
-            setBgAndEnable(view,R.drawable.red_bg2,true);
+            setBgAndEnable(view,R.drawable.btn_red_bg,true);
         }else if(state==2){
             setBgAndEnable(view,R.drawable.btn_gray_bg,false);
         }else if(state==3){

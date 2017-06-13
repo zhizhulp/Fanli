@@ -108,6 +108,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
             startActivity(intent);
         }else if(what==2){//确认收获成功
             showToast(message);
+            resetPage();
             requestNetwork(UrlUtils.auctionPayList,0);
         }
 
@@ -213,6 +214,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_PAY && resultCode==RESULT_OK){
+            resetPage();
             requestNetwork(UrlUtils.auctionPayList,0);
         }
     }
