@@ -70,7 +70,8 @@
                     android:paddingTop="8dp">
 
                     <TextView
-                        android:id="@+id/me_tv_red_score"
+                        android:id="@+id/me_tv_white_score"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -103,10 +104,10 @@
                     android:paddingTop="8dp">
 
                     <TextView
-                        android:id="@+id/me_tv_white_score"
+                        android:id="@+id/me_tv_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="0.05%"
                         android:textColor="@color/main_red_normal"
                         android:textSize="@dimen/main_text_15" />
 
@@ -136,10 +137,10 @@
                     android:paddingTop="8dp">
 
                     <TextView
-                        android:id="@+id/me_tv_rate"
+                        android:id="@+id/me_tv_red_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0.05%"
+                        android:text="0"
                         android:textColor="@color/main_red_normal"
                         android:textSize="@dimen/main_text_15" />
 
@@ -549,17 +550,6 @@
                                 android:textSize="@dimen/main_text_13" />
                         </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignTop="@id/me_lat_daifan_l5"
-                            android:layout_marginRight="12dp"
-                            android:paddingTop="2dp"
-                            android:text="转出"
-                            android:textColor="#448ffe"
-                            android:textSize="13sp"
-                            android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -595,7 +585,7 @@
                     android:layout_below="@id/cash_line"
                     android:background="@color/main_content_bg"
                     android:orientation="horizontal">
-
+                    <!---->
                     <RelativeLayout
                         android:id="@+id/me_lat_chongzhi"
                         android:layout_width="0dp"
@@ -626,14 +616,6 @@
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
-                            <!--<TextView
-                                android:id="@+id/textView5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
-                                android:text=""
-                                android:textColor="@color/main_text_gary"
-                                android:textSize="@dimen/main_text_13" />-->
                         </LinearLayout>
 
                         <TextView
