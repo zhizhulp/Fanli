@@ -2,6 +2,10 @@ package com.ascba.rebate.activities.auction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -319,7 +323,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvPrice.setText(transaction_price + "");
         tvOrgPrice.setText("原价"+begin_price );
         tvTD.setText(count_down + "s");
-        tvScore.setText("活动赠送"+points + "礼品分");
+        tvScore.setText(points + "");
         tvStartPrice.setText("起拍价：￥" + begin_price);
         tvGapTime.setText("延时周期："+interval_second + "s/次");
         tvGapPrice.setText("降价幅度：￥" + range+"/次");
@@ -465,34 +469,51 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     }
     //富文本图片显示接口
     Html.ImageGetter imageGetter=new Html.ImageGetter() {
+        class URLDrawable extends BitmapDrawable {
+            protected Bitmap bitmap;
+
+            @Override
+            public void draw(Canvas canvas) {
+                if (bitmap != null) {
+                    canvas.drawBitmap(bitmap, 0, 0, getPaint());
+                }
+            }
+        }
         @Override
         public Drawable getDrawable(final String source) {
-            final Drawable[] d = {null};
+            final URLDrawable d = new URLDrawable();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    InputStream is=null;
                     try {
-                        URL aryURI = new URL(UrlUtils.baseWebsite+ source);
+                        URL aryURI = new URL(source);
                         URLConnection conn = aryURI.openConnection();
                         conn.connect();
-                        InputStream is = conn.getInputStream();
-                        d[0] =Drawable.createFromStream(is, "111");
-                        d[0].setBounds(0,0, d[0].getIntrinsicWidth(), d[0].getIntrinsicHeight());
+                        is = conn.getInputStream();
+                        d.bitmap = BitmapFactory.decodeStream(is);
+                        d.setBounds(0,0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
                         is.close();
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                CharSequence text = tvGoodsDet.getText();
-                                tvGoodsDet.setText(text);
+                                tvGoodsDet.setText(tvGoodsDet.getText());
                             }
                         });
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } finally {
+                        if(is!=null){
+                            try {
+                                is.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }).start();
-
-            return d[0];
+            return d;
         }
     };
     @Override

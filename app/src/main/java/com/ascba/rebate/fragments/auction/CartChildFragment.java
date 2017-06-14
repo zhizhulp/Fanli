@@ -314,6 +314,7 @@ public class CartChildFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_PAY_PDEPOSIT && resultCode== Activity.RESULT_OK){
+            resetPage();
             requestNetwork(UrlUtils.auctionCard,0);
         }
     }
@@ -362,6 +363,7 @@ public class CartChildFragment extends BaseNetFragment {
             caculateMoneyAndNum();
         }else if(what==1){
             showToast(message);
+            resetPage();
             requestNetwork(UrlUtils.auctionCard,0);
             /*Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
             startActivity(intent);*/
@@ -503,12 +505,19 @@ public class CartChildFragment extends BaseNetFragment {
         for (int i = 0; i <beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
             if(agb.isSelect()){
-                price += agb.getPrice();
+                if("0,1".equals(status)){
+                    price += Double.parseDouble(agb.getCashDeposit());
+                }else if("2,3".equals(status)){
+                    price += agb.getPrice();
+                }
             }
         }
+
         tvBtmTop.setText("总金额：￥"+price);
+
     }
     private void resetPage(){
+        isRefresh=true;
         now_page=1;
         total_page=0;
     }
