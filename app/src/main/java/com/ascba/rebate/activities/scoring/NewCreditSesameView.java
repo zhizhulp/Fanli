@@ -306,11 +306,11 @@ public class NewCreditSesameView extends View {
     //canvas.drawText("BETA", radius, radius - 130, mTextPaint);
 
     //绘制信用级别
-    mTextPaint.setTextSize(60);
-    canvas.drawText(sesameLevel, radius, radius - 120, mTextPaint);
+    mTextPaint.setTextSize(40);//60
+    canvas.drawText(sesameLevel, radius, radius - 130, mTextPaint);//-120
 
     //绘制信用分数
-    mTextPaint.setTextSize(110);
+    mTextPaint.setTextSize(105);//110
     mTextPaint.setStyle(Paint.Style.STROKE);
     canvas.drawText(String.valueOf(mMinNum), radius, radius, mTextPaint);
 

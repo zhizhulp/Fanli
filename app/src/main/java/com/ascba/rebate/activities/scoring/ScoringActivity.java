@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities.scoring;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class ScoringActivity extends BaseNetActivity implements View.OnClickList
     private ImageButton ibNotifyCancel;
     private LinearLayout llNotify;
     private NewCreditSesameView creditSesameView;
+    private LinearLayout llPK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +43,6 @@ public class ScoringActivity extends BaseNetActivity implements View.OnClickList
         tintManager.setTintColor(Color.parseColor("#02c2b8"));
     }
 
-    private void initView() {
-//        recycler= (RecyclerView) findViewById(R.id.score_recycler);
-//        recycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-
-        ibNotifyCancel = (ImageButton) findViewById(R.id.scroing_notify_cancel);
-        llNotify = (LinearLayout) findViewById(R.id.scroing_ll_notify);
-        creditSesameView = (NewCreditSesameView) findViewById(R.id.scroing_creditsesame);
-        ibNotifyCancel.setOnClickListener(this);
-
-        creditSesameView.setSesameValues(886);
-        //startColorChangeAnim();
-    }
-
-//    public void startColorChangeAnim() {
-//        ObjectAnimator animator = ObjectAnimator.ofInt(mLayout, "backgroundColor", mColors);
-//        animator.setDuration(3000);
-//        animator.setEvaluator(new ArgbEvaluator());
-//        animator.start();
-//    }
-
     @TargetApi(19)
     private void setTranslucentStatus(boolean on) {
         Window win = getWindow();
@@ -74,13 +56,39 @@ public class ScoringActivity extends BaseNetActivity implements View.OnClickList
         win.setAttributes(winParams);
     }
 
+
+    private void initView() {
+//        recycler= (RecyclerView) findViewById(R.id.score_recycler);
+//        recycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+
+        ibNotifyCancel = (ImageButton) findViewById(R.id.scroing_notify_cancel);
+        llNotify = (LinearLayout) findViewById(R.id.scroing_ll_notify);
+        creditSesameView = (NewCreditSesameView) findViewById(R.id.scroing_creditsesame);
+        llPK= (LinearLayout) findViewById(R.id.scoring_pk);
+        ibNotifyCancel.setOnClickListener(this);
+        llPK.setOnClickListener(this);
+        creditSesameView.setSesameValues(886);
+        //startColorChangeAnim();
+    }
+
+//    public void startColorChangeAnim() {
+//        ObjectAnimator animator = ObjectAnimator.ofInt(mLayout, "backgroundColor", mColors);
+//        animator.setDuration(3000);
+//        animator.setEvaluator(new ArgbEvaluator());
+//        animator.start();
+//    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.scroing_notify_cancel:
                 llNotify.setVisibility(View.GONE);
                 break;
-
+            case R.id.scoring_pk:
+                Intent intent=new Intent(this,PKActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

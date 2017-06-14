@@ -5,241 +5,287 @@
     android:id="@+id/activity_scoring"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
     android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.scoring.ScoringActivity">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.ascba.rebate.view.MoneyBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:backImg="@mipmap/abar_back_white"
-        app:barBg="@color/scoring"
-        app:textTitle="来往评分"
-        app:titleColor="@color/white"/>
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:background="@mipmap/scroing_bg">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:background="@mipmap/scroing_bg"
+            >
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-                <com.ascba.rebate.activities.scoring.NewCreditSesameView
-                    android:id="@+id/scroing_creditsesame"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="150dp"
-                    android:layout_centerHorizontal="true"
-                    android:text="现金兑换比例：8:2"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <com.ascba.rebate.activities.scoring.NewCreditSesameView
+                        android:id="@+id/scroing_creditsesame"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="58dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="195dp"
+                        android:text="现金兑换比例：8:2"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
             </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <com.ascba.rebate.view.MoneyBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:backImg="@mipmap/abar_back_white"
+                    app:barBg="@color/transparent"
+                    app:textTitle="来往评分"
+                    app:titleColor="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/scroing_ll_notify"
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:background="@color/half_white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="14dp"
+                    android:paddingRight="14dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/scroing_voice" />
+                    <TextView
+                        android:id="@+id/scoring_notify"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="钱来评分业务中心通知：近期钱来业务升级，欢迎您的加入"
+                        android:textSize="13sp" />
+
+                    <ImageButton
+                        android:id="@+id/scroing_notify_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@mipmap/scroing_cancel"
+                        android:padding="8dp" />
+                </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="30dp"
+                android:layout_centerHorizontal="true">
+
+                <RelativeLayout
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/strok_shap">
+
+                    <TextView
+                        android:layout_width="107dp"
+                        android:layout_height="33dp"
+                        android:gravity="center"
+                        android:text="嘚瑟一下"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv2"
+                    android:background="@drawable/strok_shap">
+
+                    <TextView
+                        android:layout_width="107dp"
+                        android:layout_height="33dp"
+                        android:gravity="center"
+                        android:text="了解攻略"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp">
 
-            <RelativeLayout
-                android:id="@+id/tv2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/strok_shap">
 
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:text="嘚瑟一下"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
 
-            </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/tv2"
-                android:background="@drawable/strok_shap">
 
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="了解攻略"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-            </RelativeLayout>
 
-        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/scroing_ll_notify"
+            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/half_white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="14dp"
-            android:paddingRight="14dp">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/scroing_voice"/>
-
-            <TextView
-                android:id="@+id/scoring_notify"
+            <LinearLayout
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:singleLine="true"
-                android:textSize="14sp"
-                android:layout_marginLeft="12dp"
-                android:text="钱来评分业务中心通知：近期钱来业务升级，欢迎您的加入"/>
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/scroing_notify_cancel"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/scroing_line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="提高分数"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不积跬步无以至千里"
+                    android:textColor="@color/gray"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="26dp"
+                android:background="@color/gray" />
+
+
+
+            <LinearLayout
+                android:id="@+id/scoring_pk"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:padding="8dp"
-                android:background="@mipmap/scroing_cancel"/>
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/scoring_ranking" />
+
+                <TextView
+                   android:layout_marginBottom="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PK榜"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全国大比拼"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="@color/gray"
+                    android:textSize="11sp" />
+            </LinearLayout>
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="26dp"
+                android:background="@color/gray" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/scroing_grow" />
+
+                <TextView
+                   android:layout_marginBottom="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="成长足迹"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="千里之行始于足下"
+                    android:textColor="@color/gray"
+                    android:textSize="11sp"
+                    android:layout_marginBottom="12dp"/>
+            </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
 
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="80dp">
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <ImageView
-                android:src="@mipmap/scoring_ranking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="提高分数"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="不积跬步无以至千里"
-                android:textSize="14sp"
-                android:textColor="@color/gray"/>
-        </LinearLayout>
+        <include layout="@layout/item_scroing" />
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="26dp"
-            android:background="@color/gray"/>
-        
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <ImageView
-                android:src="@mipmap/scoring_ranking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PK榜"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="全国大比拼"
-                android:textSize="14sp"
-                android:textColor="@color/gray"/>
-        </LinearLayout>
+        <include layout="@layout/item_scroing" />
 
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="26dp"
-            android:background="@color/gray"/>
+        <include layout="@layout/item_scroing" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <ImageView
-                android:src="@mipmap/scoring_ranking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="成长足迹"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="千里之行始于足下"
-                android:textSize="14sp"
-                android:textColor="@color/gray"/>
-        </LinearLayout>
+        <include layout="@layout/item_scroing" />
+
     </LinearLayout>
-
-  <include
-      layout="@layout/item_scroing"/>
-    <include
-        layout="@layout/item_scroing"/>
-    <include
-        layout="@layout/item_scroing"/>
-    <include
-        layout="@layout/item_scroing"/>
-
-</LinearLayout>
 </ScrollView>

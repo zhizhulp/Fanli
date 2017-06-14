@@ -1,0 +1,118 @@
+package com.ascba.rebate.activities.scoring;
+
+import android.annotation.TargetApi;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.adapter.score.ScoringPKVPAdapter;
+import com.ascba.rebate.fragments.scoring.FriendsRankFragment;
+import com.ascba.rebate.fragments.scoring.NationalRankFragment;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PKActivity extends BaseNetActivity implements ViewPager.OnPageChangeListener {
+    private ViewPager vp;
+    private TabLayout tab;
+    private ScoringPKVPAdapter vpAdapter;
+//    private FragmentManager manager;
+//    FragmentTransaction transaction;
+
+    private List<Fragment> fragments = new ArrayList<>();
+    private List<String> tablist = new ArrayList<>();
+    private List<View> views = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pk);
+        initSystemBar();
+        initView();
+    }
+
+    private void initView() {
+        initFragments();
+        initTabStr();
+        tab = (TabLayout) findViewById(R.id.scoring_pk_tab);
+        vp = (ViewPager) findViewById(R.id.scoring_pk_vp);
+        tab.setTabMode(TabLayout.MODE_FIXED);
+        vpAdapter = new ScoringPKVPAdapter(getSupportFragmentManager(),fragments, tablist);
+        vp.setCurrentItem(0);
+        vp.setOnPageChangeListener(this);
+        vp.setAdapter(vpAdapter);
+
+//        将tablelayout和ViewPager关联起来
+        tab.setupWithViewPager(vp);
+        tab.setTabsFromPagerAdapter(vpAdapter);
+
+    }
+
+
+    private void initTabStr() {
+        tablist.clear();
+        tablist.add("全国排行榜");
+        tablist.add("好友排行榜");
+
+    }
+
+    private void initFragments() {
+        fragments.clear();
+        fragments.add(new NationalRankFragment());
+        fragments.add(new FriendsRankFragment());
+
+//        manager = getSupportFragmentManager();
+//        transaction=manager.beginTransaction();
+
+
+
+    }
+    private void initSystemBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setNavigationBarTintEnabled(true);
+        // 自定义颜色
+        tintManager.setTintColor(Color.parseColor("#02c2b8"));
+    }
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+}
