@@ -213,9 +213,8 @@ public class CartFragment extends BaseNetFragment implements
                     @Override
                     public void onClick(View v) {
                         ShopActivity a = (ShopActivity) getActivity();
+                        a.getShopTabs().statusChaByPosition(0, 1);
                         a.selFrgByPos(ShopActivity.HOMEPAGE);
-                        a.getShopTabs().statusChaByPosition(0, 2);
-                        a.getShopTabs().setFilPos(0);
                     }
                 });
                 adapter.setEmptyView(emptyView);

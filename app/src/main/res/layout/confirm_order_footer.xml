@@ -14,7 +14,7 @@
         <TextView
             android:id="@+id/tv_desc_01"
             style="@style/shop_textView_style01"
-            android:text="我的礼品券" />
+            android:text="我的折扣券" />
 
         <TextView
             android:id="@+id/tv_ticket"

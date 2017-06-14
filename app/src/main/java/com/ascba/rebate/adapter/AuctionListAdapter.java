@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -38,7 +39,7 @@ public class AuctionListAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
         }
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
         helper.setText(R.id.text_auction_goods_score, "获赠礼品分" + item.getScore()+"分");
-        helper.setText(R.id.text_auction_goods_price_rush, "￥" + item.getPrice());
+        helper.setText(R.id.text_auction_goods_price_rush, "￥" + NumberFormatUtils.getNewDouble(item.getPrice()));
 
         TextView view = helper.getView(R.id.tv_blind_state);
         view.setText(item.getStrState());

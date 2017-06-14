@@ -253,7 +253,7 @@ public class CartChildFragment extends BaseNetFragment {
         RecyclerView recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerview));
         beanList=new ArrayList<>();
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
-        adapter = new CartChildAdapter(R.layout.auction_list_item,beanList,cbTotal);
+        adapter = new CartChildAdapter(R.layout.auction_list_item,beanList,cbTotal,status);
         adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无商品数据"));
         adapter.setCallback(new CartChildAdapter.Callback() {
             @Override
@@ -494,7 +494,7 @@ public class CartChildFragment extends BaseNetFragment {
             tvApply.setText("交保证金("+count+")");
         }else if(status.equals("2,3")){//拍
             tvBtmTop.setText("总金额：￥"+price);
-            tvBtmBtm.setText("增值积分：￥"+score);
+            tvBtmBtm.setText("获赠礼品分"+score+"分");
             tvApply.setText("拍("+count+")");
         }
     }

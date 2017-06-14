@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,6 +26,7 @@ public class CartChildAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
 
     private CheckBox cbTotal;
     private Callback callback;
+    private String status;
 
     public interface Callback{
         void clickCbChild();
@@ -39,9 +41,10 @@ public class CartChildAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         this.callback = callback;
     }
 
-    public CartChildAdapter(@LayoutRes int layoutResId, @Nullable List<AcutionGoodsBean> data, CheckBox cbTotal) {
+    public CartChildAdapter(@LayoutRes int layoutResId, @Nullable List<AcutionGoodsBean> data, CheckBox cbTotal,String status) {
         super(layoutResId, data);
         this.cbTotal = cbTotal;
+        this.status = status;
         cbTotal.setOnClickListener(createTotalClickListener());
     }
 
@@ -56,18 +59,25 @@ public class CartChildAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
             helper.setText(R.id.text_auction_goods_time, getRemainingTime(item));
         }
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
-        helper.setText(R.id.text_auction_goods_person, "￥" + item.getCashDeposit());//人数改为保证金
+        if("0,1".equals(status)){
+            helper.setVisible(R.id.text_auction_goods_person,true);
+            helper.setText(R.id.text_auction_goods_person, "￥" + item.getCashDeposit());//保证金
+        }else if("2,3".equals(status)){
+            helper.setVisible(R.id.text_auction_goods_person,false);
+            helper.setText(R.id.tv_deposit_or_score, "购买获赠" + item.getScore()+"礼品分");//积分
+        }
+
         int type = item.getType();//1抢拍 2盲拍
         if (type == 1) {
             helper.setVisible(R.id.text_auction_goods_price_rush, true);
             helper.setVisible(R.id.lat_auction_goods_price_blind, false);
-            helper.setText(R.id.text_auction_goods_price_rush, "￥" + item.getPrice());
+            helper.setText(R.id.text_auction_goods_price_rush, "￥" + NumberFormatUtils.getNewDouble(item.getPrice()));
         } else if (type == 2) {
             helper.setVisible(R.id.text_auction_goods_price_rush, false);
             helper.setVisible(R.id.lat_auction_goods_price_blind, true);
             helper.addOnClickListener(R.id.btn_sub);//减号
             helper.addOnClickListener(R.id.btn_add);//加号
-            helper.setText(R.id.text_auction_goods_price_blind, "￥" + item.getPrice());
+            helper.setText(R.id.text_auction_goods_price_blind, "￥" + NumberFormatUtils.getNewDouble(item.getPrice()));
         }
         CheckBox cbChild = helper.getView(R.id.cb_item);
         cbChild.setChecked(item.isSelect());

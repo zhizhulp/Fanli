@@ -19,6 +19,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ImageAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -320,11 +321,11 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvName.setText(name);
         CharSequence content= Html.fromHtml(obj.optString("content"), imageGetter,null);
         tvGoodsDet.setText(content);
-        tvPrice.setText(transaction_price + "");
-        tvOrgPrice.setText("原价"+begin_price );
+        tvPrice.setText(NumberFormatUtils.getNewDouble(transaction_price) + "");
+        tvOrgPrice.setText("原价"+NumberFormatUtils.getNewDouble(begin_price) );
         tvTD.setText(count_down + "s");
         tvScore.setText(points + "");
-        tvStartPrice.setText("起拍价：￥" + begin_price);
+        tvStartPrice.setText("起拍价：￥" + NumberFormatUtils.getNewDouble(begin_price));
         tvGapTime.setText("延时周期："+interval_second + "s/次");
         tvGapPrice.setText("降价幅度：￥" + range+"/次");
         tvCount.setText("降价次数："+refresh_count + "次");
@@ -332,8 +333,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvTDOver.setText(getRemainingTime(agb));
 
         tvSureMoney.setText("保证金￥" + cash_deposit);
-        tvPriceRush.setText("当前价￥"+transaction_price + "");
-        tvPriceBlind.setText("￥"+transaction_price + "");
+        tvPriceRush.setText("当前价￥"+NumberFormatUtils.getNewDouble(transaction_price) + "");
+        tvPriceBlind.setText("￥"+NumberFormatUtils.getNewDouble(transaction_price) + "");
         if(cart_status==4){
             tvAuctionState.setText(cart_status_tip);
         }

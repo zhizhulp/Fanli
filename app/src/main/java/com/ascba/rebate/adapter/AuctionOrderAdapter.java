@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -30,7 +31,7 @@ public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, Base
         ImageView imageView = helper.getView(R.id.img_goods);
         Picasso.with(mContext).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
-        helper.setText(R.id.text_price, "￥"+item.getPrice());//出价
+        helper.setText(R.id.text_price, "￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//出价
         helper.setText(R.id.text_auction_goods_score, "获赠礼品分"+item.getScore()+"分");//积分
         helper.addOnClickListener(R.id.btn_auction);
         TextView view= helper.getView(R.id.btn_auction);

@@ -486,10 +486,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         //商品名
         TextView goodsDesc1 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods1);
-        SpannableStringBuilder builder = new SpannableStringBuilder("【自营店】" + goods.getGoodsTitle());
+        /*SpannableStringBuilder builder = new SpannableStringBuilder("【自营店】" + goods.getGoodsTitle());
         ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.shop_red_text_color));
-        builder.setSpan(redSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        goodsDesc1.setText(builder);
+        builder.setSpan(redSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
+        goodsDesc1.setText(goods.getGoodsTitle());
 
         //商品价格
         TextView priceNow = (TextView) findViewById(R.id.goods_details_simple_desc_price_now);
