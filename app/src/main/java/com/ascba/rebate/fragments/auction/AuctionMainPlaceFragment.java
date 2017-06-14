@@ -95,9 +95,7 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
 
 
     private void initView(View view) {
-        ShopABar shopABar = (ShopABar) view.findViewById(R.id.shopBar);
-        shopABar.setImageOtherEnable(false);
-        shopABar.setMsgEnable(false);
+
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
 

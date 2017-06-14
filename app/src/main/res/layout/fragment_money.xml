@@ -411,15 +411,6 @@
                                 android:text="来往评分"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
-
-                            <!--<TextView-->
-                                <!--android:id="@+id/me_tv_djq"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginTop="6dp"-->
-                                <!--android:text="0"-->
-                                <!--android:textColor="@color/main_text_gary"-->
-                                <!--android:textSize="@dimen/main_text_13" />-->
                         </LinearLayout>
 
                     </RelativeLayout>
@@ -441,151 +432,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <LinearLayout
-                    android:id="@+id/cash_lat"
+                    android:id="@+id/lat_recharge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/main_content_bg"
                     android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:id="@+id/me_lat_grzh"
-                        android:layout_width="0dp"
-                        android:layout_height="62dp"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/im_pre_score"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:src="@mipmap/me_grzh" />
-
-                        <LinearLayout
-                            android:id="@+id/me_lat_daifan_l4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="58dp"
-                            android:gravity="center_vertical"
-                            android:orientation="vertical"
-                            android:paddingTop="2dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="账户提现"
-                                android:textColor="@color/main_text_normal"
-                                android:textSize="@dimen/main_text_14" />
-
-                            <TextView
-                                android:id="@+id/me_tv_grzh"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
-                                android:text=""
-                                android:textColor="@color/main_text_gary"
-                                android:textSize="@dimen/main_text_13" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:visibility="gone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignTop="@id/me_lat_daifan_l4"
-                            android:layout_marginRight="12dp"
-                            android:paddingTop="2dp"
-                            android:text="提现"
-                            android:textColor="#448ffe"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/main_line_light_gray" />
-                    <RelativeLayout
-                        android:id="@+id/me_lat_fyzh"
-                        android:layout_width="0dp"
-                        android:layout_height="62dp"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/im_pre_score_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:src="@mipmap/me_sjzh" />
-
-                        <LinearLayout
-                            android:id="@+id/me_lat_daifan_l5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="17dp"
-                            android:layout_toRightOf="@id/im_pre_score_02"
-                            android:gravity="center_vertical"
-                            android:orientation="vertical"
-                            android:paddingTop="2dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="消费明细"
-                                android:textColor="@color/main_text_normal"
-                                android:textSize="@dimen/main_text_14" />
-
-                            <TextView
-                                android:id="@+id/me_tv_sjzh"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
-                                android:text="0.00"
-                                android:textColor="@color/main_text_gary"
-                                android:textSize="@dimen/main_text_13" />
-                        </LinearLayout>
-
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/cash_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_below="@id/cash_lat"
-                    android:background="@color/white"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_weight="1"
-                        android:background="@color/main_line_light_gray" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_weight="1"
-                        android:background="@color/main_line_light_gray" />
-                </LinearLayout>
-
-                <!--交易积分-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/cash_line"
-                    android:background="@color/main_content_bg"
-                    android:orientation="horizontal">
-                    <!---->
+                    <!--充值-->
                     <RelativeLayout
                         android:id="@+id/me_lat_chongzhi"
                         android:layout_width="0dp"
@@ -638,7 +491,60 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@color/main_line_light_gray" />
+                    <!--消费明细-->
+                    <RelativeLayout
+                        android:id="@+id/me_lat_fyzh"
+                        android:layout_width="0dp"
+                        android:layout_height="62dp"
+                        android:layout_weight="1">
 
+                        <ImageView
+                            android:id="@+id/im_pre_score_02"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:src="@mipmap/me_sjzh" />
+
+                        <LinearLayout
+                            android:id="@+id/me_lat_daifan_l5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:layout_toRightOf="@id/im_pre_score_02"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:paddingTop="2dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="消费明细"
+                                android:textColor="@color/main_text_normal"
+                                android:textSize="@dimen/main_text_14" />
+
+                            <TextView
+                                android:id="@+id/me_tv_sjzh"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:text="0.00"
+                                android:textColor="@color/main_text_gary"
+                                android:textSize="@dimen/main_text_13" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@id/lat_recharge"
+                    android:id="@+id/cash_lat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/main_content_bg"
+                    android:orientation="horizontal">
+                    <!--银行卡-->
                     <RelativeLayout
                         android:id="@+id/me_lat_bank"
                         android:layout_width="0dp"
@@ -679,7 +585,95 @@
                                 android:textSize="@dimen/main_text_13" />
                         </LinearLayout>
                     </RelativeLayout>
+                    <!--账户提现-->
+                    <RelativeLayout
+                        android:id="@+id/me_lat_grzh"
+                        android:layout_width="0dp"
+                        android:layout_height="62dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/im_pre_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:src="@mipmap/me_grzh" />
+
+                        <LinearLayout
+                            android:id="@+id/me_lat_daifan_l4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="58dp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:paddingTop="2dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="账户提现"
+                                android:textColor="@color/main_text_normal"
+                                android:textSize="@dimen/main_text_14" />
+
+                            <TextView
+                                android:id="@+id/me_tv_grzh"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:text="0.00"
+                                android:textColor="@color/main_text_gary"
+                                android:textSize="@dimen/main_text_13" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignTop="@id/me_lat_daifan_l4"
+                            android:layout_marginRight="12dp"
+                            android:paddingTop="2dp"
+                            android:text="提现"
+                            android:textColor="#448ffe"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/main_line_light_gray" />
+
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:id="@+id/cash_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@color/main_line_light_gray" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@color/main_line_light_gray" />
+                </LinearLayout>
+
+
                 <ImageView
                     android:layout_width="4dp"
                     android:layout_height="4dp"

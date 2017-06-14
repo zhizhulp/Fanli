@@ -1058,6 +1058,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         List<IntegralValueItem> data = new ArrayList<>();
         data.add(new IntegralValueItem("购买后赠送599900礼品分", "购买后可获得599900礼品分，会员等级越高购买商品送的礼品分越多"));
         data.add(new IntegralValueItem("礼品分有什么用", "礼品分可转化成商品分和代金券，在购买商品时，可使用商品分和代金券抵扣一部分现金。"));
+        data.add(new IntegralValueItem("温馨提示", "此处显示礼品分为不打折情况下购买获赠礼品分，具体赠送礼品分以商品结算时显示礼品分为准。"));
         return data;
     }
 

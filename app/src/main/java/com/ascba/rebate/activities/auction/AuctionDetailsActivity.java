@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.auction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,11 +16,16 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ImageAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.UrlUtils;
+import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -308,12 +314,12 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         }
         tvStatus.setText(auction_tip);
         tvName.setText(name);
-        CharSequence content= Html.fromHtml(obj.optString("content"));
+        CharSequence content= Html.fromHtml(obj.optString("content"), imageGetter,null);
         tvGoodsDet.setText(content);
         tvPrice.setText(transaction_price + "");
         tvOrgPrice.setText("原价"+begin_price );
         tvTD.setText(count_down + "s");
-        tvScore.setText(points + "");
+        tvScore.setText("活动赠送"+points + "礼品分");
         tvStartPrice.setText("起拍价：￥" + begin_price);
         tvGapTime.setText("延时周期："+interval_second + "s/次");
         tvGapPrice.setText("降价幅度：￥" + range+"/次");
@@ -457,7 +463,38 @@ public class AuctionDetailsActivity extends BaseNetActivity {
 
         viewTimeDown = findViewById(R.id.lat_reduce_time_down);
     }
+    //富文本图片显示接口
+    Html.ImageGetter imageGetter=new Html.ImageGetter() {
+        @Override
+        public Drawable getDrawable(final String source) {
+            final Drawable[] d = {null};
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        URL aryURI = new URL(UrlUtils.baseWebsite+ source);
+                        URLConnection conn = aryURI.openConnection();
+                        conn.connect();
+                        InputStream is = conn.getInputStream();
+                        d[0] =Drawable.createFromStream(is, "111");
+                        d[0].setBounds(0,0, d[0].getIntrinsicWidth(), d[0].getIntrinsicHeight());
+                        is.close();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                CharSequence text = tvGoodsDet.getText();
+                                tvGoodsDet.setText(text);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
 
+            return d[0];
+        }
+    };
     @Override
     protected void onDestroy() {
         super.onDestroy();

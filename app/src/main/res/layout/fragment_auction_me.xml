@@ -5,11 +5,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.ascba.rebate.view.ShopABarText
+    <com.ascba.rebate.view.MoneyBar
+        app:needBack="false"
+        app:textTitle="我"
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:abar_title="我" />
+        android:layout_height="48dp"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"

@@ -55,7 +55,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         }
         view.setText(item.getStrState());
         helper.setText(R.id.text_auction_goods_name,item.getName());//名称
-        helper.setText(R.id.text_auction_goods_score,"购买增值"+item.getScore()+"礼品分");//增值积分
+        helper.setText(R.id.text_auction_goods_score,"购买赠送"+item.getScore()+"礼品分");//增值积分
         helper.setText(R.id.text_auction_goods_person,item.getCashDeposit());//人数改为保证金
         helper.addOnClickListener(R.id.btn_auction_goods_add_cart);//加入购物车
         helper.addOnClickListener(R.id.btn_auction_goods_apply);//立即报名

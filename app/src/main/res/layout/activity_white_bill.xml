@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:needComplete="true"
         app:textTail="筛选"
-        app:textTitle="白积分明细" />
+        app:textTitle="礼品分明细" />
 
     <include
         android:id="@+id/head"

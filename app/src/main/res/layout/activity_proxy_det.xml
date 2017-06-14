@@ -30,7 +30,7 @@
                     app:needComplete="true"
                     app:needLine="false"
                     app:tailTextColor="@color/white"
-                    app:textTitle="代理专区"
+                    app:textTitle="合伙人专区"
                     app:titleColor="@color/white" />
 
                 <LinearLayout

@@ -333,7 +333,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 handler.sendEmptyMessage(REDUCE_TIME);
             }
         }
-
     }
 
     //用于判断倒计时是否结束

@@ -35,23 +35,23 @@ public class CashDepositAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
         helper.setText(R.id.text_name, item.getName());//名称
         ImageView imageView = helper.getView(R.id.img_goods);
         Picasso.with(context).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
-
+        View view = helper.getView(R.id.text_time);
         switch (item.getIntState()) {
             case 3:
                 //未开始
                 helper.setBackgroundColor(R.id.text_state, Color.parseColor("#FFA24F"));
-                helper.setVisible(R.id.text_time, false);
+                view.setVisibility(View.INVISIBLE);
                 break;
             case 2:
                 //已开始
                 helper.setBackgroundColor(R.id.text_state, Color.parseColor("#F63C3C"));
-                helper.setVisible(R.id.text_time, true);
+                view.setVisibility(View.VISIBLE);
                 helper.setText(R.id.text_time, getTimeRemaining(item));
                 break;
             case 1:
                 //已结束
                 helper.setBackgroundColor(R.id.text_state, Color.parseColor("#A0A0A0"));
-                helper.setVisible(R.id.text_time, false);
+                view.setVisibility(View.INVISIBLE);
                 break;
         }
         helper.setText(R.id.text_state, item.getStrState());

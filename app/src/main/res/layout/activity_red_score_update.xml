@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/moneyBar"
-        app:textTitle="红积分兑换"
+        app:textTitle="商品分分兑换"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView
@@ -37,7 +37,7 @@
             android:textSize="@dimen/main_text_15"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:text="当前总红积分为："
+            android:text="当前总商品分为："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -62,7 +62,7 @@
             android:textSize="@dimen/main_text_15"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:text="您的兑换红积分为："
+            android:text="您的兑换商品分为："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -121,7 +121,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:text="返现金"
+                android:text="返代金券"
                 android:id="@+id/tv_cash_desc"
                 android:textColor="@color/main_text_normal"
                 android:textSize="@dimen/main_text_14"
@@ -164,7 +164,7 @@
             <TextView
                 android:textColor="@color/main_text_normal"
                 android:textSize="@dimen/main_text_14"
-                android:text="返代金券"
+                android:text="返折扣券"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <LinearLayout
