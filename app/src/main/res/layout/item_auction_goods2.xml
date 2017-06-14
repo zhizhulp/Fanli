@@ -72,6 +72,7 @@
         </FrameLayout>
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="11dp"
@@ -82,7 +83,6 @@
                 android:id="@+id/text_auction_goods_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:ellipsize="end"
                 android:lineSpacingExtra="3dp"
                 android:maxLines="2"
@@ -100,7 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="降价:"
+                    android:text="已降价:"
                     android:textSize="11sp" />
 
                 <TextView

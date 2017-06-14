@@ -162,6 +162,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_deposit_or_score"
                     android:textColor="@color/main_text_gary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

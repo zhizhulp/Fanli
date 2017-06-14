@@ -78,9 +78,6 @@ public class AuctionListActivity extends BaseNetActivity {
     }
 
     private void initView() {
-        ShopABar shopABar = (ShopABar) findViewById(R.id.shopBar);
-        shopABar.setImageOtherEnable(false);
-        shopABar.setMsgEnable(false);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         for (int i=0;i<titleList.size();i++){
             TittleBean tb = titleList.get(i);

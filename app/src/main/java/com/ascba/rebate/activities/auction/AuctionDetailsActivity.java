@@ -2,6 +2,11 @@ package com.ascba.rebate.activities.auction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,12 +19,18 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.ImageAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -308,13 +319,13 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         }
         tvStatus.setText(auction_tip);
         tvName.setText(name);
-        CharSequence content= Html.fromHtml(obj.optString("content"));
+        CharSequence content= Html.fromHtml(obj.optString("content"), imageGetter,null);
         tvGoodsDet.setText(content);
-        tvPrice.setText(transaction_price + "");
-        tvOrgPrice.setText("原价"+begin_price );
+        tvPrice.setText(NumberFormatUtils.getNewDouble(transaction_price) + "");
+        tvOrgPrice.setText("原价"+NumberFormatUtils.getNewDouble(begin_price) );
         tvTD.setText(count_down + "s");
         tvScore.setText(points + "");
-        tvStartPrice.setText("起拍价：￥" + begin_price);
+        tvStartPrice.setText("起拍价：￥" + NumberFormatUtils.getNewDouble(begin_price));
         tvGapTime.setText("延时周期："+interval_second + "s/次");
         tvGapPrice.setText("降价幅度：￥" + range+"/次");
         tvCount.setText("降价次数："+refresh_count + "次");
@@ -322,8 +333,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvTDOver.setText(getRemainingTime(agb));
 
         tvSureMoney.setText("保证金￥" + cash_deposit);
-        tvPriceRush.setText("当前价￥"+transaction_price + "");
-        tvPriceBlind.setText("￥"+transaction_price + "");
+        tvPriceRush.setText("当前价￥"+NumberFormatUtils.getNewDouble(transaction_price) + "");
+        tvPriceBlind.setText("￥"+NumberFormatUtils.getNewDouble(transaction_price) + "");
         if(cart_status==4){
             tvAuctionState.setText(cart_status_tip);
         }
@@ -457,7 +468,55 @@ public class AuctionDetailsActivity extends BaseNetActivity {
 
         viewTimeDown = findViewById(R.id.lat_reduce_time_down);
     }
+    //富文本图片显示接口
+    Html.ImageGetter imageGetter=new Html.ImageGetter() {
+        class URLDrawable extends BitmapDrawable {
+            protected Bitmap bitmap;
 
+            @Override
+            public void draw(Canvas canvas) {
+                if (bitmap != null) {
+                    canvas.drawBitmap(bitmap, 0, 0, getPaint());
+                }
+            }
+        }
+        @Override
+        public Drawable getDrawable(final String source) {
+            final URLDrawable d = new URLDrawable();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    InputStream is=null;
+                    try {
+                        URL aryURI = new URL(source);
+                        URLConnection conn = aryURI.openConnection();
+                        conn.connect();
+                        is = conn.getInputStream();
+                        d.bitmap = BitmapFactory.decodeStream(is);
+                        d.setBounds(0,0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                        is.close();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tvGoodsDet.setText(tvGoodsDet.getText());
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if(is!=null){
+                            try {
+                                is.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }).start();
+            return d;
+        }
+    };
     @Override
     protected void onDestroy() {
         super.onDestroy();

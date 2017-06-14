@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context="com.ascba.rebate.fragments.auction.AuctionCartFragment">
     <com.ascba.rebate.view.MoneyBar
+        app:needBack="false"
         app:textTitle="购物车"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

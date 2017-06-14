@@ -18,6 +18,7 @@
         android:layout_marginLeft="84dp">
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/shop_text_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
             android:textSize="12sp" />
 
         <View
+            android:visibility="gone"
             android:id="@+id/line"
             android:layout_width="0.5dp"
             android:layout_height="26dp"

@@ -183,7 +183,6 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
                 }
             }
         } else if (finalScene == 0) {
-            LogUtils.PrintLog("财富数据", "data-->" + dataObj);
             if (refreshLayout != null && refreshLayout.isRefreshing()) {
                 refreshLayout.setRefreshing(false);
             }
@@ -193,7 +192,7 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
             tvWhite.setText(infoObj.optInt("white_score") + "");
             tvDaiFan.setText(infoObj.optInt("white_score") + "");
             tvDuiHuan.setText(infoObj.optInt("red_score") + "");
-            tvDjq.setText(infoObj.optInt("vouchers") + "张");
+            //tvDjq.setText(infoObj.optInt("vouchers") + "张");
             tvGrzh.setText(infoObj.optString("money"));
             tvSjzh.setText(infoObj.optString("monetary"));//本月消费
             tvBank.setText(infoObj.optInt("banks") + "张");

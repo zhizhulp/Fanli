@@ -13,7 +13,7 @@
         android:id="@+id/moneyBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textTitle="代金券" />
+        app:textTitle="折扣券" />
 
     <Button
         android:id="@+id/ticket_btn"
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="您还没有代金券"
+            android:text="您还没有折扣券"
             android:textSize="13sp" />
     </LinearLayout>
     <ScrollView

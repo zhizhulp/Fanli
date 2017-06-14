@@ -13,6 +13,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.CashDepositAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.fragments.auction.AuctionHomePageFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
@@ -22,6 +23,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.ProcessingInstruction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 public class MyCashDepositActivity extends BaseNetActivity {
 
+    private static final int REDUCE_TIME = 2;
     private CashDepositAdapter adapter;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private int now_page = 1;
@@ -60,10 +63,17 @@ public class MyCashDepositActivity extends BaseNetActivity {
                         adapter.loadMoreFail();
                     }
                     break;
+                case REDUCE_TIME:
+                    if (beanList.size() == 0) {
+                        return;
+                    }
+                    adapter.notifyDataSetChanged();
+                    break;
             }
         }
     };
     private boolean isRefresh;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +163,12 @@ public class MyCashDepositActivity extends BaseNetActivity {
                 beanList.add(bean);
             }
         }
+        if (beanList.size() > 0) {
+            if (timer == null) {
+                timer = new Timer();
+                timer.schedule(new MyTimerTask(), 0, 1000);
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -194,6 +210,26 @@ public class MyCashDepositActivity extends BaseNetActivity {
         if (loadMoreView != null) {
             loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
+    }
+    private class MyTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            if (!isTimerOver()) {
+                handler.sendEmptyMessage(REDUCE_TIME);
+            }
+        }
+    }
+
+    //用于判断倒计时是否结束
+    private boolean isTimerOver() {
+        boolean isOver = true;
+        for (int i = 0; i < beanList.size(); i++) {
+            AcutionGoodsBean agb = beanList.get(i);
+            if ((agb.getEndTime() - System.currentTimeMillis() / 1000) >= 0) {
+                isOver = false;
+            }
+        }
+        return isOver;
     }
 
 }

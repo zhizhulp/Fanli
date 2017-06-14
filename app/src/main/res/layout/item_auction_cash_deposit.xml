@@ -28,8 +28,10 @@
                 android:scaleType="centerCrop" />
 
             <TextView
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
                 android:id="@+id/text_state"
-                android:layout_width="39dp"
+                android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:background="#FFA24F"
                 android:gravity="center"
@@ -54,18 +56,19 @@
                 android:maxLines="2"
                 android:text="苹果iPhone7手机限时抢拍  白色128G 全网通，充电5分钟通话2小时..."
                 android:textColor="@color/shop_normal_text_color"
-                android:textSize="11sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:text="离开始：00时 02分 54秒"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="13sp" />
 
             <RelativeLayout
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

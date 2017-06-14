@@ -102,6 +102,7 @@
 
                 <!--增值积分-->
                 <TextView
+                    android:gravity="center_vertical"
                     android:id="@+id/text_auction_goods_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -109,6 +110,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="12dp"
                     android:layout_toLeftOf="@id/btn_sure_receive"
+                    android:layout_alignTop="@id/btn_auction"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textSize="12sp" />

@@ -112,8 +112,8 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
                         break;
                     case 11:
                         //代金券
-                        Intent ticket = new Intent(getActivity(), TicketActivity.class);
-                        startActivity(ticket);
+                        /*Intent ticket = new Intent(getActivity(), TicketActivity.class);
+                        startActivity(ticket);*/
                         break;
                     case 15:
                         //收货地址管理
@@ -215,7 +215,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
 
         //代金券
-        String voucher = listObject.optJSONObject("voucher_nav").optString("sub_title");
+        String voucher = listObject.optJSONObject("coupon_nav").optString("sub_title");
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_daijinquan, "折扣券余额", R.mipmap.pc_qianjin, voucher));
 
         //分割线

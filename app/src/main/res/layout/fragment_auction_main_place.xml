@@ -5,11 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.ascba.rebate.view.ShopABar
+    <com.ascba.rebate.view.MoneyBar
         android:id="@+id/shopBar"
+        app:needBack="false"
+        app:textTitle="主会场"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:abar_title="主会场"/>
+        android:layout_height="48dp"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"

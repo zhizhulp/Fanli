@@ -256,7 +256,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             StringBuilder sb=new StringBuilder();
             for (int i = 0; i < msgArray.length(); i++) {
                 sb.append(msgArray.optJSONObject(i).optString("notice"));
-                sb.append("\t");
+                sb.append("            ");
             }
             textView.setText(sb.toString());
         } else {
@@ -333,7 +333,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 handler.sendEmptyMessage(REDUCE_TIME);
             }
         }
-
     }
 
     //用于判断倒计时是否结束

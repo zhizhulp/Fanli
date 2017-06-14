@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_qiangpai1"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:text="限时抢拍 先到先得"
                 android:textColor="@color/white"
                 android:textSize="10sp" />
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_mangpai1"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:text="批量拍卖 一键搞定"
                 android:textColor="@color/white"
                 android:textSize="10sp" />

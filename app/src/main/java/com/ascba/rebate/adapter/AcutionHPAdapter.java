@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -40,7 +41,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         //竞拍人数
         helper.setText(R.id.auction_text_person, null);
         //价格
-        helper.setText(R.id.auction_text_price, "￥"+item.getEndPrice());
+        helper.setText(R.id.auction_text_price, "￥"+ NumberFormatUtils.getNewDouble(item.getEndPrice()));
         helper.addOnClickListener(R.id.auction_btn_get);
         helper.setText(R.id.auction_btn_get,item.getStrState());
         View view = helper.getView(R.id.auction_btn_get);
