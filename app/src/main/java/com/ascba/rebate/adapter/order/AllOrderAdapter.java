@@ -117,6 +117,7 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
                 helper.addOnClickListener(R.id.item_goods_order_total_take);//确认收货
+                helper.addOnClickListener(R.id.tv_deliver_flow);//查看物流
                 break;
             case TYPE5:
                 /**

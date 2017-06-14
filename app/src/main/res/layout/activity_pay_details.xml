@@ -29,6 +29,7 @@
                 android:layout_marginTop="19dp">
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_countdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,10 +64,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="订单已取消!"
+                    android:text="等待买家付款"
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="14sp"
-                    android:visibility="invisible" />
+                    />
             </RelativeLayout>
 
 

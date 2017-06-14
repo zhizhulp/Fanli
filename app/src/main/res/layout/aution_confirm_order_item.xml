@@ -36,66 +36,52 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/item_goods_img"
             android:layout_width="93dp"
             android:layout_height="93dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="9dp"
             android:background="@drawable/gray_bg"
             android:scaleType="centerCrop" />
-
-        <TextView
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:id="@+id/item_goods_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
+        <LinearLayout
+            android:gravity="center_vertical"
             android:layout_toRightOf="@id/item_goods_img"
-            android:textColor="@color/shop_normal_text_color"
-            android:textSize="12sp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:id="@+id/item_goods_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="12sp" />
 
-        <TextView
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:id="@+id/item_goods_standard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_goods_name"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="7dp"
-            android:layout_toRightOf="@id/item_goods_img"
-            android:textColor="@color/textgray"
-            android:textSize="12sp" />
+            <TextView
+                android:visibility="gone"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:id="@+id/item_goods_standard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="7dp"
+                android:textColor="@color/textgray"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/item_goods_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_goods_standard"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/item_goods_img"
-            android:textColor="@color/shop_red_text_color"
-            android:textSize="17sp" />
-
-        <TextView
-            android:id="@+id/item_goods_price_old"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/item_goods_price"
-            android:layout_alignBottom="@+id/item_goods_price"
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="12dp"
-            android:layout_toEndOf="@+id/item_goods_price"
-            android:layout_toRightOf="@+id/item_goods_price"
-            android:textColor="@color/textgray"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/item_goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/shop_red_text_color"
+                android:textSize="17sp" />
+        </LinearLayout>
 
         <View
             android:id="@+id/goods_details_cuttingline_view"

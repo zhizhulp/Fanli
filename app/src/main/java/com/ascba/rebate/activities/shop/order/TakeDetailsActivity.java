@@ -16,6 +16,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.StringUtils;
@@ -128,7 +129,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
         btnTake.setOnClickListener(this);
         btnRefund = (TextView) findViewById(R.id.btn_refund);
         btnRefund.setOnClickListener(this);
-
+        findViewById(R.id.btn_delever_flow).setOnClickListener(this);
         //recyclerView
         recyclerView = (RecyclerView) findViewById(R.id.deliver_details_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -181,6 +182,9 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             case 1:
                 jsonRequest.add("order_id", orderId);
                 break;
+            case 2:
+                jsonRequest.add("ordertraces","58466927852");
+                break;
         }
 
         executeNetWork(jsonRequest, "请稍后");
@@ -227,6 +231,13 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 getDm().buildAlertDialog(message);
                 finish();
                 MyOrderActivity.setCurrTab(4);
+                break;
+            case 2:
+                String url = dataObj.optJSONObject("auction_exp").optString("exp_url");
+                Intent intent=new Intent(this, WebViewBaseActivity.class);
+                intent.putExtra("name","物流信息");
+                intent.putExtra("url",url);
+                startActivity(intent);
                 break;
         }
     }
@@ -285,7 +296,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             if (!isCountdown) {
                 //时间差
                 countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
-                isCountdown = handler.postDelayed(runnable, 1000);
+                //isCountdown = handler.postDelayed(runnable, 1000);
             }
 
             orderSnTx.setText(orderSn);
@@ -293,7 +304,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
             orderPriceTx.setText("￥" + orderAmount);
             orderAmountTx.setText("￥" + goodsAmount);
             shippingFeeTx.setText("￥" + shippingFee);
-            vouchersFeeTx.setText("-￥"+orderObject.optString("employ_-coupon_money"));//礼品券立减金额
+            vouchersFeeTx.setText("-￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
 
             if (goodsList.size() > 0) {
                 goodsList.clear();
@@ -341,6 +352,9 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 break;
             case R.id.btn_refund:
                 //退款
+                break;
+            case R.id.btn_delever_flow:
+                requstData(UrlUtils.getAuctionExp, 2);
                 break;
         }
     }

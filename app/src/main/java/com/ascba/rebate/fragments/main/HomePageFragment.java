@@ -1,15 +1,22 @@
 package com.ascba.rebate.fragments.main;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
@@ -48,17 +56,31 @@ import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.qr.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MsgView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.download.DownloadListener;
+import com.yanzhenjie.nohttp.download.DownloadQueue;
+import com.yanzhenjie.nohttp.download.DownloadRequest;
+import com.yanzhenjie.nohttp.error.NetworkError;
+import com.yanzhenjie.nohttp.error.ServerError;
+import com.yanzhenjie.nohttp.error.StorageReadWriteError;
+import com.yanzhenjie.nohttp.error.StorageSpaceNotEnoughError;
+import com.yanzhenjie.nohttp.error.TimeoutError;
+import com.yanzhenjie.nohttp.error.URLError;
+import com.yanzhenjie.nohttp.error.UnKnownHostError;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,21 +118,18 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private int finalScene;
     private static final long newTime = 24 * 60 * 60 * 1000;//新文章变为旧文章的时间(ms)
     private MsgView msgView;
-    private String TAG="HomePageFragment";
-    private boolean debug=false;
+    private DownloadQueue downloadQueue;
+    private ProgressDialog pD;
+    private boolean isFirstComing=true;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_homepage, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
@@ -122,7 +141,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         Request<JSONObject> request = null;
         if (scene == 0) {
             request = buildNetRequest(url, 0, false);
-            request.add("sign", UrlEncodeUtils.createSign(url));
+            request.add("version_code",getPackageVersion());
         } else if (scene == 1) {
             request = buildNetRequest(url, 0, true);
         } else if (scene == 2) {
@@ -270,9 +289,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         });
     }
 
-    /*
-     * 弹窗
-     */
+    // 弹窗
     private void showPopWindow() {
         if (popupWindow == null) {
             View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
@@ -329,9 +346,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {
+            updateApp(dataObj.optJSONObject("version"));
             clearData();
             stopRefresh();
-
             initPagerTurn(dataObj);//广告轮播
 
             //花钱赚钱
@@ -339,13 +356,13 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             //ASK商学院  创业扶持
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
             //分割线
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //券购商城
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "券购商城"));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "券购商城"));
             //分割线
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //全球券购 天天特价 品牌精选
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
+            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
             //宽分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
 
@@ -361,22 +378,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             } else {
                 msgView.setIsIndicator(false);
             }
-
-        /*String img2 = "http://image18-c.poco.cn/mypoco/myphoto/20170316/11/18505011120170316110739017_640.jpg";
-        String video2  = "http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal";
-        VideoBean videoBean2 = new VideoBean(img2, video2);
-        videoBeen.add(videoBean2);
-
-        String img3 = "http://image18-c.poco.cn/mypoco/myphoto/20170315/16/18505011120170315160125061_640.jpg";
-        String video3 = "http://baobab.wandoujia.com/api/v1/playUrl?vid=8438&editionType=normal";
-        VideoBean videoBean3 = new VideoBean(img3, video3);
-        videoBeen.add(videoBean3);
-
-        items.add(new HomePageMultiItemItem(videoBeen, HomePageMultiItemItem.TYPE9, R.layout.home_page_videopage));
-        //宽分割线
-        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
-        */
-
             initAdapterAndRefresh();
         } else if (finalScene == 1) {
             JSONObject obj = dataObj.optJSONObject("receivables");
@@ -395,11 +396,22 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         }
     }
 
+    private void updateApp(JSONObject verObj) {
+        if(isFirstComing){
+            int isUpdate = verObj.optInt("isUpdate");
+            if (isUpdate == 1) {
+                String apk_url = verObj.optString("apk_url");
+                downLoadApp(apk_url);
+            }
+        }
+        isFirstComing=false;
+    }
+
     /*
     解析新闻内容
      */
     private void initNews(JSONObject dataObj) {
-
+        items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
         //最新动态
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE10, R.layout.home_page_more_news, "最新动态"));
         //分割线
@@ -531,137 +543,120 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 break;
         }
     }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if(debug)
-            Log.d(TAG, "onHiddenChanged: ");
-        super.onHiddenChanged(hidden);
+    private String getPackageVersion() {
+        PackageManager packageManager = getActivity().getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo;
+        try {
+            packInfo = packageManager.getPackageInfo(getActivity().getPackageName(), 0);
+            return packInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if(debug)
-            Log.d(TAG, "setUserVisibleHint: ");
-        super.setUserVisibleHint(isVisibleToUser);
+    private void downLoadApp(String url) {
+        createDownloadDialog(url);
     }
 
-    @Override
-    public boolean getUserVisibleHint() {
-        if(debug)
-            Log.d(TAG, "getUserVisibleHint: ");
-        return super.getUserVisibleHint();
-    }
+    /**
+     * 下载监听
+     */
+    private DownloadListener downloadListener = new DownloadListener() {
+        @Override
+        public void onStart(int what, boolean isResume, long beforeLength, Headers headers, long allCount) {
+            pD.show();
+        }
 
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        if(debug)
-            Log.d(TAG, "onAttachFragment: ");
-        super.onAttachFragment(childFragment);
-    }
+        @Override
+        public void onProgress(int what, int progress, long fileCount, long speed) {
+            pD.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+            pD.setProgress(progress);
+        }
 
-    @Override
-    public void onAttach(Context context) {
-        if(debug)
-            Log.d(TAG, "onAttach: ");
-        super.onAttach(context);
-    }
+        @Override
+        public void onDownloadError(int what, Exception exception) {
 
-    @Override
-    public void onAttach(Activity activity) {
-        if(debug)
-            Log.d(TAG, "onAttach: ");
-        super.onAttach(activity);
-    }
+            if (exception instanceof ServerError) {
+                Toast.makeText(getActivity(), "后台错误", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof NetworkError) {
+                Toast.makeText(getActivity(), "网络有问题", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof StorageReadWriteError) {
+                Toast.makeText(getActivity(), "无读写权限", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof StorageSpaceNotEnoughError) {
+                Toast.makeText(getActivity(), "没有足够空间", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof TimeoutError) {
+                Toast.makeText(getActivity(), "请求超时", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof UnKnownHostError) {
+                Toast.makeText(getActivity(), "未知主机", Toast.LENGTH_SHORT).show();
+            } else if (exception instanceof URLError) {
+                Toast.makeText(getActivity(), "网址错误", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "未知错误", Toast.LENGTH_SHORT).show();
+            }
+        }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onActivityCreated: ");
-        super.onActivityCreated(savedInstanceState);
-    }
+        @Override
+        public void onFinish(int what, String filePath) {
+            pD.setMessage("下载成功");
+            pD.dismiss();
+            if (filePath != null) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                if (Build.VERSION.SDK_INT > 23) {
+                    Uri uri = FileProvider.getUriForFile(getActivity(), "com.ascba.rebate.provider", new File(filePath));
+                    i.setDataAndType(uri, "application/vnd.android.package-archive");
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    getActivity().startActivity(i);
+                } else {
+                    i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+                    getActivity().startActivity(i);
+                }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onViewStateRestored: ");
-        super.onViewStateRestored(savedInstanceState);
-    }
+                SharedPreferencesUtil.putBoolean(getActivity(), SharedPreferencesUtil.FIRST_OPEN, true);
+            }
+        }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if(debug)
-            Log.d(TAG, "onSaveInstanceState: ");
-        super.onSaveInstanceState(outState);
-    }
+        @Override
+        public void onCancel(int what) {
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if(debug)
-            Log.d(TAG, "onConfigurationChanged: ");
-        super.onConfigurationChanged(newConfig);
-    }
+        }
 
-    @Override
-    public void onStop() {
-        if(debug)
-            Log.d(TAG, "onStop: ");
-        super.onStop();
-    }
+    };
 
-    @Override
-    public void onLowMemory() {
-        if(debug)
-            Log.d(TAG, "onLowMemory: ");
-        super.onLowMemory();
-    }
+    private void createDownloadDialog(final String url) {
+        pD = new ProgressDialog(getContext(), R.style.dialog);
+        pD.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pD.setMessage("您有新的更新，点击下载");
+        pD.setCancelable(false);
+        pD.setButton(DialogInterface.BUTTON_POSITIVE, "下载", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                downloadQueue = NoHttp.newDownloadQueue();
+                DownloadRequest downloadRequest = NoHttp.createDownloadRequest(url, getDiskCacheDir().getPath(), true);
+                downloadQueue.add(0, downloadRequest, downloadListener);
+            }
+        });
+        /*pD.setButton(DialogInterface.BUTTON_NEGATIVE, "后台下载", new DialogInterface.OnClickListener() {
 
-    @Override
-    public void onDestroyView() {
-        if(debug)
-            Log.d(TAG, "onDestroyView: ");
-        super.onDestroyView();
-    }
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-    @Override
-    public void onDetach() {
-        if(debug)
-            Log.d(TAG, "onDetach: ");
-        super.onDetach();
+            }
+        });*/
+        pD.show();
     }
+    public File getDiskCacheDir() {
+        File dst;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            dst = new File(Environment.getExternalStorageDirectory(), "com.ascba.rebate");
+            if (!dst.exists()) {
+                dst.mkdirs();
+            }
 
-    @Override
-    public void onStart() {
-        if(debug)
-            Log.d(TAG, "onStart: ");
-        super.onStart();
-    }
-
-    @Override
-    public void onDestroy() {
-        if(debug)
-            Log.d(TAG, "onDestroy: ");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        if(debug)
-            Log.d(TAG, "onCreate: ");
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onPause() {
-        if(debug)
-            Log.d(TAG, "onPause: ");
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        if(debug)
-            Log.d(TAG, "onResume: ");
-        super.onResume();
+        } else {
+            dst = getContext().getFilesDir();
+        }
+        return dst;
     }
 }

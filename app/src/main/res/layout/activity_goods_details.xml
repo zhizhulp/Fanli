@@ -58,19 +58,24 @@
                         android:visibility="gone"/>
 
                     <!--宝贝评价、好评率-->
-                    <include layout="@layout/goods_details_evaluate" />
+                    <include layout="@layout/goods_details_evaluate"
+                        android:visibility="gone"/>
 
                     <!--分割线-->
-                    <include layout="@layout/goods_details_cuttingline" />
+                    <include layout="@layout/goods_details_cuttingline"
+                        android:visibility="gone"/>
 
                     <!--宝贝评价流布局-->
-                    <include layout="@layout/goods_details_flow" />
+                    <include layout="@layout/goods_details_flow"
+                        android:visibility="gone"/>
 
                     <!--买家评价示例-->
-                    <include layout="@layout/goods_details_evaluate_first" />
+                    <include layout="@layout/goods_details_evaluate_first"
+                        android:visibility="gone"/>
 
                     <!--宽分割线-->
-                    <include layout="@layout/goods_details_cuttingline_wide" />
+                    <include layout="@layout/goods_details_cuttingline_wide"
+                        android:visibility="gone"/>
 
                     <!--店铺-->
                     <include layout="@layout/goods_details_shop" />

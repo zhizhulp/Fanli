@@ -34,7 +34,7 @@
         <TextView
             android:id="@+id/tv_desc_02"
             style="@style/shop_textView_style01"
-            android:text="总优惠" />
+            android:text="活动可优惠" />
 
         <TextView
             android:id="@+id/tv_zongyouhui"

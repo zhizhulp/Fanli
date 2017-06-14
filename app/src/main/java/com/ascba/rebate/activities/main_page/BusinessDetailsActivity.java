@@ -224,7 +224,7 @@ public class BusinessDetailsActivity extends BaseNetActivity implements BaseNetA
         String rate = split[1];
         String user = split[2];
         String bus = split[3];
-        return "消费赠返"+user+"%";
+        return "消费奖励"+user+"%";
     }
 
     public void back(View view) {

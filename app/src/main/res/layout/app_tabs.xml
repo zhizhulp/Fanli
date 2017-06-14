@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:gravity="bottom|center_horizontal"
             android:paddingBottom="3dp"
-            android:text="商城"
+            android:text="礼享城"
             android:textSize="11sp" />
 
         <LinearLayout

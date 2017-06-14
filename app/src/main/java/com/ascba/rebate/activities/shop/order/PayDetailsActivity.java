@@ -256,7 +256,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
             if (!isCountdown) {
                 //时间差
                 countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
-                isCountdown = handler.postDelayed(runnable, 1000);
+                //isCountdown = handler.postDelayed(runnable, 1000);
             }
 
             orderSnTx.setText(orderSn);

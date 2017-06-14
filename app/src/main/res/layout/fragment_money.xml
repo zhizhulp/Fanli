@@ -48,7 +48,7 @@
                     android:layout_below="@id/cash_left"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="7dp"
-                    android:text="现金账户余额(元)"
+                    android:text="代金券总额(元)"
                     android:textColor="@color/white"
                     android:textSize="@dimen/main_text_14" />
             </RelativeLayout>
@@ -70,40 +70,8 @@
                     android:paddingTop="8dp">
 
                     <TextView
-                        android:id="@+id/me_tv_red_score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="@color/main_red_normal"
-                        android:textSize="@dimen/main_text_15" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="昨日赠返红积分"
-                        android:textColor="@color/main_text_normal"
-                        android:textSize="@dimen/main_text_13" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/main_line_light_gray" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="8dp">
-
-                    <TextView
                         android:id="@+id/me_tv_white_score"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -114,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="白积分总额"
+                        android:text="礼品分总额"
                         android:textColor="@color/main_text_normal"
                         android:textSize="@dimen/main_text_13" />
                 </LinearLayout>
@@ -147,7 +115,40 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="昨日赠送比例"
+                        android:text="转化率"
+                        android:textColor="@color/main_text_normal"
+                        android:textSize="@dimen/main_text_13" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/main_line_light_gray" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:id="@+id/me_tv_red_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/main_red_normal"
+                        android:textSize="@dimen/main_text_15" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="昨日转化商品分"
                         android:textColor="@color/main_text_normal"
                         android:textSize="@dimen/main_text_13" />
                 </LinearLayout>
@@ -195,7 +196,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="白积分明细"
+                                android:text="礼品分"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -258,7 +259,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="红积分兑换"
+                                android:text="商品分兑换"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -346,7 +347,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="快速兑现券"
+                                android:text="快速兑换券"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -475,7 +476,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="现金提现"
+                                android:text="账户提现"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -549,17 +550,6 @@
                                 android:textSize="@dimen/main_text_13" />
                         </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignTop="@id/me_lat_daifan_l5"
-                            android:layout_marginRight="12dp"
-                            android:paddingTop="2dp"
-                            android:text="转出"
-                            android:textColor="#448ffe"
-                            android:textSize="13sp"
-                            android:visibility="gone" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -595,7 +585,7 @@
                     android:layout_below="@id/cash_line"
                     android:background="@color/main_content_bg"
                     android:orientation="horizontal">
-
+                    <!---->
                     <RelativeLayout
                         android:id="@+id/me_lat_chongzhi"
                         android:layout_width="0dp"
@@ -622,18 +612,10 @@
                                 android:id="@+id/textView8"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="账户充值"
+                                android:text="充值"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
-                            <!--<TextView
-                                android:id="@+id/textView5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
-                                android:text=""
-                                android:textColor="@color/main_text_gary"
-                                android:textSize="@dimen/main_text_13" />-->
                         </LinearLayout>
 
                         <TextView

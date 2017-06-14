@@ -73,7 +73,7 @@ public class AuctionMeFragment extends BaseNetFragment implements View.OnClickLi
         Picasso.with(getActivity()).load(UrlUtils.baseWebsite+memberInfo.optString("avatar")).placeholder(R.mipmap.busi_loading).into(imUserIcon);
         tvNickName.setText(memberInfo.optString("nickname"));
         tvCahLeft.setText(memberInfo.optString("money"));
-        tvScore.setText(memberInfo.optString("white_score")+"积分");
+        tvScore.setText(memberInfo.optString("white_score")+"分");
         tvCategory.setText("（"+memberInfo.optString("group_name")+"）");
     }
 

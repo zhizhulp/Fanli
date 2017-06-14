@@ -151,7 +151,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 if (item.getBean().isIcon()) {
                     imageView.setVisibility(View.VISIBLE);
                 } else {
-                    imageView.setVisibility(View.GONE);
+                    imageView.setVisibility(View.INVISIBLE);
                 }
                 helper.setText(R.id.item_news_title, item.getBean().getTitle());
                 helper.setText(R.id.item_news_time, item.getBean().getTime());

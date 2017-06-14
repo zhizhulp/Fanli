@@ -37,7 +37,7 @@ public class AuctionListAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
             helper.setText(R.id.text_auction_goods_time, getRemainingTime(item));
         }
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
-        helper.setText(R.id.text_auction_goods_score, "购买增值" + item.getScore()+"积分");
+        helper.setText(R.id.text_auction_goods_score, "获赠礼品分" + item.getScore()+"分");
         helper.setText(R.id.text_auction_goods_price_rush, "￥" + item.getPrice());
 
         TextView view = helper.getView(R.id.tv_blind_state);

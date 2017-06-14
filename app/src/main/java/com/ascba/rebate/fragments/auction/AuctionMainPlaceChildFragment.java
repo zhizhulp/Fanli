@@ -48,7 +48,10 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  */
 
 public class AuctionMainPlaceChildFragment extends BaseNetFragment {
-
+    private EndTimeListener listener;
+    public interface EndTimeListener{
+        void timeCome();
+    }
     private static final int REQUEST_PAY_DEPOSIT = 3;
     private static final int NEXT = 4;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
@@ -81,13 +84,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     setBeanProperty();
                     break;
                 case NEXT:
-                    Fragment parentFragment = getParentFragment();
+                    /*Fragment parentFragment = getParentFragment();
                     FragmentActivity activity = getActivity();
                     if(isVisible() && parentFragment !=null && parentFragment instanceof AuctionMainPlaceFragment){
                         ((AuctionMainPlaceFragment) parentFragment).setTabNextSelect();
                     }
                     if(isVisible() && activity !=null && activity instanceof AuctionListActivity){
                         ((AuctionListActivity) activity).setTabNextSelect();
+                    }*/
+                    if(listener!=null){
+                        listener.timeCome();
                     }
                     break;
             }
@@ -127,7 +133,8 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             this.tb = b.getParcelable("title_bean");
             if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
-                    //handler.sendEmptyMessageDelayed(NEXT,/*tb.getEndTime()*1000-System.currentTimeMillis()*/2000);
+                    handler.sendEmptyMessageDelayed(NEXT,tb.getEndTime()*1000-System.currentTimeMillis());
+                    //requestNetwork(UrlUtils.auctionType, 0);
                 }
             }
         }
@@ -421,5 +428,13 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         if(timer!=null){
             timer.cancel();
         }
+    }
+
+    public EndTimeListener getListener() {
+        return listener;
+    }
+
+    public void setListener(EndTimeListener listener) {
+        this.listener = listener;
     }
 }

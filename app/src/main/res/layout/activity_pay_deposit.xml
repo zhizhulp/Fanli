@@ -202,8 +202,10 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:onClick="seeAuctionProxy"
+            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="7dp"
             android:text="《用户竞拍服务协议》"
             android:textColor="#2D80E7"
@@ -216,8 +218,10 @@
             android:textSize="11sp" />
 
         <TextView
+            android:onClick="seeDepositProxy"
+            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="《保证金规则》"
             android:textColor="#2D80E7"
             android:textSize="11sp" />

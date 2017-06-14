@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,7 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     private List<TittleBean> titleList = new ArrayList<>();//tab名的列表
     private MyFragmentPagerAdapter adapter;
     private TabLayout tabLayout;
-    private int position;
+    private ViewPager viewPager;
 
     @Nullable
     @Override
@@ -62,75 +61,61 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
         if (jsonArray != null && jsonArray.length() > 0) {
-            tabLayout.removeAllTabs();
             titleList.clear();
             fragmentList.clear();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.optJSONObject(i);
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
                 titleList.add(tb);
-                fragmentList.add(AuctionMainPlaceChildFragment.newInstance(1, tb));
-            }
-        }
-        adapter.notifyDataSetChanged();
-        setTabSelect();
-    }
-
-    private void setTabSelect() {
-        int tabCount = tabLayout.getTabCount();
-        if (tabCount > 0) {
-            if (isGoing()) {
-                TabLayout.Tab tabAt = tabLayout.getTabAt(position);
-                if (tabAt != null) {
-                    if (!tabAt.isSelected()) {
-                        tabAt.select();
+                AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(1, tb);
+                childFragment.setListener(new AuctionMainPlaceChildFragment.EndTimeListener() {
+                    @Override
+                    public void timeCome() {
+                        requestNetwork(UrlUtils.auctionType, 0);
                     }
-                }
+                });
+                fragmentList.add(childFragment);
             }
+            for (int i = 0; i < titleList.size(); i++) {
+                TittleBean tb = titleList.get(i);
+                TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
+                tabLayout.addTab(tab);
+            }
+            if(adapter==null){
+                adapter = new MyFragmentPagerAdapter(getChildFragmentManager(), fragmentList, titleList);
+                viewPager.setAdapter(adapter);
+                tabLayout.setupWithViewPager(viewPager);
+            }else {
+                adapter.notifyDataSetChanged();
+            }
+            setTabSelect();
         }
+
     }
 
-    public void setTabNextSelect() {
-        int tabCount = tabLayout.getTabCount();
-        if (tabCount > 0) {
-            int position = tabLayout.getSelectedTabPosition();
-            TabLayout.Tab tabAt = tabLayout.getTabAt(position+1);
-            if (tabAt != null) {
-                if (!tabAt.isSelected()) {
-                    tabAt.select();
-                }
-            }
-        }
-    }
 
     private void initView(View view) {
         ShopABar shopABar = (ShopABar) view.findViewById(R.id.shopBar);
         shopABar.setImageOtherEnable(false);
         shopABar.setMsgEnable(false);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        for (int i = 0; i < titleList.size(); i++) {
-            TittleBean tb = titleList.get(i);
-            TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
-            tabLayout.addTab(tab);
-        }
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        adapter = new MyFragmentPagerAdapter(getChildFragmentManager(), fragmentList, titleList);
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+
     }
 
-    //是否有正在进行的商品
-    private boolean isGoing() {
-        boolean hasGoing = false;//是否有正在进行中
+    private void setTabSelect() {
         for (int i = 0; i < titleList.size(); i++) {
-            TittleBean bean = titleList.get(i);
-            String status = bean.getStatus();
-            if (status.equals("进行中")) {
-                position = i;
-                hasGoing = true;
+            TittleBean tb = titleList.get(i);
+            long endTime = tb.getEndTime() *1000;//ms
+            long startTime = tb.getStartTime() * 1000;//ms
+            long nowTime = System.currentTimeMillis();
+            if(nowTime >= startTime && nowTime<= endTime){
+                TabLayout.Tab tabAt = tabLayout.getTabAt(i);
+                if(tabAt!=null){
+                    tabAt.select();
+                }
                 break;
             }
         }
-        return hasGoing;
     }
 }

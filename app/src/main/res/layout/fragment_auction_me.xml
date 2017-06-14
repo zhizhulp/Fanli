@@ -125,7 +125,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="我的积分"
+                            android:text="我的礼品分"
                             android:textColor="@color/shop_normal_text_color"
                             android:textSize="15sp" />
 
@@ -135,7 +135,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:text="0积分"
+                            android:text="0分"
                             android:textColor="@color/fragment_money_red"
                             android:textSize="15sp" />
                     </RelativeLayout>

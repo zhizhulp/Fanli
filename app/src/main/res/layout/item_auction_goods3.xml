@@ -65,7 +65,6 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="5dp"
                 android:maxLines="2"
-                android:text="苹果iph7手机限时抢拍                     白色128G 全网通"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="11sp" />
 
@@ -74,21 +73,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-
                 <!--按钮-->
                 <TextView
                     android:id="@+id/btn_auction"
-                    android:layout_width="63dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/red_bg2"
+                    android:background="@drawable/btn_red_bg"
                     android:gravity="center"
                     android:text="去付款"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
-
+                <!--按钮-->
+                <TextView
+                    android:visibility="gone"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/btn_auction"
+                    android:id="@+id/btn_sure_receive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/btn_red_bg"
+                    android:gravity="center"
+                    android:text="确认收货"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
                 <!--增值积分-->
                 <TextView
@@ -98,10 +108,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@id/btn_auction"
+                    android:layout_toLeftOf="@id/btn_sure_receive"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="购买增值5000000积分"
                     android:textSize="12sp" />
 
                 <!--出价-->
@@ -122,11 +131,9 @@
                         android:id="@+id/text_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="￥500.000"
                         android:textColor="@color/fragment_money_red"
                         android:textSize="17sp" />
                 </LinearLayout>
-
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

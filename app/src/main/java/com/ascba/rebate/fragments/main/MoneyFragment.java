@@ -50,8 +50,6 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
     private TextView tvSjzh;
     private TextView tvBank;
     private int finalScene;
-    private boolean debug = true;
-    private String TAG = "MoneyFragment";
     private boolean isFirstResume=true;
 
     @Override

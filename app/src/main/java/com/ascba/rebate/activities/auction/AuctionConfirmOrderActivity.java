@@ -52,7 +52,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     private TextView tvScore;
     private TextView vCount;
     private TextView tvMoney;
-    private String goods_id;
+    private int goods_id;
     private int is_pay_money;//余额是否够支付  0：不够，1：够
     private int address_id;
     private String total_price;
@@ -71,7 +71,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     private void getParams() {
         Intent intent = getIntent();
         if(intent!=null){
-            goods_id= intent.getStringExtra("goods_id");
+            goods_id= intent.getIntExtra("goods_id",-5);
         }
     }
 
@@ -84,7 +84,6 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
             request.add("total_points",total_points);
             request.add("address_id",address_id);
         }else if(what==2){
-            request.add("goods_id",address_id);
             request.add("pay_type","balance");
             request.add("total_price",total_price);
             request.add("total_points",total_points);
@@ -195,6 +194,8 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
             showPasswordDialog(notify_url);
         }else if(what==2){
             showToast(message);
+            setResult(RESULT_OK,getIntent());
+            finish();
         }
     }
 

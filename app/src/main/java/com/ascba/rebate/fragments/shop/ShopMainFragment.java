@@ -58,7 +58,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 /**
- * 商城
+ * 商城首页
  */
 
 public class ShopMainFragment extends BaseNetFragment implements

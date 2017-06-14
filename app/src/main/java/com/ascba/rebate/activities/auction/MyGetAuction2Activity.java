@@ -14,8 +14,10 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.adapter.AuctionOrderAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ShopABar;
@@ -67,6 +69,8 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         }
     };
     private boolean isRefresh;
+    private AcutionGoodsBean agb;
+    private static final int REQUEST_PAY=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +83,11 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if(what==0){
             request.add("now_page",now_page);
+        }else if(what==1){
+            request.add("ordertraces","58466927852");
+        }else if(what==2){
+            request.add("order_id",agb.getOrderId());
+            request.add("goods_id",agb.getId());
         }
         executeNetWork(what,request,"请稍后");
     }
@@ -91,7 +100,18 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 clearData();
             }
             parseData(dataObj.optJSONArray("auctionPayList"));
+        }else if(what==1){
+            String url = dataObj.optJSONObject("auction_exp").optString("exp_url");
+            Intent intent=new Intent(this, WebViewBaseActivity.class);
+            intent.putExtra("name","物流信息");
+            intent.putExtra("url",url);
+            startActivity(intent);
+        }else if(what==2){//确认收获成功
+            showToast(message);
+            resetPage();
+            requestNetwork(UrlUtils.auctionPayList,0);
         }
+
     }
 
     private void parseData(JSONArray array) {
@@ -100,12 +120,14 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 JSONObject obj = array.optJSONObject(i);
                 AcutionGoodsBean agb=new AcutionGoodsBean();
                 agb.setId(obj.optInt("goods_id"));
+                agb.setOrderId(obj.optInt("id"));
                 agb.setImgUrl(UrlUtils.baseWebsite+obj.optString("imghead"));
                 agb.setName(obj.optString("name"));
                 agb.setPrice(obj.optDouble("reserve_money"));
                 agb.setScore(obj.optString("points"));
                 agb.setIntPriceState(obj.optInt("auction_status"));
                 agb.setStrPriceState(obj.optString("auction_status_tip"));
+                agb.setExpressNum(obj.optString("express_number"));
                 beanList.add(agb);
             }
         }
@@ -164,14 +186,38 @@ public class MyGetAuction2Activity extends BaseNetActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
-                AcutionGoodsBean agb = beanList.get(position);
-                if(view.getId()==R.id.btn_auction){
-                    if( agb.getIntPriceState()==0){
-                        showToast("去支付");
+                agb = beanList.get(position);
+                int state = agb.getIntPriceState();
+                boolean isEmpty = StringUtils.isEmpty(agb.getExpressNum());//物流账号是否为空
+                int id = view.getId();
+                if(id ==R.id.btn_auction){
+                    if(state==0){//待支付
+                        Intent intent=new Intent(MyGetAuction2Activity.this,AuctionConfirmOrderActivity.class);
+                        intent.putExtra("goods_id",agb.getId());
+                        startActivityForResult(intent,REQUEST_PAY);
+                    }else if(state==1){
+                        if(!isEmpty){//查看物流
+                            requestNetwork(UrlUtils.getAuctionExp,1);
+                        }else {//等待发货
+
+                        }
+                    }else if(state==2){//已收货
+                    }else if(state==3){//已退款
                     }
+                }else if(id ==R.id.btn_sure_receive){//确认收货
+                    requestNetwork(UrlUtils.confirmReceipt,2);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_PAY && resultCode==RESULT_OK){
+            resetPage();
+            requestNetwork(UrlUtils.auctionPayList,0);
+        }
     }
 
     private void initRefresh() {
@@ -180,7 +226,6 @@ public class MyGetAuction2Activity extends BaseNetActivity {
             @Override
             public void onRefresh() {
                 resetPage();
-                isRefresh=true;
                 requestNetwork(UrlUtils.auctionPayList,0);
             }
         });
@@ -215,6 +260,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
     }
 
     private void resetPage(){
+        isRefresh=true;
         now_page=1;
         total_page=0;
     }

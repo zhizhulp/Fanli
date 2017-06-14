@@ -76,6 +76,7 @@ public class TakeOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseV
 
                 //点击查看订单详情
                 helper.addOnClickListener(R.id.item_goods_rl);
+
                 break;
             case TYPE3:
                 /**
@@ -86,6 +87,7 @@ public class TakeOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseV
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
                 helper.addOnClickListener(R.id.item_goods_order_total_take);//确认收货
+                helper.addOnClickListener(R.id.tv_deliver_flow);//查看物流
                 break;
         }
     }
