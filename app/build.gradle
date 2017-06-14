@@ -76,5 +76,6 @@ dependencies {
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'  //沉浸式状态栏
     testCompile 'junit:junit:4.12'
 }

@@ -112,4 +112,11 @@
 
     <color name="tab_auction_unselectd">#28272D</color>
 
+    <!--fanxi添加的颜色-->
+    <!--来往评分-->
+    <color name="scoring">#02c2b8</color>
+    <color name="gray_bg">#f4f4f4</color>
+    <color name="half_white">#4fff</color>
+
+
 </resources>

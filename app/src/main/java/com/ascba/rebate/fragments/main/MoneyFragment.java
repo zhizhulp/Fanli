@@ -78,7 +78,7 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
         tvDaiFan = ((TextView) view.findViewById(R.id.me_tv_daifan));
         tvDuiHuan = ((TextView) view.findViewById(R.id.me_tv_duihuan));
         tvJiaoYi = ((TextView) view.findViewById(R.id.me_tv_jiaoyi));
-        tvDjq = ((TextView) view.findViewById(R.id.me_tv_djq));
+        //tvDjq = ((TextView) view.findViewById(R.id.me_tv_djq));
         tvGrzh = ((TextView) view.findViewById(R.id.me_tv_grzh));
         tvSjzh = ((TextView) view.findViewById(R.id.me_tv_sjzh));
         tvBank = ((TextView) view.findViewById(R.id.me_tv_bank));
@@ -123,7 +123,7 @@ public class MoneyFragment extends BaseNetFragment implements View.OnClickListen
                 Intent intent1 = new Intent(getActivity(), WhiteScoreActivity.class);
                 startActivityForResult(intent1,REQUEST_EXCHANGE_TICKET);
                 break;
-            case R.id.me_lat_scoring://代金券
+            case R.id.me_lat_scoring://评分
                 Intent intent8 = new Intent(getActivity(), ScoringActivity.class);
                 startActivity(intent8);
                 break;
