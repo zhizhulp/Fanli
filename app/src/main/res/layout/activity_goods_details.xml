@@ -44,10 +44,12 @@
                     <include layout="@layout/goods_details_cuttingline_wide" />
 
                     <!--增值：购买送积分-->
-                    <include layout="@layout/goods_details_appreciation" />
+                    <include layout="@layout/goods_details_appreciation"
+                        android:visibility="gone"/>
 
                     <!--宽分割线-->
-                    <include layout="@layout/goods_details_cuttingline_wide" />
+                    <include layout="@layout/goods_details_cuttingline_wide"
+                        android:visibility="gone"/>
 
                     <!--规格选择-->
                     <include layout="@layout/goods_details_choose"

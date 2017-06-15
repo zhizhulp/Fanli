@@ -84,7 +84,7 @@ public class PayDepositActivity extends BaseNetActivity{
                     showToast("余额不足");
                     return;
                 }
-                if(AppConfig.getInstance().getInt("is_level_pwd",0)==0){//没有设置支付密码
+                /*if(AppConfig.getInstance().getInt("is_level_pwd",0)==0){//没有设置支付密码
                     getDm().buildAlertDialogSure("您还未设置支付密码", "取消", "设置", new DialogHome.Callback() {
                         @Override
                         public void handleSure() {
@@ -93,7 +93,7 @@ public class PayDepositActivity extends BaseNetActivity{
                         }
                     });
                     return;
-                }
+                }*/
                 requestNetwork(UrlUtils.systemPayBond,1);
             }
         });

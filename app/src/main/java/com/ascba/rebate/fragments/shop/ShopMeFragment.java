@@ -216,7 +216,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         //代金券
         String voucher = listObject.optJSONObject("coupon_nav").optString("sub_title");
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_daijinquan, "折扣券余额", R.mipmap.pc_qianjin, voucher));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_5, R.mipmap.pc_daijinquan, "折扣券余额", voucher));
 
         //分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_2));

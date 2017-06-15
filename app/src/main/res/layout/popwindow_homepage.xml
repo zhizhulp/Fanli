@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:visibility="gone"
         android:minHeight="40dp"
         android:id="@+id/pop_hm_pay"
         android:layout_width="match_parent"
@@ -31,6 +32,7 @@
     </LinearLayout>
 
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="14dp"

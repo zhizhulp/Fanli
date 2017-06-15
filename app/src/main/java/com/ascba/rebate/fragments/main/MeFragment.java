@@ -62,6 +62,7 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
     private int finalScene;
 
     private TextView tvUserName;
+    private int is_agent;//0不能进合伙人专区
 
 
     @Override
@@ -153,8 +154,13 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                 requestData(UrlUtils.user, 1);
                 break;
             case R.id.me_lat_dlzq://代理专区
-                Intent intent6 = new Intent(getActivity(), ProxyDetActivity.class);
-                startActivity(intent6);
+                if(is_agent==1){
+                    Intent intent6 = new Intent(getActivity(), ProxyDetActivity.class);
+                    startActivity(intent6);
+                }else if(is_agent==0){
+                    showToast("暂未加入合伙人");
+                }
+
                 break;
             case R.id.me_lat_msg://消息
                 ShopMessageActivity.startIntent(getActivity());
@@ -286,6 +292,7 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
             tvSjlm.setText(infoObj.optInt("merchant") < 3 ? infoObj.optString("merchant_tip") : infoObj.optString("seller_status_tip"));
             tvPhone.setText(infoObj.optString("telephone"));
             AppConfig.getInstance().putInt("is_level_pwd",infoObj.optInt("is_level_pwd"));//是设置支付密码 还是修改支付密码
+            is_agent = infoObj.optInt("is_agent");
         }
     }
 

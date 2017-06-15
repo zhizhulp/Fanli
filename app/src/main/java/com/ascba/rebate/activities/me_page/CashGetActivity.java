@@ -227,7 +227,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
             JSONObject moneyObj = dataObj.optJSONObject("getTillsMoney");
             totalMoney = moneyObj.optString("money");//账户余额
             String cash_tax_rate = moneyObj.optString("cash_tax_rate");//服务费
-            tvLeftMoney.setText("账户余额 ¥ " + totalMoney);
+            tvLeftMoney.setText("代金券总额 ¥ " + totalMoney);
             tvSeviFee.setText("("+cash_tax_rate+")");
             JSONArray bankList = dataObj.optJSONArray("bank_info");
             mList.clear();

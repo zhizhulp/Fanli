@@ -6,7 +6,10 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PlayVideoActivity;
+import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
+import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.AuctionTurnPlay;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingVideoPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -68,30 +71,38 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                  * 券购商城
                  */
                 helper.addOnClickListener(R.id.homepage_text_more_shop);
+                helper.setText(R.id.homepage_text_title,item.getTitle());
                 break;
 
             case HomePageMultiItemItem.TYPE6:
+                List<Goods> goodsList = item.getGoodsList();
+                Goods goods0 = goodsList.get(0);
+                Goods goods1 = goodsList.get(1);
+                Goods goods2 = goodsList.get(2);
                 /**
                  * 全球券购
                  */
                 helper.addOnClickListener(R.id.homepage_btn_global);
                 ImageView btnGlobalImg = helper.getView(R.id.homepage_btn_global_img);
-                Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnGlobalImg);
-
+                Picasso.with(context).load(UrlUtils.baseWebsite+goods0.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnGlobalImg);
+                //helper.setText(R.id.homepage_btn_global_text1,goods0.getGoodsTitle());
+                helper.setText(R.id.homepage_btn_global_text2,goods0.getGoodsTitle());
                 /**
                  * 天天特价
                  */
 
                 helper.addOnClickListener(R.id.homepage_btn_offer);
                 ImageView btnOfferImg = helper.getView(R.id.homepage_btn_offer_img);
-                Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnOfferImg);
-
+                Picasso.with(context).load(UrlUtils.baseWebsite+goods1.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnOfferImg);
+                helper.setText(R.id.homepage_btn_offer_text2,goods1.getGoodsTitle());
                 /**
                  * 品牌精选
                  */
                 helper.addOnClickListener(R.id.homepage_btn_selected);
                 ImageView btnSelectedImg = helper.getView(R.id.homepage_btn_selected_img);
-                Picasso.with(context).load("http://image18-c.poco.cn/mypoco/myphoto/20170309/11/18505011120170309114124067_640.jpg").placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnSelectedImg);
+                Picasso.with(context).load(UrlUtils.baseWebsite+goods2.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnSelectedImg);
+                helper.setText(R.id.homepage_btn_selected_text2,goods2.getGoodsTitle());
+
                 break;
 
             case HomePageMultiItemItem.TYPE8:
@@ -155,6 +166,10 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 }
                 helper.setText(R.id.item_news_title, item.getBean().getTitle());
                 helper.setText(R.id.item_news_time, item.getBean().getTime());
+                break;
+            case HomePageMultiItemItem.TYPEAUCTION:
+                AuctionTurnPlay turnPlay =  helper.getView(R.id.auction_turn);
+                turnPlay.setData(item.getAgbs());
                 break;
         }
     }

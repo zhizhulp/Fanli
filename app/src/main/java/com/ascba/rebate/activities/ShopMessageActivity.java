@@ -81,7 +81,7 @@ public class ShopMessageActivity extends BaseNetActivity {
                 String time = messageBean.getTime();
                 String id = messageBean.getId();
                 if(time!=null){
-                    if(type==1){//文章模板
+                    if(type==0){//文章模板
                         SystemMsgActivity.startIntent(ShopMessageActivity.this,id);
                     }
                 }

@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
@@ -50,6 +51,8 @@ import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
@@ -248,6 +251,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                HomePageMultiItemItem item = items.get(position);
                 switch (view.getId()) {
                     case R.id.homepage_btn_speedmon:
                         startActivity(new Intent(getActivity(), ShopActivity.class));
@@ -283,6 +287,15 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     case R.id.homepage_text_more_news:
                         //最新动态——更多
                         MessageLatestActivity.startIntent(context);
+                        break;
+                    case R.id.homepage_btn_global://全球券购
+                        GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(0).getTitleId());
+                        break;
+                    case R.id.homepage_btn_offer://天天特价
+                        GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(1).getTitleId());
+                        break;
+                    case R.id.homepage_btn_selected://品牌精选
+                        GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(2).getTitleId());
                         break;
                 }
             }
@@ -356,15 +369,20 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             //ASK商学院  创业扶持
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE3, R.layout.home_page_college));
             //分割线
-            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //券购商城
-            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "券购商城"));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "礼享城"));
             //分割线
-            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //全球券购 天天特价 品牌精选
-            //items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
+            initGoodsList(dataObj.optJSONArray("mallGoods"));
             //宽分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
+
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "竞拍热品"));
+            //分割线
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
+            initAuctionGoods(dataObj.optJSONArray("auction_goods"));
 
             //视频
             initVideoTurn(dataObj);
@@ -393,6 +411,51 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             intent.putExtra("name", "数据统计");
             intent.putExtra("url", url);
             startActivity(intent);
+        }
+    }
+
+    private void initAuctionGoods(JSONArray goodsArray) {
+        if(goodsArray!=null && goodsArray.length() >=0){
+            List<AcutionGoodsBean> beanList=new ArrayList<>();
+            for (int i = 0; i < goodsArray.length(); i++) {
+                JSONObject obj = goodsArray.optJSONObject(i);
+                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.baseWebsite + obj.optString("index_img"),
+                        obj.optString("name"), obj.optDouble("begin_price"),
+                        obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
+                agb.setGapPrice(obj.optDouble("range"));
+                agb.setGapTime(obj.optInt("interval_second"));
+                agb.setStartPrice(obj.optDouble("begin_price"));
+                agb.setEndPrice(obj.optDouble("end_price"));
+                agb.setStartTime(obj.optLong("starttime"));
+                agb.setEndTime(obj.optLong("endtime"));
+                agb.setIntState(obj.optInt("is_status"));
+                agb.setStrState(obj.optString("auction_tip"));
+                beanList.add(agb);
+            }
+            HomePageMultiItemItem item = new HomePageMultiItemItem();
+            item.setType(HomePageMultiItemItem.TYPEAUCTION);
+            item.setLayout(R.layout.main_auction_goods);
+            item.setAgbs(beanList);
+            items.add(item);
+        }
+    }
+
+    private void initGoodsList(JSONArray jsonArray) {
+        if(jsonArray!=null && jsonArray.length()>0){
+            List<Goods> goodses=new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.optJSONObject(i);
+                Goods goods =new Goods();
+                goods.setTitleId(object.optInt("id"));
+                goods.setGoodsTitle(object.optString("title"));
+                goods.setGoodsPrice(object.optString("shop_price"));
+                goods.setStoreId(object.optInt("store_id"));
+                goods.setImgUrl(object.optString("img"));
+                goodses.add(goods);
+            }
+            HomePageMultiItemItem item = new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm);
+            item.setGoodsList(goodses);
+            items.add(item);
         }
     }
 

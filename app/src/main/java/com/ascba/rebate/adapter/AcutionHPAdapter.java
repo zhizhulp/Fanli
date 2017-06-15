@@ -38,8 +38,8 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         helper.setText(R.id.auction_text_time, getTimeRemainning(item));
         //名称
         helper.setText(R.id.auction_text_name, item.getName());
-        //竞拍人数
-        helper.setText(R.id.auction_text_person, null);
+        //竞拍保证金
+        helper.setText(R.id.auction_text_person, "￥"+ item.getCashDeposit());
         //价格
         helper.setText(R.id.auction_text_price, "￥"+ NumberFormatUtils.getNewDouble(item.getEndPrice()));
         helper.addOnClickListener(R.id.auction_btn_get);
@@ -57,13 +57,6 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
 
     private String getTimeRemainning(AcutionGoodsBean item) {
         int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
-        /*if (item.getIntState() != 2) {
-            if (item.getReduceTimes() < item.getMaxReduceTimes()) {
-                leftTime = item.getGapTime();
-            } else {
-                return "竞拍结束";
-            }
-        }*/
         int hour = leftTime % (24 * 3600) / 3600;
         int minute = leftTime % 3600 / 60;
         int second = leftTime % 60;
