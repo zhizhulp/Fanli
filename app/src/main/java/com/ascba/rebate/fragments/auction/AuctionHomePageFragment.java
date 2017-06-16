@@ -111,7 +111,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         } else if (what == 1) {
             Request<JSONObject> request = buildNetRequest(url, 0, true);
             request.add("client_str", getAutionIds());
-            request.add("total_price", selectAGB.getPrice());
+            request.add("total_price", selectAGB.getEndPrice());
             executeNetWork(what, request, "请稍后");
         }
 
@@ -251,7 +251,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         JSONArray msgArray = dataObj.optJSONArray("notice_list");
         MarqueeTextView textView = (MarqueeTextView) headView.findViewById(R.id.text_auction_notif);
         View viewMsg = headView.findViewById(R.id.lat_msg);
-        if (msgArray != null && msgArray.length() >= 0) {
+        if (msgArray != null && msgArray.length() > 0) {
             viewMsg.setVisibility(View.VISIBLE);
             StringBuilder sb=new StringBuilder();
             for (int i = 0; i < msgArray.length(); i++) {

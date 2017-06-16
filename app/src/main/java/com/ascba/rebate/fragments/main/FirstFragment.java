@@ -346,9 +346,6 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-
-        ViewParent parent = view.getParent();
-
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 pointDownX = motionEvent.getX();
