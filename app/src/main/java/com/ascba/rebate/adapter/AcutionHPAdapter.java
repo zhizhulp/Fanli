@@ -3,7 +3,6 @@ package com.ascba.rebate.adapter;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -31,7 +30,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {
+    protected void convert(BaseViewHolder  helper, AcutionGoodsBean item) {
         ImageView imageView = helper.getView(R.id.auction_img);
         Picasso.with(context).load(item.getImgUrl()).error(R.mipmap.loading_rect).placeholder(R.mipmap.loading_rect).into(imageView);
         //剩余时间
