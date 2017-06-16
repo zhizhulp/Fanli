@@ -876,7 +876,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         //启用支持javascript
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-
     }
 
     /*

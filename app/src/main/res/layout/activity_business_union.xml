@@ -47,7 +47,7 @@
                             android:layout_height="wrap_content"
                             android:drawablePadding="13dp"
                             android:drawableTop="@mipmap/business_union_code"
-                            android:text="立即收款"
+                            android:text="我要收款"
                             android:textColor="@color/white"
                             android:textSize="@dimen/main_text_14"/>
                     </LinearLayout>
@@ -145,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
-                        android:text="累计增值"
+                        android:text="累计礼品分"
                         android:textColor="@color/main_text_normal"
                         android:textSize="@dimen/main_text_12" />
                 </LinearLayout>
@@ -257,7 +257,7 @@
                         android:layout_marginBottom="13dp"
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="13dp"
-                        android:text="今日增值积分"
+                        android:text="今日礼品分"
                         android:textColor="@color/main_text_normal"
                         android:textSize="@dimen/main_text_13" />
                 </LinearLayout>

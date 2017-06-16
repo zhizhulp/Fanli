@@ -12,6 +12,7 @@
         app:abar_title="待评价" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/deliver_details_bottom"
         android:layout_width="match_parent"
         android:layout_height="48dp"

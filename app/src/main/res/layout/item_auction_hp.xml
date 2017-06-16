@@ -73,7 +73,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_marginLeft="14dp"
+        android:paddingLeft="18dp"
         android:layout_marginRight="14dp"
         android:background="@color/white">
 
@@ -81,7 +81,6 @@
             android:id="@+id/auction_text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
             android:layout_marginTop="13dp"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="12sp" />
@@ -90,7 +89,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/auction_text_name"
-            android:layout_marginLeft="11dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <TextView
