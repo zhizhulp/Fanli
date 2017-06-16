@@ -1,5 +1,7 @@
 package com.ascba.rebate.beans;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.List;

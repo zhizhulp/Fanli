@@ -279,6 +279,8 @@ public class ShopMainFragment extends BaseNetFragment implements
             public void onLoadMoreRequested() {
                 if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
+                }else if(total_page==0){
+                    handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
                     requestNetwork(UrlUtils.shop, 0);
                 }

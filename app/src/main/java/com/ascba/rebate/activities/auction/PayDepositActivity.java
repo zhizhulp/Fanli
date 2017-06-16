@@ -42,7 +42,7 @@ public class PayDepositActivity extends BaseNetActivity{
     private AppCompatCheckBox checkbox;
     private double pay_bond_price;//保证金
     private TextView tvTicketInfo;
-    private int is_pay_money;
+    private int is_pay_money=-1;
     private String auction_url;
     private String deposit_url;
 

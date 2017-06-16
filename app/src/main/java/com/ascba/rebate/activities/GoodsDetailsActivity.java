@@ -534,7 +534,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         appreciationRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showIntegralValue();
+                showIntegralValue(Float.valueOf(goods.getGoodsPrice()) * 100);
             }
         });
 
@@ -1021,7 +1021,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     /*
      * 增值积分dialog
      */
-    private void showIntegralValue() {
+    private void showIntegralValue(Float score) {
         final Dialog dialog = new Dialog(this, R.style.AlertDialog);
         dialog.setContentView(R.layout.activity_integralvale);
 
@@ -1034,7 +1034,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             }
         });
 
-        IntegralValueAdapter integralValueAdapter = new IntegralValueAdapter(R.layout.integral_value_item, getData());
+        IntegralValueAdapter integralValueAdapter = new IntegralValueAdapter(R.layout.integral_value_item, getData(score));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -1054,9 +1054,9 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         }
     }
 
-    private List<IntegralValueItem> getData() {
+    private List<IntegralValueItem> getData(Float score) {
         List<IntegralValueItem> data = new ArrayList<>();
-        data.add(new IntegralValueItem("购买后赠送599900礼品分", "购买后可获得599900礼品分，会员等级越高购买商品送的礼品分越多"));
+        data.add(new IntegralValueItem("购买后赠送"+score+"礼品分", "购买后可获得"+score+"礼品分，会员等级越高购买商品送的礼品分越多"));
         data.add(new IntegralValueItem("礼品分有什么用", "礼品分可转化成商品分和代金券，在购买商品时，可使用商品分和代金券抵扣一部分现金。"));
         data.add(new IntegralValueItem("温馨提示", "此处显示礼品分为不打折情况下购买获赠礼品分，具体赠送礼品分以商品结算时显示礼品分为准。"));
         return data;

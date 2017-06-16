@@ -259,7 +259,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="商品分兑换"
+                                android:text="商品分"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
@@ -408,7 +408,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="来往评分"
+                                android:text="来往信用分"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
                         </LinearLayout>
@@ -465,7 +465,7 @@
                                 android:id="@+id/textView8"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="充值"
+                                android:text="账户充值"
                                 android:textColor="@color/main_text_normal"
                                 android:textSize="@dimen/main_text_14" />
 
