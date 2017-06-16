@@ -36,15 +36,23 @@ public class SystemMsgActivity extends BaseNetActivity implements BaseNetActivit
     private RecyclerView recyclerView;
     private List<NewsBean> beanList = new ArrayList<>();
     private MessageLatestAdapter adapter;
-    private static String id;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system_msg);
         context = this;
-        requstData();
         initView();
+        getParams();
+        requstData();
+    }
+
+    private void getParams() {
+        Intent intent=getIntent();
+        if(intent!=null){
+            id= intent.getStringExtra("article_class");
+        }
     }
 
     private void requstData() {
@@ -55,8 +63,8 @@ public class SystemMsgActivity extends BaseNetActivity implements BaseNetActivit
     }
 
     public static void startIntent(Context context,String id) {
-        Intent intent = new Intent(context, MessageLatestActivity.class);
-        SystemMsgActivity.id =id;
+        Intent intent = new Intent(context, SystemMsgActivity.class);
+        intent.putExtra("article_class",id);
         context.startActivity(intent);
     }
 

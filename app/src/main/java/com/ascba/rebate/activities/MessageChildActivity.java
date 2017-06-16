@@ -16,7 +16,6 @@ import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.adapter.MessageLatestAdapter;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.utils.TimeUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
@@ -36,11 +35,11 @@ import java.util.List;
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 /**
- * Created by 李鹏 on 2017/03/31 0031.
+ * Created by 李平on 2017/03/31 0031.
  * 主页-最新公告
  */
 
-public class MessageLatestActivity extends BaseNetActivity implements BaseNetActivity.Callback,
+public class MessageChildActivity extends BaseNetActivity implements BaseNetActivity.Callback,
         SwipeRefreshLayout.OnRefreshListener {
 
     private ShopABarText shopBar;
@@ -92,7 +91,7 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
     }
 
     public static void startIntent(Context context) {
-        Intent intent = new Intent(context, MessageLatestActivity.class);
+        Intent intent = new Intent(context, MessageChildActivity.class);
         context.startActivity(intent);
     }
 
