@@ -96,7 +96,7 @@
                         android:focusableInTouchMode="true"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:text="钱来信用分业务中心通知：近期钱来业务升级，敬请期待"
+                        android:text="钱来信用分业务中心通知：近期钱来业务升级，敬请期待!"
                         android:textSize="13sp" />
 
                     <ImageButton

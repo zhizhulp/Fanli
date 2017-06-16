@@ -158,14 +158,14 @@ public class NewCreditSesameView extends View {
 
     //外层圆环画笔
     mMiddleArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    mMiddleArcPaint.setStrokeWidth(8);
+    mMiddleArcPaint.setStrokeWidth(dp2px(3));//8
     mMiddleArcPaint.setColor(drawColor);
     mMiddleArcPaint.setStyle(Paint.Style.STROKE);
     mMiddleArcPaint.setAlpha(80);
 
     //内层圆环画笔
     mInnerArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    mInnerArcPaint.setStrokeWidth(30);
+    mInnerArcPaint.setStrokeWidth(dp2px(12));//30
     mInnerArcPaint.setColor(drawColor);
     mInnerArcPaint.setAlpha(80);
     mInnerArcPaint.setStyle(Paint.Style.STROKE);
@@ -177,26 +177,26 @@ public class NewCreditSesameView extends View {
 
     //圆环大刻度画笔
     mCalibrationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    mCalibrationPaint.setStrokeWidth(4);
+    mCalibrationPaint.setStrokeWidth(dp2px(2));//4
     mCalibrationPaint.setStyle(Paint.Style.STROKE);
     mCalibrationPaint.setColor(drawColor);
-    mCalibrationPaint.setAlpha(120);
+    mCalibrationPaint.setAlpha(120);//120
 
     //圆环小刻度画笔
     mSmallCalibrationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    mSmallCalibrationPaint.setStrokeWidth(1);
+    mSmallCalibrationPaint.setStrokeWidth(dp2px(1));//1
     mSmallCalibrationPaint.setStyle(Paint.Style.STROKE);
     mSmallCalibrationPaint.setColor(drawColor);
-    mSmallCalibrationPaint.setAlpha(130);
+    mSmallCalibrationPaint.setAlpha(130);//130
 
     //圆环刻度文本画笔
     mCalibrationTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    mCalibrationTextPaint.setTextSize(30);
+    mCalibrationTextPaint.setTextSize(dp2px(12));//30
     mCalibrationTextPaint.setColor(drawColor);
 
     //外层进度画笔
     mArcProgressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    mArcProgressPaint.setStrokeWidth(8);
+    mArcProgressPaint.setStrokeWidth(dp2px(3));//8
     mArcProgressPaint.setColor(drawColor);
     mArcProgressPaint.setStyle(Paint.Style.STROKE);
     mArcProgressPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -327,7 +327,7 @@ public class NewCreditSesameView extends View {
 
     //绘制信用级别
     mTextPaint.setTextSize(dp2px(18));//60
-    canvas.drawText(sesameLevel, radius, radius - 110, mTextPaint);//-120
+    canvas.drawText(sesameLevel, radius, radius - 105, mTextPaint);//-120
 
 //绘制信用分数
     mTextPaint.setTextSize(dp2px(40));//110
@@ -419,15 +419,15 @@ public class NewCreditSesameView extends View {
   public void setSesameValues(int values) {
 
     if(values <= 200){
-      sesameLevel = "信用较差";
+      sesameLevel = "较差";
     }else if(values <= 400){
-      sesameLevel = "信用中等";
+      sesameLevel = "中等";
     }else if(values <= 600){
-      sesameLevel = "信用良好";
+      sesameLevel = "良好";
     }else if(values <= 800){
-      sesameLevel = "信用优秀";
+      sesameLevel = "优秀";
     }else if(values <= 1000){
-      sesameLevel = "信用极好";
+      sesameLevel = "极好";
     }
 
     mTotalAngle = values * totalNum * 6 / mMaxNum;
