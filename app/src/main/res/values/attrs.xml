@@ -12,6 +12,7 @@
         <attr name="backImg" format="reference|integer" />
         <attr name="needLine" format="boolean" />
         <attr name="tailTextColor" format="color|reference" />
+        <attr name="visibleLine" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="EditTextWithCustomHint">
         <attr name="hintSize" format="dimension" />

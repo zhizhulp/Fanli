@@ -54,6 +54,7 @@
     </RelativeLayout>
 
     <View
+
         android:id="@+id/money_bar_line"
         android:layout_alignParentBottom="true"
         android:background="@color/main_line_deep_gray"

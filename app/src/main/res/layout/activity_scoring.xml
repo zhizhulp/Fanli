@@ -22,8 +22,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/scroing_bg"
-            >
+            android:background="@mipmap/scroing_bg">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -52,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="195dp"
-                        android:text="现金兑换比例：8:2"
+                        android:text="现金兑换比例：5:5"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
                 </RelativeLayout>
@@ -69,7 +68,8 @@
                     android:layout_height="wrap_content"
                     app:backImg="@mipmap/abar_back_white"
                     app:barBg="@color/transparent"
-                    app:textTitle="来往评分"
+                    app:textTitle="来往信用分"
+                    app:needLine="false"
                     app:titleColor="@color/white" />
 
                 <LinearLayout
@@ -96,7 +96,7 @@
                         android:focusableInTouchMode="true"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:text="钱来评分业务中心通知：近期钱来业务升级，欢迎您的加入"
+                        android:text="钱来信用分业务中心通知：近期钱来业务升级，敬请期待"
                         android:textSize="13sp" />
 
                     <ImageButton
@@ -131,6 +131,8 @@
                     android:background="@drawable/strok_shap">
 
                     <TextView
+                        android:clickable="true"
+                        android:id="@+id/scoring_showOne"
                         android:layout_width="107dp"
                         android:layout_height="33dp"
                         android:gravity="center"
@@ -148,6 +150,7 @@
                     android:background="@drawable/strok_shap">
 
                     <TextView
+                        android:id="@+id/scoring_knowStrategy"
                         android:layout_width="107dp"
                         android:layout_height="33dp"
                         android:gravity="center"
@@ -175,6 +178,7 @@
             android:gravity="center_vertical">
 
             <LinearLayout
+                android:id="@+id/raise_scores"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -248,6 +252,7 @@
                 android:layout_height="26dp"
                 android:background="@color/gray" />
             <LinearLayout
+                android:id="@+id/scoring_growth_footprint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -279,13 +284,20 @@
             </LinearLayout>
         </LinearLayout>
 
-        <include layout="@layout/item_scroing" />
 
-        <include layout="@layout/item_scroing" />
 
-        <include layout="@layout/item_scroing" />
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="280dp">
 
-        <include layout="@layout/item_scroing" />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="暂未开放，敬请期待！"
+               android:textSize="20sp"
+               android:layout_centerInParent="true" />
 
+
+       </RelativeLayout>
     </LinearLayout>
 </ScrollView>

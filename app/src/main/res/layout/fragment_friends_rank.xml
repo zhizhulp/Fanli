@@ -1,13 +1,259 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.ascba.rebate.fragments.scoring.FriendsRankFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="245dp"
+        android:background="@mipmap/pk_bg">
 
-</FrameLayout>
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/iv_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/pk_bg1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/iv_top"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="105dp"
+                android:text="小豆豆"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:text="涨钱不努力，领钱徒伤悲~"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/scroing_ll_notify"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:background="@color/half_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/scroing_voice" />
+
+            <TextView
+                android:id="@+id/scoring_notify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="山西王先生邀请你加入好友成功积分，并超过了你！你要努力哟！"
+                android:textSize="13sp" />
+
+            <ImageButton
+                android:id="@+id/scroing_notify_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:background="@mipmap/scroing_cancel"
+                android:padding="8dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="73dp">
+
+        <TextView
+            android:id="@+id/pk13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="13"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/scoring_pk_headbg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/pk13"
+            android:src="@mipmap/scoring_pk_headbg" />
+
+        <TextView
+            android:id="@+id/lingling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/scoring_pk_headbg"
+            android:text="宁宁"
+            android:textSize="14sp"
+            android:layout_marginTop="14dp"
+           android:layout_marginLeft="11dp"/>
+        <TextView
+            android:layout_below="@+id/lingling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/scoring_pk_headbg"
+            android:text="提现比例：6:4"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="11dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="520分"
+            android:textSize="15sp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="@color/gray_bg"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="73dp">
+
+        <ImageView
+            android:src="@mipmap/gold_medal"
+            android:id="@+id/pk_gold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="13"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/scoring_pk_headbg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/pk_gold"
+            android:src="@mipmap/scoring_pk_headbg" />
+
+        <TextView
+            android:id="@+id/lingling1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/scoring_pk_headbg1"
+            android:text="小豆豆"
+            android:textSize="14sp"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="11dp"/>
+        <TextView
+            android:layout_below="@+id/lingling1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/scoring_pk_headbg1"
+            android:text="提现比例：6:4"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="11dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="900分"
+            android:textSize="15sp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="@color/gray_bg"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="73dp">
+
+        <ImageView
+            android:src="@mipmap/second_medal"
+            android:id="@+id/second_medal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="13"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/scoring_pk_headbg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/second_medal"
+            android:src="@mipmap/scoring_pk_headbg" />
+
+        <TextView
+            android:id="@+id/lingling2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/scoring_pk_headbg2"
+            android:text="小豆豆"
+            android:textSize="14sp"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="11dp"/>
+        <TextView
+            android:layout_below="@+id/lingling2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/scoring_pk_headbg2"
+            android:text="提现比例：6:4"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="11dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="900分"
+            android:textSize="15sp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="@color/gray_bg"/>
+
+</LinearLayout>

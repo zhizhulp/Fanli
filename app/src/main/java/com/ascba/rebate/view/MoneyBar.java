@@ -3,9 +3,6 @@ package com.ascba.rebate.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +24,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
     private boolean needTailIcon;
     public ImageView tailIcon;
     private int tailIconId;
-    private boolean needComplete;
+    private boolean needComplete,visibleLine;
     private TextView completeText;
     private CallBack callBack;
     private View bgView;
@@ -78,6 +75,7 @@ public class MoneyBar extends LinearLayout implements View.OnClickListener {
         backImgId = ta.getResourceId(R.styleable.MoneyBar_backImg,R.mipmap.abar_back);
         needComplete = ta.getBoolean(R.styleable.MoneyBar_needComplete,false);
         needLine = ta.getBoolean(R.styleable.MoneyBar_needLine,true);
+        visibleLine = ta.getBoolean(R.styleable.MoneyBar_visibleLine,true);
         //设置title字体颜色
         mTextView.setTextColor(titleTextColor);
         //设置返回图标

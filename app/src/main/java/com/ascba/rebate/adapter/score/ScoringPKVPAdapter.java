@@ -2,6 +2,7 @@ package com.ascba.rebate.adapter.score;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.ViewGroup;
 
 import com.ascba.rebate.adapter.ViewpagerFragmentAdapter;
 
@@ -43,7 +44,11 @@ public class ScoringPKVPAdapter extends ViewpagerFragmentAdapter{
 
     }
 
-
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        // TODO Auto-generated method stub
+        super.destroyItem(container, position, object);
+    }
 
 
 }

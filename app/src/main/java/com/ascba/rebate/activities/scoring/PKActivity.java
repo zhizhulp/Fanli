@@ -31,6 +31,7 @@ public class PKActivity extends BaseNetActivity implements ViewPager.OnPageChang
     private List<Fragment> fragments = new ArrayList<>();
     private List<String> tablist = new ArrayList<>();
     private List<View> views = new ArrayList<>();
+    private String[] mTitles = {"全国排行榜","好友排行榜"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,30 +44,26 @@ public class PKActivity extends BaseNetActivity implements ViewPager.OnPageChang
     private void initView() {
         initFragments();
         initTabStr();
-        tab = (TabLayout) findViewById(R.id.scoring_pk_tab);
         vp = (ViewPager) findViewById(R.id.scoring_pk_vp);
-        tab.setTabMode(TabLayout.MODE_FIXED);
         vpAdapter = new ScoringPKVPAdapter(getSupportFragmentManager(),fragments, tablist);
-        vp.setCurrentItem(0);
-        vp.setOnPageChangeListener(this);
+//        vp.setCurrentItem(0);
+//        vp.setOnPageChangeListener(this);
         vp.setAdapter(vpAdapter);
 
 //        将tablelayout和ViewPager关联起来
         tab.setupWithViewPager(vp);
-        tab.setTabsFromPagerAdapter(vpAdapter);
-
     }
 
 
     private void initTabStr() {
-        tablist.clear();
-        tablist.add("全国排行榜");
-        tablist.add("好友排行榜");
-
+        tab = (TabLayout) findViewById(R.id.scoring_pk_tab);
+        tab.addTab(tab.newTab().setText(mTitles[0]));
+        tab.addTab(tab.newTab().setText(mTitles[1]));
+        tablist.add(mTitles[0]);
+        tablist.add(mTitles[1]);
     }
 
     private void initFragments() {
-        fragments.clear();
         fragments.add(new NationalRankFragment());
         fragments.add(new FriendsRankFragment());
 
@@ -85,7 +82,7 @@ public class PKActivity extends BaseNetActivity implements ViewPager.OnPageChang
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setNavigationBarTintEnabled(true);
         // 自定义颜色
-        tintManager.setTintColor(Color.parseColor("#02c2b8"));
+        tintManager.setTintColor(Color.parseColor("#00a8af"));
     }
     @TargetApi(19)
     private void setTranslucentStatus(boolean on) {

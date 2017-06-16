@@ -704,7 +704,8 @@
         <activity android:name=".activities.auction.AuctionConfirmOrderActivity" />
         <activity android:name=".activities.auction.MyGetAuction2Activity" />
         <activity android:name=".activities.scoring.ScoringActivity" />
-        <activity android:name=".activities.scoring.PKActivity"></activity>
+        <activity android:name=".activities.scoring.PKActivity" />
+        <activity android:name=".activities.scoring.ShareActivity"></activity>
     </application>
 
 </manifest>
