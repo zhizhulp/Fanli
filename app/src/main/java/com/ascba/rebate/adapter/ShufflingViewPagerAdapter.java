@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Created by Kevin on 2016/10/13.
+ * Created by 李平 on 2016/10/13.
  */
 
 public class ShufflingViewPagerAdapter extends PagerAdapter {
