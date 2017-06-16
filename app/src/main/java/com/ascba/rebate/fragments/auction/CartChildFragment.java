@@ -489,7 +489,7 @@ public class CartChildFragment extends BaseNetFragment {
             }
         }
         if(status.equals("0,1")){//交纳保证金
-            tvBtmTop.setText("保证金：￥"+money);
+            tvBtmTop.setText("￥"+money);
             tvBtmBtm.setText("（未拍到保证金全额退款）");
             tvApply.setText("交保证金("+count+")");
         }else if(status.equals("2,3")){//拍
@@ -512,8 +512,12 @@ public class CartChildFragment extends BaseNetFragment {
                 }
             }
         }
+        if("0,1".equals(status)){
+            tvBtmTop.setText("￥"+price);
+        }else if("2,3".equals(status)){
+            tvBtmTop.setText("总金额：￥"+price);
+        }
 
-        tvBtmTop.setText("总金额：￥"+price);
 
     }
     private void resetPage(){

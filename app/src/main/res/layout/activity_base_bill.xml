@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <include layout="@layout/white_bill_head"
+                android:visibility="gone"
                 android:id="@+id/head"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/bill_list"

@@ -1,7 +1,6 @@
 package com.ascba.rebate.activities.auction;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +23,6 @@ import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;

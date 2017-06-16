@@ -35,7 +35,6 @@ public class BankCardActivity extends BaseNetActivity implements BaseNetActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_card);
-        //StatusBarUtil.setColor(this, 0xffe52020);
         initViews();
         getIntentFromBefore();
     }
@@ -112,15 +111,11 @@ public class BankCardActivity extends BaseNetActivity implements BaseNetActivity
             finish();
         }else if(finalScene==1){
             getDm().buildAlertDialog(message);
-            /*String sms_code = dataObj.optString("sms_code");
-            edCode.setText(sms_code);
-            edCode.setSelection(sms_code.length());*/
         }
     }
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
     }
 
     @Override

@@ -13,6 +13,8 @@ public class HomePageMultiItemItem implements MultiItemEntity {
     private int layout;
     public static final int TYPE1 = 1;//轮播广告
     private List<String> list;
+    private List<Goods> goodsList;
+    private List<AcutionGoodsBean> agbs;
 
     public static final int TYPE2 = 2;//花钱  赚钱
 
@@ -32,6 +34,8 @@ public class HomePageMultiItemItem implements MultiItemEntity {
 
     public static final int TYPE10 = 10;//最新动态
 
+    public static final int TYPEAUCTION = 13;//竞拍轮播
+
 
     /**
      * 新闻
@@ -50,10 +54,6 @@ public class HomePageMultiItemItem implements MultiItemEntity {
 
     /**
      * 广告轮播
-     *
-     * @param type
-     * @param layout
-     * @param list
      */
     public HomePageMultiItemItem(int type, int layout, List<String> list) {
         this.type = type;
@@ -61,10 +61,6 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.list = list;
     }
 
-    /**
-     * @param type
-     * @param layout
-     */
     public HomePageMultiItemItem(int type, int layout) {
         this.type = type;
         this.layout = layout;
@@ -76,19 +72,19 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.layout = layout;
     }
 
-    /**
-     * 标题
-     *
-     * @param type
-     * @param layout
-     * @param title
-     */
     public HomePageMultiItemItem(int type, int layout, String title) {
         this.type = type;
         this.layout = layout;
         this.title = title;
     }
 
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
 
     public List<NewsBean> getNewsBeens() {
         return newsBeens;
@@ -152,13 +148,6 @@ public class HomePageMultiItemItem implements MultiItemEntity {
         this.newsBeens = newsBeen;
     }
 
-    /**
-     * 新闻
-     *
-     * @param type
-     * @param layout
-     * @param newsBeens
-     */
     public HomePageMultiItemItem(int type, List<NewsBean> newsBeens, int layout) {
         this.type = type;
         this.layout = layout;
@@ -177,5 +166,13 @@ public class HomePageMultiItemItem implements MultiItemEntity {
 
     public void setBean(NewsBean bean) {
         this.bean = bean;
+    }
+
+    public List<AcutionGoodsBean> getAgbs() {
+        return agbs;
+    }
+
+    public void setAgbs(List<AcutionGoodsBean> agbs) {
+        this.agbs = agbs;
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/moneyBar"
-        app:textTitle="商品分分兑换"
+        app:textTitle="商品分兑换"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView

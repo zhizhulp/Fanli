@@ -59,14 +59,14 @@
             <TextView
                 android:textColor="@color/main_text_normal"
                 android:textSize="@dimen/main_text_15"
-                android:text="现金已存入您的账户"
+                android:text="代金券已存入您的账户"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:textColor="@color/main_text_gary"
                 android:textSize="@dimen/main_text_13"
                 android:layout_marginTop="6dp"
-                android:text="代金券随时查询"
+                android:text="折扣券随时查询"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

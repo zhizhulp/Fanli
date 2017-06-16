@@ -15,18 +15,19 @@
         android:src="@drawable/rectangle_red" />
 
     <TextView
+        android:text="礼享城"
         android:id="@+id/homepage_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/fg_homepage_img_red"
-        android:text="券购商城"
         android:textColor="@color/shop_normal_text_color"
         android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/homepage_text_more_shop"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

@@ -1,6 +1,7 @@
 package com.ascba.rebate.view;
 /**
  * Created by 李平 on 2017/4/30 0030.16:17
+ * 跑马灯效果
  */
 
 import android.content.Context;
