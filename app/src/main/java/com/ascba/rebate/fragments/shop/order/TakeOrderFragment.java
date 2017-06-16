@@ -173,7 +173,10 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
 
                     OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_take_foot, goodsNum, orderAmount, shippingFee);
                     beadFoot.setId(orderId);
-                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    JSONObject object1 = object.optJSONObject("seller_info");
+                    if(object1!=null){
+                        beadFoot.setPhone(object1.optString("store_mobile"));
+                    }
                     beadFoot.setOrderNum(order_sn);
                     beanArrayList.add(beadFoot);
                 }

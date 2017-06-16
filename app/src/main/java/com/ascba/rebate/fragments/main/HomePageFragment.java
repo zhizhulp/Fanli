@@ -723,7 +723,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         pD = new ProgressDialog(getContext(), R.style.dialog);
         pD.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pD.setMessage("您有新的更新，点击下载");
-        pD.setCancelable(false);
+        pD.setCancelable(true);
         pD.setButton(DialogInterface.BUTTON_POSITIVE, "下载", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

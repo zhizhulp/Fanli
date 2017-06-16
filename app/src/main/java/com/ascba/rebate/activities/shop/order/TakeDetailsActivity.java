@@ -216,7 +216,10 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 getGoodsInfo(dataObj);
 
                 //店铺电话
-                storePhone = dataObj.optJSONObject("store_info").optString("store_mobile");
+                JSONObject object = dataObj.optJSONObject("store_info");
+                if(object!=null){
+                    storePhone = object.optString("store_mobile");
+                }
                 //买家留言
                 String msg = dataObj.optJSONObject("order_info").optString("order_message");
                 if(StringUtils.isEmpty(msg)){
