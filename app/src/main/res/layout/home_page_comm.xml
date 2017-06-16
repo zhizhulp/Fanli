@@ -16,11 +16,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/homepage_btn_global_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="全球券购"
+            android:text="全球购"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="15sp" />
 
@@ -33,6 +32,8 @@
             android:textSize="11sp" />
 
         <ImageView
+            android:scaleType="fitCenter"
+            android:src="@mipmap/smell"
             android:id="@+id/homepage_btn_global_img"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -67,7 +68,6 @@
                 android:paddingLeft="10dp">
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/homepage_btn_offer_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -94,11 +94,12 @@
                 android:layout_weight="2">
 
                 <ImageView
+                    android:src="@mipmap/bagpack"
                     android:id="@+id/homepage_btn_offer_img"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerInParent="true"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -120,7 +121,6 @@
                 android:paddingLeft="10dp">
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/homepage_btn_selected_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="鞋服特卖 种类齐全"
+                    android:text="新选大赏 种类齐全"
                     android:textSize="10sp" />
 
             </LinearLayout>
@@ -146,12 +146,13 @@
                 android:layout_weight="2">
 
                 <ImageView
+                    android:src="@mipmap/oil"
                     android:id="@+id/homepage_btn_selected_img"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
             </RelativeLayout>
 
         </LinearLayout>

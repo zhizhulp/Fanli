@@ -110,34 +110,9 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 break;
 
             case HomePageMultiItemItem.TYPE6:
-                List<Goods> goodsList = item.getGoodsList();
-                Goods goods0 = goodsList.get(0);
-                Goods goods1 = goodsList.get(1);
-                Goods goods2 = goodsList.get(2);
-                /**
-                 * 全球券购
-                 */
                 helper.addOnClickListener(R.id.homepage_btn_global);
-                ImageView btnGlobalImg = helper.getView(R.id.homepage_btn_global_img);
-                Picasso.with(context).load(UrlUtils.baseWebsite + goods0.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnGlobalImg);
-                //helper.setText(R.id.homepage_btn_global_text1,goods0.getGoodsTitle());
-                helper.setText(R.id.homepage_btn_global_text2, goods0.getGoodsTitle());
-                /**
-                 * 天天特价
-                 */
-
                 helper.addOnClickListener(R.id.homepage_btn_offer);
-                ImageView btnOfferImg = helper.getView(R.id.homepage_btn_offer_img);
-                Picasso.with(context).load(UrlUtils.baseWebsite + goods1.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnOfferImg);
-                helper.setText(R.id.homepage_btn_offer_text2, goods1.getGoodsTitle());
-                /**
-                 * 品牌精选
-                 */
                 helper.addOnClickListener(R.id.homepage_btn_selected);
-                ImageView btnSelectedImg = helper.getView(R.id.homepage_btn_selected_img);
-                Picasso.with(context).load(UrlUtils.baseWebsite + goods2.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(btnSelectedImg);
-                helper.setText(R.id.homepage_btn_selected_text2, goods2.getGoodsTitle());
-
                 break;
 
             case HomePageMultiItemItem.TYPE8:

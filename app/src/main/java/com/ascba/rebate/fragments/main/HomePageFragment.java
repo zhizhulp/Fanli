@@ -1,6 +1,5 @@
 package com.ascba.rebate.fragments.main;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,17 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,18 +34,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
-import com.ascba.rebate.activities.offline_business.OfflinePayActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.adapter.TurnAdapter;
@@ -64,16 +55,13 @@ import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.qr.CaptureActivity;
-import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.TimeUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MsgView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadListener;
@@ -94,8 +82,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.ascba.rebate.activities.main.MainActivity.CAIFU;
 import static com.ascba.rebate.activities.main.MainActivity.HOMEPAGE;
@@ -303,14 +289,20 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         //最新动态——更多
                         MessageLatestActivity.startIntent(context);
                         break;
-                    case R.id.homepage_btn_global://全球券购
-                        GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(0).getTitleId());
+                    case R.id.homepage_btn_global://进入商城
+                        Intent intent=new Intent(getActivity(),ShopActivity.class);
+                        startActivity(intent);
+                        //GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(0).getTitleId());
                         break;
-                    case R.id.homepage_btn_offer://天天特价
-                        GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(1).getTitleId());
+                    case R.id.homepage_btn_offer://进入商城
+                        Intent intent1=new Intent(getActivity(),ShopActivity.class);
+                        startActivity(intent1);
+                        //GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(1).getTitleId());
                         break;
-                    case R.id.homepage_btn_selected://品牌精选
-                        GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(2).getTitleId());
+                    case R.id.homepage_btn_selected://进入商城
+                        Intent intent2=new Intent(getActivity(),ShopActivity.class);
+                        startActivity(intent2);
+                        //GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(2).getTitleId());
                         break;
                 }
             }
@@ -385,8 +377,13 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             //分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
 
+            //礼享城
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "礼享城"));
+            //分割线
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //全球券购 天天特价 品牌精选
-            initGoodsList(dataObj.optJSONArray("mallGoods"));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6,R.layout.home_page_comm));
+            //initGoodsList(dataObj.optJSONArray("mallGoods"));
             //竞拍商品
             initAuctionGoods(dataObj.optJSONArray("auction_goods"));
             //视频

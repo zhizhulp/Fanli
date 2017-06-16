@@ -221,7 +221,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <FrameLayout
@@ -743,6 +743,7 @@
                 android:background="@color/main_bg" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -752,9 +753,10 @@
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="@dimen/main_text_14" />
 
-            <TextView
-                android:id="@+id/tv_goods_details"
-                android:layout_width="wrap_content"
+            <WebView
+                android:visibility="gone"
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"

@@ -170,9 +170,9 @@ public class RefundOrderActivity extends BaseNetActivity {
                 switch (view.getId()) {
                     case R.id.item_goods_rl:
                         //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                        /*Intent intent = new Intent(context, DeliverDetailsActivity.class);
                         intent.putExtra("order_id",orderBean.getId());
-                        startActivity(intent);
+                        startActivity(intent);*/
                         break;
                 }
             }
