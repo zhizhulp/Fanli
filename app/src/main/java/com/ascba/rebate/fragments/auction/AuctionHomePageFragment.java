@@ -119,7 +119,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
 
 
     private void initView(View view) {
-        initShopABar(view);
         initRecyclerView(view);
         initRefreshLayoutView(view);
         initLoadMore();
@@ -282,27 +281,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             }
         });
         this.adapter.setHeaderView(headView);
-    }
-
-    private void initShopABar(View view) {
-        ShopABar shopABar = (ShopABar) view.findViewById(R.id.shopBar);
-        shopABar.setImageOtherEnable(false);
-        shopABar.setImMsgSta(R.mipmap.abar_search);
-        shopABar.setCallback(new ShopABar.Callback() {
-            @Override
-            public void back(View v) {
-                getActivity().finish();
-            }
-
-            @Override
-            public void clkMsg(View v) {
-            }
-
-            @Override
-            public void clkOther(View v) {
-
-            }
-        });
     }
 
     private void stopLoadMore() {

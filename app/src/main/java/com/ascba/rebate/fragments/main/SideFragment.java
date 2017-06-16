@@ -298,7 +298,7 @@ public class SideFragment extends BaseNetFragment implements
                 data.add(business);
             }
         } else {
-            adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(), "暂无商家数据"));
+
         }
 
     }

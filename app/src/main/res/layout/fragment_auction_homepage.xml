@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.ascba.rebate.view.ShopABar
+    <com.ascba.rebate.view.MoneyBar
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="首页"/>
+        app:textTitle="首页"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
