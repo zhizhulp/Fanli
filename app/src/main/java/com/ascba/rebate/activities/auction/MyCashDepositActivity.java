@@ -198,19 +198,6 @@ public class MyCashDepositActivity extends BaseNetActivity {
         }
     }
 
-    private void resetPage(){
-        now_page=1;
-        total_page=0;
-    }
-
-    private void stopLoadMore() {
-        if (adapter != null) {
-            adapter.loadMoreComplete();
-        }
-        if (loadMoreView != null) {
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-        }
-    }
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {

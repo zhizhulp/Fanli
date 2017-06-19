@@ -1,12 +1,8 @@
 package com.ascba.rebate.fragments.base;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +72,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
             String message = jObj.optString("msg");
             JSONObject dataObj = jObj.optJSONObject("data");
             if (status == 200) {
+                getPageCount(dataObj);
                 int update_status = dataObj.optInt("update_status");
                 if (update_status == 1) {
                     AppConfig.getInstance().putString("token", dataObj.optString("token"));
@@ -123,6 +120,11 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void getPageCount(JSONObject dataObj) {
+        total_page = dataObj.optInt("total_page");
+        now_page++;
     }
 
     @Override

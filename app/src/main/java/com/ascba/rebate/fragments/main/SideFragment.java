@@ -446,13 +446,6 @@ public class SideFragment extends BaseNetFragment implements
         }
     }
 
-    private void resetPage() {
-        if (now_page != 1) {
-            now_page = 1;
-            total_page=0;
-        }
-    }
-
     /**
      * 初始化筛选菜单数据
      */

@@ -47,7 +47,6 @@ public abstract class BaseFragmentNet extends BaseFragment {
 
     /**
      * 建立网络请求
-     *
      * @param url          请求网址
      * @param method       请求方式 0 post 1 get
      * @param defaultParam 是否有默认请求参数
@@ -115,12 +114,14 @@ public abstract class BaseFragmentNet extends BaseFragment {
         public void onFailed(int what, Response<JSONObject> response) {
             MyApplication.isRequestSuccess=false;
             dialogManager.buildAlertDialog(getString(R.string.no_response));
+            handler.sendEmptyMessage(LOAD_MORE_ERROR);
             requstFailed(what, response.getException());
         }
 
         @Override
         public void onFinish(int what) {
             stopRefresh();
+            stopLoadingMore();
             dialog.dismiss();
             requstFinish(what);
         }

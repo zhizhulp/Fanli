@@ -22,14 +22,12 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
     public PCMultipleItemAdapter(List<PCMultipleItem> data, Context context) {
         super(data);
         this.context = context;
-        if (data != null && data.size() > 0) {
-            addItemType(PCMultipleItem.TYPE_0, R.layout.activity_pc_item_head);
-            addItemType(PCMultipleItem.TYPE_1, R.layout.activity_pc_item1);
-            addItemType(PCMultipleItem.TYPE_2, R.layout.item_divider1);
-            addItemType(PCMultipleItem.TYPE_3, R.layout.activity_pc_item3);
-            addItemType(PCMultipleItem.TYPE_4, R.layout.item_divider2);
-            addItemType(PCMultipleItem.TYPE_5, R.layout.activity_pc_item4);
-        }
+        addItemType(PCMultipleItem.TYPE_0, R.layout.activity_pc_item_head);
+        addItemType(PCMultipleItem.TYPE_1, R.layout.activity_pc_item1);
+        addItemType(PCMultipleItem.TYPE_2, R.layout.item_divider1);
+        addItemType(PCMultipleItem.TYPE_3, R.layout.activity_pc_item3);
+        addItemType(PCMultipleItem.TYPE_4, R.layout.item_divider2);
+        addItemType(PCMultipleItem.TYPE_5, R.layout.activity_pc_item4);
     }
 
     @Override
@@ -65,9 +63,9 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
                 break;
 
             case PCMultipleItem.TYPE_5:
-                helper.setText(R.id.activity_pc_item4_text_left,item.getContenLeft());
+                helper.setText(R.id.activity_pc_item4_text_left, item.getContenLeft());
                 helper.setText(R.id.activity_pc_item4_text_right, item.getContenRight());
-                helper.setImageResource(R.id.activity_pc_item4_img_left,item.getDrawableLeft());
+                helper.setImageResource(R.id.activity_pc_item4_img_left, item.getDrawableLeft());
                 break;
         }
 

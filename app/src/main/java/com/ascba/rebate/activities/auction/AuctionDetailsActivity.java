@@ -167,8 +167,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
                     showToast("已经到最低价了");
                 } else {
                     agb.setPrice(agb.getPrice() - gapPrice);
-                    tvPrice.setText(agb.getPrice() + "");
-                    tvPriceBlind.setText("￥" + agb.getPrice());
+                    tvPrice.setText(NumberFormatUtils.getNewDouble(agb.getPrice()) + "");
+                    tvPriceBlind.setText("￥" + NumberFormatUtils.getNewDouble(agb.getPrice()));
                 }
             }
         });
@@ -179,8 +179,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
                     showToast("已经到最高价了");
                 } else {
                     agb.setPrice(agb.getPrice() + gapPrice);
-                    tvPrice.setText(agb.getPrice() + "");
-                    tvPriceBlind.setText("￥" + agb.getPrice());
+                    tvPrice.setText(NumberFormatUtils.getNewDouble(agb.getPrice()) + "");
+                    tvPriceBlind.setText("￥" + NumberFormatUtils.getNewDouble(agb.getPrice()));
                 }
             }
         });
@@ -224,17 +224,14 @@ public class AuctionDetailsActivity extends BaseNetActivity {
             currentLeftTime = agb.getGapTime();//重置时间
             agb.setPrice(price);
             agb.setReduceTimes(reduceTimes);
-            tvCount.setText("降价次数：" + reduceTimes + "次");
             if (agb.getType() == 1) {
-                tvPrice.setText(price + "");
-                tvPriceBlind.setText("￥" + price);
-                tvPriceRush.setText("当前价￥" + price);
+                tvCount.setText("降价次数：" + reduceTimes + "次");
+                tvPrice.setText(NumberFormatUtils.getNewDouble(price) + "");
+                tvPriceBlind.setText("￥" + NumberFormatUtils.getNewDouble(price));
+                tvPriceRush.setText("当前价￥" + NumberFormatUtils.getNewDouble(price));
             }
         } else {
             currentLeftTime--;
-            if (currentLeftTime == 0) {
-
-            }
         }
         agb.setCurrentLeftTime(currentLeftTime);
         tvTD.setText(currentLeftTime + "s");

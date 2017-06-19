@@ -37,7 +37,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 /**
  * Created by 李鹏 on 2017/03/31 0031.
- * 消息-最新公告
+ * 主页-最新公告
  */
 
 public class MessageLatestActivity extends BaseNetActivity implements BaseNetActivity.Callback,
@@ -86,7 +86,6 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
 
     private void requstData() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.moreNews, 0, false);
-        request.add("sign", UrlEncodeUtils.createSign(UrlUtils.moreNews));
         request.add("now_page", nowPage);
         executeNetWork(request, "请稍后");
         setCallback(this);
@@ -123,7 +122,7 @@ public class MessageLatestActivity extends BaseNetActivity implements BaseNetAct
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(context, WebViewBaseActivity.class);
-                intent.putExtra("name", beanList.get(position).getTitle());
+                intent.putExtra("name", "公告详情");
                 intent.putExtra("url", beanList.get(position).getId());
                 startActivity(intent);
             }

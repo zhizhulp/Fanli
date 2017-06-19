@@ -85,9 +85,9 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
             //最大兑换积分
             int convertible_red_score = redObj.optInt("convertible_red_score");
             //最终获得最大金额
-            int subscription_ratio_money = redObj.optInt("subscription_ratio_money");
+            Double subscription_ratio_money = redObj.optDouble("subscription_ratio_money");
             //最终获得最大积分
-            int subscription_ratio_score = redObj.optInt("subscription_ratio_score");
+            Double subscription_ratio_score = redObj.optDouble("subscription_ratio_score");
             int rateMoney = redObj.optInt("ratio_money");
             int rateScore = redObj.optInt("ratio_score");
             int notice_tip = redObj.optInt("notice_tip");

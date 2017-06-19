@@ -10,12 +10,12 @@
         android:id="@+id/shopBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:abar_title="消息"></com.ascba.rebate.view.ShopABarText>
+        app:abar_title="消息"/>
 
     <include layout="@layout/goods_details_cuttingline_wide" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recylerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -17,7 +17,6 @@ public class PCMultipleItem implements MultiItemEntity {
     public static final int TYPE_5 = 5;//客服
 
     //权重
-
     public static final int TYPE_SPAN_SIZE_DEFAULT = 20;
     public static final int TYPE_SPAN_SIZE_1 = 1;
     public static final int TYPE_SPAN_SIZE_4 = 4;
@@ -30,7 +29,6 @@ public class PCMultipleItem implements MultiItemEntity {
     private String title;//标题
     private String content;//内容
     private int messageNum;//消息数量
-
     private String contenLeft;
     private String contenRight;
     private int spanSize = TYPE_SPAN_SIZE_DEFAULT;

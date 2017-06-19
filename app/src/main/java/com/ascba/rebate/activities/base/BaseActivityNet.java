@@ -49,12 +49,9 @@ public abstract class BaseActivityNet extends BaseActivity {
 
     /**
      * 建立网络请求
-     *
      * @param url          请求网址
      * @param method       请求方式 0 post 1 get
      * @param defaultParam 是否有默认请求参数
-     *
-     *
      */
     protected Request<JSONObject> buildNetRequest(String url, int method, boolean defaultParam) {
         Request<JSONObject> jsonRequest = NoHttp.createJsonObjectRequest(url, method == 0 ? RequestMethod.POST : RequestMethod.GET);
@@ -102,7 +99,7 @@ public abstract class BaseActivityNet extends BaseActivity {
 
     private class NetResponseListener implements OnResponseListener<JSONObject> {
         private String message;
-        public NetResponseListener(String message) {
+        NetResponseListener(String message) {
             this.message=message;
         }
 
@@ -121,12 +118,14 @@ public abstract class BaseActivityNet extends BaseActivity {
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
             dialogManager.buildAlertDialog(getString(R.string.no_response));
+            handler.sendEmptyMessage(LOAD_MORE_ERROR);
             requstFailed(what, response.getException());
         }
 
         @Override
         public void onFinish(int what) {
             stopRefresh();
+            stopLoadMore();
             dialog.dismiss();
             requstFinish(what);
         }
@@ -146,10 +145,5 @@ public abstract class BaseActivityNet extends BaseActivity {
         return false;
     }
 
-    private void stopRefresh(){
-        if(refreshLayout!=null && refreshLayout.isRefreshing()){
-            refreshLayout.setRefreshing(false);
-        }
-    }
 
 }

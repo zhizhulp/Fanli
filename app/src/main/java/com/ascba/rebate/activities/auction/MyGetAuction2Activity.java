@@ -257,19 +257,4 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         }
     }
 
-    private void resetPage(){
-        isRefresh=true;
-        now_page=1;
-        total_page=0;
-    }
-
-    private void stopLoadMore() {
-        if (adapter != null) {
-            adapter.loadMoreComplete();
-        }
-        if (loadMoreView != null) {
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-        }
-    }
-
 }

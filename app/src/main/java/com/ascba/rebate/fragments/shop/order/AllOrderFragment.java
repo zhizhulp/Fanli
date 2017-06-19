@@ -214,7 +214,10 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 }
                 if (beadFoot != null) {
                     beadFoot.setId(orderId);
-                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    JSONObject object1 = object.optJSONObject("seller_info");
+                    if(object1!=null){
+                        beadFoot.setPhone(object1.optString("store_mobile"));
+                    }
                     beadFoot.setStateCode(orderStatus);
                     beanArrayList.add(beadFoot);
                 }

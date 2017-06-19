@@ -169,12 +169,10 @@ public class UserUpdateActivity extends BaseNetActivity implements
 
     @Override
     public void handle404(String message) {
-        stopRefersh();
     }
 
     @Override
     public void handleNoNetWork() {
-        stopRefersh();
     }
 
     @Override

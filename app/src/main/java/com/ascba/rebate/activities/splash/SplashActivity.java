@@ -35,13 +35,14 @@ public class SplashActivity extends Activity {
     }
 
     private void startSplashActivity() {
-        handler.postDelayed(new Runnable() {
+        startMainActivity();
+        /*handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 imageView.setImageResource(R.mipmap.start1);
-                startMainActivity();
+
             }
-        }, 3000);
+        }, 3000);*/
     }
 
     private void startMainActivity() {
@@ -63,10 +64,6 @@ public class SplashActivity extends Activity {
 
     /**
      * 屏蔽物理返回按钮
-     *
-     * @param keyCode
-     * @param event
-     * @return
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

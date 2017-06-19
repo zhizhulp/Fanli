@@ -149,7 +149,11 @@ public class DeliverOrderFragment extends LazyLoadFragment implements SwipeRefre
 
                     OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_deliver_foot, goodsNum, orderAmount, shippingFee);
                     beadFoot.setId(orderId);
-                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+
+                    JSONObject object1 = object.optJSONObject("seller_info");
+                    if(object1!=null){
+                        beadFoot.setPhone(object1.optString("store_mobile"));
+                    }
                     beanArrayList.add(beadFoot);
                 }
             }

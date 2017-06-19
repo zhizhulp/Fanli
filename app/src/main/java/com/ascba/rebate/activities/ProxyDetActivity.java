@@ -106,7 +106,6 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
     }
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
-            stopRefresh();
             JSONObject agentObj = dataObj.optJSONObject("agent");
             int count = agentObj.optInt("agency_count");//代理的区域数量
             tvMsg.setText(agentObj.optString("notice"));
@@ -147,24 +146,17 @@ public class ProxyDetActivity extends BaseNetActivity implements MoneyBar.CallBa
     }
 
     protected void mhandle404(int what, JSONObject object, String message) {
-        stopRefresh();
         finish();
     }
 
 
     protected void mhandleFailed(int what, Exception e) {
-        stopRefresh();
     }
 
     protected void mhandleReLogin(int what) {
         stopRefresh();
     }
 
-    private void stopRefresh(){
-        if(refreshLayout!=null && refreshLayout.isRefreshing()){
-            refreshLayout.setRefreshing(false);
-        }
-    }
     @Override
     public void clickImage(View im) {
 

@@ -158,7 +158,10 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
 
                     OrderBean beadFoot = new OrderBean(PayOrderAdapter.TYPE3, R.layout.item_order_evaluate_foot, goodsNum, orderAmount, shippingFee);
                     beadFoot.setId(orderId);
-                    beadFoot.setPhone(object.optJSONObject("seller_info").optString("store_mobile"));
+                    JSONObject object1 = object.optJSONObject("seller_info");
+                    if(object1!=null){
+                        beadFoot.setPhone(object1.optString("store_mobile"));
+                    }
                     beanArrayList.add(beadFoot);
                 }
             }
