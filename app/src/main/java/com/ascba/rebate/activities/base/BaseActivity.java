@@ -8,14 +8,11 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
@@ -29,35 +26,37 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected PermissionCallback requestPermissionAndBack;
     protected SwipeRefreshLayout refreshLayout;
     protected CustomLoadMoreView loadMoreView;
-    private static final int LOAD_MORE_END = 2017;
-    private static final int LOAD_MORE_ERROR = 2018;
-    private BaseQuickAdapter adapter;
-    private int now_page = 1;//当前页数 用于分页
-    private int total_page = 0;//总页数
+    protected static final int LOAD_MORE_END = 2017;
+    protected static final int LOAD_MORE_ERROR = 2018;
+    protected BaseQuickAdapter baseAdapter;
+    protected LoadRequestor loadRequestor;//加载器，管理上拉加载，下拉刷新
+    protected int now_page = 1;//当前页数 用于分页
+    protected int total_page = 0;//总页数
     protected boolean isRefreshing = true;//true 下拉刷新 false 加载更多
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
+    protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case LOAD_MORE_END:
-                    if (adapter != null) {
-                        adapter.loadMoreEnd(false);
+                    if (baseAdapter != null) {
+                        baseAdapter.loadMoreEnd(false);
                     }
                     break;
                 case LOAD_MORE_ERROR:
-                    if (adapter != null) {
-                        adapter.loadMoreFail();
+                    if (baseAdapter != null) {
+                        baseAdapter.loadMoreFail();
                     }
                     break;
             }
         }
     };
 
-    protected abstract void loadMore();
-
-    protected abstract void pullToRefresh();
+    public interface LoadRequestor{
+        void loadMore();
+        void pullToRefresh();
+    }
 
     //初始化下拉刷新
     protected void initRefreshLayout() {
@@ -68,19 +67,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isRefreshing = true;
-                pullToRefresh();
+                resetPage();
+                if(loadRequestor!=null){
+                    loadRequestor.pullToRefresh();
+                }
             }
         });
     }
 
     //初始化上拉加载
-    protected void initLoadMore() {
+    protected void initLoadMoreRequest() {
         if (loadMoreView == null) {
             loadMoreView = new CustomLoadMoreView();
-            adapter.setLoadMoreView(loadMoreView);
+            baseAdapter.setLoadMoreView(loadMoreView);
         }
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        baseAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 isRefreshing = false;
@@ -89,7 +90,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 } else if (total_page == 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    loadMore();
+                    if(loadRequestor!=null){
+                        loadRequestor.loadMore();
+                    }
                 }
             }
         });
@@ -97,15 +100,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //停止下拉刷新rere
     protected void stopRefresh() {
-        if (refreshLayout.isRefreshing()) {
+        if (refreshLayout!=null && refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
     }
 
     //停止上拉加载
     protected void stopLoadMore() {
-        if (adapter != null) {
-            adapter.loadMoreComplete();
+        if (baseAdapter != null) {
+            baseAdapter.loadMoreComplete();
         }
         if (loadMoreView != null) {
             loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
@@ -113,16 +116,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     //重置页数
     protected void resetPage(){
+        isRefreshing = true;
         now_page=1;
         total_page=0;
-    }
-
-    protected void showToast(String content) {
-        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
-    }
-
-    protected void showToast(int content) {
-        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
     }
 
     public interface PermissionCallback {
@@ -142,23 +138,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void setRequestPermissionAndBack(PermissionCallback requestPermissionAndBack) {
-        this.requestPermissionAndBack = requestPermissionAndBack;
-    }
-
-    /**
-     * 申请权限
-     */
-    protected void checkAndRequestAllPermission(String[] permissions) {
-        if (permissions == null) {
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= 23) {
-            requestPermissions(permissions, 1);
-        }
-    }
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] per,
                                            @NonNull int[] grantResults) {
@@ -177,4 +156,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, per, grantResults);
     }
+
+    protected void showToast(String content) {
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showToast(int content) {
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
+    }
+
 }

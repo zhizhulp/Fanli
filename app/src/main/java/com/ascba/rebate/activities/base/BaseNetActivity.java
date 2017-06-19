@@ -26,9 +26,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
         String message = jObj.optString("msg");
         JSONObject dataObj = jObj.optJSONObject("data");
         if (status == 200) {
-            if(isRefreshing){
-                resetPage();
-            }
+            getPageCount(dataObj);
             int update_status = dataObj.optInt("update_status");
             if (update_status == 1) {
                 AppConfig.getInstance().putString("token", dataObj.optString("token"));
@@ -70,6 +68,11 @@ public abstract class BaseNetActivity extends BaseActivityNet {
             //getDm().buildAlertDialog(message);
         }
 
+    }
+
+    private void getPageCount(JSONObject dataObj) {
+        total_page = dataObj.optInt("total_page");
+        now_page++;
     }
 
     @Override

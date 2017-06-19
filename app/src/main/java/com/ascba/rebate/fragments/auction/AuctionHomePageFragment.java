@@ -57,7 +57,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REDUCE_TIME = 2;
-    private boolean isRefresh;//当前是否是下拉刷新状态
+    private boolean isRefresh = true;//当前是否是下拉刷新状态
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -137,10 +137,25 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 initAuctionData(dataObj);//列表数据
             }
 
-        }else if(what==1){
+        } else if (what == 1) {
             showToast(message);
-            resetPage();
+            resetPageAndStatus();
             requestNetwork(UrlUtils.auction, 0);
+        }
+    }
+
+    public void resetPageAndStatus(){
+        isRefresh =true;
+        now_page =1;
+        total_page=0;
+    }
+
+    private void stopLoadMore() {
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
     }
 
@@ -171,8 +186,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         }
         adapter.notifyDataSetChanged();
     }
-
-
 
 
     private void initRecyclerView(View view) {
@@ -216,7 +229,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PAY_DEPOSIT && resultCode == Activity.RESULT_OK) {
-            resetPage();
+            resetPageAndStatus();
             requestNetwork(UrlUtils.auction, 0);
         }
     }
@@ -252,7 +265,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         View viewMsg = headView.findViewById(R.id.lat_msg);
         if (msgArray != null && msgArray.length() > 0) {
             viewMsg.setVisibility(View.VISIBLE);
-            StringBuilder sb=new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < msgArray.length(); i++) {
                 sb.append(msgArray.optJSONObject(i).optString("notice"));
                 sb.append("            ");
@@ -283,25 +296,11 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         this.adapter.setHeaderView(headView);
     }
 
-    private void stopLoadMore() {
-        if (adapter != null) {
-            adapter.loadMoreComplete();
-        }
-        if (loadMoreView != null) {
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-        }
-    }
 
     private void clearData() {
         if (beanList.size() != 0) {
             beanList.clear();
         }
-    }
-
-    private void resetPage() {
-        isRefresh=true;
-        now_page = 1;
-        total_page = 0;
     }
 
     private class MyTimerTask extends TimerTask {
@@ -324,6 +323,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         }
         return isOver;
     }
+
     private String getAutionIds() {
         return "\"" +
                 selectAGB.getId() +
@@ -333,6 +333,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 selectAGB.getPrice() +
                 "\"";
     }
+
     @Override
     protected void mhandleFailed(int what, Exception e) {
         if (what == 0) {
@@ -370,7 +371,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resetPage();
+                resetPageAndStatus();
                 isRefresh = true;
                 requestNetwork(UrlUtils.auction, 0);
             }
@@ -380,7 +381,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        resetPage();
+        resetPageAndStatus();
         clearData();
         isRefresh = true;
         if (timer != null) {

@@ -391,11 +391,6 @@ public class BusinessShopActivity extends BaseNetActivity implements
         }
     }
 
-    private void resetPage() {
-        if (now_page != 1) {
-            now_page = 1;
-        }
-    }
 
     //购物车Dialog
     private void showStandardDialog(List<GoodsAttr> gas, List<Goods> goodses,Goods defaultGoods) {

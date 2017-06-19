@@ -147,9 +147,6 @@ public class SystemMsgActivity extends BaseNetActivity implements BaseNetActivit
 
     @Override
     public void onRefresh() {
-        if (beanList.size() != 0) {
-            beanList.clear();
-        }
         requstData();
     }
 

@@ -314,7 +314,7 @@ public class CartChildFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_PAY_PDEPOSIT && resultCode== Activity.RESULT_OK){
-            resetPage();
+            resetPageAndStatus();
             requestNetwork(UrlUtils.auctionCard,0);
         }
     }
@@ -325,7 +325,7 @@ public class CartChildFragment extends BaseNetFragment {
             @Override
             public void onRefresh() {
                 isRefresh=true;
-                resetPage();
+                resetPageAndStatus();
                 requestNetwork(UrlUtils.auctionCard,0);
             }
         });
@@ -363,11 +363,17 @@ public class CartChildFragment extends BaseNetFragment {
             caculateMoneyAndNum();
         }else if(what==1){
             showToast(message);
-            resetPage();
+            resetPageAndStatus();
             requestNetwork(UrlUtils.auctionCard,0);
             /*Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
             startActivity(intent);*/
         }
+    }
+
+    private void resetPageAndStatus() {
+        isRefresh=true;
+        now_page=1;
+        total_page=0;
     }
 
     private void setCbTotal() {
@@ -432,14 +438,6 @@ public class CartChildFragment extends BaseNetFragment {
         now_page++;
     }
 
-    private void stopLoadMore() {
-        if (adapter != null) {
-            adapter.loadMoreComplete();
-        }
-        if (loadMoreView != null) {
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-        }
-    }
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -520,15 +518,18 @@ public class CartChildFragment extends BaseNetFragment {
 
 
     }
-    private void resetPage(){
-        isRefresh=true;
-        now_page=1;
-        total_page=0;
-    }
 
     private void clearData(){
         if(beanList.size()!=0){
             beanList.clear();
+        }
+    }
+    private void stopLoadMore() {
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
     }
 

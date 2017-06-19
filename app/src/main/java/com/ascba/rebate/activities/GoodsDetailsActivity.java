@@ -1369,7 +1369,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         stopRefresh();
     }
 
-    private void stopRefresh(){
+    public void stopRefresh(){
         if(ptrLayout!=null && ptrLayout.isRefreshing()){
             ptrLayout.setRefreshing(false);
         }

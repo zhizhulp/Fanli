@@ -223,6 +223,15 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         now_page++;
     }
 
+    private void stopLoadMore() {
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
+        }
+    }
+
     private void initView(View view) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -291,7 +300,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             @Override
             public void onRefresh() {
                 isRefresh=true;
-                resetPage();
+                resetPageAndStatus();
                 requestNetwork(UrlUtils.auctionType, 0);
             }
         });
@@ -354,19 +363,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         }
     }
 
-    private void resetPage(){
-        now_page=1;
-        total_page=0;
-    }
-
-    private void stopLoadMore() {
-        if (adapter != null) {
-            adapter.loadMoreComplete();
-        }
-        if (loadMoreView != null) {
-            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-        }
-    }
     //用于判断倒计时是否结束
     private boolean isTimerOver(){
         boolean isOver=true;
@@ -411,7 +407,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        resetPage();
+        resetPageAndStatus();
         clearData();
         isRefresh=true;
         if(handler.hasMessages(NEXT)){
@@ -420,6 +416,12 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         if(timer!=null){
             timer.cancel();
         }
+    }
+
+    private void resetPageAndStatus() {
+        isRefresh=true;
+        now_page=1;
+        total_page=0;
     }
 
     public EndTimeListener getListener() {
