@@ -127,6 +127,7 @@ public abstract class BaseActivityNet extends BaseActivity {
         @Override
         public void onFinish(int what) {
             stopRefresh();
+            stopLoadMore();
             dialog.dismiss();
             requstFinish(what);
         }
@@ -146,10 +147,5 @@ public abstract class BaseActivityNet extends BaseActivity {
         return false;
     }
 
-    private void stopRefresh(){
-        if(refreshLayout!=null && refreshLayout.isRefreshing()){
-            refreshLayout.setRefreshing(false);
-        }
-    }
 
 }

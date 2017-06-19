@@ -49,7 +49,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     private EndTimeListener listener;
-    public interface EndTimeListener{
+    interface EndTimeListener{
         void timeCome();
     }
     private static final int REQUEST_PAY_DEPOSIT = 3;
@@ -84,14 +84,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     setBeanProperty();
                     break;
                 case NEXT:
-                    /*Fragment parentFragment = getParentFragment();
-                    FragmentActivity activity = getActivity();
-                    if(isVisible() && parentFragment !=null && parentFragment instanceof AuctionMainPlaceFragment){
-                        ((AuctionMainPlaceFragment) parentFragment).setTabNextSelect();
-                    }
-                    if(isVisible() && activity !=null && activity instanceof AuctionListActivity){
-                        ((AuctionListActivity) activity).setTabNextSelect();
-                    }*/
                     if(listener!=null){
                         listener.timeCome();
                     }

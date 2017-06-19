@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 /**
  * Created by 李鹏 on 2017/04/20 0020.
+ * 网络回调
  */
 
 public abstract class BaseNetActivity extends BaseActivityNet {
@@ -25,6 +26,9 @@ public abstract class BaseNetActivity extends BaseActivityNet {
         String message = jObj.optString("msg");
         JSONObject dataObj = jObj.optJSONObject("data");
         if (status == 200) {
+            if(isRefreshing){
+                resetPage();
+            }
             int update_status = dataObj.optInt("update_status");
             if (update_status == 1) {
                 AppConfig.getInstance().putString("token", dataObj.optString("token"));

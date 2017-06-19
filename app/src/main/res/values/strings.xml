@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">钱来钱往</string>
+    <string name="app_name">测试版</string>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_main2">MainActivity</string>
     <string name="action_settings">Settings</string>
