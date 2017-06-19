@@ -111,6 +111,9 @@ public class PCMultipleItem implements MultiItemEntity {
         this.spanSize = spanSize;
     }
 
+
+
+
     public PCMultipleItem() {
     }
 

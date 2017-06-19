@@ -13,12 +13,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.me_page.TicketActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
+import com.ascba.rebate.activities.shop.order.MyOrderActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
@@ -72,7 +71,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
         pc_RecyclerView.setLayoutManager(manager);
-
         pc_RecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
