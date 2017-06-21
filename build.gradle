@@ -15,7 +15,12 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://jitpack.io" }
+        maven {
+            url "https://jitpack.io"
+        }
+        maven {
+            url "http://maven.aliyun.com/nexus/content/repositories/releases"
+        }
         /*//有关详细信息, 请使用 -Xlint:deprecation 重新编译。
         //有关详细信息, 请使用 -Xlint:unchecked 重新编译。
         gradle.projectsEvaluated {
