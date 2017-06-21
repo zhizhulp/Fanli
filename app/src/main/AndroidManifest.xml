@@ -64,6 +64,18 @@
             android:name="com.amap.api.v2.apikey"
             android:value="11d31c62f7f344c66c4f0fc80a15c4ce" />
 
+        <!--hotfix-->
+        <meta-data
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="24472037-1" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="18df006dbf8c4629458f835fb7eae6a3" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.RSASECRET"
+            android:value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDSusgTidDxTXy7n8AlMYVHzdeXBKdAURPkZY4DyHO7whFwBkIHRy/PJExYolvnDCUpGvZ+tebPsVTSqQ9Mbay9Jug9sQfVz16hhj4qEcvT44f8MNrqVMx7hwZwnuVwTLPIN8UEFb4D2my66RYfHN7Tgq5K2Uc46Tg9UbkzWr7tUZa8BUQHrIuOBlYUh+2c2yRHOnKIkTcZvFX/YuOcUrPa/7iOoX2EyPGBvwLm1/68YSqqcO2csR+f4LSEVGIC15H1uiUWzcoHjSqaKMLh8BkFhoqPqT7sOyqLWcJmjlEBg2VBFLvJRax/jJK38cbuHStrFqG+5GH6FRkwMK4HW2LrAgMBAAECggEAdYvlASkWGRQdKNeyqcyWyPfkc4QP+4t+ah/P+QI+tJRLf86t1Dt8SrK3t5VRaG9Y5zX4G7RB/MaxRxUwyHRBL/3c/FScx0J2SemFEZh9t0MrXpyt8Jq+uYUXLYkk+OCARIX/awjpxmJ31kcgpNhI33j82hmbZf6J9YJ5qVDMQboGphoJYgHFzv1Fp9Nwtt0Xz1HdaqRxCAa6XNMHIRhS6t5VByAVoeSJiRO95fwRgFVXAC+axDXWOwZ8mKotONKwywY9U989G7ytxWB/k8u53dYSsVblQwdkrL95/6Mb7aCyUzfnTIKWkPn2sgg/1+n9YsA8LsVL2IrxZx1Gnk49mQKBgQD2Vd954I3j0hEfZ8zHKojEjHJf6QOcd0oVULmi1WxZfE3McUgUy9AJ/aS1clxWY+uZhIXSKJM6vR7QzhWoRUgfBGg/7Gf49SWcyZ0b4yPRLrHgIdIxEwT4+xAzVjG4/nSB2FOoY41y6XFhB9uWUN1mkap6FAeA8Us5rCdunIjZpQKBgQDa/0sRqGAq13M83xnr+na92AcAXQ5PYvfK6bZ0HQRBNSciooxK98zFG241t7IfJs+OoWTUYHhExouUJwau6D4oF5Uwc5f4egMKLSJYWGAMXFwd0VTI1GyZoz/wVqeYr6E/E3Hn6g8CeHziiuqZPAC98kcnHwVy3/+7Uzjcg2AFTwKBgQDvt2FiGUP7D9HZ3glJR/sQShyDeR4qhWtykrwT2d02t+B9sz+R/UTWdB509HUnHNWI743KlfGwl5oFWId62PD2PjO1ATms6+NOUGSzXrbcObSfiEojt35/TNLXImoAvJ5kPUAr/bUIvmO3KQ5nmQnbZqWfZx5mPGoYFY/J9Eq4gQKBgDeIo5Wvt+tFRVC7VoxzsCbGIEhkUJurAiEvkPfy38BVZT4wMBlWq1OUeCchFQc3RUzq+nGsoPL30i9YkiZKeHCcQlXOCkyVTC4JcfsrNfgMd8OL8M8Ypw1yy2T75HYgm2guWyUvQm0i9rBP/9upzppcVNTD1hLiYKw1F2c73V6bAoGAVNGIWz3bcnFxeEAib7IfkRScE2bPMUV0LAXIJzHCOGDfADwpfx/7b98bHA/zKib4KLgiJfRZqa1mvTs6aWBsfCCbDfCay+ThRXLU7BNoh9JO46OcyF3u/Ig5JLPuqMGaARTUcPh5N2oNQul8NCGlu1Qb2hsiBTjtTsfDtaEJGL0="/>
+
+
         <activity
             android:name=".activities.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -705,8 +717,7 @@
         <activity android:name=".activities.auction.MyGetAuction2Activity" />
         <activity android:name=".activities.scoring.ScoringActivity" />
         <activity android:name=".activities.scoring.PKActivity" />
-        <activity android:name=".activities.scoring.ShareActivity" />
-        <activity android:name=".activities.scoring.KnowStrategyActivity"></activity>
+        <activity android:name=".activities.scoring.ShareActivity"></activity>
     </application>
 
 </manifest>

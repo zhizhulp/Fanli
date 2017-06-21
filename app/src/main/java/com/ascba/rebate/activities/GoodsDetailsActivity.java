@@ -161,7 +161,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
-        ((MyApplication) getApplication()).addActivity(this);
 
         initView();
 

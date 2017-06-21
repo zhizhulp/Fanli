@@ -23,7 +23,6 @@ public class WebViewBaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view_base);
-        ((MyApplication) getApplication()).addActivity(this);
         initViews();
         getMsgFromBefore();
     }
@@ -31,7 +30,6 @@ public class WebViewBaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ((MyApplication) getApplication()).removeActivity(this);
     }
 
     private void getMsgFromBefore() {

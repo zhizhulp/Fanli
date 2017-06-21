@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.ascba.rebate.utils.IDsUtils;
+import com.taobao.sophix.SophixManager;
+import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.nohttp.Logger;
@@ -24,9 +27,6 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends MultiDexApplication {
     private static RequestQueue requestQueue;
     private static MyApplication app;
-
-    private List<Activity> activities = new ArrayList<>();
-
     //支付类型
     public static int payType = 0;//0 充值 1商城支付
     public static String orderId = null;//订单id
@@ -67,10 +67,6 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         app = this;
         initNohttp();
-        /*if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);*/
         requestQueue = NoHttp.newRequestQueue();
         try {
             JPushInterface.init(this);//极光推送
@@ -78,13 +74,46 @@ public class MyApplication extends MultiDexApplication {
             e.printStackTrace();
         }
         initWXPay();
+        initHotFix();
+    }
+    /**
+     * hotfix初始化
+     */
+    private void initHotFix() {
+        String appVersion;
+        try {
+            appVersion = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            appVersion = "1.0.0";
+        }
+        SophixManager.getInstance().setContext(this)
+                .setAppVersion(appVersion)
+                .setAesKey(null)
+                //.setAesKey("0123456789123456")
+                .setEnableDebug(true)
+                .setPatchLoadStatusStub(new PatchLoadStatusListener() {
+                    @Override
+                    public void onLoad(final int mode, final int code, final String info, final int handlePatchVersion) {
+                        //详细参数参照官方文档
+                        String msg = "Mode:" + mode +
+                                " Code:" + code +
+                                " Info:" + info +
+                                " HandlePatchVersion:" + handlePatchVersion;
+                        Log.d("hotfix", "onLoad: "+ msg);
+                    }
+                }).initialize();
     }
 
+    /**
+     * 微信支付分享初始化
+     */
     private void initWXPay() {
-        // 将该app注册到微信
         msgApi.registerApp(IDsUtils.WX_PAY_APP_ID);
     }
 
+    /**
+     * 网络初始化
+     */
     private void initNohttp() {
         NoHttp.initialize(this, new NoHttp.Config()
                         // 设置全局连接超时时间，单位毫秒，默认10s。
@@ -102,34 +131,8 @@ public class MyApplication extends MultiDexApplication {
                         // 配置网络层，默认使用URLConnection，如果想用OkHttp：OkHttpNetworkExecutor。
                         .setNetworkExecutor(new OkHttpNetworkExecutor())
         );
-        Logger.setDebug(true); // 开启NoHttp调试模式。
+        Logger.setDebug(false); // 开启/关闭NoHttp调试模式。
         Logger.setTag("NoHttpSample"); // 设置NoHttp打印Log的TAG。
-    }
-
-    // 添加Activity到容器中
-    public void addActivity(Activity activity) {
-        if (activities.size() > 0) {
-            if (!activities.contains(activity)) {
-                activities.add(activity);
-            }
-        } else {
-            activities.add(activity);
-        }
-
-    }
-
-    // 从容器中移除Activity
-    public void removeActivity(Activity activity) {
-        if (activities.size() > 0) {
-            if (activities.contains(activity)) {
-                activities.remove(activity);
-            }
-        }
-
-    }
-
-    public List<Activity> getActivities() {
-        return activities;
     }
 
     private WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
