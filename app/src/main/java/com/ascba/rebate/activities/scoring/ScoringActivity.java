@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities.scoring;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +15,10 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.scoring.widget.NewCreditSesameView;
+import com.ascba.rebate.activities.scoring.widget.ShareDialog;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 
 public class ScoringActivity extends BaseNetActivity implements View.OnClickListener {
     private RecyclerView recycler;
@@ -41,7 +45,7 @@ public class ScoringActivity extends BaseNetActivity implements View.OnClickList
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setNavigationBarTintEnabled(true);
         // 自定义颜色
-        tintManager.setTintColor(Color.parseColor("#00a8af"));
+        tintManager.setTintColor(Color.parseColor("#469BA2"));
     }
 
     @TargetApi(19)
@@ -94,24 +98,26 @@ public class ScoringActivity extends BaseNetActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        Intent intent;
+
         switch (v.getId()){
             case R.id.scroing_notify_cancel:
                 llNotify.setVisibility(View.GONE);
                 break;
             case R.id.scoring_showOne:
-                showToast("功能待完成中！");
-              //  new ShareDialog(this);
+                showScoringDialog();
+
                 break;
-            case R.id.scoring_knowStrategy:
-                showToast("功能待完成中！");
+            case R.id.scoring_knowStrategy://了解攻略
+                 intent=new Intent(this, KnowStrategyActivity.class);
+                startActivity(intent);
                 break;
             case R.id.raise_scores://提高分数
                 showToast("功能待完成中！");
                 break;
             case R.id.scoring_pk://pk榜
-//                Intent intent=new Intent(this,PKActivity.class);
-//                startActivity(intent);
-                showToast("功能待完成中！");
+                 intent=new Intent(this,PKActivity.class);
+                startActivity(intent);
                 break;
             case R.id.scoring_growth_footprint://成长足迹
                 showToast("功能待完成中！");
@@ -119,6 +125,12 @@ public class ScoringActivity extends BaseNetActivity implements View.OnClickList
 
 
         }
+
+    }
+
+    private void showScoringDialog() {
+        ShareDialog dialog=new ShareDialog(this);
+
     }
 }
 

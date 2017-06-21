@@ -19,6 +19,7 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
 
     private Context context;
 
+
     public PCMultipleItemAdapter(List<PCMultipleItem> data, Context context) {
         super(data);
         this.context = context;

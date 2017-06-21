@@ -201,7 +201,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         //粗分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
-
         JSONObject listObject = Object.optJSONObject("nav_list_info");
 
         //学堂

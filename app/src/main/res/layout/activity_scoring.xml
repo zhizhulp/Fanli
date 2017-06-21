@@ -39,7 +39,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true">
 
-                    <com.ascba.rebate.activities.scoring.NewCreditSesameView
+                    <com.ascba.rebate.activities.scoring.widget.NewCreditSesameView
                         android:id="@+id/scroing_creditsesame"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

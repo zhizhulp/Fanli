@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities.scoring;
+package com.ascba.rebate.activities.scoring.widget;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
