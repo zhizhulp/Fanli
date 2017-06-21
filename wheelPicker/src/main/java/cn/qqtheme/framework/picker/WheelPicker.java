@@ -127,7 +127,7 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
     @Override
     protected void showAfter() {
         super.showAfter();
-        View view = getRootView();
+        /*View view = getRootView();
         //使用透明渐变位移动画，缓解选中项显示跳动问题
         ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 0, 1);
         ObjectAnimator translation = ObjectAnimator.ofFloat(view, "translationY", 300, 0);
@@ -135,13 +135,14 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
         animatorSet.playTogether(alpha, translation);
         animatorSet.setDuration(WheelView.SECTION_DELAY);
         animatorSet.setInterpolator(new AccelerateInterpolator());
-        animatorSet.start();
+        animatorSet.start();*/
     }
 
 
     @Override
     public void dismiss() {
-        View view = getRootView();
+        dismissImmediately();
+        /*View view = getRootView();
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 1, 0);
         ObjectAnimator translation = ObjectAnimator.ofFloat(view, "translationY", 0, 300);
@@ -169,7 +170,7 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
 
             }
         });
-        animatorSet.start();
+        animatorSet.start();*/
     }
 
 }

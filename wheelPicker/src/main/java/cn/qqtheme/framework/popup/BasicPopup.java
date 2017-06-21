@@ -229,7 +229,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
     public final void show() {
         if (isPrepared) {
             dialog.show();
-            showAfter();
+            //showAfter();
             return;
         }
         setContentViewBefore();
@@ -238,7 +238,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
         setContentViewAfter(view);
         isPrepared = true;
         dialog.show();
-        showAfter();
+        //showAfter();
     }
 
     protected void showAfter() {
