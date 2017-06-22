@@ -1,5 +1,6 @@
 package com.ascba.rebate.adapter;
 
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.IntegralValueItem;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,7 +21,16 @@ public class IntegralValueAdapter extends BaseQuickAdapter<IntegralValueItem, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, IntegralValueItem item) {
+        if (item.getContent()!=null) {
             helper.setText(R.id.activity_se_item1_text1, item.getTitle());
             helper.setText(R.id.activity_se_item1_text2, item.getContent());
+
+        }else{
+            helper.setText(R.id.activity_se_item1_text1, item.getTitle());
+            helper.setVisible(R.id.activity_se_item1_text2, false);
+        }
+
+
+
     }
 }

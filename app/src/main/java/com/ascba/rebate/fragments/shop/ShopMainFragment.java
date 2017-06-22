@@ -1,19 +1,15 @@
 package com.ascba.rebate.fragments.shop;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,7 +31,6 @@ import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.BezierCurveAnimater;
@@ -43,7 +38,6 @@ import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.ShopTabs;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.cart_btn.NumberButton;
-import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -55,7 +49,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 /**
  * 商城首页
@@ -341,7 +334,14 @@ public class ShopMainFragment extends BaseNetFragment implements
     private void initShoopNave(JSONObject dataObj) {
         //商品导航
         JSONArray goodsAy = dataObj.optJSONArray("mallCategory");
-        int weight = TypeWeight.TYPE_SPAN_SIZE_MAX / goodsAy.length();
+        int weight;
+        if(goodsAy.length()<=5){
+            weight = TypeWeight.TYPE_SPAN_SIZE_MAX / goodsAy.length();
+        }else{
+            weight=TypeWeight.TYPE_SPAN_SIZE_MAX/5;
+        }
+
+
         if ( goodsAy.length() != 0) {
             for (int i = 0; i < goodsAy.length(); i++) {
                 JSONObject gObj = goodsAy.optJSONObject(i);
