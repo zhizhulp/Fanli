@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
@@ -252,7 +253,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                HomePageMultiItemItem item = items.get(position);
                 switch (view.getId()) {
                     case R.id.homepage_btn_speedmon:
                         startActivity(new Intent(getActivity(), ShopActivity.class));
@@ -281,9 +281,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         break;
                     case R.id.homepage_btn_college:
                         //ASK商学院
-                        showToast("暂未开放");
-                        /*Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
-                        startActivity(college);*/
+                        //showToast("暂未开放");
+                        Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
+                        startActivity(college);
                         break;
                     case R.id.homepage_text_more_news:
                         //最新动态——更多

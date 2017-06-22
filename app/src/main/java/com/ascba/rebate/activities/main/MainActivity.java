@@ -1,7 +1,9 @@
 package com.ascba.rebate.activities.main;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -24,12 +26,15 @@ import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.fragments.main.SideFragment;
 import com.ascba.rebate.handlers.ReceiveThread;
 import com.ascba.rebate.handlers.SendThread;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
+import com.taobao.sophix.SophixManager;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -85,14 +90,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private Fragment mMoneyFragment;
     private Fragment mMeFragment;
     private AppTabs appTabs;
-    private boolean debug = false;
-    private static final String TAG = "MainActivityFragment";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (debug)
-            Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
@@ -115,10 +116,27 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                 index = 0;
             }
         }
+        if(Build.VERSION.SDK_INT >= 23){
+            checkAndRequestAllPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionCallback() {
+                @Override
+                public void requestPermissionAndBack(boolean isOk) {
+                    if(isOk){
+                        if(MyApplication.isKillAppToLoadPatch){
+                            getDm().buildAlertDialogSure("重启app完成更新", "取消", "重启", new DialogHome.Callback() {
+                                @Override
+                                public void handleSure() {
+                                    SophixManager.getInstance().killProcessSafely();
+
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findViews();
-
     }
 
     private void findViews() {
@@ -298,71 +316,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     }
 
-    @Override
-    protected void onRestart() {
-        if (debug)
-            Log.d(TAG, "onRestart: ");
-        super.onRestart();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (debug)
-            Log.d(TAG, "onSaveInstanceState: ");
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (debug)
-            Log.d(TAG, "onConfigurationChanged: ");
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onStart() {
-        if (debug)
-            Log.d(TAG, "onStart: ");
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        if (debug)
-            Log.d(TAG, "onStop: ");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (debug)
-            Log.d(TAG, "onDestroy: ");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        if (debug)
-            Log.d(TAG, "onLowMemory: ");
-        super.onLowMemory();
-    }
-
-    @Override
-    protected void onResume() {
-
-        if (debug)
-            Log.d(TAG, "onResume: ");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-
-        if (debug)
-            Log.d(TAG, "onPause: ");
-        super.onPause();
-    }
-
     public AppTabs getAppTabs() {
         return appTabs;
     }
@@ -436,19 +389,5 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             tagSet.add("release");
         }
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
-    }
-
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        if (debug)
-            Log.d(TAG, "onAttachFragment: ");
-        super.onAttachFragment(fragment);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (debug)
-            Log.d(TAG, "onRestoreInstanceState: ");
-        super.onRestoreInstanceState(savedInstanceState);
     }
 }
