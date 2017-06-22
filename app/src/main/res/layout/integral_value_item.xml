@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_dark"
+        android:text="ddd"
         android:textSize="15sp" />
 
     <TextView
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:textColor="@color/shop_normal_text_color"
+        android:text="ddd"
         android:textSize="13sp" />
 
     <View

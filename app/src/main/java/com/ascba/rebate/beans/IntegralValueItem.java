@@ -31,4 +31,7 @@ public class IntegralValueItem {
         this.content = content;
     }
 
+    public IntegralValueItem(String title) {
+        this.title = title;
+    }
 }
