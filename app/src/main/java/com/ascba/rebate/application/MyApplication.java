@@ -1,13 +1,14 @@
 package com.ascba.rebate.application;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.ascba.rebate.utils.IDsUtils;
+import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixManager;
 import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -17,9 +18,6 @@ import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 import com.yanzhenjie.nohttp.cookie.DBCookieStore;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -42,9 +40,7 @@ public class MyApplication extends MultiDexApplication {
     public static String addressId;//当前收货地址id
 
     public static boolean isLoad = true;
-
     public static boolean isSignOut = false;//是否退出登陆
-
     public static boolean isChangePersonalData;//个人资料是否修改
     public static boolean signOutSignInMoney;//是否点击了设置里的退出 用于退出后登陆重新刷新界面(moneyfrgment判断)
     public static boolean signOutSignInMe;//是否点击了设置里的退出 用于退出后登陆重新刷新界面(mefrgment判断)
@@ -52,8 +48,9 @@ public class MyApplication extends MultiDexApplication {
     public static boolean signOutSignInShopMe;//是否点击了设置里的退出 用于退出后登陆重新刷新界面(shopmefrgment判断)
     public static boolean isLoadCartData;//是否需要刷新购物车数据
     public static boolean isRefreshOrderCount;//是否刷新订单的数字图标
-
     public static boolean isRequestSuccess;//网络请求是否成功
+    public static boolean isKillAppToLoadPatch;//是否需要杀死app去加载补丁
+
     public final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
     @Override
@@ -94,14 +91,32 @@ public class MyApplication extends MultiDexApplication {
                 .setPatchLoadStatusStub(new PatchLoadStatusListener() {
                     @Override
                     public void onLoad(final int mode, final int code, final String info, final int handlePatchVersion) {
+                        String TAG ="hotfix";
                         //详细参数参照官方文档
                         String msg = "Mode:" + mode +
                                 " Code:" + code +
                                 " Info:" + info +
                                 " HandlePatchVersion:" + handlePatchVersion;
-                        Log.d("hotfix", "onLoad: "+ msg);
+                        Log.d(TAG, "onLoad: "+ msg);
+                        // 补丁加载回调通知
+                        if (code == PatchStatus.CODE_LOAD_SUCCESS) {
+                            Log.d(TAG, "onLoad: patch load success");
+                            // 表明补丁加载成功
+                        } else if (code == PatchStatus.CODE_LOAD_RELAUNCH) {
+                            Log.d(TAG, "onLoad: load relaunch");
+                            isKillAppToLoadPatch=true;
+                            // 表明新补丁生效需要重启. 开发者可提示用户或者强制重启;
+                            // 建议: 用户可以监听进入后台事件, 然后应用自杀
+                        } else if (code == PatchStatus.CODE_LOAD_FAIL) {
+                            // 内部引擎异常, 推荐此时清空本地补丁, 防止失败补丁重复加载
+                            Log.d(TAG, "onLoad: load failed");
+                            SophixManager.getInstance().cleanPatches();
+                        } else {
+                            Log.d(TAG, "onLoad: other status");
+                        }
                     }
                 }).initialize();
+        SophixManager.getInstance().queryAndLoadNewPatch();
     }
 
     /**

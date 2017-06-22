@@ -55,7 +55,7 @@ public class AddressPicker extends LinkagePicker {
         return getSelectedProvince().getCitys().get(selectedSecondIndex);
     }
 
-    public cn.qqtheme.framework.beans.Province.City.District getSelectedCounty() {
+    public Province.City.District getSelectedCounty() {
         return getSelectedCity().getDistricts().get(selectedThirdIndex);
     }
 
@@ -231,9 +231,9 @@ public class AddressPicker extends LinkagePicker {
                 county = getSelectedCounty();
             }
             onAddressPickListener.onAddressPicked(province, city, county);
-            Log.d("AddressPicker", "province.getId():" + province.getId());
-            Log.d("AddressPicker", "city.getId():" + city.getId());
-            Log.d("AddressPicker", "county.getId():" + county.getId());
+            Log.d("AddressPicker", "province.getId():" + province.getName());
+            Log.d("AddressPicker", "city.getId():" + city.getName());
+            Log.d("AddressPicker", "county.getId():" + county.getName());
         }
     }
 
