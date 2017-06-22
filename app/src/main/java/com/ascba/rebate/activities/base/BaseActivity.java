@@ -43,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     if (baseAdapter != null) {
                         baseAdapter.loadMoreEnd(false);
                     }
+
                     break;
                 case LOAD_MORE_ERROR:
                     if (baseAdapter != null) {

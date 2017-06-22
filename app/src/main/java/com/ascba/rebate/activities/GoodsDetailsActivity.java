@@ -17,9 +17,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -33,7 +30,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -1054,9 +1050,9 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
     private List<IntegralValueItem> getData(Float score) {
         List<IntegralValueItem> data = new ArrayList<>();
-        data.add(new IntegralValueItem("购买后赠送"+score+"礼品分", "购买后可获得"+score+"礼品分，会员等级越高购买商品送的礼品分越多"));
-        data.add(new IntegralValueItem("礼品分有什么用", "礼品分可转化成商品分和代金券，在购买商品时，可使用商品分和代金券抵扣一部分现金。"));
-        data.add(new IntegralValueItem("温馨提示", "此处显示礼品分为不打折情况下购买获赠礼品分，具体赠送礼品分以商品结算时显示礼品分为准。"));
+        data.add(new IntegralValueItem("购买后赠送"+score+"礼品分"));//, "购买后可获得"+score+"礼品分，会员等级越高购买商品送的礼品分越多" content
+        data.add(new IntegralValueItem("礼品分有什么用", "礼品分可转化成商品分，商品分可以转化为代金券和折扣券"));
+        data.add(new IntegralValueItem("温馨提示", "具体赠送礼品分以商品结算时显示礼品分为准。"));
         return data;
     }
 

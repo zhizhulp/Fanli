@@ -13,6 +13,7 @@
         android:layout_width="40dp"
         android:layout_centerHorizontal="true"
         android:layout_height="40dp"
+        android:src="@mipmap/ic_launcher"
         android:scaleType="fitCenter" />
 
     <TextView
@@ -23,6 +24,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="9.5dp"
         android:gravity="center"
+        android:text="超市"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/shop_normal_text_color"
         android:textSize="11sp" />
 </RelativeLayout>
