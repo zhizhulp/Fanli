@@ -125,8 +125,11 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                             getDm().buildAlertDialogSure("重启app完成更新", "取消", "重启", new DialogHome.Callback() {
                                 @Override
                                 public void handleSure() {
+                                    Intent i = getBaseContext().getPackageManager()
+                                            .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
                                     SophixManager.getInstance().killProcessSafely();
-
                                 }
                             });
                         }

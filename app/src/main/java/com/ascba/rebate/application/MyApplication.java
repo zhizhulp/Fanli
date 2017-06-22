@@ -5,8 +5,6 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
-
 import com.ascba.rebate.utils.IDsUtils;
 import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixManager;
@@ -50,8 +48,8 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isRefreshOrderCount;//是否刷新订单的数字图标
     public static boolean isRequestSuccess;//网络请求是否成功
     public static boolean isKillAppToLoadPatch;//是否需要杀死app去加载补丁
-
     public final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
+
 
     @Override
     protected void attachBaseContext(Context base) {
