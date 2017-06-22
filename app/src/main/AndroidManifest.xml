@@ -718,6 +718,7 @@
         <activity android:name=".activities.scoring.ScoringActivity" />
         <activity android:name=".activities.scoring.PKActivity" />
         <activity android:name=".activities.scoring.ShareActivity"></activity>
+        <activity android:name=".activities.scoring.KnowStrategyActivity"></activity>
     </application>
 
 </manifest>
