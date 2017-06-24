@@ -21,6 +21,7 @@ import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.AuctionListActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.AuctionMainPlaceChildAdapter;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.beans.TittleBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -202,6 +203,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             adapter.notifyDataSetChanged();
         }else if(what==1){
             ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
+            MyApplication.isLoadAuctionCart=true;
         }else if(what==2){
             showToast(message);
             selectAGB.setIntState(5);

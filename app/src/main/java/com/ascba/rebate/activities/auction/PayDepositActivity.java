@@ -185,6 +185,14 @@ public class PayDepositActivity extends BaseNetActivity{
         }
     }
 
+    @Override
+    protected void mhandleReLogin(int what) {
+        super.mhandleReLogin(what);
+        if(what==0){
+            finish();
+        }
+    }
+
     //设置button状态
     private void setBtnStatus(int id, boolean enable) {
         btnApply.setBackgroundDrawable(getResources().getDrawable(id));

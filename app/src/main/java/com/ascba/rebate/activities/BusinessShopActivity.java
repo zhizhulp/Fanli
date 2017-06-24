@@ -105,6 +105,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
     private String attention = "请选择完整的商品规格";//没选择完整规格的提醒
 
     private boolean has_spec;//加入购物车的商品是否有规格
+    private TextView headTvType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,7 +198,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
         backImg = (ImageView) headView.findViewById(R.id.shop_img);
         tvShopName = ((TextView) headView.findViewById(R.id.shop_name));
         headImg = (ImageView) headView.findViewById(R.id.shop_img_head);
-
+        headTvType = (TextView) headView.findViewById(R.id.tv_shop_type);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -240,8 +241,13 @@ public class BusinessShopActivity extends BaseNetActivity implements
             isRefresh = true;
         }
         clearData();
-        resetPage();
+        resetPageAndStatus();
         requestData(UrlUtils.getStore, 0);
+    }
+
+    private void resetPageAndStatus() {
+        now_page=1;
+        total_page=0;
     }
 
 
@@ -257,7 +263,6 @@ public class BusinessShopActivity extends BaseNetActivity implements
             }
             getPageCount(dataObj);//分页数据
             if (isRefresh) {//下拉刷新
-                resetPage();
                 clearData();
                 refreshHeadData(dataObj);//头部数据
                 refreshGoodsData(dataObj);//商品列表数据
@@ -300,23 +305,25 @@ public class BusinessShopActivity extends BaseNetActivity implements
     }
 
     private void initLoadMore() {
-        if (isRefresh) {
-            isRefresh = false;
-        }
         if (loadMoreView == null) {
             loadMoreView = new CustomLoadMoreView();
             adapter.setLoadMoreView(loadMoreView);
-            adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                @Override
-                public void onLoadMoreRequested() {
-                    if (now_page > total_page - 1 && total_page != 0) {
-                        handler.sendEmptyMessage(LOAD_MORE_END);
-                    } else {
-                        requestData(UrlUtils.getStore, 0);
-                    }
-                }
-            });
         }
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (isRefresh) {
+                    isRefresh = false;
+                }
+                if (now_page > total_page  && total_page != 0) {
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                } else if(total_page==0){
+                    handler.sendEmptyMessage(LOAD_MORE_END);
+                }else {
+                    requestData(UrlUtils.getStore, 0);
+                }
+            }
+        });
     }
 
     private void initAdapterAndRefresh() {
@@ -328,6 +335,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
                     return 1;
                 }
             });
+            adapter.setEmptyView(ViewUtils.getEmptyView(this, "暂无商品数据"));
             adapter.addHeaderView(headView);
             recyclerView.setAdapter(adapter);
         } else {
@@ -338,9 +346,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
 
     private void refreshGoodsData(JSONObject dataObj) {
         JSONArray array = dataObj.optJSONArray("mallGoods");
-        if (array == null || array.length() == 0) {
-            adapter.setEmptyView(ViewUtils.getEmptyView(this, "暂无商品数据"));
-        } else {
+        if (array != null && array.length() > 0) {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 String id = obj.optString("id");
@@ -362,9 +368,10 @@ public class BusinessShopActivity extends BaseNetActivity implements
         if (head == null) {
             adapter.removeHeaderView(headView);
         } else {
-            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_banner")).into(backImg);
-            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_logo")).into(headImg);
+            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_banner")).placeholder(R.mipmap.busi_loading).into(backImg);
+            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_logo")).placeholder(R.mipmap.loading_rect).into(headImg);
             tvShopName.setText(head.optString("store_name"));
+            headTvType.setText(head.optString("store_type_name"));
         }
     }
 

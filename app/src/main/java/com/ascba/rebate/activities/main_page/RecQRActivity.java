@@ -4,7 +4,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.test.mock.MockApplication;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -81,16 +83,37 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
         msg.description="钱来钱往，一个神奇的商城！";
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
         msg.thumbData= bmpToByteArray(bitmap,true);
-
-        SendMessageToWX.Req req=new SendMessageToWX.Req();
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction= buildTransaction("webpage");
         req.message= msg;
+        shareDialog(req);
+    }
+
+    private void shareDialog(final SendMessageToWX.Req req){
+
         //发送到聊天界面——WXSceneSession
         //发送到朋友圈——WXSceneTimeline
         //添加到微信收藏——WXSceneFavorite
-        req.scene= SendMessageToWX.Req.WXSceneSession;
-        
-        ((MyApplication) getApplication()).msgApi.sendReq(req);
+
+        final BottomSheetDialog dialog =new BottomSheetDialog(this);
+        dialog.setContentView(LayoutInflater.from(this).inflate(R.layout.register_share_dialog,null));
+        dialog.findViewById(R.id.wx_circle_friends).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                req.scene= SendMessageToWX.Req.WXSceneTimeline;
+                ((MyApplication) getApplication()).msgApi.sendReq(req);
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.wx_friends).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                req.scene= SendMessageToWX.Req.WXSceneSession;
+                ((MyApplication) getApplication()).msgApi.sendReq(req);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private   byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {

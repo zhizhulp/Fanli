@@ -214,7 +214,6 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
         } else if (finalScene == 1) {
 
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
-            LogUtils.PrintLog("MeFragment", "data-->" + infoObj);
             int seller_status = infoObj.optInt("seller_status");
             int merchant = infoObj.optInt("merchant");
             if (merchant == 3) {//公司资料审核通过

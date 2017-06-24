@@ -106,10 +106,15 @@ public class MyGetAuction2Activity extends BaseNetActivity {
             startActivity(intent);
         }else if(what==2){//确认收获成功
             showToast(message);
-            resetPage();
+            resetPageAndStatus();
             requestNetwork(UrlUtils.auctionPayList,0);
         }
 
+    }
+    private void resetPageAndStatus(){
+        now_page=1;
+        total_page=0;
+        isRefresh=true;
     }
 
     private void parseData(JSONArray array) {
@@ -213,7 +218,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_PAY && resultCode==RESULT_OK){
-            resetPage();
+            resetPageAndStatus();
             requestNetwork(UrlUtils.auctionPayList,0);
         }
     }
@@ -223,7 +228,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resetPage();
+                resetPageAndStatus();
                 requestNetwork(UrlUtils.auctionPayList,0);
             }
         });

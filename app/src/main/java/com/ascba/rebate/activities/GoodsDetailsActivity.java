@@ -179,9 +179,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         findViewById(R.id.det_tv_shop).setOnClickListener(this);
         findViewById(R.id.det_tv_phone).setOnClickListener(this);
 
-        /**
-         *店铺
-         */
+
         //logo
         String logo = "http://image18-c.poco.cn/mypoco/myphoto/20170303/17/18505011120170303175927036_640.jpg";
         imgLogo = (ImageView) findViewById(R.id.goods_details_shop_img_logo);
@@ -287,7 +285,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     }
 
     /*
-        店铺推荐
+     * 店铺推荐
      */
     private void getStore(JSONObject dataObj) {
         JSONObject obj = dataObj.optJSONObject("mallStore");
@@ -605,7 +603,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         Goods goods1 = storeGoodsList.get(0);
         ImageView imageView1 = (ImageView) findViewById(R.id.goods_details_shop_img1);
-        Picasso.with(this).load(goods1.getImgUrl()).into(imageView1);
+        imageView1.setOnClickListener(this);
+        Picasso.with(this).load(goods1.getImgUrl()).placeholder(R.mipmap.loading_rect).into(imageView1);
         //商城价
         TextView goods1price = (TextView) findViewById(R.id.goods_details_shop_img1_price);
         goods1price.setText("￥" + goods1.getGoodsPrice());
@@ -619,7 +618,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         Goods goods2 = storeGoodsList.get(1);
         ImageView imageView2 = (ImageView) findViewById(R.id.goods_details_shop_img2);
-        Picasso.with(this).load(goods2.getImgUrl()).into(imageView2);
+        imageView2.setOnClickListener(this);
+        Picasso.with(this).load(goods2.getImgUrl()).placeholder(R.mipmap.loading_rect).into(imageView2);
         //商城价
         TextView goods2price = (TextView) findViewById(R.id.goods_details_shop_img2_price);
         goods2price.setText("￥" + goods2.getGoodsPrice());
@@ -634,7 +634,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         Goods goods3 = storeGoodsList.get(2);
         ImageView imageView3 = (ImageView) findViewById(R.id.goods_details_shop_img3);
-        Picasso.with(this).load(goods3.getImgUrl()).into(imageView3);
+        imageView3.setOnClickListener(this);
+        Picasso.with(this).load(goods3.getImgUrl()).placeholder(R.mipmap.loading_rect).into(imageView3);
         //商城价
         TextView goods3price = (TextView) findViewById(R.id.goods_details_shop_img3_price);
         goods3price.setText("￥" + goods3.getGoodsPrice());
@@ -642,7 +643,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         TextView goods3PriceOld = (TextView) findViewById(R.id.goods_details_shop_img3_price_old);
         goods3PriceOld.setText("￥" + goods3.getGoodsPriceOld());
         goods3PriceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-
 
         //进店看看
         View shopEnter = findViewById(R.id.goods_details_shop_img_enter);
@@ -774,6 +774,15 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 ShopActivity.setIndex(ShopActivity.CART);
                 startActivity(new Intent(this, ShopActivity.class));
                 break;
+            case R.id.goods_details_shop_img1:
+                GoodsDetailsActivity.startIntent(this,storeGoodsList.get(0).getTitleId());
+                break;
+            case R.id.goods_details_shop_img2:
+                GoodsDetailsActivity.startIntent(this,storeGoodsList.get(1).getTitleId());
+                break;
+            case R.id.goods_details_shop_img3:
+                GoodsDetailsActivity.startIntent(this,storeGoodsList.get(2).getTitleId());
+                break;
         }
     }
 
@@ -873,23 +882,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         settings.setJavaScriptEnabled(true);
     }
 
-    /*
-     * 详情页点击返回首页
-     *
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (pullUpToLoadMoreView.getCurrPosition() == 1) {
-                pullUpToLoadMoreView.scrollToTop();
-                return true;
-            } else {
-                finish();
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
 
     //=======================商品详情轮播====================
     public class ViewPagerOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -972,7 +964,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         }
     }
 
-    public class ImageAdapter extends PagerAdapter {
+    private class ImageAdapter extends PagerAdapter {
 
         private TextView slideText;
         private ImageView arrowImage;
@@ -1079,7 +1071,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             setCallback(new Callback() {
                 @Override
                 public void handle200Data(JSONObject dataObj, String message) {
-                    Log.d("GoodsDetailsActivity", dataObj.toString());
                     JSONArray filter_spec = dataObj.optJSONArray("filter_spec");
 
                     JSONArray array = dataObj.optJSONArray("spec_goods_price");
@@ -1090,12 +1081,10 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
                 @Override
                 public void handle404(String message) {
-                    getDm().buildAlertDialog(message);
                 }
 
                 @Override
                 public void handleNoNetWork() {
-                    getDm().buildAlertDialog(getString(R.string.no_network));
                 }
             });
         }
@@ -1125,7 +1114,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 String shop_price = obj.optString("shop_price");
                 String market_price = obj.optString("market_price");
                 int inventory = obj.optInt("inventory");
-                String weight = obj.optString("weight");
 
                 Goods goods = new Goods();
                 goods.setCartId(id + "");
@@ -1136,7 +1124,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 goods.setGoodsPrice(shop_price);
                 goods.setTotalPrice(market_price);
                 goods.setInventory(inventory);
-                //goods.setWeight(22222);
 
                 goodses.add(goods);
             }
@@ -1349,7 +1336,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
     @Override
     public void handle404(String message) {
-        getDm().buildAlertDialog(message);
         stopRefresh();
     }
 
@@ -1368,5 +1354,20 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         if(ptrLayout!=null && ptrLayout.isRefreshing()){
             ptrLayout.setRefreshing(false);
         }
+    }
+    /*
+    * 详情页点击返回首页
+    */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (pullUpToLoadMoreView.getCurrPosition() == 1) {
+                pullUpToLoadMoreView.scrollToTop();
+                return true;
+            } else {
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

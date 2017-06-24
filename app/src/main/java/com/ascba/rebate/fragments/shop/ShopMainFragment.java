@@ -248,7 +248,6 @@ public class ShopMainFragment extends BaseNetFragment implements
                 //广告轮播
                 initViewpager(dataObj);
 
-
                 //商城首页导航栏
                 initShoopNave(dataObj);
 
@@ -257,7 +256,6 @@ public class ShopMainFragment extends BaseNetFragment implements
 
                 initadapter();
 
-                //initLoadMore();
                 initLoadMoreRequest();
                 //购物车标志
                 int mallcartNum = dataObj.optInt("mallcart_num");//购物车商品数量
@@ -306,11 +304,6 @@ public class ShopMainFragment extends BaseNetFragment implements
     }
 
 
-    private void getPageCount(JSONObject dataObj) {
-        total_page = dataObj.optInt("total_page");
-        now_page++;
-    }
-
     /**
      * 广告轮播
      */
@@ -342,7 +335,6 @@ public class ShopMainFragment extends BaseNetFragment implements
             weight=TypeWeight.TYPE_SPAN_SIZE_MAX/5;
         }
 
-
         if ( goodsAy.length() != 0) {
             for (int i = 0; i < goodsAy.length(); i++) {
                 JSONObject gObj = goodsAy.optJSONObject(i);
@@ -355,8 +347,6 @@ public class ShopMainFragment extends BaseNetFragment implements
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }
-            data.add(new ShopBaseItem(ShopItemType.TYPE_GUESS,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.item_shop_guesslike));
-
             //横线
             data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 1.0f));
         }
@@ -366,9 +356,12 @@ public class ShopMainFragment extends BaseNetFragment implements
      * 商品列表
      */
     private void initGoodsList(JSONObject dataObj) {
-
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
         if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
+            if(isRefreshing){
+                data.add(new ShopBaseItem(ShopItemType.TYPE_GUESS,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_title));
+                data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 1.0f));
+            }
             for (int i = 0; i < mallGoodsAy.length(); i++) {
                 JSONObject gObj = mallGoodsAy.optJSONObject(i);
                 String id = gObj.optString("id");
@@ -557,7 +550,6 @@ public class ShopMainFragment extends BaseNetFragment implements
                 String shop_price = obj.optString("shop_price");
                 String market_price = obj.optString("market_price");
                 int inventory = obj.optInt("inventory");
-                String weight = obj.optString("weight");
 
                 Goods goods = new Goods();
                 goods.setCartId(id + "");
@@ -568,7 +560,6 @@ public class ShopMainFragment extends BaseNetFragment implements
                 goods.setGoodsPrice(shop_price);
                 goods.setTotalPrice(market_price);
                 goods.setInventory(inventory);
-                //goods.setWeight(22222);
 
                 goodses.add(goods);
             }
@@ -584,14 +575,12 @@ public class ShopMainFragment extends BaseNetFragment implements
                 if (jObj != null) {
                     GoodsAttr ga = new GoodsAttr();
                     String title = jObj.optString("title");
-
                     JSONArray item = jObj.optJSONArray("item");
                     if (item != null && item.length() != 0) {
                         List<GoodsAttr.Attrs> ats = new ArrayList<GoodsAttr.Attrs>();
                         for (int j = 0; j < item.length(); j++) {
                             JSONObject obj = item.optJSONObject(j);
                             if (obj != null) {
-
                                 int item_id = obj.optInt("item_id");
                                 String item_value = obj.optString("item_value");
                                 GoodsAttr.Attrs as = ga.new Attrs(item_id, item_value, 0);

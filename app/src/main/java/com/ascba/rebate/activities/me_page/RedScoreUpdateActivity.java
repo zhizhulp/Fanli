@@ -99,7 +99,7 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
             tvTodayRate.setText("当前兑换比例：" + rateMoney + ":" + rateScore);
             //tvTips.setText("转出赠返现金为预存款，实际到账为"+redObj.optString("money"));
             tvTips.setText("根据以上比例兑换扣除"+redObj.optString("cash_tax_rate"));
-            tvHeadTip.setText(notice_tip==0? null: "提醒：满"+exchange_unit+"红积分方可兑换现金与代金券" );
+            tvHeadTip.setText(notice_tip==0? null: "提醒：满"+exchange_unit+"商品分方可兑换代金券与折扣券" );
             tvHeadTip.setVisibility(notice_tip==0?View.GONE:View.VISIBLE);
             tvTotalRed.setText(""+red_score);
             btnExchange.setBackgroundDrawable(notice_tip==0?getResources().getDrawable(R.drawable.register_btn_bg)

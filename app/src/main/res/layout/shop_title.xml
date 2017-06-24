@@ -7,12 +7,14 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:src="@mipmap/guess_yourlike"
         android:id="@+id/im_shop_title"
         android:layout_width="14dp"
         android:layout_height="14dp"
         android:scaleType="fitCenter" />
 
     <TextView
+        android:text="猜你喜欢"
         android:id="@+id/tv_shop_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

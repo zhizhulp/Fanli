@@ -47,6 +47,7 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isLoadCartData;//是否需要刷新购物车数据
     public static boolean isRefreshOrderCount;//是否刷新订单的数字图标
     public static boolean isRequestSuccess;//网络请求是否成功
+    public static boolean isLoadAuctionCart;//是否需要刷新竞拍购物车数据
     public static boolean isKillAppToLoadPatch;//是否需要杀死app去加载补丁
     public final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
