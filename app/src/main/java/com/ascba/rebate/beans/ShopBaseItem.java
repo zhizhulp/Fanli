@@ -36,7 +36,7 @@ public class ShopBaseItem implements MultiItemEntity {
         this.pagerUrls = pagerUrls;
     }
 
-    private ShopBaseItem(int itemType, int spanSize, int resLat){
+    public ShopBaseItem(int itemType, int spanSize, int resLat){
         this.itemType = itemType;
         this.spanSize = spanSize;
         this.resLat = resLat;
@@ -83,7 +83,10 @@ public class ShopBaseItem implements MultiItemEntity {
         this.url = url;
         this.desc = desc;
     }
-
+//    public ShopBaseItem(int itemType, int spanSize, int resLat) {
+////        this(itemType, spanSize, resLat);
+//
+//    }
     /**
      * 标题
      *

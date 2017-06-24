@@ -16,13 +16,19 @@
         android:layout_height="300dp"
         android:background="@mipmap/knowstrategy_bg">
 
+        <RelativeLayout
+            android:id="@+id/rl_know_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
 
-        <com.ascba.rebate.activities.scoring.widget.CreditScoreView
-            android:layout_width="260dp"
-            android:layout_height="260dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="-20dp" />
+            <com.ascba.rebate.activities.scoring.widget.CreditScoreView
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="-20dp" />
+        </RelativeLayout>
 
         <com.ascba.rebate.view.MoneyBar
             android:layout_width="wrap_content"

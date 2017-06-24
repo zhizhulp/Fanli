@@ -4,25 +4,28 @@ import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.scoring.widget.KnowScoringDialog;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import static com.ascba.rebate.R.id;
-import static com.ascba.rebate.R.layout;
 
-public class KnowStrategyActivity extends BaseNetActivity {
+public class KnowStrategyActivity extends BaseNetActivity implements View.OnClickListener {
     private LinearLayout llName;
+    private RelativeLayout rlScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_know_strategy);
+        setContentView(R.layout.activity_know_strategy);
         initSystemBar();
         initView();
         setState(860);
@@ -31,6 +34,9 @@ public class KnowStrategyActivity extends BaseNetActivity {
 
     private void initView() {
         llName = (LinearLayout) findViewById(id.ll_level_name);
+        rlScore= (RelativeLayout) findViewById(id.rl_know_score);
+
+        rlScore.setOnClickListener(this);
     }
 
     private void initSystemBar() {
@@ -88,6 +94,17 @@ private  void setState(int score){
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case id.rl_know_score:
+                new KnowScoringDialog(this,getSupportFragmentManager());
+
+                break;
 
 
+        }
+
+
+    }
 }

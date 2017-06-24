@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="261dp"
+        android:layout_height="293dp"
+        android:background="@color/white">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_know_scoring"
+            android:layout_width="261dp"
+            android:layout_height="233dp"/>
+
+        <ImageButton
+            android:id="@+id/ib_know_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/scroing_cancel"
+            android:layout_alignParentRight="true"
+            android:layout_margin="25dp"/>
+
+        <RelativeLayout
+            android:layout_below="@id/vp_know_scoring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:id="@+id/ll_know_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"/>
+
+            <View
+                android:id="@+id/move_dot"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@drawable/dot_black_shape"/>
+        </RelativeLayout>
+        
+    </RelativeLayout>
+
+</LinearLayout>

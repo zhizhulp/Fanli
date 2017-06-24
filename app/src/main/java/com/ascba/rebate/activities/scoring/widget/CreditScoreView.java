@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.scoring.KnowStrategyActivity;
 
 /**
  * 芝麻信用分
@@ -345,5 +346,11 @@ public class CreditScoreView extends View {
             total += data[i];
         }
         return total;
+    }
+
+    public void setOnClickListener(KnowStrategyActivity knowStrategyActivity) {
+
+
+
     }
 }

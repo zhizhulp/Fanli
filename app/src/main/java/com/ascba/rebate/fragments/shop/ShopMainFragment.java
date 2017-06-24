@@ -248,6 +248,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 //广告轮播
                 initViewpager(dataObj);
 
+
                 //商城首页导航栏
                 initShoopNave(dataObj);
 
@@ -354,8 +355,10 @@ public class ShopMainFragment extends BaseNetFragment implements
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }
+            data.add(new ShopBaseItem(ShopItemType.TYPE_GUESS,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.item_shop_guesslike));
+
             //横线
-            data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 4.0f));
+            data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 1.0f));
         }
     }
 
