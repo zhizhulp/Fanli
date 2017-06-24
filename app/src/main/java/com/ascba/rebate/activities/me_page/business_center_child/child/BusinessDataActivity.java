@@ -36,6 +36,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
+
 public class BusinessDataActivity extends BaseNetActivity implements BaseNetActivity.Callback {
     public static final int REQUEST_BUSINESS_NAME=0;
     public static final int REQUEST_BUSINESS_TAG=1;
@@ -549,7 +552,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             scale = 1;
         options.inSampleSize = scale;
         options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 
@@ -563,5 +566,24 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             e.printStackTrace();
         }
     }
+
+    private void handleImage(File file){
+        Luban.with(this).load(file).setCompressListener(new OnCompressListener() {
+                    @Override
+                    public void onStart() {
+                        // TODO 压缩开始前调用，可以在方法内启动 loading UI
+                    }
+                    @Override
+                    public void onSuccess(File file) {
+                        // TODO 压缩成功后调用，返回压缩后的图片文件
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // TODO 当压缩过程出现问题时调用
+                    }
+                }).launch();    //启动压缩
+    }
+
 
 }
