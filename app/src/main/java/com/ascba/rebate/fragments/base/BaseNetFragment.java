@@ -26,7 +26,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
     private CallbackWhat callbackWhat;
     private View view;
     public String TAG;
-    private boolean debug=false;
+    protected boolean debug=true;
 
     public BaseNetFragment() {
         TAG=getClass().getSimpleName();

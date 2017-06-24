@@ -225,12 +225,12 @@ public class TypeMarketActivity extends BaseNetActivity implements
             isRefresh = true;
         }
         now_page = 1;
+        total_page=0;
         if (data.size() != 0) {
             data.clear();
             adapter.notifyDataSetChanged();
         }
         requestNetwork();
-
     }
 
     private void requestNetwork() {
@@ -275,8 +275,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
 
     /**
      * 广告轮播
-     *
-     * @param dataObj
      */
     private void initViewpager(JSONObject dataObj) {
         //轮播数据
@@ -330,6 +328,10 @@ public class TypeMarketActivity extends BaseNetActivity implements
     private void initGoodsList(JSONObject dataObj) {
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
         if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
+            if(isRefresh){
+                data.add(new ShopBaseItem(ShopItemType.TYPE_GUESS,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_title));
+                data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 1.0f));
+            }
             for (int i = 0; i < mallGoodsAy.length(); i++) {
                 JSONObject gObj = mallGoodsAy.optJSONObject(i);
                 String id = gObj.optString("id");
@@ -376,10 +378,6 @@ public class TypeMarketActivity extends BaseNetActivity implements
     }
 
     private void initLoadMore() {
-
-        if (isRefresh) {
-            isRefresh = false;
-        }
         if (loadMoreView == null) {
             loadMoreView = new CustomLoadMoreView();
             adapter.setLoadMoreView(loadMoreView);
@@ -387,6 +385,9 @@ public class TypeMarketActivity extends BaseNetActivity implements
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                if (isRefresh) {
+                    isRefresh = false;
+                }
                 if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else if(total_page==0){
