@@ -21,7 +21,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PKActivity extends BaseNetActivity implements ViewPager.OnPageChangeListener {
+public class PKActivity extends BaseNetActivity  {
     private ViewPager vp;
     private TabLayout tab;
     private ScoringPKVPAdapter vpAdapter;
@@ -46,19 +46,15 @@ public class PKActivity extends BaseNetActivity implements ViewPager.OnPageChang
         initTabStr();
         vp = (ViewPager) findViewById(R.id.scoring_pk_vp);
         vpAdapter = new ScoringPKVPAdapter(getSupportFragmentManager(),fragments, tablist);
-//        vp.setCurrentItem(0);
-//        vp.setOnPageChangeListener(this);
         vp.setAdapter(vpAdapter);
-
-//        将tablelayout和ViewPager关联起来
         tab.setupWithViewPager(vp);
     }
 
 
     private void initTabStr() {
         tab = (TabLayout) findViewById(R.id.scoring_pk_tab);
-        tab.addTab(tab.newTab().setText(mTitles[0]));
-        tab.addTab(tab.newTab().setText(mTitles[1]));
+//        tab.addTab(tab.newTab().setText(mTitles[0]));
+//        tab.addTab(tab.newTab().setText(mTitles[1]));
         tablist.add(mTitles[0]);
         tablist.add(mTitles[1]);
     }
@@ -98,18 +94,5 @@ public class PKActivity extends BaseNetActivity implements ViewPager.OnPageChang
     }
 
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 }

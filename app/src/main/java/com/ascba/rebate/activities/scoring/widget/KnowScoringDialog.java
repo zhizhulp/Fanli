@@ -3,8 +3,6 @@ package com.ascba.rebate.activities.scoring.widget;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -34,21 +32,28 @@ public class KnowScoringDialog {
     private List<Fragment> mFragments;
     private int[] mPics = {R.mipmap.know_invitecount,R.mipmap.know_withdrawcount,R.mipmap.know_acount_rank,
                           R.mipmap.know_accountremainder,R.mipmap.know_consumedevote};
-    private String[] mTitles = {"邀请人数","提现分享次数","账户等级","账户余额","消费贡献"};
-    private String content = "账户余额越多，评分越高，当账户余额达到10000元时分数增加5分，账户余额每增加20000元，分数加10分，赶快存钱吧";
-    private String[] mContents = {content,content,content,content,content};
+    private String[] mTitles = {"邀请次数","提现分享次数","账户等级","账户余额","消费贡献"};
+    private String content1 = "账户余额越多，评分越高，当账户余额达到10000元时分数增加5分，账户余额每增加20000元，分数加10分，赶快存钱吧。";
+    private String content2="当你完成一笔提现操作，并把这次提现成功分享给你的好友后，来往信用分会相应的增加，分享一次提现记录信用分会增加1分。";
+    private String content3="账户等级越高，评分越高，消费者会员的基础信用分为200，商家会员：vip上家会员的基础分为300，金钻上家会员的基础为350。合伙会员：" +
+            "初级合伙人初始分数为550，高级合伙人初始分数为500，中级合伙人初始分数为550，高级合伙人初始分数为600，精英合伙人初始分数为700。";
+    private String content4="账户余额越多，评分越高，当账户余额达到10000元时分数增加5分，账户余额每增加10000元，分数增加5分";
+
+    private String content5="当月在钱来钱往平台消费的金额越大，来往信用分越高，消费贡献金额每增加500元，来往信用分增加1分，可累计。";
+
+    private String[] mContents = {content1,content2,content3,content4,content5};
     private View moveDot;
     private int distance;//两点之间的距离
     private int currentPage = 0;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            viewPager.setCurrentItem(currentPage++ % mPics.length);
-            handler.sendEmptyMessageDelayed(1, 3000);
-        }
-    };
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            viewPager.setCurrentItem(currentPage++ % mPics.length);
+//            handler.sendEmptyMessageDelayed(1, 3000);
+//        }
+//    };
 
     public KnowScoringDialog(Context context, FragmentManager fragmentManager){
         this.context = context;
@@ -96,9 +101,9 @@ public class KnowScoringDialog {
             //灰点
             view=new View(getContext());
             view.setBackgroundResource(R.drawable.dot_grey_shape);
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(16,16);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(dp2px(6),dp2px(6));
             if(i!=0){
-                params.leftMargin=30;
+                params.leftMargin=dp2px(7);
             }
             view.setLayoutParams(params);
             llDot.addView(view);
@@ -106,6 +111,10 @@ public class KnowScoringDialog {
         setMoveDot();
     }
 
+    public int dp2px(int values) {//58dp,根据屏幕分辨率转化成对应的px长度
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (values * density + 0.5f);
+    }
     private void setMoveDot() {
         moveDot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -117,13 +126,13 @@ public class KnowScoringDialog {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                handler.removeMessages(1);
+//                handler.removeMessages(1);
                 position = position % mPics.length;
                 float left = distance * (position + positionOffset);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) moveDot.getLayoutParams();
                 params.leftMargin = Math.round(left);
                 moveDot.setLayoutParams(params);
-                handler.sendEmptyMessageDelayed(1, 3000);
+//                handler.sendEmptyMessageDelayed(1, 3000);
             }
 
             @Override

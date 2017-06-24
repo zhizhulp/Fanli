@@ -6,31 +6,33 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
+
+
     <ImageView
         android:id="@+id/iv_know_cover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:background="@mipmap/know_consumedevote"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/tv_know_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="消费次数"
+        android:text="账户余额"
         android:textColor="@color/black"
-        android:textSize="15sp"
-        android:layout_marginTop="19dp"/>
-
+        android:textSize="14sp"
+        android:layout_marginTop="16dp"/>
     <TextView
         android:id="@+id/tv_know_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:textSize="13sp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:lineSpacingExtra="3dp"
+        android:layout_marginTop="12dp"
+        android:textSize="11sp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:lineSpacingExtra="2dp"
+        android:textColor="@color/gray_text"
         android:text="账户余额越多，评分越高，当账户余额达到10000元时分数增加5分，账户余额每增加20000元，分数加10分，赶快存钱吧"/>
 
 </LinearLayout>
