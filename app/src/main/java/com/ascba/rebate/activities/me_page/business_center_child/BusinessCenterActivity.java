@@ -38,6 +38,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
+
 /**
  * 商户中心 商户资料提交页面
  */
@@ -399,9 +402,10 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
         switch (requestCode) {
             case GO_CAMERA_WORK:
                 if (fileWork != null && fileWork.exists()) {
-                    Bitmap bitmap = handleBitmap(fileWork);
+                    /*Bitmap bitmap = handleBitmap(fileWork);
                     saveBitmapFile(bitmap, fileWork);
-                    imWorkIcon.setImageBitmap(bitmap);
+                    imWorkIcon.setImageBitmap(bitmap);*/
+                    handleImage(imWorkIcon,fileWork);
                 }
                 break;
             case GO_ALBUM_WORK:
@@ -418,16 +422,18 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
                     fileWork = new File(picturePath);
-                    Bitmap bitmap = handleBitmap(fileWork);
+                    /*Bitmap bitmap = handleBitmap(fileWork);
                     saveBitmapFile(bitmap, fileWork);
-                    imWorkIcon.setImageBitmap(bitmap);
+                    imWorkIcon.setImageBitmap(bitmap);*/
+                    handleImage(imWorkIcon,fileWork);
                 }
                 break;
             case GO_CAMERA_AUTH:
                 if (fileAuth != null && fileAuth.exists()) {
-                    Bitmap bitmap = handleBitmap(fileAuth);
+                    /*Bitmap bitmap = handleBitmap(fileAuth);
                     saveBitmapFile(bitmap, fileAuth);
-                    imAuthIcon.setImageBitmap(bitmap);
+                    imAuthIcon.setImageBitmap(bitmap);*/
+                    handleImage(imAuthIcon,fileAuth);
                 }
                 break;
             case GO_ALBUM_AUTH:
@@ -444,11 +450,31 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                     String picturePath = cursor2.getString(columnIndex);
                     cursor2.close();
                     fileAuth = new File(picturePath);
-                    Bitmap bitmap = handleBitmap(fileAuth);
+                    /*Bitmap bitmap = handleBitmap(fileAuth);
                     saveBitmapFile(bitmap, fileAuth);
-                    imAuthIcon.setImageBitmap(bitmap);
+                    imAuthIcon.setImageBitmap(bitmap);*/
+                    handleImage(imAuthIcon,fileAuth);
                 }
                 break;
         }
+    }
+
+    private void handleImage(final ImageView im, final File file){
+        Luban.with(this).load(file).setCompressListener(new OnCompressListener() {
+            File localFile=file;
+            @Override
+            public void onStart() {
+
+            }
+            @Override
+            public void onSuccess(File resultFile) {
+                localFile = resultFile;
+                im.setImageBitmap(BitmapFactory.decodeFile(resultFile.getAbsolutePath()));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+        }).launch();
     }
 }

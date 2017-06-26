@@ -21,19 +21,16 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.CartChildAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -61,7 +58,7 @@ public class CartChildFragment extends BaseNetFragment {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REDUCE_TIME = 2;
-    private static final int REQUEST_PAY_PDEPOSIT=3;
+    private static final int REQUEST_PAY_PDEPOSIT = 3;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -84,30 +81,31 @@ public class CartChildFragment extends BaseNetFragment {
             }
         }
     };
-    private Timer timer ;
-    private boolean isRefresh=true;
+    private Timer timer;
+    private boolean isRefresh = true;
     private CheckBox cbTotal;
     private TextView tvBtmTop;
     private TextView tvBtmBtm;
     private TextView tvApply;
     private View btmView;
-    private boolean isFirstResume=true;
+    private boolean isFirstResume = true;
 
 
     public CartChildFragment() {
 
     }
 
-    public static CartChildFragment newInstance(String status){
-        CartChildFragment fragment=new CartChildFragment();
-        Bundle b=new Bundle();
-        b.putString("status",status);
+
+    public static CartChildFragment newInstance(String status) {
+        CartChildFragment fragment = new CartChildFragment();
+        Bundle b = new Bundle();
+        b.putString("status", status);
         fragment.setArguments(b);
         return fragment;
     }
 
-    private void setBeanProperty(){
-        if(beanList.size()<=0){
+    private void setBeanProperty() {
+        if (beanList.size() <= 0) {
             return;
         }
         for (int i = 0; i < beanList.size(); i++) {
@@ -115,18 +113,18 @@ public class CartChildFragment extends BaseNetFragment {
             int currentLeftTime = agb.getCurrentLeftTime();
             int reduceTimes = agb.getReduceTimes();
             Double price = agb.getPrice();
-            if(agb.getIntState()==1 ||agb.getIntState()==3){
+            if (agb.getIntState() == 1 || agb.getIntState() == 3) {
                 continue;
             }
-            if(currentLeftTime <=0){
+            if (currentLeftTime <= 0) {
                 reduceTimes++;
                 price -= agb.getGapPrice();
-                currentLeftTime=agb.getGapTime();
+                currentLeftTime = agb.getGapTime();
                 agb.setReduceTimes(reduceTimes);
-                if(agb.getType()==1){
+                if (agb.getType() == 1) {
                     agb.setPrice(price);
                 }
-            }else {
+            } else {
                 currentLeftTime--;
             }
             agb.setCurrentLeftTime(currentLeftTime);
@@ -138,7 +136,7 @@ public class CartChildFragment extends BaseNetFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onCreateView: ");
         }
         return inflater.inflate(R.layout.fragment_cart_no_sure, container, false);
@@ -147,71 +145,80 @@ public class CartChildFragment extends BaseNetFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onViewCreated: ");
         }
+        ((AuctionCartFragment) getParentFragment()).setListener(new AuctionCartFragment.UpdateListener() {
+            @Override
+            public void update(boolean isVisible) {
+                if(isVisible && MyApplication.isLoadAuctionCart){
+                    Log.d(TAG, "update: ");
+                    requestNetwork(UrlUtils.auctionCard, 0);
+                }
+            }
+        });
         getParams();
         initViews(view);
-        requestNetwork(UrlUtils.auctionCard,0);
+        requestNetwork(UrlUtils.auctionCard, 0);
     }
 
     private void requestNetwork(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        if(what==0){
-            request.add("between_status",status);
-            request.add("now_page",now_page);
-        }else if(what==1){
-            request.add("client_str",getAutionIds()[0]);
-            request.add("total_price",getAutionIds()[1]);
+        if (what == 0) {
+            request.add("between_status", status);
+            request.add("now_page", now_page);
+        } else if (what == 1) {
+            request.add("client_str", getAutionIds()[0]);
+            request.add("total_price", getAutionIds()[1]);
         }
 
-        executeNetWork(what,request,"请稍后");
+        executeNetWork(what, request, "请稍后");
     }
 
-    private String [] getClientIds() {
-        StringBuilder sb=new StringBuilder();
-        Double sureMoney=0.0;
+    private String[] getClientIds() {
+        StringBuilder sb = new StringBuilder();
+        Double sureMoney = 0.0;
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            if(agb.isSelect()){
+            if (agb.isSelect()) {
                 sb.append("\"").append(agb.getId()).append("\"").append(":").append("\"").append(agb.getCashDeposit()).append("\"").append(",");
                 sureMoney += Double.parseDouble(agb.getCashDeposit());
             }
         }
         String s = sb.toString();
-        if(s.endsWith(",")){
-            s = s.substring(0,s.length()-1);
+        if (s.endsWith(",")) {
+            s = s.substring(0, s.length() - 1);
         }
-        String [] ss=new String[2];
-        ss[0]=s;
-        ss[1]= String.valueOf(sureMoney);
+        String[] ss = new String[2];
+        ss[0] = s;
+        ss[1] = String.valueOf(sureMoney);
         return ss;
     }
 
-    private String [] getAutionIds() {
-        StringBuilder sb=new StringBuilder();
-        Double price=0.0;
+    private String[] getAutionIds() {
+        StringBuilder sb = new StringBuilder();
+        Double price = 0.0;
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            if(agb.isSelect()){
+            if (agb.isSelect()) {
                 sb.append("\"").append(agb.getId()).append("\"").append(":").append("\"").append(agb.getPrice()).append("\"").append(",");
                 price += agb.getPrice();
             }
         }
         String s = sb.toString();
-        if(s.endsWith(",")){
-            s = s.substring(0,s.length()-1);
+        if (s.endsWith(",")) {
+            s = s.substring(0, s.length() - 1);
         }
-        String [] ss=new String[2];
-        ss[0]=s;
-        ss[1]= String.valueOf(price);
+        String[] ss = new String[2];
+        ss[0] = s;
+        ss[1] = String.valueOf(price);
         return ss;
     }
 
     private void getParams() {
         Bundle args = getArguments();
-        if(args!=null){
-            status = args.getString("status","0,1");
+        if (args != null) {
+            status = args.getString("status", "0,1");
         }
     }
 
@@ -231,16 +238,16 @@ public class CartChildFragment extends BaseNetFragment {
         tvApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hasSelect()){
-                    if(status.equals("0,1")){
-                        Intent intent=new Intent(getActivity(), PayDepositActivity.class);
-                        intent.putExtra("client_ids",getClientIds()[0]);
-                        intent.putExtra("total_price",getClientIds()[1]);
-                        startActivityForResult(intent,REQUEST_PAY_PDEPOSIT);
-                    }else if(status.equals("2,3")){
-                        requestNetwork(UrlUtils.payAuction,1);
+                if (hasSelect()) {
+                    if (status.equals("0,1")) {
+                        Intent intent = new Intent(getActivity(), PayDepositActivity.class);
+                        intent.putExtra("client_ids", getClientIds()[0]);
+                        intent.putExtra("total_price", getClientIds()[1]);
+                        startActivityForResult(intent, REQUEST_PAY_PDEPOSIT);
+                    } else if (status.equals("2,3")) {
+                        requestNetwork(UrlUtils.payAuction, 1);
                     }
-                }else {
+                } else {
                     showToast("请先选择竞拍商品");
                 }
 
@@ -249,10 +256,10 @@ public class CartChildFragment extends BaseNetFragment {
     }
 
     private boolean hasSelect() {
-        boolean hasSelect=false;
+        boolean hasSelect = false;
         for (int i = 0; i < beanList.size(); i++) {
-            if(beanList.get(i).isSelect()){
-                hasSelect=true;
+            if (beanList.get(i).isSelect()) {
+                hasSelect = true;
                 break;
             }
         }
@@ -261,10 +268,10 @@ public class CartChildFragment extends BaseNetFragment {
 
     private void initRecyclerview(View view) {
         RecyclerView recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerview));
-        beanList=new ArrayList<>();
+        beanList = new ArrayList<>();
         cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
-        adapter = new CartChildAdapter(R.layout.auction_list_item,beanList,cbTotal,status);
-        adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无商品数据"));
+        adapter = new CartChildAdapter(R.layout.auction_list_item, beanList, cbTotal, status);
+        adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(), "暂无商品数据"));
         adapter.setCallback(new CartChildAdapter.Callback() {
             @Override
             public void clickCbChild() {
@@ -294,7 +301,7 @@ public class CartChildFragment extends BaseNetFragment {
                 Double nowPrice = selectAGB.getPrice();
                 switch (view.getId()) {
                     case R.id.btn_sub:
-                        if (nowPrice < endPrice+gapPrice) {
+                        if (nowPrice < endPrice + gapPrice) {
                             showToast("已经到最低价了");
                         } else {
                             selectAGB.setPrice(nowPrice - gapPrice);
@@ -303,7 +310,7 @@ public class CartChildFragment extends BaseNetFragment {
                         }
                         break;
                     case R.id.btn_add:
-                        if (nowPrice >= startPrice-gapPrice) {
+                        if (nowPrice >= startPrice - gapPrice) {
                             showToast("已经到最高价了");
                         } else {
                             selectAGB.setPrice(nowPrice + gapPrice);
@@ -323,9 +330,9 @@ public class CartChildFragment extends BaseNetFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_PAY_PDEPOSIT && resultCode== Activity.RESULT_OK){
+        if (requestCode == REQUEST_PAY_PDEPOSIT && resultCode == Activity.RESULT_OK) {
             resetPageAndStatus();
-            requestNetwork(UrlUtils.auctionCard,0);
+            requestNetwork(UrlUtils.auctionCard, 0);
         }
     }
 
@@ -334,12 +341,13 @@ public class CartChildFragment extends BaseNetFragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isRefresh=true;
+                isRefresh = true;
                 resetPageAndStatus();
-                requestNetwork(UrlUtils.auctionCard,0);
+                requestNetwork(UrlUtils.auctionCard, 0);
             }
         });
     }
+
     private void initLoadMore() {
         if (loadMoreView == null) {
             loadMoreView = new CustomLoadMoreView();
@@ -348,13 +356,13 @@ public class CartChildFragment extends BaseNetFragment {
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                isRefresh=false;
+                isRefresh = false;
                 if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
-                } else if(total_page==0){
+                } else if (total_page == 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.auctionCard,0);
+                    requestNetwork(UrlUtils.auctionCard, 0);
                 }
             }
         });
@@ -362,50 +370,50 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
-        if(what==0){
+        if (what == 0) {
             stopLoadMore();
-            if(isRefresh){//下拉刷新
+            if (isRefresh) {//下拉刷新
                 clearData();
             }
             getPageCount(dataObj);
             refreshGoodsList(dataObj);
             setCbTotal();
             caculateMoneyAndNum();
-        }else if(what==1){
+        } else if (what == 1) {
             showToast(message);
             resetPageAndStatus();
-            requestNetwork(UrlUtils.auctionCard,0);
+            requestNetwork(UrlUtils.auctionCard, 0);
         }
     }
 
     private void resetPageAndStatus() {
-        isRefresh=true;
-        now_page=1;
-        total_page=0;
+        isRefresh = true;
+        now_page = 1;
+        total_page = 0;
     }
 
     private void setCbTotal() {
-        if(beanList.size()<=0){
+        if (beanList.size() <= 0) {
             return;
         }
         boolean isAllSame = true;
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            if(agb.isSelect()!=cbTotal.isChecked()){
+            if (agb.isSelect() != cbTotal.isChecked()) {
                 isAllSame = false;
                 break;
             }
         }
-        if(isAllSame){
+        if (isAllSame) {
             cbTotal.setChecked(beanList.get(0).isSelect());
-        }else {
+        } else {
             cbTotal.setChecked(false);
         }
     }
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
-        if(what==0){
+        if (what == 0) {
             handler.sendEmptyMessage(LOAD_MORE_ERROR);
         }
     }
@@ -413,7 +421,7 @@ public class CartChildFragment extends BaseNetFragment {
     private void refreshGoodsList(JSONObject dataObj) {
         JSONObject agent = dataObj.optJSONObject("agent");
         JSONArray array = agent.optJSONArray("auction_cart_list");
-        if(array!=null && array.length() >0){
+        if (array != null && array.length() > 0) {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
                 AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("imghead"),
@@ -430,17 +438,18 @@ public class CartChildFragment extends BaseNetFragment {
                 beanList.add(agb);
             }
         }
-        if(beanList.size()<=0){
+        if (beanList.size() <= 0) {
             btmView.setVisibility(View.GONE);
-        }else {
+        } else {
             btmView.setVisibility(View.VISIBLE);
         }
         adapter.notifyDataSetChanged();
-        if(timer==null){
+        if (timer == null) {
             timer = new Timer();
-            timer.schedule(new MyTimerTask(),0,1000);
+            timer.schedule(new MyTimerTask(), 0, 1000);
         }
     }
+
     private void getPageCount(JSONObject dataObj) {
         total_page = dataObj.optInt("total_page");
         now_page++;
@@ -449,89 +458,92 @@ public class CartChildFragment extends BaseNetFragment {
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-            if(!isTimerOver()){
+            if (!isTimerOver()) {
                 handler.sendEmptyMessage(REDUCE_TIME);
             }
         }
     }
+
     //用于判断倒计时是否结束
-    private boolean isTimerOver(){
-        boolean isOver=true;
+    private boolean isTimerOver() {
+        boolean isOver = true;
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
             int reduceTimes = agb.getReduceTimes();
             int maxReduceTimes = agb.getMaxReduceTimes();
-            if(reduceTimes < maxReduceTimes ){
-                isOver=false;
+            if (reduceTimes < maxReduceTimes) {
+                isOver = false;
                 break;
             }
         }
         return isOver;
     }
+
     //计算保证金总数和选择的商品数量
-    private void caculateMoneyAndNum(){
-        if(beanList.size() <=0){
+    private void caculateMoneyAndNum() {
+        if (beanList.size() <= 0) {
             return;
         }
-        int count=0;
-        Double money= 0.00;
-        Double price=0.00;
-        int score=0;
-        for (int i = 0; i <beanList.size(); i++) {
+        int count = 0;
+        Double money = 0.00;
+        Double price = 0.00;
+        int score = 0;
+        for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            if(agb.isSelect()){
+            if (agb.isSelect()) {
                 count++;
                 price += agb.getPrice();
                 String cashDeposit = agb.getCashDeposit();
                 String scoreS = agb.getScore();
-                try{
+                try {
                     double v = Double.parseDouble(cashDeposit);
                     double f = Double.parseDouble(scoreS);
                     money += v;
                     score += f;
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
             }
         }
-        if(status.equals("0,1")){//交纳保证金
-            tvBtmTop.setText("￥"+money);
+        if (status.equals("0,1")) {//交纳保证金
+            tvBtmTop.setText("￥" + money);
             tvBtmBtm.setText("（未拍到保证金全额退款）");
-            tvApply.setText("交保证金("+count+")");
-        }else if(status.equals("2,3")){//拍
-            tvBtmTop.setText("总金额：￥"+price);
-            tvBtmBtm.setText("获赠礼品分"+score+"分");
-            tvApply.setText("拍("+count+")");
+            tvApply.setText("交保证金(" + count + ")");
+        } else if (status.equals("2,3")) {//拍
+            tvBtmTop.setText("总金额：￥" + price);
+            tvBtmBtm.setText("获赠礼品分" + score + "分");
+            tvApply.setText("拍(" + count + ")");
         }
     }
 
     //计算每秒过后总金额的变化
-    private void caculateAllMoney(){
-        Double price=0.00;
-        for (int i = 0; i <beanList.size(); i++) {
+    private void caculateAllMoney() {
+        Double price = 0.00;
+        for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            if(agb.isSelect()){
-                if("0,1".equals(status)){
+            if (agb.isSelect()) {
+                if ("0,1".equals(status)) {
                     price += Double.parseDouble(agb.getCashDeposit());
-                }else if("2,3".equals(status)){
+                } else if ("2,3".equals(status)) {
                     price += agb.getPrice();
                 }
             }
         }
-        if("0,1".equals(status)){
-            tvBtmTop.setText("￥"+price);
-        }else if("2,3".equals(status)){
-            tvBtmTop.setText("总金额：￥"+price);
+        if ("0,1".equals(status)) {
+            tvBtmTop.setText("￥" + price);
+        } else if ("2,3".equals(status)) {
+            tvBtmTop.setText("总金额：￥" + price);
         }
 
 
     }
 
-    private void clearData(){
-        if(beanList.size()!=0){
+    private void clearData() {
+        if (beanList.size() != 0) {
             beanList.clear();
         }
     }
+
     private void stopLoadMore() {
         if (adapter != null) {
             adapter.loadMoreComplete();
@@ -543,31 +555,31 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onDestroy() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onDestroy: ");
         }
         super.onDestroy();
-        if(timer!=null){
+        if (timer != null) {
             timer.cancel();
         }
     }
 
     @Override
     public void onResume() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onResume: ");
         }
         super.onResume();
-        if(!isFirstResume && !MyApplication.isSignOut && MyApplication.isLoadAuctionCart){
-            requestNetwork(UrlUtils.auctionCard,0);
-            isFirstResume=false;
-            MyApplication.isLoadAuctionCart=false;
+        if (!isFirstResume && !MyApplication.isSignOut && MyApplication.isLoadAuctionCart) {
+            requestNetwork(UrlUtils.auctionCard, 0);
+            isFirstResume = false;
+            MyApplication.isLoadAuctionCart = false;
         }
     }
 
     @Override
     public void onDestroyView() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onDestroyView: ");
         }
         super.onDestroyView();
@@ -575,7 +587,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onCreate: ");
         }
         super.onCreate(savedInstanceState);
@@ -583,7 +595,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onHiddenChanged: ");
         }
         super.onHiddenChanged(hidden);
@@ -591,7 +603,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "setUserVisibleHint: ");
         }
         super.setUserVisibleHint(isVisibleToUser);
@@ -599,7 +611,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public boolean getUserVisibleHint() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "getUserVisibleHint: ");
         }
         return super.getUserVisibleHint();
@@ -607,7 +619,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onAttachFragment(Fragment childFragment) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onAttachFragment: ");
         }
         super.onAttachFragment(childFragment);
@@ -615,7 +627,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onAttach(Context context) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onAttach: ");
         }
         super.onAttach(context);
@@ -623,7 +635,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onActivityCreated: ");
         }
         super.onActivityCreated(savedInstanceState);
@@ -631,7 +643,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onViewStateRestored: ");
         }
         super.onViewStateRestored(savedInstanceState);
@@ -639,7 +651,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onSaveInstanceState: ");
         }
         super.onSaveInstanceState(outState);
@@ -647,7 +659,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onPause() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onPause: ");
         }
         super.onPause();
@@ -655,7 +667,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onStop() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onStop: ");
         }
         super.onStop();
@@ -663,7 +675,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onLowMemory() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onLowMemory: ");
         }
         super.onLowMemory();
@@ -671,7 +683,7 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onDetach() {
-        if(debug){
+        if (debug) {
             Log.d(TAG, "onDetach: ");
         }
         super.onDetach();

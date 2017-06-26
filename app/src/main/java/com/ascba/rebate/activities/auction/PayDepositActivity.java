@@ -5,16 +5,13 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.PayPsdSettingActivity;
-import com.ascba.rebate.activities.SelectAddrssUpdateActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.appconfig.AppConfig;
-import com.ascba.rebate.beans.ReceiveAddressBean;
-import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -28,17 +25,10 @@ import org.json.JSONObject;
 public class PayDepositActivity extends BaseNetActivity{
     private String client_ids;
     private String total_price;
-    private TextView tvName;
-    private TextView tvMobile;
-    private TextView tvAddress;
-    private TextView tvAddressDet;
     private TextView tvCount;
     private TextView tvPrice;
     private Button btnApply;
     private String pay_bond_data;
-    private View viewAddress;
-    private View viewHasAddress;
-    private View viewNoAddress;
     private AppCompatCheckBox checkbox;
     private double pay_bond_price;//保证金
     private TextView tvTicketInfo;
@@ -64,13 +54,8 @@ public class PayDepositActivity extends BaseNetActivity{
     }
 
     private void initView() {
-        tvName = ((TextView) findViewById(R.id.tv_name));
-        tvMobile = ((TextView) findViewById(R.id.tv_mobile));
-        tvAddress = ((TextView) findViewById(R.id.tv_address));
-        tvAddressDet = ((TextView) findViewById(R.id.tv_address_details));
         tvCount = ((TextView) findViewById(R.id.tv_count));
         tvPrice= ((TextView) findViewById(R.id.tv_price));
-
         btnApply = ((Button) findViewById(R.id.btn_apply));
         setBtnStatus(R.drawable.ticket_no_shop_bg, false);
         btnApply.setOnClickListener(new View.OnClickListener() {
@@ -98,43 +83,18 @@ public class PayDepositActivity extends BaseNetActivity{
             }
         });
 
-        viewAddress = findViewById(R.id.lat_address_details);
-        viewAddress.setOnClickListener(new View.OnClickListener() {
+        checkbox = ((AppCompatCheckBox) findViewById(R.id.check_box));
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(PayDepositActivity.this, SelectAddrssUpdateActivity.class);
-                startActivityForResult(intent,SelectAddrssUpdateActivity.REQUEST_ADDRESS);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    setBtnStatus(R.drawable.register_btn_bg, true);
+                }else {
+                    setBtnStatus(R.drawable.ticket_no_shop_bg, false);
+                }
             }
         });
-
-        viewHasAddress = findViewById(R.id.lat_has_address);
-        viewNoAddress = findViewById(R.id.tv_no_address);
-
-        checkbox = ((AppCompatCheckBox) findViewById(R.id.check_box));
         tvTicketInfo = ((TextView) findViewById(R.id.tv_info_ticket));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case SelectAddrssUpdateActivity.REQUEST_ADDRESS:
-                if (resultCode == RESULT_OK && data != null) {
-                    ReceiveAddressBean addressBean = data.getParcelableExtra("address");
-                    viewHasAddress.setVisibility(View.VISIBLE);
-                    viewNoAddress.setVisibility(View.GONE);
-                    setBtnStatus(R.drawable.register_btn_bg,true);
-                    setReceiveData(addressBean);
-                }
-                break;
-        }
-    }
-
-    private void setReceiveData(ReceiveAddressBean addressBean) {
-        tvName.setText(addressBean.getName());
-        tvMobile.setText(addressBean.getPhone());
-        tvAddress.setText(addressBean.getAddress());
-        tvAddressDet.setText(addressBean.getAddressDetl());
     }
 
     private void requestNetwork(String url, int what) {
@@ -152,20 +112,6 @@ public class PayDepositActivity extends BaseNetActivity{
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
-            JSONObject obj = dataObj.optJSONObject("address");
-            if(obj!=null){
-                setBtnStatus(R.drawable.register_btn_bg, true);
-                viewHasAddress.setVisibility(View.VISIBLE);
-                viewNoAddress.setVisibility(View.GONE);
-                tvName.setText(obj.optString("consignee"));
-                tvMobile.setText(obj.optString("mobile"));
-                tvAddress.setText(obj.optString("address"));
-                tvAddressDet.setText(obj.optString("address_detail"));
-            }else {
-                setBtnStatus(R.drawable.ticket_no_shop_bg, false);
-                viewHasAddress.setVisibility(View.GONE);
-                viewNoAddress.setVisibility(View.VISIBLE);
-            }
             tvCount.setText("共计"+dataObj.optInt("pay_bond_count")+"件");
             pay_bond_price = dataObj.optDouble("pay_bond_price");
             tvPrice.setText("￥"+pay_bond_price);

@@ -10,124 +10,22 @@
         android:layout_height="48dp"
         app:abar_title="交保证金报名" />
 
+    <!--发票信息-->
     <TextView
+        android:background="@color/main_content_bg"
+        android:id="@+id/tv_info_ticket"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:background="@color/main_line_light_gray"
+        android:layout_height="41dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:ellipsize="end"
         android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:text="请确认信息(竞拍成功后拍品将快递到此地址)"
-        android:textSize="12sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
-        <!--收货人信息-->
-        <RelativeLayout
-            android:id="@+id/lat_address_details"
-            android:layout_width="match_parent"
-            android:layout_height="82dp">
-
-            <ImageView
-                android:id="@+id/tail_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@mipmap/right2_arrow" />
-            <TextView
-                android:id="@+id/tv_no_address"
-                android:text="点击添加收获地址"
-                android:gravity="center"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="13sp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/lat_has_address"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@id/tail_icon"
-                android:orientation="vertical">
-                <!--收货人信息-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginTop="14dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_mobile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="7dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_address_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="6dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/shop_normal_text_color"
-                    android:textSize="12sp" />
-            </LinearLayout>
+        android:maxLines="1"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="13sp" />
 
 
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:background="@color/main_line_light_gray" />
-
-        <!--发票信息-->
-        <TextView
-            android:id="@+id/tv_info_ticket"
-            android:layout_width="wrap_content"
-            android:layout_height="41dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:textColor="@color/shop_normal_text_color"
-            android:textSize="13sp" />
-    </LinearLayout>
-
-    <include layout="@layout/goods_details_cuttingline_wide" />
+    <include layout="@layout/goods_details_cuttingline" />
 
     <!--保证金协议-->
     <LinearLayout
@@ -202,11 +100,11 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:onClick="seeAuctionProxy"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="7dp"
+            android:gravity="center_vertical"
+            android:onClick="seeAuctionProxy"
             android:text="《用户竞拍服务协议》"
             android:textColor="#2D80E7"
             android:textSize="11sp" />
@@ -218,10 +116,10 @@
             android:textSize="11sp" />
 
         <TextView
-            android:onClick="seeDepositProxy"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:onClick="seeDepositProxy"
             android:text="《保证金规则》"
             android:textColor="#2D80E7"
             android:textSize="11sp" />
