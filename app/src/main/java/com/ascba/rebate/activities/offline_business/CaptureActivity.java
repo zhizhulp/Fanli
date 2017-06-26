@@ -1,8 +1,7 @@
-package com.ascba.rebate.qr;
+package com.ascba.rebate.activities.offline_business;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -23,7 +22,7 @@ import android.widget.ImageView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.main_page.sweep.PayActivity;
-import com.ascba.rebate.activities.offline_business.OfflinePayActivity;
+import com.ascba.rebate.qr.MessageIDs;
 import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;

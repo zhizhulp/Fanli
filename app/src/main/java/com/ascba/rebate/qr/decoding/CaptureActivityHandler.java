@@ -27,7 +27,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.activities.offline_business.CaptureActivity;
 import com.ascba.rebate.qr.MessageIDs;
 import com.ascba.rebate.qr.view.ViewfinderResultPointCallback;
 import com.google.zxing.BarcodeFormat;

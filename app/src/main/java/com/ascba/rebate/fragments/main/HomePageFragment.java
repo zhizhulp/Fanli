@@ -35,7 +35,6 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ASKCollegeActivity;
-import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
@@ -55,7 +54,7 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.activities.offline_business.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.TimeUtils;

@@ -36,6 +36,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
+
 public class BusinessDataActivity extends BaseNetActivity implements BaseNetActivity.Callback {
     public static final int REQUEST_BUSINESS_NAME=0;
     public static final int REQUEST_BUSINESS_TAG=1;
@@ -323,9 +326,10 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
         switch (requestCode){
             case GO_CAMERA_PIC:
                 if(file != null && file.exists()){
-                    Bitmap bitmap=handleBitmap(file);
+                    handleImage(imBusPic,file);
+                    /*Bitmap bitmap=handleBitmap(file);
                     saveBitmapFile(bitmap,file);
-                    imBusPic.setImageBitmap(bitmap);
+                    imBusPic.setImageBitmap(bitmap);*/
                 }
                 break;
             case GO_ALBUM_PIC:
@@ -342,15 +346,17 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
                 String picturePath = cursor.getString(columnIndex);
                 file=new File(picturePath);
                 cursor.close();
-                Bitmap bitmap = handleBitmap(file);
+                handleImage(imBusPic,file);
+                /*Bitmap bitmap = handleBitmap(file);
                 saveBitmapFile(bitmap,file);
-                imBusPic.setImageBitmap(bitmap);
+                imBusPic.setImageBitmap(bitmap);*/
                 break;
             case GO_CAMERA_LOGO:
                 if(fileLogo != null && fileLogo.exists()){
-                    Bitmap bitmap2=handleBitmap(fileLogo);
+                    handleImage(imBusLogo,fileLogo);
+                    /*Bitmap bitmap2=handleBitmap(fileLogo);
                     saveBitmapFile(bitmap2,fileLogo);
-                    imBusLogo.setImageBitmap(bitmap2);
+                    imBusLogo.setImageBitmap(bitmap2);*/
                 }
                 break;
             case GO_ALBUM_LOGO:
@@ -367,9 +373,10 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
                 String picturePath2 = cursor2.getString(columnIndex2);
                 fileLogo=new File(picturePath2);
                 cursor2.close();
-                Bitmap bitmap2 = handleBitmap(fileLogo);
+                handleImage(imBusLogo,fileLogo);
+                /*Bitmap bitmap2 = handleBitmap(fileLogo);
                 saveBitmapFile(bitmap2,fileLogo);
-                imBusLogo.setImageBitmap(bitmap2);
+                imBusLogo.setImageBitmap(bitmap2);*/
                 break;
             case REQUEST_BUSINESS_NAME:
                 if(data==null){
@@ -549,7 +556,7 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             scale = 1;
         options.inSampleSize = scale;
         options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 
@@ -563,5 +570,25 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
             e.printStackTrace();
         }
     }
+
+    private void handleImage(final ImageView im, final File file){
+        Luban.with(this).load(file).setCompressListener(new OnCompressListener() {
+            File localFile=file;
+                    @Override
+                    public void onStart() {
+
+                    }
+                    @Override
+                    public void onSuccess(File resultFile) {
+                        localFile = resultFile;
+                        im.setImageBitmap(BitmapFactory.decodeFile(resultFile.getAbsolutePath()));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                }).launch();
+    }
+
 
 }

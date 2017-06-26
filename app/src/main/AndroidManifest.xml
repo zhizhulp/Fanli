@@ -464,7 +464,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".qr.CaptureActivity"
+            android:name=".activities.offline_business.CaptureActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
