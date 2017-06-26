@@ -326,9 +326,10 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
         switch (requestCode){
             case GO_CAMERA_PIC:
                 if(file != null && file.exists()){
-                    Bitmap bitmap=handleBitmap(file);
+                    handleImage(imBusPic,file);
+                    /*Bitmap bitmap=handleBitmap(file);
                     saveBitmapFile(bitmap,file);
-                    imBusPic.setImageBitmap(bitmap);
+                    imBusPic.setImageBitmap(bitmap);*/
                 }
                 break;
             case GO_ALBUM_PIC:
@@ -345,15 +346,17 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
                 String picturePath = cursor.getString(columnIndex);
                 file=new File(picturePath);
                 cursor.close();
-                Bitmap bitmap = handleBitmap(file);
+                handleImage(imBusPic,file);
+                /*Bitmap bitmap = handleBitmap(file);
                 saveBitmapFile(bitmap,file);
-                imBusPic.setImageBitmap(bitmap);
+                imBusPic.setImageBitmap(bitmap);*/
                 break;
             case GO_CAMERA_LOGO:
                 if(fileLogo != null && fileLogo.exists()){
-                    Bitmap bitmap2=handleBitmap(fileLogo);
+                    handleImage(imBusLogo,fileLogo);
+                    /*Bitmap bitmap2=handleBitmap(fileLogo);
                     saveBitmapFile(bitmap2,fileLogo);
-                    imBusLogo.setImageBitmap(bitmap2);
+                    imBusLogo.setImageBitmap(bitmap2);*/
                 }
                 break;
             case GO_ALBUM_LOGO:
@@ -370,9 +373,10 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
                 String picturePath2 = cursor2.getString(columnIndex2);
                 fileLogo=new File(picturePath2);
                 cursor2.close();
-                Bitmap bitmap2 = handleBitmap(fileLogo);
+                handleImage(imBusLogo,fileLogo);
+                /*Bitmap bitmap2 = handleBitmap(fileLogo);
                 saveBitmapFile(bitmap2,fileLogo);
-                imBusLogo.setImageBitmap(bitmap2);
+                imBusLogo.setImageBitmap(bitmap2);*/
                 break;
             case REQUEST_BUSINESS_NAME:
                 if(data==null){
@@ -567,22 +571,23 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
         }
     }
 
-    private void handleImage(File file){
+    private void handleImage(final ImageView im, final File file){
         Luban.with(this).load(file).setCompressListener(new OnCompressListener() {
+            File localFile=file;
                     @Override
                     public void onStart() {
-                        // TODO 压缩开始前调用，可以在方法内启动 loading UI
+
                     }
                     @Override
-                    public void onSuccess(File file) {
-                        // TODO 压缩成功后调用，返回压缩后的图片文件
+                    public void onSuccess(File resultFile) {
+                        localFile = resultFile;
+                        im.setImageBitmap(BitmapFactory.decodeFile(resultFile.getAbsolutePath()));
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        // TODO 当压缩过程出现问题时调用
                     }
-                }).launch();    //启动压缩
+                }).launch();
     }
 
 

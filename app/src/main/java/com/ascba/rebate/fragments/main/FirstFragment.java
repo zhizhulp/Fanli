@@ -32,7 +32,7 @@ import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.adapter.RecBusinessAdapter;
 import com.ascba.rebate.beans.Business;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.activities.offline_business.CaptureActivity;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.UrlUtils;

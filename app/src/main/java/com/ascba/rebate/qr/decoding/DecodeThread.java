@@ -16,7 +16,7 @@
 
 package com.ascba.rebate.qr.decoding;
 
-import com.ascba.rebate.qr.CaptureActivity;
+import com.ascba.rebate.activities.offline_business.CaptureActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
