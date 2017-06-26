@@ -3,13 +3,11 @@ package com.ascba.rebate.fragments.auction;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,7 +86,6 @@ public class CartChildFragment extends BaseNetFragment {
     private TextView tvBtmBtm;
     private TextView tvApply;
     private View btmView;
-    private boolean isFirstResume = true;
 
 
     public CartChildFragment() {
@@ -136,28 +133,25 @@ public class CartChildFragment extends BaseNetFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (debug) {
-            Log.d(TAG, "onCreateView: ");
-        }
         return inflater.inflate(R.layout.fragment_cart_no_sure, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (debug) {
-            Log.d(TAG, "onViewCreated: ");
-        }
-        ((AuctionCartFragment) getParentFragment()).setListener(new AuctionCartFragment.UpdateListener() {
-            @Override
-            public void update(boolean isVisible) {
-                if(isVisible && MyApplication.isLoadAuctionCart){
-                    Log.d(TAG, "update: ");
-                    requestNetwork(UrlUtils.auctionCard, 0);
-                }
-            }
-        });
         getParams();
+        if("0,1".equals(status)){
+            ((AuctionCartFragment) getParentFragment()).setListener(new AuctionCartFragment.UpdateListener() {
+                @Override
+                public void update(boolean hidden) {
+                    if(!hidden && MyApplication.isLoadAuctionCart){
+                        Log.d(TAG, "update: ");
+                        resetPageAndStatus();
+                        requestNetwork(UrlUtils.auctionCard, 0);
+                    }
+                }
+            });
+        }
         initViews(view);
         requestNetwork(UrlUtils.auctionCard, 0);
     }
@@ -555,137 +549,9 @@ public class CartChildFragment extends BaseNetFragment {
 
     @Override
     public void onDestroy() {
-        if (debug) {
-            Log.d(TAG, "onDestroy: ");
-        }
         super.onDestroy();
         if (timer != null) {
             timer.cancel();
         }
-    }
-
-    @Override
-    public void onResume() {
-        if (debug) {
-            Log.d(TAG, "onResume: ");
-        }
-        super.onResume();
-        if (!isFirstResume && !MyApplication.isSignOut && MyApplication.isLoadAuctionCart) {
-            requestNetwork(UrlUtils.auctionCard, 0);
-            isFirstResume = false;
-            MyApplication.isLoadAuctionCart = false;
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (debug) {
-            Log.d(TAG, "onDestroyView: ");
-        }
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        if (debug) {
-            Log.d(TAG, "onCreate: ");
-        }
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (debug) {
-            Log.d(TAG, "onHiddenChanged: ");
-        }
-        super.onHiddenChanged(hidden);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (debug) {
-            Log.d(TAG, "setUserVisibleHint: ");
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    @Override
-    public boolean getUserVisibleHint() {
-        if (debug) {
-            Log.d(TAG, "getUserVisibleHint: ");
-        }
-        return super.getUserVisibleHint();
-    }
-
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        if (debug) {
-            Log.d(TAG, "onAttachFragment: ");
-        }
-        super.onAttachFragment(childFragment);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        if (debug) {
-            Log.d(TAG, "onAttach: ");
-        }
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if (debug) {
-            Log.d(TAG, "onActivityCreated: ");
-        }
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if (debug) {
-            Log.d(TAG, "onViewStateRestored: ");
-        }
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (debug) {
-            Log.d(TAG, "onSaveInstanceState: ");
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onPause() {
-        if (debug) {
-            Log.d(TAG, "onPause: ");
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        if (debug) {
-            Log.d(TAG, "onStop: ");
-        }
-        super.onStop();
-    }
-
-    @Override
-    public void onLowMemory() {
-        if (debug) {
-            Log.d(TAG, "onLowMemory: ");
-        }
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onDetach() {
-        if (debug) {
-            Log.d(TAG, "onDetach: ");
-        }
-        super.onDetach();
     }
 }
