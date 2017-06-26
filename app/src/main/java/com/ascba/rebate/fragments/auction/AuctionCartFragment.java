@@ -37,7 +37,7 @@ public class AuctionCartFragment extends BaseNetFragment {
     }
 
     public interface UpdateListener{
-        void update(boolean isVisible);
+        void update(boolean hidden);
     }
 
     public AuctionCartFragment() {
@@ -91,8 +91,6 @@ public class AuctionCartFragment extends BaseNetFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (debug)
-            Log.d(TAG, "onHiddenChanged: ");
         if(listener!=null){
             listener.update(hidden);
         }
