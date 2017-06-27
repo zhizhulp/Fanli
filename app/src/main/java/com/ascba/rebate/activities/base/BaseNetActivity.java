@@ -59,13 +59,10 @@ public abstract class BaseNetActivity extends BaseActivityNet {
             }
             mhandle404(what, dataObj, message);
             showToast(message);
-            //getDm().buildAlertDialog(message);
         } else if (status == 500) {
             showToast(message);
-            //getDm().buildAlertDialog(message);
         } else if (status == 6) {
             showToast(message);
-            //getDm().buildAlertDialog(message);
         }
 
     }

@@ -142,7 +142,7 @@ public class CartFragment extends BaseNetFragment implements
                 CartGoods cartGoods = data.get(position);
                 int id = view.getId();
                 if (id == R.id.edit_standard) {//选择规格,进商品页
-                    GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
+                    //GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
                 } else if (id == R.id.tv_go_shop) {//点击进店
                     Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
                     intent.putExtra("store_id", cartGoods.getId());

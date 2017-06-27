@@ -15,6 +15,7 @@ import com.ascba.rebate.adapter.CashDepositAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.auction.AuctionHomePageFragment;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ShopABarText;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -42,8 +43,6 @@ public class MyCashDepositActivity extends BaseNetActivity {
     private static final int REDUCE_TIME = 2;
     private CashDepositAdapter adapter;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
-    private int now_page = 1;
-    private int total_page;
     private CustomLoadMoreView loadMoreView;
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
@@ -98,6 +97,7 @@ public class MyCashDepositActivity extends BaseNetActivity {
         recyclerView.setLayoutManager(layoutManager);
         beanList = new ArrayList<>();
         adapter = new CashDepositAdapter(this, R.layout.item_auction_cash_deposit, beanList);
+        adapter.setEmptyView(ViewUtils.getEmptyView(this,"暂无数据"));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -120,7 +120,8 @@ public class MyCashDepositActivity extends BaseNetActivity {
             @Override
             public void onRefresh() {
                 isRefresh=true;
-                resetPage();
+                now_page=1;
+                total_page=0;
                 requestNetwork(UrlUtils.bondList,0);
             }
         });
@@ -129,11 +130,20 @@ public class MyCashDepositActivity extends BaseNetActivity {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
-            stopLoadMore();
+            stopLoadingMore();
             if(isRefresh){
                 clearData();
             }
             parseData(dataObj.optJSONArray("bondList"));
+        }
+    }
+
+    private void stopLoadingMore() {
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
     }
 
@@ -186,7 +196,7 @@ public class MyCashDepositActivity extends BaseNetActivity {
                 } else if(total_page==0){
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    requestNetwork(UrlUtils.auctionType,0);
+                    requestNetwork(UrlUtils.bondList,0);
                 }
             }
         });

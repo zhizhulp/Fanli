@@ -194,9 +194,9 @@ public class PayUtils {
     }
 
     private void initPayTypesData(List<PayType> types) {
-        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "快捷支付 账户余额￥" + balance, "balance"));
-        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", "大额支付，支持银行卡、信用卡", "alipay"));
-        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", "支付安全，支持银行卡、信用卡", "wxpay"));
+        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "方便快捷，支付无忧 ￥" + balance, "balance"));
+        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", null, "alipay"));
+        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", null, "wxpay"));
     }
 
     //调起支付宝

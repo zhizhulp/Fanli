@@ -37,8 +37,6 @@ public class MyAuctionActivity extends BaseNetActivity {
 
     private AuctionListAdapter adapter;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
-    private int now_page = 1;
-    private int total_page;
     private CustomLoadMoreView loadMoreView;
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
@@ -109,7 +107,8 @@ public class MyAuctionActivity extends BaseNetActivity {
             @Override
             public void onRefresh() {
                 isRefresh=true;
-                resetPage();
+                now_page=1;
+                total_page=0;
                 requestNetwork(UrlUtils.auctionList,0);
             }
         });
@@ -118,9 +117,18 @@ public class MyAuctionActivity extends BaseNetActivity {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
-            stopLoadMore();
+            stopLoadingMore();
             clearData();
             parseData(dataObj.optJSONArray("auctionList"));
+        }
+    }
+
+    private void stopLoadingMore() {
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
         }
     }
 

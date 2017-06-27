@@ -85,7 +85,7 @@
             android:layout_marginRight="15dp"
             android:background="@null"
             android:ellipsize="end"
-            android:hint="选填：对本次交易的说明"
+            android:hint="给商家留言（140字以内）"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="14sp" />
     </LinearLayout>

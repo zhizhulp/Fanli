@@ -93,7 +93,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
-            stopLoadMore();
+            stopLoadingMore();
             if(isRefresh){
                 clearData();
             }
@@ -115,6 +115,15 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         now_page=1;
         total_page=0;
         isRefresh=true;
+    }
+
+    private void stopLoadingMore() {
+        if (adapter != null) {
+            adapter.loadMoreComplete();
+        }
+        if (loadMoreView != null) {
+            loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
+        }
     }
 
     private void parseData(JSONArray array) {

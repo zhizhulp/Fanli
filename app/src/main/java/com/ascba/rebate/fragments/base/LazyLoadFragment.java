@@ -27,7 +27,7 @@ public abstract class LazyLoadFragment extends BaseNetFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(setContentView(), container, false);
         isInit = true;
-        /**初始化的时候去加载数据**/
+        //初始化的时候去加载数据
         isCanLoadData();
         return view;
     }
@@ -81,8 +81,6 @@ public abstract class LazyLoadFragment extends BaseNetFragment {
 
     /**
      * 获取设置的布局
-     *
-     * @return
      */
     protected View getContentView() {
         return view;
@@ -90,10 +88,6 @@ public abstract class LazyLoadFragment extends BaseNetFragment {
 
     /**
      * 找出对应的控件
-     *
-     * @param id
-     * @param <T>
-     * @return
      */
     protected <T extends View> T findViewById(int id) {
 

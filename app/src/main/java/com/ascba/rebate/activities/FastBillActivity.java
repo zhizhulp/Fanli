@@ -84,7 +84,7 @@ public class FastBillActivity extends BaseBillActivity {
             }
         });
         super.onCreate(savedInstanceState);
-        setMoneyBar("兑现券账单",false,null);
+        setMoneyBar("兑换券账单",false,null);
     }
 
     private void addHead(String month,String year) {

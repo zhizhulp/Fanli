@@ -178,7 +178,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 helper.setText(R.id.item_news_title, item.getBean().getTitle());
                 helper.setText(R.id.item_news_time, item.getBean().getTime());
                 break;
-            case HomePageMultiItemItem.TYPEAUCTION:
+            case HomePageMultiItemItem.TYPEAUCTION://竞拍商品
                 position = helper.getAdapterPosition();
                 turnPlay = helper.getView(R.id.auction_turn);
                 TurnAdapter turnAdapter = new TurnAdapter(item.getAgbs());
@@ -216,14 +216,6 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 PlayVideoActivity.newIndexIntent(context, item.getVideoList().get(position).getVideoUrl());
             }
         });
-    }
-
-    private String getTimeRemainning(AcutionGoodsBean item) {
-        int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
-        int hour = leftTime % (24 * 3600) / 3600;
-        int minute = leftTime % 3600 / 60;
-        int second = leftTime % 60;
-        return "距离结束:" + hour + "时" + minute + "分" + second + "秒";
     }
 
     public TurnAdapter.Callback getCallback() {

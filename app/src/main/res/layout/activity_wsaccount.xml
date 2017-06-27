@@ -11,7 +11,7 @@
     <com.ascba.rebate.view.MoneyBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textTitle="兑现券兑换" />
+        app:textTitle="兑换券兑换" />
     <RelativeLayout
         android:background="@color/main_content_bg"
         android:visibility="gone"

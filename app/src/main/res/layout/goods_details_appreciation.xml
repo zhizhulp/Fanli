@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:background="@drawable/red_bg"
-        android:text="增值"
+        android:text="奖励"
         android:paddingRight="4dp"
         android:paddingLeft="4dp"
         android:textColor="@color/shop_red_text_color"

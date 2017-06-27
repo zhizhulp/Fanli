@@ -24,6 +24,7 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.PCMultipleItem;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.utils.ViewUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -71,8 +72,9 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         pc_RecyclerView = (RecyclerView) view.findViewById(R.id.list_pc);
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), PCMultipleItem.TYPE_SPAN_SIZE_DEFAULT);
         pc_RecyclerView.setLayoutManager(manager);
+        initRefreshLayout(view);
+        refreshLayout.setOnRefreshListener(this);
         pc_RecyclerView.addOnItemTouchListener(new OnItemClickListener() {
-
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.d(TAG, "onSimpleItemClick: "+position);
@@ -142,9 +144,6 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
                 }
             }
         });
-
-        initRefreshLayout(view);
-        refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -249,16 +248,25 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         //粗分割线
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_4));
+        initAdapter();
 
+    }
 
-        pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
-        pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return pcMultipleItems.get(position).getSpanSize();
-            }
-        });
-        pc_RecyclerView.setAdapter(pcMultipleItemAdapter);
+    private void initAdapter() {
+        if(pcMultipleItemAdapter==null){
+            pcMultipleItemAdapter = new PCMultipleItemAdapter(pcMultipleItems, context);
+            pcMultipleItemAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                    return pcMultipleItems.get(position).getSpanSize();
+                }
+            });
+            pcMultipleItemAdapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无信息"));
+            pc_RecyclerView.setAdapter(pcMultipleItemAdapter);
+        }else {
+            pcMultipleItemAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override

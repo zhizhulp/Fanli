@@ -54,9 +54,7 @@ import static android.app.Activity.RESULT_OK;
  * 商城首页
  */
 
-public class ShopMainFragment extends BaseNetFragment implements
-        SwipeRefreshLayout.OnRefreshListener
-        , BaseNetFragment.Callback {
+public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment.Callback {
     private static final int REQUEST_ADD_TO_CART_LOGIN = 2;
     private static final int REQUEST_STD_LOGIN = 3;
     private RecyclerView rv;
@@ -65,7 +63,6 @@ public class ShopMainFragment extends BaseNetFragment implements
     private RelativeLayout searchHead;//搜索头
     private View searchHeadLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
-    private LinearLayout messageBtn;
     private BezierCurveAnimater bezierCurveAnimater;//加入购物车动画
     private int finalScene;
     private int goodsId;
@@ -78,7 +75,6 @@ public class ShopMainFragment extends BaseNetFragment implements
     private MsgView msgView;
     private ShopTabs shopTabs;
     private boolean has_spec;//加入购物车的商品是否有规格
-    private GridLayoutManager manager;
 
     @Nullable
     @Override
@@ -103,10 +99,8 @@ public class ShopMainFragment extends BaseNetFragment implements
             }
         });
 
-        /**
-         * 消息
-         */
-        messageBtn = (LinearLayout) view.findViewById(R.id.head_rr);
+        //消息
+        LinearLayout messageBtn = (LinearLayout) view.findViewById(R.id.head_rr);
         messageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,10 +125,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 requestNetwork(UrlUtils.shop, 0);
             }
         });
-
         initRefreshLayout(view);
-
-        //refreshLayout.setOnRefreshListener(this);
         ShopActivity a = (ShopActivity) getActivity();
         //初始化加入购物车动画
         bezierCurveAnimater = new BezierCurveAnimater(a, ((RelativeLayout) a.findViewById(R.id.second_rr)), ((ShopActivity) getActivity()).getShopTabs().getImThree());
@@ -180,9 +171,7 @@ public class ShopMainFragment extends BaseNetFragment implements
             }
         });
 
-        /**
-         * 滑动标题栏渐变
-         */
+        //滑动标题栏渐变
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -200,9 +189,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 }
             }
         });
-
         requestNetwork(UrlUtils.shop, 0);
-
         ShopActivity shopActivity = (ShopActivity) getActivity();
         shopTabs = shopActivity.getShopTabs();
     }
@@ -229,11 +216,6 @@ public class ShopMainFragment extends BaseNetFragment implements
         }
         executeNetWork(request, "请稍后");
         setCallback(this);
-    }
-
-    @Override
-    public void onRefresh() {
-
     }
 
 
@@ -383,7 +365,7 @@ public class ShopMainFragment extends BaseNetFragment implements
     private void initadapter() {
         if (baseAdapter == null) {
             baseAdapter = new ShopTypeRVAdapter(data, getActivity());
-            manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
+            GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
             rv.setLayoutManager(manager);
             baseAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
                 @Override
@@ -392,6 +374,7 @@ public class ShopMainFragment extends BaseNetFragment implements
                 }
             });
             rv.setAdapter(baseAdapter);
+            baseAdapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无信息"));
         } else {
             baseAdapter.notifyDataSetChanged();
         }
