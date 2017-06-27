@@ -43,6 +43,7 @@ import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
+import com.ascba.rebate.activities.offline_business.CaptureActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.adapter.TurnAdapter;
@@ -54,7 +55,6 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
-import com.ascba.rebate.activities.offline_business.CaptureActivity;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.TimeUtils;
@@ -312,7 +312,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private void showPopWindow() {
         if (popupWindow == null) {
             View view = LayoutInflater.from(context).inflate(R.layout.popwindow_homepage, null);
-            //付款
+            //扫一扫
             LinearLayout btnPay = (LinearLayout) view.findViewById(R.id.pop_hm_pay);
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override

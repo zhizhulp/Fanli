@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_number_button"
+    android:divider="@drawable/divider_horizontal"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <ImageView
+        android:padding="4dp"
+        android:src="@mipmap/btn_substract"
+        android:id="@+id/button_sub"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:background="@drawable/bg_button_left" />
+
+    <EditText
+        android:enabled="false"
+        android:id="@+id/text_count"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:background="@null"
+        android:cursorVisible="true"
+        android:digits="0123456789"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLines="1"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
+        android:text="1"
+        android:textColor="@color/shop_normal_text_color"
+        android:textCursorDrawable="@null"
+        android:textSize="14sp" />
+    <ImageView
+        android:padding="6dp"
+        android:src="@mipmap/btn_plus"
+        android:id="@+id/button_add"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:background="@drawable/bg_button_left" />
+</LinearLayout>

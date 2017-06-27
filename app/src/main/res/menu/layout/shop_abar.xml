@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/abar_im_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="55dp"
+        android:src="@mipmap/abar_back" />
+
+    <TextView
+        android:id="@+id/abar_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="@dimen/shop_title" />
+
+    <FrameLayout
+        android:id="@+id/abar_im_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="12dp">
+
+        <com.ascba.rebate.view.MsgView
+            android:id="@+id/abar_msg1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/abar_im_other"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/abar_im_msg"
+        android:paddingLeft="12dp"
+        android:paddingRight="10dp">
+
+        <com.ascba.rebate.view.MsgView
+            android:id="@+id/abar_msg2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/cutting_line" />
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginLeft="17dp"
+    android:layout_marginRight="17dp"
+    android:layout_width="match_parent"
+    android:minHeight="58dp"
+    android:layout_height="58dp">
+    <TextView
+        android:layout_centerVertical="true"
+        android:text="购买数量"
+        android:textColor="@color/shop_normal_text_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <com.ascba.rebate.view.cart_btn.NumberButton
+        android:id="@+id/num_btn"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="100dp"
+        android:layout_height="30dp"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/view_line_new"/>
+</RelativeLayout>

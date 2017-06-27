@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:minHeight="60dp">
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/im_power_update_type"
+        android:layout_width="42dp"
+        android:layout_height="42dp" />
+    <LinearLayout
+        android:id="@+id/proxy_type"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="17dp"
+        android:layout_toRightOf="@id/im_power_update_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_power_update_type"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_power_update_fee"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_centerVertical="true"
+        android:gravity="right|center_vertical"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/proxy_type"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="暂未开通"
+            android:id="@+id/tv_power_update_open"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:id="@+id/tv_power_update_region"
+            android:layout_marginTop="7dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

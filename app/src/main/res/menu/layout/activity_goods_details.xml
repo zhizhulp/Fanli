@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/activity_goods_details_shopping_in"
+        layout="@layout/activity_goods_details_shopping" />
+
+    <com.ascba.rebate.view.SuperSwipeRefreshLayout
+        android:id="@+id/activity_goods_details_pl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/activity_goods_details_shopping_in">
+
+        <com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView
+            android:id="@+id/activity_goods_details_pv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView
+                android:id="@+id/nickScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!--viewpager-->
+                    <include layout="@layout/goods_details_viewpager" />
+
+                    <!--商品简单介绍-->
+                    <include layout="@layout/goods_details_simple_desc" />
+
+                    <!--4小时发货、7天包退-->
+                    <include layout="@layout/goods_details_sales_service" />
+
+                    <!--分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide" />
+
+                    <!--增值：购买送积分-->
+                    <include layout="@layout/goods_details_appreciation" />
+
+                    <!--宽分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide" />
+
+                    <!--规格选择-->
+                    <include layout="@layout/goods_details_choose"
+                        android:visibility="gone"/>
+
+                    <!--宽分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide"
+                        android:visibility="gone"/>
+
+                    <!--宝贝评价、好评率-->
+                    <include layout="@layout/goods_details_evaluate"
+                        android:visibility="gone"/>
+
+                    <!--分割线-->
+                    <include layout="@layout/goods_details_cuttingline"
+                        android:visibility="gone"/>
+
+                    <!--宝贝评价流布局-->
+                    <include layout="@layout/goods_details_flow"
+                        android:visibility="gone"/>
+
+                    <!--买家评价示例-->
+                    <include layout="@layout/goods_details_evaluate_first"
+                        android:visibility="gone"/>
+
+                    <!--宽分割线-->
+                    <include layout="@layout/goods_details_cuttingline_wide"
+                        android:visibility="gone"/>
+
+                    <!--店铺-->
+                    <include layout="@layout/goods_details_shop" />
+
+                    <!--上滑查看图文详情-->
+                    <include layout="@layout/goods_details_check" />
+
+                </LinearLayout>
+
+            </com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView>
+
+            <com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                    <WebView
+                        android:id="@+id/webView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></WebView>
+                </RelativeLayout>
+            </com.ascba.rebate.view.pullUpToLoadMoreView.NickScrollView>
+        </com.ascba.rebate.view.pullUpToLoadMoreView.PullUpToLoadMoreView>
+
+    </com.ascba.rebate.view.SuperSwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/shopbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/abar_im_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="55dp"
+            android:src="@mipmap/abar_back" />
+
+        <ImageView
+            android:id="@+id/abar_im_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="12dp"
+            android:src="@mipmap/shop_no_msg" />
+
+        <ImageView
+            android:id="@+id/abar_im_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/abar_im_msg"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@mipmap/icon_cart_black" />
+    </RelativeLayout>
+</RelativeLayout>

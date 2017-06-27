@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/homepage_btn_dynamic"
+    android:layout_width="match_parent"
+    android:layout_height="43dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/fg_homepage_img_red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/rectangle_red" />
+
+    <TextView
+        android:id="@+id/homepage_text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/fg_homepage_img_red"
+        android:text="最新动态"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/homepage_text_more_news"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="更多"
+        android:textColor="#448ffe"
+        android:textSize="15sp" />
+</RelativeLayout>

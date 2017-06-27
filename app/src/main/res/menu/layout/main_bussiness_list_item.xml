@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="87dp"
+    android:minHeight="87dp">
+
+    <RelativeLayout
+        android:id="@+id/iv_main_business_logo_rl"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp">
+
+        <ImageView
+            android:id="@+id/iv_main_business_logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/busi_loading" />
+
+        <ImageView
+            android:id="@+id/iv_main_business_logo_angle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/store_angle" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/gp_main_business_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_main_business_logo_rl"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/tv_main_business_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLength="10"
+            android:maxLines="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textColor="@color/main_text_gary"
+                android:textSize="@dimen/main_text_13"
+                android:id="@+id/tv_main_business_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="5" />
+
+            <RatingBar
+                android:visibility="gone"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_main_business_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_13" />
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:id="@+id/tv_main_business_goodjob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_red_normal"
+            android:textSize="@dimen/main_text_13" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_line_light_gray" />
+</RelativeLayout>

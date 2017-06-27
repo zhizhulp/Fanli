@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ascba.rebate.fragments.shop.CartFragment">
+
+    <com.ascba.rebate.view.ShopABar
+        app:abar_has_back="false"
+        android:id="@+id/sab"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:abar_title="购物车" />
+
+    <RelativeLayout
+        android:id="@+id/cart_clear"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/cart_cb_total"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:button="@drawable/cart_cb_bg"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:text="全选"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/cart_tv_cost_total_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/cart_cb_total"
+            android:maxLines="1"
+            android:text="共计："
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/cart_tv_cost_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/cart_tv_cost_total_text"
+            android:maxLines="1"
+            android:textColor="@color/shop_red_text_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/cart_tv_cost_total_count"
+            android:layout_width="119dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/moneyBarColor"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_above="@id/cart_clear"
+        android:layout_below="@id/sab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.ascba.rebate.view.BetterRecyclerView
+            android:id="@+id/cart_goods_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+</RelativeLayout>

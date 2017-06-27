@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_personal_data"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity">
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
+        app:needComplete="true"
+        app:textTitle="所在地"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:background="@color/main_content_bg"
+        android:onClick="goLocation"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所在地区"/>
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/personal_user_img_04"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setting_go"/>
+        <TextView
+            android:id="@+id/location_tv"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
+            android:text="北京市北京市丰台区"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/personal_user_img_04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_line_light_gray"/>
+
+
+</LinearLayout>

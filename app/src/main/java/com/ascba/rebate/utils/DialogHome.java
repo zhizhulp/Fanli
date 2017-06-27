@@ -36,7 +36,7 @@ public class DialogHome {
         }
         dialogProgress = new ProgressDialog(context, R.style.dialog);
         dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
-        dialogProgress.setCancelable(true);//返还键不可取消
+        dialogProgress.setCancelable(true);//返还键可取消
         dialogProgress.setMessage(message);
         dialogProgress.show();
         return dialogProgress;

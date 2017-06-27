@@ -8,10 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,12 +21,9 @@ import com.ascba.rebate.adapter.PayTypeAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.PayType;
 import com.ascba.rebate.handlers.OnPasswordInput;
-import com.ascba.rebate.utils.PayUtils;
-import com.ascba.rebate.utils.PsdUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
 import com.ascba.rebate.view.PsdDialog;
 import com.ascba.rebate.view.RoundImageView;
-import com.ta.utdid2.android.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +36,6 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     private RoundImageView busiIcon;
     private TextView tvBusiName;
     private EditTextWithCustomHint etMoney;
-    private TextView tvPayType;
     private Button btnPay;
     private PsdDialog psdDialog;
     private BottomSheetDialog payTypeDialog;
@@ -59,13 +53,8 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         busiIcon = ((RoundImageView) findViewById(R.id.im_busi_icon));
         tvBusiName = ((TextView) findViewById(R.id.tv_busi_name));
         etMoney = ((EditTextWithCustomHint) findViewById(R.id.et_busi_money));
-        tvPayType = ((TextView) findViewById(R.id.tv_pay_type));
         btnPay = ((Button) findViewById(R.id.btn_pay));
-
-
-        tvPayType.setOnClickListener(this);
         etMoney.addTextChangedListener(this);
-
         setBtnStatus(R.drawable.ticket_no_shop_bg, false);
         setSuperString("账户余额");
     }
@@ -129,7 +118,6 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         spannableString.append("更换");
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.main_text_blue));
         spannableString.setSpan(colorSpan, spannableString.length() - 2, spannableString.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        tvPayType.setText(spannableString);
     }
 
     @Override
@@ -160,15 +148,12 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
             @Override
             public void inputFinish(String number) {
                 psdDialog.dismiss();
-
             }
-
             @Override
             public void inputCancel() {
                 psdDialog.dismiss();
                 showToast("支付取消");
             }
-
             @Override
             public void forgetPsd() {
                 AppConfig.getInstance().putInt("is_level_pwd", 0);
@@ -177,6 +162,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
                 startActivity(intent);
             }
         });
+
         psdDialog.showMyDialog();
     }
 

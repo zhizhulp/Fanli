@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_white_to"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f2f2f2"
+    tools:context="com.ascba.rebate.activities.me_page.WhiteScoreActivity">
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/moneyBar"
+        app:textTitle="我的兑换券"
+        app:needComplete="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:background="@color/main_content_bg"
+        android:id="@+id/no_ticket_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@mipmap/white_ticket_no_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/text_deep_gray"
+                android:layout_marginTop="20dp"
+                android:text="您还没有快速兑现券"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/text_deep_gray"
+                android:layout_marginTop="15dp"
+                android:text="推荐好友加入可获得快速兑现券奖励"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Button
+            android:visibility="gone"
+            android:layout_marginBottom="15dp"
+            android:text="了解百万计划"
+            android:layout_alignParentBottom="true"
+            style="@style/btnNormal"
+            android:background="@drawable/ticket_no_shop_bg"/>
+    </RelativeLayout>
+    <ListView
+        android:background="@color/main_content_bg"
+        android:scrollbars="none"
+        android:layout_margin="15dp"
+        android:id="@+id/cash_ticket_list"
+        android:divider="@color/main_line_light_gray"
+        android:dividerHeight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

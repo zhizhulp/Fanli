@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp">
+
+        <TextView
+            android:id="@+id/item_goods_order_freight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="(含15.00元运费)"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/item_goods_order_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/item_goods_order_freight"
+            android:text="368.00元"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/heji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/item_goods_order_total_price"
+            android:text="合计:"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/item_goods_order_total_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_toLeftOf="@id/heji"
+            android:text="共一件商品"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <include layout="@layout/goods_details_cuttingline" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="42dp">
+
+        <TextView
+            android:id="@+id/item_goods_order_total_logistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/red_bg"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="提醒发货"
+            android:textColor="#DD0E0E"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/item_goods_order_total_refund"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="11.5dp"
+            android:layout_toLeftOf="@id/item_goods_order_total_logistics"
+            android:background="@drawable/gray_bg"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:text="退款"
+            android:textColor="@color/textgray"
+            android:textSize="13sp" />
+    </RelativeLayout>
+</LinearLayout>

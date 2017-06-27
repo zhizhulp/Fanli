@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_wsaccount"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.me_page.white_score_child.WSExchangeActivity">
+
+    <com.ascba.rebate.view.MoneyBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textTitle="兑现券兑换" />
+    <RelativeLayout
+        android:background="@color/main_content_bg"
+        android:visibility="gone"
+        android:id="@+id/when_no_card"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space">
+        <TextView
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/tv_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_line_light_gray"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space">
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:text="白积分总额"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_marginLeft="20dp"
+            android:textSize="15sp"
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/main_bg"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"/>
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:text="兑现券积分"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_ticket_score"
+            android:layout_marginLeft="20dp"
+            android:textSize="15sp"
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:background="@color/main_line_light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <TextView
+        android:id="@+id/tv_fee_hand"
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_15"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:paddingTop="15dp"
+        android:text="兑换金额"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
+        <!--<ImageView
+            android:src="@color/colorAccent"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />-->
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_25"
+            android:text="¥"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_marginLeft="7dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_text_50"
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        style="@style/viewStyleMargin"/>
+    <TextView
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:gravity="center_vertical"
+        android:background="@color/main_content_bg"
+        android:id="@+id/tv_max_money"
+        android:textColor="@color/main_text_gary"
+        android:textSize="@dimen/main_text_15"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+    <View
+        style="@style/viewStyleMatch"/>
+    <Button
+        android:id="@+id/btn_go"
+        android:onClick="go"
+        android:layout_marginTop="30dp"
+        android:text="兑现"
+        style="@style/btnNormal" />
+
+</LinearLayout>

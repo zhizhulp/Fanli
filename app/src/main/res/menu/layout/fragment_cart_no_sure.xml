@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ascba.rebate.fragments.auction.CartChildFragment">
+
+    <RelativeLayout
+        android:id="@+id/cart_clear"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/cart_cb_total"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:button="@drawable/cart_cb_bg"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:text="全选"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_btm_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/cart_cb_total"
+            android:maxLines="1"
+            android:text="保证金：￥300.00"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_btm_btm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_btm_top"
+            android:layout_below="@id/tv_btm_top"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="3dp"
+            android:maxLines="1"
+            android:text="(未拍到保证金全额退款)"
+            android:textColor="@color/main_text_gary"
+            android:textSize="11sp" />
+
+
+        <TextView
+            android:id="@+id/tv_apply"
+            android:layout_width="119dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/moneyBarColor"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="交保证金"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_above="@id/cart_clear"
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <include layout="@layout/goods_details_cuttingline_wide" />
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_item"
+            android:paddingRight="10dp"
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/cart_cb_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <!--商品图片-->
+        <FrameLayout
+            android:id="@+id/lat_see_details"
+            android:layout_gravity="center_vertical"
+            android:layout_width="88dp"
+            android:layout_height="88dp">
+            <!--商品图片-->
+            <ImageView
+                android:id="@+id/img_goods"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_bg"
+                android:scaleType="centerCrop" />
+            <!--折扣拍-->
+            <FrameLayout
+                android:id="@+id/view_zhe_kou_pai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_zhe_kou"
+                android:paddingBottom="2dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zhe_kou_pai"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </FrameLayout>
+            <!--倒计时-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:layout_gravity="bottom">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.6"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:id="@+id/text_auction_goods_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="00时 02分 45秒"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </FrameLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:paddingLeft="15dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--商品名-->
+            <TextView
+                android:id="@+id/text_auction_goods_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="4dp"
+                android:maxLines="2"
+                android:text="苹果iph7手机限时抢拍  白色128G 全网通苹果iph7手机限时抢拍  白色128G 全网通"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="11sp" />
+
+            <!--盲拍价格-->
+            <RelativeLayout
+                android:id="@+id/lat_auction_goods_price_blind"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btn_sub"
+                    android:layout_width="32dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:background="#F3F3F3"
+                    android:text="—"
+                    android:textColor="@color/shop_normal_text_color" />
+
+                <Button
+                    android:id="@+id/btn_add"
+                    android:layout_width="32dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="#F3F3F3"
+                    android:text="十"
+                    android:textColor="@color/shop_normal_text_color" />
+
+                <TextView
+                    android:id="@+id/text_auction_goods_price_blind"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/btn_add"
+                    android:layout_toRightOf="@id/btn_sub"
+                    android:background="#F3F3F3"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="降价至:￥5000.00"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+            <!--抢拍价格-->
+            <TextView
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:id="@+id/text_auction_goods_price_rush"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="￥5000.00"
+                android:textColor="@color/shop_red_text_color"
+                android:textSize="13sp" />
+            <!--保证金-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_deposit_or_score"
+                    android:textColor="@color/main_text_gary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保证金："
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/text_auction_goods_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="￥100.00"
+                    android:textColor="@color/fragment_money_red"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

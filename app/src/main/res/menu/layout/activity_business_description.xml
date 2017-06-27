@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_business_phone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.me_page.business_center_child.child.BusinessPhoneActivity">
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb_desc"
+        app:needComplete="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textTitle="商家详情"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/ed_desc"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            app:hintSize="@dimen/main_text_14"
+            android:textColorHint="@color/main_text_gary"
+            android:gravity="left"
+            android:layout_marginTop="15dp"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:hint="商家简介"
+            android:background="@color/main_content_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            android:layout_margin="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100字"/>
+    </RelativeLayout>
+</LinearLayout>

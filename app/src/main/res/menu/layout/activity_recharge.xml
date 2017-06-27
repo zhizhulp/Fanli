@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_recharge"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.ascba.rebate.view.MoneyBar
+        app:textTitle="充值结果"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:paddingBottom="19dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/main_content_bg">
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:src="@mipmap/pay_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/moneyBarColor"
+            android:textSize="16sp"
+            android:text="充值成功"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="¥ 0.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        style="@style/viewStyleMargin"/>
+    <RelativeLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space">
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:layout_centerVertical="true"
+            android:text="充值账号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/main_text_gary"
+            android:textSize="@dimen/main_text_15"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="钱来钱往"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        style="@style/viewStyleMargin"/>
+    <Button
+        android:onClick="goMain"
+        android:text="完成"
+        android:layout_marginTop="25dp"
+        style="@style/btnNormal" />
+</LinearLayout>

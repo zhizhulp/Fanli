@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_recha_succ"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb"
+        app:needComplete="true"
+        app:textTitle="充值结果"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:paddingBottom="19dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/pay_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="12.5dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/main_red_normal"
+            android:textSize="@dimen/main_text_17"
+            android:text="充值成功"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_money"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="18dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/main_red_normal"
+            android:textSize="@dimen/main_text_29"
+            android:text="0.00元"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        style="@style/viewStyleMatch"/>
+    <RelativeLayout
+        android:onClick="goAcc"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:layout_height="59dp">
+        <ImageView
+            android:id="@+id/pay_img"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/pay_success_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_marginLeft="14dp"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/pay_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_15"
+                android:text="查看账单"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="6dp"
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_13"
+                android:text="支付宝，微信充值金额随时查询"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:textColor="@color/main_red_normal"
+            android:textSize="@dimen/main_text_14"
+            android:background="@drawable/recharge_success_check_bg"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="查询"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        style="@style/viewStyleMatch"/>
+</LinearLayout>

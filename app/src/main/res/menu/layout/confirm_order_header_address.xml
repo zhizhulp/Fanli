@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/confirm_order_addrss_rl"
+        android:layout_width="match_parent"
+        android:layout_height="65dp">
+
+        <ImageView
+            android:id="@+id/confirm_order_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="14dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_location_black" />
+
+        <ImageView
+            android:id="@+id/confirm_order_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="14dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/right2_arrow" />
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_toLeftOf="@id/confirm_order_right"
+            android:layout_toRightOf="@id/confirm_order_location"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/confirm_order_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/confirm_order_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@id/confirm_order_username"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/confirm_order_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/confirm_order_username"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/confirm_order_addrss_rl2"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="47dp"
+            android:text="请添加收货地址"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="14dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/right2_arrow" />
+    </RelativeLayout>
+</FrameLayout>

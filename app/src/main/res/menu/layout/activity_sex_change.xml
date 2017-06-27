@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_sex_change"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.me_page.settings.child.personal_data_child.SexChangeActivity">
+    <com.ascba.rebate.view.MoneyBar
+        app:textTitle="修改性别"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:id="@+id/select_man"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space">
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男"/>
+        <ImageView
+            android:id="@+id/iv_sex_man"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <ImageView style="@style/viewStyleMatch"/>
+    <RelativeLayout
+        android:id="@+id/select_woman"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space">
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女"/>
+        <ImageView
+            android:id="@+id/iv_sex_woman"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <ImageView style="@style/viewStyleMatch"/>
+    <RelativeLayout
+        android:id="@+id/select_pri"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space">
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保密"/>
+        <ImageView
+            android:id="@+id/iv_sex_pri"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <ImageView style="@style/viewStyleMatch"/>
+</LinearLayout>

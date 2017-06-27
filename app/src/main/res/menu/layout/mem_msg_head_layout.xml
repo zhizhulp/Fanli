@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="205dp">
+        <ImageView
+            android:id="@+id/mem_ad"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/business_detail_img"
+            android:layout_width="wrap_content"
+            android:layout_height="145dp" />
+        <ImageView
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/user_icon"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/logo"
+            android:layout_width="73dp"
+            android:layout_height="73dp" />
+        <LinearLayout
+            android:layout_marginBottom="12dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/user_icon"
+            android:layout_marginLeft="14dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="14sp"
+                android:text="姓名：张三"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/shop_normal_text_color"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:text="等级：普通会员"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:background="@color/view_line_new"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+</LinearLayout>

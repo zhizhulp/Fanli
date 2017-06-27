@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_account_recharge"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.me_page.AccountRechargeActivity">
+
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/moneyBar"
+        app:needComplete="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textTitle="充值" />
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/wx_click"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/wx_icon"
+            android:src="@mipmap/wx_pay"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@id/wx_icon"
+            android:text="微信支付"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/wxpay_circle"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/cart_uncheck"/>
+    </RelativeLayout>
+    <View
+        style="@style/viewStyleMargin"/>
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/ali_click"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="53dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/alipay_icon"
+            android:src="@mipmap/alipay"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+        <TextView
+            android:textColor="@color/main_text_normal"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@id/alipay_icon"
+            android:text="支付宝支付"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/alipay_circle"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/cart_uncheck"/>
+    </RelativeLayout>
+
+    <TextView
+        android:paddingTop="7dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="7dp"
+        android:text="充值金额"
+        android:textColor="@color/main_text_normal"/>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="¥"
+            android:textColor="@color/black" />
+
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColorHint="@color/main_text_gary"
+            android:id="@+id/ed_recharge_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:background="@null"
+            android:hint="请输入充值金额"
+            android:inputType="numberDecimal"
+            android:textColor="@color/black"
+            android:textSize="37sp"
+            app:hintSize="@dimen/main_text_15" />
+    </LinearLayout>
+    <Button
+        android:textSize="@dimen/main_text_15"
+        style="@style/btnNormal"
+        android:layout_marginTop="29dp"
+        android:onClick="goRechargeActivity"
+        android:text="充值" />
+
+</LinearLayout>

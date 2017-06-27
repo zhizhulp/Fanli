@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/pop_white_coner_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:scaleType="center"
+        android:id="@+id/cry_close_icon"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/close"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <ImageView
+        android:id="@+id/cry_icon"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/cry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textColor="@color/main_text_normal"
+        android:textSize="@dimen/main_text_14"
+        android:id="@+id/tv_sorry"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="对不起，您还没有兑换权限"
+        android:layout_below="@id/cry_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+   <!-- <View
+        android:id="@+id/view_sorry"
+        android:layout_below="@id/tv_sorry"
+        style="@style/viewStyleMatch" />
+    <TextView
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="钱往了解兑换权"
+        android:layout_below="@id/view_sorry"
+        android:textColor="@color/text_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />-->
+</RelativeLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_pk"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    tools:context="com.ascba.rebate.activities.scoring.PKActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ascba.rebate.view.MoneyBar
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:backImg="@mipmap/abar_back_white"
+            app:barBg="@color/scoring"
+            app:textTitle="pk榜"
+            app:needLine="false"
+            app:titleColor="@color/white" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/scoring_pk_tab"
+            android:layout_width="fill_parent"
+            android:layout_height="44dp"
+            app:tabBackground="@color/scoring"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/white" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/scoring_pk_vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

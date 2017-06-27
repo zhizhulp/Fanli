@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="@dimen/main_text_14"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_height="44dp"
+        android:layout_width="match_parent"
+        android:id="@+id/tv_cheap_desc"
+        android:gravity="right|center_vertical"
+        />
+    <include layout="@layout/goods_details_cuttingline"
+        android:id="@+id/line_cheap_desc"/>
+    <RelativeLayout
+        android:id="@+id/lat_real_reduce"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+        <TextView
+            android:text="@string/ticket_reduce_cash"
+            style="@style/shop_textView_style01" />
+        <TextView
+            android:id="@+id/tv_real_reduce"
+            android:layout_alignParentRight="true"
+            style="@style/shop_textView_style01" />
+    </RelativeLayout>
+    <include layout="@layout/goods_details_cuttingline"
+        android:id="@+id/line_real_reduce"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="运费"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/item_cost_freightPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:drawablePadding="2dp"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <include layout="@layout/goods_details_cuttingline" />
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="44dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="买家留言："
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+        <EditText
+            android:gravity="center_vertical"
+            android:id="@+id/item_cost_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="选填：对本次交易的说明"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <include layout="@layout/goods_details_cuttingline" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <TextView
+            android:id="@+id/item_cost_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/shop_red_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/confir_order_text_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/item_cost_price"
+            android:text="合计："
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/confir_order_text_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:layout_toLeftOf="@id/confir_order_text_total"
+            android:text="共?件商品"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</LinearLayout>

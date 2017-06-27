@@ -1,96 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.ascba.rebate.activities.offline_business.OfflinePayActivity">
+
     <com.ascba.rebate.view.MoneyBar
-        app:textTitle="付款"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <LinearLayout
-        android:paddingTop="25dp"
-        android:paddingBottom="12dp"
-        android:background="@color/main_content_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:textTitle="付款" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_content_bg"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingTop="25dp">
+
         <com.ascba.rebate.view.RoundImageView
+            android:src="@mipmap/icon_me_baozheng"
             android:id="@+id/im_busi_icon"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
-            app:type="circle"/>
+            app:type="circle" />
+
         <TextView
-            android:layout_marginTop="12dp"
             android:id="@+id/tv_busi_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
             android:gravity="center"
+            android:text=""
             android:textColor="@color/main_text_normal"
-            android:textSize="@dimen/main_text_14"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:textSize="@dimen/main_text_14" />
+
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginTop="12dp"
-            android:src="@drawable/weak_line"
             android:background="@drawable/weak_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:src="@drawable/weak_line" />
+
         <TextView
-            android:layout_marginTop="12dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textColor="@color/main_text_normal"
-            android:textSize="@dimen/main_text_15"
-            android:text="金额"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:text="金额"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_15" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
             <TextView
                 android:id="@+id/symbol"
-                android:textColor="@color/main_text_normal"
-                android:textSize="@dimen/main_text_17"
-                android:text="￥"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="￥"
+                android:textColor="@color/main_text_normal"
+                android:textSize="@dimen/main_text_17" />
+
             <com.ascba.rebate.view.EditTextWithCustomHint
-                android:layout_toRightOf="@id/symbol"
-                android:textColorHint="@color/main_text_gary"
                 android:id="@+id/et_busi_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@id/symbol"
                 android:background="@null"
                 android:inputType="numberDecimal"
                 android:textColor="@color/black"
+                android:textColorHint="@color/main_text_gary"
                 android:textSize="37sp"
                 app:hintSize="@dimen/main_text_15" />
         </RelativeLayout>
 
     </LinearLayout>
-    <Button
-        android:id="@+id/btn_pay"
-        android:layout_marginTop="30dp"
-        android:onClick="goPay"
-        android:text="付款"
-        style="@style/btnNormal" />
+
     <TextView
-        android:id="@+id/tv_pay_type"
-        android:paddingTop="18dp"
-        android:paddingBottom="18dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/main_text_normal"
-        android:textSize="@dimen/main_text_13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="请选择支付方式"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <View
+            android:layout_width="336dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/gray_bg" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <ImageView
+                android:id="@+id/sweep_remainingsum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@mipmap/sweep_remainingsum" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="14sp"
+                android:layout_toRightOf="@+id/sweep_remainingsum"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/seep_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="账户余额支付"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/seep_tv1"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="9dp"
+                    android:layout_toRightOf="@+id/sweep_remainingsum"
+                    android:text="可用余额300.00元"
+                    android:textColor="@color/gray_text"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="336dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/gray_bg" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <ImageView
+                android:id="@+id/sweep_keepaccounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@mipmap/sweep_keepaccounts" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="14sp"
+                android:layout_toRightOf="@+id/sweep_keepaccounts"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="记账"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/seep_tv1"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="9dp"
+                    android:layout_toRightOf="@+id/sweep_remainingsum"
+                    android:text="线下交易，线上记录"
+                    android:textColor="@color/gray_text"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btn_pay"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="30dp"
+            android:onClick="goPay"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:background="@color/red"
+            android:textColor="@color/white"
+            android:text="付款" />
+    </RelativeLayout>
+
 
 </LinearLayout>

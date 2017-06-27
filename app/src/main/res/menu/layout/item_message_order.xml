@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="163dp">
+
+    <FrameLayout
+        android:id="@+id/time_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp">
+
+        <com.ascba.rebate.view.DashView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            app:dashOrientation="1"
+            app:dashWidth="3dp"
+            app:lineColor="#b7b7b7"
+            app:lineHeight="1dp"
+            app:lineWidth="4dp" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_point_gray" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/item_message_order_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6.5dp"
+        android:layout_marginTop="14dp"
+        android:textSize="13sp"
+        android:layout_toRightOf="@id/time_line"
+        android:textColor="#b7b7b7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="114dp"
+        android:layout_below="@id/item_message_order_time"
+        android:layout_marginLeft="6.5dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/time_line"
+        android:background="@drawable/rounded_rectangle_gray1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="9dp"
+            android:text="订单支付提醒"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#b7b7b7" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ascba.rebate.view.RoundImageView
+                android:id="@+id/item_message_order_img"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:scaleType="centerCrop"
+                app:borderRadius="4dp"
+                app:type="round" />
+
+            <ImageView
+                android:id="@+id/img_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="9dp"
+                android:src="@mipmap/right3_arrow" />
+
+            <TextView
+                android:id="@+id/item_message_order_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@id/img_right"
+                android:layout_toRightOf="@id/item_message_order_img"
+                android:textColor="@color/shop_normal_text_color"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

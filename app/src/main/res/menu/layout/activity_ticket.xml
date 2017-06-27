@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_ticket"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f2f2f2"
+    tools:context="com.ascba.rebate.activities.me_page.TicketActivity">
+
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/moneyBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textTitle="折扣券" />
+
+    <Button
+        android:id="@+id/ticket_btn"
+        style="@style/btnNormal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="28dp"
+        android:text="兑换代金券" />
+
+    <LinearLayout
+        android:id="@+id/no_ticket_view"
+        android:layout_above="@id/ticket_btn"
+        android:layout_below="@id/moneyBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/no_ticket" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您还没有折扣券"
+            android:textSize="13sp" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_above="@id/ticket_btn"
+        android:layout_below="@id/moneyBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:scrollbars="none">
+        <com.ascba.rebate.view.ScrollViewWithListView
+            android:id="@+id/ticket_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:divider="#f2f2f2"
+            android:dividerHeight="10dp"
+            android:scrollbars="none" />
+    </ScrollView>
+
+</RelativeLayout>

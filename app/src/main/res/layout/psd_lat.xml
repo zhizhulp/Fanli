@@ -1,54 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/main_content_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="350dp">
-    <ImageView
-        android:id="@+id/im_cancel"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
-        android:layout_alignParentRight="true"
-        android:scaleType="center"
-        android:src="@mipmap/pay_close" />
+    android:layout_height="400dp"
+    android:background="@color/main_content_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/im_cancel11"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <ImageView
+
+            android:id="@+id/im_cancel"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_alignParentLeft="true"
+            android:scaleType="center"
+            android:src="@mipmap/pay_close" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="请输入支付密码"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/sweep_divide"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_bg"
+        android:layout_below="@+id/im_cancel11"/>
+
     <com.ascba.rebate.view.keyboard.PasswordInputView
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:cursorVisible="false"
-        android:inputType="number"
-        android:maxLength="6"
-        app:pivPasswordLength="6"
         android:id="@+id/trader_pwd_set_pwd_edittext"
         android:layout_width="match_parent"
         android:layout_height="41dip"
-        android:layout_below="@+id/im_cancel"
-        android:background="@color/white" />
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/sweep_divide"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
+        android:cursorVisible="false"
+        android:inputType="number"
+        android:maxLength="6"
+        app:pivPasswordLength="6" />
 
     <TextView
-        android:onClick="forgetPassword"
-        android:gravity="center"
-        android:layout_marginRight="15dp"
-        android:layout_alignParentRight="true"
-        android:text="忘记密码?"
-        android:layout_below="@id/trader_pwd_set_pwd_edittext"
         android:id="@+id/tv_forget"
-        android:textSize="@dimen/main_text_13"
-        android:textColor="@color/main_text_blue"
         android:layout_width="wrap_content"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/trader_pwd_set_pwd_edittext"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:onClick="forgetPassword"
+        android:text="忘记密码?"
+        android:textColor="@color/main_text_blue"
+        android:textSize="@dimen/main_text_13" />
 
     <android.inputmethodservice.KeyboardView
-        android:background="@color/main_content_bg"
-        android:shadowColor="@color/main_text_normal"
-        android:shadowRadius="0.0"
-        android:keyTextColor="@color/main_text_normal"
-        android:keyBackground="@drawable/key_bg"
         android:id="@+id/keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="240dip"
         android:layout_alignParentBottom="true"
+        android:background="@color/main_content_bg"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:visibility="invisible"/>
+        android:keyBackground="@drawable/key_bg"
+        android:keyTextColor="@color/black"
+        android:shadowColor="@color/main_text_normal"
+        android:shadowRadius="0.0"
+        android:visibility="invisible" />
 </RelativeLayout>

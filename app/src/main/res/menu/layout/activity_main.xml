@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clipToPadding="true"
+    android:id="@+id/main_rr"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.ascba.rebate.view.AppTabs
+        android:layout_alignParentBottom="true"
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:layout_above="@id/tabs"
+        android:id="@+id/fl_change"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+    <View
+        android:layout_above="@id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/view_line"/>
+    <ImageView
+        android:layout_marginBottom="17dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:src="@mipmap/tab_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

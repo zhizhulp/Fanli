@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_add_crad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity">
+    <com.ascba.rebate.view.MoneyBar
+        app:textTitle="添加银行卡"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_height="46dp">
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/hold_car_man"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="持卡人"/>
+        <TextView
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:id="@+id/ed_add_card_name"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:layout_marginLeft="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+    <View
+        style="@style/viewStyleMatch"/>
+    <RelativeLayout
+        android:background="@color/main_content_bg"
+        android:layout_width="match_parent"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:layout_height="46dp">
+        <TextView
+            android:id="@+id/card_number_id"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/main_text_15"
+            android:textColor="@color/main_text_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卡号"/>
+        <com.ascba.rebate.view.EditTextWithCustomHint
+            android:textColor="@color/main_text_normal"
+            android:textColorHint="@color/main_text_gary"
+            android:layout_centerVertical="true"
+            android:inputType="number"
+            android:background="@null"
+            android:id="@+id/ed_add_card_number"
+            android:maxLines="1"
+            app:hintSize="@dimen/main_text_14"
+            android:textSize="@dimen/main_text_14"
+            android:hint="请输入持卡人银行卡号码"
+            android:layout_marginLeft="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+    <View
+        style="@style/viewStyleMatch"/>
+    <Button
+        android:onClick="next"
+        android:layout_marginTop="30dp"
+        android:text="下一步"
+        style="@style/btnNormal" />
+    <TextView
+        android:onClick="goCardProtocol"
+        android:textSize="@dimen/main_text_14"
+        android:textColor="@color/main_text_blue"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/bank_card_protocol"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+</LinearLayout>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:weightSum="8">
+
+    <LinearLayout
+        android:id="@+id/homepage_btn_global"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/homepage_btn_global_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全球购"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/homepage_btn_global_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Miss Dior迪奥香水 国际大牌"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:scaleType="fitCenter"
+            android:src="@mipmap/smell"
+            android:id="@+id/homepage_btn_global_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.2dp"
+        android:layout_height="match_parent"
+        android:background="@color/cutting_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/homepage_btn_offer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/homepage_btn_offer_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="天天特价"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/homepage_btn_offer_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="每天都有大收获"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="6dp"
+                android:layout_weight="2">
+
+                <ImageView
+                    android:src="@mipmap/bagpack"
+                    android:id="@+id/homepage_btn_offer_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitCenter" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/item_divider1" />
+
+        <LinearLayout
+            android:id="@+id/homepage_btn_selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/homepage_btn_selected_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="品牌精选"
+                    android:textColor="@color/shop_normal_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/homepage_btn_selected_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="新选大赏 种类齐全"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="6dp"
+                android:layout_weight="2">
+
+                <ImageView
+                    android:src="@mipmap/oil"
+                    android:id="@+id/homepage_btn_selected_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="11dp"
+    android:paddingTop="14.5dp">
+
+    <TextView
+        android:id="@+id/beginner_guide_expandable_lv0_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="问："
+        android:layout_centerVertical="true"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/beginner_guide_expandable_lv0_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/beginner_guide_expandable_lv0_ask"
+        android:layout_centerVertical="true"
+        android:textColor="@color/shop_normal_text_color"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/beginner_guide_expandable_lv0_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/right2_arrow" />
+
+</RelativeLayout>

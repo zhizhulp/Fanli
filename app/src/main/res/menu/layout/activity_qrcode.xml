@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_qrcode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/my_qr_bg"
+    tools:context="com.ascba.rebate.activities.me_page.settings.child.QRCodeActivity">
+    <com.ascba.rebate.view.MoneyBar
+        app:backImg="@mipmap/money_bar_back"
+        app:titleColor="@color/white"
+        app:barBg="@color/transparent"
+        app:textTitle="我的二维码"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/qrcode"
+        android:layout_marginLeft="78dp"
+        android:layout_marginTop="98dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:text="扫一扫，向我付款"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="70dp"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_save_to_album"
+        android:layout_marginLeft="125dp"
+        android:text="保存图片到我相册"
+        android:layout_marginTop="25dp"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

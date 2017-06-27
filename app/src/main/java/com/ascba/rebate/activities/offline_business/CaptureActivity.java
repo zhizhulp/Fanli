@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -35,7 +36,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Vector;
-
+//点击扫一扫跳入的页面
 public class CaptureActivity extends BaseNetActivity implements Callback, BaseNetActivity.Callback {
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
@@ -116,26 +117,37 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     }
 
     private void initCamera(final SurfaceHolder surfaceHolder) {
-        checkAndRequestAllPermission(permissions, new PermissionCallback() {
-            @Override
-            public void requestPermissionAndBack(boolean isOk) {
-                if(!isOk){
-                    finish();
-                }else{
-                    try {
-                        // CameraManager.get().openDriver(surfaceHolder);
-                        cameraManager.openDriver(surfaceHolder);
-                    } catch (IOException ioe) {
-                        return;
-                    } catch (RuntimeException e) {
-                        return;
-                    }
-                    if (handler == null) {
-                        handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
+        if(Build.VERSION.SDK_INT>=23){
+            checkAndRequestAllPermission(permissions, new PermissionCallback() {
+                @Override
+                public void requestPermissionAndBack(boolean isOk) {
+                    if(!isOk){
+                        finish();
+                    }else{
+                        try {
+                            cameraManager.openDriver(surfaceHolder);
+                        } catch (IOException ioe) {
+                            return;
+                        } catch (RuntimeException e) {
+                            return;
+                        }
+                        if (handler == null) {
+                            handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
+                        }
                     }
                 }
+            });
+        }else {
+            try {
+                cameraManager.openDriver(surfaceHolder);
+                if (handler == null) {
+                    handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+        }
+
 
     }
 

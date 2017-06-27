@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/rechage_bg"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_width="match_parent"
+    android:minHeight="91dp"
+    android:layout_height="91dp">
+    <ImageView
+        android:id="@+id/just_use"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/bank_card_icon"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:maxLines="1"
+        android:layout_toLeftOf="@id/just_use"
+        android:layout_alignParentLeft="true"
+        android:ellipsize="end"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:id="@+id/card_name"
+        android:textSize="@dimen/main_text_14"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginLeft="12dp"
+        android:layout_below="@id/card_name"
+        android:textSize="@dimen/main_text_12"
+        android:id="@+id/card_type"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@id/card_type"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="4dp"
+        android:id="@+id/card_number"
+        android:textSize="@dimen/main_text_19"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

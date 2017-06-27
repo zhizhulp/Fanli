@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_business_phone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.me_page.business_center_child.child.BusinessPhoneActivity">
+
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/mb_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:needComplete="true"
+        app:textTitle="商家标签" />
+
+    <TextView
+        android:textColor="@color/main_text_gary"
+        android:textSize="@dimen/main_text_15"
+        android:id="@+id/ed_business_data_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_space"
+        android:layout_marginTop="15dp"
+        android:background="@color/main_content_bg"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="请选择商家标签" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_eat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="餐饮" />
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="娱乐" />
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_rest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="休闲" />
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_cloth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="服饰" />
+
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_house"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="家居" />
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_medicine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="医药 " />
+
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_toy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="玩具" />
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_soft_eat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="轻工食品" />
+
+        <RadioButton
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_14"
+            android:id="@+id/rb_office"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="办公" />
+
+
+
+    </RadioGroup>
+</LinearLayout>

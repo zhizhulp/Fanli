@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goods_list_ll"
+    android:layout_width="match_parent"
+    android:minHeight="234dp"
+    android:layout_height="234dp"
+    android:background="@color/lighter_gray"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <ImageView
+        android:id="@+id/goods_list_img"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/goods_list_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:lineSpacingExtra="5dp"
+        android:maxLines="2"
+        android:paddingLeft="12dp"
+        android:paddingRight="10dp"
+        android:paddingTop="11dp"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingLeft="14dp">
+
+        <TextView
+            android:id="@+id/goods_list_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="13sp"
+            android:layout_centerVertical="true"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/goods_list_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="11dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:paddingTop="10dp"
+            android:src="@mipmap/icon_add_cart" />
+    </RelativeLayout>
+</LinearLayout>
