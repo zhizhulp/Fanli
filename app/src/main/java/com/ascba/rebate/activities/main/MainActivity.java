@@ -1,14 +1,20 @@
 package com.ascba.rebate.activities.main;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.test.mock.MockApplication;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,6 +37,8 @@ import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
 import com.taobao.sophix.SophixManager;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -39,6 +47,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -60,6 +70,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private static final int REQUEST_LOGIN_SHOP = 2015;
     public static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
+    private static final int TIME_TO_UPDATE=2018;
     private List<Fragment> fgts = new ArrayList<>();
     private final Handler mHandler = new Handler() {
         @Override
@@ -80,6 +91,51 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                         e.printStackTrace();
                     }
                     break;
+                case TIME_TO_UPDATE:
+                    getDm().buildAlertDialogSure("重启app完成更新", new DialogHome.Callback() {
+                        @Override
+                        public void handleSure() {
+                            Intent i = getBaseContext().getPackageManager()
+                                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
+                            SophixManager.getInstance().killProcessSafely();
+                        }
+                    });
+                    /*AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this, R.style.dialog);
+                    builder.setMessage("重启app完成更新");
+                    final AlertDialog dialog = builder.setCancelable(true).create();
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "重启", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = getBaseContext().getPackageManager()
+                                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
+                            SophixManager.getInstance().killProcessSafely();
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        if(!Settings.canDrawOverlays(getApplicationContext())) {
+                            //启动Activity让用户授权
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                            startActivity(intent);
+                        } else {
+                            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                            dialog.show();
+                        }
+                    } else {
+                        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                        dialog.show();
+                    }*/
+                    break;
                 default:
                     break;
             }
@@ -90,56 +146,35 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private Fragment mMoneyFragment;
     private Fragment mMeFragment;
     private AppTabs appTabs;
+    private Timer timer;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-            if (fragments != null && fragments.size() != 0) {
-                for (int i = 0; i < fragments.size(); i++) {
-                    Fragment fragment = fragments.get(i);
-                    if (mHomePageFragment == null && fragment instanceof HomePageFragment)
-                        mHomePageFragment = fragment;
-                    fgts.add(fragment);
-                    if (mSideFragment == null && fragment instanceof SideFragment)
-                        mSideFragment = fragment;
-                    fgts.add(fragment);
-                    if (mMoneyFragment == null && fragment instanceof MoneyFragment)
-                        mMoneyFragment = fragment;
-                    fgts.add(fragment);
-                    if (mMeFragment == null && fragment instanceof MeFragment)
-                        mMeFragment = fragment;
-                    fgts.add(fragment);
-                }
-                index = 0;
+        //解决fragment重叠问题
+        resolveProblems(savedInstanceState);
+        //请求读写权限(用于热更新)
+        checkAndRequestAllPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionCallback() {
+            @Override
+            public void requestPermissionAndBack(boolean isOk) {
             }
-        }
-        if(Build.VERSION.SDK_INT >= 23){
-            checkAndRequestAllPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionCallback() {
-                @Override
-                public void requestPermissionAndBack(boolean isOk) {
-                    if(isOk){
-                        if(MyApplication.isKillAppToLoadPatch){
-                            getDm().buildAlertDialogSure("重启app完成更新", "取消", "重启", new DialogHome.Callback() {
-                                @Override
-                                public void handleSure() {
-                                    Intent i = getBaseContext().getPackageManager()
-                                            .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(i);
-                                    SophixManager.getInstance().killProcessSafely();
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        }
+        });
         setContentView(R.layout.activity_main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         findViews();
+        checkHotfix();
+    }
+
+    private void checkHotfix() {
+        timer=new Timer();
+        timer.schedule(new UpdateTask(),0, 30 * 1000);
+    }
+
+    private void restartToUpdate() {
+        if(MyApplication.isKillAppToLoadPatch){
+            mHandler.sendEmptyMessage(TIME_TO_UPDATE);
+        }
     }
 
     private void findViews() {
@@ -229,6 +264,13 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(timer!=null){
+            timer.cancel();
+        }
+    }
 
     //根据位置切换相应碎片
     public void selFrgByPos(int position) {
@@ -392,5 +434,39 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             tagSet.add("release");
         }
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
+    }
+
+    //解决fragment崩溃后重叠的问题
+    private void resolveProblems(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            if (fragments != null && fragments.size() != 0) {
+                for (int i = 0; i < fragments.size(); i++) {
+                    Fragment fragment = fragments.get(i);
+                    if (mHomePageFragment == null && fragment instanceof HomePageFragment)
+                        mHomePageFragment = fragment;
+                    fgts.add(fragment);
+                    if (mSideFragment == null && fragment instanceof SideFragment)
+                        mSideFragment = fragment;
+                    fgts.add(fragment);
+                    if (mMoneyFragment == null && fragment instanceof MoneyFragment)
+                        mMoneyFragment = fragment;
+                    fgts.add(fragment);
+                    if (mMeFragment == null && fragment instanceof MeFragment)
+                        mMeFragment = fragment;
+                    fgts.add(fragment);
+                }
+                index = 0;
+            }
+        }
+    }
+
+    private class UpdateTask extends TimerTask{
+
+        @Override
+        public void run() {
+            Log.d("hotfix", "run: ");
+            restartToUpdate();
+        }
     }
 }
