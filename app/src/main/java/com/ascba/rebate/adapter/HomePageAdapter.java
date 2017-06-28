@@ -46,6 +46,8 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 } else if (msg.what == 1) {
                     notifyItemChanged(position);
                     handler.sendEmptyMessageDelayed(1, 1000);
+                } else if (msg.what == 2){
+                    notifyDataSetChanged();
                 }
             }
         }

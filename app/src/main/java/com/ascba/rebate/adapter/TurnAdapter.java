@@ -106,6 +106,9 @@ public class TurnAdapter extends PagerAdapter {
 
     private String getTimeRemainning(AcutionGoodsBean item) {
         int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
+        if(leftTime<=0){
+            return "本场已结束";
+        }
         int hour = leftTime % (24 * 3600) / 3600;
         int minute = leftTime % 3600 / 60;
         int second = leftTime % 60;
