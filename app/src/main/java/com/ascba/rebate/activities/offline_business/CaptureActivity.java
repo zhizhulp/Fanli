@@ -1,7 +1,6 @@
 package com.ascba.rebate.activities.offline_business;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -20,24 +19,24 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.activities.main_page.sweep.PayActivity;
 import com.ascba.rebate.qr.MessageIDs;
 import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
 import com.ascba.rebate.qr.view.ViewfinderView;
-import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.UrlUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Vector;
 //点击扫一扫跳入的页面
-public class CaptureActivity extends BaseNetActivity implements Callback, BaseNetActivity.Callback {
+//implements Callback, BaseNetActivity.Callback
+public class CaptureActivity extends BaseNetActivity implements Callback {
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
     private SurfaceView surfaceView;
@@ -67,7 +66,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
 
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
-
         cameraManager = new CameraManager(getApplication());
 
         viewfinderView.setCameraManager(cameraManager);
@@ -191,16 +189,23 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
     public void handleDecode(Result obj, Bitmap barcode) {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
-        showResult(obj, barcode);
+       // showResult(obj, barcode);
     }
-
-    private void showResult(final Result rawResult, Bitmap barcode) {
-        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
-        objRequest.add("seller", rawResult.getText());
-        objRequest.add("scenetype", 2);
-        executeNetWork(objRequest, "请稍后");
-        setCallback(this);
+    public void requestNetwork(String url, int what) {
+//        Request<JSONObject> request = buildNetRequest(url, 0, false);
+//        request.add("seller",type);
+//        request.add("strat_time",0);
+//        request.add("end_time",0);
+//        request.add("now_page",1);
+//        executeNetWork(what,request,"请稍后");
     }
+//    private void showResult(final Result rawResult, Bitmap barcode) {
+//        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
+//        objRequest.add("seller", rawResult.getText());
+//        objRequest.add("scenetype", 2);
+//        executeNetWork(objRequest, "请稍后");
+//       // setCallback(this);
+//    }
 
     //重新扫描
     public void restartPreviewAfterDelay(long delayMS) {
@@ -263,35 +268,42 @@ public class CaptureActivity extends BaseNetActivity implements Callback, BaseNe
         }
         return super.onKeyDown(keyCode, event);
     }
-
+//数据返回成功的处理
     @Override
-    public void handle200Data(JSONObject dataObj, String message) {
-        JSONObject infoObj = dataObj.optJSONObject("info");
-        Intent intent1 = new Intent(this, PayActivity.class);
-        intent1.putExtra("bus_uuid", infoObj.optInt("seller"));
-        intent1.putExtra("avatar", infoObj.optString("seller_avatar"));
-        startActivity(intent1);
-        finish();
-    }
-
-    @Override
-    public void handle404(String message) {
-
-        getDm().buildAlertDialog(message);
-        getDm().setCallback(new DialogHome.Callback() {
-            @Override
-            public void handleSure() {
-                restartPreviewAfterDelay(0L);
-            }
-        });
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+       // super.mhandle200Data(what, object, dataObj, message);
 
 
     }
 
-    @Override
-    public void handleNoNetWork() {
-
-    }
+    //    @Override
+//    public void handle200Data(JSONObject dataObj, String message) {
+//        JSONObject infoObj = dataObj.optJSONObject("info");
+//        Intent intent1 = new Intent(this, OfflinePayActivity.class);
+//        intent1.putExtra("bus_uuid", infoObj.optInt("seller"));
+//        intent1.putExtra("avatar", infoObj.optString("seller_avatar"));
+//        startActivity(intent1);
+//        finish();
+//    }
+//
+//    @Override
+//    public void handle404(String message) {
+//
+//        getDm().buildAlertDialog(message);
+//        getDm().setCallback(new DialogHome.Callback() {
+//            @Override
+//            public void handleSure() {
+//                restartPreviewAfterDelay(0L);
+//            }
+//        });
+//
+//
+//    }
+//
+//    @Override
+//    public void handleNoNetWork() {
+//
+//    }
     private boolean defaultLightOn;//默认关闭
     //灯的图标，打开关闭
     public void exchangeLightIcon(View view) {

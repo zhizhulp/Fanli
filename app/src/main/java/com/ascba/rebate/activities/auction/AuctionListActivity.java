@@ -13,10 +13,11 @@ import com.ascba.rebate.adapter.MyFragmentPagerAdapter;
 import com.ascba.rebate.beans.TittleBean;
 import com.ascba.rebate.fragments.auction.AuctionMainPlaceChildFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.ShopABar;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 

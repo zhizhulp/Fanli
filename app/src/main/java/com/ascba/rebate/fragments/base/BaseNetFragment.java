@@ -36,7 +36,6 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(setContentView(), container, false);
-
         return view;
     }
 

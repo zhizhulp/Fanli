@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -108,8 +107,8 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             }
         });
         msgView = (MsgView) view.findViewById(R.id.head_img_xiaoxi);
-
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
+
         setLoadRequestor(new LoadRequestor() {
             @Override
             public void loadMore() {

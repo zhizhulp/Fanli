@@ -7,13 +7,11 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.adapter.AuctionListAdapter;
-import com.ascba.rebate.adapter.CashDepositAdapter;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
@@ -182,7 +180,7 @@ public class MyAuctionActivity extends BaseNetActivity {
                 beanList.clear();
             }
         }
+
+
     }
-
-
 }
