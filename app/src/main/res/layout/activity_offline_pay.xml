@@ -148,6 +148,18 @@
                     android:textColor="@color/gray_text"
                     android:textSize="14sp" />
             </LinearLayout>
+            <CheckBox
+                android:layout_alignParentRight="true"
+                android:id="@+id/account_remain_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:button="@drawable/cart_cb_bg"
+                android:checked="true"
+                android:paddingLeft="15dp"
+                android:textColor="@color/shop_normal_text_color" />
         </RelativeLayout>
 
         <View
@@ -194,6 +206,18 @@
                     android:textColor="@color/gray_text"
                     android:textSize="14sp" />
             </LinearLayout>
+            <CheckBox
+                android:layout_alignParentRight="true"
+                android:id="@+id/keep_accounts_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:button="@drawable/cart_cb_bg"
+                android:checked="false"
+                android:paddingLeft="15dp"
+                android:textColor="@color/shop_normal_text_color" />
         </RelativeLayout>
 
     </LinearLayout>

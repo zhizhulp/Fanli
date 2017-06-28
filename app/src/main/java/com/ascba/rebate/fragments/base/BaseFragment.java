@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseActivity;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 

@@ -12,6 +12,8 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
@@ -31,7 +33,7 @@ import java.util.List;
 /**
  * 扫一扫-付款
  */
-public class OfflinePayActivity extends BaseNetActivity implements View.OnClickListener, TextWatcher {
+public class OfflinePayActivity extends BaseNetActivity implements View.OnClickListener, TextWatcher, CompoundButton.OnCheckedChangeListener {
 
     private RoundImageView busiIcon;
     private TextView tvBusiName;
@@ -39,7 +41,11 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     private Button btnPay;
     private PsdDialog psdDialog;
     private BottomSheetDialog payTypeDialog;
-    private String payType="balance";//默认支付方式
+    private String payType = "balance";//默认支付方式
+    private CheckBox checkBoxRemainder, checkBoxCash;
+    private boolean isChecked1 = true;
+    private boolean isChecked2 = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,9 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         etMoney.addTextChangedListener(this);
         setBtnStatus(R.drawable.ticket_no_shop_bg, false);
         setSuperString("账户余额");
+        checkBoxRemainder.setOnCheckedChangeListener(this);
+
+
     }
 
     //点击去付款
@@ -69,6 +78,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     public void onClick(View v) {
         showPayTypeDialog();
     }
+
     //支付方式dialog
     private void showPayTypeDialog() {
         payTypeDialog = new BottomSheetDialog(this, R.style.AlertDialog);
@@ -82,10 +92,10 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
             @Override
             public void onClicked(String payType) {
                 payTypeDialog.dismiss();
-                OfflinePayActivity.this.payType=payType;
-                if("balance".equals(payType)){
+                OfflinePayActivity.this.payType = payType;
+                if ("balance".equals(payType)) {
                     setSuperString("账户余额支付方式");
-                }else if("cash".equals(payType)){
+                } else if ("cash".equals(payType)) {
                     setSuperString("现金支付方式");
                 }
             }
@@ -95,15 +105,16 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         //显示对话框
         payTypeDialog.show();
     }
+
     private void initPayTypesData(List<PayType> types) {
         types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付方式", "快捷支付 账户余额￥" + 28, "balance"));
         types.add(new PayType(false, R.mipmap.pay_cash, "现金支付方式", "通过app使用现金支付可以返积分喔！", "cash"));
         for (int i = 0; i < types.size(); i++) {
             PayType payType = types.get(i);
             String type = payType.getType();
-            if(this.payType.equals(type)){
+            if (this.payType.equals(type)) {
                 payType.setSelect(true);
-            }else {
+            } else {
                 payType.setSelect(false);
             }
         }
@@ -149,11 +160,13 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
             public void inputFinish(String number) {
                 psdDialog.dismiss();
             }
+
             @Override
             public void inputCancel() {
                 psdDialog.dismiss();
                 showToast("支付取消");
             }
+
             @Override
             public void forgetPsd() {
                 AppConfig.getInstance().putInt("is_level_pwd", 0);
@@ -172,5 +185,30 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.account_remain_check:
+                if (isChecked1) {
+                    isChecked2 = false;
+
+                } else {
+
+                }
+
+                break;
+            case R.id.keep_accounts_check://记账方式
+                if (isChecked2) {
+                    isChecked1 = false;
+                } else {
+
+                }
+                break;
+        }
+        checkBoxRemainder.setChecked(isChecked1);
+        checkBoxCash.setChecked(isChecked2);
+
     }
 }
