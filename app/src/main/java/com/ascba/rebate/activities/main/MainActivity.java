@@ -102,39 +102,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                             SophixManager.getInstance().killProcessSafely();
                         }
                     });
-                    /*AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this, R.style.dialog);
-                    builder.setMessage("重启app完成更新");
-                    final AlertDialog dialog = builder.setCancelable(true).create();
-                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "重启", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent i = getBaseContext().getPackageManager()
-                                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(i);
-                            SophixManager.getInstance().killProcessSafely();
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    if (Build.VERSION.SDK_INT >= 23) {
-                        if(!Settings.canDrawOverlays(getApplicationContext())) {
-                            //启动Activity让用户授权
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                            startActivity(intent);
-                        } else {
-                            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-                            dialog.show();
-                        }
-                    } else {
-                        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-                        dialog.show();
-                    }*/
                     break;
                 default:
                     break;
