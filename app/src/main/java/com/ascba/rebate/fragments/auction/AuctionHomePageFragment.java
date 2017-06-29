@@ -193,6 +193,12 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new AcutionHPAdapter(getActivity(), R.layout.item_auction_hp, beanList);
+        adapter.setCallback(new AcutionHPAdapter.Callback() {
+            @Override
+            public void timeToUpdate() {//时间到主动刷新数据
+                requestNetwork(UrlUtils.auction, 0);
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override

@@ -12,6 +12,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.SelectAddrssUpdateActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.adapter.AuctionConfirmOrderAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.beans.AcutionGoodsBean;
@@ -58,6 +59,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     private String total_price;
     private String total_points;
     private String password;
+    private boolean needRefresh=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +110,17 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
                     return;
                 }
                 if(is_pay_money==0){
-                    showToast("账户余额不足");
+                    if(is_pay_money==0){//余额不足
+                        getDm().buildAlertDialogSure("余额不足", "取消", "充值", new DialogHome.Callback() {
+                            @Override
+                            public void handleSure() {
+                                needRefresh=true;
+                                Intent intent=new Intent(AuctionConfirmOrderActivity.this, AccountRechargeActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        return;
+                    }
                     return;
                 }
                 if(AppConfig.getInstance().getInt("is_level_pwd",0)==0){
@@ -283,5 +295,14 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
         userPhone.setText(addressBean.getPhone());
         userAddress.setText(addressBean.getAddress());
         userAddressDet.setText(addressBean.getAddressDetl());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(AppConfig.getInstance().getInt("uuid", -1000) != -1000 && needRefresh){
+            requestNetwork(UrlUtils.payAuctionOrder,0);
+            needRefresh=false;
+        }
     }
 }

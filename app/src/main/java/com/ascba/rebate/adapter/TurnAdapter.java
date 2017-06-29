@@ -2,6 +2,7 @@ package com.ascba.rebate.adapter;
 
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class TurnAdapter extends PagerAdapter {
     private Callback callback;
     public interface Callback{
         void click(AcutionGoodsBean item);
+        void timeToUpdate();
     }
     public TurnAdapter(List<AcutionGoodsBean> data) {
         this.data=data;
@@ -105,14 +107,28 @@ public class TurnAdapter extends PagerAdapter {
     }
 
     private String getTimeRemainning(AcutionGoodsBean item) {
-        int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
-        if(leftTime<=0){
-            return "本场已结束";
+        boolean isAllTimeDown=true;
+        for (int i = 0; i < data.size(); i++) {
+            AcutionGoodsBean agb = data.get(i);
+            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 );
+            if(leftTime > 0){
+                isAllTimeDown = false;
+                break;
+            }
         }
-        int hour = leftTime % (24 * 3600) / 3600;
-        int minute = leftTime % 3600 / 60;
-        int second = leftTime % 60;
-        return "距离结束:"+hour + "时" + minute + "分" + second + "秒";
+        Log.d("turn", "isAllTimeDown: "+isAllTimeDown);
+        if(isAllTimeDown){
+            if(callback!=null){
+                callback.timeToUpdate();
+            }
+            return "本场已结束";
+        }else {
+            int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
+            int hour = leftTime % (24 * 3600) / 3600;
+            int minute = leftTime % 3600 / 60;
+            int second = leftTime % 60;
+            return "距离结束:"+hour + "时" + minute + "分" + second + "秒";
+        }
     }
 
     public Callback getCallback() {

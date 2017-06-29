@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
+import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -35,6 +37,7 @@ public class PayDepositActivity extends BaseNetActivity{
     private int is_pay_money=-1;
     private String auction_url;
     private String deposit_url;
+    private boolean needRefresh=false;//是否需要刷新，用于余额不足去充值返回界面刷新的问题
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,14 @@ public class PayDepositActivity extends BaseNetActivity{
                     return;
                 }
                 if(is_pay_money==0){//余额不足
-                    showToast("余额不足");
+                    getDm().buildAlertDialogSure("余额不足", "取消", "充值", new DialogHome.Callback() {
+                        @Override
+                        public void handleSure() {
+                            needRefresh=true;
+                            Intent intent=new Intent(PayDepositActivity.this, AccountRechargeActivity.class);
+                            startActivity(intent);
+                        }
+                    });
                     return;
                 }
                 /*if(AppConfig.getInstance().getInt("is_level_pwd",0)==0){//没有设置支付密码
@@ -128,6 +138,15 @@ public class PayDepositActivity extends BaseNetActivity{
             setResult(RESULT_OK,getIntent());
             showToast(message);
             finish();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(AppConfig.getInstance().getInt("uuid", -1000) != -1000 && needRefresh){
+            requestNetwork(UrlUtils.payBond,0);
+            needRefresh=false;
         }
     }
 

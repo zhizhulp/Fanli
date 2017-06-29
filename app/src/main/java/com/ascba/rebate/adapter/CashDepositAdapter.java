@@ -59,10 +59,10 @@ public class CashDepositAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
         helper.addOnClickListener(R.id.text_btn);
         switch (item.getStrPriceState()) {
             case "已支付":
-                helper.setBackgroundRes(R.id.text_btn,R.drawable.red_bg2);
+                helper.setBackgroundRes(R.id.text_btn,R.drawable.btn_red_bg);
                 break;
             case "已退还":
-                helper.setBackgroundRes(R.id.text_btn,R.drawable.gray_bg4);
+                helper.setBackgroundRes(R.id.text_btn,R.drawable.btn_gray_bg);
                 break;
         }
         helper.setText(R.id.text_btn, item.getStrPriceState());

@@ -342,6 +342,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0://成功
+                    Log.d(TAG, "gotResult: setTagSuccess");
                     break;
                 case 6002://失败，重试
                     if (ExampleUtil.isConnected(getApplicationContext())) {
@@ -360,6 +361,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0:
+                    Log.d(TAG, "gotResult: setAliasSuccess");
                     break;
 
                 case 6002:
@@ -383,12 +385,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             setAlias(uuid + "");
             boolean appDebug = LogUtils.isAppDebug(this);
             setTag(appDebug);
-            if (appDebug) {
-                LogUtils.PrintLog("123", "debug");
-            } else {
-                LogUtils.PrintLog("123", "release");
-            }
-
         }
     }
 

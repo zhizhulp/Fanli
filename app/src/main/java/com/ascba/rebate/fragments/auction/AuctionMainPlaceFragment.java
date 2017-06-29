@@ -29,9 +29,6 @@ import java.util.List;
  */
 
 public class AuctionMainPlaceFragment extends BaseNetFragment {
-    private List<Fragment> fragmentList = new ArrayList<>();//fragment列表
-    private List<TittleBean> titleList = new ArrayList<>();//tab名的列表
-    private MyFragmentPagerAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -61,8 +58,8 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
         if (jsonArray != null && jsonArray.length() > 0) {
-            titleList.clear();
-            fragmentList.clear();
+            List<TittleBean> titleList = new ArrayList<>();
+            List<Fragment> fragmentList = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.optJSONObject(i);
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
@@ -81,14 +78,10 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
                 TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
                 tabLayout.addTab(tab);
             }
-            if(adapter==null){
-                adapter = new MyFragmentPagerAdapter(getChildFragmentManager(), fragmentList, titleList);
-                viewPager.setAdapter(adapter);
-                tabLayout.setupWithViewPager(viewPager);
-            }else {
-                adapter.notifyDataSetChanged();
-            }
-            setTabSelect();
+            MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(), fragmentList, titleList);
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
+            setTabSelect(titleList);
         }
 
     }
@@ -101,15 +94,15 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
 
     }
 
-    private void setTabSelect() {
+    private void setTabSelect(List<TittleBean> titleList) {
         for (int i = 0; i < titleList.size(); i++) {
             TittleBean tb = titleList.get(i);
-            long endTime = tb.getEndTime() *1000;//ms
+            long endTime = tb.getEndTime() * 1000;//ms
             long startTime = tb.getStartTime() * 1000;//ms
             long nowTime = System.currentTimeMillis();
-            if(nowTime >= startTime && nowTime<= endTime){
+            if (nowTime >= startTime && nowTime <= endTime) {
                 TabLayout.Tab tabAt = tabLayout.getTabAt(i);
-                if(tabAt!=null){
+                if (tabAt != null) {
                     tabAt.select();
                 }
                 break;
