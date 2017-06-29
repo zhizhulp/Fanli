@@ -2,6 +2,7 @@ package com.ascba.rebate.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -9,16 +10,27 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.ExampleUtil;
+import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.taobao.sophix.SophixManager;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * 登录页面
@@ -28,7 +40,32 @@ public class LoginActivity extends BaseNetActivity {
     private EditText edPhone;
     private EditText edPassword;
     private String loginPhone;
-    private String loginPassword;
+    private static final int MSG_SET_ALIAS = 1001;
+    private static final int MSG_SET_TAGS = 1002;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    try {
+                        JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case MSG_SET_TAGS:
+                    try {
+                        JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +134,7 @@ public class LoginActivity extends BaseNetActivity {
 
     private void loginRequest() {
         loginPhone = edPhone.getText().toString();
-        loginPassword = edPassword.getText().toString();
+        String loginPassword = edPassword.getText().toString();
         if (loginPhone.equals("") || loginPassword.equals("")) {
             Toast.makeText(this, "账号或密码不能为空", Toast.LENGTH_SHORT).show();
             return;
@@ -114,7 +151,7 @@ public class LoginActivity extends BaseNetActivity {
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-
+                init();//初始化极光推送
                 int uuid = dataObj.optInt("uuid");
                 String token = dataObj.optString("token");
                 Long exTime = dataObj.optLong("expiring_time");
@@ -158,5 +195,75 @@ public class LoginActivity extends BaseNetActivity {
         } else {
             return super.onKeyDown(keyCode, event);
         }
+    }
+    private void setAlias(String alias) {
+        //调用JPush API设置Alias
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
+    }
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            switch (code) {
+                case 0://成功
+                    break;
+                case 6002://失败，重试
+                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+            }
+        }
+    };
+    private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
+
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            switch (code) {
+                case 0:
+                    break;
+
+                case 6002:
+
+                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                default:
+            }
+        }
+
+    };
+
+    private void init() {
+        int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        if (uuid != -1000) {
+            setAlias(uuid + "");
+            boolean appDebug = LogUtils.isAppDebug(this);
+            setTag(appDebug);
+            if (appDebug) {
+                LogUtils.PrintLog("123", "debug");
+            } else {
+                LogUtils.PrintLog("123", "release");
+            }
+
+        }
+    }
+
+    //调用JPush API设置Tag
+    private void setTag(boolean appDebug) {
+        Set<String> tagSet = new LinkedHashSet<>();
+        if (appDebug) {
+            tagSet.add("debug");
+        } else {
+            tagSet.add("release");
+        }
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
     }
 }

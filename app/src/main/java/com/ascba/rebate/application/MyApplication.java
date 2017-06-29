@@ -1,6 +1,7 @@
 package com.ascba.rebate.application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
@@ -51,6 +52,14 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isKillAppToLoadPatch;//是否需要杀死app去加载补丁
     public final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
+    private UpdateListener updateListener;
+    public interface UpdateListener{
+        void update();
+    }
+
+    public void setUpdateListener(UpdateListener updateListener) {
+        this.updateListener = updateListener;
+    }
 
     @Override
     protected void attachBaseContext(Context base) {

@@ -35,7 +35,7 @@ public class DialogHome {
             dialogProgress.dismiss();
         }
         dialogProgress = new ProgressDialog(context, R.style.dialog);
-        dialogProgress.setCanceledOnTouchOutside(false);//不可点击，返回键可以取消
+        dialogProgress.setCanceledOnTouchOutside(false);//点击外部不可取消
         dialogProgress.setCancelable(true);//返还键可取消
         dialogProgress.setMessage(message);
         dialogProgress.show();
@@ -48,6 +48,7 @@ public class DialogHome {
             dialogAlter.dismiss();
         }
         dialogAlter = new Dialog(context, R.style.AlertDialog);
+        setCancel(dialogAlter);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
         dialogAlter.setContentView(alertView);
 
@@ -72,6 +73,7 @@ public class DialogHome {
             dialogAlter2.dismiss();
         }
         dialogAlter2 = new Dialog(context, R.style.AlertDialog);
+        setCancel(dialogAlter2);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
         dialogAlter2.setContentView(alertView);
 
@@ -99,6 +101,7 @@ public class DialogHome {
             dialogAlterSure.dismiss();
         }
         dialogAlterSure = new Dialog(context, R.style.AlertDialog);
+        setCancel(dialogAlterSure);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view_with_2_button, null);
         dialogAlterSure.setContentView(alertView);
         TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
@@ -135,6 +138,7 @@ public class DialogHome {
             dialogAlterSure.dismiss();
         }
         dialogAlterSure = new Dialog(context, R.style.AlertDialog);
+        setCancel(dialogAlterSure);
         View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view_with_2_button, null);
         dialogAlterSure.setContentView(alertView);
         TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
@@ -173,15 +177,8 @@ public class DialogHome {
         }
     }
 
-    private void dissmissAll(){
-        if(dialogAlter.isShowing()){
-            dialogAlter.dismiss();
-        }else if(dialogAlter2.isShowing()){
-            dialogAlter2.dismiss();
-        }else if(dialogAlterSure.isShowing()){
-            dialogAlterSure.dismiss();
-        }else if(dialogProgress.isShowing()){
-            dialogProgress.dismiss();
-        }
+    private void setCancel(Dialog d){
+        d.setCancelable(true);
+        d.setCanceledOnTouchOutside(false);
     }
 }
