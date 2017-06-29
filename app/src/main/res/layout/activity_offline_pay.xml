@@ -25,7 +25,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/icon_me_baozheng"
+            android:src="@mipmap/new_man"
             app:type="circle" />
 
         <TextView

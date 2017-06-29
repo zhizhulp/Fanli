@@ -1,13 +1,13 @@
 package com.ascba.rebate.activities.offline_business;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.view.RoundImageView;
 
-public class OfflinePaySuccedActivity extends Activity {
+public class OfflinePaySuccedActivity extends BaseNetActivity {
     private RoundImageView userIcon;
     private TextView tvName;
     private TextView tvCost;
@@ -21,7 +21,6 @@ public class OfflinePaySuccedActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline_pay_succed);
-
         initViews();
     }
 
@@ -29,7 +28,6 @@ public class OfflinePaySuccedActivity extends Activity {
         userIcon = ((RoundImageView) findViewById(R.id.im_user_icon));
         tvName = ((TextView) findViewById(R.id.tv_user_name));
         tvCost = ((TextView) findViewById(R.id.tv_user_cost));
-
         tvPayType = ((TextView) findViewById(R.id.tv_pay_type));
         tvAccount = ((TextView) findViewById(R.id.tv_account));
         tvScore = ((TextView) findViewById(R.id.tv_score));

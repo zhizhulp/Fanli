@@ -89,21 +89,16 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         initBeepSound();
         vibrate = true;
 
-        new CountDownTimer(1500,500) {
+        new CountDownTimer(3500,2000) {
             @Override
             public void onTick(long millisUntilFinished) {
-
             }
-
             @Override
             public void onFinish() {
                 startActivity(new Intent(CaptureActivity.this,OfflinePayActivity.class));
                 finish();
             }
         }.start();
-
-
-
     }
 
     @Override
@@ -289,7 +284,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
        // super.mhandle200Data(what, object, dataObj, message);
     }
 
-    //    @Override
+//        @Override
 //    public void handle200Data(JSONObject dataObj, String message) {
 //        JSONObject infoObj = dataObj.optJSONObject("info");
 //        Intent intent1 = new Intent(this, OfflinePayActivity.class);
@@ -298,7 +293,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
 //        startActivity(intent1);
 //        finish();
 //    }
-//
+
 //    @Override
 //    public void handle404(String message) {
 //

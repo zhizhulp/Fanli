@@ -1,22 +1,14 @@
 package com.ascba.rebate.activities.main;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.test.mock.MockApplication;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -34,8 +26,6 @@ import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.view.AppTabs;
 import com.taobao.sophix.SophixManager;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.download.DownloadRequest;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -280,7 +270,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
                 break;
             case 2:
-
                 break;
             case 3:
                 if (mMoneyFragment == null) {
@@ -357,9 +346,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             switch (code) {
                 case 0:
                     break;
-
                 case 6002:
-
                     if (ExampleUtil.isConnected(getApplicationContext())) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
                     } else {
@@ -426,7 +413,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     }
 
     private class UpdateTask extends TimerTask{
-
         @Override
         public void run() {
             Log.d("hotfix", "run: ");
