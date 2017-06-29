@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.ascba.rebate.activities.offline_business.OfflinePaySuccedActivity">
     <com.ascba.rebate.view.MoneyBar
-        app:textTitle="收款成功"
+        app:textTitle="付款成功"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
@@ -21,26 +21,31 @@
             android:layout_marginTop="18dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content">
             <com.ascba.rebate.view.RoundImageView
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/im_user_icon"
                 android:layout_width="34dp"
+                android:src="@mipmap/new_man"
                 android:layout_height="34dp" />
             <TextView
+                android:text="小小彬"
+                android:gravity="center"
                 android:id="@+id/tv_user_name"
                 android:layout_marginLeft="14dp"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/main_text_normal"
                 android:textSize="@dimen/main_text_15"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
         <TextView
             android:id="@+id/tv_user_cost"
             android:layout_marginTop="18dp"
             android:textColor="@color/main_text_normal"
             android:textSize="30sp"
+            android:text="-55.90"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

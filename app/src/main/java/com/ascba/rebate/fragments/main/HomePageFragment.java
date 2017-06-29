@@ -44,6 +44,7 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.activities.offline_business.CaptureActivity;
+import com.ascba.rebate.activities.offline_business.OfflinePayActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
 import com.ascba.rebate.adapter.TurnAdapter;
