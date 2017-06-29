@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,8 +29,6 @@ import com.ascba.rebate.fragments.main.HomePageFragment;
 import com.ascba.rebate.fragments.main.MeFragment;
 import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.fragments.main.SideFragment;
-import com.ascba.rebate.handlers.ReceiveThread;
-import com.ascba.rebate.handlers.SendThread;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
@@ -40,9 +37,6 @@ import com.taobao.sophix.SophixManager;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadRequest;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -215,6 +209,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN_CAIFU);
         }
+
+
     }
 
     //我
@@ -381,6 +377,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
+        Log.d("info","-------------"+uuid);
         if (uuid != -1000) {
             setAlias(uuid + "");
             boolean appDebug = LogUtils.isAppDebug(this);

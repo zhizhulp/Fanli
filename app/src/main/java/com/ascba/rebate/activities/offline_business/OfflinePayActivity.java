@@ -12,9 +12,10 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
@@ -33,7 +34,7 @@ import java.util.List;
 /**
  * 扫一扫-付款
  */
-public class OfflinePayActivity extends BaseNetActivity implements View.OnClickListener, TextWatcher, CompoundButton.OnCheckedChangeListener {
+public class OfflinePayActivity extends BaseNetActivity implements View.OnClickListener, TextWatcher, RadioGroup.OnCheckedChangeListener {
 
     private RoundImageView busiIcon;
     private TextView tvBusiName;
@@ -42,18 +43,19 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     private PsdDialog psdDialog;
     private BottomSheetDialog payTypeDialog;
     private String payType = "balance";//默认支付方式
-    private CheckBox checkBoxRemainder, checkBoxCash;
-    private boolean isChecked1 = true;
-    private boolean isChecked2 = false;
-
+    private boolean isReminderPay = true;
+    private float reminder = 300; //余额
+    private RadioGroup rgPayway;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline_pay);
-
         initViews();
+      //  initLogin();
     }
+
+
 
     private void initViews() {
         busiIcon = ((RoundImageView) findViewById(R.id.im_busi_icon));
@@ -63,9 +65,9 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         etMoney.addTextChangedListener(this);
         setBtnStatus(R.drawable.ticket_no_shop_bg, false);
         setSuperString("账户余额");
-        checkBoxRemainder.setOnCheckedChangeListener(this);
-
-
+        rgPayway = (RadioGroup) findViewById(R.id.rg_offline_payway);
+        rgPayway.setOnCheckedChangeListener(this);
+        ((RadioButton)rgPayway.getChildAt(0)).setChecked(true);
     }
 
     //点击去付款
@@ -146,6 +148,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         }
     }
 
+
     //设置button状态
     private void setBtnStatus(int id, boolean enable) {
         btnPay.setBackgroundDrawable(getResources().getDrawable(id));
@@ -158,6 +161,20 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         psdDialog.setOnPasswordInputFinish(new OnPasswordInput() {
             @Override
             public void inputFinish(String number) {
+                if(isReminderPay){
+                    int payNum = Integer.parseInt(etMoney.getText().toString());
+                    if(payNum <= reminder){
+                        startActivity(new Intent(OfflinePayActivity.this,OfflinePaySuccedActivity.class));
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"您的余额不足，请更换支付方式",Toast.LENGTH_SHORT).show();
+                    }
+
+                }else{
+                    startActivity(new Intent(OfflinePayActivity.this,OfflinePaySureOrderActivity.class));
+                    finish();
+                }
+
                 psdDialog.dismiss();
             }
 
@@ -188,27 +205,12 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.account_remain_check:
-                if (isChecked1) {
-                    isChecked2 = false;
-
-                } else {
-
-                }
-
-                break;
-            case R.id.keep_accounts_check://记账方式
-                if (isChecked2) {
-                    isChecked1 = false;
-                } else {
-
-                }
-                break;
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if(checkedId == R.id.rb_offline_reminder){
+            isReminderPay = true;
+        }else if(checkedId == R.id.rb_offline_other){
+            isReminderPay = false;
         }
-        checkBoxRemainder.setChecked(isChecked1);
-        checkBoxCash.setChecked(isChecked2);
-
     }
+
 }

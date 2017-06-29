@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities.offline_business;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -8,6 +9,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
@@ -86,6 +88,19 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         }
         initBeepSound();
         vibrate = true;
+
+        new CountDownTimer(1500,500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                startActivity(new Intent(CaptureActivity.this,OfflinePayActivity.class));
+                finish();
+            }
+        }.start();
 
 
 
@@ -272,8 +287,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
        // super.mhandle200Data(what, object, dataObj, message);
-
-
     }
 
     //    @Override
