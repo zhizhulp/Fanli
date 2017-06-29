@@ -13,9 +13,7 @@ import com.ascba.rebate.activities.PlayVideoActivity;
 import com.ascba.rebate.activities.auction.AuctionActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.beans.AcutionGoodsBean;
-import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.HomePageMultiItemItem;
-import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingVideoPager;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -32,8 +30,11 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
 
     private Context context;
     private ViewPager turnPlay;
-    private int position;
-    private TurnAdapter.Callback callback;
+    private Callback callback;
+    public interface Callback{
+        void click(AcutionGoodsBean item);
+        void timeToUpdate();
+    }
 
     private Handler handler = new Handler() {
         @Override
@@ -43,11 +44,6 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 if (msg.what == 0) {
                     turnPlay.setCurrentItem(turnPlay.getCurrentItem() + 1);
                     handler.sendEmptyMessageDelayed(0, 2000);
-                } else if (msg.what == 1) {
-                    notifyItemChanged(position);
-                    handler.sendEmptyMessageDelayed(1, 1000);
-                } else if (msg.what == 2){
-                    notifyDataSetChanged();
                 }
             }
         }
@@ -181,7 +177,6 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 helper.setText(R.id.item_news_time, item.getBean().getTime());
                 break;
             case HomePageMultiItemItem.TYPEAUCTION://竞拍商品
-                position = helper.getAdapterPosition();
                 turnPlay = helper.getView(R.id.auction_turn);
                 TurnAdapter turnAdapter = new TurnAdapter(item.getAgbs());
                 turnAdapter.setCallback(new TurnAdapter.Callback() {
@@ -189,6 +184,13 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                     public void click(AcutionGoodsBean item) {
                         if(callback!=null){
                             callback.click(item);
+                        }
+                    }
+
+                    @Override
+                    public void timeToUpdate() {
+                        if(callback!=null){
+                            callback.timeToUpdate();
                         }
                     }
                 });
@@ -220,11 +222,11 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
         });
     }
 
-    public TurnAdapter.Callback getCallback() {
+    public Callback getCallback() {
         return callback;
     }
 
-    public void setCallback(TurnAdapter.Callback callback) {
+    public void setCallback(Callback callback) {
         this.callback = callback;
     }
 }

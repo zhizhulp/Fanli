@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -567,9 +568,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private void initAdapterAndRefresh() {
         if (homePageAdapter == null) {
             homePageAdapter = new HomePageAdapter(items, context);
-            homePageAdapter.setCallback(new TurnAdapter.Callback() {
+            homePageAdapter.setCallback(new HomePageAdapter.Callback() {
                 @Override
-                public void click(AcutionGoodsBean item) {//立即报名或拍
+                public void click(AcutionGoodsBean item) {
                     HomePageFragment.this.agb=item;
                     if (agb.getIntState() == 2) {//交保证金
                         Intent intent = new Intent(getActivity(), PayDepositActivity.class);
@@ -581,6 +582,12 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     } else if (agb.getIntState() == 5) {//已拍
 
                     }
+                }
+
+                @Override
+                public void timeToUpdate() {
+                    Log.d("turn", "fragment ");
+                    requestData(UrlUtils.index, 0);
                 }
             });
             recylerview.setLayoutManager(new LinearLayoutManager(context));

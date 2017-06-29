@@ -59,11 +59,6 @@ public class QrUtils {
 
     /**
      * 生成二维码图片
-     * @param text
-     * @param w
-     * @param h
-     * @param logo
-     * @return
      */
     public static Bitmap createImage(String text,int w,int h,Bitmap logo) {
         if (TextUtils.isEmpty(text)) {

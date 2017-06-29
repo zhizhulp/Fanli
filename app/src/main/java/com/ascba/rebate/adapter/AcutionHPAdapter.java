@@ -3,6 +3,7 @@ package com.ascba.rebate.adapter;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,6 +24,10 @@ import java.util.List;
 public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseViewHolder> {
 
     private Context context;
+    private Callback callback;
+    public interface Callback{
+        void timeToUpdate();
+    }
 
     public AcutionHPAdapter(Context context, @LayoutRes int layoutResId, @Nullable List<AcutionGoodsBean> data) {
         super(layoutResId, data);
@@ -55,10 +60,35 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
     }
 
     private String getTimeRemainning(AcutionGoodsBean item) {
-        int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
-        int hour = leftTime % (24 * 3600) / 3600;
-        int minute = leftTime % 3600 / 60;
-        int second = leftTime % 60;
-        return "距离结束:"+hour + "时" + minute + "分" + second + "秒";
+        boolean isAllTimeDown=true;
+        for (int i = 0; i < mData.size(); i++) {
+            AcutionGoodsBean agb = mData.get(i);
+            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 );
+            if(leftTime > 0){
+                isAllTimeDown = false;
+                break;
+            }
+        }
+        Log.d("turn", "isAllTimeDown: "+isAllTimeDown);
+        if(isAllTimeDown){
+            if(callback!=null){
+                callback.timeToUpdate();
+            }
+            return "本场已结束";
+        }else {
+            int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
+            int hour = leftTime % (24 * 3600) / 3600;
+            int minute = leftTime % 3600 / 60;
+            int second = leftTime % 60;
+            return "距离结束:" + hour + "时" + minute + "分" + second + "秒";
+        }
+    }
+
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 }
