@@ -9,7 +9,6 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
@@ -22,20 +21,25 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.alibaba.fastjson.JSON;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.beans.sweep.CheckSellerEntity;
 import com.ascba.rebate.qr.MessageIDs;
 import com.ascba.rebate.qr.camera.CameraManager;
 import com.ascba.rebate.qr.decoding.CaptureActivityHandler;
 import com.ascba.rebate.qr.decoding.InactivityTimer;
 import com.ascba.rebate.qr.view.ViewfinderView;
+import com.ascba.rebate.utils.UrlUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Vector;
+
 //点击扫一扫跳入的页面
 //implements Callback, BaseNetActivity.Callback
 public class CaptureActivity extends BaseNetActivity implements Callback {
@@ -51,7 +55,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
     // private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     CameraManager cameraManager;
-    private String [] permissions = {Manifest.permission.CAMERA};
+    private String[] permissions = {Manifest.permission.CAMERA};
 
     /**
      * Called when the activity is first created.
@@ -89,16 +93,19 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         initBeepSound();
         vibrate = true;
 
-        new CountDownTimer(3500,2000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
-            @Override
-            public void onFinish() {
-                startActivity(new Intent(CaptureActivity.this,OfflinePayActivity.class));
-                finish();
-            }
-        }.start();
+//        new CountDownTimer(3500, 2000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                startActivity(new Intent(CaptureActivity.this, OfflinePayActivity.class));
+//                finish();
+//            }
+//        }.start();
+
+
     }
 
     @Override
@@ -125,13 +132,13 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
     }
 
     private void initCamera(final SurfaceHolder surfaceHolder) {
-        if(Build.VERSION.SDK_INT>=23){
+        if (Build.VERSION.SDK_INT >= 23) {
             checkAndRequestAllPermission(permissions, new PermissionCallback() {
                 @Override
                 public void requestPermissionAndBack(boolean isOk) {
-                    if(!isOk){
+                    if (!isOk) {
                         finish();
-                    }else{
+                    } else {
                         try {
                             cameraManager.openDriver(surfaceHolder);
                         } catch (IOException ioe) {
@@ -145,7 +152,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
                     }
                 }
             });
-        }else {
+        } else {
             try {
                 cameraManager.openDriver(surfaceHolder);
                 if (handler == null) {
@@ -196,26 +203,48 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
 
     }
 
-    public void handleDecode(Result obj, Bitmap barcode) {
+    public void handleDecode(Result result, Bitmap barcode) {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
-       // showResult(obj, barcode);
+        // showResult(obj, barcode);
+
+        String str = result.getText();
+        Log.d("fanxi","-----------"+ str);
+
+        String[]  strs=str.split("/");
+
+        Log.d("fanxi","-----------"+ strs[4]);
+        requestNetwork(UrlUtils.checkSeller, 0,strs[4]);
     }
-    public void requestNetwork(String url, int what) {
-//        Request<JSONObject> request = buildNetRequest(url, 0, false);
-//        request.add("seller",type);
-//        request.add("strat_time",0);
-//        request.add("end_time",0);
-//        request.add("now_page",1);
-//        executeNetWork(what,request,"请稍后");
+
+    public void requestNetwork(String url, int what,String result) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);//0代表post请求
+        request.add("seller", result);
+        request.add("scenetype", 2);
+        executeNetWork(what, request, "请稍后");
     }
-//    private void showResult(final Result rawResult, Bitmap barcode) {
-//        Request<JSONObject> objRequest = buildNetRequest(UrlUtils.checkMember, 0, true);
-//        objRequest.add("seller", rawResult.getText());
-//        objRequest.add("scenetype", 2);
-//        executeNetWork(objRequest, "请稍后");
-//       // setCallback(this);
-//    }
+
+    //数据返回成功的处理
+    @Override
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+
+        Log.d("fanxi",object.toString()+"");
+        CheckSellerEntity checkSellerEntity = JSON.parseObject(dataObj.toString(), CheckSellerEntity.class);
+        CheckSellerEntity.InfoBean info = checkSellerEntity.getInfo();
+
+
+        Intent intent = new Intent(this, OfflinePayActivity.class);
+        intent.putExtra("seller_cover_logo",info.getSeller_cover_logo());
+        intent.putExtra("seller_name",info.getSeller_name());
+        intent.putExtra("self_money",info.getSelf_money());
+        startActivity(intent);
+    }
+
+    @Override
+    protected void mhandle404(int what, JSONObject object, String message) {
+        super.mhandle404(what, object, message);
+        restartPreviewAfterDelay(3000);
+    }
 
     //重新扫描
     public void restartPreviewAfterDelay(long delayMS) {
@@ -278,11 +307,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         }
         return super.onKeyDown(keyCode, event);
     }
-//数据返回成功的处理
-    @Override
-    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
-       // super.mhandle200Data(what, object, dataObj, message);
-    }
+
 
 //        @Override
 //    public void handle200Data(JSONObject dataObj, String message) {
@@ -294,7 +319,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
 //        finish();
 //    }
 
-//    @Override
+    //    @Override
 //    public void handle404(String message) {
 //
 //        getDm().buildAlertDialog(message);
@@ -313,13 +338,14 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
 //
 //    }
     private boolean defaultLightOn;//默认关闭
+
     //灯的图标，打开关闭
     public void exchangeLightIcon(View view) {
         defaultLightOn = !defaultLightOn;
         ImageView imageView = (ImageView) view;
-        if(defaultLightOn){
+        if (defaultLightOn) {
             imageView.setImageResource(R.mipmap.light_on);
-        }else {
+        } else {
             imageView.setImageResource(R.mipmap.light_off);
         }
         cameraManager.switchFlashLight();

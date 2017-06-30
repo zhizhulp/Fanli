@@ -12,10 +12,11 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.view.RoundImageView;
 
+import org.json.JSONObject;
+
 /**
  * 线下支付-用户付款成功详情
  */
-
 public class OfflinePaySureOrderActivity extends BaseNetActivity implements View.OnClickListener {
 
     private RoundImageView userIcon;
@@ -33,6 +34,7 @@ public class OfflinePaySureOrderActivity extends BaseNetActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline_sure_order);
         initViews();
+
     }
 
     private void initViews() {
@@ -52,6 +54,15 @@ public class OfflinePaySureOrderActivity extends BaseNetActivity implements View
 
     }
 
+
+
+    @Override
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+        super.mhandle200Data(what, object, dataObj, message);
+
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -61,17 +72,16 @@ public class OfflinePaySureOrderActivity extends BaseNetActivity implements View
                 Dialog dialog1 = getDm().buildAlertDialog2("确定取消此笔订单吗？", new DialogHome.Callback() {
                     @Override
                     public void handleSure() {//点击取消时，商家重新请求支付。
-
                     }
                 });
                 dialog1.show();
                 break;
-
-
         }
-
-
     }
+
+
+
+
 
     public void setEvent(final AlertDialog dialog) {
         ImageView ivCancel = (ImageView) dialog.findViewById(R.id.sureorder_dialog_cancel);
@@ -92,10 +102,6 @@ public class OfflinePaySureOrderActivity extends BaseNetActivity implements View
 
             }
         });
+    }
 
-    }
-    public int dp2px(int values) {//58dp,根据屏幕分辨率转化成对应的px长度
-        float density = this.getResources().getDisplayMetrics().density;
-        return (int) (values * density + 0.5f);
-    }
 }
