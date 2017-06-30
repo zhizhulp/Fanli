@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +23,7 @@ import com.ascba.rebate.view.RoundImageView;
 /**
  * 扫一扫-付款
  */
-public class OfflinePayActivity extends BaseNetActivity implements View.OnClickListener, TextWatcher, RadioGroup.OnCheckedChangeListener {
+public class OfflinePayActivity extends BaseNetActivity implements View.OnClickListener, TextWatcher {
 
     private RoundImageView busiIcon;
     private TextView tvBusiName;
@@ -35,14 +34,13 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     private String payType = "balance";//默认支付方式
     private boolean isReminderPay = true;
     private float reminder = 300; //余额
-    private RadioGroup rgPayway;
+    private RadioButton rbReminder,rbOther;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline_pay);
         initViews();
-      //  initLogin();
     }
 
 
@@ -54,9 +52,11 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         btnPay = ((Button) findViewById(R.id.btn_pay));
         etMoney.addTextChangedListener(this);
         setBtnStatus(R.drawable.ticket_no_shop_bg, false);
-        rgPayway = (RadioGroup) findViewById(R.id.rg_offline_payway);
-        rgPayway.setOnCheckedChangeListener(this);
-        ((RadioButton)rgPayway.getChildAt(0)).setChecked(true);
+        rbReminder = (RadioButton) findViewById(R.id.rb_offline_reminder);
+        rbOther = (RadioButton) findViewById(R.id.rb_offline_other);
+        rbReminder.setOnClickListener(this);
+        rbOther.setOnClickListener(this);
+        rbReminder.setChecked(true);
     }
 
     //点击去付款
@@ -67,7 +67,15 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     //点击更换支付方式
     @Override
     public void onClick(View v) {
-       // showPayTypeDialog();
+        if(v.getId() == R.id.rb_offline_reminder){
+            isReminderPay = true;
+            rbReminder.setChecked(true);
+            rbOther.setChecked(false);
+        }else if(v.getId() == R.id.rb_offline_other){
+            isReminderPay = false;
+            rbReminder.setChecked(false);
+            rbOther.setChecked(true);
+        }
     }
 
 //    //支付方式dialog
@@ -134,15 +142,6 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         btnPay.setEnabled(enable);
     }
 
-    //checkid
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if(checkedId == R.id.rb_offline_reminder){
-            isReminderPay = true;
-        }else if(checkedId == R.id.rb_offline_other){
-            isReminderPay = false;
-        }
-    }
     //显示密码框
     private void showPsdDialog() {
         psdDialog = new PsdDialog(this, R.style.AlertDialog);

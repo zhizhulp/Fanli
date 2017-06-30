@@ -96,6 +96,12 @@
         android:textColor="@color/black"
         android:textSize="15sp" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/gray_bg" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="145dp">
@@ -105,13 +111,6 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical">
-
-
-            <View
-                android:layout_width="336dp"
-                android:layout_height="1dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/gray_bg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -153,6 +152,16 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+                <RadioButton
+                    android:id="@+id/rb_offline_reminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:drawableRight="@drawable/cart_cb_bg" />
+
             </RelativeLayout>
 
             <View
@@ -160,6 +169,7 @@
                 android:layout_height="1dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
                 android:background="@color/gray_bg" />
 
             <RelativeLayout
@@ -201,43 +211,19 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+                <RadioButton
+                    android:id="@+id/rb_offline_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:drawableRight="@drawable/cart_cb_bg" />
+
             </RelativeLayout>
 
         </LinearLayout>
-
-        <RadioGroup
-            android:id="@+id/rg_offline_payway"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="2dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/rb_offline_reminder"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawableRight="@drawable/cart_cb_bg" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_bg" />
-
-            <RadioButton
-                android:id="@+id/rb_offline_other"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawableRight="@drawable/cart_cb_bg" />
-        </RadioGroup>
-
 
     </RelativeLayout>
 
