@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.CartChildAdapter;
@@ -47,6 +48,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  */
 public class CartChildFragment extends BaseNetFragment {
 
+
     private CartChildAdapter adapter;
     private List<AcutionGoodsBean> beanList;
     private String status;
@@ -57,6 +59,7 @@ public class CartChildFragment extends BaseNetFragment {
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REDUCE_TIME = 2;
     private static final int REQUEST_PAY_PDEPOSIT = 3;
+    private static final int REQUEST_PAY_ORDER = 4;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -86,6 +89,7 @@ public class CartChildFragment extends BaseNetFragment {
     private TextView tvBtmBtm;
     private TextView tvApply;
     private View btmView;
+    private AcutionGoodsBean selectAGB;
 
 
     public CartChildFragment() {
@@ -288,7 +292,7 @@ public class CartChildFragment extends BaseNetFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
-                AcutionGoodsBean selectAGB = beanList.get(position);
+                selectAGB = beanList.get(position);
                 Double gapPrice = selectAGB.getGapPrice();
                 Double startPrice = selectAGB.getStartPrice();
                 Double endPrice = selectAGB.getEndPrice();
@@ -374,10 +378,28 @@ public class CartChildFragment extends BaseNetFragment {
             setCbTotal();
             caculateMoneyAndNum();
         } else if (what == 1) {
-            showToast(message);
-            resetPageAndStatus();
-            requestNetwork(UrlUtils.auctionCard, 0);
+            if(hasRushAuction()){
+                Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
+                startActivityForResult(intent,REQUEST_PAY_ORDER);
+            }else {
+                showToast(message);
+                resetPageAndStatus();
+                requestNetwork(UrlUtils.auctionCard, 0);
+            }
         }
+    }
+
+    private boolean hasRushAuction() {
+        boolean has=false;
+        for (int i = 0; i < beanList.size(); i++) {
+            AcutionGoodsBean agb = beanList.get(i);
+            if(agb.isSelect() && agb.getType()==1){
+                has=true;
+                break;
+            }
+
+        }
+        return has;
     }
 
     private void resetPageAndStatus() {

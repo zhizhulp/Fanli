@@ -10,6 +10,44 @@
         app:textTitle="确认订单"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <!--头部-->
+    <LinearLayout
+        android:layout_below="@id/mb"
+        android:visibility="gone"
+        android:id="@+id/auction_order_head"
+        android:layout_width="match_parent"
+        android:minHeight="40dp"
+        android:layout_height="40dp"
+        android:background="#fdf9dc"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/proxy_msg"
+            android:gravity="center_vertical"
+            android:text="提示"
+            android:textColor="@color/white"
+            android:textSize="@dimen/main_text_13" />
+
+        <com.ascba.rebate.view.MarqueeTextView
+            android:id="@+id/tv_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/main_text_normal"
+            android:textSize="@dimen/main_text_13" />
+
+    </LinearLayout>
     <!--底部-->
     <RelativeLayout
         android:id="@+id/confirm_order_bottom"
@@ -54,7 +92,7 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/mb"
+        android:layout_below="@id/auction_order_head"
         android:layout_above="@id/confirm_order_bottom"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

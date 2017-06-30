@@ -116,6 +116,7 @@
         android:layout_height="1dp"
         android:background="@color/view_line"/>
     <Button
+        android:id="@+id/btn_register"
         android:onClick="goRegisterCode"
         android:textColor="@color/white"
         android:textSize="@dimen/main_text_15"
@@ -126,6 +127,15 @@
         android:text="注册"
         android:layout_below="@id/register_line_03"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_marginTop="35dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/register_img_bg"
+        android:layout_below="@id/btn_register"
+        android:src="@mipmap/register_img_bg"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView

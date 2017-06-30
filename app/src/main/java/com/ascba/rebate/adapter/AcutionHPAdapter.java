@@ -56,6 +56,10 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
             view.setEnabled(true);
         }else if(state==5){
             view.setEnabled(false);
+        }else if(state==6){
+            view.setEnabled(true);
+        }else if(state==7){
+            view.setEnabled(false);
         }
     }
 
@@ -63,7 +67,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         boolean isAllTimeDown=true;
         for (int i = 0; i < mData.size(); i++) {
             AcutionGoodsBean agb = mData.get(i);
-            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 );
+            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 + 3);
             if(leftTime > 0){
                 isAllTimeDown = false;
                 break;

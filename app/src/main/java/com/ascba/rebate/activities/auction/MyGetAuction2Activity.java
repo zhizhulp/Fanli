@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -19,6 +20,7 @@ import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
+import com.ascba.rebate.view.MarqueeTextView;
 import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -94,10 +96,8 @@ public class MyGetAuction2Activity extends BaseNetActivity {
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if(what==0){
             stopLoadingMore();
-            if(isRefresh){
-                clearData();
-            }
             parseData(dataObj.optJSONArray("auctionPayList"));
+            refreshHeadView(dataObj);
         }else if(what==1){
             String url = dataObj.optJSONObject("auction_exp").optString("exp_url");
             Intent intent=new Intent(this, WebViewBaseActivity.class);
@@ -111,6 +111,17 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         }
 
     }
+
+    private void refreshHeadView(JSONObject dataObj) {
+        int auction_status_pay = dataObj.optInt("auction_status_pay");
+        if(auction_status_pay==1){
+            adapter.removeAllHeaderView();
+            View headView = ViewUtils.getView(this, R.layout.msg_attention_lat);
+            ((MarqueeTextView) headView.findViewById(R.id.tv_msg)).setText(dataObj.optString("auction_pay_tip"));
+            adapter.addHeaderView(headView);
+        }
+    }
+
     private void resetPageAndStatus(){
         now_page=1;
         total_page=0;
@@ -127,6 +138,9 @@ public class MyGetAuction2Activity extends BaseNetActivity {
     }
 
     private void parseData(JSONArray array) {
+        if(isRefresh){
+            clearData();
+        }
         if(array!=null && array.length()>0){
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
