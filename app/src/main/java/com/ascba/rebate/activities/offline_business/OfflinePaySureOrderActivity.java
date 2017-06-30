@@ -65,20 +65,6 @@ public class OfflinePaySureOrderActivity extends BaseNetActivity implements View
                     }
                 });
                 dialog1.show();
-
-//                AlertDialog dialog = new AlertDialog.Builder(OfflinePaySureOrderActivity.this, dialog)
-//                        .setView(R.layout.cancel_order_dialog)
-//                        .create();
-//                dialog.show();
-//                Window dialogWindow = dialog.getWindow();
-//                WindowManager windowManager = dialogWindow.getWindowManager();
-//                Display d = windowManager.getDefaultDisplay(); // 获取屏幕宽、高度
-//                WindowManager.LayoutParams params = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//               // params.height = (int) (d.getHeight() * 0.62);
-////                params.width = (int) (d.getWidth() * 0.64); // 宽度设置为屏幕宽度的0.64倍
-////                params.height=(int) (d.getHeight() * 0.35); // 高度设置为宽度的0.634倍
-//                dialogWindow.setAttributes(params);
-//                setEvent(dialog);
                 break;
 
 
