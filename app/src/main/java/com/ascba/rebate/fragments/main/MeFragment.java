@@ -53,7 +53,6 @@ import org.json.JSONObject;
 public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetFragment.Callback {
 
     private static final int REQUEST_USER = 0;
-    private static final String TAG = "MeFragment";
     private RoundImageView userIcon;
     private LinearLayout imgsLat;
     private TextView tvSmrz;

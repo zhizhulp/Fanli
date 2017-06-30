@@ -143,17 +143,23 @@
 
         </RelativeLayout>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+    <RelativeLayout
+        android:id="@+id/lat_rec"
         android:layout_marginBottom="14dp"
-        android:layout_marginTop="14dp"
-        android:background="@mipmap/bg_tuijian"
-        android:gravity="center"
-        android:text="为你推荐"
-        android:textColor="@color/shop_normal_text_color"
-        android:textSize="14sp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_centerInParent="true"
+            android:src="@mipmap/bg_tuijian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="为你推荐"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="14sp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 </LinearLayout>

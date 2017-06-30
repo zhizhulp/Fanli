@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.AuctionListActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
@@ -49,15 +50,17 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  */
 
 public class AuctionMainPlaceChildFragment extends BaseNetFragment {
+
     private EndTimeListener listener;
     interface EndTimeListener{
         void timeCome();
     }
     private static final int REQUEST_PAY_DEPOSIT = 3;
     private static final int NEXT = 4;
+    private static final int REQUEST_PAY_ORDER = 5;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private AuctionMainPlaceChildAdapter adapter;
-    private int type = 1;
+    private int type = 1;//1 抢拍 2盲拍
     private TittleBean tb;
     private int now_page = 1;
     private int total_page;
@@ -204,10 +207,17 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
             MyApplication.isLoadAuctionCart=true;
         }else if(what==2){
-            showToast(message);
-            selectAGB.setIntState(5);
-            selectAGB.setStrState("已拍");
-            adapter.notifyItemChanged(beanList.indexOf(selectAGB));
+
+            if(type==1){
+                Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
+                intent.putExtra("goods_id",selectAGB.getId());
+                startActivityForResult(intent,REQUEST_PAY_ORDER);
+            }else {
+                showToast(message);
+                selectAGB.setIntState(5);
+                selectAGB.setStrState("已拍");
+                adapter.notifyItemChanged(beanList.indexOf(selectAGB));
+            }
         }
     }
 
@@ -288,8 +298,11 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                             startActivityForResult(intent,REQUEST_PAY_DEPOSIT);
                         }else if(state==4){//拍
                             requestNetwork(UrlUtils.payAuction,2);
+                        }else if(state==6){//支付
+                            Intent intent=new Intent(getActivity(),AuctionConfirmOrderActivity.class);
+                            intent.putExtra("goods_id",selectAGB.getId());
+                            startActivityForResult(intent,REQUEST_PAY_ORDER);
                         }
-
                         break;
                 }
 
@@ -315,6 +328,10 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         if(requestCode==REQUEST_PAY_DEPOSIT && resultCode== Activity.RESULT_OK){
             selectAGB.setIntState(4);//可拍
             selectAGB.setStrState("立即拍");
+            adapter.notifyItemChanged(beanList.indexOf(selectAGB));
+        }else if(requestCode==REQUEST_PAY_ORDER){
+            selectAGB.setIntState(7);//已支付
+            selectAGB.setStrState("已支付");
             adapter.notifyItemChanged(beanList.indexOf(selectAGB));
         }
     }

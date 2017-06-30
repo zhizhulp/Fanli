@@ -98,6 +98,10 @@ public class TurnAdapter extends PagerAdapter {
             textView.setEnabled(true);
         }else if(state==5){
             textView.setEnabled(false);
+        }else if(state==6){//未支付
+            textView.setEnabled(true);
+        }else if(state==7){//已支付
+            textView.setEnabled(false);
         }
     }
 
@@ -110,7 +114,7 @@ public class TurnAdapter extends PagerAdapter {
         boolean isAllTimeDown=true;
         for (int i = 0; i < data.size(); i++) {
             AcutionGoodsBean agb = data.get(i);
-            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 );
+            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 +3 );
             if(leftTime > 0){
                 isAllTimeDown = false;
                 break;

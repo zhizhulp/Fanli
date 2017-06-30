@@ -13,9 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.AuctionListActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
@@ -25,7 +25,6 @@ import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MarqueeTextView;
-import com.ascba.rebate.view.ShopABar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -49,6 +48,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 public class AuctionHomePageFragment extends BaseNetFragment {
     private static final int REQUEST_PAY_DEPOSIT = 3;
+    private static final int REQUEST_PAY_ORDER = 4;
     private AcutionHPAdapter adapter;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private int now_page = 1;
@@ -138,9 +138,16 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             }
 
         } else if (what == 1) {
-            showToast(message);
-            resetPageAndStatus();
-            requestNetwork(UrlUtils.auction, 0);
+
+            if(selectAGB.getType()==1){
+                Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
+                intent.putExtra("goods_id",selectAGB.getId());
+                startActivityForResult(intent,REQUEST_PAY_ORDER);
+            }else {
+                showToast(message);
+                resetPageAndStatus();
+                requestNetwork(UrlUtils.auction, 0);
+            }
         }
     }
 
@@ -196,6 +203,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         adapter.setCallback(new AcutionHPAdapter.Callback() {
             @Override
             public void timeToUpdate() {//时间到主动刷新数据
+                resetPageAndStatus();
                 requestNetwork(UrlUtils.auction, 0);
             }
         });
@@ -221,8 +229,10 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                             startActivityForResult(intent, REQUEST_PAY_DEPOSIT);
                         } else if (selectAGB.getIntState() == 4) {//立即拍
                             requestNetwork(UrlUtils.payAuction, 1);
-                        } else if (selectAGB.getIntState() == 5) {//已拍
-
+                        } else if(selectAGB.getIntState()==6){//支付
+                            Intent intent=new Intent(getActivity(),AuctionConfirmOrderActivity.class);
+                            intent.putExtra("goods_id",selectAGB.getId());
+                            startActivityForResult(intent,REQUEST_PAY_ORDER);
                         }
 
                         break;
@@ -235,6 +245,9 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PAY_DEPOSIT && resultCode == Activity.RESULT_OK) {
+            resetPageAndStatus();
+            requestNetwork(UrlUtils.auction, 0);
+        }else if(requestCode == REQUEST_PAY_ORDER ){
             resetPageAndStatus();
             requestNetwork(UrlUtils.auction, 0);
         }
@@ -336,7 +349,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 "\"" +
                 ":" +
                 "\"" +
-                selectAGB.getPrice() +
+                selectAGB.getEndPrice() +
                 "\"";
     }
 
