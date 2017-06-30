@@ -240,6 +240,9 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     }
 
     private void refreshData(JSONArray array) {
+        if(beanList.size()>0){
+            beanList.clear();
+        }
         if(array!=null && array.length() >0){
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
