@@ -144,20 +144,33 @@ public class CartChildFragment extends BaseNetFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getParams();
+        setListener();
+
+        initViews(view);
+        requestNetwork(UrlUtils.auctionCard, 0);
+    }
+
+    /**
+     * 用于监听购物车是否需要刷新
+     */
+    private void setListener() {
         if("0,1".equals(status)){
             ((AuctionCartFragment) getParentFragment()).setListener(new AuctionCartFragment.UpdateListener() {
                 @Override
-                public void update(boolean hidden) {
-                    if(!hidden && MyApplication.isLoadAuctionCart){
+                public void update() {
+                    if(MyApplication.isLoadAuctionCart){
                         Log.d(TAG, "update: ");
                         resetPageAndStatus();
                         requestNetwork(UrlUtils.auctionCard, 0);
                     }
                 }
             });
+        }else if("2,3".equals(status)){
+            AuctionCartFragment.UpdateListener listener = ((AuctionCartFragment) getParentFragment()).getListener();
+            if(listener!=null){
+                listener.update();
+            }
         }
-        initViews(view);
-        requestNetwork(UrlUtils.auctionCard, 0);
     }
 
     private void requestNetwork(String url, int what) {
@@ -329,6 +342,10 @@ public class CartChildFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PAY_PDEPOSIT && resultCode == Activity.RESULT_OK) {
+            resetPageAndStatus();
+            requestNetwork(UrlUtils.auctionCard, 0);
+            //((AuctionCartFragment) getParentFragment()).setTabSelect(1);
+        }else if(requestCode == REQUEST_PAY_ORDER){
             resetPageAndStatus();
             requestNetwork(UrlUtils.auctionCard, 0);
         }

@@ -27,6 +27,7 @@ public class AuctionCartFragment extends BaseNetFragment {
     private List<Fragment> fragments;
     private String[] titles;
     private UpdateListener listener;
+    private TabLayout tabLayout;
 
     public UpdateListener getListener() {
         return listener;
@@ -37,7 +38,7 @@ public class AuctionCartFragment extends BaseNetFragment {
     }
 
     public interface UpdateListener{
-        void update(boolean hidden);
+        void update();
     }
 
     public AuctionCartFragment() {
@@ -58,9 +59,8 @@ public class AuctionCartFragment extends BaseNetFragment {
     }
 
     private void initView(View view) {
-        TabLayout tabLayout = ((TabLayout) view.findViewById(R.id.tabLayout));
+        tabLayout = ((TabLayout) view.findViewById(R.id.tabLayout));
         ViewPager viewPager = ((ViewPager) view.findViewById(R.id.viewPager));
-
         initFragments();
         initTitles();
         AuctionCartPagerAdapter adapter = new AuctionCartPagerAdapter(getChildFragmentManager(), fragments, titles);
@@ -91,8 +91,17 @@ public class AuctionCartFragment extends BaseNetFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(listener!=null){
-            listener.update(hidden);
+        if(!hidden){
+            if(listener!=null){
+                listener.update();
+            }
+        }
+    }
+
+    public void setTabSelect(int position){
+        TabLayout.Tab tabAt = tabLayout.getTabAt(position);
+        if(tabAt!=null && !tabAt.isSelected()){
+            tabAt.isSelected();
         }
     }
 }

@@ -47,7 +47,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
         }else if(intState==4){
             view.setEnabled(true);
-            helper.setVisible(R.id.btn_auction_goods_add_cart,true);
+            helper.setVisible(R.id.btn_auction_goods_add_cart,false);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
         }else if(intState==5){//盲拍-已拍
             view.setEnabled(false);

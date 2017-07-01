@@ -52,14 +52,6 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isKillAppToLoadPatch;//是否需要杀死app去加载补丁
     public final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
-    private UpdateListener updateListener;
-    public interface UpdateListener{
-        void update();
-    }
-
-    public void setUpdateListener(UpdateListener updateListener) {
-        this.updateListener = updateListener;
-    }
 
     @Override
     protected void attachBaseContext(Context base) {
