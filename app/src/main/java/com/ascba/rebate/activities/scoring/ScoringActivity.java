@@ -102,22 +102,25 @@ public class ScoringActivity extends BaseNetActivity implements View.OnClickList
 
         switch (v.getId()){
             case R.id.scroing_notify_cancel:
-                llNotify.setVisibility(View.GONE);
+               llNotify.setVisibility(View.GONE);
                 break;
             case R.id.scoring_showOne:
-                showScoringDialog();
+               // showScoringDialog();
 
+                showToast("功能待完成中！");
                 break;
             case R.id.scoring_knowStrategy://了解攻略
-                 intent=new Intent(this, KnowStrategyActivity.class);
-                startActivity(intent);
+//                 intent=new Intent(this, KnowStrategyActivity.class);
+//                startActivity(intent);
+                showToast("功能待完成中！");
                 break;
             case R.id.raise_scores://提高分数
                 showToast("功能待完成中！");
                 break;
             case R.id.scoring_pk://pk榜
-                 intent=new Intent(this,PKActivity.class);
-                startActivity(intent);
+//                 intent=new Intent(this,PKActivity.class);
+//                startActivity(intent);
+                showToast("功能待完成中！");
                 break;
             case R.id.scoring_growth_footprint://成长足迹
                 showToast("功能待完成中！");

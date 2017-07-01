@@ -93,6 +93,32 @@ public class DialogHome {
         return dialogAlter2;
     }
 
+    public Dialog buildAlertDialog3(String message,String btnStr,final Callback dialogClick) {
+        if(dialogAlter2!=null && dialogAlter2.isShowing()){
+            dialogAlter2.dismiss();
+        }
+        dialogAlter2 = new Dialog(context, R.style.AlertDialog);
+        setCancel(dialogAlter2);
+        View alertView = LayoutInflater.from(context).inflate(R.layout.alert_view, null);
+        dialogAlter2.setContentView(alertView);
+
+        TextView tvMsg = (TextView) alertView.findViewById(R.id.tv_alert_msg);//提示信息
+        tvMsg.setText(message);
+        TextView btSure = (TextView) alertView.findViewById(R.id.tv_alert_sure);//确定按钮
+        btSure.setText(btnStr);
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialogClick != null) {
+                    dialogClick.handleSure();
+                }
+                dialogAlter2.dismiss();
+            }
+        });
+        dialogAlter2.show();
+        return dialogAlter2;
+    }
+
     /**
      * 可以处理确定和取消的情况
      */

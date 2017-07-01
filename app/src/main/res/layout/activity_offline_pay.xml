@@ -141,13 +141,13 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/sweep_remainder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/seep_tv1"
                         android:layout_centerVertical="true"
                         android:layout_marginTop="9dp"
                         android:layout_toRightOf="@+id/sweep_remainingsum"
-                        android:text="可用余额300.00元"
                         android:textColor="@color/gray_text"
                         android:textSize="14sp" />
                 </LinearLayout>

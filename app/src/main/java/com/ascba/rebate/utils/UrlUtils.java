@@ -250,4 +250,27 @@ public class UrlUtils {
     public static final String auctionPayList  = urlPrefix + "auctionPayList";//我的获拍列表
     public static final String getAuctionExp  = urlPrefix + "getAuctionExp";//物流信息
     public static final String confirmReceipt= urlPrefix + "confirmReceipt";//我的货拍-确认收货;
+    /**----------------------扫一扫（sweep created by fanxi）--------------------*/
+
+//    public static final String baseWebsite = "http://api.qlqwp2p.com";//p2p改为shop
+//    private static final String baseWebsiteChange = "http://home.qlqwp2p.com";//p2p改为shop
+//    private static final String webVersion = "v1";
+//    private static final String urlPrefix = baseWebsite + "/" + webVersion + "/";
+
+    public static final String Transaction=urlPrefix+"Transaction"+"/";
+    public static final String checkSeller=Transaction+"checkSeller";//验证商家
+    public static final String submit=Transaction+"submit";//提交交易
+    public static final String affirm=Transaction+"affirm";//确认交易
+    public static final String cancel=Transaction+"cancel";//取消交易
+
+
+
+
+
+
+
+
+
+
+
 }
