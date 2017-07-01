@@ -15,10 +15,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -284,9 +280,9 @@
             </LinearLayout>
         </LinearLayout>
 
-        <include layout="@layout/item_scroing"/>
-        <include layout="@layout/item_scroing"/>
-        <include layout="@layout/item_scroing"/>
+        <!--<include layout="@layout/item_scroing"/>-->
+        <!--<include layout="@layout/item_scroing"/>-->
+        <!--<include layout="@layout/item_scroing"/>-->
 
        <!--<RelativeLayout-->
            <!--android:layout_width="match_parent"-->

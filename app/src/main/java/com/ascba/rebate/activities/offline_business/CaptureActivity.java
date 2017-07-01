@@ -228,12 +228,12 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
 
-        Log.d("fanxi",object.toString()+"");
         CheckSellerEntity checkSellerEntity = JSON.parseObject(dataObj.toString(), CheckSellerEntity.class);
         CheckSellerEntity.InfoBean info = checkSellerEntity.getInfo();
 
 
         Intent intent = new Intent(this, OfflinePayActivity.class);
+        intent.putExtra("seller",info.getSeller());
         intent.putExtra("seller_cover_logo",info.getSeller_cover_logo());
         intent.putExtra("seller_name",info.getSeller_name());
         intent.putExtra("self_money",info.getSelf_money());
@@ -309,34 +309,8 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
     }
 
 
-//        @Override
-//    public void handle200Data(JSONObject dataObj, String message) {
-//        JSONObject infoObj = dataObj.optJSONObject("info");
-//        Intent intent1 = new Intent(this, OfflinePayActivity.class);
-//        intent1.putExtra("bus_uuid", infoObj.optInt("seller"));
-//        intent1.putExtra("avatar", infoObj.optString("seller_avatar"));
-//        startActivity(intent1);
-//        finish();
-//    }
 
-    //    @Override
-//    public void handle404(String message) {
-//
-//        getDm().buildAlertDialog(message);
-//        getDm().setCallback(new DialogHome.Callback() {
-//            @Override
-//            public void handleSure() {
-//                restartPreviewAfterDelay(0L);
-//            }
-//        });
-//
-//
-//    }
-//
-//    @Override
-//    public void handleNoNetWork() {
-//
-//    }
+
     private boolean defaultLightOn;//默认关闭
 
     //灯的图标，打开关闭
