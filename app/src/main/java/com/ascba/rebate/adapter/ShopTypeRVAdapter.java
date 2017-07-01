@@ -100,7 +100,7 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 Picasso.with(context).load(item.getUrl()).into((ImageView) helper.getView(R.id.im_shop_title));
                 break;
             case ShopItemType.TYPE_GOODS:
-                Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.goods_list_img));
+                Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.shop_goods_loading).into((ImageView) helper.getView(R.id.goods_list_img));
                 helper.setText(R.id.goods_list_name, item.getTitle());
                 helper.setText(R.id.goods_list_price, item.getDesc());
                 helper.addOnClickListener(R.id.goods_list_cart);

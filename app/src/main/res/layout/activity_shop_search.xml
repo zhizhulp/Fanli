@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--搜索头部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ff5c5d">
+        <ImageView
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/back_icon"
+            android:src="@mipmap/abar_back_white"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center"
+            android:maxLines="1"
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textSize="@dimen/main_text_14" />
+        <LinearLayout
+            android:layout_toRightOf="@id/back_icon"
+            android:layout_toLeftOf="@id/tv_search"
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/side_search_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/im_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/shop_search" />
+
+            <com.ascba.rebate.view.EditTextWithCustomHint
+                android:id="@+id/goods_et_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/im_search"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:hint="请输入您要搜索的商品名称"
+                android:textColorHint="@color/textgray"
+                android:textSize="12sp"
+                app:hintSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

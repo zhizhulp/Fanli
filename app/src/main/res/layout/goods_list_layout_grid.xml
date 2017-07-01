@@ -5,10 +5,7 @@
     android:minHeight="234dp"
     android:layout_height="234dp"
     android:background="@color/lighter_gray"
-    android:orientation="vertical"
-    android:paddingBottom="4dp"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/goods_list_img"

@@ -58,6 +58,8 @@
             android:src="@mipmap/shop_search" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
+            android:id="@+id/et_search"
+            android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
