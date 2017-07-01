@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -90,6 +91,7 @@ public class CartChildFragment extends BaseNetFragment {
     private TextView tvApply;
     private View btmView;
     private AcutionGoodsBean selectAGB;
+    private boolean isAuction=false;//true 需要刷新竞拍商品接口 false 不需要
 
 
     public CartChildFragment() {
@@ -344,10 +346,26 @@ public class CartChildFragment extends BaseNetFragment {
         if (requestCode == REQUEST_PAY_PDEPOSIT && resultCode == Activity.RESULT_OK) {
             resetPageAndStatus();
             requestNetwork(UrlUtils.auctionCard, 0);
-            //((AuctionCartFragment) getParentFragment()).setTabSelect(1);
+            AuctionCartFragment parentFragment = (AuctionCartFragment) getParentFragment();
+            ((CartChildFragment) parentFragment.getFragments().get(1)).isAuction=true;
+            parentFragment.setTabSelect(1);
         }else if(requestCode == REQUEST_PAY_ORDER){
             resetPageAndStatus();
             requestNetwork(UrlUtils.auctionCard, 0);
+        }
+    }
+
+    /**
+     * 从待交保证金切换到竞拍商品，刷新接口
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.d(TAG, "setUserVisibleHint: "+"status-->"+status+",isAuction-->"+isAuction+",isVisible-->"+isVisibleToUser);
+        if(isVisibleToUser && isAuction && status.equals("2,3")){
+            resetPageAndStatus();
+            requestNetwork(UrlUtils.auctionCard, 0);
+            isAuction=false;
         }
     }
 

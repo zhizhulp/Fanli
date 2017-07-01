@@ -64,7 +64,7 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
                 JSONObject obj = jsonArray.optJSONObject(i);
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
                 titleList.add(tb);
-                AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(1, tb);
+                AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(1,0, tb);
                 childFragment.setListener(new AuctionMainPlaceChildFragment.EndTimeListener() {
                     @Override
                     public void timeCome() {

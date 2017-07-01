@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
+import com.ascba.rebate.activities.auction.AuctionListActivity;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.NumberFormatUtils;
 import com.squareup.picasso.Picasso;
@@ -51,7 +52,7 @@ public class TurnAdapter extends PagerAdapter {
             position = data.size() + position;
         }
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_auction_hp, null);
-        findViews(view,data.get(position),container);
+        findViews(view,position,container);
         //如果View已经在之前添加到了一个父组件，则必须先remove，否则会抛出IllegalStateException。
         ViewParent vp = view.getParent();
         if (vp != null) {
@@ -62,13 +63,15 @@ public class TurnAdapter extends PagerAdapter {
         return view;
     }
 
-    private void findViews(View view, final AcutionGoodsBean item, final ViewGroup container) {
+    private void findViews(View view, final int position, final ViewGroup container) {
         ImageView imageView = (ImageView) view.findViewById(R.id.auction_img);
+        final AcutionGoodsBean item = data.get(position);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(container.getContext(), AuctionDetailsActivity.class);
-                intent.putExtra("agb",item);
+                Intent intent=new Intent(container.getContext(), AuctionListActivity.class);
+                intent.putExtra("type",item.getType());
+                intent.putExtra("client_key",position);
                 container.getContext().startActivity(intent);
             }
         });

@@ -31,6 +31,8 @@ public class AuctionListActivity extends BaseNetActivity {
     private TabLayout tabLayout;
     private int position;
     private int type;
+    private int client_key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class AuctionListActivity extends BaseNetActivity {
         Intent b = getIntent();
         if (b != null) {
             this.type = b.getIntExtra("type",1);
+            this.client_key = b.getIntExtra("client_key",0);
         }
     }
 
@@ -52,6 +55,7 @@ public class AuctionListActivity extends BaseNetActivity {
         request.add("strat_time",0);
         request.add("end_time",0);
         request.add("now_page",1);
+        request.add("client_key",client_key);
         executeNetWork(what,request,"请稍后");
     }
     @Override
@@ -63,7 +67,7 @@ public class AuctionListActivity extends BaseNetActivity {
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
                 titleList.add(tb);
                 Log.d(TAG, "mhandle200Data:type--> "+type);
-                fragmentList.add(AuctionMainPlaceChildFragment.newInstance(type,tb));
+                fragmentList.add(AuctionMainPlaceChildFragment.newInstance(type,client_key,tb));
             }
         }
         adapter.notifyDataSetChanged();

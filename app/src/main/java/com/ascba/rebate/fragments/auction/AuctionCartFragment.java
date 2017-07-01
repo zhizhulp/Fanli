@@ -37,6 +37,10 @@ public class AuctionCartFragment extends BaseNetFragment {
         this.listener = listener;
     }
 
+    public List<Fragment> getFragments() {
+        return fragments;
+    }
+
     public interface UpdateListener{
         void update();
     }
@@ -92,7 +96,7 @@ public class AuctionCartFragment extends BaseNetFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(!hidden){
-            if(listener!=null){
+            if(listener!=null ){
                 listener.update();
             }
         }
@@ -101,7 +105,7 @@ public class AuctionCartFragment extends BaseNetFragment {
     public void setTabSelect(int position){
         TabLayout.Tab tabAt = tabLayout.getTabAt(position);
         if(tabAt!=null && !tabAt.isSelected()){
-            tabAt.isSelected();
+            tabAt.select();
         }
     }
 }

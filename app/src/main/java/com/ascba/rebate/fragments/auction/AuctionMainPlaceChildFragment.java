@@ -62,6 +62,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     private AuctionMainPlaceChildAdapter adapter;
     private int type = 1;//1 抢拍 2盲拍
     private TittleBean tb;
+    private int client_key;
     private int now_page = 1;
     private int total_page;
     private CustomLoadMoreView loadMoreView;
@@ -99,9 +100,10 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     private boolean isRefresh=true;
     private AcutionGoodsBean selectAGB;
 
-    public static AuctionMainPlaceChildFragment newInstance(int type, TittleBean tb) {
+    public static AuctionMainPlaceChildFragment newInstance(int type, int client_key, TittleBean tb) {
         Bundle b = new Bundle();
         b.putInt("type", type);
+        b.putInt("client_key", client_key);
         b.putParcelable("title_bean", tb);
         AuctionMainPlaceChildFragment fragment = new AuctionMainPlaceChildFragment();
         fragment.setArguments(b);
@@ -127,6 +129,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         if (b != null) {
             this.type = b.getInt("type");
             this.tb = b.getParcelable("title_bean");
+            this.client_key =b.getInt("client_key");
             if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
                     handler.sendEmptyMessageDelayed(NEXT,tb.getEndTime()*1000-System.currentTimeMillis());
@@ -143,6 +146,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             request.add("type", type);
             request.add("strat_time", tb.getStartTime());
             request.add("end_time", tb.getEndTime());
+            request.add("client_key", client_key);
             request.add("now_page", now_page);
 
         }else if(what==1){
