@@ -720,12 +720,8 @@
         <activity android:name=".activities.scoring.ShareActivity" />
         <activity android:name=".activities.scoring.KnowStrategyActivity" />
 
-        <service
-            android:name=".service.PatchUpdateService"
-            android:enabled="true"
-            android:exported="false" />
-
-        <activity android:name=".activities.shop.ShopSearchActivity"></activity>
+        <activity android:name=".activities.shop.ShopSearchActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

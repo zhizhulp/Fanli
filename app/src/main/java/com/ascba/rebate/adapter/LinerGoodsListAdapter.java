@@ -25,7 +25,7 @@ public class LinerGoodsListAdapter extends BaseQuickAdapter<Goods,BaseViewHolder
     @Override
     protected void convert(BaseViewHolder helper, Goods item) {
         Picasso.with(mContext).load(item.getImgUrl()).placeholder(R.mipmap.shop_goods_loading).into((ImageView) helper.getView(R.id.goods_list_img));
-        helper.setText(R.id.goods_list_name, item.getTitle());
+        helper.setText(R.id.goods_list_name, item.getGoodsTitle());
         helper.setText(R.id.goods_list_price, item.getGoodsPrice());
         helper.addOnClickListener(R.id.goods_list_cart);
     }

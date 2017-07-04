@@ -212,7 +212,6 @@ public class BusinessShopActivity extends BaseNetActivity implements
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 super.onItemChildClick(adapter, view, position);
 
-                //加入购物车动画
                 if (view.getId() == R.id.goods_list_cart) {
                     ShopBaseItem shopBaseItem = goodsList.get(position);
                     sbi = shopBaseItem;
@@ -358,6 +357,8 @@ public class BusinessShopActivity extends BaseNetActivity implements
                         , UrlUtils.baseWebsite + img, title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 shopBaseItem.setHasStandard(obj.optString("has_spec").equals("1"));
+                shopBaseItem.setTeiHui(obj.optString("promotion_text"));
+                shopBaseItem.setUseTicketToReduce(obj.optString("promotion_mark"));
                 goodsList.add(shopBaseItem);
             }
         }
@@ -368,7 +369,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
         if (head == null) {
             adapter.removeHeaderView(headView);
         } else {
-            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_banner")).placeholder(R.mipmap.busi_loading).into(backImg);
+            Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_banner")).placeholder(R.mipmap.banner_loading).into(backImg);
             Picasso.with(this).load(UrlUtils.baseWebsite + head.optString("store_logo")).placeholder(R.mipmap.loading_rect).into(headImg);
             tvShopName.setText(head.optString("store_name"));
             headTvType.setText(head.optString("store_type_name"));

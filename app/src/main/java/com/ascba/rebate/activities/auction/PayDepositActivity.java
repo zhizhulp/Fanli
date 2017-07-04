@@ -69,7 +69,7 @@ public class PayDepositActivity extends BaseNetActivity{
                     return;
                 }
                 if(is_pay_money==0){//余额不足
-                    getDm().buildAlertDialogSure("余额不足", "取消", "充值", new DialogHome.Callback() {
+                    getDm().buildAlertDialogSure("余额不足，是否去充值", "取消", "确定", new DialogHome.Callback() {
                         @Override
                         public void handleSure() {
                             needRefresh=true;

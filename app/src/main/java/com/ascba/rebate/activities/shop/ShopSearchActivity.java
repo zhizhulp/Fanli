@@ -25,7 +25,6 @@ import java.util.List;
 public class ShopSearchActivity extends BaseNetActivity implements View.OnClickListener {
 
     private EditText etSearch;
-    private RecyclerView rv;
     private List<Goods> beanList=new ArrayList<>();
 
     @Override
@@ -33,14 +32,13 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_search);
         initViews();
-        requestNetwork(UrlUtils.searchGoods,0,etSearch.getText().toString());
     }
 
     private void initViews() {
         findViewById(R.id.back_icon).setOnClickListener(this);
         findViewById(R.id.tv_search).setOnClickListener(this);
         etSearch = ((EditText) findViewById(R.id.goods_et_search));
-
+        initRecyclerView();
         loadRequestor=new LoadRequestor() {
             @Override
             public void loadMore() {
@@ -54,7 +52,6 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
         };
         initRefreshLayout();
         initLoadMoreRequest();
-        initRecyclerView();
     }
 
     private void requestNetwork(String url,int what,String keywords){
@@ -69,7 +66,7 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
     }
 
     private void initRecyclerView() {
-        rv = ((RecyclerView) findViewById(R.id.recyclerview));
+        RecyclerView rv = ((RecyclerView) findViewById(R.id.recyclerView));
         rv.setLayoutManager(new LinearLayoutManager(this));
         baseAdapter=new LinerGoodsListAdapter(R.layout.goods_list_layout_linear,beanList);
         baseAdapter.setEmptyView(ViewUtils.getEmptyView(this,"暂无商品信息"));
@@ -83,7 +80,7 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.tv_search://搜索
-
+                requestNetwork(UrlUtils.searchGoods,0,etSearch.getText().toString());
                 break;
         }
     }
@@ -97,6 +94,9 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
     }
 
     private void refreshGoodsList(JSONObject dataObj) {
+        if(beanList.size()>0){
+            beanList.clear();
+        }
         JSONArray array = dataObj.optJSONArray("mallGoods");
         if(array!=null && array.length() >0){
             for (int i = 0; i < array.length(); i++) {
@@ -104,8 +104,13 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
                 Goods goods=new Goods();
                 goods.setTitleId(object.optInt("id"));
                 goods.setGoodsTitle(object.optString("title"));
+                goods.setImgUrl(UrlUtils.baseWebsite+object.optString("img"));
+                goods.setGoodsPrice("¥"+object.optString("shop_price"));
+                goods.setStoreId(object.optInt("store_id"));
+                goods.setHasStandard(object.optInt("has_spec") == 1);
+                beanList.add(goods);
             }
-
         }
+        baseAdapter.notifyDataSetChanged();
     }
 }

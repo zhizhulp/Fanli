@@ -341,6 +341,9 @@ public class TypeMarketActivity extends BaseNetActivity implements
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
                         , UrlUtils.baseWebsite + imgUrl, title, shop_price, "",false);
                 shopBaseItem.setColor(Integer.parseInt(id));
+                shopBaseItem.setHasStandard(gObj.optString("has_spec").equals("1"));
+                shopBaseItem.setTeiHui(gObj.optString("promotion_text"));
+                shopBaseItem.setUseTicketToReduce(gObj.optString("promotion_mark"));
                 data.add(shopBaseItem);
             }
         }

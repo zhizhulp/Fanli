@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ConfirmBuyOrderActivity;
@@ -75,7 +76,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
     private MsgView msgView;
     private ShopTabs shopTabs;
     private boolean has_spec;//加入购物车的商品是否有规格
-    private EditText etSearch;
 
     @Nullable
     @Override
@@ -194,15 +194,12 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 getActivity().finish();
             }
         });
-        etSearch = ((EditText) view.findViewById(R.id.et_search));
-        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        TextView etSearch = ((TextView) view.findViewById(R.id.et_search));
+        etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.d(TAG, "onFocusChange: "+hasFocus);
-                if(hasFocus){
-                    Intent intent=new Intent(getActivity(),ShopSearchActivity.class);
-                    startActivity(intent);
-                }
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),ShopSearchActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -367,6 +364,8 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                         , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 shopBaseItem.setHasStandard(gObj.optString("has_spec").equals("1"));
+                shopBaseItem.setTeiHui(gObj.optString("promotion_text"));
+                shopBaseItem.setUseTicketToReduce(gObj.optString("promotion_mark"));
                 data.add(shopBaseItem);
             }
         }

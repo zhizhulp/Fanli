@@ -22,11 +22,13 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
+import com.ascba.rebate.activities.auction.MyAuctionActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.CartChildAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
@@ -361,7 +363,6 @@ public class CartChildFragment extends BaseNetFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.d(TAG, "setUserVisibleHint: "+"status-->"+status+",isAuction-->"+isAuction+",isVisible-->"+isVisibleToUser);
         if(isVisibleToUser && isAuction && status.equals("2,3")){
             resetPageAndStatus();
             requestNetwork(UrlUtils.auctionCard, 0);
@@ -417,7 +418,16 @@ public class CartChildFragment extends BaseNetFragment {
                 Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
                 startActivityForResult(intent,REQUEST_PAY_ORDER);
             }else {
-                showToast(message);
+                int pay_type = dataObj.optInt("pay_type");
+                if(pay_type==2){
+                    getDm().buildAlertDialogSure(dataObj.optString("pay_type_msg"), new DialogHome.Callback() {
+                        @Override
+                        public void handleSure() {
+                            Intent intent=new Intent(getActivity(), MyAuctionActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                }
                 resetPageAndStatus();
                 requestNetwork(UrlUtils.auctionCard, 0);
             }

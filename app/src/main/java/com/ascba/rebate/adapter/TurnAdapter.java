@@ -75,7 +75,7 @@ public class TurnAdapter extends PagerAdapter {
                 container.getContext().startActivity(intent);
             }
         });
-        Picasso.with(container.getContext()).load(item.getImgUrl()).error(R.mipmap.loading_rect).placeholder(R.mipmap.loading_rect).into(imageView);
+        Picasso.with(container.getContext()).load(item.getImgUrl()).error(R.mipmap.banner_loading).placeholder(R.mipmap.banner_loading).into(imageView);
         //剩余时间
         ((TextView) view.findViewById(R.id.auction_text_time)).setText(getTimeRemainning(item));
         //名称

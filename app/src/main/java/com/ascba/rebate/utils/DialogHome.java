@@ -3,8 +3,11 @@ package com.ascba.rebate.utils;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
@@ -153,6 +156,13 @@ public class DialogHome {
         });
 
         tvMsg.setText(message);
+
+        Window window = dialogAlterSure.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        Display display = window.getWindowManager().getDefaultDisplay();
+        wlp.width = ScreenDpiUtils.dip2px(context,260);
+        window.setAttributes(wlp);
+
         dialogAlterSure.show();
         return dialogAlterSure;
     }

@@ -79,9 +79,9 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
         webpage.webpageUrl = tvRecNet.getText().toString();
 
         WXMediaMessage msg=new WXMediaMessage(webpage);
-        msg.title="Hi 钱来钱往";
-        msg.description="钱来钱往，一个神奇的商城！";
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+        msg.title="哇！花多少赚多少，京东都怕了";
+        msg.description="商品多，配送快，品质好，天天省钱，消费能赚钱，快快体验吧！";
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.share_icon);
         msg.thumbData= bmpToByteArray(bitmap,true);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction= buildTransaction("webpage");

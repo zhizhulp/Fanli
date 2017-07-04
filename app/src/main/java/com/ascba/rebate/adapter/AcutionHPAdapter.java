@@ -37,7 +37,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
     @Override
     protected void convert(BaseViewHolder  helper, AcutionGoodsBean item) {
         ImageView imageView = helper.getView(R.id.auction_img);
-        Picasso.with(context).load(item.getImgUrl()).error(R.mipmap.loading_rect).placeholder(R.mipmap.loading_rect).into(imageView);
+        Picasso.with(context).load(item.getImgUrl()).error(R.mipmap.banner_loading).placeholder(R.mipmap.banner_loading).into(imageView);
         //剩余时间
         helper.setText(R.id.auction_text_time, getTimeRemainning(item));
         //名称

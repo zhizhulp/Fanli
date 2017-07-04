@@ -28,6 +28,9 @@ public class ShopBaseItem implements MultiItemEntity {
     private List<String> descs;
     private boolean hasStandard;//是否有规格
 
+    private String teiHui;//特惠标识
+    private String useTicketToReduce;//用券立减标识
+
     public ShopBaseItem(int itemType, int spanSize, int resLat, List<String> titles, List<String> contents, List<String> descs, List<String> pagerUrls) {
         this(itemType, spanSize, resLat);
         this.titles = titles;
@@ -294,5 +297,21 @@ public class ShopBaseItem implements MultiItemEntity {
 
     public void setHasStandard(boolean hasStandard) {
         this.hasStandard = hasStandard;
+    }
+
+    public String getTeiHui() {
+        return teiHui;
+    }
+
+    public void setTeiHui(String teiHui) {
+        this.teiHui = teiHui;
+    }
+
+    public String getUseTicketToReduce() {
+        return useTicketToReduce;
+    }
+
+    public void setUseTicketToReduce(String useTicketToReduce) {
+        this.useTicketToReduce = useTicketToReduce;
     }
 }
