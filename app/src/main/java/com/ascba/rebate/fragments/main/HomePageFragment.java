@@ -445,9 +445,10 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 agb.setStartPrice(obj.optDouble("begin_price"));
                 agb.setEndPrice(obj.optDouble("end_price"));
                 agb.setStartTime(obj.optLong("starttime"));
-                agb.setEndTime(obj.optLong("endtime"));
+                agb.setEndTime(obj.optLong("price_time"));
                 agb.setIntState(obj.optInt("is_status"));
                 agb.setStrState(obj.optString("auction_tip"));
+                agb.setCartStatusTip(obj.optString("cart_status_tip"));
                 beanList.add(agb);
             }
 

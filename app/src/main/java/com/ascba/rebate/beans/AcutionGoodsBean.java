@@ -30,7 +30,7 @@ public class AcutionGoodsBean implements Parcelable {
     private int currentLeftTime;//本次剩余秒数
     private int gapTime;//降价时间间隔（s）
 
-    private int intState;//1 拍卖结束 2 进行中 3即将开始
+    private int intState;//1:拍卖结束,2:立即报名,3:即将开始,4:已报名,5:抢拍完毕(抢光了) 6:待支付 7:已支付 (2 4 5 6 7属于进行中状态)
     private String strState;//对应intState
     private int intPriceState;//0：待交保证金，2：已交保证金，4：已拍
     private String strPriceState;//对应intPriceState
@@ -42,6 +42,7 @@ public class AcutionGoodsBean implements Parcelable {
     private String startTimeStr;
     private long endTime;
     private String expressNum;//物流单号
+    private String cartStatusTip;
 
     public AcutionGoodsBean() {
 
@@ -56,6 +57,14 @@ public class AcutionGoodsBean implements Parcelable {
         this.score = score;
         this.cashDeposit = cashDeposit;
         this.reduceTimes = reduceTimes;
+    }
+
+    public String getCartStatusTip() {
+        return cartStatusTip;
+    }
+
+    public void setCartStatusTip(String cartStatusTip) {
+        this.cartStatusTip = cartStatusTip;
     }
 
     public int getOrderId() {
@@ -288,6 +297,7 @@ public class AcutionGoodsBean implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
+        dest.writeInt(this.orderId);
         dest.writeInt(this.type);
         dest.writeString(this.imgUrl);
         dest.writeString(this.name);
@@ -313,10 +323,13 @@ public class AcutionGoodsBean implements Parcelable {
         dest.writeLong(this.startTime);
         dest.writeString(this.startTimeStr);
         dest.writeLong(this.endTime);
+        dest.writeString(this.expressNum);
+        dest.writeString(this.cartStatusTip);
     }
 
     protected AcutionGoodsBean(Parcel in) {
         this.id = in.readInt();
+        this.orderId = in.readInt();
         this.type = in.readInt();
         this.imgUrl = in.readString();
         this.name = in.readString();
@@ -342,6 +355,8 @@ public class AcutionGoodsBean implements Parcelable {
         this.startTime = in.readLong();
         this.startTimeStr = in.readString();
         this.endTime = in.readLong();
+        this.expressNum = in.readString();
+        this.cartStatusTip = in.readString();
     }
 
     public static final Creator<AcutionGoodsBean> CREATOR = new Creator<AcutionGoodsBean>() {

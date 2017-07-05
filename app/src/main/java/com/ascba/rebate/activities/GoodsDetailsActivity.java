@@ -701,7 +701,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             View view = LayoutInflater.from(this).inflate(R.layout.goods_details_viewpager_item, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.goods_details_viewpager_item_img);
             TextView textView = (TextView) view.findViewById(R.id.goods_details_viewpager_item_text);
-            Picasso.with(this).load(url.get(i - 1)).placeholder(R.mipmap.banner_loading).error(R.mipmap.banner_loading).into(imageView);
+            Picasso.with(this).load(url.get(i - 1)).placeholder(R.mipmap.shop_goods_loading).error(R.mipmap.shop_goods_loading).into(imageView);
             textView.setText(i + "/" + (url.size()));
             viewList.add(view);
             //点击查看大图

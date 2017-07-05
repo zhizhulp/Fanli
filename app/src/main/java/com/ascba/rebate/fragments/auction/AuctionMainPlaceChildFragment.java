@@ -132,7 +132,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             this.client_key =b.getInt("client_key");
             if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
-                    handler.sendEmptyMessageDelayed(NEXT,tb.getEndTime()*1000-System.currentTimeMillis());
+                    handler.sendEmptyMessageDelayed(NEXT,(tb.getEndTime()+1)*1000-System.currentTimeMillis());
                 }
             }
         }
@@ -194,7 +194,9 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     agb.setGapTime(obj.optInt("interval_second"));
                     agb.setIntState(obj.optInt("is_status"));
                     agb.setStrState(obj.optString("auction_tip"));
-                    agb.setIntPriceState(obj.optInt(""));
+                    agb.setStartTime(obj.optLong("starttime"));
+                    agb.setEndTime(obj.optLong("price_time"));
+                    //agb.setIntPriceState(obj.optInt(""));
                     agb.setStartPrice(obj.optDouble("begin_price"));
                     agb.setEndPrice(obj.optDouble("end_price"));
                     beanList.add(agb);
@@ -218,9 +220,11 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 startActivityForResult(intent,REQUEST_PAY_ORDER);
             }else {
                 showToast(message);
-                selectAGB.setIntState(5);
+                resetPageAndStatus();
+                requestNetwork(UrlUtils.auctionType, 0);
+                /*selectAGB.setIntState(5);
                 selectAGB.setStrState("已拍");
-                adapter.notifyItemChanged(beanList.indexOf(selectAGB));
+                adapter.notifyItemChanged(beanList.indexOf(selectAGB));*/
             }
         }
     }
@@ -330,13 +334,17 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_PAY_DEPOSIT && resultCode== Activity.RESULT_OK){
-            selectAGB.setIntState(4);//可拍
+            /*selectAGB.setIntState(4);//可拍
             selectAGB.setStrState("立即拍");
-            adapter.notifyItemChanged(beanList.indexOf(selectAGB));
+            adapter.notifyItemChanged(beanList.indexOf(selectAGB));*/
+            resetPageAndStatus();
+            requestNetwork(UrlUtils.auctionType, 0);
         }else if(requestCode==REQUEST_PAY_ORDER){
-            selectAGB.setIntState(7);//已支付
+            /*selectAGB.setIntState(7);//已支付
             selectAGB.setStrState("已支付");
-            adapter.notifyItemChanged(beanList.indexOf(selectAGB));
+            adapter.notifyItemChanged(beanList.indexOf(selectAGB));*/
+            resetPageAndStatus();
+            requestNetwork(UrlUtils.auctionType, 0);
         }
     }
 
@@ -390,12 +398,14 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         boolean isOver=true;
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            int reduceTimes = agb.getReduceTimes();
-            int maxReduceTimes = agb.getMaxReduceTimes();
-            if(reduceTimes < maxReduceTimes ){
+            if(System.currentTimeMillis()< agb.getEndTime()*1000 || agb.getPrice() > agb.getEndPrice()){//没有结束
                 isOver=false;
                 break;
             }
+            /*if(reduceTimes < maxReduceTimes ){
+                isOver=false;
+                break;
+            }*/
         }
         return isOver;
     }
@@ -408,9 +418,12 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             int currentLeftTime = agb.getCurrentLeftTime();
             int reduceTimes = agb.getReduceTimes();
             Double price = agb.getPrice();
-            if(agb.getIntState()==1 ||agb.getIntState()==3){
+            if(System.currentTimeMillis()>=agb.getEndTime()*1000 || agb.getPrice() <= agb.getEndPrice()){
                 continue;
             }
+            /*if(agb.getIntState()==1 ||agb.getIntState()==3){
+                continue;
+            }*/
             if(currentLeftTime <=0){
                 reduceTimes++;
                 price -= agb.getGapPrice();

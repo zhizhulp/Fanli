@@ -276,6 +276,14 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         }
     }
 
+    @Override
+    protected void mhandleFailed(int what, Exception e) {
+        super.mhandleFailed(what, e);
+        if(what==1){
+            finish();
+        }
+    }
+
     private void refreshViewPagerData(JSONObject dataObj) {
         JSONObject obj = dataObj.optJSONObject("auctionArticle");
         JSONArray photos = obj.optJSONArray("photos");
@@ -311,7 +319,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         String cart_status_tip = obj.optString("cart_status_tip");
 
         double begin_price = obj.optDouble("begin_price");
-        double end_price = obj.optDouble("end_price");
+        double price_time = obj.optDouble("price_time");
         long starttime = obj.optLong("starttime");
         long endtime = obj.optLong("endtime");
 
@@ -327,7 +335,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         agb.setIntPriceState(cart_status);
         agb.setStrPriceState(cart_status_tip);
         agb.setStartPrice(begin_price);
-        agb.setEndPrice(end_price);
+        agb.setEndPrice(price_time);
         agb.setStartTime(starttime);
         agb.setEndTime(endtime);
         if (type == 1) {
