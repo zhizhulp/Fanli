@@ -113,6 +113,7 @@ public abstract class BaseActivityNet extends BaseActivity {
         @Override
         public void onSucceed(int what, Response<JSONObject> response) {
             requstSuccess(what, response.get());
+
         }
 
         @Override

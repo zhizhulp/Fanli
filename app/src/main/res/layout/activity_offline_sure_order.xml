@@ -106,7 +106,7 @@
                 android:textSize="@dimen/main_text_13" />
 
             <TextView
-                android:id="@+id/tv_account"
+                android:id="@+id/tv_account11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="增值积分"
+                android:text="增值礼品分"
                 android:textColor="@color/main_text_gary"
                 android:textSize="@dimen/main_text_13" />
 
@@ -149,7 +149,34 @@
                 android:textColor="@color/main_red_normal"
                 android:textSize="@dimen/main_text_13" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_line_space">
 
+            <TextView
+                android:id="@+id/title31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="推荐奖励礼品分"
+                android:textColor="@color/main_text_gary"
+                android:textSize="@dimen/main_text_13" />
+
+            <TextView
+                android:id="@+id/tv_score31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/title31"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text="1000"
+                android:textColor="@color/main_red_normal"
+                android:textSize="@dimen/main_text_13" />
+        </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_line_space">

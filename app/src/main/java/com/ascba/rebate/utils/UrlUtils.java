@@ -258,11 +258,12 @@ public class UrlUtils {
 //    private static final String urlPrefix = baseWebsite + "/" + webVersion + "/";
 
     public static final String Transaction=urlPrefix+"Transaction"+"/";
+    public static final String TransactionLog=urlPrefix+"TransactionLog"+"/";
     public static final String checkSeller=Transaction+"checkSeller";//验证商家
-    public static final String submit=Transaction+"submit";//提交交易
-    public static final String affirm=Transaction+"affirm";//确认交易
-    public static final String cancel=Transaction+"cancel";//取消交易
-
+    public static final String submit=Transaction + "submit";//提交交易
+    public static final String affirm=Transaction + "affirm";//确认交易
+    public static final String cancel=Transaction + "cancel";//取消交易
+    public static final String info=TransactionLog + "info";//订单详情
 
 
 

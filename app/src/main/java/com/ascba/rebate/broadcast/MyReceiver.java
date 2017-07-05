@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.ascba.rebate.activities.main_page.sweep.PushResultActivity;
+import com.ascba.rebate.activities.offline_business.SellerOrderDetailActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +29,6 @@ public class MyReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
 		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
-		
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
@@ -53,7 +52,7 @@ public class MyReceiver extends BroadcastReceiver {
 				String from_msg_type = jObj.getString("from_msg_type");
 				if("notify".equals(from_msg_type)){
 					//打开自定义的Activity
-					Intent i = new Intent(context, PushResultActivity.class);
+					Intent i = new Intent(context, SellerOrderDetailActivity.class);
 					i.putExtras(bundle);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
 					context.startActivity(i);

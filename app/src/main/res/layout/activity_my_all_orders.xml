@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_my_all_orders"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ascba.rebate.activities.offline_business.MyAllOrdersActivity">
+    <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/myallorder_mb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:needComplete="true"
+        app:textTail="筛选"
+        app:textTitle="账单" />
+
+    <include
+        android:id="@+id/myallorder_head"
+        layout="@layout/white_bill_head" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/myallorder_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myallorder_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_content_bg" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

@@ -23,6 +23,7 @@ public class SplashActivity extends Activity {
     private Handler handler = new Handler();
     private ImageView imageView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

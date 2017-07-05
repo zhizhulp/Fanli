@@ -3,7 +3,6 @@ package com.ascba.rebate.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.TextView;
@@ -90,6 +89,8 @@ public class BusinessUnionActivity extends BaseNetActivity implements
                 break;
             case R.id.business_account:
                 //流水记录
+                
+
                 Intent intent = new Intent(this, BusinessBillActivity.class);
                 startActivity(intent);
                 break;

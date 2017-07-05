@@ -42,7 +42,7 @@ public class OfflinePaySureOrderActivity extends BaseNetActivity implements View
         tvName = ((TextView) findViewById(R.id.tv_user_name));
         tvCost = ((TextView) findViewById(R.id.tv_user_cost));
         tvPayType = ((TextView) findViewById(R.id.tv_pay_type));
-        tvAccount = ((TextView) findViewById(R.id.tv_account));
+        tvAccount = ((TextView) findViewById(R.id.tv_account11));
         tvScore = ((TextView) findViewById(R.id.tv_score));
         tvTime = ((TextView) findViewById(R.id.tv_time));
         tvTradeNumber = ((TextView) findViewById(R.id.tv_trade_number));

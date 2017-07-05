@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +21,6 @@ import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
 import com.ascba.rebate.activities.me_page.UserUpdateActivity;
 import com.ascba.rebate.activities.me_page.bank_card_child.AddCardActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.BCInputNameActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BCProcessActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.BusinessCenterActivity;
 import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
@@ -30,11 +28,11 @@ import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
+import com.ascba.rebate.activities.offline_business.MyAllOrdersActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
@@ -177,8 +175,11 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                     startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+s)));
                 }
                 break;
+            case R.id.me_lat_order://我的订单
+                startActivity(new Intent(getContext(), MyAllOrdersActivity.class));
+                break;
 
-        }
+    }
     }
 
     private void requestData(String url, int scene) {

@@ -723,7 +723,11 @@
         <service
             android:name=".service.PatchUpdateService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity android:name=".activities.offline_business.MyAllOrdersActivity" />
+        <activity android:name=".activities.offline_business.SellerOrderDetailActivity" />
+        <activity android:name=".activities.offline_business.ToBeSuredOrdersActivity"></activity>
     </application>
 
 </manifest>
