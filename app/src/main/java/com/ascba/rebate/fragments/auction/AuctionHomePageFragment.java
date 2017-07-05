@@ -75,20 +75,13 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                     }
                     break;
                 case REDUCE_TIME:
-                    setBeanProperty();
+                    adapter.notifyDataSetChanged();
                     break;
             }
         }
     };
     private Timer timer;
     private AcutionGoodsBean selectAGB;
-
-    private void setBeanProperty() {
-        if (beanList.size() == 0) {
-            return;
-        }
-        adapter.notifyDataSetChanged();
-    }
 
     @Nullable
     @Override
@@ -172,14 +165,15 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             for (int i = 0; i < goodsArray.length(); i++) {
                 JSONObject obj = goodsArray.optJSONObject(i);
                 AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.baseWebsite + obj.optString("index_img"),
-                        obj.optString("name"), obj.optDouble("begin_price"),
+                        obj.optString("name"), obj.optDouble("transaction_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
                 agb.setGapTime(obj.optInt("interval_second"));
                 agb.setStartPrice(obj.optDouble("begin_price"));
                 agb.setEndPrice(obj.optDouble("end_price"));
                 agb.setStartTime(obj.optLong("starttime"));
-                agb.setEndTime(obj.optLong("price_time"));
+                agb.setEndTime(obj.optLong("endtime"));//modify
+                agb.setGoodsEndTime(obj.optLong("price_time"));//add
                 agb.setIntState(obj.optInt("is_status"));
                 agb.setStrState(obj.optString("auction_tip"));
                 agb.setCartStatusTip(obj.optString("cart_status_tip"));
@@ -334,14 +328,9 @@ public class AuctionHomePageFragment extends BaseNetFragment {
 
     //用于判断倒计时是否结束
     private boolean isTimerOver() {
-        boolean isOver = true;
-        for (int i = 0; i < beanList.size(); i++) {
-            AcutionGoodsBean agb = beanList.get(i);
-            if ((agb.getEndTime() - System.currentTimeMillis() / 1000) >= 0) {
-                isOver = false;
-            }
-        }
-        return isOver;
+        AcutionGoodsBean agb = beanList.get(0);
+        int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000);
+        return leftTime <= 0;
     }
 
     private String getAutionIds() {
