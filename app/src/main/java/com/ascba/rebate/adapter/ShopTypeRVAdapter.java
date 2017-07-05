@@ -11,6 +11,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.utils.ScreenDpiUtils;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -100,10 +101,16 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 Picasso.with(context).load(item.getUrl()).into((ImageView) helper.getView(R.id.im_shop_title));
                 break;
             case ShopItemType.TYPE_GOODS:
-                Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.busi_loading).into((ImageView) helper.getView(R.id.goods_list_img));
+                Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.shop_goods_loading).into((ImageView) helper.getView(R.id.goods_list_img));
                 helper.setText(R.id.goods_list_name, item.getTitle());
                 helper.setText(R.id.goods_list_price, item.getDesc());
                 helper.addOnClickListener(R.id.goods_list_cart);
+
+                helper.setVisible(R.id.tv_use_ticket_reduce, !StringUtils.isEmpty(item.getUseTicketToReduce()));
+                helper.setText(R.id.tv_use_ticket_reduce,item.getUseTicketToReduce());
+
+                helper.setVisible(R.id.tv_teihui,!StringUtils.isEmpty(item.getTeiHui()));
+                helper.setText(R.id.tv_teihui,item.getTeiHui());
                 break;
             case ShopItemType.TYPE_LINE:
                 View view1 = helper.getView(R.id.view_shop_line);

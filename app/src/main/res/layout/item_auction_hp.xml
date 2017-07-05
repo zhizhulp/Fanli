@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical">
+    android:layout_height="181dp"
+    android:layout_marginBottom="10dp">
 
     <FrameLayout
+        android:id="@+id/lat_head"
         android:layout_width="match_parent"
         android:layout_height="117dp">
 
@@ -18,10 +18,12 @@
             android:layout_marginRight="14dp" />
 
         <ImageView
+            android:visibility="gone"
+            android:id="@+id/im_lowest_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
-            android:src="@mipmap/icon_zuidi" />
+            android:src="@mipmap/lowest_price" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -71,6 +73,7 @@
     </FrameLayout>
 
     <RelativeLayout
+        android:layout_below="@id/lat_head"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:paddingLeft="18dp"
@@ -112,17 +115,18 @@
                     android:background="@color/main_line_deep_gray"/>
 
                 <TextView
+                    android:id="@+id/tv_price_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:layout_marginLeft="6dp"
-                    android:text="当前价"/>
+                    android:text="价格"/>
                 <TextView
                     android:id="@+id/auction_text_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/fragment_money_red"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
         <TextView
@@ -132,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:text="立即拍"
+            android:text="立即报名"
             android:layout_marginRight="14dp"
             android:drawablePadding="4dp"
             android:padding="4dp"
@@ -146,5 +150,16 @@
             android:layout_toLeftOf="@id/auction_btn_get"
             android:layout_marginRight="18dp"
             android:background="@color/main_line_deep_gray"/>
+
     </RelativeLayout>
-</LinearLayout>
+    <ImageView
+        android:visibility="gone"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/already_rush"
+        android:id="@+id/im_already_rush"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -85,8 +85,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lineSpacingExtra="3dp"
-                android:maxLines="2"
-                android:text="苹果iph7手机限时抢拍  白色128G 全网通"
+                android:lines="2"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="@dimen/text_size_zhuhuichang_goods_name" />
 
@@ -107,7 +106,6 @@
                     android:id="@+id/text_reduce_times"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20次"
                     android:textColor="@color/fragment_money_red"
                     android:textSize="11sp" />
 
@@ -122,13 +120,13 @@
                     android:id="@+id/text_auction_goods_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100人"
                     android:textColor="@color/fragment_money_red"
                     android:textSize="11sp" />
 
             </LinearLayout>
 
-            <include layout="@layout/goods_details_cuttingline" />
+            <include layout="@layout/goods_details_cuttingline"
+                android:visibility="gone"/>
 
             <!--增值积分-->
             <TextView
@@ -136,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="购买增值5000000积分"
+                android:text="购买增值?积分"
                 android:textSize="@dimen/text_size_zhuhuichang_goods_integral" />
 
             <RelativeLayout
@@ -161,9 +159,10 @@
                 <ImageView
                     android:id="@+id/btn_auction_goods_add_cart"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="14dp"
+                    android:paddingLeft="14dp"
+                    android:paddingRight="14dp"
                     android:layout_toLeftOf="@id/btn_auction_goods_apply"
                     android:src="@mipmap/icon_add_cart" />
 
@@ -176,7 +175,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@id/btn_auction_goods_add_cart"
                     android:gravity="center_vertical"
-                    android:text="￥500.000"
+                    android:text="￥0.00"
                     android:textColor="@color/fragment_money_red"
                     android:textSize="15sp" />
 

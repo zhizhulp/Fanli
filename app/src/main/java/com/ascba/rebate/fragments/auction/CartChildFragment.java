@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,11 +22,13 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
 import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
+import com.ascba.rebate.activities.auction.MyAuctionActivity;
 import com.ascba.rebate.activities.auction.PayDepositActivity;
 import com.ascba.rebate.adapter.CartChildAdapter;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
@@ -90,6 +93,7 @@ public class CartChildFragment extends BaseNetFragment {
     private TextView tvApply;
     private View btmView;
     private AcutionGoodsBean selectAGB;
+    private boolean isAuction=false;//true 需要刷新竞拍商品接口 false 不需要
 
 
     public CartChildFragment() {
@@ -144,20 +148,33 @@ public class CartChildFragment extends BaseNetFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getParams();
+        setListener();
+
+        initViews(view);
+        requestNetwork(UrlUtils.auctionCard, 0);
+    }
+
+    /**
+     * 用于监听购物车是否需要刷新
+     */
+    private void setListener() {
         if("0,1".equals(status)){
             ((AuctionCartFragment) getParentFragment()).setListener(new AuctionCartFragment.UpdateListener() {
                 @Override
-                public void update(boolean hidden) {
-                    if(!hidden && MyApplication.isLoadAuctionCart){
+                public void update() {
+                    if(MyApplication.isLoadAuctionCart){
                         Log.d(TAG, "update: ");
                         resetPageAndStatus();
                         requestNetwork(UrlUtils.auctionCard, 0);
                     }
                 }
             });
+        }else if("2,3".equals(status)){
+            AuctionCartFragment.UpdateListener listener = ((AuctionCartFragment) getParentFragment()).getListener();
+            if(listener!=null){
+                listener.update();
+            }
         }
-        initViews(view);
-        requestNetwork(UrlUtils.auctionCard, 0);
     }
 
     private void requestNetwork(String url, int what) {
@@ -331,6 +348,25 @@ public class CartChildFragment extends BaseNetFragment {
         if (requestCode == REQUEST_PAY_PDEPOSIT && resultCode == Activity.RESULT_OK) {
             resetPageAndStatus();
             requestNetwork(UrlUtils.auctionCard, 0);
+            AuctionCartFragment parentFragment = (AuctionCartFragment) getParentFragment();
+            ((CartChildFragment) parentFragment.getFragments().get(1)).isAuction=true;
+            parentFragment.setTabSelect(1);
+        }else if(requestCode == REQUEST_PAY_ORDER){
+            resetPageAndStatus();
+            requestNetwork(UrlUtils.auctionCard, 0);
+        }
+    }
+
+    /**
+     * 从待交保证金切换到竞拍商品，刷新接口
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && isAuction && status.equals("2,3")){
+            resetPageAndStatus();
+            requestNetwork(UrlUtils.auctionCard, 0);
+            isAuction=false;
         }
     }
 
@@ -382,7 +418,16 @@ public class CartChildFragment extends BaseNetFragment {
                 Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
                 startActivityForResult(intent,REQUEST_PAY_ORDER);
             }else {
-                showToast(message);
+                int pay_type = dataObj.optInt("pay_type");
+                if(pay_type==2){
+                    getDm().buildAlertDialogSure(dataObj.optString("pay_type_msg"), new DialogHome.Callback() {
+                        @Override
+                        public void handleSure() {
+                            Intent intent=new Intent(getActivity(), MyAuctionActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                }
                 resetPageAndStatus();
                 requestNetwork(UrlUtils.auctionCard, 0);
             }

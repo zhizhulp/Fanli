@@ -233,6 +233,8 @@ public class UrlUtils {
     public static final String switchLocale = urlPrefix + "switchLocale";
     //足迹墙数据
     public static final String history = urlPrefix + "history";
+    //商城商品搜索
+    public static final String searchGoods=urlPrefix+"searchGoods";
     /**------------------------------竞拍--------------------------------------**/
     public static final String auction = urlPrefix + "auction";//竞拍首页
     public static final String auctionInfo = urlPrefix + "auctionInfo";//竞拍-我
@@ -273,5 +275,9 @@ public class UrlUtils {
 
 
 
+
+    public static final String submit=Transaction+"submit";//提交交易
+    public static final String affirm=Transaction+"affirm";//确认交易
+    public static final String cancel=Transaction+"cancel";//取消交易
 
 }

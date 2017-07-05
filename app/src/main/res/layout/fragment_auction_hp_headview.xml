@@ -10,12 +10,12 @@
         android:layout_height="143dp" />
 
     <LinearLayout
-        android:visibility="visible"
         android:id="@+id/lat_msg"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -38,20 +38,36 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/icon_loudspeaker" />
+
         <com.ascba.rebate.view.MarqueeTextView
-            android:gravity="center_vertical"
+            android:id="@+id/text_auction_notif"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="14dp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:id="@+id/text_auction_notif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="@dimen/main_text_12" />
+
+        <!--<TextView
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="14dp"
+            android:singleLine="true"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:text="这是跑马灯的效果这是跑马灯的效果这是跑马灯的效果这是跑马灯的效果"
+            android:textColor="@color/shop_normal_text_color" />-->
 
     </LinearLayout>
 
@@ -87,7 +103,7 @@
                 android:layout_below="@id/text_qiangpai1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="4dp"
-                android:text="限时抢拍 先到先得"
+                android:text="限时拍卖 先到先拍"
                 android:textColor="@color/white"
                 android:textSize="10sp" />
 
@@ -143,23 +159,26 @@
 
         </RelativeLayout>
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/lat_rec"
-        android:layout_marginBottom="14dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp">
+
         <ImageView
-            android:layout_centerInParent="true"
-            android:src="@mipmap/bg_tuijian"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/bg_tuijian" />
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="为你推荐"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="14sp"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </LinearLayout>

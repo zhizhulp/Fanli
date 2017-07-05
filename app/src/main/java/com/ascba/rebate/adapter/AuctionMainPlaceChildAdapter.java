@@ -31,23 +31,23 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {//1:拍卖结束,2:立即报名,3:即将开始,4:已报名,5:已拍
+    protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {//1:拍卖结束,2:立即报名,3:即将开始,4:已报名,5:抢拍完毕(抢光了) 6:待支付 7:已支付
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
-        Picasso.with(context).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
+        Picasso.with(context).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.shop_goods_loading).error(R.mipmap.shop_goods_loading).into(imageView);
         helper.setText(R.id.text_auction_goods_price,"￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
         TextView view = helper.getView(R.id.btn_auction_goods_apply);//按钮
         int intState = item.getIntState();
-        if(intState==3 ||intState==1 ){
+        if(intState==3 ||intState==1 ){//1:拍卖结束3:即将开始
             view.setEnabled(false);
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
             helper.setText(R.id.text_auction_goods_time,item.getStrState());
-        }else if(intState==2){
+        }else if(intState==2){//2:立即报名
             view.setEnabled(true);
             helper.setVisible(R.id.btn_auction_goods_add_cart,true);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
-        }else if(intState==4){
+        }else if(intState==4){//4:已报名
             view.setEnabled(true);
-            helper.setVisible(R.id.btn_auction_goods_add_cart,true);
+            helper.setVisible(R.id.btn_auction_goods_add_cart,false);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
         }else if(intState==5){//盲拍-已拍
             view.setEnabled(false);
@@ -78,18 +78,12 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
 
 
     }
-    //时间倒计时
+
     private String getRemainingTime(AcutionGoodsBean item){
-        int leftTime = item.getCurrentLeftTime();//单位s
-        if(leftTime==0){
-            if(item.getIntState()!=2){
-                if(item.getReduceTimes()< item.getMaxReduceTimes()){
-                    leftTime = item.getGapTime();
-                }else {
-                    return "竞拍结束";
-                }
-            }
+        if(System.currentTimeMillis()>=item.getEndTime()*1000 || item.getPrice() <= item.getEndPrice()){
+            return "竞拍结束";
         }
+        int leftTime = item.getCurrentLeftTime();//单位s
         int hour = leftTime % (24 * 3600) / 3600;
         int minute = leftTime % 3600 / 60;
         int second = leftTime % 60;

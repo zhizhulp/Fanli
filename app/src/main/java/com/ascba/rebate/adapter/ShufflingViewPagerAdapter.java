@@ -59,7 +59,7 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
                 }
             }
         });
-        Picasso.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
+        Picasso.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.banner_loading).error(R.mipmap.banner_loading).into(imageView);
 
         container.addView(imageView);
         return imageView;

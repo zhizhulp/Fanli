@@ -85,20 +85,19 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lineSpacingExtra="4dp"
-                android:maxLines="2"
-                android:text="苹果iph7手机限时抢拍  白色128G 全网通"
+                android:maxLines="1"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="@dimen/text_size_zhuhuichang_goods_name" />
 
             <!--价格控制-->
             <RelativeLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="10dp">
+                android:layout_height="35dp">
 
                 <Button
                     android:id="@+id/btn_sub"
-                    android:layout_width="31dp"
+                    android:layout_width="35dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
                     android:background="#F3F3F3"
@@ -107,12 +106,12 @@
 
                 <Button
                     android:id="@+id/btn_add"
-                    android:layout_width="31dp"
+                    android:layout_width="35dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:background="#F3F3F3"
-                    android:text="+"
+                    android:text="十"
                     android:textColor="@color/shop_normal_text_color" />
 
                 <TextView
@@ -127,7 +126,6 @@
                     android:maxLines="1"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="降价至:￥5000.00"
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="@dimen/text_size_zhuhuichang_goods_price" />
             </RelativeLayout>
@@ -138,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="购买增值5000000积分"
+                android:text="购买增值?积分"
                 android:textSize="@dimen/text_size_zhuhuichang_goods_integral" />
 
             <RelativeLayout
@@ -163,9 +161,10 @@
                 <ImageView
                     android:id="@+id/btn_auction_goods_add_cart"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="14dp"
+                    android:paddingLeft="14dp"
+                    android:paddingRight="14dp"
                     android:layout_toLeftOf="@id/btn_auction_goods_apply"
                     android:src="@mipmap/icon_add_cart" />
 
@@ -190,7 +189,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:text="100人"
                         android:textColor="@color/fragment_money_red"
                         android:textSize="@dimen/text_size_zhuhuichang_goods_person" />
                 </LinearLayout>

@@ -140,7 +140,7 @@
 
     <TextView
         android:onClick="goServerProtocol"
-        android:textColor="@color/main_text_blue"
+        android:textColor="@color/main_text_normal"
         android:textSize="@dimen/main_text_12"
         android:id="@+id/register_agree_text"
         android:layout_marginBottom="21dp"

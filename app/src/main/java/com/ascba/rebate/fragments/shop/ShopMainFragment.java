@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ConfirmBuyOrderActivity;
@@ -19,6 +22,7 @@ import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
+import com.ascba.rebate.activities.shop.ShopSearchActivity;
 import com.ascba.rebate.activities.supermaket.TypeMarketActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
@@ -32,7 +36,6 @@ import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
-import com.ascba.rebate.view.BezierCurveAnimater;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.ShopTabs;
 import com.ascba.rebate.view.StdDialog;
@@ -62,7 +65,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
     private RelativeLayout searchHead;//搜索头
     private View searchHeadLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
-    private BezierCurveAnimater bezierCurveAnimater;//加入购物车动画
     private int finalScene;
     private int goodsId;
     private StdDialog sd;//规格dialog
@@ -88,15 +90,8 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
     }
 
     private void initViews(View view) {
-        searchHead = (RelativeLayout) view.findViewById(R.id.head_search_rr);
-        searchHeadLine = view.findViewById(R.id.homepage_head_view);
-        //返回图标
-        view.findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
+        initHeadView(view);
+
 
         //消息
         LinearLayout messageBtn = (LinearLayout) view.findViewById(R.id.head_rr);
@@ -125,10 +120,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             }
         });
         initRefreshLayout(view);
-        ShopActivity a = (ShopActivity) getActivity();
-        //初始化加入购物车动画
-        bezierCurveAnimater = new BezierCurveAnimater(a, ((RelativeLayout) a.findViewById(R.id.second_rr)), ((ShopActivity) getActivity()).getShopTabs().getImThree());
-
         rv.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -148,8 +139,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
 
                 //加入购物车动画
                 if (view.getId() == R.id.goods_list_cart) {
-                    /*ImageView addCart = (ImageView) view;
-                    bezierCurveAnimater.addCart(addCart);*/
                     ShopBaseItem shopBaseItem = data.get(position);
                     sbi = shopBaseItem;
                     has_spec = shopBaseItem.isHasStandard();
@@ -188,9 +177,31 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 }
             }
         });
-        requestNetwork(UrlUtils.shop, 0);
+
+
         ShopActivity shopActivity = (ShopActivity) getActivity();
         shopTabs = shopActivity.getShopTabs();
+
+        requestNetwork(UrlUtils.shop, 0);
+    }
+
+    private void initHeadView(View view) {
+        searchHead = (RelativeLayout) view.findViewById(R.id.head_search_rr);
+        searchHeadLine = view.findViewById(R.id.homepage_head_view);
+        view.findViewById(R.id.head_ll_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        TextView etSearch = ((TextView) view.findViewById(R.id.et_search));
+        etSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),ShopSearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void requestNetwork(String url, int scene) {
@@ -353,6 +364,8 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                         , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 shopBaseItem.setHasStandard(gObj.optString("has_spec").equals("1"));
+                shopBaseItem.setTeiHui(gObj.optString("promotion_text"));
+                shopBaseItem.setUseTicketToReduce(gObj.optString("promotion_mark"));
                 data.add(shopBaseItem);
             }
         }

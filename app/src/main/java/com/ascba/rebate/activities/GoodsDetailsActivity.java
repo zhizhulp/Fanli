@@ -17,6 +17,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -48,6 +55,7 @@ import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.GoodsDetailsItem;
 import com.ascba.rebate.beans.GoodsImgBean;
 import com.ascba.rebate.beans.IntegralValueItem;
+import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
@@ -151,6 +159,11 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     private TextView txDescNum, txDesc;//描述相符
     private TextView txServiceNum, txService;//服务态度
     private TextView txSpeedNum, txSpeed;//发货速度
+    private TextView viewTeHui;
+    private View viewLatTeHui;
+    private TextView tvUseTicketTitle;
+    private TextView tvUseTicketPrice;
+    private TextView tvUseTicketDesc;
 
 
     @Override
@@ -212,6 +225,13 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         findViewById(R.id.abar_im_back).setOnClickListener(this);
         findViewById(R.id.abar_im_msg).setOnClickListener(this);
         findViewById(R.id.abar_im_cart).setOnClickListener(this);
+
+        //特惠，用券价
+        viewTeHui = (TextView) findViewById(R.id.tv_teihui);
+        viewLatTeHui = findViewById(R.id.lat_use_ticket);
+        tvUseTicketTitle = ((TextView) findViewById(R.id.tv_user_ticket_title));
+        tvUseTicketPrice = ((TextView) findViewById(R.id.tv_use_ticket_price));
+        tvUseTicketDesc = ((TextView) findViewById(R.id.tv_user_ticket_desc));
     }
 
     /*
@@ -265,6 +285,8 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 //详情页地址
                 webUrl = dataObj.optString("details");
 
+                //特惠，用券价
+                showLat(dataObj);
                 if (goods.getGoodsTitle() != null && goods.getGoodsTitle().length() > 0) {
                     InitView();
                 } else {
@@ -282,6 +304,21 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
 
             }
         });
+    }
+
+    private void showLat(JSONObject goodsObj) {
+        String promotion_text = goodsObj.optString("promotion_text");
+        if(StringUtils.isEmpty(promotion_text)){
+            viewTeHui.setVisibility(View.GONE);
+            viewLatTeHui.setVisibility(View.GONE);
+        }else {
+            viewTeHui.setVisibility(View.VISIBLE);
+            viewLatTeHui.setVisibility(View.VISIBLE);
+            viewTeHui.setText(promotion_text);
+            tvUseTicketTitle.setText(goodsObj.optString("promotion_price_tip"));
+            tvUseTicketPrice.setText(goodsObj.optString("promotion_price"));
+            tvUseTicketDesc.setText(goodsObj.optString("promotion_price_remark"));
+        }
     }
 
     /*
@@ -464,9 +501,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         return null;
     }
 
-    /*
-     * 初始化UI
-     */
     private void InitView() {
 
         /**
@@ -479,11 +513,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          */
         //商品名
         TextView goodsDesc1 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods1);
-        /*SpannableStringBuilder builder = new SpannableStringBuilder("【自营店】" + goods.getGoodsTitle());
-        ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.shop_red_text_color));
-        builder.setSpan(redSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
         goodsDesc1.setText(goods.getGoodsTitle());
-
         //商品价格
         TextView priceNow = (TextView) findViewById(R.id.goods_details_simple_desc_price_now);
         priceNow.setText("￥" + goods.getGoodsPrice());
@@ -658,30 +688,23 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         initWebView();
     }
 
-    /*
-     * 初始化Viewpager
+    /**
+     * 商品轮播展示
      */
     private void InitViewPager() {
-        /**
-         * 商品轮播展示
-         */
         url = new ArrayList<>();
-
         for (int i = 0; i < goods.getImgBeanList().size(); i++) {
             url.add(goods.getImgBeanList().get(i).getImgUrl());
         }
         viewPager = (ViewPager) findViewById(R.id.goods_details_viewpager_vp);
-
         for (int i = 1; i <= url.size(); i++) {
             View view = LayoutInflater.from(this).inflate(R.layout.goods_details_viewpager_item, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.goods_details_viewpager_item_img);
             TextView textView = (TextView) view.findViewById(R.id.goods_details_viewpager_item_text);
-            Picasso.with(this).load(url.get(i - 1)).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imageView);
+            Picasso.with(this).load(url.get(i - 1)).placeholder(R.mipmap.shop_goods_loading).error(R.mipmap.shop_goods_loading).into(imageView);
             textView.setText(i + "/" + (url.size()));
             viewList.add(view);
-            /**
-             * 点击查看大图
-             */
+            //点击查看大图
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -693,7 +716,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         viewPager.addOnPageChangeListener(new ViewPagerOnPageChangeListener());
     }
 
-    /*
+    /**
      * 初始化评价流布局
      */
     private void InitFlowLayout() {
