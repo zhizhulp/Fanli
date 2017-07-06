@@ -40,7 +40,8 @@ public class AcutionGoodsBean implements Parcelable {
     private boolean isSelect;
     private long startTime;
     private String startTimeStr;
-    private long endTime;
+    private long endTime;//场结束时间
+    private long goodsEndTime;//商品结束时间
     private String expressNum;//物流单号
     private String cartStatusTip;
 
@@ -57,6 +58,14 @@ public class AcutionGoodsBean implements Parcelable {
         this.score = score;
         this.cashDeposit = cashDeposit;
         this.reduceTimes = reduceTimes;
+    }
+
+    public long getGoodsEndTime() {
+        return goodsEndTime;
+    }
+
+    public void setGoodsEndTime(long goodsEndTime) {
+        this.goodsEndTime = goodsEndTime;
     }
 
     public String getCartStatusTip() {
@@ -323,6 +332,7 @@ public class AcutionGoodsBean implements Parcelable {
         dest.writeLong(this.startTime);
         dest.writeString(this.startTimeStr);
         dest.writeLong(this.endTime);
+        dest.writeLong(this.goodsEndTime);
         dest.writeString(this.expressNum);
         dest.writeString(this.cartStatusTip);
     }
@@ -355,6 +365,7 @@ public class AcutionGoodsBean implements Parcelable {
         this.startTime = in.readLong();
         this.startTimeStr = in.readString();
         this.endTime = in.readLong();
+        this.goodsEndTime = in.readLong();
         this.expressNum = in.readString();
         this.cartStatusTip = in.readString();
     }

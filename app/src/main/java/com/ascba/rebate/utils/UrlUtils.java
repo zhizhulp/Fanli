@@ -254,11 +254,6 @@ public class UrlUtils {
     public static final String confirmReceipt= urlPrefix + "confirmReceipt";//我的货拍-确认收货;
     /**----------------------扫一扫（sweep created by fanxi）--------------------*/
 
-//    public static final String baseWebsite = "http://api.qlqwp2p.com";//p2p改为shop
-//    private static final String baseWebsiteChange = "http://home.qlqwp2p.com";//p2p改为shop
-//    private static final String webVersion = "v1";
-//    private static final String urlPrefix = baseWebsite + "/" + webVersion + "/";
-   // http://api.xxx.com/v1/TransactionLog/list
     private static final String Transaction=urlPrefix+"Transaction"+"/";
     private static final String TransactionLog=urlPrefix+"TransactionLog"+"/";
     public static final String checkSeller=Transaction+"checkSeller";//验证商家

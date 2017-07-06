@@ -436,6 +436,7 @@
 
             <!--起拍价、延迟周期-->
             <FrameLayout
+                android:id="@+id/lat_some_params"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:orientation="vertical">
@@ -714,7 +715,7 @@
                     android:drawablePadding="6dp"
                     android:text="未拍到全额退还"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -725,7 +726,7 @@
                     android:drawablePadding="6dp"
                     android:text="拍品不退不换"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"

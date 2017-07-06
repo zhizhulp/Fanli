@@ -118,7 +118,7 @@ public abstract class BaseActivityNet extends BaseActivity {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            dialogManager.buildAlertDialog(getString(R.string.no_response));
+            showToast(getString(R.string.no_response));
             handler.sendEmptyMessage(LOAD_MORE_ERROR);
             requstFailed(what, response.getException());
         }

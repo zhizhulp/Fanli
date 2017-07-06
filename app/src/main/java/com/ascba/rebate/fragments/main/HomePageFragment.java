@@ -104,17 +104,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private Context context;
     private RecyclerView recylerview;
     private HomePageAdapter homePageAdapter;
-
-    /*
-     * 头部
-     */
     private RelativeLayout homepage_head;
     private View homepage_head_line;
-
     private int mDistanceY = 0;
-    private TextView floatButton;
-
-    private FrameLayout btnAdd, btnMessage;
     private ImageView imgAdd;
     private List<HomePageMultiItemItem> items = new ArrayList<>();
     private PopupWindow popupWindow;
@@ -160,10 +152,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     }
 
     private void initView(View view) {
-        /**
-         * 悬浮球
-         */
-        floatButton = (TextView) view.findViewById(R.id.floatButton);
+        //悬浮球
+        TextView floatButton = (TextView) view.findViewById(R.id.floatButton);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,10 +166,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         textSpan.setSpan(new RelativeSizeSpan(0.7f), 4, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         floatButton.setText(textSpan);
         floatButton.setVisibility(View.GONE);
-
-        /**
-         * 刷新
-         */
+        //刷新
         initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -187,14 +174,11 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 requestData(UrlUtils.index, 0);
             }
         });
-
-        /**
-         * 头部信息
-         */
+        //头部信息
         homepage_head = (RelativeLayout) view.findViewById(R.id.homepage_head);
         homepage_head_line = view.findViewById(R.id.homepage_head_view);
         //+号
-        btnAdd = (FrameLayout) view.findViewById(R.id.homepage_add);
+        FrameLayout btnAdd = (FrameLayout) view.findViewById(R.id.homepage_add);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,7 +188,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         imgAdd = (ImageView) view.findViewById(R.id.homepage_img_add);
 
         //消息
-        btnMessage = (FrameLayout) view.findViewById(R.id.homepage_message);
+        FrameLayout btnMessage = (FrameLayout) view.findViewById(R.id.homepage_message);
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,17 +196,9 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             }
         });
         msgView = (MsgView) view.findViewById(R.id.msgView);
-
-
-        /**
-         * 初始化recylerview
-         */
+        //初始化recylerview
         recylerview = (RecyclerView) view.findViewById(R.id.homepage_recylerview);
-
-
-        /**
-         * 滑动标题栏渐变
-         */
+        //滑动标题栏渐变
         recylerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -273,8 +249,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                             activity.startActivityForResult(intent, REQUEST_LOGIN_CAIFU);
                         }
                         break;
-                    case R.id.homepage_btn_policy:
-                        //创业扶持
+                    case R.id.homepage_btn_policy://创业扶持
                         if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
                             requestData(UrlUtils.getDataUrl, 2);
                         } else {
@@ -282,30 +257,25 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                             startActivityForResult(intent, POLICY);
                         }
                         break;
-                    case R.id.homepage_btn_college:
-                        //ASK商学院
+                    case R.id.homepage_btn_college://ASK商学院
                         showToast("暂未开放");
                         /*Intent college = new Intent(getActivity(), ASKCollegeActivity.class);
                         startActivity(college);*/
                         break;
-                    case R.id.homepage_text_more_news:
-                        //最新动态——更多
+                    case R.id.homepage_text_more_news://最新动态——更多
                         MessageLatestActivity.startIntent(context);
                         break;
                     case R.id.homepage_btn_global://进入商城
                         Intent intent=new Intent(getActivity(),ShopActivity.class);
                         startActivity(intent);
-                        //GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(0).getTitleId());
                         break;
                     case R.id.homepage_btn_offer://进入商城
                         Intent intent1=new Intent(getActivity(),ShopActivity.class);
                         startActivity(intent1);
-                        //GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(1).getTitleId());
                         break;
                     case R.id.homepage_btn_selected://进入商城
                         Intent intent2=new Intent(getActivity(),ShopActivity.class);
                         startActivity(intent2);
-                        //GoodsDetailsActivity.startIntent(getActivity(),item.getGoodsList().get(2).getTitleId());
                         break;
                 }
             }
@@ -361,7 +331,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             popupWindow.update();
         }
         // 以下拉的方式显示，并且可以设置显示的位置
-        popupWindow.showAtLocation(imgAdd, Gravity.TOP | Gravity.RIGHT, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
+        popupWindow.showAtLocation(imgAdd, Gravity.TOP | Gravity.END, ScreenDpiUtils.dip2px(context, 15), ScreenDpiUtils.dip2px(context, 75));
 
     }
 
@@ -417,7 +387,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             intent.putExtra("url", url);
             startActivity(intent);
         } else if(finalScene ==3){
-
             if(agb.getType()==1){
                 Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
                 intent.putExtra("goods_id",agb.getId());
@@ -438,14 +407,15 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             for (int i = 0; i < goodsArray.length(); i++) {
                 JSONObject obj = goodsArray.optJSONObject(i);
                 AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.baseWebsite + obj.optString("index_img"),
-                        obj.optString("name"), obj.optDouble("begin_price"),
+                        obj.optString("name"), obj.optDouble("transaction_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
                 agb.setGapTime(obj.optInt("interval_second"));
                 agb.setStartPrice(obj.optDouble("begin_price"));
                 agb.setEndPrice(obj.optDouble("end_price"));
                 agb.setStartTime(obj.optLong("starttime"));
-                agb.setEndTime(obj.optLong("price_time"));
+                agb.setEndTime(obj.optLong("endtime"));//modify
+                agb.setGoodsEndTime(obj.optLong("price_time"));//add
                 agb.setIntState(obj.optInt("is_status"));
                 agb.setStrState(obj.optString("auction_tip"));
                 agb.setCartStatusTip(obj.optString("cart_status_tip"));
@@ -494,8 +464,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         isFirstComing=false;
     }
 
-    /*
-    解析新闻内容
+    /**
+     * 解析新闻内容
      */
     private void initNews(JSONObject dataObj) {
         items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
@@ -547,8 +517,8 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
     }
 
-    /*
-    广告轮播
+    /**
+     *  广告轮播
      */
     private void initPagerTurn(JSONObject dataObj) {
         JSONArray banner = dataObj.optJSONArray("banner");
@@ -598,7 +568,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
                 @Override
                 public void timeToUpdate() {
-                    Log.d("turn", "fragment ");
                     requestData(UrlUtils.index, 0);
                 }
             });
@@ -662,7 +631,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     }
     private String getPackageVersion() {
         PackageManager packageManager = getActivity().getPackageManager();
-        // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo;
         try {
             packInfo = packageManager.getPackageInfo(getActivity().getPackageName(), 0);

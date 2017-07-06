@@ -86,6 +86,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     private TextView tvOtherPersonNum;
     private View viewTimeDown;
     private WebView webView;
+    private View viewSomeParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +205,6 @@ public class AuctionDetailsActivity extends BaseNetActivity {
 
     //初始化Viewpager
     private void initViewPager() {
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager_img);
         urls = new ArrayList<>();
         imageAdapter = new ImageAdapter(urls);
@@ -279,7 +279,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     @Override
     protected void mhandleFailed(int what, Exception e) {
         super.mhandleFailed(what, e);
-        if(what==1){
+        if(what==0){
             finish();
         }
     }
@@ -319,7 +319,8 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         String cart_status_tip = obj.optString("cart_status_tip");
 
         double begin_price = obj.optDouble("begin_price");
-        double price_time = obj.optDouble("price_time");
+        double end_price = obj.optDouble("end_price");
+        long price_time = obj.optLong("price_time");
         long starttime = obj.optLong("starttime");
         long endtime = obj.optLong("endtime");
 
@@ -335,13 +336,16 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         agb.setIntPriceState(cart_status);
         agb.setStrPriceState(cart_status_tip);
         agb.setStartPrice(begin_price);
-        agb.setEndPrice(price_time);
+        agb.setEndPrice(end_price);
         agb.setStartTime(starttime);
         agb.setEndTime(endtime);
+        agb.setGoodsEndTime(price_time);
         if (type == 1) {
             viewTimeDown.setVisibility(View.VISIBLE);
+            viewSomeParams.setVisibility(View.VISIBLE);
         } else if (type == 2) {
             viewTimeDown.setVisibility(View.GONE);
+            viewSomeParams.setVisibility(View.GONE);
         }
         tvStatus.setText(auction_tip);
         tvName.setText(name);
@@ -362,10 +366,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvSureMoney.setText("保证金￥" + cash_deposit);
         tvPriceRush.setText("当前价￥" + NumberFormatUtils.getNewDouble(transaction_price) + "");
         tvPriceBlind.setText("￥" + NumberFormatUtils.getNewDouble(transaction_price) + "");
-        if (cart_status == 4) {
-            tvAuctionState.setText(cart_status_tip);
-        }
-
+        tvAuctionState.setText(cart_status_tip);
         tvPersonNum.setText("竞拍：" + obj.optInt("auction_people") + "人");
         tvOtherPersonNum.setText("围观：" + obj.optInt("flow") + "人");
     }
@@ -417,65 +418,42 @@ public class AuctionDetailsActivity extends BaseNetActivity {
 
     /**
      * 设置页面相关状态
-     *
      * @param state      1：结束，2：进行中,3:即将开始
-     * @param priceState 0：待交，2：已交，4：已拍，5：已支付，6：已退款，7：违约惩罚 8：获拍 9:未获拍
-     *                   1进行中 待交保证金   2进行中 已交保证金（抢拍）  3进行中 已交保证金（盲拍）  4结束 获拍   5结束 未获拍
+     * @param priceState 0：待交，2：已交，4：已拍(当前出价，等待竞拍结果)，5：已支付(当前出价，等待发货中)，6：已退款，7：违约惩罚 8：未获拍 9:获拍 10:已拍（当前出价，等待支付中）11:已拍卖完毕(最后成交价)
      */
     private void setState(int state, int priceState) {
         if (state == 3) {
-            tvTDOver.setVisibility(View.GONE);
-            viewGoingNoSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoneyBlind.setVisibility(View.GONE);
-            tvAuctionState.setVisibility(View.GONE);
+            setViewState(false,false,false,false,false);
         } else if (state == 2 && priceState == 0) {
-            tvTDOver.setVisibility(View.VISIBLE);
-            viewGoingNoSureMoney.setVisibility(View.VISIBLE);
-            viewGoingSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoneyBlind.setVisibility(View.GONE);
-            tvAuctionState.setVisibility(View.GONE);
+            setViewState(true,true,false,false,false);
         } else if (state == 2 && priceState == 2 && agb.getType() == 1) {
-            tvTDOver.setVisibility(View.VISIBLE);
-            viewGoingNoSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoney.setVisibility(View.VISIBLE);
-            viewGoingSureMoneyBlind.setVisibility(View.GONE);
-            tvAuctionState.setVisibility(View.GONE);
+            setViewState(true,false,true,false,false);
         } else if (state == 2 && priceState == 2 && agb.getType() == 2) {
-            tvTDOver.setVisibility(View.VISIBLE);
-            viewGoingNoSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoneyBlind.setVisibility(View.VISIBLE);
-            tvAuctionState.setVisibility(View.GONE);
+            setViewState(true,false,false,true,false);
         } else if (state == 2 && priceState == 4) {
-            tvTDOver.setVisibility(View.GONE);
-            viewGoingNoSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoneyBlind.setVisibility(View.GONE);
-            tvAuctionState.setVisibility(View.VISIBLE);
-            tvAuctionState.setText(agb.getStrPriceState());
+            setViewState(false,false,false,false,true);
         } else if (state == 1 && priceState == 4) {//等待结果
-            tvTDOver.setVisibility(View.GONE);
-            viewGoingNoSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoneyBlind.setVisibility(View.GONE);
-            tvAuctionState.setVisibility(View.VISIBLE);
-            tvAuctionState.setText(agb.getStrPriceState());
-        } else if (state == 1 && priceState == 8) {
-            tvTDOver.setVisibility(View.GONE);
-            viewGoingNoSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoneyBlind.setVisibility(View.GONE);
-            tvAuctionState.setVisibility(View.VISIBLE);
-            tvAuctionState.setText("拍卖已结束(未获拍)");
-        } else if (state == 1 && priceState == 9) {
-            tvTDOver.setVisibility(View.GONE);
-            viewGoingNoSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoney.setVisibility(View.GONE);
-            viewGoingSureMoneyBlind.setVisibility(View.GONE);
-            tvAuctionState.setVisibility(View.VISIBLE);
-            tvAuctionState.setText("拍卖已结束(已获拍)");
+            setViewState(false,false,false,false,true);
+        } else if (state == 1 && priceState == 7) {//add
+            setViewState(false,false,false,false,true);
+        } else if (state == 1 && priceState == 8) {//拍卖已结束(未获拍)
+            setViewState(false,false,false,false,true);
+        } else if (state == 1 && priceState == 9) {//拍卖已结束(已获拍)
+            setViewState(false,false,false,false,true);
+        } else if (state == 1 && priceState == 10) {//add
+            setViewState(false,false,false,false,true);
+        } else if (state == 1 && priceState == 11) {//add
+            setViewState(false,false,false,false,true);
         }
+        tvAuctionState.setText(agb.getStrPriceState());
+    }
+
+    private void setViewState(boolean b, boolean b1, boolean b2, boolean b3, boolean b4) {
+        tvTDOver.setVisibility(b ? View.VISIBLE : View.GONE); //倒计时时间
+        viewGoingNoSureMoney.setVisibility(b1 ? View.VISIBLE : View.GONE);//进行中，没有付保证金
+        viewGoingSureMoney.setVisibility(b2 ? View.VISIBLE : View.GONE);//进行中，已付保证金(抢拍)
+        viewGoingSureMoneyBlind.setVisibility(b3 ? View.VISIBLE : View.GONE);//进行中，已付保证金(盲拍)
+        tvAuctionState.setVisibility(b4 ? View.VISIBLE : View.GONE);//底部竞拍状态提示
     }
 
     private void initGoodsDetails() {
@@ -496,50 +474,9 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvOtherPersonNum = ((TextView) findViewById(R.id.tv_other_person_num));
 
         viewTimeDown = findViewById(R.id.lat_reduce_time_down);
+        viewSomeParams = findViewById(R.id.lat_some_params);
     }
 
-    //富文本图片显示接口
-    Html.ImageGetter imageGetter = new Html.ImageGetter() {
-        class URLDrawable extends BitmapDrawable {
-            protected Bitmap bitmap;
-
-            @Override
-            public void draw(Canvas canvas) {
-                if (bitmap != null) {
-                    canvas.drawBitmap(bitmap, 0, 0, getPaint());
-                }
-            }
-        }
-
-        @Override
-        public Drawable getDrawable(final String source) {
-            final URLDrawable d = new URLDrawable();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    InputStream is = null;
-                    try {
-                        URL aryURI = new URL(UrlUtils.baseWebsite + source);
-                        URLConnection conn = aryURI.openConnection();
-                        conn.connect();
-                        is = conn.getInputStream();
-                        d.bitmap = BitmapFactory.decodeStream(is);
-                        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-                        is.close();
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //tvGoodsDet.setText(tvGoodsDet.getText());
-                            }
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-            return d;
-        }
-    };
 
     @Override
     protected void onDestroy() {

@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by 李鹏 on 2017/03/11 0011.
+ * 首页适配器
  */
 
 public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItemItem, BaseViewHolder> {

@@ -148,10 +148,10 @@
                 <!--立即报名-->
                 <TextView
                     android:id="@+id/btn_auction_goods_apply"
-                    android:layout_width="63dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/red_bg2"
+                    android:background="@drawable/btn_red_bg"
                     android:gravity="center"
                     android:text="立即报名"
                     android:textColor="@color/white"
