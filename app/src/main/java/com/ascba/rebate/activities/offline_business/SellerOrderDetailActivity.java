@@ -170,14 +170,19 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
         Intent intent = getIntent();
         if (null != intent) {
             Bundle bundle = getIntent().getExtras();
-            Log.d("fanxi",bundle.toString());
-            String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            try {
-                JSONObject jObj = new JSONObject(extra);
-                order_id = jObj.getInt("order_id");
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(bundle!=null){
+                order_id=intent.getIntExtra("order_id",0);
+            }else{
+                String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+                try {
+                    JSONObject jObj = new JSONObject(extra);
+                    order_id = jObj.getInt("order_id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
+
         }
 
     }

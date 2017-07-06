@@ -709,6 +709,8 @@
         <activity android:name=".activities.offline_business.OfflinePayActivity" />
         <activity android:name=".activities.offline_business.OfflinePaySureOrderActivity" />
         <activity android:name=".activities.offline_business.OfflinePaySuccedActivity" />
+        <activity android:name=".activities.offline_business.ToBeSuredOrdersActivity" />
+        <activity android:name=".activities.offline_business.SellerOrderDetailActivity" />
         <activity android:name=".activities.auction.AuctionDetailsActivity" />
         <activity android:name=".activities.auction.AuctionListActivity" />
         <activity android:name=".activities.SelectAddrssUpdateActivity" />

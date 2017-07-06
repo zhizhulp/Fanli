@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
+import com.ascba.rebate.activities.offline_business.ToBeSuredOrdersActivity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -89,14 +89,13 @@ public class BusinessUnionActivity extends BaseNetActivity implements
                 break;
             case R.id.business_account:
                 //流水记录
-                
-
                 Intent intent = new Intent(this, BusinessBillActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.business_data:
-                //商家资料
-                Intent intent1 = new Intent(context, BusinessDataActivity.class);
+            case R.id.business_data://记账确认
+                //（商家资料）
+              //  Intent intent1 = new Intent(context, BusinessDataActivity.class);
+                Intent intent1 = new Intent(context, ToBeSuredOrdersActivity.class);
                 startActivity(intent1);
                 break;
         }

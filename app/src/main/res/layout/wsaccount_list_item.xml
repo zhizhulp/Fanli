@@ -30,6 +30,7 @@
             android:text="21:14"/>
     </LinearLayout>
     <ImageView
+        android:src="@color/red"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/time"
         android:id="@+id/wsaccount_category_icon"
@@ -42,18 +43,36 @@
         android:layout_toRightOf="@id/wsaccount_category_icon"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="15dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="+0.92"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/wsaccount_money"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_status"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="待确定"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="13sp"
+                android:textColor="@color/sure_orange"/>
+
+        </RelativeLayout>
+
         <TextView
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:id="@+id/wsaccount_money"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
+            android:text="1234234534"
             android:maxLines="1"
             android:ellipsize="end"
             android:layout_marginTop="9dp"
@@ -62,6 +81,7 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView
+
         android:layout_toRightOf="@id/acc_center"
         android:id="@+id/tv_cash_get_status"
         android:textColor="@color/moneyBarColor"
