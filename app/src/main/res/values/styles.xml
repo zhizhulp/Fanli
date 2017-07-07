@@ -198,8 +198,6 @@
     </style>
 
     <style name="text_img">
-        <item name="android:paddingTop">24dp</item>
-        <item name="android:paddingBottom">15.5dp</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
@@ -244,5 +242,9 @@
         <item name="android:lineSpacingMultiplier">2</item>
     </style>
 
+    <style name="reg_bg_style">
+        <item name="android:background">@drawable/red_bg</item>
+        <item name="android:textSize">30sp</item>
+    </style>
 
 </resources>

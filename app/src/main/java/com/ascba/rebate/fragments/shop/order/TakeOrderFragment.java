@@ -84,7 +84,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
         } else if (what == NET_RECEIVE_GOODS) {
             jsonRequest.add("order_id", orderId);
         }else if(what==NET_DELEVER_FLOW){
-            jsonRequest.add("ordertraces","58466927852");
+            jsonRequest.add("ordertraces",/*"58466927852"*/ordertraces);
         }
 
         executeNetWork(what, jsonRequest, "请稍后");

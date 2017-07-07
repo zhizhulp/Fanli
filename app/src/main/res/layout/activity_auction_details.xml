@@ -13,15 +13,15 @@
         android:orientation="vertical">
         <!--倒计时-->
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_time_down_over"
             android:layout_width="match_parent"
             android:layout_height="22dp"
-            android:background="#4B4B4B"
+            android:background="#FF7C82"
             android:gravity="center"
             android:text="0时 0分 0秒 后结束"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
         <!--未开始 未交保证金-->
 
         <!--已开始 未交保证金-->
@@ -31,6 +31,7 @@
             android:layout_height="45dp"
             android:background="#585858"
             android:visibility="gone">
+
             <TextView
                 android:id="@+id/tv_apply_sure_money"
                 android:layout_width="129dp"
@@ -73,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:visibility="gone">
+
             <TextView
                 android:id="@+id/btn_pay_apply_rush"
                 android:layout_width="80dp"
@@ -98,11 +100,12 @@
         </RelativeLayout>
         <!--已开始 已交保证金（盲拍）-->
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/lat_going_SureMoney_blind"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#585858">
+            android:background="#585858"
+            android:visibility="gone">
+
             <TextView
                 android:id="@+id/btn_pay_apply_blind"
                 android:layout_width="80dp"
@@ -197,19 +200,20 @@
         </RelativeLayout>
         <!--结束 获拍--><!--结束 未获拍-->
         <TextView
-            android:maxLines="1"
-            android:ellipsize="end"
             android:id="@+id/tv_over_auction_state"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_centerInParent="true"
             android:background="#585858"
+            android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             android:text="拍卖已结束(已获拍)"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:visibility="gone" />
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -229,43 +233,30 @@
                 android:layout_height="match_parent">
 
                 <!--商品图片轮播-->
-                <FrameLayout
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager_img"
                     android:layout_width="match_parent"
-                    android:layout_height="312dp">
-
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/viewpager_img"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </FrameLayout>
+                    android:layout_height="312dp" />
                 <!--返回按钮-->
-                <FrameLayout
+                <ImageView
                     android:id="@+id/btn_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="35dp"
-                    android:paddingTop="15dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/abar_back" />
-                </FrameLayout>
+                    android:paddingTop="15dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/abar_back" />
                 <!--竞拍状态-->
                 <FrameLayout
                     android:layout_width="90dp"
                     android:layout_height="25dp"
                     android:layout_gravity="bottom|left">
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#EB6060" />
-
                     <TextView
                         android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
@@ -274,13 +265,9 @@
                         android:text="疯狂降价中"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
-
                 </FrameLayout>
-
             </FrameLayout>
-
             <include layout="@layout/goods_details_cuttingline_wide" />
-
             <!--商品名-->
             <TextView
                 android:id="@+id/tv_name"
@@ -304,7 +291,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_price_state"
+                    android:id="@+id/text_price_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="当前价格："
@@ -744,7 +731,6 @@
                 android:background="@color/main_bg" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -752,10 +738,10 @@
                 android:paddingTop="10dp"
                 android:text="拍品信息"
                 android:textColor="@color/shop_normal_text_color"
-                android:textSize="@dimen/main_text_14" />
+                android:textSize="@dimen/main_text_14"
+                android:visibility="gone" />
 
             <WebView
-                android:visibility="gone"
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -764,7 +750,8 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:textColor="@color/main_text_gary"
-                android:textSize="@dimen/main_text_14" />
+                android:textSize="@dimen/main_text_14"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

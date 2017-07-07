@@ -30,8 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_marginLeft="9.5dp"
-            android:layout_marginRight="14dp"
-            android:background="@color/white">
+            android:layout_marginRight="14dp">
 
 
             <TextView
@@ -45,6 +44,7 @@
                 android:textSize="11sp" />
 
             <FrameLayout
+                android:alpha="0.6"
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
                 android:layout_toRightOf="@id/auction_text_state">
