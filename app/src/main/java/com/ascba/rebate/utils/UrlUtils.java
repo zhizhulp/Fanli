@@ -261,4 +261,7 @@ public class UrlUtils {
     public static final String affirm=Transaction + "affirm";//确认交易
     public static final String cancel=Transaction + "cancel";//取消交易
     public static final String info=TransactionLog + "info";//订单详情
+    public static final String sureOrderList=TransactionLog + "list";//订单详情
+
+
 }

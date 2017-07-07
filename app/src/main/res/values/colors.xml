@@ -124,4 +124,6 @@
     <!--<color name="myInputPwdBase_blue">#0887ee</color>-->
     <!--<color name="myInputPwdBase_gray">#f0f0f6</color>-->
 
+    <color name="sure_orange">#FF8C00</color>
+
 </resources>

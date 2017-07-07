@@ -10,85 +10,14 @@
     tools:context="com.ascba.rebate.activities.offline_business.ToBeSuredOrdersActivity">
 
     <com.ascba.rebate.view.MoneyBar
+        android:id="@+id/tobe_sure_mb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tailTextColor="@color/main_red_normal"
-        app:textTail="历史收入"
         app:textTitle="商家确认"
+        app:textTail="账单"
+        app:tailTextColor="@color/main_red_normal"
         app:titleColor="@color/black" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-
-        <TextView
-            android:id="@+id/tobe_sure_tv1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
-            android:layout_marginTop="20dp"
-            android:text="待确认总额"
-            android:textColor="@color/gray_text"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tobe_sure_tv2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tobe_sure_tv1"
-            android:text="10000元"
-            android:textSize="50sp" />
-        <!--<TextView-->
-        <!--android:layout_toRightOf="@+id/tobe_sure_tv2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="元"-->
-        <!--android:textSize="14sp"/>-->
-
-        <View
-            android:id="@+id/tobe_sure_v4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/tobe_sure_tv3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:background="@color/gray_bg" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tobe_sure_v4"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/seller_sure_order_warn" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:text="仅统计待确认交易账单，其他请查看流水记录"
-                android:textColor="@color/gray_text"
-                android:textSize="12sp" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tobe_sure_tv3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tobe_sure_tv2"
-            android:layout_marginTop="20dp"
-            android:text="共计10笔"
-            android:textColor="@color/gray_text"
-            android:textSize="14sp" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/gray_bg" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tobe_sure_recycler"
         android:layout_width="match_parent"

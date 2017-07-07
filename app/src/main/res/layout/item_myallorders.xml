@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="73dp"
     android:background="@color/main_content_bg"
-    android:minHeight="73dp"
-    android:id="@+id/myallorders_item"
-    android:orientation="horizontal">
+    android:id="@+id/myallorders_item">
 
     <!--<LinearLayout-->
         <!--android:id="@+id/myallorders_time"-->
@@ -84,6 +82,7 @@
         android:orientation="vertical">
 
         <TextView
+
             android:gravity="right"
             android:id="@+id/myallorders_pay_cash"
             android:layout_width="wrap_content"
@@ -97,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="待商家确认"
-            android:textColor="#FF8C00"
+            android:textColor="@color/sure_orange"
             android:textSize="13sp" />
     </LinearLayout>
 
