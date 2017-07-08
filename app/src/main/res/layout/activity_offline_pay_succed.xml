@@ -219,6 +219,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/pay_succed_close"
         android:layout_marginTop="28dp"
         android:text="关闭"
         style="@style/btnNormal" />

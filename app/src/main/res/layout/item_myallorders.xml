@@ -5,40 +5,13 @@
     android:background="@color/main_content_bg"
     android:id="@+id/myallorders_item">
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/myallorders_time"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginLeft="15dp"-->
-        <!--android:orientation="vertical">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/myallorders_day"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:ellipsize="end"-->
-            <!--android:maxLines="1"-->
-            <!--android:text="昨天"-->
-            <!--android:textSize="@dimen/activity_text_normal" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/myallorders_minute"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="6dp"-->
-            <!--android:ellipsize="end"-->
-            <!--android:maxLines="1"-->
-            <!--android:text="21:14" />-->
-    <!--</LinearLayout>-->
 
     <ImageView
         android:id="@+id/myallorders_icon"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:background="@color/colorAccent" />
+        android:layout_marginLeft="15dp" />
 
     <LinearLayout
         android:id="@+id/myallorders_center"
@@ -100,16 +73,22 @@
             android:textSize="13sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/myallorders_pay_remainder"
-        android:visibility="gone"
-        android:textSize="13sp"
-        android:layout_marginRight="7dp"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="余额付款"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_bg"/>
+    <!--<TextView-->
+        <!--android:id="@+id/myallorders_pay_remainder"-->
+        <!--android:visibility="gone"-->
+        <!--android:textSize="13sp"-->
+        <!--android:layout_marginRight="7dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="余额付款"/>-->
+
     <!--<TextView-->
     <!--android:layout_toRightOf="@id/myallorders_center"-->
     <!--android:id="@+id/myallorders_status"-->

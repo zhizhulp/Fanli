@@ -9,6 +9,7 @@
     tools:context="com.ascba.rebate.activities.offline_business.SellerOrderDetailActivity">
     <com.ascba.rebate.view.MoneyBar
         app:textTitle="订单详情"
+        android:id="@+id/seller_detail_mb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -46,7 +47,6 @@
             android:layout_marginTop="18dp"
             android:textColor="@color/main_text_normal"
             android:textSize="30sp"
-            android:text="-55.90"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -54,7 +54,6 @@
         <TextView
             android:id="@+id/seller_order_status"
             android:layout_marginTop="10dp"
-            android:text="交易成功"
             android:textColor="@color/main_text_gary"
             android:textSize="@dimen/main_text_14"
             android:layout_gravity="center_horizontal"
@@ -257,7 +256,8 @@
         android:id="@+id/sure_order_vis"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"

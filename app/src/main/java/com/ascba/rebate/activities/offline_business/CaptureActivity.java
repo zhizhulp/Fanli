@@ -57,6 +57,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
     CameraManager cameraManager;
     private String[] permissions = {Manifest.permission.CAMERA};
     private String resutlt;
+    public static final int RESULT_CODE = 1;
 
     /**
      * Called when the activity is first created.
@@ -210,16 +211,18 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         // showResult(obj, barcode);
 
         String str = result.getText();
-        Log.d("fanxi","-----------"+ str);
+        Log.d("fanxi", "-----------" + str);
 
-        String[]  strs=str.split("/");
+        String[] strs = str.split("/");
 
-        Log.d("fanxi","-----------"+ strs[4]);
-        resutlt=strs[4];
-        requestNetwork(UrlUtils.checkSeller, 0,strs[4]);
+        Log.d("fanxi", "-----------" + strs[4]);
+        resutlt = strs[4];
+        requestNetwork(UrlUtils.checkSeller, 0, strs[4]);
+
+
     }
 
-    public void requestNetwork(String url, int what,String result) {
+    public void requestNetwork(String url, int what, String result) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);//0代表post请求
         request.add("seller", result);
         request.add("scenetype", 2);
@@ -234,15 +237,28 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         CheckSellerEntity.InfoBean info = checkSellerEntity.getInfo();
 
         Intent intent = new Intent(this, OfflinePayActivity.class);
-        Log.d("fanxi","capture"+"-------"+resutlt);
-        intent.putExtra("seller",info.getSeller());
-        intent.putExtra("seller_cover_logo",info.getSeller_cover_logo());
-        intent.putExtra("seller_name",info.getSeller_name());
-        intent.putExtra("self_money",info.getSelf_money());
+        Log.d("fanxi", "capture" + "-------" + resutlt);
+        intent.putExtra("seller", info.getSeller());
+        intent.putExtra("seller_cover_logo", info.getSeller_cover_logo());
+        intent.putExtra("seller_name", info.getSeller_name());
+        intent.putExtra("self_money", info.getSelf_money());
 
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_CODE);
+         finish();
+}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_CODE:
+                if (resultCode == RESULT_OK) {
+                    finish();
+                }
+
+                break;
+        }
     }
-
     @Override
     protected void mhandle404(int what, JSONObject object, String message) {
         super.mhandle404(what, object, message);
@@ -310,8 +326,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 
 
     private boolean defaultLightOn;//默认关闭

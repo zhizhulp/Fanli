@@ -49,6 +49,8 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     private String password;
     //付款成功界面所需要的属性
     private String seller_logo, seller_name, seller_cover_logo;
+    public static final int RESULT_CODE = 1;
+    Intent intent1;
 
 
     @Override
@@ -129,6 +131,10 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
             showPsdDialog();
         } else if (payType == 1) {//记账的方式支付
             requestKeepAccounts(UrlUtils.submit, 0);
+            intent1=getIntent();
+            setResult(RESULT_OK, intent1);
+            finish();
+
         }
 
     }
@@ -143,6 +149,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         request.add("scenetype", 2);
         executeNetWork(what, request, "请稍后");
     }
+
     //记账的方式支付方式
     public void requestKeepAccounts(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
@@ -157,7 +164,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         super.mhandle200Data(what, object, dataObj, message);
-        if(payType==2){
+        if (payType == 2) {
             SubmitEntity submitEntity = JSON.parseObject(dataObj.toString(), SubmitEntity.class);
             SubmitEntity.InfoBean info = submitEntity.getInfo();
             String pay_commission = info.getPay_commission();
@@ -176,14 +183,31 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
             bundle.putString("pay_type_text", pay_type_text);
             bundle.putString("pay_commission", pay_commission);
             intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
-        }else{
+            startActivityForResult(intent, RESULT_CODE);
+        } else {
             showToast("待商家确认，请稍后");
         }
+        finish();
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_CODE:
+                if (resultCode == 3) {
+                    setResult(100);
+                    finish();
+
+                }
+
+                break;
+
+
+        }
+
+    }
 
     //显示密码框
     private void showPsdDialog() {

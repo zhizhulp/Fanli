@@ -20,18 +20,28 @@
             android:textColor="@color/gray_text"
             android:textSize="14sp" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/tobe_sure_tv2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/tobe_sure_tv1"
-            android:textSize="50sp" />
-        <!--<TextView-->
-        <!--android:layout_toRightOf="@+id/tobe_sure_tv2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="元"-->
-        <!--android:textSize="14sp"/>-->
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="1000"
+                android:id="@+id/tobe_sure_tv22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="50sp" />
+
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tobe_sure_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
 
         <View
             android:id="@+id/tobe_sure_v4"

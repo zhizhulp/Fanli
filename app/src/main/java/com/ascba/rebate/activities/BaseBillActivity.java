@@ -162,6 +162,7 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(billAdapter);
         billAdapter.setEmptyView(ViewUtils.getView(this,R.layout.bill_list_empty));
+
     }
 
     private void initData() {
@@ -210,7 +211,7 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
         }
     }
     //数据，页数重置
-    private void reset() {
+    protected void reset() {
         if(data.size()!=0){
             data.clear();
         }
@@ -223,7 +224,10 @@ public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLay
         if (now_page > total_page && total_page != 0) {
             loadmore=false;
             handler.sendEmptyMessage(LOAD_MORE_END);
-        } else {
+        } else if(total_page==0){
+            loadmore=false;
+            handler.sendEmptyMessage(LOAD_MORE_END);
+        }else {
             loadmore=true;
             if(billNetworker!=null){
                 billNetworker.executeNetworkRefresh();
