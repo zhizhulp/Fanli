@@ -117,6 +117,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private ProgressDialog pD;
     private boolean isFirstComing=true;
     private AcutionGoodsBean agb;
+    private boolean needUpdatedAuctionGoods=true;//是否需要更新竞拍商品
 
 
     @Override
@@ -568,7 +569,11 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
                 @Override
                 public void timeToUpdate() {
-                    requestData(UrlUtils.index, 0);
+                    if(needUpdatedAuctionGoods){
+                        requestData(UrlUtils.index, 0);
+                        needUpdatedAuctionGoods=false;
+                    }
+
                 }
             });
             recylerview.setLayoutManager(new LinearLayoutManager(context));

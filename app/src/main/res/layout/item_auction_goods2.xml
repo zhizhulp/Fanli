@@ -168,6 +168,7 @@
 
                 <!--商品价格-->
                 <TextView
+                    android:maxLines="1"
                     android:id="@+id/text_auction_goods_price"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

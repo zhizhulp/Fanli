@@ -33,7 +33,7 @@ public class TurnAdapter extends PagerAdapter {
         void click(AcutionGoodsBean item);
         void timeToUpdate();
     }
-    public TurnAdapter(List<AcutionGoodsBean> data) {
+    TurnAdapter(List<AcutionGoodsBean> data) {
         this.data=data;
     }
     @Override
@@ -142,16 +142,21 @@ public class TurnAdapter extends PagerAdapter {
         int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
         if(leftTime > 0){
             int goodsLeftTime = (int) (item.getGoodsEndTime() - System.currentTimeMillis() / 1000);
-            int hour = goodsLeftTime % (24 * 3600) / 3600;
-            int minute = goodsLeftTime % 3600 / 60;
-            int second = goodsLeftTime % 60;
-            return "距离结束:"+hour + "小时" + minute + "分钟" + second + "秒";
+            if( goodsLeftTime>0){
+                int hour = goodsLeftTime % (24 * 3600) / 3600;
+                int minute = goodsLeftTime % 3600 / 60;
+                int second = goodsLeftTime % 60;
+                return "距离结束:"+hour + "小时" + minute + "分钟" + second + "秒";
+            }else {
+                return "商品拍卖结束";
+            }
+
         }else {
             if(callback!=null){
                 callback.timeToUpdate();
                 Log.d("time_down", "it is time to update");
             }
-            return "商品已结束拍卖";
+            return "商品拍卖结束";
         }
     }
 

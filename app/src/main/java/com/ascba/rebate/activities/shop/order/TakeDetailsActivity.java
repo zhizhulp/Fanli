@@ -183,7 +183,7 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 jsonRequest.add("order_id", orderId);
                 break;
             case 2:
-                jsonRequest.add("ordertraces","58466927852");
+                jsonRequest.add("ordertraces",/*"58466927852"*/);
                 break;
         }
 

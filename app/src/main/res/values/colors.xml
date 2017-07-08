@@ -120,6 +120,7 @@
     <color name="half_white">#4fff</color>
     <color name="gray_text">#a0a0a0</color>
     <color name="transparent_black">#6000</color>
+    <color name="shop_goods_details_red">#fc3c3c</color>
     <!--<color name="myInputPwdBase_blue">#0887ee</color>-->
     <!--<color name="myInputPwdBase_gray">#f0f0f6</color>-->
 

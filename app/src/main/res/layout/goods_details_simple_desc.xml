@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_marginTop="14dp">
 
         <ImageView
@@ -47,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/goods_details_simple_desc_type_goods1"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="15dp"
             android:textColor="@color/shop_red_text_color"
             android:textSize="18sp" />
 
@@ -57,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/goods_details_simple_desc_type_goods1"
             android:layout_marginLeft="31dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/goods_details_simple_desc_price_now"
             android:textColor="@android:color/darker_gray"
             android:textSize="15sp" />

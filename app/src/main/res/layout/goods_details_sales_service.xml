@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="40dp"
     android:background="@android:color/white">
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/activity_goods_details_sales_service_text1"
         style="@style/text_img"
-        android:layout_marginLeft="12dp"
         android:layout_weight="1"
         android:drawableLeft="@mipmap/duihao"
         android:drawablePadding="4dp"
@@ -41,7 +41,7 @@
     <TextView
         android:id="@+id/activity_goods_details_sales_service_text4"
         style="@style/text_img"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="12dp"
         android:layout_weight="1"
         android:drawableLeft="@mipmap/duihao"
         android:drawablePadding="4dp"
@@ -49,6 +49,7 @@
         android:textSize="12sp" />
 
     <ImageView
+        android:visibility="gone"
         style="@style/text_img"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

@@ -84,7 +84,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
         if(what==0){
             request.add("now_page",now_page);
         }else if(what==1){
-            request.add("ordertraces","58466927852");
+            request.add("ordertraces",/*"58466927852"*/agb.getExpressNum());
         }else if(what==2){
             request.add("order_id",agb.getOrderId());
             request.add("goods_id",agb.getId());

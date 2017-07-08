@@ -208,6 +208,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), AuctionDetailsActivity.class);
                 intent.putExtra("agb", beanList.get(position));
+                intent.putExtra("get_type",1);
                 startActivity(intent);
             }
 
@@ -229,7 +230,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                             intent.putExtra("goods_id",selectAGB.getId());
                             startActivityForResult(intent,REQUEST_PAY_ORDER);
                         }
-
                         break;
                 }
             }

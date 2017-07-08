@@ -36,6 +36,7 @@ import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
+import com.ascba.rebate.view.DividerGridItemDecoration;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.ShopTabs;
 import com.ascba.rebate.view.StdDialog;
@@ -103,7 +104,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
         });
         msgView = (MsgView) view.findViewById(R.id.head_img_xiaoxi);
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
-
+        //rv.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         setLoadRequestor(new LoadRequestor() {
             @Override
             public void loadMore() {

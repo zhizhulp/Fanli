@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -60,6 +61,7 @@ import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ImageViewDialog;
+import com.ascba.rebate.view.RadiusBackgroundSpan;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.SuperSwipeRefreshLayout;
 import com.ascba.rebate.view.cart_btn.NumberButton;
@@ -270,21 +272,16 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 dataObj = dataObj.optJSONObject("mallgoods");
                 //是否有规格
                 has_spec = dataObj.optInt("has_spec");
-
                 //广告轮播数据
                 getPagerList(dataObj);
-
                 //解析商品详情
                 getGoodsDetails(dataObj);
-
                 //店铺推荐
                 getStoreComm(dataObj);
-
                 //店铺
                 getStore(dataObj);
                 //详情页地址
                 webUrl = dataObj.optString("details");
-
                 //特惠，用券价
                 showLat(dataObj);
                 if (goods.getGoodsTitle() != null && goods.getGoodsTitle().length() > 0) {
@@ -307,17 +304,24 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     }
 
     private void showLat(JSONObject goodsObj) {
+        //商品名
+        TextView goodsDesc1 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods1);
         String promotion_text = goodsObj.optString("promotion_text");
         if(StringUtils.isEmpty(promotion_text)){
-            viewTeHui.setVisibility(View.GONE);
+            //viewTeHui.setVisibility(View.GONE);
             viewLatTeHui.setVisibility(View.GONE);
+            goodsDesc1.setText(goods.getGoodsTitle());
         }else {
-            viewTeHui.setVisibility(View.VISIBLE);
+            //viewTeHui.setVisibility(View.VISIBLE);
             viewLatTeHui.setVisibility(View.VISIBLE);
             viewTeHui.setText(promotion_text);
             tvUseTicketTitle.setText(goodsObj.optString("promotion_price_tip"));
             tvUseTicketPrice.setText(goodsObj.optString("promotion_price"));
             tvUseTicketDesc.setText(goodsObj.optString("promotion_price_remark"));
+
+            SpannableString ss=new SpannableString(promotion_text+goods.getGoodsTitle());
+            ss.setSpan(new RadiusBackgroundSpan(this,0xfffa5e5f,2),0,promotion_text.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            goodsDesc1.setText(ss);
         }
     }
 
@@ -511,9 +515,6 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         /**
          * 商品简单介绍
          */
-        //商品名
-        TextView goodsDesc1 = (TextView) findViewById(R.id.goods_details_simple_desc_type_goods1);
-        goodsDesc1.setText(goods.getGoodsTitle());
         //商品价格
         TextView priceNow = (TextView) findViewById(R.id.goods_details_simple_desc_price_now);
         priceNow.setText("￥" + goods.getGoodsPrice());

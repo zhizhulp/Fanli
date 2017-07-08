@@ -2,6 +2,11 @@ package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +17,8 @@ import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
+import com.ascba.rebate.view.DrawableBgSpan;
+import com.ascba.rebate.view.RadiusBackgroundSpan;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -102,15 +109,23 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 break;
             case ShopItemType.TYPE_GOODS:
                 Picasso.with(context).load(item.getUrl()).placeholder(R.mipmap.shop_goods_loading).into((ImageView) helper.getView(R.id.goods_list_img));
-                helper.setText(R.id.goods_list_name, item.getTitle());
+                //helper.setText(R.id.goods_list_name, item.getTitle());
                 helper.setText(R.id.goods_list_price, item.getDesc());
                 helper.addOnClickListener(R.id.goods_list_cart);
 
                 helper.setVisible(R.id.tv_use_ticket_reduce, !StringUtils.isEmpty(item.getUseTicketToReduce()));
                 helper.setText(R.id.tv_use_ticket_reduce,item.getUseTicketToReduce());
 
-                helper.setVisible(R.id.tv_teihui,!StringUtils.isEmpty(item.getTeiHui()));
-                helper.setText(R.id.tv_teihui,item.getTeiHui());
+                //set goods name
+                TextView tvName = helper.getView(R.id.goods_list_name);
+                String teiHui = item.getTeiHui();
+                if(!StringUtils.isEmpty(teiHui)){
+                    SpannableString ss=new SpannableString(teiHui+item.getTitle());
+                    ss.setSpan(new RadiusBackgroundSpan(mContext,0xfffa5e5f,2),0,teiHui.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tvName.setText(ss);
+                }else {
+                    tvName.setText(item.getTitle());
+                }
                 break;
             case ShopItemType.TYPE_LINE:
                 View view1 = helper.getView(R.id.view_shop_line);
