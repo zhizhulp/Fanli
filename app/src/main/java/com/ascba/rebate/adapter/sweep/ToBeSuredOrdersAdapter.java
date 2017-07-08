@@ -22,23 +22,6 @@ public class ToBeSuredOrdersAdapter extends BaseQuickAdapter<ToBeSuredOrdersEnti
 
     public ToBeSuredOrdersAdapter(@LayoutRes int layoutResId, @Nullable List<ToBeSuredOrdersEntity.DataListBean> data) {
         super(layoutResId, data);
-//        ImageView imageView = helper.getView(R.id.img_goods);//商品图片
-//        Picasso.with(mContext).load(item.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
-//        int intState = item.getIntState();
-//        if (intState == 3 || intState == 1) {//本次剩余时间
-//            helper.setText(R.id.text_auction_goods_time, item.getStrState());
-//        } else if (intState == 2) {
-//            helper.setText(R.id.text_auction_goods_time, getRemainingTime(item));
-////        }
-//        "order_id": 571,
-//                "avatar": null,
-//                "money": "+356.70",
-//                "pay_type_text": "现金付款",
-//                "order_status_text": "待商家确认"
-//        helper.setText(R.id.text_auction_goods_name, item.getName());//名称
-//        helper.setText(R.id.text_auction_goods_score, "获赠礼品分" + item.getScore()+"分");
-//        helper.setText(R.id.text_auction_goods_price_rush, "￥" + NumberFormatUtils.getNewDouble(item.getPrice()));
-
 
     }
 

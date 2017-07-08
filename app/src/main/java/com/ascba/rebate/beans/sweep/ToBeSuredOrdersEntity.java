@@ -11,17 +11,17 @@ public class ToBeSuredOrdersEntity {
 
     /**
      * uuid : 85
-     * token : 67f4ccb11c1f55ce9e90d9e3a8ec55a9
-     * expiring_time : 1501837572
+     * token : a3935dbfb41685a378eceb9a1a5df9e0
+     * expiring_time : 1502002631
      * update_status : 0
      * tokenFail : false
      * isLogin : true
      * isExpiringTime : false
      * count : 0
-     * iden_info : {"title":"待确认总额","total_money":"10000元","total":10,"tip":"仅统计待确认交易账单，其它请查看流水记录"}
-     * data_list : [{"order_id":571,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":572,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":573,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":574,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":575,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":578,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":579,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":580,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":581,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":582,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":583,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":584,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":585,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":586,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"},{"order_id":587,"avatar":null,"money":"+356.70","pay_type_text":"现金付款","order_status_text":"待商家确认"}]
-     * paged : 1
-     * page_total : 2
+     * iden_info : {"title":"待确认总额","total_money":114,"total":4,"tip":"仅统计待确认交易账单，其它请查看流水记录"}
+     * data_list : [{"fivepercent_log_id":589,"avatar":"/public/base/images/default.jpg","money":"+1.00","pay_type_text":"现金付款","order_status_text":"待确认","create_time":1499398972},{"fivepercent_log_id":590,"avatar":"/public/base/images/default.jpg","money":"+1.00","pay_type_text":"现金付款","order_status_text":"待确认","create_time":1499399086},{"fivepercent_log_id":612,"avatar":"/public/base/images/default.jpg","money":"+111.00","pay_type_text":"现金付款","order_status_text":"待确认","create_time":1499409210},{"fivepercent_log_id":618,"avatar":"/public/base/images/default.jpg","money":"+1.00","pay_type_text":"现金付款","order_status_text":"待确认","create_time":1499411801}]
+     * now_page : 1
+     * total_page : 1
      */
 
     private int uuid;
@@ -33,8 +33,8 @@ public class ToBeSuredOrdersEntity {
     private boolean isExpiringTime;
     private int count;
     private IdenInfoBean iden_info;
-    private int paged;
-    private int page_total;
+    private int now_page;
+    private int total_page;
     private List<DataListBean> data_list;
 
     public int getUuid() {
@@ -109,20 +109,20 @@ public class ToBeSuredOrdersEntity {
         this.iden_info = iden_info;
     }
 
-    public int getPaged() {
-        return paged;
+    public int getNow_page() {
+        return now_page;
     }
 
-    public void setPaged(int paged) {
-        this.paged = paged;
+    public void setNow_page(int now_page) {
+        this.now_page = now_page;
     }
 
-    public int getPage_total() {
-        return page_total;
+    public int getTotal_page() {
+        return total_page;
     }
 
-    public void setPage_total(int page_total) {
-        this.page_total = page_total;
+    public void setTotal_page(int total_page) {
+        this.total_page = total_page;
     }
 
     public List<DataListBean> getData_list() {
@@ -136,13 +136,13 @@ public class ToBeSuredOrdersEntity {
     public static class IdenInfoBean {
         /**
          * title : 待确认总额
-         * total_money : 10000元
-         * total : 10
+         * total_money : 114
+         * total : 4
          * tip : 仅统计待确认交易账单，其它请查看流水记录
          */
 
         private String title;
-        private String total_money;
+        private int total_money;
         private int total;
         private String tip;
 
@@ -154,11 +154,11 @@ public class ToBeSuredOrdersEntity {
             this.title = title;
         }
 
-        public String getTotal_money() {
+        public int getTotal_money() {
             return total_money;
         }
 
-        public void setTotal_money(String total_money) {
+        public void setTotal_money(int total_money) {
             this.total_money = total_money;
         }
 
@@ -181,32 +181,34 @@ public class ToBeSuredOrdersEntity {
 
     public static class DataListBean {
         /**
-         * order_id : 571
-         * avatar : null
-         * money : +356.70
+         * fivepercent_log_id : 589
+         * avatar : /public/base/images/default.jpg
+         * money : +1.00
          * pay_type_text : 现金付款
-         * order_status_text : 待商家确认
+         * order_status_text : 待确认
+         * create_time : 1499398972
          */
 
-        private int order_id;
-        private Object avatar;
+        private int fivepercent_log_id;
+        private String avatar;
         private String money;
         private String pay_type_text;
         private String order_status_text;
+        private int create_time;
 
-        public int getOrder_id() {
-            return order_id;
+        public int getFivepercent_log_id() {
+            return fivepercent_log_id;
         }
 
-        public void setOrder_id(int order_id) {
-            this.order_id = order_id;
+        public void setFivepercent_log_id(int fivepercent_log_id) {
+            this.fivepercent_log_id = fivepercent_log_id;
         }
 
-        public Object getAvatar() {
+        public String getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(Object avatar) {
+        public void setAvatar(String avatar) {
             this.avatar = avatar;
         }
 
@@ -232,6 +234,14 @@ public class ToBeSuredOrdersEntity {
 
         public void setOrder_status_text(String order_status_text) {
             this.order_status_text = order_status_text;
+        }
+
+        public int getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(int create_time) {
+            this.create_time = create_time;
         }
     }
 }

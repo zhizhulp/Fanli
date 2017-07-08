@@ -22,10 +22,12 @@
                 <com.ascba.rebate.view.MoneyBar
                     app:backImg="@mipmap/abar_back_white"
                     app:titleColor="@color/white"
-                    android:id="@+id/moneyBar"
+                    android:id="@+id/uion_moneyBar"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
+                    app:needTailIcon="true"
                     app:barBg="@color/transparent"
+                    app:tailIcon="@mipmap/me_sz"
                     app:textTitle="商家联盟" />
 
                 <LinearLayout
@@ -81,9 +83,10 @@
                             android:layout_height="wrap_content"
                             android:drawablePadding="13dp"
                             android:drawableTop="@mipmap/business_union_data"
-                            android:text="记账确认"
+                            android:text="现金确认"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/main_text_14"/>
+                            android:textSize="@dimen/main_text_14"
+                            android:id="@+id/textView5" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

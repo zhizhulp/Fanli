@@ -2,6 +2,8 @@ package com.ascba.rebate.activities.offline_business;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
@@ -15,7 +17,8 @@ import java.util.Date;
 
 public class OfflinePaySuccedActivity extends BaseNetActivity {
     private RoundImageView userIcon;
-    private TextView tvName, tvCost, tvPayType, tvAccount, tvScore, tvTime, tvTradeNumber, tvEmployee,payCommission;
+    private TextView tvName, tvCost, tvPayType, tvAccount, tvScore, tvTime, tvTradeNumber, tvEmployee, payCommission;
+    private Button pay_succed_close;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,15 @@ public class OfflinePaySuccedActivity extends BaseNetActivity {
         tvTime = ((TextView) findViewById(R.id.tv_time));
         tvTradeNumber = ((TextView) findViewById(R.id.tv_trade_number));
         tvEmployee = ((TextView) findViewById(R.id.tv_employee));
-        payCommission= (TextView) findViewById(R.id.tv_employee);
+        payCommission = (TextView) findViewById(R.id.tv_employee);
+        pay_succed_close = (Button) findViewById(R.id.pay_succed_close);
+        pay_succed_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(3,getIntent());
+                finish();
+            }
+        });
     }
 
 
@@ -50,10 +61,10 @@ public class OfflinePaySuccedActivity extends BaseNetActivity {
         tvAccount.setText(bundle.getString("seller_mobile"));
         tvScore.setText(bundle.getInt("accumulate_points", 0) + "积分");
         tvTradeNumber.setText(bundle.getString("order_number"));
-        payCommission.setText(bundle.getString("pay_commission")+"元");
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date curDate=new Date(System.currentTimeMillis());//获取当前时间
-        String  str=sdf.format(curDate);
+        payCommission.setText(bundle.getString("pay_commission") + "元");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String str = sdf.format(curDate);
         tvTime.setText(str);
 
 

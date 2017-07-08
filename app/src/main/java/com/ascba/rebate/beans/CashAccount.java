@@ -20,7 +20,42 @@ public class CashAccount implements Parcelable, MultiItemEntity {
     private String month;//账单所在月份
     private CashAccountType type;//账单类型
     private int itemType;//用于账单区分头部和item
+    private int is_money;
+    private String is_money_tip;
+    private int fivepercent_log_id;
+    private int pay_type;
 
+    public int getPay_type() {
+        return pay_type;
+    }
+
+    public void setPay_type(int pay_type) {
+        this.pay_type = pay_type;
+    }
+
+    public int getFivepercent_log_id() {
+        return fivepercent_log_id;
+    }
+
+    public void setFivepercent_log_id(int fivepercent_log_id) {
+        this.fivepercent_log_id = fivepercent_log_id;
+    }
+
+    public int getIs_money() {
+        return is_money;
+    }
+
+    public void setIs_money(int is_money) {
+        this.is_money = is_money;
+    }
+
+    public String getIs_money_tip() {
+        return is_money_tip;
+    }
+
+    public void setIs_money_tip(String is_money_tip) {
+        this.is_money_tip = is_money_tip;
+    }
 
     public CashAccount() {
     }
@@ -149,7 +184,8 @@ public class CashAccount implements Parcelable, MultiItemEntity {
         parcel.writeString(status);
         parcel.writeSerializable(type);
     }
-    public static final Creator CREATOR = new Creator(){
+
+    public static final Creator CREATOR = new Creator() {
         @Override
         public CashAccount createFromParcel(Parcel source) {
             // TODO Auto-generated method stub
@@ -162,6 +198,7 @@ public class CashAccount implements Parcelable, MultiItemEntity {
             p.setType((CashAccountType) source.readSerializable());
             return p;
         }
+
         @Override
         public CashAccount[] newArray(int size) {
             // TODO Auto-generated method stub

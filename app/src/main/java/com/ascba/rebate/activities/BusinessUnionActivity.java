@@ -7,10 +7,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
+import com.ascba.rebate.activities.me_page.business_center_child.child.BusinessDataActivity;
 import com.ascba.rebate.activities.offline_business.ToBeSuredOrdersActivity;
+import com.ascba.rebate.beans.sweep.ToBeSuredOrdersEntity;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -35,6 +38,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
     private TextView tvTodayMoney;
     private TextView tvTodayExtra;
     private TextView tvTodayCount;
+    private MoneyBar mb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +52,6 @@ public class BusinessUnionActivity extends BaseNetActivity implements
     private void initVIew() {
         initRefreshLayout();
         refreshLayout.setOnRefreshListener(this);
-
-        moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
-        moneyBar.setCallBack(new MoneyBar.CallBack() {
-            @Override
-            public void clickImage(View im) {
-
-            }
-
-            @Override
-            public void clickComplete(View tv) {
-                finish();
-            }
-        });
-
         findViewById(R.id.business_data).setOnClickListener(this);
         findViewById(R.id.business_account).setOnClickListener(this);
         findViewById(R.id.business_code).setOnClickListener(this);
@@ -72,6 +62,21 @@ public class BusinessUnionActivity extends BaseNetActivity implements
         tvTodayMoney = ((TextView) findViewById(R.id.tv_cash_today));
         tvTodayExtra = ((TextView) findViewById(R.id.tv_extra_today));
         tvTodayCount = ((TextView) findViewById(R.id.tv_trade_count_today));
+        mb= (MoneyBar) findViewById(R.id.uion_moneyBar);
+        mb.setCallBack(new MoneyBar.CallBack() {
+            @Override
+            public void clickImage(View im) {
+                //商家的一些资料
+                Intent intent1 = new Intent(context, BusinessDataActivity.class);
+                startActivity(intent1);
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+
+            }
+        });
+
     }
 
     @Override
@@ -92,11 +97,8 @@ public class BusinessUnionActivity extends BaseNetActivity implements
                 Intent intent = new Intent(this, BusinessBillActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.business_data://记账确认
-                //（商家资料）
-              //  Intent intent1 = new Intent(context, BusinessDataActivity.class);
-                Intent intent1 = new Intent(context, ToBeSuredOrdersActivity.class);
-                startActivity(intent1);
+            case R.id.business_data:
+                requestOrders(UrlUtils.sureOrderList, 2);
                 break;
         }
     }
@@ -107,7 +109,13 @@ public class BusinessUnionActivity extends BaseNetActivity implements
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
-
+    public void requestOrders(String url, int scene) {
+        Request<JSONObject> request = buildNetRequest(url, 0, true);
+        finalScene = scene;
+        request.add("paged", 1);
+        executeNetWork(request, "请稍后");
+        setCallback(this);
+    }
 
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
@@ -127,6 +135,16 @@ public class BusinessUnionActivity extends BaseNetActivity implements
             tvTodayMoney.setText(obj.optString("today_money"));
             tvTodayExtra.setText(obj.optInt("today_score")+"");
             tvTodayCount.setText(obj.optInt("today_count")+"");
+        }else if(finalScene==2){
+            ToBeSuredOrdersEntity toBeSuredOrdersEntity = JSON.parseObject(dataObj.toString(), ToBeSuredOrdersEntity.class);
+            ToBeSuredOrdersEntity.IdenInfoBean iden_info = toBeSuredOrdersEntity.getIden_info();
+            if (iden_info != null) {
+                Intent intent1 = new Intent(context, ToBeSuredOrdersActivity.class);
+                startActivity(intent1);
+            } else {
+                showToast("暂无待确认订单！");
+            }
+
         }
     }
 

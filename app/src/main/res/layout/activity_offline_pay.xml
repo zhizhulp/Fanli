@@ -25,7 +25,6 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/new_man"
             app:type="circle" />
 
         <TextView
@@ -195,7 +194,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="记账"
+                        android:text="现金支付"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -206,7 +205,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginTop="9dp"
                         android:layout_toRightOf="@+id/sweep_remainingsum"
-                        android:text="线下交易，线上记录"
+                        android:text="现金交易，系统记账"
                         android:textColor="@color/gray_text"
                         android:textSize="14sp" />
                 </LinearLayout>

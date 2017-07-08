@@ -3,6 +3,7 @@ package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.widget.ImageView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.CashAccount;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -37,6 +38,7 @@ public class BillBaseAdapter extends BaseMultiItemQuickAdapter<CashAccount, Base
                 helper.setText(R.id.wsaccount_time, item.getTime());
                 helper.setText(R.id.wsaccount_money, item.getMoney());
                 helper.setText(R.id.wsaccount_category_txt, item.getFilterText());
+                helper.setText(R.id.order_status, item.getIs_money_tip());
                 Picasso.with(context).load(item.getImgUrl()).into((ImageView) helper.getView(R.id.wsaccount_category_icon));
                 break;
         }

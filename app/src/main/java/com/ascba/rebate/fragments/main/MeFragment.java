@@ -28,7 +28,6 @@ import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
-import com.ascba.rebate.activities.offline_business.MyAllOrdersActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -175,9 +174,9 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                     startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+s)));
                 }
                 break;
-            case R.id.me_lat_order://我的订单
-                startActivity(new Intent(getContext(), MyAllOrdersActivity.class));
-                break;
+//            case R.id.me_lat_order://我的订单
+//                startActivity(new Intent(getContext(), MyAllOrdersActivity.class));
+//                break;
 
     }
     }
