@@ -40,7 +40,15 @@ public class Goods implements MultiItemEntity {
     private String orderGoodsId;
     private String subtract;//对应订单的 实际立减
     private String subDesc;//满减描述 对应订单的 满500立减200礼品券
+    private String deliverNum;//运单号码
 
+    public String getDeliverNum() {
+        return deliverNum;
+    }
+
+    public void setDeliverNum(String deliverNum) {
+        this.deliverNum = deliverNum;
+    }
 
     public Goods() {
     }

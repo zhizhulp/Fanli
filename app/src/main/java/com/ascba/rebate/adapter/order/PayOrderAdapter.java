@@ -64,15 +64,13 @@ public class PayOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                 helper.setText(R.id.item_goods_price, "￥" + goods.getGoodsPrice());
 
                 //商品原价
-                TextView priceOld = helper.getView(R.id.item_goods_price_old);
+                /*TextView priceOld = helper.getView(R.id.item_goods_price_old);
                 priceOld.setText("￥" + goods.getGoodsPriceOld());
-                priceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                priceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);*/
 
                 //购买数量
                 helper.setText(R.id.item_goods_price_num, "x" + goods.getUserQuy());
 
-                //点击查看订单详情
-                helper.addOnClickListener(R.id.item_goods_rl);
                 break;
             case TYPE3:
                 /**

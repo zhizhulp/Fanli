@@ -34,12 +34,9 @@ public class DeliverDetailsAdapter extends BaseQuickAdapter<Goods, BaseViewHolde
         helper.setText(R.id.item_goods_name, item.getGoodsTitle());
         helper.setText(R.id.item_goods_standard, item.getGoodsStandard());
         helper.setText(R.id.item_goods_price, "￥" + item.getGoodsPrice());
-        if (StringUtils.isEmpty(item.getGoodsPriceOld())) {
-            helper.getView(R.id.item_goods_price_old).setVisibility(View.INVISIBLE);
-        } else {
-            helper.getView(R.id.item_goods_price_old).setVisibility(View.VISIBLE);
-            helper.setText(R.id.item_goods_price_old, item.getGoodsPriceOld());
-        }
         helper.setText(R.id.item_goods_price_num, "x" + item.getUserQuy());
+        //查看物流
+        helper.addOnClickListener(R.id.tv_express_flow);
+        helper.setVisible(R.id.tv_express_flow, !StringUtils.isEmpty(item.getDeliverNum()));
     }
 }

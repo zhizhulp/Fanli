@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
+import com.ascba.rebate.utils.StringUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -66,17 +67,12 @@ public class TakeOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseV
                 //商品价格
                 helper.setText(R.id.item_goods_price, "￥" + goods.getGoodsPrice());
 
-                //商品原价
-                TextView priceOld = helper.getView(R.id.item_goods_price_old);
-                priceOld.setText("￥" + goods.getGoodsPriceOld());
-                priceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-
                 //购买数量
                 helper.setText(R.id.item_goods_price_num, "x" + goods.getUserQuy());
 
-                //点击查看订单详情
-                helper.addOnClickListener(R.id.item_goods_rl);
-
+                //查看物流
+                helper.addOnClickListener(R.id.tv_express_flow);
+                helper.setVisible(R.id.tv_express_flow, !StringUtils.isEmpty(goods.getDeliverNum()));
                 break;
             case TYPE3:
                 /**
@@ -87,7 +83,6 @@ public class TakeOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseV
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
                 helper.addOnClickListener(R.id.item_goods_order_total_take);//确认收货
-                helper.addOnClickListener(R.id.tv_deliver_flow);//查看物流
                 break;
         }
     }

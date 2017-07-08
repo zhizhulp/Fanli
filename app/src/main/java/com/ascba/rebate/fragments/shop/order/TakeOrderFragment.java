@@ -20,6 +20,7 @@ import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.fragments.base.LazyLoadFragment;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -162,6 +163,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         good.setUserQuy(num);//购买数量
                         good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
                         good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
+                        good.setDeliverNum(goodsObject.optString("invoice_no"));//运单号
                         OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
                         orderBean.setId(orderId);
                         beanArrayList.add(orderBean);
@@ -190,40 +192,40 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
     }
 
     private void initRecylerView() {
-
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new TakeOrderAdapter(beanArrayList, context);
         recyclerView.setAdapter(adapter);
         adapter.setEmptyView(R.layout.order_empty_view, recyclerView);
-
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
-
-
-
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderBean orderBean = beanArrayList.get(position);
                 orderId = orderBean.getId();
                 switch (view.getId()) {
-                    case R.id.item_goods_rl:
-                        //点击商品查看订单详情
-                        Intent intent = new Intent(context, TakeDetailsActivity.class);
-                        intent.putExtra("order_id", orderId);
-                        startActivityForResult(intent, 1);
+                    case R.id.item_goods_order_total_refund://退款
                         break;
-                    case R.id.item_goods_order_total_refund:
-                        //退款
+                    case R.id.item_goods_order_total_take://确认收货
+                        getDm().buildAlertDialogSure("您确定要确认收货吗？", new DialogHome.Callback() {
+                            @Override
+                            public void handleSure() {
+                                requstData(UrlUtils.orderReceive, NET_RECEIVE_GOODS);
+                            }
+                        });
+
                         break;
-                    case R.id.item_goods_order_total_take:
-                        //确认收货
-                        requstData(UrlUtils.orderReceive, NET_RECEIVE_GOODS);
-                        break;
-                    case R.id.tv_deliver_flow://查看物流
-                        ordertraces=orderBean.getOrderNum();
+                    case R.id.tv_express_flow://查看物流
+                        ordertraces=orderBean.getGoods().getDeliverNum();
                         requstData(UrlUtils.getAuctionExp,NET_DELEVER_FLOW);
                         break;
                 }
+            }
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemClick(adapter, view, position);
+                Intent intent = new Intent(context, TakeDetailsActivity.class);
+                intent.putExtra("order_id", beanArrayList.get(position).getId());
+                startActivityForResult(intent, 1);
             }
         });
         initRefreshLayout(view);

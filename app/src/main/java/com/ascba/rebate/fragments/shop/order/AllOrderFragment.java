@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
@@ -48,16 +49,11 @@ import java.util.List;
 
 public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragment.Callback, SwipeRefreshLayout.OnRefreshListener {
 
-    private static String TAG = "AllOrderFragment";
-    private RecyclerView recyclerView;
     private Context context;
-
     //每笔订单中的商品列表
     private List<OrderBean> beanArrayList = new ArrayList<>();
     private AllOrderAdapter adapter;
     private View view;
-    private String orderStatus;//订单状态：0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;
-    private String orderId;//订单id
     private int flag = 0;//0——获取数据，1——取消订单,2——删除订单
     private String balance;//账户余额
     private PayUtils pay;
@@ -106,6 +102,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             jsonRequest.add("pay_type", payType);
         }else if(flag ==4){
             jsonRequest.add("ordertraces","58466927852");
+        }else if(flag==5){
+            jsonRequest.add("ordertraces",order_id);
         }
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
@@ -124,18 +122,16 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             int is_level_pwd = member_info.optInt("is_level_pwd");//是否设置支付密码
             AppConfig.getInstance().putInt("is_level_pwd", is_level_pwd);
         }
-        //商品信息
+        //商品列表信息
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int totalNum = 0;//购买商品数量
                 JSONObject object = jsonArray.optJSONObject(i);
-
                 //订单id
-                orderId = object.optString("order_id").trim();
-                //订单状态
-                orderStatus = object.optString("order_status").trim();
-
+                String orderId = object.optString("order_id").trim();
+                //订单状态 订单状态：0(已取消)10(默认):未付款;20:已付款;30:已发货;40:已收货;
+                String orderStatus = object.optString("order_status").trim();
                 //头部信息
                 OrderBean beanHead = new OrderBean(AllOrderAdapter.TYPE_Head, R.layout.item_order_head, object.optString("store_name"));
                 beanHead.setId(orderId);
@@ -161,32 +157,26 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
                 //商品信息
                 JSONArray goodsArray = object.optJSONArray("orderGoods");
-
                 if (goodsArray != null && goodsArray.length() > 0) {
-
                     for (int j = 0; j < goodsArray.length(); j++) {
-                        try {
-                            JSONObject goodsObject = goodsArray.getJSONObject(j);
-                            Goods good = new Goods();
-                            good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
-                            good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
-                            good.setGoodsId(goodsObject.optString("goods_id"));
-                            good.setOrderGoodsId(goodsObject.optString("order_goods_id"));
+                        JSONObject goodsObject = goodsArray.optJSONObject(j);
+                        Goods good = new Goods();
+                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
+                        good.setGoodsId(goodsObject.optString("goods_id"));
+                        good.setOrderGoodsId(goodsObject.optString("order_goods_id"));
+                        good.setTitleId(Integer.parseInt(orderId));
+                        int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
+                        totalNum = num + totalNum;
 
-                            int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
-                            totalNum = num + totalNum;
-
-                            good.setUserQuy(num);//购买数量
-                            good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
-                            good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
-
-                            OrderBean orderBean = new OrderBean(AllOrderAdapter.TYPE_GOODS, R.layout.item_goods, good);
-                            orderBean.setId(orderId);
-                            orderBean.setStateCode(orderStatus);
-                            beanArrayList.add(orderBean);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        good.setUserQuy(num);//购买数量
+                        good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
+                        good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
+                        good.setDeliverNum(goodsObject.optString("invoice_no"));//运单号
+                        OrderBean orderBean = new OrderBean(AllOrderAdapter.TYPE_GOODS, R.layout.item_goods, good);
+                        orderBean.setId(orderId);
+                        orderBean.setStateCode(orderStatus);
+                        beanArrayList.add(orderBean);
                     }
                 }
 
@@ -233,7 +223,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
 
     private void initRecylerView() {
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new AllOrderAdapter(beanArrayList, context);
@@ -244,33 +234,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 OrderBean orderBean = beanArrayList.get(position);
-                String orderId = orderBean.getId();
+                final String orderId = orderBean.getId();
                 switch (view.getId()) {
-                    case R.id.item_goods_rl:
-                        if (orderId != null) {
-                            Intent intent = new Intent();
-                            //点击商品查看订单详情
-                            String orderStatus = orderBean.getStateCode();
-                            if (orderStatus.equals("10")) {
-                                //等待卖家付款
-                                intent.setClass(context, PayDetailsActivity.class);
-                            } else if (orderStatus.equals("0")) {
-                                //交易关闭
-                                intent.setClass(context, CancelOrderDetailsActivity.class);
-                            } else if (orderStatus.equals("20")) {
-                                //等待卖家发货
-                                intent.setClass(context, DeliverDetailsActivity.class);
-                            } else if (orderStatus.equals("30")) {
-                                //卖家已发货
-                                intent.setClass(context, TakeDetailsActivity.class);
-                            } else if (orderStatus.equals("40")) {
-                                //交易成功
-                                intent.setClass(context, EvaluateDetailsActivity.class);
-                            }
-                            intent.putExtra("order_id", orderId);
-                            startActivityForResult(intent, 1);
-                        }
-                        break;
                     case R.id.item_goods_order_total_pay:
                         //付款
                         payPrice(position, orderId);
@@ -296,11 +261,10 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_delete:
                         //删除订单
-                        final String finalOrderId1 = orderId;
                         getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
                             @Override
                             public void handleSure() {
-                                requstData(2, UrlUtils.delOrder, finalOrderId1);
+                                requstData(2, UrlUtils.delOrder, orderId);
                             }
                         });
                         break;
@@ -312,6 +276,13 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         break;
                     case R.id.item_goods_order_total_take:
                         //确认收货
+                        getDm().buildAlertDialogSure("您确定要确认收货吗？", new DialogHome.Callback() {
+                            @Override
+                            public void handleSure() {
+                                requstData(5,UrlUtils.orderReceive, orderId);
+                            }
+                        });
+
                         break;
                     case R.id.item_goods_order_total_after:
                         //售后
@@ -319,9 +290,39 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     case R.id.item_goods_order_total_evalute:
                         //评价
                         break;
-                    case R.id.tv_deliver_flow:
+                    case R.id.tv_express_flow:
                         requstData(4,UrlUtils.getAuctionExp,null);
                         break;
+                }
+            }
+
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemClick(adapter, view, position);
+                Log.d(TAG, "onItemClick: ");
+                OrderBean orderBean = beanArrayList.get(position);
+                if(orderBean.getGoods()!=null){
+                    Log.d(TAG, "onItemClick: order_id "+orderBean.getGoods().getTitleId());
+                    Intent intent = new Intent();
+                    String orderStatus = orderBean.getStateCode();
+                    if (orderStatus.equals("10")) {
+                        //等待卖家付款
+                        intent.setClass(context, PayDetailsActivity.class);
+                    } else if (orderStatus.equals("0")) {
+                        //交易关闭
+                        intent.setClass(context, CancelOrderDetailsActivity.class);
+                    } else if (orderStatus.equals("20")) {
+                        //等待卖家发货
+                        intent.setClass(context, DeliverDetailsActivity.class);
+                    } else if (orderStatus.equals("30")) {
+                        //卖家已发货
+                        intent.setClass(context, TakeDetailsActivity.class);
+                    } else if (orderStatus.equals("40")) {
+                        //交易成功
+                        intent.setClass(context, EvaluateDetailsActivity.class);
+                    }
+                    intent.putExtra("order_id", orderBean.getGoods().getTitleId()+"");
+                    startActivityForResult(intent, 1);
                 }
             }
         });
@@ -371,6 +372,10 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                 intent.putExtra("name","物流信息");
                 intent.putExtra("url",url);
                 startActivity(intent);
+                break;
+            case 5:
+                showToast(message);
+                requstListData();
                 break;
         }
     }

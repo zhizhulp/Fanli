@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
+import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.order.DeliverOrderAdapter;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.beans.Goods;
@@ -128,7 +129,7 @@ public class DeliverOrderFragment extends LazyLoadFragment implements SwipeRefre
                     for (int j = 0; j < goodsArray.length(); j++) {
                         JSONObject goodsObject = goodsArray.optJSONObject(j);
                         Goods good = new Goods();
-                        good.setTitleId(Integer.parseInt(goodsObject.optString("order_id")));
+                        good.setTitleId(Integer.parseInt(orderId));
                         good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
                         good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
@@ -177,21 +178,25 @@ public class DeliverOrderFragment extends LazyLoadFragment implements SwipeRefre
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                OrderBean orderBean = beanArrayList.get(position);
-                String orderId = orderBean.getId();
                 switch (view.getId()) {
-                    case R.id.item_goods_rl:
-                        //点击商品查看订单详情
-                        Intent intent = new Intent(context, DeliverDetailsActivity.class);
-                        intent.putExtra("order_id", orderId);
-                        startActivityForResult(intent, 1);
-                        break;
                     case R.id.item_goods_order_total_refund:
                         //退款
                         break;
                     case R.id.item_goods_order_total_logistics:
                         //查看物流
                         break;
+                }
+            }
+
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemClick(adapter, view, position);
+                OrderBean orderBean = beanArrayList.get(position);
+                Goods goods = orderBean.getGoods();
+                if(goods!=null){
+                    Intent intent = new Intent(context, DeliverDetailsActivity.class);
+                    intent.putExtra("order_id", goods.getTitleId()+"");
+                    startActivityForResult(intent, 1);
                 }
             }
         });

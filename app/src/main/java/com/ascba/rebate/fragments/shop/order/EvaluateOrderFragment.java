@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
 import com.ascba.rebate.adapter.order.EvaluateOrderAdapter;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
@@ -106,7 +107,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         }
         JSONArray jsonArray = dataObj.optJSONArray("order_list");
         if (jsonArray != null && jsonArray.length() > 0) {
-            parseJson1(jsonArray);
+            parseJson(jsonArray);
         }
         if (adapter == null) {
             initRecylerView();
@@ -115,7 +116,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
         }
     }
 
-    private void parseJson1(JSONArray jsonArray) {
+    private void parseJson(JSONArray jsonArray) {
         if (beanArrayList.size() > 0) {
             beanArrayList.clear();
         }
@@ -181,12 +182,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                 final OrderBean orderBean = beanArrayList.get(position);
                 final String orderId = orderBean.getId();
                 switch (view.getId()) {
-                    case R.id.item_goods_rl:
-                        //点击商品查看订单详情
-                        Intent intent = new Intent(context, EvaluateDetailsActivity.class);
-                        intent.putExtra("order_id",orderId);
-                        startActivityForResult(intent, 1);
-                        break;
                     case R.id.item_goods_order_total_after:
                         //售后
                         break;
@@ -194,7 +189,6 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                         //评价
                         break;
                     case R.id.item_goods_order_total_delete:
-                        Log.d(EvaluateOrderFragment.TAG, "click goodsId: "+orderBean.getId());
                         //删除订单
                         getDm().buildAlertDialogSure("您确定要删除订单吗？", new DialogHome.Callback() {
                             @Override
@@ -203,6 +197,18 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                             }
                         });
                         break;
+                }
+            }
+
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                super.onItemClick(adapter, view, position);
+                OrderBean orderBean = beanArrayList.get(position);
+                Goods goods = orderBean.getGoods();
+                if(goods!=null){
+                    Intent intent = new Intent(context, EvaluateDetailsActivity.class);
+                    intent.putExtra("order_id", goods.getTitleId()+"");
+                    startActivityForResult(intent, 1);
                 }
             }
         });
