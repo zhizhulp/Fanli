@@ -348,11 +348,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         switch (flag) {
-            case 0:
-                //获取订单参数
-                if (refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(false);
-                }
+            case 0://获取订单参数
                 //余额信息
                 getBalance(dataObj);
 

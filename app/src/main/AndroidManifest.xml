@@ -710,7 +710,7 @@
         <activity android:name=".activities.offline_business.OfflinePaySureOrderActivity" />
         <activity android:name=".activities.offline_business.OfflinePaySuccedActivity" />
         <activity android:name=".activities.offline_business.ToBeSuredOrdersActivity" />
-        <activity android:name=".activities.offline_business.SellerOrderDetailActivity"/>
+        <activity android:name=".activities.offline_business.SellerOrderDetailActivity" />
         <activity android:name=".activities.auction.AuctionDetailsActivity" />
         <activity android:name=".activities.auction.AuctionListActivity" />
         <activity android:name=".activities.SelectAddrssUpdateActivity" />
@@ -721,9 +721,10 @@
         <activity android:name=".activities.scoring.PKActivity" />
         <activity android:name=".activities.scoring.ShareActivity" />
         <activity android:name=".activities.scoring.KnowStrategyActivity" />
-
-        <activity android:name=".activities.shop.ShopSearchActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activities.shop.ShopSearchActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.shop.order.OrderDetailsActivity"></activity>
     </application>
 
 </manifest>
