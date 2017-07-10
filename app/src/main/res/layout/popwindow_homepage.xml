@@ -36,7 +36,7 @@
         android:layout_height="0.5dp"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
-        android:background="@color/cutting_line" />
+        android:background="@color/cutting_line1" />
 
     <LinearLayout
         android:minHeight="40dp"
@@ -68,7 +68,7 @@
         android:layout_height="0.5dp"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
-        android:background="@color/cutting_line" />
+        android:background="@color/cutting_line1" />
 
     <LinearLayout
         android:minHeight="40dp"

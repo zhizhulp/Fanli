@@ -77,6 +77,8 @@
     <color name="divider">#f1f1f1</color>
     <color name="me_text_red">#f73e3e</color>
     <color name="cutting_line">#f1f1f1</color>
+    <color name="cutting_line1">#818181</color>
+
     <color name="fragment_money_num">#a7a7a7</color>
     <color name="fragment_money_red">#f73d3e</color>
     <color name="mr_rec_line">#f57272</color>
