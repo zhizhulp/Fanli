@@ -22,15 +22,7 @@ public class OrderBean implements MultiItemEntity {
     private String imgUrl;//订单商品缩略图
     private String phone;//商家电话
     private String orderNum;//订单号
-    private String deliverNum;//运单号码
 
-    public String getDeliverNum() {
-        return deliverNum;
-    }
-
-    public void setDeliverNum(String deliverNum) {
-        this.deliverNum = deliverNum;
-    }
 
     public OrderBean(String time, String id, String imgUrl) {
         this.time = time;

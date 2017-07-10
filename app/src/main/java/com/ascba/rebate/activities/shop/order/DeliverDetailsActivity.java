@@ -162,11 +162,7 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         switch (flag) {
-            case 0:
-                //获取订单数据
-                if (refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(false);
-                }
+            case 0://获取订单数据
                 //收货地址
                 getAddress(dataObj);
                 //商家信息
@@ -229,7 +225,6 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
 
     //订单信息
     private void getGoodsInfo(JSONObject dataObject) {
-        //订单信息
         JSONObject orderObject = dataObject.optJSONObject("order_info");
         String shippingFee = orderObject.optString("shipping_fee");//邮费
         String orderSn = orderObject.optString("order_sn");//订单号
@@ -248,15 +243,6 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
             goodsList.clear();
         }
         //商品信息
-        /*String goodName = goodsObj.optString("goods_name");//商品名
-        String goodsPrice = goodsObj.optString("goods_price");//商品价格
-        String specNames = goodsObj.optString("spec_names");//商品规格
-        String goodNum = goodsObj.optString("goods_num");//数量
-        String goodImg = UrlUtils.baseWebsite + goodsObj.optString("goods_img");//商品图片
-        Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
-        String goods_id = goodsObj.optString("goods_id");//商品id
-        goods.setTitleId(Integer.parseInt(goods_id));
-        goodsList.add(goods);*/
         JSONArray goodsArray = orderObject.optJSONArray("orderGoods");
         if (goodsArray != null && goodsArray.length() > 0) {
             for (int i = 0; i < goodsArray.length(); i++) {

@@ -32,7 +32,6 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
     private TextView tvRecId;
     private TextView tvRecNet;
     private ImageView imQR;
-    private SharedPreferences sf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
 
     }
     private void createQR() {
-        sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
+        SharedPreferences sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
         String p_id = sf.getString("p_id", "");
         String p_url = sf.getString("p_url", "");
         if(!p_id.equals("")||!p_url.equals("")){

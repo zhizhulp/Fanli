@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/white"
-    android:id="@+id/item_goods_rl"
     android:layout_width="match_parent"
     android:layout_height="110dp">
 
@@ -14,70 +13,77 @@
         android:layout_marginTop="9dp"
         android:background="@drawable/gray_bg"
         android:scaleType="centerCrop" />
-
-    <TextView
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:id="@+id/item_goods_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
+    <LinearLayout
+        android:gravity="center_vertical"
         android:layout_toRightOf="@id/item_goods_img"
-        android:textColor="@color/shop_normal_text_color"
-        android:textSize="12sp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:text="goods name"
+            android:lines="2"
+            android:ellipsize="end"
+            android:id="@+id/item_goods_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/shop_normal_text_color"
+            android:textSize="12sp" />
 
-    <TextView
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:id="@+id/item_goods_standard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_goods_name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="7dp"
-        android:layout_toRightOf="@id/item_goods_img"
-        android:textColor="@color/textgray"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/item_goods_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_goods_standard"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/item_goods_img"
-        android:textColor="@color/shop_red_text_color"
-        android:textSize="17sp" />
-
-    <TextView
-        android:id="@+id/item_goods_price_old"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/item_goods_price"
-        android:layout_alignBottom="@+id/item_goods_price"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/item_goods_price"
-        android:layout_toRightOf="@+id/item_goods_price"
-        android:textColor="@color/textgray"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/item_goods_price_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/item_goods_price_old"
-        android:layout_alignBottom="@+id/item_goods_price_old"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:textColor="@color/textgray"
-        android:textSize="12sp" />
-
+        <TextView
+            android:text="黑色"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/item_goods_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/textgray"
+            android:textSize="12sp" />
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_centerVertical="true"
+                android:text="2000000"
+                android:id="@+id/item_goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/shop_red_text_color"
+                android:textSize="17sp" />
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/item_goods_price"
+                android:text="x2"
+                android:id="@+id/item_goods_price_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:textColor="@color/textgray"
+                android:textSize="12sp" />
+            <TextView
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/tv_express_flow"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/btn_red_bg"
+                android:text="查看物流"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </LinearLayout>
     <View
         android:id="@+id/goods_details_cuttingline_view"
         android:layout_width="match_parent"

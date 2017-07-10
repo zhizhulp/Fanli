@@ -47,41 +47,14 @@ import java.util.List;
 public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseNetActivity.Callback {
 
     private Context context;
-    private ShopABarText shopABarText;
-    private RecyclerView recyclerView;
     private String orderId;
     private DeliverDetailsAdapter adapter;
     private List<Goods> goodsList = new ArrayList<>();
 
     private String storePhone;//商家电话
-    //收货地址
-    private RelativeLayout addressView;
-    private LinearLayout contactStoreTx, countdownView;
     private TextView phoneTx, nameTx, addressTx;
-    private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
+    private TextView storeTx, orderSnTx, orderTimeTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
-    private TextView payTx, deleteTx, countdownTx, closeOrderTx;
-
-    //倒计时
-    private int maxTime = 30 * 60;//单位—秒
-    private Handler handler = new Handler();
-    private int countdownSecond;
-    private boolean isCountdown;
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (countdownSecond > 0) {
-                countdownTx.setText(countdownSecond / 60 + "分" + countdownSecond % 60 + "秒");
-                countdownSecond--;
-                handler.postDelayed(this, 1000);
-            } else {
-                countdownView.setVisibility(View.INVISIBLE);
-                closeOrderTx.setVisibility(View.VISIBLE);
-                handler.removeCallbacks(runnable);
-                requstData(UrlUtils.cancelOrder, 1);
-            }
-        }
-    };
 
     private int flag = 0;//0-获取数据，1-取消订单,2-付款
     private String payType;
@@ -90,7 +63,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     private TextView tvMsg;
     private View msgView;
     private String store_id;
-    private int is_level_pwd;
     private String orderAmount;//订单总价格
 
 
@@ -107,9 +79,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         //刷新
         initRefreshLayout();
         refreshLayout.setOnRefreshListener(this);
-
         //导航栏
-        shopABarText = (ShopABarText) findViewById(R.id.shopbar);
+        ShopABarText shopABarText = (ShopABarText) findViewById(R.id.shopbar);
         shopABarText.setBtnEnable(false);
         shopABarText.setCallback(new ShopABarText.Callback() {
             @Override
@@ -122,9 +93,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
 
             }
         });
-
         //recyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.deliver_details_rv);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.deliver_details_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new DeliverDetailsAdapter(R.layout.item_goods, goodsList, context);
         recyclerView.setAdapter(adapter);
@@ -135,8 +105,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 GoodsDetailsActivity.startIntent(PayDetailsActivity.this, goods.getTitleId());
             }
         });
-
-        addressView = (RelativeLayout) findViewById(R.id.address);
+        RelativeLayout addressView = (RelativeLayout) findViewById(R.id.address);
         addressView.setOnClickListener(this);
         phoneTx = (TextView) findViewById(R.id.address_phone);
         nameTx = (TextView) findViewById(R.id.address_name);
@@ -144,20 +113,16 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         storeTx = (TextView) findViewById(R.id.store_name);
         orderSnTx = (TextView) findViewById(R.id.order_sn);
         orderTimeTx = (TextView) findViewById(R.id.order_time);
-        addWayTx = (TextView) findViewById(R.id.value_add_way);
-        contactStoreTx = (LinearLayout) findViewById(R.id.contact_store);//联系商家
+        LinearLayout contactStoreTx = (LinearLayout) findViewById(R.id.contact_store);
         contactStoreTx.setOnClickListener(this);
         orderAmountTx = (TextView) findViewById(R.id.order_amount);
         shippingFeeTx = (TextView) findViewById(R.id.shipping_fee);
         vouchersFeeTx = (TextView) findViewById(R.id.vouchers_fee);
         orderPriceTx = (TextView) findViewById(R.id.order_price);
-        payTx = (TextView) findViewById(R.id.tx_pay);
+        TextView payTx = (TextView) findViewById(R.id.tx_pay);
         payTx.setOnClickListener(this);
-        deleteTx = (TextView) findViewById(R.id.tx_delete);
+        TextView deleteTx = (TextView) findViewById(R.id.tx_delete);
         deleteTx.setOnClickListener(this);
-        countdownTx = (TextView) findViewById(R.id.tx_countdown);
-        closeOrderTx = (TextView) findViewById(R.id.tx_close_order);
-        countdownView = (LinearLayout) findViewById(R.id.ll_countdown);
 
         tvMsg = ((TextView) findViewById(R.id.tv_left_msg));
         msgView = findViewById(R.id.left_msg_lat);
@@ -210,8 +175,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
         JSONObject member_info = dataObj.optJSONObject("member_info");
         if (member_info != null) {
             balance = member_info.optString("money");//余额
-            is_level_pwd = member_info.optInt("is_level_pwd");//是否设置支付密码
-            AppConfig.getInstance().putInt("is_level_pwd",is_level_pwd);
+            int is_level_pwd = member_info.optInt("is_level_pwd");
+            AppConfig.getInstance().putInt("is_level_pwd", is_level_pwd);
         }
     }
 
@@ -243,52 +208,42 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
 
     //订单信息
     private void getGoodsInfo(JSONObject dataObject) {
-        try {
-            //订单信息
-            JSONObject orderObject = dataObject.getJSONObject("order_info");
-            String shippingFee = orderObject.optString("shipping_fee");//邮费
-            String orderSn = orderObject.optString("order_sn");//订单号
-            String goodsAmount = orderObject.optString("goods_amount");//商品价格
-            orderAmount = orderObject.optString("order_amount");//订单价格
-            String orderTime = orderObject.optString("add_time");//订单时间
-            orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
-            //开始支付倒计时
-            if (!isCountdown) {
-                //时间差
-                countdownSecond = TimeUtils.countdownTime(maxTime, orderTime);
-                //isCountdown = handler.postDelayed(runnable, 1000);
-            }
+        //订单信息
+        JSONObject orderObject = dataObject.optJSONObject("order_info");
+        String shippingFee = orderObject.optString("shipping_fee");//邮费
+        String orderSn = orderObject.optString("order_sn");//订单号
+        String goodsAmount = orderObject.optString("goods_amount");//商品价格
+        orderAmount = orderObject.optString("order_amount");//订单价格
+        String orderTime = orderObject.optString("add_time");//订单时间
+        orderTime = TimeUtils.milliseconds2String(Long.parseLong(orderTime) * 1000);
 
-            orderSnTx.setText(orderSn);
-            orderTimeTx.setText(orderTime);
-            vouchersFeeTx.setText("-￥"+orderObject.optString("employ_coupon_money"));//礼品券立减金额
-            orderPriceTx.setText("￥" + orderAmount);//实付款
-            orderAmountTx.setText("￥" + goodsAmount);//商品总价
-            shippingFeeTx.setText("￥" + shippingFee);
+        orderSnTx.setText(orderSn);
+        orderTimeTx.setText(orderTime);
+        vouchersFeeTx.setText("-￥" + orderObject.optString("employ_coupon_money"));//礼品券立减金额
+        orderPriceTx.setText("￥" + orderAmount);//实付款
+        orderAmountTx.setText("￥" + goodsAmount);//商品总价
+        shippingFeeTx.setText("￥" + shippingFee);
 
-            if (goodsList.size() > 0) {
-                goodsList.clear();
-            }
-            //商品信息
-            JSONArray goodsArray = orderObject.getJSONArray("orderGoods");
-            if (goodsArray != null && goodsArray.length() > 0) {
-                for (int i = 0; i < goodsArray.length(); i++) {
-                    JSONObject goodObject = goodsArray.getJSONObject(i);
-                    String goodName = goodObject.optString("goods_name");//商品名
-                    String goodsPrice = goodObject.optString("goods_price");//商品价格
-                    String specNames = goodObject.optString("spec_names");//商品规格
-                    String goodNum = goodObject.optString("goods_num");//数量
-                    String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
-                    Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
-                    String goods_id = goodObject.optString("goods_id");//商品id
-                    goods.setTitleId(Integer.parseInt(goods_id));
-                    goodsList.add(goods);
-                }
-            }
-            adapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (goodsList.size() > 0) {
+            goodsList.clear();
         }
+        //商品信息
+        JSONArray goodsArray = orderObject.optJSONArray("orderGoods");
+        if (goodsArray != null && goodsArray.length() > 0) {
+            for (int i = 0; i < goodsArray.length(); i++) {
+                JSONObject goodObject = goodsArray.optJSONObject(i);
+                String goodName = goodObject.optString("goods_name");//商品名
+                String goodsPrice = goodObject.optString("goods_price");//商品价格
+                String specNames = goodObject.optString("spec_names");//商品规格
+                String goodNum = goodObject.optString("goods_num");//数量
+                String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
+                Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
+                String goods_id = goodObject.optString("goods_id");//商品id
+                goods.setTitleId(Integer.parseInt(goods_id));
+                goodsList.add(goods);
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -300,11 +255,8 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.address:
-                //选择收货地址
-                break;
-            case R.id.contact_store:
-                //联系商家
+            case R.id.contact_store: //联系商家
+
                 if (!StringUtils.isEmpty(storePhone)) {
                     Intent intent1 = new Intent();
                     intent1.setAction(Intent.ACTION_DIAL);
@@ -314,8 +266,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                     getDm().buildAlertDialog("暂无该商家电话");
                 }
                 break;
-            case R.id.tx_pay:
-                //付款
+            case R.id.tx_pay://付款
                 if (StringUtils.isEmpty(orderAmount)) {
                     showToast("正在加载订单信息，请稍后");
                 } else {
@@ -324,22 +275,22 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                         @Override
                         public void onCreatOrder(String arg) {
                             payType = arg;
-                            if(StringUtils.isEmpty(balance)){
-                                balance="0";
+                            if (StringUtils.isEmpty(balance)) {
+                                balance = "0";
                             }
-                            if(StringUtils.isEmpty(orderAmount)){
-                                orderAmount="0";
+                            if (StringUtils.isEmpty(orderAmount)) {
+                                orderAmount = "0";
                             }
-                            if("balance".equals(payType) && Double.parseDouble(orderAmount ) > Double.parseDouble(balance)){
+                            if ("balance".equals(payType) && Double.parseDouble(orderAmount) > Double.parseDouble(balance)) {
                                 showToast("余额不足");
                                 return;
                             }
                             //检测用户是否设置了支付密码
-                            if("balance".equals(payType) && AppConfig.getInstance().getInt("is_level_pwd",0)==0){
+                            if ("balance".equals(payType) && AppConfig.getInstance().getInt("is_level_pwd", 0) == 0) {
                                 getDm().buildAlertDialogSure("您还未设置支付密码，是否去设置？", new DialogHome.Callback() {
                                     @Override
                                     public void handleSure() {
-                                        Intent intent1=new Intent(PayDetailsActivity.this,PayPsdSettingActivity.class);
+                                        Intent intent1 = new Intent(PayDetailsActivity.this, PayPsdSettingActivity.class);
                                         startActivity(intent1);
                                     }
                                 });
@@ -351,7 +302,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                     pay.setPayCallBack(new PayUtils.onPayCallBack() {
                         @Override
                         public void onFinish(String payStype) {
-
                         }
 
                         @Override
@@ -388,9 +338,6 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 getDm().buildAlertDialogSure("您确定要取消订单吗？", new DialogHome.Callback() {
                     @Override
                     public void handleSure() {
-                        countdownView.setVisibility(View.INVISIBLE);
-                        closeOrderTx.setVisibility(View.VISIBLE);
-                        handler.removeCallbacks(runnable);
                         requstData(UrlUtils.cancelOrder, 1);
                     }
                 });
@@ -401,12 +348,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         switch (flag) {
-            case 0:
-                //获取订单参数
-                if (refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(false);
-                }
-
+            case 0://获取订单参数
                 //余额信息
                 getBalance(dataObj);
 
@@ -420,7 +362,7 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                 getGoodsInfo(dataObj);
                 //店铺电话
                 JSONObject object = dataObj.optJSONObject("store_info");
-                if(object!=null){
+                if (object != null) {
                     storePhone = object.optString("store_mobile");
                 }
                 //买家留言
@@ -450,25 +392,16 @@ public class PayDetailsActivity extends BaseNetActivity implements SwipeRefreshL
                     JSONObject wxpay = dataObj.optJSONObject("wxpay");
                     pay.requestForWX(wxpay);
                 }
-
                 break;
         }
     }
 
     @Override
     public void handle404(String message) {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
-
-
     }
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
     }
 
 }

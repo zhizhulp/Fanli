@@ -33,38 +33,6 @@
                 android:text="货品已送达，请确认收货"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="14sp" />
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/ll_countdown"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/deliver_details_state"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="还剩"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tx_countdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="\?天\?时"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="自动确认"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/tx_close_order"
                 android:layout_width="match_parent"
@@ -104,21 +72,6 @@
             android:paddingRight="8dp"
             android:text="确认收货"
             android:textColor="@color/white"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/btn_delever_flow"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@id/btn_take"
-            android:background="@drawable/gray_bg"
-            android:gravity="center"
-            android:paddingLeft="22dp"
-            android:paddingRight="22dp"
-            android:text="查看物流"
             android:textSize="15sp" />
 
         <TextView
@@ -433,36 +386,6 @@
                         android:textSize="14sp" />
                 </RelativeLayout>
 
-                <include layout="@layout/goods_details_cuttingline"
-                    android:visibility="gone"/>
-
-                <RelativeLayout
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15.5dp"
-                    android:paddingTop="15.5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:text="增值方式"
-                        android:textColor="@color/shop_normal_text_color"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/value_add_way"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="15dp"
-                        android:text="每天以5%的形式返还，7天返完"
-                        android:textColor="@color/shop_red_text_color"
-                        android:textSize="14sp" />
-                </RelativeLayout>
 
                 <include layout="@layout/goods_details_cuttingline_wide"
                     android:visibility="gone"/>

@@ -58,7 +58,6 @@ public class ConfirmOrderAdapter extends BaseMultiItemQuickAdapter<Goods, BaseVi
                 helper.setText(R.id.item_goods_name, item.getGoodsTitle());
                 helper.setText(R.id.item_goods_standard, item.getGoodsStandard());
                 helper.setText(R.id.item_goods_price, "￥" + item.getGoodsPrice());
-                helper.getView(R.id.item_goods_price_old).setVisibility(View.INVISIBLE);
                 helper.setText(R.id.item_goods_price_num, "x" + item.getUserQuy());
                 break;
             case TYPE3:

@@ -66,16 +66,9 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                 //商品价格
                 helper.setText(R.id.item_goods_price, "￥" + goods.getGoodsPrice());
 
-                //商品原价
-                TextView priceOld = helper.getView(R.id.item_goods_price_old);
-                priceOld.setText("￥" + goods.getGoodsPriceOld());
-                priceOld.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-
                 //购买数量
                 helper.setText(R.id.item_goods_price_num, "x" + goods.getUserQuy());
 
-                //点击查看订单详情
-                helper.addOnClickListener(R.id.item_goods_rl);
                 break;
             case TYPE1:
                 /**
@@ -117,7 +110,6 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                 helper.setText(R.id.item_goods_order_total_num, item.getGoodsNum());
                 helper.addOnClickListener(R.id.item_goods_order_total_refund);//退款
                 helper.addOnClickListener(R.id.item_goods_order_total_take);//确认收货
-                helper.addOnClickListener(R.id.tv_deliver_flow);//查看物流
                 break;
             case TYPE5:
                 /**

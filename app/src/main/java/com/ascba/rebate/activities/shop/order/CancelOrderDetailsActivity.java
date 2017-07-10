@@ -47,7 +47,7 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
     private RelativeLayout addressView;
     private LinearLayout contactStoreTx;
     private TextView phoneTx, nameTx, addressTx;
-    private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
+    private TextView storeTx, orderSnTx, orderTimeTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
     private TextView deleteTx;
     private int flag = 0;//0-获取数据，1-取消订单,2-付款
@@ -105,7 +105,6 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
         storeTx = (TextView) findViewById(R.id.store_name);
         orderSnTx = (TextView) findViewById(R.id.order_sn);
         orderTimeTx = (TextView) findViewById(R.id.order_time);
-        addWayTx = (TextView) findViewById(R.id.value_add_way);
         contactStoreTx = (LinearLayout) findViewById(R.id.contact_store);//联系商家
         contactStoreTx.setOnClickListener(this);
         orderAmountTx = (TextView) findViewById(R.id.order_amount);
@@ -141,10 +140,7 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
             }
         }
     }
-
-    /*
-     获取列表数据
-    */
+    
     private void requstData(String url, int flag) {
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);

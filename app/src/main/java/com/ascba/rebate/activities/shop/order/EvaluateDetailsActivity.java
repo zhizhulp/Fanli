@@ -46,13 +46,9 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
     private RecyclerView recyclerView;
     private String orderId;
     private DeliverDetailsAdapter adapter;
-    //收货地址
-    private RelativeLayout addressView;
-    private LinearLayout contactStoreTx;
     private TextView phoneTx, nameTx, addressTx;
-    private TextView storeTx, orderSnTx, orderTimeTx, addWayTx;
+    private TextView storeTx, orderSnTx, orderTimeTx;
     private TextView orderAmountTx, shippingFeeTx, vouchersFeeTx, orderPriceTx;
-    private TextView payTx, deleteTx, countdownTx, closeOrderTx;
     private int flag = 0;//0-获取数据
     private String storePhone;
     private TextView tvMsg;
@@ -94,8 +90,7 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
         storeTx = (TextView) findViewById(R.id.store_name);
         orderSnTx = (TextView) findViewById(R.id.order_sn);
         orderTimeTx = (TextView) findViewById(R.id.order_time);
-        addWayTx = (TextView) findViewById(R.id.value_add_way);
-        contactStoreTx = (LinearLayout) findViewById(R.id.contact_store);
+        LinearLayout contactStoreTx = (LinearLayout) findViewById(R.id.contact_store);
         contactStoreTx.setOnClickListener(this);
         orderAmountTx = (TextView) findViewById(R.id.order_amount);
         shippingFeeTx = (TextView) findViewById(R.id.shipping_fee);
@@ -148,7 +143,6 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
         this.flag = flag;
         Request<JSONObject> jsonRequest = buildNetRequest(url, 0, true);
         jsonRequest.add("order_id", orderId);//键值相同
-        //jsonRequest.add("status", "wait_evaluate");
         executeNetWork(jsonRequest, "请稍后");
         setCallback(this);
     }
@@ -163,13 +157,8 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         switch (flag) {
-            case 0:
-                /*
-                获取订单数据
-                */
-                if (refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(false);
-                }
+            case 0://获取订单数据
+
                 //收货地址
                 getAddress(dataObj);
                 //商家信息
@@ -195,16 +184,10 @@ public class EvaluateDetailsActivity extends BaseNetActivity implements SwipeRef
 
     @Override
     public void handle404(String message) {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
     }
 
     @Override
     public void handleNoNetWork() {
-        if (refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
-        }
     }
 
     private void getAddress(JSONObject dataObject) {
