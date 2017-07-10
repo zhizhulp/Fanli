@@ -123,7 +123,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
                     if(isSame()){
                         requestNetwork(UrlUtils.setPayPassword,secNum);
                     }else {
-                        showToast("2次密码不一致,请重新输入");
+                        showToast("两次密码不一致,请重新输入");
                         resetData();
                     }
 
@@ -146,7 +146,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
                         if(isSame()){
                             requestNetwork(UrlUtils.setPayPassword,secNum);
                         }else {
-                            showToast("2次密码不一致,请重新输入");
+                            showToast("两次密码不一致,请重新输入");
                             resetData();
                         }
                     }

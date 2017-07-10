@@ -380,16 +380,21 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             baseAdapter = new ShopTypeRVAdapter(data, getActivity());
             GridLayoutManager manager = new GridLayoutManager(getActivity(), TypeWeight.TYPE_SPAN_SIZE_MAX);
             rv.setLayoutManager(manager);
-            baseAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                    return data.get(position).getSpanSize();
-                }
-            });
+            MySpanSizeLookUp mySpanSizeLookUp = new MySpanSizeLookUp();
+            baseAdapter.setSpanSizeLookup(mySpanSizeLookUp);
+            rv.addItemDecoration(new DividerGridItemDecoration(getActivity(),mySpanSizeLookUp));
             rv.setAdapter(baseAdapter);
             baseAdapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无信息"));
         } else {
             baseAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class MySpanSizeLookUp implements BaseQuickAdapter.SpanSizeLookup{
+
+        @Override
+        public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+            return data.get(position).getSpanSize();
         }
     }
 
