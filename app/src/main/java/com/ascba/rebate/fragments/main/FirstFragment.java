@@ -527,7 +527,6 @@ public class FirstFragment extends BaseNetFragment implements ViewPager.OnTouchL
             if (!dst.exists()) {
                 dst.mkdirs();
             }
-
         } else {
             dst = getContext().getFilesDir();
         }
