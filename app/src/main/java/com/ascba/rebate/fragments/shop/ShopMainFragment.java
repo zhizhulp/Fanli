@@ -382,7 +382,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             rv.setLayoutManager(manager);
             MySpanSizeLookUp mySpanSizeLookUp = new MySpanSizeLookUp();
             baseAdapter.setSpanSizeLookup(mySpanSizeLookUp);
-            rv.addItemDecoration(new DividerGridItemDecoration(getActivity(),mySpanSizeLookUp));
+            //rv.addItemDecoration(new DividerGridItemDecoration(getActivity(),mySpanSizeLookUp,getResources().getColor(R.color.main_bg)));
             rv.setAdapter(baseAdapter);
             baseAdapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无信息"));
         } else {
@@ -394,7 +394,13 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
 
         @Override
         public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-            return data.get(position).getSpanSize();
+            ShopBaseItem shopBaseItem;
+            try {
+                shopBaseItem = data.get(position);
+            }catch (IndexOutOfBoundsException e){
+                return 60;
+            }
+            return shopBaseItem.getSpanSize();
         }
     }
 
