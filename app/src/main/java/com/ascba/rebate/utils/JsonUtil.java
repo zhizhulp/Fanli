@@ -1,8 +1,13 @@
 package com.ascba.rebate.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonUtil {
 	private static Gson gson = new Gson();
@@ -24,6 +29,18 @@ public class JsonUtil {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	/**
+	 * 把json 字符串转化成list
+	 */
+	public static <T>  List<T> stringToList(String json ,Class<T> cls  ){
+		Gson gson = new Gson();
+		List<T> list = new ArrayList<T>();
+		JsonArray array = new JsonParser().parse(json).getAsJsonArray();
+		for(final JsonElement elem : array){
+			list.add(gson.fromJson(elem, cls));
+		}
+		return list ;
 	}
 
 	public static String toJson(Object object) {

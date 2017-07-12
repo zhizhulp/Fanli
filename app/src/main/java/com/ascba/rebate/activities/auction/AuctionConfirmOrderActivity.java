@@ -47,7 +47,6 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     private RelativeLayout noReceiveAddress;
     private TextView username;
     private TextView userPhone;
-    private TextView userAddress;
     private TextView userAddressDet;
     private TextView tvShippingFee;
     private TextView tvTicket;
@@ -194,7 +193,6 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
         });
         username = (TextView) headView.findViewById(R.id.confirm_order_username);
         userPhone = (TextView) headView.findViewById(R.id.confirm_order_phone);
-        userAddress = (TextView) headView.findViewById(R.id.confirm_order_address);
         userAddressDet = (TextView) headView.findViewById(R.id.confirm_order_address_details);
         adapter.addHeaderView(headView);
     }
@@ -307,7 +305,6 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     private void refreshHeadData(JSONObject addressObj) {
         username.setText(addressObj.optString("consignee"));
         userPhone.setText(addressObj.optString("mobile"));
-        userAddress.setText(addressObj.optString("address"));
         userAddressDet.setText(addressObj.optString("address_detail"));
 
         address_id = addressObj.optInt("id");
@@ -332,7 +329,6 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
     private void setReceiveData(ReceiveAddressBean addressBean) {
         username.setText(addressBean.getName());
         userPhone.setText(addressBean.getPhone());
-        userAddress.setText(addressBean.getAddress());
         userAddressDet.setText(addressBean.getAddressDetl());
     }
 

@@ -11,7 +11,8 @@ public class ShopBaseItem implements MultiItemEntity {
     private int itemType;
     private int spanSize;
     private int resLat;//布局ID
-    private List<String> pagerUrls;//viewPager数据源
+    private List<String> pagerUrls;//首页商品推荐
+    private List<Banner> banners;//banner实体类
     private float lineWidth;//横线粗细
     //导航栏
     private int resId;//本地图片
@@ -31,13 +32,6 @@ public class ShopBaseItem implements MultiItemEntity {
     private String teiHui;//特惠标识
     private String useTicketToReduce;//用券立减标识
 
-    public ShopBaseItem(int itemType, int spanSize, int resLat, List<String> titles, List<String> contents, List<String> descs, List<String> pagerUrls) {
-        this(itemType, spanSize, resLat);
-        this.titles = titles;
-        this.contents = contents;
-        this.descs = descs;
-        this.pagerUrls = pagerUrls;
-    }
 
     public ShopBaseItem(int itemType, int spanSize, int resLat){
         this.itemType = itemType;
@@ -55,7 +49,6 @@ public class ShopBaseItem implements MultiItemEntity {
     public ShopBaseItem(int itemType, int spanSize, int resLat, List<String> pagerUrls) {
         this(itemType, spanSize, resLat);
         this.pagerUrls = pagerUrls;
-
     }
 
     /**
@@ -86,13 +79,9 @@ public class ShopBaseItem implements MultiItemEntity {
         this.url = url;
         this.desc = desc;
     }
-//    public ShopBaseItem(int itemType, int spanSize, int resLat) {
-////        this(itemType, spanSize, resLat);
-//
-//    }
+
     /**
      * 标题
-     *
      * @param itemType 数据类型
      * @param spanSize 比重
      * @param resLat   对应的布局id
@@ -172,6 +161,14 @@ public class ShopBaseItem implements MultiItemEntity {
         this.desc = desc;
         this.saled = saled;
         this.color=color;
+    }
+
+    public List<Banner> getBanners() {
+        return banners;
+    }
+
+    public void setBanners(List<Banner> banners) {
+        this.banners = banners;
     }
 
     @Override

@@ -127,7 +127,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="@dimen/text_size_zhuhuichang_goods_price" />
+                    android:textSize="11sp" />
             </RelativeLayout>
 
             <!--增值积分-->

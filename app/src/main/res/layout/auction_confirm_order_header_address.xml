@@ -52,18 +52,11 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/confirm_order_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/confirm_order_username"
-                android:layout_marginTop="6dp"
-                android:textColor="@color/shop_normal_text_color"
-                android:textSize="13sp" />
-            <TextView
+                android:layout_marginTop="10dp"
                 android:id="@+id/confirm_order_address_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/confirm_order_address"
+                android:layout_below="@id/confirm_order_phone"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="13sp" />
         </RelativeLayout>

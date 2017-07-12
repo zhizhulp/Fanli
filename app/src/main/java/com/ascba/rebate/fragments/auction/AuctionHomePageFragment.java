@@ -227,7 +227,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                             requestNetwork(UrlUtils.payAuction, 1);
                         } else if(selectAGB.getIntState()==6){//支付
                             Intent intent=new Intent(getActivity(),AuctionConfirmOrderActivity.class);
-                            intent.putExtra("goods_id",selectAGB.getId());
+                            intent.putExtra("goods_id",selectAGB.getId()+"");
                             startActivityForResult(intent,REQUEST_PAY_ORDER);
                         }
                         break;

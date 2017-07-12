@@ -14,6 +14,7 @@ import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -124,7 +125,7 @@ public class PayDepositActivity extends BaseNetActivity{
         if(what==0){
             tvCount.setText("共计"+dataObj.optInt("pay_bond_count")+"件");
             pay_bond_price = dataObj.optDouble("pay_bond_price");
-            tvPrice.setText("￥"+pay_bond_price);
+            tvPrice.setText("￥"+ NumberFormatUtils.getNewDouble(pay_bond_price) );
             pay_bond_data = dataObj.optString("pay_bond_data");
             tvTicketInfo.setText("发票："+dataObj.optString("invoice_tip"));
 

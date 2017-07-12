@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.beans.Banner;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.utils.ScreenDpiUtils;
@@ -56,7 +57,8 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 ShufflingViewPagerAdapter adapter = pager.getAdapter();
 
                 if (adapter == null) {
-                    adapter = new ShufflingViewPagerAdapter(context, item.getPagerUrls());
+                    adapter = new ShufflingViewPagerAdapter(context, item.getBanners());
+                    addOnClickListener(adapter,item.getBanners());
                     pager.setAdapter(adapter);
                     pager.start();
                 } else {
@@ -140,5 +142,18 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 view.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 break;
         }
+    }
+
+    private void addOnClickListener(ShufflingViewPagerAdapter adapter, final List<Banner> banners) {
+        adapter.addOnClick(new ShufflingViewPagerAdapter.OnClick() {
+            @Override
+            public void OnClick(int position) {
+                Banner banner = banners.get(position);
+                int type = banner.getTarget_type();
+                if(type==0){
+
+                }
+            }
+        });
     }
 }

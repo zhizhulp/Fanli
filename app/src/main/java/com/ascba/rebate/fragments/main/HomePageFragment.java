@@ -402,7 +402,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private void initAuctionGoods(JSONArray goodsArray) {
         if(goodsArray!=null && goodsArray.length() >0){
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "竞拍热品"));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "竞拍购"));
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             List<AcutionGoodsBean> beanList=new ArrayList<>();
             for (int i = 0; i < goodsArray.length(); i++) {
@@ -502,7 +502,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         if (video_list != null && video_list.length() != 0) {
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //ASK资讯
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "ASK资讯"));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE8, R.layout.home_page_title, "精彩瞬间"));
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {

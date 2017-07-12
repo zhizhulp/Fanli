@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
+
         <!--倒计时-->
         <TextView
             android:id="@+id/tv_time_down_over"
@@ -23,7 +24,6 @@
             android:textSize="12sp"
             android:visibility="gone" />
         <!--未开始 未交保证金-->
-
         <!--已开始 未交保证金-->
         <RelativeLayout
             android:id="@+id/lat_going_noSureMoney"
@@ -212,15 +212,15 @@
             android:textColor="@color/white"
             android:textSize="17sp"
             android:visibility="gone" />
+
+
     </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/lat_bottom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -715,16 +715,10 @@
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="13sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="11dp"
-                    android:src="@mipmap/right_arrow" />
             </RelativeLayout>
 
             <View
+                android:visibility="gone"
                 android:id="@+id/goods_details_cuttingline_view"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -754,4 +748,20 @@
                 android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
+    <!--目前有200人正要下手-->
+    <TextView
+        android:text="前有0人正要下手！"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/lat_bottom"
+        android:textColor="@color/white"
+        android:textSize="@dimen/main_text_13"
+        android:lineSpacingExtra="4dp"
+        android:background="@drawable/tv_rushing_persons_bg"
+        android:id="@+id/tv_rushing_persons"
+        android:layout_marginRight="11.5dp"
+        android:layout_marginBottom="11.5dp"
+        android:layout_gravity="right"
+        android:maxWidth="90dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
