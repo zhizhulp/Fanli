@@ -91,6 +91,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     private int get_type;//0 非最低价进入详情  1：最低价进入详情
     private TextView tvPriceTitle;
     private TextView tvRishingPersons;
+    private View viewTopStatusBg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -345,11 +346,15 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         //CharSequence content = Html.fromHtml(obj.optString("content"), imageGetter, null);
         webView.loadDataWithBaseURL(null, obj.optString("content"), "text/html","UTF-8", null);
         //tvGoodsDet.setText(content);
-        tvPrice.setText((cart_status==0 || cart_status==2)?  NumberFormatUtils.getNewDouble(transaction_price) + "":
-                NumberFormatUtils.getNewDouble(reserve_money) + "");
         if(get_type==1){
             tvPrice.setText(end_price+"");
         }
+        tvPrice.setText((cart_status==0 || cart_status==2 || cart_status==8)?  NumberFormatUtils.getNewDouble(transaction_price) + "":
+                NumberFormatUtils.getNewDouble(reserve_money) + "");
+        if(type==2){
+            tvPrice.setText( NumberFormatUtils.getNewDouble(begin_price) + "");
+        }
+
         tvOrgPrice.setText("原价￥" + NumberFormatUtils.getNewDouble(begin_price));
         tvTD.setText(count_down + "s");
         tvScore.setText(points + "");
@@ -368,7 +373,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvPersonNum.setText("竞拍：" + obj.optInt("auction_people") + "人");
         tvOtherPersonNum.setText("围观：" + obj.optInt("flow") + "人");
         tvRishingPersons.setText("目前有"+obj.optInt("flow")+"人正要下手！");
-        if (timer == null && status==2 && cart_status < 4 ) {
+        if (timer == null && status==2 ) {
             timer = new Timer();
             timer.schedule(new MyTimerTask(), 0, 1000);
         }
@@ -427,6 +432,13 @@ public class AuctionDetailsActivity extends BaseNetActivity {
      * @param type 1抢拍 2盲拍
      */
     private void setState(int state, int priceState,int type) {
+        if(state==2){
+            viewTopStatusBg.setBackgroundColor(0xffEB6060);
+        }else if(state==1|| state==3){
+            viewTopStatusBg.setBackgroundColor(0xff595959);
+        }
+
+
         if (state == 3) {
             setViewState(false,false,false,false,false);
         } else if (state == 2 && priceState == 0) {
@@ -439,36 +451,50 @@ public class AuctionDetailsActivity extends BaseNetActivity {
             setViewState(false,false,false,false,true);
         } else if (state == 1 && priceState == 4) {//等待结果
             setViewState(false,false,false,false,true);
+        } else if ( priceState == 5) {//add
+            setViewState(true,false,false,false,true);
         } else if ( priceState == 7) {//add
-            setViewState(false,false,false,false,true);
+            setViewState(true,false,false,false,true);
         } else if ( priceState == 8) {//拍卖已结束(未获拍)
-            setViewState(false,false,false,false,true);
+            setViewState(true,false,false,false,true);
         } else if ( priceState == 9) {//拍卖已结束(已获拍)
-            setViewState(false,false,false,false,true);
+            setViewState(true,false,false,false,true);
         } else if ( priceState == 10) {//add
-            setViewState(false,false,false,false,true);
+            setViewState(true,false,false,false,true);
         } else if ( priceState == 11) {//add
-            setViewState(false,false,false,false,true);
+            setViewState(true,false,false,false,true);
         }
-        if(type==1){
-            viewSomeParams.setVisibility(View.VISIBLE);
-        }else if(type==2){
-            viewSomeParams.setVisibility(View.GONE);
+        if(type==2){
+            tvTDOver.setVisibility(View.GONE); //倒计时时间
         }
-        if(get_type==1 ){
+
+        if(get_type==1){//最低价
             viewTimeDown.setVisibility(View.GONE);
             tvPriceTitle.setText("最低价：");
-        }else {
-            viewTimeDown.setVisibility(View.VISIBLE);
-            if(priceState==4|| priceState==10){
-                tvPriceTitle.setText("待支付：");
-            } else if(priceState==5){
-                tvPriceTitle.setText("已支付：");
-            } else if(priceState==11){
-                tvPriceTitle.setText("成交价：");
-            } else {
-                tvPriceTitle.setText("当前价格：");
+        }else {//正常
+            if(priceState>=4){
+                viewTimeDown.setVisibility(View.GONE);
+            }else {
+                viewTimeDown.setVisibility(View.VISIBLE);
             }
+        }
+        if(priceState==4|| priceState==10){
+            tvPriceTitle.setText("待支付：");
+        } else if(priceState==5){
+            tvPriceTitle.setText("已支付：");
+        } else if(priceState==8 || priceState==11){
+            tvPriceTitle.setText("成交价：");
+        } else {
+            tvPriceTitle.setText("当前价格：");
+        }
+
+        if(type==1){//抢拍
+            viewSomeParams.setVisibility(View.VISIBLE);
+            tvOrgPrice.setVisibility(View.VISIBLE);
+        }else if(type==2){//盲拍
+            tvPriceTitle.setText("原价：");
+            viewSomeParams.setVisibility(View.GONE);
+            tvOrgPrice.setVisibility(View.GONE);
         }
 
     }
@@ -482,6 +508,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     }
 
     private void initGoodsDetails() {
+        viewTopStatusBg = findViewById(R.id.view_status_bg);
         tvStatus = ((TextView) findViewById(R.id.tv_status));
         tvName = ((TextView) findViewById(R.id.tv_name));
         tvPrice = ((TextView) findViewById(R.id.tv_price));

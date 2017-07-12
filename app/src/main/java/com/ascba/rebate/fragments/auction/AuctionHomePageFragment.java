@@ -134,7 +134,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
 
             if(selectAGB.getType()==1){
                 Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
-                intent.putExtra("goods_id",selectAGB.getId());
+                intent.putExtra("goods_id",selectAGB.getId()+"");
                 startActivityForResult(intent,REQUEST_PAY_ORDER);
             }else {
                 showToast(message);
@@ -320,7 +320,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-            if (!isTimerOver()) {
+            if (!isTimerOver() && beanList.size()>0) {
                 handler.sendEmptyMessage(REDUCE_TIME);
             }
         }

@@ -196,7 +196,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     agb.setStrState(obj.optString("auction_tip"));
                     agb.setStartTime(obj.optLong("starttime"));
                     agb.setEndTime(obj.optLong("price_time"));
-                    //agb.setIntPriceState(obj.optInt(""));
                     agb.setStartPrice(obj.optDouble("begin_price"));
                     agb.setEndPrice(obj.optDouble("end_price"));
                     beanList.add(agb);
@@ -222,9 +221,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 showToast(message);
                 resetPageAndStatus();
                 requestNetwork(UrlUtils.auctionType, 0);
-                /*selectAGB.setIntState(5);
-                selectAGB.setStrState("已拍");
-                adapter.notifyItemChanged(beanList.indexOf(selectAGB));*/
             }
         }
     }

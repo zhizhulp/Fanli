@@ -51,10 +51,10 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_yellow_bg);
-        }else if(intState==5){//盲拍-已拍
+        }else if(intState==5){//抢拍完毕
             view.setEnabled(false);
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
-            helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
+            helper.setText(R.id.text_auction_goods_time,item.getStrState());
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_gray_bg);
         }else if(intState==6){//待支付
             view.setEnabled(true);
@@ -64,7 +64,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         }else if(intState==7){//已支付
             view.setEnabled(false);
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
-            helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
+            helper.setText(R.id.text_auction_goods_time,item.getStrState());
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_gray_bg);
         }
         view.setText(item.getStrState());
