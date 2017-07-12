@@ -320,7 +320,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             tvUseTicketDesc.setText(goodsObj.optString("promotion_price_remark"));
 
             SpannableString ss=new SpannableString(promotion_text+goods.getGoodsTitle());
-            ss.setSpan(new RadiusBackgroundSpan(this,0xfffa5e5f,2),0,promotion_text.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new RadiusBackgroundSpan(this,0xfffa5e5f,2,13),0,promotion_text.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             goodsDesc1.setText(ss);
         }
     }

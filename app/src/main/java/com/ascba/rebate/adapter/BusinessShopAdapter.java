@@ -37,7 +37,7 @@ public class BusinessShopAdapter extends BaseQuickAdapter<ShopBaseItem, BaseView
         String teiHui = item.getTeiHui();
         if(!StringUtils.isEmpty(teiHui)){
             SpannableString ss=new SpannableString(teiHui+item.getTitle());
-            ss.setSpan(new RadiusBackgroundSpan(mContext,0xfffa5e5f,2),0,teiHui.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new RadiusBackgroundSpan(mContext,0xfffa5e5f,2,11),0,teiHui.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tvName.setText(ss);
         }else {
             tvName.setText(item.getTitle());
