@@ -252,7 +252,7 @@ public class UrlUtils {
     public static final String auctionPayList  = urlPrefix + "auctionPayList";//我的获拍列表
     public static final String getAuctionExp  = urlPrefix + "getAuctionExp";//物流信息
     public static final String confirmReceipt= urlPrefix + "confirmReceipt";//我的货拍-确认收货;
-    /**----------------------扫一扫（sweep created by fanxi）--------------------*/
+    /**------------------------扫一扫（sweep created by fanxi）--------------------------*/
 
     private static final String Transaction=urlPrefix+"Transaction"+"/";
     private static final String TransactionLog=urlPrefix+"TransactionLog"+"/";
@@ -263,5 +263,7 @@ public class UrlUtils {
     public static final String info=TransactionLog + "info";//订单详情
     public static final String sureOrderList=TransactionLog + "list";//订单详情
 
+    /**-----------------------推荐有礼（promotion have ceremony created by fanxi）-------------------*/
+    public static final String courtesyRecommended=urlPrefix+"courtesyRecommended";//订单详情
 
 }

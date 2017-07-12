@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
@@ -44,12 +42,10 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.main.MainActivity;
-import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.activities.offline_business.CaptureActivity;
-import com.ascba.rebate.activities.offline_business.OfflinePayActivity;
+import com.ascba.rebate.activities.offline_business.promotion_ceremony.PromotionCeremonyActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.adapter.HomePageAdapter;
-import com.ascba.rebate.adapter.TurnAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.AcutionGoodsBean;
@@ -312,12 +308,13 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 }
             });
 
-            //推广码
+            //推荐有礼
             LinearLayout btnCode = (LinearLayout) view.findViewById(R.id.pop_hm_code);
             btnCode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), RecQRActivity.class));
+                 // startActivity(new Intent(getActivity(), RecQRActivity.class));
+                    startActivity(new Intent(getActivity(), PromotionCeremonyActivity.class));
                     popupWindow.dismiss();
                 }
             });

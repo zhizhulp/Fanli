@@ -63,12 +63,14 @@
             android:paddingRight="15dp">
 
             <TextView
+                android:layout_centerVertical="true"
                 android:id="@+id/symbol"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥"
-                android:textColor="@color/main_text_normal"
-                android:textSize="@dimen/main_text_17" />
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
             <com.ascba.rebate.view.EditTextWithCustomHint
                 android:id="@+id/et_busi_money"
@@ -231,18 +233,19 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btn_pay"
+        <TextView
+            android:id="@+id/offline_tv_pay"
             android:layout_width="match_parent"
             android:layout_height="51dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="30dp"
-            android:background="@color/red"
             android:gravity="center"
             android:onClick="goPay"
             android:text="付款"
+            android:clickable="true"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
 

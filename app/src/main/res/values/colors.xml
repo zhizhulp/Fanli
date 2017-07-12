@@ -127,5 +127,9 @@
     <!--<color name="myInputPwdBase_gray">#f0f0f6</color>-->
 
     <color name="sure_orange">#FF8C00</color>
+    <color name="submit_gray">#ffc0c0c0</color>
+    <color name="submit_red">#FF8C00</color>
+
+
 
 </resources>

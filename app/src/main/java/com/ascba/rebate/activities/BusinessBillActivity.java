@@ -109,7 +109,6 @@ public class BusinessBillActivity extends BaseBillActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(data.get(position).getItemType()!=0){//不是头部就自己跳入
-
                     Intent intent=new Intent(BusinessBillActivity.this, SellerOrderDetailActivity.class);
                     intent.putExtra("order_id",data.get(position).getFivepercent_log_id());
                     intent.putExtra("into_type",1);

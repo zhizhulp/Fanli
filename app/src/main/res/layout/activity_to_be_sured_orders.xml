@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         app:tailTextColor="@color/main_red_normal"
         app:textTail="账单"
-        app:textTitle="商家确认"
+        app:textTitle="现金确认"
         app:titleColor="@color/black" />
 
     <android.support.v4.widget.SwipeRefreshLayout

@@ -27,7 +27,7 @@
                     android:layout_height="47dp"
                     app:needTailIcon="true"
                     app:barBg="@color/transparent"
-                    app:tailIcon="@mipmap/me_sz"
+                    app:tailIcon="@mipmap/busi_uion_setting"
                     app:textTitle="商家联盟" />
 
                 <LinearLayout

@@ -2,7 +2,6 @@ package com.ascba.rebate.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
@@ -11,11 +10,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -331,9 +326,8 @@ public class PayUtils {
                         AppConfig.getInstance().putInt("is_level_pwd",0);
                         psdDialog.showMyDialog();
                     }
-
                     @Override
-                    void handleCancel() {
+                  public   void handleCancel() {
                         psdDialog.showMyDialog();
                     }
                 });
