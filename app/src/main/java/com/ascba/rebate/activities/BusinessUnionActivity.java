@@ -97,7 +97,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
                 Intent intent = new Intent(this, BusinessBillActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.business_data:
+            case R.id.business_data://现金确认
                 requestOrders(UrlUtils.sureOrderList, 2);
                 break;
         }
@@ -124,7 +124,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
             JSONObject obj = dataObj.optJSONObject("receivables");
             String url = obj.optString("url");
             Intent intent = new Intent(this, WebViewBaseActivity.class);
-            intent.putExtra("name", "收款");
+            intent.putExtra("name", "我要收款");
             intent.putExtra("url", url);
             startActivity(intent);
         }else if(finalScene==1){
@@ -135,7 +135,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
             tvTodayMoney.setText(obj.optString("today_money"));
             tvTodayExtra.setText(obj.optInt("today_score")+"");
             tvTodayCount.setText(obj.optInt("today_count")+"");
-        }else if(finalScene==2){
+        }else if(finalScene==2){//现金确认
             ToBeSuredOrdersEntity toBeSuredOrdersEntity = JSON.parseObject(dataObj.toString(), ToBeSuredOrdersEntity.class);
             ToBeSuredOrdersEntity.IdenInfoBean iden_info = toBeSuredOrdersEntity.getIden_info();
             if (iden_info != null) {

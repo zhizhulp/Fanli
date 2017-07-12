@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class FindPayPasswordActivity extends BaseNetActivity {
 
     private TextView tvPhone;
     private EditText etCode;
+    private TextView find_psw_tv_send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +34,34 @@ public class FindPayPasswordActivity extends BaseNetActivity {
         tvPhone.setText(AppConfig.getInstance().getString("login_phone",null));
 
         etCode = ((EditText) findViewById(R.id.ed_bank_card_phone));
+        find_psw_tv_send= (TextView) findViewById(R.id.find_psw_tv_send);
 
 
     }
     //发送验证码
     public void sendMsg(View view) {
         requestNetwork(UrlUtils.sendMsg,0);
-    }
+        TimeCount();
 
+    }
+    //倒计时的方法R.color.main_text_gary
+    public void TimeCount() {
+        new CountDownTimer(60 * 1000, 1000) {
+            @Override
+            public void onTick(long l) {
+                find_psw_tv_send.setTextColor(getResources().getColor(R.color.main_text_gary));
+                find_psw_tv_send.setText(l / 1000 + "s 后可重发");
+            }
+
+            @Override
+            public void onFinish() {
+                find_psw_tv_send.setText("获取验证码");
+
+            }
+        }.start();
+
+
+    }
     private void requestNetwork(String url, int what) {
         Request<JSONObject> request = null;
         if(what==0){
@@ -49,7 +71,7 @@ public class FindPayPasswordActivity extends BaseNetActivity {
             request.add("type",3);
         }else if(what==1){
             request = buildNetRequest(url, 0, true);
-            request.add("mobile",etCode.getText().toString());
+            request.add("captcha",etCode.getText().toString());
         }
 
         executeNetWork(what,request,"请稍后");

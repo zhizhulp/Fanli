@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
-import android.test.mock.MockApplication;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,12 +16,10 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.utils.QrUtils;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.utils.Utils;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.yanzhenjie.nohttp.rest.Request;
-import com.yanzhenjie.nohttp.tools.Util;
 
 import org.json.JSONObject;
 
@@ -76,7 +73,6 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
     public void copyText(View view) {
         WXWebpageObject webpage=new WXWebpageObject();
         webpage.webpageUrl = tvRecNet.getText().toString();
-
         WXMediaMessage msg=new WXMediaMessage(webpage);
         msg.title="哇！花多少赚多少，京东都怕了";
         msg.description="商品多，配送快，品质好，天天省钱，消费能赚钱，快快体验吧！";

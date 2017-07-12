@@ -6,16 +6,16 @@ import android.support.design.widget.BottomSheetDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
-import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity1;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.appconfig.AppConfig;
+import com.ascba.rebate.beans.sweep.KeepAccountSubmitEntity;
 import com.ascba.rebate.beans.sweep.SubmitEntity;
 import com.ascba.rebate.handlers.OnPasswordInput;
 import com.ascba.rebate.utils.DialogHome;
@@ -32,12 +32,12 @@ import org.json.JSONObject;
 /**
  * 扫一扫-付款
  */
-public class OfflinePayActivity extends BaseNetActivity implements View.OnClickListener, TextWatcher {
+public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClickListener, TextWatcher {
 
     private RoundImageView busiIcon;
     private TextView tvBusiName, sweepRemainder;
     private EditTextWithCustomHint etMoney;
-    private Button btnPay;
+    private View offline_tv_pay;
     private PsdDialog psdDialog;
     private BottomSheetDialog payTypeDialog;
     private boolean isReminderPay = true;
@@ -67,15 +67,21 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         tvBusiName = ((TextView) findViewById(R.id.tv_busi_name));
         sweepRemainder = (TextView) findViewById(R.id.sweep_remainder);
         etMoney = ((EditTextWithCustomHint) findViewById(R.id.et_busi_money));
-        btnPay = ((Button) findViewById(R.id.btn_pay));
+        offline_tv_pay = findViewById(R.id.offline_tv_pay);
         etMoney.addTextChangedListener(this);
-        setBtnStatus(R.drawable.ticket_no_shop_bg, false);
+        setBtnStatus(R.color.submit_gray, false);
         rbReminder = (RadioButton) findViewById(R.id.rb_offline_reminder);
         rbOther = (RadioButton) findViewById(R.id.rb_offline_other);
         rbReminder.setOnClickListener(this);
         rbOther.setOnClickListener(this);
         rbReminder.setChecked(true);
+        offline_tv_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goPay();
 
+            }
+        });
 
         Intent intent = getIntent();
         seller_cover_logo = intent.getStringExtra("seller_cover_logo");
@@ -84,7 +90,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         self_money = Double.parseDouble(intent.getStringExtra("self_money"));//余额
         seller_logo = UrlUtils.baseWebsite + seller_cover_logo;
         Picasso.with(this).load(seller_logo).into(busiIcon);
-        tvBusiName.setText("向" + seller_name + "付款");
+        tvBusiName.setText("向 " + seller_name + " 付款");
         sweepRemainder.setText("可用余额" + self_money + "元");
     }
 
@@ -104,36 +110,51 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
         }
     }
 
+
     @Override
     public void afterTextChanged(Editable s) {
         String finalString = s.toString();
         if ("".equals(finalString)) {//未输入金额的情况
-            setBtnStatus(R.drawable.ticket_no_shop_bg, false);
+            setBtnStatus(R.color.submit_gray, false);
             return;
         }
         double v = Double.parseDouble(finalString);
         if (v == 0) {//输入金额为0的情况
-            setBtnStatus(R.drawable.ticket_no_shop_bg, false);
+            setBtnStatus(R.color.submit_gray, false);
         } else {
-            setBtnStatus(R.drawable.register_btn_bg, true);
+            setBtnStatus(R.color.main_red_normal, true);
         }
     }
 
     //设置button状态
     private void setBtnStatus(int id, boolean enable) {
-        btnPay.setBackgroundDrawable(getResources().getDrawable(id));
-        btnPay.setEnabled(enable);
+        offline_tv_pay.setBackgroundColor(getResources().getColor(id));
+        offline_tv_pay.setClickable(enable);
     }
 
+
     //点击去付款
-    public void goPay(View view) {
+    private void goPay() {
         if (payType == 2) {//余额支付的方式
-            showPsdDialog();
+            if(AppConfig.getInstance().getInt("is_level_pwd", 0) == 0){
+
+                getDm().buildAlertDialogSure("请设置支付密码！", "设置", "取消", new DialogHome.Callback() {
+                    @Override
+                    public void handleSure() {//取消
+                    }
+                    @Override
+                    public void handleCancel() {
+                        Intent intent = new Intent(OfflinePayActivity.this, PayPsdSettingActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+            }else{
+                showPsdDialog();
+            }
+
         } else if (payType == 1) {//记账的方式支付
             requestKeepAccounts(UrlUtils.submit, 0);
-            intent1=getIntent();
-            setResult(RESULT_OK, intent1);
-            finish();
 
         }
 
@@ -154,6 +175,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     public void requestKeepAccounts(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         importMoney = Double.parseDouble(etMoney.getText().toString());//输入的金额
+
         request.add("seller", seller);
         request.add("money", importMoney);
         request.add("pay_type", payType);
@@ -162,32 +184,99 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     }
 
     @Override
+    protected void mhandle404(int what, JSONObject dataObj, String message) {
+        // error_status:1余额不足（消费者），2密码错误（消费者），3未设置支付密码（消费者），4商家余额不足
+
+        int error_status = dataObj.optInt("error_status");
+        if (error_status == 1) {//
+            getDm().buildAlertDialogSure("账户余额不足，请先充值，再进行支付！", "重新选择", "立即充值", new DialogHome.Callback() {
+                @Override
+                public void handleSure() {
+                    startActivity(new Intent(OfflinePayActivity.this, AccountRechargeActivity.class));
+                }
+            });
+        } else if (error_status == 2) {//密码错误
+            getDm().buildAlertDialogSure(message, "重新输入", "忘记密码", new DialogHome.Callback() {
+                @Override
+                public void handleSure() {
+                    Intent intent = new Intent(OfflinePayActivity.this, PayPsdSettingActivity.class);
+                    intent.putExtra("type",1);
+                    startActivity(intent);
+                }
+                @Override
+                public void handleCancel() {
+                    super.handleCancel();
+                    showPsdDialog();
+
+                }
+            });
+
+        } /*else if (error_status == 3) {//未设置密码
+
+        }*/ else if (error_status == 4) {
+            showToast(message);
+        }
+
+    }
+
+    @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         super.mhandle200Data(what, object, dataObj, message);
-        if (payType == 2) {
-            SubmitEntity submitEntity = JSON.parseObject(dataObj.toString(), SubmitEntity.class);
-            SubmitEntity.InfoBean info = submitEntity.getInfo();
-            String pay_commission = info.getPay_commission();
-            int accumulate_points = info.getScore();
-            String seller_mobile = info.getMember_username();
-            String order_number = info.getOrder_number();
-            String pay_type_text = info.getPay_type_text();
-            Intent intent = new Intent(OfflinePayActivity.this, OfflinePaySuccedActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putDouble("importMoney", importMoney);
+        if (payType == 2) {//余额支付
+            if (importMoney < self_money) {//余额足的情况下
+                SubmitEntity submitEntity = JSON.parseObject(dataObj.toString(), SubmitEntity.class);
+                SubmitEntity.InfoBean info = submitEntity.getInfo();
+
+                int accumulate_points = info.getScore();
+                String seller_mobile = info.getMember_username();
+                String order_number = info.getOrder_number();
+                String pay_type_text = info.getPay_type_text();
+                Intent intent = new Intent(OfflinePayActivity.this, OfflinePaySuccedActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("pay_type", info.getPay_type());
+
+                bundle.putString("importMoney", info.getMoney());
+                bundle.putString("seller_cover_logo", seller_cover_logo);
+                bundle.putString("seller_name", seller_name);
+                bundle.putString("order_status_text", info.getOrder_status_text());
+                bundle.putString("pay_type_text", pay_type_text);
+
+                bundle.putString("member_username", seller_mobile);
+                bundle.putString("accumulate_points", accumulate_points + "");
+                bundle.putLong("create_time", info.getCreate_time());
+                bundle.putString("order_number", order_number);
+
+                intent.putExtras(bundle);
+                startActivityForResult(intent, RESULT_CODE);
+                finish();
+
+            } //余额不足在404处理
+
+
+        } else {//记账的方式支付
+            KeepAccountSubmitEntity keepAccountSubmitEntity = JSON.parseObject(dataObj.toString(), KeepAccountSubmitEntity.class);
+            KeepAccountSubmitEntity.InfoBean infoBean = keepAccountSubmitEntity.getInfo();
+            Intent intent = new Intent(this, OfflinePaySuccedActivity.class);
+
+            Bundle bundle = new Bundle();//有11项
+            bundle.putInt("pay_type", infoBean.getPay_type());
+            bundle.putString("importMoney", infoBean.getMoney() + "");
             bundle.putString("seller_cover_logo", seller_cover_logo);
-            bundle.putString("seller_name", seller_name);
-            bundle.putInt("accumulate_points", accumulate_points);
-            bundle.putString("seller_mobile", seller_mobile);
-            bundle.putString("order_number", order_number);
-            bundle.putString("pay_type_text", pay_type_text);
-            bundle.putString("pay_commission", pay_commission);
+            bundle.putString("seller_name", infoBean.getName());
+            bundle.putString("order_status_text", infoBean.getOrder_status_text());
+            bundle.putString("pay_type_text", infoBean.getPay_type_text());
+            bundle.putString("member_username", infoBean.getMember_username());
+            bundle.putString("accumulate_points", infoBean.getScore() + "");
+            bundle.putLong("create_time", infoBean.getCreate_time());
+            bundle.putString("order_number", infoBean.getOrder_number());
+            bundle.putString("seller_contact", infoBean.getSeller_contact());
+
             intent.putExtras(bundle);
             startActivityForResult(intent, RESULT_CODE);
-        } else {
-            showToast("待商家确认，请稍后");
+            finish();
+            // showToast("待商家确认，请稍后");
         }
-        finish();
+
 
     }
 
@@ -199,9 +288,7 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
                 if (resultCode == 3) {
                     setResult(100);
                     finish();
-
                 }
-
                 break;
 
 
@@ -243,18 +330,20 @@ public class OfflinePayActivity extends BaseNetActivity implements View.OnClickL
     private void judgeRemainder() {           //凡茜
         if (isReminderPay) {//如果余额支付
             importMoney = Double.parseDouble(etMoney.getText().toString());//输入的金额
-            if (importMoney < self_money) {
-                requestNetwork(UrlUtils.submit, 0);
-            } else {
-                getDm().buildAlertDialog3("账户余额不足，请先充值，再进行支付！", "去充值", new DialogHome.Callback() {
-                    @Override
-                    public void handleSure() {
-                        startActivity(new Intent(OfflinePayActivity.this, AccountRechargeActivity.class));
-                        finish();
-                    }
-                }).show();
-            }
+            requestNetwork(UrlUtils.submit, 0);
 
+
+//            if (importMoney <self_money) {//余额足的情况下
+//                requestNetwork(UrlUtils.submit, 0);
+//            } else {
+//                getDm().buildAlertDialogSure("账户余额不足，请先充值，再进行支付！", "重新选择", "立即充值", new DialogHome.Callback() {
+//                    @Override
+//                    public void handleSure() {
+//                        startActivity(new Intent(OfflinePayActivity.this, AccountRechargeActivity.class));
+//                    }
+//                });
+//
+//            }
         }
 
     }

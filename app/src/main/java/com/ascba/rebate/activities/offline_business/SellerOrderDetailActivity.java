@@ -41,6 +41,8 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
     private MoneyBar mb;
     private int intoType;
     private boolean backToRefresh=false;//返回操作是否刷新
+    private RelativeLayout seller_order_detail_employpay,seller_order_detail_contactway;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,9 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
                setResultsAndBack();
             }
         });
+        seller_order_detail_employpay= (RelativeLayout) findViewById(R.id.seller_order_detail_employpay);
+        seller_order_detail_contactway= (RelativeLayout) findViewById(R.id.seller_order_detail_contactway);
+
 
         seller_order_trade_number = (TextView) findViewById(R.id.seller_order_trade_number);
         seller_order_contactway = (TextView) findViewById(R.id.seller_order_contactway);
@@ -137,6 +142,7 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
 
     private void setOrderSure(int status) {
         if (order_identity.equals("seller")) {//是商家
+            seller_order_detail_employpay.setVisibility(View.VISIBLE);//佣金可见
             if (paytype == 1) {//记账的方式
                 mb.setTextTitle("订单确定");
                 if(status == 0){   //交易中
@@ -144,10 +150,15 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
                 }
             } else if (paytype == 2) {//余额支付的方式
                 sure_order_vis.setVisibility(View.GONE);
+                seller_order_detail_contactway.setVisibility(View.GONE);
             }
-        } else {//消费者（记账的方式）
+        } else {//消费者（记账的方式）--消费明细的入口
             //点击支付成功——到订单详情页-再次请求接口
             //  getOrderId();
+            seller_order_detail_contactway.setVisibility(View.VISIBLE);//用户有商家联系方式
+            sure_order_vis.setVisibility(View.GONE);
+
+
         }
     }
 
@@ -160,12 +171,14 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
 
                 break;
             case R.id.seller_order_cancel://取消
-                Dialog dialog1 = getDm().buildAlertDialog2("确定取消此笔订单吗？", new DialogHome.Callback() {
+
+                Dialog dialog1 = getDm().buildAlertDialogSure("确定取消此笔订单吗？","取消","确定" ,new DialogHome.Callback() {
                     @Override
                     public void handleSure() {//点击取消时，商家重新请求支付。
                         requestCancel(UrlUtils.cancel, 2);
                         sure_order_vis.setVisibility(View.GONE);
                     }
+
                 });
                 dialog1.show();
                 break;

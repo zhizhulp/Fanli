@@ -209,7 +209,7 @@ public class DialogHome {
     public static abstract class Callback {
         public abstract void handleSure();
 
-        void handleCancel() {
+       public void handleCancel() {
         }
     }
 

@@ -194,7 +194,7 @@ public class ToBeSuredOrdersEntity {
         private String money;
         private String pay_type_text;
         private String order_status_text;
-        private int create_time;
+        private long create_time;
 
         public int getFivepercent_log_id() {
             return fivepercent_log_id;
@@ -236,12 +236,13 @@ public class ToBeSuredOrdersEntity {
             this.order_status_text = order_status_text;
         }
 
-        public int getCreate_time() {
+        public long getCreate_time() {
             return create_time;
         }
 
-        public void setCreate_time(int create_time) {
+        public void setCreate_time(long create_time) {
             this.create_time = create_time;
         }
     }
+
 }

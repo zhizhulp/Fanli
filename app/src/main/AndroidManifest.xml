@@ -724,7 +724,8 @@
         <activity
             android:name=".activities.shop.ShopSearchActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.shop.order.OrderDetailsActivity"></activity>
+        <activity android:name=".activities.shop.order.OrderDetailsActivity" />
+        <activity android:name=".activities.offline_business.promotion_ceremony.PromotionCeremonyActivity"></activity>
     </application>
 
 </manifest>
