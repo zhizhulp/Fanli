@@ -42,6 +42,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="wrap_content"
+        android:text="11233333333333333333333333"
         android:layout_height="wrap_content" />
     <Button
         android:onClick="copyText"

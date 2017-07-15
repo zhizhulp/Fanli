@@ -41,7 +41,7 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
 
     private void initViews() {
         tvRecId = ((TextView) findViewById(R.id.tv_rec_code));
-        tvRecNet = ((TextView) findViewById(R.id.tv_rec_net));
+        tvRecNet = ((TextView) findViewById(R.id.tv_rec_net));//推广链接
         imQR = ((ImageView) findViewById(R.id.im_rec_qr));
 
     }
@@ -49,13 +49,14 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
         SharedPreferences sf = getSharedPreferences("first_login_success_name_password", MODE_PRIVATE);
         String p_id = sf.getString("p_id", "");
         String p_url = sf.getString("p_url", "");
-        if(!p_id.equals("")||!p_url.equals("")){
-            tvRecId.setText("推荐ID:"+p_id);
+        if (!p_id.equals("") || !p_url.equals("")) {
+            tvRecId.setText("推荐ID:" + p_id);
             tvRecNet.setText(p_url);
             Bitmap qrCode = createQRCode(p_url, 250, 250);
             imQR.setImageBitmap(qrCode);
         }
     }
+
 
     private void requestFromServer() {
         Request<JSONObject> request = buildNetRequest(UrlUtils.partook, 0, true);
@@ -66,7 +67,7 @@ public class RecQRActivity extends BaseNetActivity implements BaseNetActivity.Ca
     public Bitmap createQRCode(String content,int width,int height){
         int dpWidth = ScreenDpiUtils.dip2px(this, width);
         int dpHeight = ScreenDpiUtils.dip2px(this, height);
-        return QrUtils.createQRImage(content,dpWidth,dpHeight);
+        return QrUtils.createQRImage(content,dpWidth,dpHeight,getApplicationContext());
         //return QrUtils.createImage(content, dpWidth, dpHeight, BitmapFactory.decodeResource(getResources(), R.mipmap.logo));
     }
 

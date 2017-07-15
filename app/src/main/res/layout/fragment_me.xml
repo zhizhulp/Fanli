@@ -369,40 +369,40 @@
                     android:src="@mipmap/me_right_go" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/me_lat_order"
-                android:layout_width="match_parent"
-                android:layout_height="47dp"
-                android:layout_marginBottom="0.8dp"
-                android:background="@color/main_content_bg"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp">
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/me_lat_order"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="47dp"-->
+                <!--android:layout_marginBottom="0.8dp"-->
+                <!--android:background="@color/main_content_bg"-->
+                <!--android:paddingLeft="14dp"-->
+                <!--android:paddingRight="14dp">-->
 
-                <ImageView
-                    android:id="@+id/me_icon_order"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/me_myorder" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/me_icon_order"-->
+                    <!--android:layout_width="19dp"-->
+                    <!--android:layout_height="19dp"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:src="@mipmap/me_myorder" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@id/me_icon_order"
-                    android:text="我的订单"
-                    android:textColor="@color/main_text_normal"
-                    android:textSize="@dimen/main_text_14" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="14dp"-->
+                    <!--android:layout_toRightOf="@id/me_icon_order"-->
+                    <!--android:text="我的订单"-->
+                    <!--android:textColor="@color/main_text_normal"-->
+                    <!--android:textSize="@dimen/main_text_14" />-->
 
-                <ImageView
-                    android:id="@+id/me_icon_go_order"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/me_right_go" />
-            </RelativeLayout>
+                <!--<ImageView-->
+                    <!--android:id="@+id/me_icon_go_order"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:src="@mipmap/me_right_go" />-->
+            <!--</RelativeLayout>-->
 
             <View
                 android:layout_width="match_parent"

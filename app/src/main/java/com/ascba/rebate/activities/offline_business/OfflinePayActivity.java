@@ -19,6 +19,7 @@ import com.ascba.rebate.beans.sweep.KeepAccountSubmitEntity;
 import com.ascba.rebate.beans.sweep.SubmitEntity;
 import com.ascba.rebate.handlers.OnPasswordInput;
 import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.PsdUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.EditTextWithCustomHint;
@@ -37,7 +38,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     private RoundImageView busiIcon;
     private TextView tvBusiName, sweepRemainder;
     private EditTextWithCustomHint etMoney;
-    private View offline_tv_pay;
+    private TextView offline_tv_pay;
     private PsdDialog psdDialog;
     private BottomSheetDialog payTypeDialog;
     private boolean isReminderPay = true;
@@ -51,6 +52,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     private String seller_logo, seller_name, seller_cover_logo;
     public static final int RESULT_CODE = 1;
     Intent intent1;
+    private String preChangeTxt = "";
 
 
     @Override
@@ -67,7 +69,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         tvBusiName = ((TextView) findViewById(R.id.tv_busi_name));
         sweepRemainder = (TextView) findViewById(R.id.sweep_remainder);
         etMoney = ((EditTextWithCustomHint) findViewById(R.id.et_busi_money));
-        offline_tv_pay = findViewById(R.id.offline_tv_pay);
+        offline_tv_pay = (TextView) findViewById(R.id.offline_tv_pay);
         etMoney.addTextChangedListener(this);
         setBtnStatus(R.color.submit_gray, false);
         rbReminder = (RadioButton) findViewById(R.id.rb_offline_reminder);
@@ -84,14 +86,21 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         });
 
         Intent intent = getIntent();
-        seller_cover_logo = intent.getStringExtra("seller_cover_logo");
-        seller_name = intent.getStringExtra("seller_name");
-        seller = intent.getIntExtra("seller", 0);
-        self_money = Double.parseDouble(intent.getStringExtra("self_money"));//余额
-        seller_logo = UrlUtils.baseWebsite + seller_cover_logo;
-        Picasso.with(this).load(seller_logo).into(busiIcon);
-        tvBusiName.setText("向 " + seller_name + " 付款");
-        sweepRemainder.setText("可用余额" + self_money + "元");
+        int type=intent.getIntExtra("type",0);
+
+        if(type==0){//从captureactivity的页面
+           seller_cover_logo = intent.getStringExtra("seller_cover_logo");
+            seller_name = intent.getStringExtra("seller_name");
+            seller = intent.getIntExtra("seller", 0);
+            self_money = Double.parseDouble(intent.getStringExtra("self_money"));//余额
+            seller_logo = UrlUtils.baseWebsite + seller_cover_logo;
+            Picasso.with(this).load(seller_logo).into(busiIcon);
+            tvBusiName.setText("向 " + seller_name + " 付款");
+            sweepRemainder.setText("可用余额" + NumberFormatUtils.getNewDouble(self_money)+ "元");
+        }else if(type==1){
+
+        }
+
     }
 
     //点击更换支付方式
@@ -114,7 +123,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     @Override
     public void afterTextChanged(Editable s) {
         String finalString = s.toString();
-        if ("".equals(finalString)) {//未输入金额的情况
+        if ("".equals(finalString) || finalString.substring(0,1).equals(".")) {//未输入金额的情况
             setBtnStatus(R.color.submit_gray, false);
             return;
         }
@@ -129,7 +138,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //设置button状态
     private void setBtnStatus(int id, boolean enable) {
         offline_tv_pay.setBackgroundColor(getResources().getColor(id));
-        offline_tv_pay.setClickable(enable);
+        offline_tv_pay.setEnabled(enable);
     }
 
 
@@ -175,7 +184,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     public void requestKeepAccounts(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         importMoney = Double.parseDouble(etMoney.getText().toString());//输入的金额
-
         request.add("seller", seller);
         request.add("money", importMoney);
         request.add("pay_type", payType);
@@ -332,18 +340,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
             importMoney = Double.parseDouble(etMoney.getText().toString());//输入的金额
             requestNetwork(UrlUtils.submit, 0);
 
-
-//            if (importMoney <self_money) {//余额足的情况下
-//                requestNetwork(UrlUtils.submit, 0);
-//            } else {
-//                getDm().buildAlertDialogSure("账户余额不足，请先充值，再进行支付！", "重新选择", "立即充值", new DialogHome.Callback() {
-//                    @Override
-//                    public void handleSure() {
-//                        startActivity(new Intent(OfflinePayActivity.this, AccountRechargeActivity.class));
-//                    }
-//                });
-//
-//            }
         }
 
     }
@@ -354,46 +350,40 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        //只要前面的三位数
+        if (s.toString().contains(".")) {
+            if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                s = s.toString().subSequence(0,
+                        s.toString().indexOf(".") + 3);
+                etMoney.setText(s);
+                etMoney.setSelection(s.length());
+            }
+        }
+        //开够输入.自动变为0.x的类型
+        if (s.toString().trim().substring(0).equals(".")) {
+            if(preChangeTxt.toString().trim().length() == 0){
+                s = "0" + s;
+                etMoney.setText(s);
+                etMoney.setSelection(2);
+            }
+        }
+
+        if(s.toString().trim().substring(0).equals("0")){
+            if(preChangeTxt.toString().trim().length() == 0){
+                s = s + ".";
+                etMoney.setText(s);
+                etMoney.setSelection(2);
+            }
+        }
+
+        if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
+            if (!s.toString().substring(1, 2).equals(".")) {
+                etMoney.setText(s.subSequence(0, 1));
+                etMoney.setSelection(1);
+                return;
+            }
+        }
+        preChangeTxt = s.toString().trim();
     }
 
-//    //支付方式dialog
-//    private void showPayTypeDialog() {
-//        payTypeDialog = new BottomSheetDialog(this, R.style.AlertDialog);
-//        payTypeDialog.setContentView(R.layout.layout_pay_pop_offline);
-//        //列表
-//        RecyclerView rvTypes = (RecyclerView) payTypeDialog.findViewById(R.id.pay_type_list);
-//        List<PayType> types = new ArrayList<>();
-//        initPayTypesData(types);
-//        PayTypeAdapter pt = new PayTypeAdapter(R.layout.pay_type_item, types);
-//        pt.setCallback(new PayTypeAdapter.Callback() {
-//            @Override
-//            public void onClicked(String payType) {
-//                payTypeDialog.dismiss();
-//                OfflinePayActivity.this.payType = payType;
-//                if ("balance".equals(payType)) {
-//                    setSuperString("账户余额支付方式");
-//                } else if ("cash".equals(payType)) {
-//                    setSuperString("现金支付方式");
-//                }
-//            }
-//        });
-//        rvTypes.setLayoutManager(new LinearLayoutManager(this));
-//        rvTypes.setAdapter(pt);
-//        //显示对话框
-//        payTypeDialog.show();
-//    }
-
-//    private void initPayTypesData(List<PayType> types) {
-//        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付方式", "快捷支付 账户余额￥" + 28, "balance"));
-//        types.add(new PayType(false, R.mipmap.pay_cash, "现金支付方式", "通过app使用现金支付可以返积分喔！", "cash"));
-//        for (int i = 0; i < types.size(); i++) {
-//            PayType payType = types.get(i);
-//            String type = payType.getType();
-//            if (this.payType.equals(type)) {
-//                payType.setSelect(true);
-//            } else {
-//                payType.setSelect(false);
-//            }
-////        }
-//    }
 }

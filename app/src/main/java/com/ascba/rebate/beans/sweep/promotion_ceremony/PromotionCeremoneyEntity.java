@@ -9,18 +9,20 @@ import java.util.List;
 public class PromotionCeremoneyEntity {
 
     /**
-     * uuid : 85
-     * token : f9943b7a0dc135098923bbd7fefbb16f
-     * expiring_time : 1502422120
+     * uuid : 81
+     * token : 0741ddf48013e3604b8e530932d92010
+     * expiring_time : 1502606423
      * update_status : 0
      * tokenFail : false
      * isLogin : true
      * isExpiringTime : false
      * count : 0
-     * courtesy : {"image":"/public/base/images/courtesy.jpg","title":"哇！花多少赚多少，京东都怕了。","subtitle":"商品多，配送快，品质好，天天省钱，消费能赚钱，快快体验吧！","courtesy_id":"5710053535","courtesy_url":"http://home.qlqwshop.com/reg/5710053535"}
-     * total_money : 0
-     * people_num : 0
-     * referee_list : []
+     * courtesy : {"image":"/public/base/images/courtesy.jpg","title":"哇！花多少赚多少，京东都怕了。","subtitle":"商品多，配送快，品质好，天天省钱，消费能赚钱，快快体验吧！","courtesy_id":"9810150984","courtesy_img":"/public/base/images/zhuan.jpg","courtesy_url":"http://home.qlqwshop.com/reg/9810150984"}
+     * total_money : 5
+     * people_num : 2
+     * referee_list : [{"member_id":273,"mobile":"159****6066","avatar":"/public/base/images/default.jpg","remarks":"未完成首单","money":0},{"member_id":82,"mobile":"158****2251","avatar":"/public/base/images/default.jpg","remarks":"已完成首单","money":"5.00"}]
+     * now_page : 1
+     * total_page : 1
      */
 
     private int uuid;
@@ -32,9 +34,11 @@ public class PromotionCeremoneyEntity {
     private boolean isExpiringTime;
     private int count;
     private CourtesyBean courtesy;
-    private int total_money;
+    private String total_money;
     private int people_num;
-    private List<?> referee_list;
+    private int now_page;
+    private int total_page;
+    private List<RefereeListBean> referee_list;
 
     public int getUuid() {
         return uuid;
@@ -108,11 +112,11 @@ public class PromotionCeremoneyEntity {
         this.courtesy = courtesy;
     }
 
-    public int getTotal_money() {
+    public String getTotal_money() {
         return total_money;
     }
 
-    public void setTotal_money(int total_money) {
+    public void setTotal_money(String total_money) {
         this.total_money = total_money;
     }
 
@@ -124,11 +128,27 @@ public class PromotionCeremoneyEntity {
         this.people_num = people_num;
     }
 
-    public List<?> getReferee_list() {
+    public int getNow_page() {
+        return now_page;
+    }
+
+    public void setNow_page(int now_page) {
+        this.now_page = now_page;
+    }
+
+    public int getTotal_page() {
+        return total_page;
+    }
+
+    public void setTotal_page(int total_page) {
+        this.total_page = total_page;
+    }
+
+    public List<RefereeListBean> getReferee_list() {
         return referee_list;
     }
 
-    public void setReferee_list(List<?> referee_list) {
+    public void setReferee_list(List<RefereeListBean> referee_list) {
         this.referee_list = referee_list;
     }
 
@@ -137,14 +157,16 @@ public class PromotionCeremoneyEntity {
          * image : /public/base/images/courtesy.jpg
          * title : 哇！花多少赚多少，京东都怕了。
          * subtitle : 商品多，配送快，品质好，天天省钱，消费能赚钱，快快体验吧！
-         * courtesy_id : 5710053535
-         * courtesy_url : http://home.qlqwshop.com/reg/5710053535
+         * courtesy_id : 9810150984
+         * courtesy_img : /public/base/images/zhuan.jpg
+         * courtesy_url : http://home.qlqwshop.com/reg/9810150984
          */
 
         private String image;
         private String title;
         private String subtitle;
         private String courtesy_id;
+        private String courtesy_img;
         private String courtesy_url;
 
         public String getImage() {
@@ -179,12 +201,76 @@ public class PromotionCeremoneyEntity {
             this.courtesy_id = courtesy_id;
         }
 
+        public String getCourtesy_img() {
+            return courtesy_img;
+        }
+
+        public void setCourtesy_img(String courtesy_img) {
+            this.courtesy_img = courtesy_img;
+        }
+
         public String getCourtesy_url() {
             return courtesy_url;
         }
 
         public void setCourtesy_url(String courtesy_url) {
             this.courtesy_url = courtesy_url;
+        }
+    }
+
+    public static class RefereeListBean {
+        /**
+         * member_id : 273
+         * mobile : 159****6066
+         * avatar : /public/base/images/default.jpg
+         * remarks : 未完成首单
+         * money : 0
+         */
+
+        private int member_id;
+        private String mobile;
+        private String avatar;
+        private String remarks;
+        private double money;
+
+        public int getMember_id() {
+            return member_id;
+        }
+
+        public void setMember_id(int member_id) {
+            this.member_id = member_id;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
+        public String getRemarks() {
+            return remarks;
+        }
+
+        public void setRemarks(String remarks) {
+            this.remarks = remarks;
+        }
+
+        public double getMoney() {
+            return money;
+        }
+
+        public void setMoney(double money) {
+            this.money = money;
         }
     }
 }

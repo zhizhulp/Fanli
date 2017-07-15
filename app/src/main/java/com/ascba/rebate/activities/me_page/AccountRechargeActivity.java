@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -35,9 +37,12 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public class AccountRechargeActivity extends BaseNetActivity implements BaseNetActivity.Callback, View.OnClickListener {
+public class AccountRechargeActivity extends BaseNetActivity implements BaseNetActivity.Callback, View.OnClickListener, TextWatcher {
     private int select;//选择支付方式 0 微信支付 1 支付宝支付
     private IWXAPI api;
+    private String preChangeTxt="";
+
+
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -108,6 +113,7 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
         });
 
         edMoney = ((EditTextWithCustomHint) findViewById(R.id.ed_recharge_money));
+        edMoney.addTextChangedListener(this);
         imAli = ((ImageView) findViewById(R.id.alipay_circle));
         imWx = ((ImageView) findViewById(R.id.wxpay_circle));
 
@@ -252,6 +258,57 @@ public class AccountRechargeActivity extends BaseNetActivity implements BaseNetA
         } else {//支付取消
             getDm().buildAlertDialog("您已经取消支付");
         }
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        //只要前面的三位数
+        if (s.toString().contains(".")) {
+            if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                s = s.toString().subSequence(0,
+                        s.toString().indexOf(".") + 3);
+                edMoney.setText(s);
+                edMoney.setSelection(s.length());
+            }
+        }
+        //开够输入.自动变为0.x的类型
+        if (s.toString().trim().substring(0).equals(".")) {
+            if(preChangeTxt.toString().trim().length() == 0){
+                s = "0" + s;
+                edMoney.setText(s);
+                edMoney.setSelection(2);
+            }
+        }
+
+        if(s.toString().trim().substring(0).equals("0")){
+            if(preChangeTxt.toString().trim().length() == 0){
+                s = s + ".";
+                edMoney.setText(s);
+                edMoney.setSelection(2);
+            }
+        }
+
+        if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
+            if (!s.toString().substring(1, 2).equals(".")) {
+                edMoney.setText(s.subSequence(0, 1));
+                edMoney.setSelection(1);
+                return;
+            }
+        }
+        preChangeTxt = s.toString().trim();
+    }
+    @Override
+    public void afterTextChanged(Editable s) {
+
+
 
     }
 }

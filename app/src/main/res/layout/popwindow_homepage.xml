@@ -18,14 +18,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="14dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_pay_white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="12dp"
             android:text="扫一扫"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -50,14 +50,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="14dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_rece_white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="12dp"
             android:text="收款"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -83,14 +83,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="14dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_code_white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="12dp"
             android:text="推荐有礼"
             android:textColor="@color/white"
             android:textSize="14sp" />
