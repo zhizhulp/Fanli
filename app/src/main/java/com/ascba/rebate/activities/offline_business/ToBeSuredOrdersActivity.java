@@ -57,7 +57,6 @@ public class ToBeSuredOrdersActivity extends BaseNetActivity {
                 intent.putExtra("order_id", order_id);
                 intent.putExtra("into_type", 1);
                 startActivityForResult(intent, CODE_RESULE);
-
             }
         });
 
@@ -74,8 +73,7 @@ public class ToBeSuredOrdersActivity extends BaseNetActivity {
                 requestNetwork(UrlUtils.sureOrderList, 0);
             }
         };
-
-
+        initLoadMoreRequest();
     }
 
     @Override
@@ -101,10 +99,10 @@ public class ToBeSuredOrdersActivity extends BaseNetActivity {
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         super.mhandle200Data(what, object, dataObj, message);
         ToBeSuredOrdersEntity toBeSuredOrdersEntity = JSON.parseObject(dataObj.toString(), ToBeSuredOrdersEntity.class);
-       if(iden_info!=null){
-           iden_info=null;
+        if (iden_info != null) {
+            iden_info = null;
 
-       }
+        }
         iden_info = toBeSuredOrdersEntity.getIden_info();
         tobe_sure_tv1 = (TextView) head.findViewById(R.id.tobe_sure_tv1);
         tobe_sure_tv2 = (TextView) head.findViewById(R.id.tobe_sure_tv22);
@@ -114,16 +112,18 @@ public class ToBeSuredOrdersActivity extends BaseNetActivity {
         tobe_sure_tv2.setText(iden_info.getTotal_money() + "");
         tobe_sure_tv3.setText("共计" + iden_info.getTotal() + "笔");
         seller_sure_order_tv4.setText(iden_info.getTip());
-        if(data_list.size()!=0){
-            data_list.clear();
+        if (isRefreshing) {//是下拉刷新才清楚数据
+            if (data_list.size() != 0) {
+                data_list.clear();
 
+            }
         }
+
         data_list.addAll(toBeSuredOrdersEntity.getData_list());
         baseAdapter.notifyDataSetChanged();
         if (data_list.size() == 0) {
             tobe_sure_noorders.setVisibility(View.VISIBLE);
         }
-
 
 
     }

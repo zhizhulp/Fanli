@@ -11,6 +11,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.RoundImageView;
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +21,7 @@ public class OfflinePaySuccedActivity extends BaseNetActivity {
             tvScore, tvTime, tvTradeNumber, tv_contact_way,order_status_text,seller_name1;
     private Button pay_succed_close;
     private RelativeLayout pay_succed_waytocontact;
+    private MoneyBar pay_succed_mb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class OfflinePaySuccedActivity extends BaseNetActivity {
 
 
     private void initViews() {
+        pay_succed_mb= (MoneyBar) findViewById(R.id.pay_succed_mb);
         pay_succed_waytocontact= (RelativeLayout) findViewById(R.id.pay_succed_waytocontact);
         seller_name1= (TextView) findViewById(R.id.pay_succed_member_username);
         userIcon = ((RoundImageView) findViewById(R.id.pay_succed_icon));
@@ -51,18 +54,30 @@ public class OfflinePaySuccedActivity extends BaseNetActivity {
                 finish();
             }
         });
+
+        pay_succed_mb.setCallBack2(new MoneyBar.CallBack2() {
+            @Override
+            public void clickImage(View im) {
+
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+
+            }
+
+            @Override
+            public void clickBack(View back) {
+                Intent intent = new Intent(OfflinePaySuccedActivity.this, OfflinePayActivity.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
     }
 
-
-//    bundle.putString("importMoney",infoBean.getMoney()+"");
-//    bundle.putString("seller_cover_logo", seller_cover_logo);
-//    bundle.putString("seller_name",infoBean.getName());
-//    bundle.putString("order_status_text",infoBean.getOrder_status_text());
-//    bundle.putString("pay_type_text",infoBean.getPay_type_text());
-// bundle.putString("member_username",infoBean.getMember_username());
-//    bundle.putString("accumulate_points",infoBean.getScore()+"");
-//    bundle.putLong("create_time",infoBean.getCreate_time());
-//    bundle.putString("order_number",infoBean.getOrder_number());
 
     private void setData() {
         Intent intent = getIntent();

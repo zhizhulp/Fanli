@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="274dp"
+        android:background="@mipmap/ceremony_bg">
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="118dp"
+        android:orientation="horizontal"
+        android:paddingTop="19dp">
+
+        <TextView
+            android:onClick="click"
+            android:id="@+id/promotion_weixin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="4dp"
+            android:drawableTop="@mipmap/ceremony_weixin"
+            android:gravity="center"
+            android:text="邀请微信好友"
+            android:textColor="@color/gray_text"
+            android:textSize="11sp" />
+
+        <TextView
+            android:onClick="click"
+            android:id="@+id/promotion_friends_circle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="4dp"
+            android:drawableTop="@mipmap/ceremony_space"
+            android:gravity="center"
+            android:text="发送到朋友圈"
+            android:textColor="@color/gray_text"
+            android:textSize="11sp" />
+
+        <TextView
+            android:onClick="click"
+            android:id="@+id/promotion_qr_code"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="4dp"
+            android:drawableTop="@mipmap/promotion_two_code"
+            android:gravity="center"
+            android:text="推荐二维码"
+            android:textColor="@color/gray_text"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="@color/gray_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/promotion_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="13dp"
+                android:text="累计收益"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promotion_tv1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/promotion_total_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/main_red_normal"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promotion_tv1"
+                    android:layout_marginLeft="4dp"
+                    android:text="元"
+                    android:textColor="@color/gray_text"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promotion_tv3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/promotion_total_people"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promotion_tv1"
+                    android:layout_marginLeft="4dp"
+                    android:text="人"
+                    android:textColor="@color/gray_text"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/promotion_tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="成功邀请人数"
+                android:textSize="11sp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@color/line_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="14dp"
+        android:text="-收益明细-"
+        android:textSize="12sp" />
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="46dp">-->
+
+        <!--<View-->
+            <!--android:layout_width="38dp"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="7dp"-->
+            <!--android:layout_toLeftOf="@+id/tv111"-->
+            <!--android:background="@color/black" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv111"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="点滴分数重在积累"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="15sp" />-->
+
+        <!--<View-->
+            <!--android:layout_width="38dp"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="7dp"-->
+            <!--android:layout_toRightOf="@+id/tv111"-->
+            <!--android:background="@color/black" />-->
+
+    <!--</RelativeLayout>-->
+</LinearLayout>
