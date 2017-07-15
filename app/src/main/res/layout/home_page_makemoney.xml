@@ -26,7 +26,7 @@
         android:layout_marginRight="12dp"
         android:layout_weight="1"
         android:background="@drawable/btn_get_money_bg"
-        android:text="财富"
+        android:text="赚钱"
         android:textColor="@color/white"
         android:textSize="20sp" />
 </LinearLayout>

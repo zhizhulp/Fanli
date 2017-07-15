@@ -34,7 +34,6 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {//1:拍卖结束,2:立即报名,3:即将开始,4:已报名,5:抢拍完毕(抢光了) 6:待支付 7:已支付
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
         Picasso.with(context).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.shop_goods_loading).error(R.mipmap.shop_goods_loading).into(imageView);
-        helper.setText(R.id.text_auction_goods_price,"￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
         TextView view = helper.getView(R.id.btn_auction_goods_apply);//按钮
         int intState = item.getIntState();
         if(intState==3 ||intState==1 ){//1:拍卖结束3:即将开始
@@ -52,10 +51,10 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_yellow_bg);
-        }else if(intState==5){//盲拍-已拍
+        }else if(intState==5){//抢拍完毕
             view.setEnabled(false);
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
-            helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
+            helper.setText(R.id.text_auction_goods_time,item.getStrState());
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_gray_bg);
         }else if(intState==6){//待支付
             view.setEnabled(true);
@@ -65,7 +64,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         }else if(intState==7){//已支付
             view.setEnabled(false);
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
-            helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
+            helper.setText(R.id.text_auction_goods_time,item.getStrState());
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_gray_bg);
         }
         view.setText(item.getStrState());
@@ -77,9 +76,11 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         int type = item.getType();//1抢拍 2盲拍
         if(type ==1){
             helper.setText(R.id.text_reduce_times,item.getReduceTimes()+"次");//降价次数
+            helper.setText(R.id.text_auction_goods_price,"￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
         }else if(type ==2){
             helper.addOnClickListener(R.id.btn_sub);//减号
             helper.addOnClickListener(R.id.btn_add);//加号
+            helper.setText(R.id.text_auction_goods_price,"降价至￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
         }
 
     }

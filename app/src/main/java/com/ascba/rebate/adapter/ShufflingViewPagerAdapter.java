@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.beans.Banner;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 public class ShufflingViewPagerAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<String> mImageArr;
+    private List mImageArr;
     private OnClick onClick;
     private int id;
 
@@ -26,7 +27,7 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
         this.onClick = onClick;
     }
 
-    public ShufflingViewPagerAdapter(Context context, List<String> imageArr) {
+    public ShufflingViewPagerAdapter(Context context, List imageArr) {
         this.mContext = context;
         this.mImageArr = imageArr;
     }
@@ -59,7 +60,13 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
                 }
             }
         });
-        Picasso.with(mContext).load(mImageArr.get(position)).placeholder(R.mipmap.banner_loading).error(R.mipmap.banner_loading).into(imageView);
+
+        Object o = mImageArr.get(position);
+        if(o instanceof String){
+            Picasso.with(mContext).load((String) o).placeholder(R.mipmap.banner_loading).error(R.mipmap.banner_loading).into(imageView);
+        }else if(o instanceof Banner){
+            Picasso.with(mContext).load(((Banner) o).getImg_url()).placeholder(R.mipmap.banner_loading).error(R.mipmap.banner_loading).into(imageView);
+        }
 
         container.addView(imageView);
         return imageView;
@@ -70,7 +77,7 @@ public class ShufflingViewPagerAdapter extends PagerAdapter {
         container.removeView((View) view);
     }
 
-    public List<String> getStringList() {
+    public List getStringList() {
         return mImageArr;
     }
 

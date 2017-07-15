@@ -28,12 +28,14 @@ import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.ShopTypeRVAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.beans.Banner;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.GoodsAttr;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.beans.TypeWeight;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
+import com.ascba.rebate.utils.JsonUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.DividerGridItemDecoration;
@@ -43,6 +45,7 @@ import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -62,7 +65,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
     private static final int REQUEST_STD_LOGIN = 3;
     private RecyclerView rv;
     private List<ShopBaseItem> data = new ArrayList<>();
-    private List<String> urls = new ArrayList<>();//viewPager数据源
+    private List<Banner> urls = new ArrayList<>();//viewPager数据源
     private RelativeLayout searchHead;//搜索头
     private View searchHeadLine;
     private int mDistanceY = 0;//下拉刷新滑动距离
@@ -304,15 +307,11 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
         //轮播数据
         JSONArray pagerArray = dataObj.optJSONArray("banner");
         if (pagerArray != null && pagerArray.length() != 0) {
-
-            for (int i = 0; i < pagerArray.length(); i++) {
-                String s = pagerArray.optString(i);
-                urls.add(UrlUtils.baseWebsite + s);
-            }
-            data.add(new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager, urls));
+            List<Banner> banners = JsonUtil.stringToList(pagerArray.toString(), Banner.class);
+            ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager);
+            shopBaseItem.setBanners(banners);
+            data.add(shopBaseItem);
         }
-        //横线
-        data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 0.5f));
     }
 
     /**

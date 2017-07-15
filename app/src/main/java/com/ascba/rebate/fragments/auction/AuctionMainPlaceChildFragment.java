@@ -196,7 +196,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     agb.setStrState(obj.optString("auction_tip"));
                     agb.setStartTime(obj.optLong("starttime"));
                     agb.setEndTime(obj.optLong("price_time"));
-                    //agb.setIntPriceState(obj.optInt(""));
                     agb.setStartPrice(obj.optDouble("begin_price"));
                     agb.setEndPrice(obj.optDouble("end_price"));
                     beanList.add(agb);
@@ -216,15 +215,12 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
             if(type==1){
                 Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
-                intent.putExtra("goods_id",selectAGB.getId());
+                intent.putExtra("goods_id",selectAGB.getId()+"");
                 startActivityForResult(intent,REQUEST_PAY_ORDER);
             }else {
                 showToast(message);
                 resetPageAndStatus();
                 requestNetwork(UrlUtils.auctionType, 0);
-                /*selectAGB.setIntState(5);
-                selectAGB.setStrState("已拍");
-                adapter.notifyItemChanged(beanList.indexOf(selectAGB));*/
             }
         }
     }
@@ -280,7 +276,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 switch (view.getId()) {
                     case R.id.btn_sub:
                         if(nowPrice<= endPrice+gapPrice){
-                            showToast("已经到最低价了");
+                            showToast("已是最低价");
                         }else {
                             selectAGB.setPrice(nowPrice -gapPrice);
                             adapter.notifyItemChanged(position);
@@ -289,7 +285,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                         break;
                     case R.id.btn_add:
                         if(nowPrice >= startPrice -gapPrice){
-                            showToast("已经到最高价了");
+                            showToast("已加到最大");
                         }else {
                             selectAGB.setPrice(nowPrice +gapPrice);
                             adapter.notifyItemChanged(position);
@@ -308,7 +304,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                             requestNetwork(UrlUtils.payAuction,2);
                         }else if(state==6){//支付
                             Intent intent=new Intent(getActivity(),AuctionConfirmOrderActivity.class);
-                            intent.putExtra("goods_id",selectAGB.getId());
+                            intent.putExtra("goods_id",selectAGB.getId()+"");
                             startActivityForResult(intent,REQUEST_PAY_ORDER);
                         }
                         break;
