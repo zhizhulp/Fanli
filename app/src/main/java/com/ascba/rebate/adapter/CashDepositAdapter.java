@@ -44,7 +44,7 @@ public class CashDepositAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
                 break;
             case 2:
                 //已开始
-                helper.setBackgroundColor(R.id.text_state, Color.parseColor("#F63C3C"));
+                helper.setBackgroundColor(R.id.text_state, Color.parseColor("#F07303"));
                 view.setVisibility(View.VISIBLE);
                 helper.setText(R.id.text_time, getTimeRemaining(item));
                 break;
@@ -55,7 +55,7 @@ public class CashDepositAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseV
                 break;
         }
         helper.setText(R.id.text_state, item.getStrState());
-        helper.setText(R.id.text_cash, item.getCashDeposit());//保证金
+        helper.setText(R.id.text_cash, "￥"+item.getCashDeposit());//保证金
         helper.addOnClickListener(R.id.text_btn);
         switch (item.getStrPriceState()) {
             case "已支付":

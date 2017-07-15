@@ -77,7 +77,7 @@ public class CartChildAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
             helper.setVisible(R.id.lat_auction_goods_price_blind, true);
             helper.addOnClickListener(R.id.btn_sub);//减号
             helper.addOnClickListener(R.id.btn_add);//加号
-            helper.setText(R.id.text_auction_goods_price_blind, "￥" + NumberFormatUtils.getNewDouble(item.getPrice()));
+            helper.setText(R.id.text_auction_goods_price_blind, "降价至￥" + NumberFormatUtils.getNewDouble(item.getPrice()));
         }
         CheckBox cbChild = helper.getView(R.id.cb_item);
         cbChild.setChecked(item.isSelect());

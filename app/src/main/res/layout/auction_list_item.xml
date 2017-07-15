@@ -138,7 +138,7 @@
                     android:paddingRight="10dp"
                     android:text="降价至:￥5000.00"
                     android:textColor="@color/shop_normal_text_color"
-                    android:textSize="13sp" />
+                    android:textSize="11sp" />
             </RelativeLayout>
             <!--抢拍价格-->
             <TextView

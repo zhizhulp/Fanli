@@ -1,6 +1,7 @@
 package com.ascba.rebate.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -13,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.BusinessShopActivity;
+import com.ascba.rebate.activities.GoodsDetailsActivity;
+import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
+import com.ascba.rebate.activities.base.WebViewBaseActivity;
 import com.ascba.rebate.beans.Banner;
 import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
@@ -55,7 +60,6 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
             case ShopItemType.TYPE_PAGER:
                 ShufflingViewPager pager = helper.getView(R.id.shop_pager);
                 ShufflingViewPagerAdapter adapter = pager.getAdapter();
-
                 if (adapter == null) {
                     adapter = new ShufflingViewPagerAdapter(context, item.getBanners());
                     addOnClickListener(adapter,item.getBanners());
@@ -150,8 +154,22 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
             public void OnClick(int position) {
                 Banner banner = banners.get(position);
                 int type = banner.getTarget_type();
-                if(type==0){
-
+                if(type==0){//跳转h5页面
+                    Intent intent=new Intent(context, WebViewBaseActivity.class);
+                    intent.putExtra("url",banner.getTarget_value());
+                    intent.putExtra("name",banner.getTarget_title());
+                    context.startActivity(intent);
+                }else if(type==1){//商品详情页
+                    GoodsDetailsActivity.startIntent(context,Integer.parseInt(banner.getTarget_value()));
+                }else if(type==2){
+                    Intent intent=new Intent(context, BusinessShopActivity.class);
+                    intent.putExtra("store_id",Integer.parseInt(banner.getTarget_value()));
+                    context.startActivity(intent);
+                }else if(type==3 || type==4){//3抢拍详情 //4盲拍详情
+                    Intent intent = new Intent(context, AuctionDetailsActivity.class);
+                    intent.putExtra("id", Integer.parseInt(banner.getTarget_value()));
+                    intent.putExtra("get_type",banner.getIs_low_price());
+                    context.startActivity(intent);
                 }
             }
         });

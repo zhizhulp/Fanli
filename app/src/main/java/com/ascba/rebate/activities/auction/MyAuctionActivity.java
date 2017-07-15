@@ -87,7 +87,7 @@ public class MyAuctionActivity extends BaseNetActivity {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AuctionDetailsActivity.startIntent(MyAuctionActivity.this,beanList.get(position));
+                AuctionDetailsActivity.startIntent(MyAuctionActivity.this,beanList.get(position).getId());
             }
 
             @Override

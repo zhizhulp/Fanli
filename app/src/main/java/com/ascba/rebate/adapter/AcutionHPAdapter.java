@@ -45,7 +45,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         //竞拍保证金
         helper.setText(R.id.auction_text_person, "￥"+ item.getCashDeposit());
         //价格
-        helper.setText(R.id.auction_text_price, "￥"+ NumberFormatUtils.getNewDouble(item.getEndPrice()));
+        helper.setText(R.id.auction_text_price, "￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));
         helper.addOnClickListener(R.id.auction_btn_get);
         helper.setText(R.id.auction_btn_get,item.getStrState());
         helper.setText(R.id.auction_text_state,item.getStrState());
@@ -67,7 +67,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         }else if(state==4){
             setViewStatus(view,true,R.color.main_red_normal,drawableTop2, tvPriceDesc,"最低价",imAlreadyRush,false);
         }else if(state==5){
-            setViewStatus(view,false,R.color.main_text_gary,drawableTop1, tvPriceDesc,"最低价",imAlreadyRush,true);
+            setViewStatus(view,false,R.color.main_text_gary,drawableTop1, tvPriceDesc,"成交价",imAlreadyRush,true);
         }else if(state==6){
             setViewStatus(view,true,R.color.main_red_normal,drawableTop2, tvPriceDesc,"待支付",imAlreadyRush,false);
         }else if(state==7){
@@ -84,10 +84,29 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
         imAlreadyRush.setVisibility(isVisible? View.VISIBLE : View.GONE);
     }
     private String getTimeRemainning(AcutionGoodsBean item) {
-        boolean isAllTimeDown=true;
+        int leftTime = (int) (item.getEndTime() - System.currentTimeMillis() / 1000);
+        if(leftTime > 0){
+            int goodsLeftTime = (int) (item.getGoodsEndTime() - System.currentTimeMillis() / 1000);
+            if( goodsLeftTime>0){
+                int hour = goodsLeftTime % (24 * 3600) / 3600;
+                int minute = goodsLeftTime % 3600 / 60;
+                int second = goodsLeftTime % 60;
+                return "距离结束:"+hour + "小时" + minute + "分钟" + second + "秒";
+            }else {
+                return "商品拍卖结束";
+            }
+
+        }else {
+            if(callback!=null){
+                callback.timeToUpdate();
+            }
+            return "商品拍卖结束";
+        }
+
+        /*boolean isAllTimeDown=true;
         for (int i = 0; i < mData.size(); i++) {
             AcutionGoodsBean agb = mData.get(i);
-            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 + 1);
+            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000 );
             if(leftTime > 0){
                 isAllTimeDown = false;
                 break;
@@ -105,7 +124,7 @@ public class AcutionHPAdapter extends BaseQuickAdapter<AcutionGoodsBean, BaseVie
             int minute = leftTime % 3600 / 60;
             int second = leftTime % 60;
             return "距离结束:" + hour + "小时" + minute + "分钟" + second + "秒";
-        }
+        }*/
     }
 
     public Callback getCallback() {

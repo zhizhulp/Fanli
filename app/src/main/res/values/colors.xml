@@ -129,7 +129,8 @@
     <color name="sure_orange">#FF8C00</color>
     <color name="submit_gray">#ffc0c0c0</color>
     <color name="submit_red">#FF8C00</color>
-
+    <color name="auction_red">#F63C3C</color>
+    <color name="auction_det_pay_deposite">#A0A0A0</color>
 
 
 </resources>

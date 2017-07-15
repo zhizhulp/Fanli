@@ -12,6 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +32,7 @@ import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.DialogHome;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
@@ -335,7 +339,7 @@ public class CartChildFragment extends BaseNetFragment {
                         break;
                     case R.id.lat_see_details:
                         AcutionGoodsBean agb = beanList.get(position);
-                        AuctionDetailsActivity.startIntent(getActivity(), agb);
+                        AuctionDetailsActivity.startIntent(getActivity(), agb.getId());
                         break;
                 }
             }
@@ -571,10 +575,16 @@ public class CartChildFragment extends BaseNetFragment {
             tvBtmBtm.setText("（未拍到保证金全额退款）");
             tvApply.setText("交保证金(" + count + ")");
         } else if (status.equals("2,3")) {//拍
-            tvBtmTop.setText("总金额：￥" + price);
-            tvBtmBtm.setText("获赠礼品分" + score + "分");
+            setBtmTop(price);
+            tvBtmBtm.setText("礼品分：" + score );
             tvApply.setText("拍(" + count + ")");
         }
+    }
+
+    private void setBtmTop(Double money) {
+        SpannableString ss=new SpannableString("总金额：￥" + NumberFormatUtils.getNewDouble(money));
+        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.main_text_normal)),0,4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvBtmTop.setText(ss);
     }
 
     //计算每秒过后总金额的变化
@@ -593,7 +603,7 @@ public class CartChildFragment extends BaseNetFragment {
         if ("0,1".equals(status)) {
             tvBtmTop.setText("￥" + price);
         } else if ("2,3".equals(status)) {
-            tvBtmTop.setText("总金额：￥" + price);
+            setBtmTop(price);
         }
 
 

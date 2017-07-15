@@ -29,7 +29,7 @@
             android:id="@+id/lat_going_noSureMoney"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#585858"
+            android:background="#595959"
             android:visibility="gone">
 
             <TextView
@@ -37,7 +37,7 @@
                 android:layout_width="129dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="#F63C3C"
+                android:background="@drawable/pay_deposite_bg"
                 android:gravity="center"
                 android:text="交保证金报名"
                 android:textColor="@color/white"
@@ -191,7 +191,7 @@
                             android:layout_marginLeft="10dp"
                             android:gravity="center_vertical"
                             android:text="￥599.00"
-                            android:textColor="@color/shop_red_text_color"
+                            android:textColor="@color/white"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -353,7 +353,17 @@
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="12sp" />
             </LinearLayout>
-
+            <!--结束时间-->
+            <TextView
+                android:textColor="@color/main_text_normal"
+                android:visibility="gone"
+                android:id="@+id/tv_over_time"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="11dp"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <!--增值积分-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -365,7 +375,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="活动赠送礼品分："
+                    android:text="活动赠送："
                     android:textColor="@color/shop_normal_text_color"
                     android:textSize="12sp" />
 
@@ -392,7 +402,7 @@
                     android:id="@+id/tv_auction_person_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="竞拍：0人"
+                    android:text="？拍：0人"
                     android:textColor="@color/main_text_gary"
                     android:textSize="14sp" />
 
@@ -750,6 +760,7 @@
     </ScrollView>
     <!--目前有200人正要下手-->
     <TextView
+        android:visibility="gone"
         android:text="前有0人正要下手！"
         android:layout_alignParentRight="true"
         android:layout_above="@id/lat_bottom"

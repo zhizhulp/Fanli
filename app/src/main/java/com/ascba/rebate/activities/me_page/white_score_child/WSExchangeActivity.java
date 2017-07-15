@@ -10,6 +10,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MoneyBar;
 import com.yanzhenjie.nohttp.rest.Request;
 import org.json.JSONObject;
 import static com.ascba.rebate.fragments.main.MoneyFragment.REQUEST_EXCHANGE_TICKET;
@@ -73,6 +74,17 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
         tvMax = ((TextView) findViewById(R.id.tv_max_money));
 
         tvHandFee = ((TextView) findViewById(R.id.tv_fee_hand));
+        ((MoneyBar) findViewById(R.id.mb)).setCallBack(new MoneyBar.CallBack() {
+            @Override
+            public void clickImage(View im) {
+
+            }
+
+            @Override
+            public void clickComplete(View tv) {
+
+            }
+        });
     }
 
     public void go(View view) {
@@ -107,9 +119,9 @@ public class WSExchangeActivity extends BaseNetActivity implements BaseNetActivi
             }else{
                 btnGo.setEnabled(true);
                 noView.setVisibility(View.GONE);
-                tvMax.setText("本次兑换最大额度为"+cashing_money+"元");
+                tvMax.setText("本次兑换的最大额度为"+cashing_money+"元");
             }
-            tvHandFee.setText("手续费为"+cash_tax_rate);
+            tvHandFee.setText("(手续费为"+cash_tax_rate+")");
             tvTotal.setText(white_score+"");
             tvTicketScore.setText(cashing_score+"");
             tvMoney.setText(cashing_money);

@@ -26,7 +26,7 @@ public class ShufflingViewPager extends RelativeLayout {
 
     private ViewPager viewPager;
     private LinearLayout indicator;
-    private List<String> getList;
+    private List getList;
     private ImageView[] mImageView;
     private Context context;
     private ShufflingViewPagerAdapter adapter;
@@ -63,10 +63,8 @@ public class ShufflingViewPager extends RelativeLayout {
     public void setAdapter(ShufflingViewPagerAdapter adapter) {
         this.adapter=adapter;
         getList = adapter.getStringList();
-        if(getList.size()!=0){
-            initViewPager();
-            viewPager.setAdapter(adapter);
-        }
+        initViewPager();
+        viewPager.setAdapter(adapter);
 
     }
 
