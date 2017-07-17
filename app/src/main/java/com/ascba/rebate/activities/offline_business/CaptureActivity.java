@@ -238,12 +238,10 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
 
         Intent intent = new Intent(this, OfflinePayActivity.class);
         Log.d("fanxi", "capture" + "-------" + resutlt);
-        intent.putExtra("type",0);
         intent.putExtra("seller", info.getSeller());
         intent.putExtra("seller_cover_logo", info.getSeller_cover_logo());
         intent.putExtra("seller_name", info.getSeller_name());
         intent.putExtra("self_money", info.getSelf_money());
-
         startActivityForResult(intent, RESULT_CODE);
          finish();
 }
@@ -275,6 +273,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
 
     private void initBeepSound() {
         if (playBeep && mediaPlayer == null) {
+
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

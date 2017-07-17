@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +41,7 @@ import java.util.List;
  * 财富-现金账户-提现
  */
 public class CashGetActivity extends BaseNetActivity implements View.OnClickListener, BaseNetActivity.Callback
-,MoneyBar.CallBack{
+,MoneyBar.CallBack, TextWatcher {
 
     private View cardView;
     private View noCardView;
@@ -58,6 +60,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
     private Card selectCard;
     private int bankId;//要传的银行卡id参数
     private MoneyBar mb;
+    private String preChangeTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
         mb.setTailTitle("提现记录");
         mb.setCallBack(this);
         edMoney = ((EditText) findViewById(R.id.money));
+        edMoney.addTextChangedListener(this);
         cardView = findViewById(R.id.when_has_card);
         cardView.setOnClickListener(this);//点击显示银行卡列表
         noCardView = findViewById(R.id.when_no_card);
@@ -290,5 +294,56 @@ public class CashGetActivity extends BaseNetActivity implements View.OnClickList
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        //只要前面的三位数
+        if (s.toString().contains(".")) {
+            if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                s = s.toString().subSequence(0,
+                        s.toString().indexOf(".") + 3);
+                edMoney.setText(s);
+                edMoney.setSelection(s.length());
+            }
+        }
+        //开够输入.自动变为0.x的类型
+        if (s.toString().trim().substring(0).equals(".")) {
+            if (preChangeTxt.toString().trim().length() == 0) {
+                s = "0" + s;
+                edMoney.setText(s);
+                edMoney.setSelection(2);
+            }
+        }
+
+        if (s.toString().trim().substring(0).equals("0")) {
+            if (preChangeTxt.toString().trim().length() == 0) {
+                s = s + ".";
+                edMoney.setText(s);
+                edMoney.setSelection(2);
+            }
+        }
+
+        if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
+            if (!s.toString().substring(1, 2).equals(".")) {
+                edMoney.setText(s.subSequence(0, 1));
+                edMoney.setSelection(1);
+                return;
+            }
+        }
+        preChangeTxt = s.toString().trim();
+
+
+
+}
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

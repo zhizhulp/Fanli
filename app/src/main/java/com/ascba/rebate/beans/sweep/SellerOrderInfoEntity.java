@@ -135,6 +135,15 @@ public class SellerOrderInfoEntity {
         private String pay_commission;
         private long create_time;
         private String order_identity;
+        private double member_money;
+
+        public double getMember_money() {
+            return member_money;
+        }
+
+        public void setMember_money(double member_money) {
+            this.member_money = member_money;
+        }
 
         public String getOrder_id() {
             return order_id;

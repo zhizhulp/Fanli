@@ -120,7 +120,7 @@ public class KeepAccountSubmitEntity {
          * order_identity : customer
          */
 
-        private String order_id;
+        private int  order_id;
         private String order_number;
         private String avatar;
         private String name;
@@ -136,11 +136,11 @@ public class KeepAccountSubmitEntity {
         private long create_time;
         private String order_identity;
 
-        public String getOrder_id() {
+        public int getOrder_id() {
             return order_id;
         }
 
-        public void setOrder_id(String order_id) {
+        public void setOrder_id(int order_id) {
             this.order_id = order_id;
         }
 

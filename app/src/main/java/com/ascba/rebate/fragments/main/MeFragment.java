@@ -174,9 +174,6 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                     startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+s)));
                 }
                 break;
-//            case R.id.me_lat_order://我的订单
-//                startActivity(new Intent(getContext(), MyAllOrdersActivity.class));
-//                break;
 
     }
     }
