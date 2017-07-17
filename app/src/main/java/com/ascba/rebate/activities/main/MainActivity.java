@@ -62,18 +62,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_SET_ALIAS:
-                    try {
-                        JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
                     break;
                 case MSG_SET_TAGS:
-                    try {
-                        JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
                     break;
                 case TIME_TO_UPDATE:
                     getDm().buildAlertDialogSure("重启app完成更新", new DialogHome.Callback() {
@@ -328,6 +320,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             switch (code) {
                 case 0://成功
                     Log.d(TAG, "gotResult: setTagSuccess");
+                    AppConfig.getInstance().putBoolean("jpush_set_tag_success",true);
                     break;
                 case 6002://失败，重试
                     if (ExampleUtil.isConnected(getApplicationContext())) {
@@ -347,6 +340,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             switch (code) {
                 case 0:
                     Log.d(TAG, "gotResult: setAliasSuccess");
+                    AppConfig.getInstance().putBoolean("jpush_set_alias_success",true);
                     break;
                 case 6002:
                     if (ExampleUtil.isConnected(getApplicationContext())) {
@@ -364,11 +358,13 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
-        Log.d("info","-------------"+uuid);
-        if (uuid != -1000) {
-            setAlias(uuid + "");
-            boolean appDebug = LogUtils.isAppDebug(this);
-            setTag(appDebug);
+        if (uuid != -1000 ) {
+            if(AppConfig.getInstance().getBoolean("jpush_set_alias_success",false)){
+                setAlias(uuid + "");
+            }
+            if(AppConfig.getInstance().getBoolean("jpush_set_tag_success",false)){
+                setTag(LogUtils.isAppDebug(this));
+            }
         }
     }
 

@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
-
         <!--倒计时-->
         <TextView
             android:id="@+id/tv_time_down_over"
@@ -237,17 +236,7 @@
                     android:id="@+id/viewpager_img"
                     android:layout_width="match_parent"
                     android:layout_height="312dp" />
-                <!--返回按钮-->
-                <ImageView
-                    android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="35dp"
-                    android:paddingTop="15dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/abar_back" />
+
                 <!--竞拍状态-->
                 <FrameLayout
                     android:layout_width="90dp"
@@ -758,6 +747,27 @@
                 android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
+    <!--返回按钮-->
+    <FrameLayout
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp">
+        <ImageView
+            android:paddingLeft="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_back" />
+        <ImageView
+            android:paddingLeft="15dp"
+            android:paddingRight="35dp"
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/abar_back" />
+    </FrameLayout>
     <!--目前有200人正要下手-->
     <TextView
         android:visibility="gone"

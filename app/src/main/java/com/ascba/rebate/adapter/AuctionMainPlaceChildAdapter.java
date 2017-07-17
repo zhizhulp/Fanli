@@ -100,6 +100,14 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         int hour = leftTime % (24 * 3600) / 3600;
         int minute = leftTime % 3600 / 60;
         int second = leftTime % 60;
-        return hour + "时" + minute +"分"+ second +"秒";
+        return format(hour) + "时:" + format(minute) +"分:"+ format(second) +"秒";
+    }
+
+    private String format(int number){
+        String s = String.valueOf(number);
+        if(s.length()==1){
+            s="0"+s;
+        }
+        return s;
     }
 }

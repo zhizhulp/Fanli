@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ascba.rebate">
 
     <permission
@@ -53,7 +54,7 @@
 
     <application
         android:name=".application.MyApplication"
-        android:allowBackup="true"
+        tools:replace="android:icon,android:theme"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -292,8 +293,7 @@
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <!--
-        <service
+        <!--<service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
             android:exported="false">
@@ -303,17 +303,27 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>
-        -->
+        </service>-->
         <service
             android:name="cn.jpush.android.service.PushService"
-            android:process=":mult">
+            android:process=":mult"
+            android:permission="">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
+        </service>
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+                <category android:name="com.ascba.rebate" />
+            </intent-filter>
+
         </service>
         <!-- Required SDK核心功能 -->
         <receiver
