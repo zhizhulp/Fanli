@@ -2,7 +2,6 @@ package com.ascba.rebate.activities.offline_business;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -40,7 +39,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     private EditTextWithCustomHint etMoney;
     private TextView offline_tv_pay;
     private PsdDialog psdDialog;
-    private BottomSheetDialog payTypeDialog;
     private boolean isReminderPay = true;
     private RadioButton rbReminder, rbOther;
     private int payType = 2;
@@ -50,8 +48,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     private String password;
     //付款成功界面所需要的属性
     private String seller_logo, seller_name, seller_cover_logo;
-    public static final int RESULT_CODE = 1;
-    Intent intent1;
     private String preChangeTxt = "";
     public static final int CODE_REQUEST = 101;
 

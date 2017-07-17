@@ -25,7 +25,6 @@ import java.util.List;
 public class ToBeSuredOrdersActivity extends BaseNetActivity {
     private RecyclerView recycler;
     private TextView tobe_sure_tv1, tobe_sure_tv2, tobe_sure_tv3, seller_sure_order_tv4, tobe_sure_noorders;
-    //private ToBeSuredOrdersAdapter adapter;
     List<ToBeSuredOrdersEntity.DataListBean> data_list = new ArrayList<>();
     private int order_id;
     ToBeSuredOrdersEntity.IdenInfoBean iden_info;
