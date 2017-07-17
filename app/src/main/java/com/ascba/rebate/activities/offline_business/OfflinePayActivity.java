@@ -300,12 +300,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-//            case RESULT_CODE:
-//                if (resultCode == 3) {
-//                    setResult(100);
-//                    finish();
-//                }
-//                break;
             case CODE_REQUEST:
                 if (resultCode == RESULT_OK) {
                     int pay_type = data.getIntExtra("pay_type", 0);
