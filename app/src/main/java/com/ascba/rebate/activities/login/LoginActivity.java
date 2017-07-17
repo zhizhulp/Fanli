@@ -11,18 +11,15 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
-import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.activities.password_loss.PasswordLossActivity;
 import com.ascba.rebate.activities.register.RegisterInputNumberActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
-import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.utils.RegexUtils;
 import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
-import com.taobao.sophix.SophixManager;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
@@ -144,7 +141,6 @@ public class LoginActivity extends BaseNetActivity {
         setCallback(new Callback() {
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-                init();//初始化极光推送
                 int uuid = dataObj.optInt("uuid");
                 String token = dataObj.optString("token");
                 Long exTime = dataObj.optLong("expiring_time");
@@ -153,6 +149,8 @@ public class LoginActivity extends BaseNetActivity {
                 AppConfig.getInstance().putString("token", token);
                 AppConfig.getInstance().putLong("expiring_time", exTime);
                 AppConfig.getInstance().putString("login_phone", loginPhone);
+
+                init();//初始化极光推送
 
                 setResult(RESULT_OK, getIntent());
                 MyApplication.isLoad = true;
@@ -204,7 +202,7 @@ public class LoginActivity extends BaseNetActivity {
                     AppConfig.getInstance().putBoolean("jpush_set_tag_success",true);
                     break;
                 case 6002://失败，重试
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                    if (NetUtils.isNetworkAvailable(LoginActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
                     } else {
                         Toast.makeText(LoginActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -224,7 +222,7 @@ public class LoginActivity extends BaseNetActivity {
                     AppConfig.getInstance().putBoolean("jpush_set_alias_success",true);
                     break;
                 case 6002:
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                    if (NetUtils.isNetworkAvailable(LoginActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
                     } else {
                         Toast.makeText(LoginActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -239,10 +237,10 @@ public class LoginActivity extends BaseNetActivity {
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
         if (uuid != -1000 ) {
-            if(AppConfig.getInstance().getBoolean("jpush_set_alias_success",false)){
+            if(!AppConfig.getInstance().getBoolean("jpush_set_alias_success",false)){
                 setAlias(uuid + "");
             }
-            if(AppConfig.getInstance().getBoolean("jpush_set_tag_success",false)){
+            if(!AppConfig.getInstance().getBoolean("jpush_set_tag_success",false)){
                 setTag(LogUtils.isAppDebug(this));
             }
         }

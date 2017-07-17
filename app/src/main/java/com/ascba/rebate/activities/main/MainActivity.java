@@ -22,8 +22,8 @@ import com.ascba.rebate.fragments.main.MeFragment;
 import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.fragments.main.SideFragment;
 import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.AppTabs;
 import com.taobao.sophix.SophixManager;
 
@@ -323,7 +323,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     AppConfig.getInstance().putBoolean("jpush_set_tag_success",true);
                     break;
                 case 6002://失败，重试
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                    if (NetUtils.isNetworkAvailable(MainActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
                     } else {
                         Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -343,7 +343,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     AppConfig.getInstance().putBoolean("jpush_set_alias_success",true);
                     break;
                 case 6002:
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                    if (NetUtils.isNetworkAvailable(MainActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
                     } else {
                         Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -359,10 +359,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
         if (uuid != -1000 ) {
-            if(AppConfig.getInstance().getBoolean("jpush_set_alias_success",false)){
+            if(!AppConfig.getInstance().getBoolean("jpush_set_alias_success",false)){
                 setAlias(uuid + "");
             }
-            if(AppConfig.getInstance().getBoolean("jpush_set_tag_success",false)){
+            if(!AppConfig.getInstance().getBoolean("jpush_set_tag_success",false)){
                 setTag(LogUtils.isAppDebug(this));
             }
         }
