@@ -192,12 +192,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     agb.setMaxReduceTimes(obj.optInt("depreciate_count"));
                     agb.setCurrentLeftTime(obj.optInt("count_down"));
                     agb.setGapTime(obj.optInt("interval_second"));
-                    agb.setIntState(obj.optInt("is_status"));
+                    int is_status = obj.optInt("is_status");
+                    agb.setIntState(is_status);
                     agb.setStrState(obj.optString("auction_tip"));
                     agb.setStartTime(obj.optLong("starttime"));
                     agb.setEndTime(obj.optLong("price_time"));
                     agb.setStartPrice(obj.optDouble("begin_price"));
                     agb.setEndPrice(obj.optDouble("end_price"));
+                    if(is_status==1 || is_status==5 || is_status==6 || is_status==7){
+                        agb.setPrice(obj.optDouble("reserve_money"));
+                    }
                     beanList.add(agb);
                 }
             }
@@ -212,7 +216,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
             MyApplication.isLoadAuctionCart=true;
         }else if(what==2){
-
             if(type==1){
                 Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
                 intent.putExtra("goods_id",selectAGB.getId()+"");
@@ -262,7 +265,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 AcutionGoodsBean agb = beanList.get(position);
-                AuctionDetailsActivity.startIntent(getActivity(), agb);
+                AuctionDetailsActivity.startIntent(getActivity(), agb.getId());
             }
 
             @Override
@@ -398,10 +401,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 isOver=false;
                 break;
             }
-            /*if(reduceTimes < maxReduceTimes ){
-                isOver=false;
-                break;
-            }*/
         }
         return isOver;
     }
@@ -414,24 +413,26 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             int currentLeftTime = agb.getCurrentLeftTime();
             int reduceTimes = agb.getReduceTimes();
             Double price = agb.getPrice();
+            int state = agb.getIntState();
             if(System.currentTimeMillis()>=agb.getEndTime()*1000 || agb.getPrice() <= agb.getEndPrice()){
                 continue;
             }
-            /*if(agb.getIntState()==1 ||agb.getIntState()==3){
-                continue;
-            }*/
             if(currentLeftTime <=0){
                 reduceTimes++;
                 price -= agb.getGapPrice();
                 currentLeftTime = agb.getGapTime();
-                agb.setReduceTimes(reduceTimes);
-                if(type==1){
+                if(state<=4){
+                    agb.setReduceTimes(reduceTimes);
+                }
+                if(type==1&&state<=4){
                     agb.setPrice(price);
                 }
             }else {
                 currentLeftTime--;
             }
-            agb.setCurrentLeftTime(currentLeftTime);
+            if(state<=4) {
+                agb.setCurrentLeftTime(currentLeftTime);
+            }
         }
         adapter.notifyDataSetChanged();
     }

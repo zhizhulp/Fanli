@@ -95,8 +95,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
 
     private void initViews(View view) {
         initHeadView(view);
-
-
         //消息
         LinearLayout messageBtn = (LinearLayout) view.findViewById(R.id.head_rr);
         messageBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +105,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
         });
         msgView = (MsgView) view.findViewById(R.id.head_img_xiaoxi);
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
-        //rv.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         setLoadRequestor(new LoadRequestor() {
             @Override
             public void loadMore() {
@@ -181,7 +178,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 }
             }
         });
-
 
         ShopActivity shopActivity = (ShopActivity) getActivity();
         shopTabs = shopActivity.getShopTabs();

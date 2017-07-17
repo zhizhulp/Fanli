@@ -86,4 +86,9 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/right2_arrow" />
     </RelativeLayout>
+    <View
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="@color/main_bg"/>
 </FrameLayout>

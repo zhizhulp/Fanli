@@ -33,6 +33,7 @@ public class AuctionOrderAdapter extends BaseQuickAdapter<AcutionGoodsBean, Base
         helper.setText(R.id.text_auction_goods_name, item.getName());//名称
         helper.setText(R.id.text_price, "￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//出价
         helper.setText(R.id.text_auction_goods_score, "获赠礼品分"+item.getScore()+"分");//积分
+        helper.setText(R.id.text_state,item.getStrPriceState());
         helper.addOnClickListener(R.id.btn_auction);
         TextView view= helper.getView(R.id.btn_auction);
         view.setText(item.getStrPriceState());

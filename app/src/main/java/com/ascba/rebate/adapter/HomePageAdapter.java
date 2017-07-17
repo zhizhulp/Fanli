@@ -44,7 +44,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
             if (turnPlay != null) {
                 if (msg.what == 0) {
                     turnPlay.setCurrentItem(turnPlay.getCurrentItem() + 1);
-                    handler.sendEmptyMessageDelayed(0, 2000);
+                    handler.sendEmptyMessageDelayed(0, 4000);
                 }
             }
         }
@@ -198,7 +198,7 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                 turnPlay.setAdapter(turnAdapter);
                 turnPlay.setCurrentItem(10000 * 5);
                 if(!handler.hasMessages(0)){
-                    handler.sendEmptyMessageDelayed(0, 2000);
+                    handler.sendEmptyMessageDelayed(0, 4000);
                 }
                 break;
         }

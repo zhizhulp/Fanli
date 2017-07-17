@@ -165,7 +165,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             for (int i = 0; i < goodsArray.length(); i++) {
                 JSONObject obj = goodsArray.optJSONObject(i);
                 AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.baseWebsite + obj.optString("index_img"),
-                        obj.optString("name"), obj.optDouble("transaction_price"),
+                        obj.optString("name"), obj.optDouble("end_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
                 agb.setGapTime(obj.optInt("interval_second"));
@@ -174,9 +174,13 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 agb.setStartTime(obj.optLong("starttime"));
                 agb.setEndTime(obj.optLong("endtime"));//modify
                 agb.setGoodsEndTime(obj.optLong("price_time"));//add
-                agb.setIntState(obj.optInt("is_status"));
+                int is_status = obj.optInt("is_status");
+                agb.setIntState(is_status);
                 agb.setStrState(obj.optString("auction_tip"));
                 agb.setCartStatusTip(obj.optString("cart_status_tip"));
+                if(is_status==5 || is_status==6 || is_status==7){
+                    agb.setPrice(obj.optDouble("reserve_money"));
+                }
                 beanList.add(agb);
             }
         }
@@ -207,7 +211,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), AuctionDetailsActivity.class);
-                intent.putExtra("agb", beanList.get(position));
+                intent.putExtra("id", beanList.get(position).getId());
                 intent.putExtra("get_type",1);
                 startActivity(intent);
             }

@@ -140,6 +140,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
             case 0:
                 //获取数据
                 request.add("store_id", store_id);
+                request.add("now_page",now_page);
                 break;
             case 1:
                 //添加商品到购物车

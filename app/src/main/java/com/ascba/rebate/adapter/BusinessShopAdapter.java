@@ -47,7 +47,5 @@ public class BusinessShopAdapter extends BaseQuickAdapter<ShopBaseItem, BaseView
         helper.setVisible(R.id.tv_use_ticket_reduce, !StringUtils.isEmpty(item.getUseTicketToReduce()));
         helper.setText(R.id.tv_use_ticket_reduce,item.getUseTicketToReduce());
 
-        /*helper.setVisible(R.id.tv_teihui,!StringUtils.isEmpty(item.getTeiHui()));
-        helper.setText(R.id.tv_teihui,item.getTeiHui());*/
     }
 }

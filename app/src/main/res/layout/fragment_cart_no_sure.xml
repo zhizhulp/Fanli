@@ -25,7 +25,6 @@
             android:text="全选"
             android:textColor="@color/shop_normal_text_color"
             android:textSize="14sp" />
-
         <TextView
             android:id="@+id/tv_btm_top"
             android:layout_width="wrap_content"
@@ -35,7 +34,7 @@
             android:layout_toRightOf="@id/cart_cb_total"
             android:maxLines="1"
             android:text="保证金：￥300.00"
-            android:textColor="@color/shop_normal_text_color"
+            android:textColor="@color/main_red_normal"
             android:textSize="13sp" />
 
         <TextView

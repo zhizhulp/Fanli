@@ -3,6 +3,7 @@ package com.ascba.rebate.activities.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -48,18 +49,10 @@ public class LoginActivity extends BaseNetActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_SET_ALIAS:
-                    try {
-                        JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
                     break;
                 case MSG_SET_TAGS:
-                    try {
-                        JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
                     break;
                 default:
                     break;
@@ -163,7 +156,7 @@ public class LoginActivity extends BaseNetActivity {
 
                 setResult(RESULT_OK, getIntent());
                 MyApplication.isLoad = true;
-                MyApplication.isSignOut=false;
+                MyApplication.isSignOut = false;
                 finish();
             }
 
@@ -196,6 +189,7 @@ public class LoginActivity extends BaseNetActivity {
             return super.onKeyDown(keyCode, event);
         }
     }
+
     private void setAlias(String alias) {
         //调用JPush API设置Alias
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
@@ -206,6 +200,8 @@ public class LoginActivity extends BaseNetActivity {
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0://成功
+                    Log.d(TAG, "gotResult: setTagSuccess");
+                    AppConfig.getInstance().putBoolean("jpush_set_tag_success",true);
                     break;
                 case 6002://失败，重试
                     if (ExampleUtil.isConnected(getApplicationContext())) {
@@ -224,17 +220,16 @@ public class LoginActivity extends BaseNetActivity {
         public void gotResult(int code, String alias, Set<String> tags) {
             switch (code) {
                 case 0:
+                    Log.d(TAG, "gotResult: setAliasSuccess");
+                    AppConfig.getInstance().putBoolean("jpush_set_alias_success",true);
                     break;
-
                 case 6002:
-
                     if (ExampleUtil.isConnected(getApplicationContext())) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
                     } else {
                         Toast.makeText(LoginActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
-
                 default:
             }
         }
@@ -243,16 +238,13 @@ public class LoginActivity extends BaseNetActivity {
 
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
-        if (uuid != -1000) {
-            setAlias(uuid + "");
-            boolean appDebug = LogUtils.isAppDebug(this);
-            setTag(appDebug);
-            if (appDebug) {
-                LogUtils.PrintLog("123", "debug");
-            } else {
-                LogUtils.PrintLog("123", "release");
+        if (uuid != -1000 ) {
+            if(AppConfig.getInstance().getBoolean("jpush_set_alias_success",false)){
+                setAlias(uuid + "");
             }
-
+            if(AppConfig.getInstance().getBoolean("jpush_set_tag_success",false)){
+                setTag(LogUtils.isAppDebug(this));
+            }
         }
     }
 

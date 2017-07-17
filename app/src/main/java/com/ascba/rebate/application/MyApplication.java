@@ -65,11 +65,7 @@ public class MyApplication extends MultiDexApplication {
         app = this;
         initNohttp();
         requestQueue = NoHttp.newRequestQueue();
-        try {
-            JPushInterface.init(this);//极光推送
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        JPushInterface.init(this);//极光推送
         initWXPay();
         initHotFix();
     }

@@ -3,6 +3,8 @@ package com.ascba.rebate.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,21 +22,32 @@ import com.ascba.rebate.utils.NumberFormatUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by 李平 on 2017/6/16.
  * 竞拍轮播adapter
  */
 
-public class TurnAdapter extends PagerAdapter {
+class TurnAdapter extends PagerAdapter {
     private List<AcutionGoodsBean> data;
     private Callback callback;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            setBeanProperty();
+        }
+    };
     public interface Callback{
         void click(AcutionGoodsBean item);
         void timeToUpdate();
     }
     TurnAdapter(List<AcutionGoodsBean> data) {
         this.data=data;
+        Timer timer = new Timer();
+        timer.schedule(new MyTimerTask(),0,1000);
     }
     @Override
     public int getCount() {
@@ -65,6 +78,41 @@ public class TurnAdapter extends PagerAdapter {
         return view;
     }
 
+    private class MyTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            if(data.size()>0){
+                handler.sendEmptyMessage(0);
+            }
+        }
+    }
+
+    private void setBeanProperty(){
+        if(data.size()==0){
+            return;
+        }
+        for (int i = 0; i < data.size(); i++) {
+            AcutionGoodsBean agb = data.get(i);
+            int currentLeftTime = agb.getCurrentLeftTime();
+            int reduceTimes = agb.getReduceTimes();
+            Double price = agb.getPrice();
+            if(System.currentTimeMillis()>=agb.getEndTime()*1000 || agb.getPrice() <= agb.getEndPrice()){
+                continue;
+            }
+            if(currentLeftTime <=0){
+                reduceTimes++;
+                price -= agb.getGapPrice();
+                currentLeftTime = agb.getGapTime();
+                agb.setReduceTimes(reduceTimes);
+                agb.setPrice(price);
+            }else {
+                currentLeftTime--;
+            }
+            agb.setCurrentLeftTime(currentLeftTime);
+        }
+        notifyDataSetChanged();
+    }
+
     private void findViews(View view, final int position, final ViewGroup container) {
         ImageView imageView = (ImageView) view.findViewById(R.id.auction_img);
         final AcutionGoodsBean item = data.get(position);
@@ -84,7 +132,7 @@ public class TurnAdapter extends PagerAdapter {
         //竞拍保证金
         ((TextView) view.findViewById(R.id.auction_text_person)).setText("￥"+ item.getCashDeposit());
         //价格
-        ((TextView) view.findViewById(R.id.auction_text_price)).setText("￥"+ NumberFormatUtils.getNewDouble(item.getEndPrice()));
+        ((TextView) view.findViewById(R.id.auction_text_price)).setText("￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));
         //剩余时间
         TextView tvTime = (TextView) view.findViewById(R.id.auction_text_time);
         //当前价
@@ -158,6 +206,11 @@ public class TurnAdapter extends PagerAdapter {
             }
             return "商品拍卖结束";
         }
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     public Callback getCallback() {

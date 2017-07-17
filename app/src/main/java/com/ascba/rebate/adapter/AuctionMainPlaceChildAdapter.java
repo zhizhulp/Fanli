@@ -59,7 +59,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         }else if(intState==6){//待支付
             view.setEnabled(true);
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
-            helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
+            helper.setText(R.id.text_auction_goods_time,item.getStrState());
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_red_bg);
         }else if(intState==7){//已支付
             view.setEnabled(false);
@@ -70,7 +70,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         view.setText(item.getStrState());
         helper.setText(R.id.text_auction_goods_name,item.getName());//名称
         helper.setText(R.id.text_auction_goods_score,"购买赠送"+item.getScore()+"礼品分");//增值积分
-        helper.setText(R.id.text_auction_goods_person,item.getCashDeposit());//人数改为保证金
+        helper.setText(R.id.text_auction_goods_person,"￥"+ item.getCashDeposit());//人数改为保证金
         helper.addOnClickListener(R.id.btn_auction_goods_add_cart);//加入购物车
         helper.addOnClickListener(R.id.btn_auction_goods_apply);//立即报名
         int type = item.getType();//1抢拍 2盲拍
@@ -78,6 +78,13 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
             helper.setText(R.id.text_reduce_times,item.getReduceTimes()+"次");//降价次数
             helper.setText(R.id.text_auction_goods_price,"￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
         }else if(type ==2){
+            if(intState>=5){
+                helper.getView(R.id.btn_sub).setEnabled(false);
+                helper.getView(R.id.btn_add).setEnabled(false);
+            }else {
+                helper.getView(R.id.btn_sub).setEnabled(true);
+                helper.getView(R.id.btn_add).setEnabled(true);
+            }
             helper.addOnClickListener(R.id.btn_sub);//减号
             helper.addOnClickListener(R.id.btn_add);//加号
             helper.setText(R.id.text_auction_goods_price,"降价至￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
@@ -93,6 +100,14 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         int hour = leftTime % (24 * 3600) / 3600;
         int minute = leftTime % 3600 / 60;
         int second = leftTime % 60;
-        return hour + "时" + minute +"分"+ second +"秒";
+        return format(hour) + "时:" + format(minute) +"分:"+ format(second) +"秒";
+    }
+
+    private String format(int number){
+        String s = String.valueOf(number);
+        if(s.length()==1){
+            s="0"+s;
+        }
+        return s;
     }
 }

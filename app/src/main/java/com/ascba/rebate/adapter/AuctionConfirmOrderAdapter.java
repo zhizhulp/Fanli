@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.AcutionGoodsBean;
+import com.ascba.rebate.utils.NumberFormatUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -26,6 +27,6 @@ public class AuctionConfirmOrderAdapter extends BaseQuickAdapter<AcutionGoodsBea
         helper.setText(R.id.confir_order_title,item.getStartTimeStr());
         Picasso.with(mContext).load(item.getImgUrl()).placeholder(R.mipmap.loading_rect).into((ImageView) helper.getView(R.id.item_goods_img));
         helper.setText(R.id.item_goods_name,item.getName());
-        helper.setText(R.id.item_goods_price,"￥"+ item.getPrice());
+        helper.setText(R.id.item_goods_price,"￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));
     }
 }

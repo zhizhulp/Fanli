@@ -11,6 +11,9 @@ android {
         versionName "3.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        ndk {
+            abiFilters "armeabi","armeabi-v8a","x86","x86_64","mips","mips64"
+        }
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'

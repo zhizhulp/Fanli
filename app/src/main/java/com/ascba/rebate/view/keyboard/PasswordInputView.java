@@ -110,15 +110,15 @@ public class PasswordInputView extends EditText {
     }
 
     @Override
-    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
+    protected void onTextChanged(final CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
         this.textLength = text.toString().length();
         if(textLength==passwordLength){
             if(watcher!=null){
-                watcher.complete(text.toString());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        watcher.complete(text.toString());
                         Editable ed = getEditableText();
                         ed.clear();
                     }

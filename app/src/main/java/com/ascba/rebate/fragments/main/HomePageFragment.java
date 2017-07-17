@@ -142,7 +142,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         } else if(scene ==3){
             request = buildNetRequest(url, 0, true);
             request.add("client_str", getAutionIds());
-            request.add("total_price", agb.getEndPrice());
+            request.add("total_price", agb.getPrice());
         }
         executeNetWork(request, "请稍后");
         setCallback(this);
@@ -387,7 +387,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         } else if(finalScene ==3){
             if(agb.getType()==1){
                 Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
-                intent.putExtra("goods_id",agb.getId());
+                intent.putExtra("goods_id",agb.getId()+"");
                 startActivityForResult(intent,REQUEST_PAY_ORDER);
             }else {
                 showToast(message);
@@ -414,9 +414,13 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 agb.setStartTime(obj.optLong("starttime"));
                 agb.setEndTime(obj.optLong("endtime"));//modify
                 agb.setGoodsEndTime(obj.optLong("price_time"));//add
-                agb.setIntState(obj.optInt("is_status"));
+                int is_status = obj.optInt("is_status");
+                agb.setIntState(is_status);
                 agb.setStrState(obj.optString("auction_tip"));
                 agb.setCartStatusTip(obj.optString("cart_status_tip"));
+                if(is_status==5 || is_status==6 || is_status==7){
+                    agb.setPrice(obj.optDouble("reserve_money"));
+                }
                 beanList.add(agb);
             }
 
@@ -559,7 +563,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         requestData(UrlUtils.payAuction, 3);
                     } else if(agb.getIntState()==6){//支付
                         Intent intent=new Intent(getActivity(),AuctionConfirmOrderActivity.class);
-                        intent.putExtra("goods_id",agb.getId());
+                        intent.putExtra("goods_id",agb.getId()+"");
                         startActivityForResult(intent,REQUEST_PAY_ORDER);
                     }
                 }
@@ -761,7 +765,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 "\"" +
                 ":" +
                 "\"" +
-                agb.getEndPrice() +
+                agb.getPrice() +
                 "\"";
     }
 

@@ -25,61 +25,63 @@
             android:layout_marginLeft="14dp"
             android:src="@mipmap/lowest_price" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="9.5dp"
-            android:layout_marginRight="14dp">
-
-
-            <TextView
-                android:id="@+id/auction_text_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_duobianjuxing"
-                android:gravity="center"
-                android:text="正在进行"
-                android:textColor="@color/white"
-                android:textSize="11sp" />
-
-            <FrameLayout
-                android:alpha="0.7"
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:layout_toRightOf="@id/auction_text_state">
-
-                <View
-                    android:id="@+id/auction_text_time_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:layout_toRightOf="@id/auction_text_state"
-                    android:alpha="0.7"
-                    android:background="#000" />
-
-                <TextView
-                    android:id="@+id/auction_text_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/auction_text_time_bg"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="11dp"
-                    android:textColor="@color/white"
-                    android:textSize="11sp" />
-            </FrameLayout>
-        </RelativeLayout>
 
     </FrameLayout>
+    <!--长条-->
+    <RelativeLayout
+        android:layout_marginTop="95dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="9.5dp"
+        android:layout_marginRight="14dp">
 
+
+        <TextView
+            android:id="@+id/auction_text_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_duobianjuxing"
+            android:gravity="center"
+            android:text="正在进行"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <FrameLayout
+            android:alpha="0.7"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_toRightOf="@id/auction_text_state">
+
+            <View
+                android:id="@+id/auction_text_time_bg"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@id/auction_text_state"
+                android:alpha="0.8"
+                android:background="#000" />
+
+            <TextView
+                android:id="@+id/auction_text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/auction_text_time_bg"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="11dp"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+        </FrameLayout>
+    </RelativeLayout>
     <RelativeLayout
         android:layout_below="@id/lat_head"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:paddingLeft="18dp"
         android:layout_marginRight="14dp"
+        android:layout_marginLeft="14dp"
         android:background="@color/white">
         <LinearLayout
+            android:paddingLeft="5dp"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,7 +92,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/shop_normal_text_color"
                 android:textSize="12sp" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,7 +156,7 @@
     <ImageView
         android:visibility="gone"
         android:layout_marginRight="80dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:src="@mipmap/already_rush"

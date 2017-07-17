@@ -262,30 +262,29 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
      */
     private void getdata() {
         Request<JSONObject> jsonRequest = buildNetRequest(UrlUtils.getGoodsArticle, 0, false);
-        jsonRequest.add("sign", UrlEncodeUtils.createSign(UrlUtils.getGoodsArticle));
         jsonRequest.add("id", goodsId);
         executeNetWork(jsonRequest, "请稍后");
         setCallback(new Callback() {
 
             @Override
             public void handle200Data(JSONObject dataObj, String message) {
-                dataObj = dataObj.optJSONObject("mallgoods");
+                JSONObject goodsObj = dataObj.optJSONObject("mallgoods");
                 //是否有规格
-                has_spec = dataObj.optInt("has_spec");
+                has_spec = goodsObj.optInt("has_spec");
                 //广告轮播数据
-                getPagerList(dataObj);
+                getPagerList(goodsObj);
                 //解析商品详情
-                getGoodsDetails(dataObj);
+                getGoodsDetails(goodsObj);
                 //店铺推荐
-                getStoreComm(dataObj);
+                getStoreComm(goodsObj);
                 //店铺
-                getStore(dataObj);
+                getStore(goodsObj);
                 //详情页地址
-                webUrl = dataObj.optString("details");
+                webUrl = goodsObj.optString("details");
                 //特惠，用券价
-                showLat(dataObj);
+                showLat(goodsObj);
                 if (goods.getGoodsTitle() != null && goods.getGoodsTitle().length() > 0) {
-                    InitView();
+                    InitView(dataObj);
                 } else {
                     showToast("获取数据失败!");
                 }
@@ -505,7 +504,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         return null;
     }
 
-    private void InitView() {
+    private void InitView(final JSONObject dataObj) {
 
         /**
          * viewPager
@@ -553,12 +552,12 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
          * 增值：购买送积分
          */
         TextView appreciationText = (TextView) findViewById(R.id.goods_details_appreciation_text);
-        appreciationText.setText("购买即送" + fnum.format(Float.valueOf(goods.getGoodsPrice()) * 100) + "礼品分");
+        appreciationText.setText(dataObj.optString("goods_score_text"));
         RelativeLayout appreciationRL = (RelativeLayout) findViewById(R.id.goods_details_appreciation_rl);
         appreciationRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showIntegralValue(Float.valueOf(goods.getGoodsPrice()) * 100);
+                showIntegralValue(dataObj.optInt("goods_score"));
             }
         });
 
@@ -1031,7 +1030,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
     /*
      * 增值积分dialog
      */
-    private void showIntegralValue(Float score) {
+    private void showIntegralValue(int score) {
         final Dialog dialog = new Dialog(this, R.style.AlertDialog);
         dialog.setContentView(R.layout.activity_integralvale);
 
@@ -1064,7 +1063,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         }
     }
 
-    private List<IntegralValueItem> getData(Float score) {
+    private List<IntegralValueItem> getData(int score) {
         List<IntegralValueItem> data = new ArrayList<>();
         data.add(new IntegralValueItem("购买后赠送"+score+"礼品分"));
         data.add(new IntegralValueItem("礼品分有什么用", "礼品分可转化为商品分，商品分可以转化为代金券和折扣券，代金券和折购券可在礼享城换购商品。"));

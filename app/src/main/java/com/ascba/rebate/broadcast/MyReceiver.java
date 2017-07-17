@@ -162,14 +162,4 @@ public class MyReceiver extends BroadcastReceiver {
 			context.sendBroadcast(msgIntent);
 		}
 	}*/
-
-	public static boolean isEmpty(String s) {
-		if (null == s)
-			return true;
-		if (s.length() == 0)
-			return true;
-		if (s.trim().length() == 0)
-			return true;
-		return false;
-	}
 }
