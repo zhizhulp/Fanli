@@ -39,6 +39,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
     private TextView tvTodayExtra;
     private TextView tvTodayCount;
     private MoneyBar mb;
+    public static final int REQUEST_CODE=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,12 +141,27 @@ public class BusinessUnionActivity extends BaseNetActivity implements
             ToBeSuredOrdersEntity.IdenInfoBean iden_info = toBeSuredOrdersEntity.getIden_info();
             if (iden_info != null) {
                 Intent intent1 = new Intent(context, ToBeSuredOrdersActivity.class);
-                startActivity(intent1);
+                startActivityForResult(intent1,REQUEST_CODE);
             } else {
                 showToast("暂无待确认订单！");
             }
 
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    resetPage();
+                    requestData(UrlUtils.businessManagement,1);
+                }
+                break;
+        }
+
     }
 
     @Override

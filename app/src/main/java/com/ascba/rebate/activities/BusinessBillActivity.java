@@ -112,6 +112,7 @@ public class BusinessBillActivity extends BaseBillActivity {
                     Intent intent=new Intent(BusinessBillActivity.this, SellerOrderDetailActivity.class);
                     intent.putExtra("order_id",data.get(position).getFivepercent_log_id());
                     intent.putExtra("into_type",1);
+                    intent.putExtra("type","other");
                     startActivityForResult(intent,CONE_RESULT);
                 }
 

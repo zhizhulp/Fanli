@@ -107,6 +107,7 @@ public class CostBillActivity extends BaseBillActivity {
 
                     Intent intent=new Intent(CostBillActivity.this, SellerOrderDetailActivity.class);
                     intent.putExtra("order_id",data.get(position).getFivepercent_log_id());
+                    intent.putExtra("type","other");
                     intent.putExtra("into_type",1);
                     startActivity(intent);
                 }

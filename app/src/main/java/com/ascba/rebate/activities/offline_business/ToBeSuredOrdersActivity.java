@@ -54,11 +54,15 @@ public class ToBeSuredOrdersActivity extends BaseNetActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(ToBeSuredOrdersActivity.this, SellerOrderDetailActivity.class);
                 order_id = data_list.get(position).getFivepercent_log_id();
+                intent.putExtra("type","other");
                 intent.putExtra("order_id", order_id);
                 intent.putExtra("into_type", 1);
                 startActivityForResult(intent, CODE_RESULE);
             }
         });
+
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
 
 
         loadRequestor = new LoadRequestor() {

@@ -258,13 +258,26 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/sure_order_vis"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
+        android:layout_weight="1">
+        <Button
+            android:visibility="gone"
+            android:id="@+id/seller_detail_close"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/register_btn_bg1"
+            android:gravity="center"
+            android:text="关闭"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
         <LinearLayout
+            android:id="@+id/sure_order_vis"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_alignParentBottom="true"
