@@ -46,7 +46,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
             helper.setVisible(R.id.btn_auction_goods_add_cart,true);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
             helper.setBackgroundRes(R.id.btn_auction_goods_apply,R.drawable.btn_red_bg);
-        }else if(intState==4){//4:已报名
+        }else if(intState==4){//4:立即拍
             view.setEnabled(true);
             helper.setVisible(R.id.btn_auction_goods_add_cart,false);
             helper.setText(R.id.text_auction_goods_time,getRemainingTime(item));
@@ -78,13 +78,6 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
             helper.setText(R.id.text_reduce_times,item.getReduceTimes()+"次");//降价次数
             helper.setText(R.id.text_auction_goods_price,"￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
         }else if(type ==2){
-            if(intState>=5){
-                helper.getView(R.id.btn_sub).setEnabled(false);
-                helper.getView(R.id.btn_add).setEnabled(false);
-            }else {
-                helper.getView(R.id.btn_sub).setEnabled(true);
-                helper.getView(R.id.btn_add).setEnabled(true);
-            }
             helper.addOnClickListener(R.id.btn_sub);//减号
             helper.addOnClickListener(R.id.btn_add);//加号
             helper.setText(R.id.text_auction_goods_price,"降价至￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
@@ -93,7 +86,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     }
 
     private String getRemainingTime(AcutionGoodsBean item){
-        if(System.currentTimeMillis()>=item.getEndTime()*1000 || item.getPrice() <= item.getEndPrice()){
+        if(System.currentTimeMillis()>=item.getGoodsEndTime()*1000 || item.getPrice() <= item.getEndPrice()){
             return "竞拍结束";
         }
         int leftTime = item.getCurrentLeftTime();//单位s

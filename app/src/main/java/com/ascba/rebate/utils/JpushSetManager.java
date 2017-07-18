@@ -38,9 +38,11 @@ public class JpushSetManager {
         }
     };
     private Context context;
+    private int type;//0设置成功 1清除成功
 
-    public JpushSetManager(Context context) {
+    public JpushSetManager(Context context,int type) {
         this.context=context;
+        this.type=type;
     }
 
     private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
@@ -49,7 +51,11 @@ public class JpushSetManager {
             switch (code) {
                 case 0://成功
                     Log.d(TAG, "gotResult: setTagSuccess");
-                    AppConfig.getInstance().putBoolean("jpush_set_tag_success",true);
+                    if(type==0){
+                        AppConfig.getInstance().putBoolean("jpush_set_tag_success",true);
+                    }else if(type==1){
+                        AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
+                    }
                     break;
                 case 6002://失败，重试
                     if (NetUtils.isNetworkAvailable(context)) {
@@ -69,7 +75,11 @@ public class JpushSetManager {
             switch (code) {
                 case 0:
                     Log.d(TAG, "gotResult: setAliasSuccess");
-                    AppConfig.getInstance().putBoolean("jpush_set_alias_success",true);
+                    if(type==0){
+                        AppConfig.getInstance().putBoolean("jpush_set_alias_success",true);
+                    }else if(type==1){
+                        AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
+                    }
                     break;
                 case 6002:
                     if (NetUtils.isNetworkAvailable(context)) {

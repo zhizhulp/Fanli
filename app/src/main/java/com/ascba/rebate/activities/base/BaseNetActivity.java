@@ -48,7 +48,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
             //jpush
             AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
             AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
-            JpushSetManager js=new JpushSetManager(this);
+            JpushSetManager js=new JpushSetManager(this,1);
             js.setTag(new LinkedHashSet<String>());
             js.setAlias("");
 

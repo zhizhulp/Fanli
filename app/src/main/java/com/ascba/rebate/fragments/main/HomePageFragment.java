@@ -13,6 +13,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,7 +116,16 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private ProgressDialog pD;
     private boolean isFirstComing=true;
     private AcutionGoodsBean agb;
-    private boolean needUpdatedAuctionGoods=true;//是否需要更新竞拍商品
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(handler.hasMessages(0)){
+                handler.removeMessages(0);
+                requestData(UrlUtils.index, 0);
+            }
+        }
+    };
 
 
     @Override
@@ -422,6 +434,11 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     agb.setPrice(obj.optDouble("reserve_money"));
                 }
                 beanList.add(agb);
+
+                long leftTime = obj.optLong("endtime") * 1000-System.currentTimeMillis() ;
+                if(!handler.hasMessages(0)){
+                    handler.sendEmptyMessageDelayed(0,leftTime);
+                }
             }
 
             HomePageMultiItemItem item = new HomePageMultiItemItem();
@@ -568,14 +585,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     }
                 }
 
-                @Override
-                public void timeToUpdate() {
-                    if(needUpdatedAuctionGoods){
-                        requestData(UrlUtils.index, 0);
-                        needUpdatedAuctionGoods=false;
-                    }
-
-                }
             });
             recylerview.setLayoutManager(new LinearLayoutManager(context));
             recylerview.setAdapter(homePageAdapter);
@@ -769,4 +778,11 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 "\"";
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(handler!=null && handler.hasMessages(0)){
+            handler.removeMessages(0);
+        }
+    }
 }

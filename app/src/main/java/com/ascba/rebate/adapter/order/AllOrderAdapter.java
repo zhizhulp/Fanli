@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
+import com.ascba.rebate.utils.StringUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -68,6 +69,9 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
 
                 //购买数量
                 helper.setText(R.id.item_goods_price_num, "x" + goods.getUserQuy());
+                //查看物流
+                helper.addOnClickListener(R.id.tv_express_flow);
+                helper.setVisible(R.id.tv_express_flow, !StringUtils.isEmpty(goods.getDeliverNum()));
 
                 break;
             case TYPE1:

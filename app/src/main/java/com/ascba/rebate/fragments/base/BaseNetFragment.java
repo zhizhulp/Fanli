@@ -93,7 +93,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
                 //jpush
                 AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
                 AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
-                JpushSetManager js=new JpushSetManager(getContext());
+                JpushSetManager js=new JpushSetManager(getContext(),1);
                 js.setTag(new LinkedHashSet<String>());
                 js.setAlias("");
 

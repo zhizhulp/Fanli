@@ -39,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:src="@mipmap/icon_loudspeaker" />
 
-        <com.ascba.rebate.view.MarqueeTextView
+        <!--<com.ascba.rebate.view.MarqueeTextView
             android:id="@+id/text_auction_notif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,22 +52,23 @@
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textColor="@color/shop_normal_text_color"
-            android:textSize="@dimen/main_text_12" />
+            android:textSize="@dimen/main_text_12" />-->
 
-        <!--<TextView
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="14dp"
-            android:singleLine="true"
-            android:gravity="center_vertical"
+        <TextView
+            android:id="@+id/text_auction_notif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="14dp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:marqueeRepeatLimit="marquee_forever"
+            android:gravity="center_vertical"
             android:scrollHorizontally="true"
-            android:text="这是跑马灯的效果这是跑马灯的效果这是跑马灯的效果这是跑马灯的效果"
-            android:textColor="@color/shop_normal_text_color" />-->
+            android:singleLine="true"
+            android:textSize="@dimen/main_text_12"
+            android:textColor="@color/shop_normal_text_color"
+            android:marqueeRepeatLimit="marquee_forever"/>
 
     </LinearLayout>
 

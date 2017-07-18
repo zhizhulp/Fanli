@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.auction.AuctionDetailsActivity;
 import com.ascba.rebate.activities.auction.AuctionListActivity;
 import com.ascba.rebate.beans.AcutionGoodsBean;
 import com.ascba.rebate.utils.NumberFormatUtils;
@@ -42,9 +41,8 @@ class TurnAdapter extends PagerAdapter {
     };
     public interface Callback{
         void click(AcutionGoodsBean item);
-        void timeToUpdate();
     }
-    TurnAdapter(List<AcutionGoodsBean> data) {
+    public TurnAdapter(List<AcutionGoodsBean> data) {
         this.data=data;
         Timer timer = new Timer();
         timer.schedule(new MyTimerTask(),0,1000);
@@ -200,10 +198,7 @@ class TurnAdapter extends PagerAdapter {
             }
 
         }else {
-            if(callback!=null){
-                callback.timeToUpdate();
-                Log.d("time_down", "it is time to update");
-            }
+            Log.d("time_down", "it is time to update");
             return "商品拍卖结束";
         }
     }
