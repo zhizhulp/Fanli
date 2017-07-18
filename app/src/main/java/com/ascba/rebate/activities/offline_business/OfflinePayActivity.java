@@ -179,9 +179,10 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //记账的方式支付方式
     public void requestKeepAccounts(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        importMoney = Double.parseDouble(etMoney.getText().toString());//输入的金额
+        String money_str=etMoney.getText().toString();
+       importMoney=Double.parseDouble(money_str);
         request.add("seller", seller);
-        request.add("money", importMoney);
+        request.add("money",  money_str);
         request.add("pay_type", payType);
         request.add("scenetype", 2);
         executeNetWork(what, request, "请稍后");
@@ -218,7 +219,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
 
         } /*else if (error_status == 3) {//未设置密码
 
-        }*/ else if (error_status == 4) {
+        }*/ else if (error_status == 4) {//商家余额不足
             showToast(message);
         }
 
@@ -231,60 +232,21 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
             if (importMoney < self_money) {//余额足的情况下
                 SubmitEntity submitEntity = JSON.parseObject(dataObj.toString(), SubmitEntity.class);
                 SubmitEntity.InfoBean info = submitEntity.getInfo();
-
-//                int accumulate_points = info.getScore();
-//                String seller_mobile = info.getMember_username();
-//                String order_number = info.getOrder_number();
-//                String pay_type_text = info.getPay_type_text();
                 Intent intent = new Intent(OfflinePayActivity.this, SellerOrderDetailActivity.class);
-
                 intent.putExtra("into_type", 1);
                 intent.putExtra("type", "pay");
-
                 intent.putExtra("order_id", info.getOrder_id());
-
-//                bundle.putString("importMoney", info.getMoney());
-//                bundle.putString("seller_cover_logo", seller_cover_logo);
-//                bundle.putString("seller_name", seller_name);
-//                bundle.putString("order_status_text", info.getOrder_status_text());
-//                bundle.putString("pay_type_text", pay_type_text);
-//
-//                bundle.putString("member_username", seller_mobile);
-//                bundle.putString("accumulate_points", accumulate_points + "");
-//                bundle.putLong("create_time", info.getCreate_time());
-//                bundle.putString("order_number", order_number);
-
-
                 startActivityForResult(intent, CODE_REQUEST);
-
-
             } //余额不足在404处理
 
 
         } else {//记账的方式支付
             KeepAccountSubmitEntity keepAccountSubmitEntity = JSON.parseObject(dataObj.toString(), KeepAccountSubmitEntity.class);
             KeepAccountSubmitEntity.InfoBean infoBean = keepAccountSubmitEntity.getInfo();
-
             Intent intent = new Intent(this, SellerOrderDetailActivity.class);
-
-            //    Bundle bundle = new Bundle();//有11项
             intent.putExtra("type", "pay");
             intent.putExtra("into_type", 1);
             intent.putExtra("order_id", infoBean.getOrder_id());
-//            bundle.putString("importMoney", infoBean.getMoney() + "");
-//            bundle.putString("seller_cover_logo", seller_cover_logo);
-//            bundle.putString("seller_name", infoBean.getName());
-//            bundle.putString("order_status_text", infoBean.getOrder_status_text());
-//            bundle.putString("pay_type_text", infoBean.getPay_type_text());
-//            bundle.putString("member_username", infoBean.getMember_username());
-//            bundle.putString("accumulate_points", infoBean.getScore() + "");
-//            bundle.putLong("create_time", infoBean.getCreate_time());
-//            bundle.putString("order_number", infoBean.getOrder_number());
-//            bundle.putString("seller_contact", infoBean.getSeller_contact());
-
-
-            // intent.putExtras(bundle);
-            // startActivity(intent, RESULT_CODE);
             startActivityForResult(intent, CODE_REQUEST);
 
         }

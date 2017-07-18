@@ -74,41 +74,29 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
         mb.setCallBack2(new MoneyBar.CallBack2() {
             @Override
             public void clickImage(View im) {
-
             }
-
             @Override
             public void clickComplete(View tv) {
-
             }
-
             @Override
             public void clickBack(View back) {//返回键
                 if (type.equals("pay")) {//账户支付的方式是pay的情况下
                     Intent intent1 = getIntent();
-
                     if(paytype==1){//记账的方式
                         intent1.putExtra("pay_type",paytype);
                     }else if(paytype==2){//余额支付
                         intent1.putExtra("pay_type",paytype);
                         intent1.putExtra("member_money", member_money);
-
                     }
                     setResult(RESULT_OK, intent1);
                     finish();
-
                 } else {
                     setResultsAndBack();
-
                 }
-
-
             }
         });
         seller_order_detail_employpay = (RelativeLayout) findViewById(R.id.seller_order_detail_employpay);
         seller_order_detail_contactway = (RelativeLayout) findViewById(R.id.seller_order_detail_contactway);
-
-
         seller_order_trade_number = (TextView) findViewById(R.id.seller_order_trade_number);
         seller_order_contactway = (TextView) findViewById(R.id.seller_order_contactway);
         sure_order_vis = (LinearLayout) findViewById(R.id.sure_order_vis);
@@ -208,10 +196,8 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
             case R.id.seller_order_confirm://确认
                 requestConfirm(UrlUtils.affirm, 1);
                 sure_order_vis.setVisibility(View.GONE);
-
                 break;
             case R.id.seller_order_cancel://取消
-
                 Dialog dialog1 = getDm().buildAlertDialogSure("确定取消此笔订单吗？", "取消", "确定", new DialogHome.Callback() {
                     @Override
                     public void handleSure() {//点击取消时，商家重新请求支付。
@@ -223,8 +209,6 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
                 dialog1.show();
                 break;
         }
-
-
     }
 
     public void requestCancel(String url, int what) {

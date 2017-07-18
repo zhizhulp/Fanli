@@ -14,6 +14,15 @@ public class NumberFormatUtils {
         return new DecimalFormat("##0.00").format(oriDouble);
     }
 
+//    public static double getNewDouble(Double oriDouble) {
+//
+//        java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
+//        nf.setGroupingUsed(false);
+//
+//        return nf.format(oriDouble);
+//    }
+
+
     public static void formatEtMoney(EditText etMoney, CharSequence s,String preChangeTxt) {
 
         //只要前面的三位数
