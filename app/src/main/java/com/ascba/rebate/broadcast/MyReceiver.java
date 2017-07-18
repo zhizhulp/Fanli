@@ -52,6 +52,7 @@ public class MyReceiver extends BroadcastReceiver {
 				String from_msg_type = jObj.getString("from_msg_type");
 				if("notify".equals(from_msg_type)){
 					//打开自定义的Activity
+
 					Intent i = new Intent(context, SellerOrderDetailActivity.class);
 					i.putExtras(bundle);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );

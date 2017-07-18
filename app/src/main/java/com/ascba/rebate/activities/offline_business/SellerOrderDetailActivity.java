@@ -46,8 +46,6 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
     private Button seller_detail_close;
     private String type;//判断是否是通过用户的支付方式跳过来的
     private double member_money;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +78,8 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
             }
             @Override
             public void clickBack(View back) {//返回键
-                if (type.equals("pay")) {//账户支付的方式是pay的情况下
+
+                if ("pay".equals(type)) {//账户支付的方式是pay的情况下
                     Intent intent1 = getIntent();
                     if(paytype==1){//记账的方式
                         intent1.putExtra("pay_type",paytype);
@@ -126,6 +125,7 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
                 paytype = infoBean.getPay_type();
                 member_money = infoBean.getMember_money();
                 setOrderSure(infoBean.getOrder_status());
+
                 seller_order_name.setText(infoBean.getName());
                 seller_order_cost.setText(infoBean.getMoney());
                 seller_order_status.setText(infoBean.getOrder_status_text());
@@ -179,15 +179,13 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
                 seller_order_detail_contactway.setVisibility(View.GONE);
             }
 
-
-            if (type.equals("pay")) {//用户通过消费支付
+            if ("pay".equals(type)) {//用户通过消费支付
                 mb.setTextTitle("付款成功");
                 seller_detail_close.setVisibility(View.VISIBLE);
             } else {//通过其他方式
                 seller_detail_close.setVisibility(View.GONE);
             }
-
-        }
+            }
     }
 
     @Override

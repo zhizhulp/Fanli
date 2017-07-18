@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -50,6 +51,8 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     private String seller_logo, seller_name, seller_cover_logo;
     private String preChangeTxt = "";
     public static final int CODE_REQUEST = 101;
+    private String money_str;
+    private RelativeLayout rl_offline_reminder,rl_offline_other;
 
 
     @Override
@@ -69,16 +72,25 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         offline_tv_pay = (TextView) findViewById(R.id.offline_tv_pay);
         etMoney.addTextChangedListener(this);
         setBtnStatus(R.color.submit_gray, false);
+        rl_offline_reminder= (RelativeLayout) findViewById(R.id.rl_offline_reminder);
+        rl_offline_other= (RelativeLayout) findViewById(R.id.rl_offline_other);
+        rl_offline_reminder.setOnClickListener(this);
+        rl_offline_other.setOnClickListener(this);
+
+
+
+
         rbReminder = (RadioButton) findViewById(R.id.rb_offline_reminder);
         rbOther = (RadioButton) findViewById(R.id.rb_offline_other);
-        rbReminder.setOnClickListener(this);
-        rbOther.setOnClickListener(this);
+        rbReminder.setEnabled(false);
+        rbOther.setEnabled(false);
+//        rbReminder.setOnClickListener(this);
+//        rbOther.setOnClickListener(this);
         rbReminder.setChecked(true);
         offline_tv_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goPay();
-
             }
         });
 
@@ -90,7 +102,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
             seller_name = intent.getStringExtra("seller_name");
             seller = intent.getIntExtra("seller", 0);
             self_money = Double.parseDouble(intent.getStringExtra("self_money"));//余额
-
             seller_logo = UrlUtils.baseWebsite + seller_cover_logo;
             Picasso.with(this).load(seller_logo).into(busiIcon);
             tvBusiName.setText("向 " + seller_name + " 付款");
@@ -102,12 +113,12 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //点击更换支付方式
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.rb_offline_reminder) {//余额支付
+        if (v.getId() == R.id.rl_offline_reminder) {//余额支付
             isReminderPay = true;
             rbReminder.setChecked(true);
             rbOther.setChecked(false);
             payType = 2;
-        } else if (v.getId() == R.id.rb_offline_other) {//其他支付方式
+        } else if (v.getId() == R.id.rl_offline_other) {//其他支付方式
             isReminderPay = false;
             rbReminder.setChecked(false);
             rbOther.setChecked(true);
@@ -168,8 +179,9 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //余额支付请求方式
     public void requestNetwork(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
+        money_str=etMoney.getText().toString();
         request.add("seller", seller);
-        request.add("money", importMoney);
+        request.add("money", money_str);
         request.add("pay_type", payType);
         request.add("pay_password", password);
         request.add("scenetype", 2);
@@ -179,8 +191,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //记账的方式支付方式
     public void requestKeepAccounts(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        String money_str=etMoney.getText().toString();
-       importMoney=Double.parseDouble(money_str);
+        money_str=etMoney.getText().toString();
         request.add("seller", seller);
         request.add("money",  money_str);
         request.add("pay_type", payType);
