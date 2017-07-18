@@ -132,7 +132,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             this.client_key =b.getInt("client_key");
             if(tb!=null){//一场结束后切换到下一场
                 if(tb.getStatus().equals("进行中")){
-                    handler.sendEmptyMessageDelayed(NEXT,(tb.getEndTime()+1)*1000-System.currentTimeMillis());
+                    handler.sendEmptyMessageDelayed(NEXT,(tb.getEndTime())*1000-System.currentTimeMillis());
                 }
             }
         }
@@ -196,11 +196,14 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     agb.setIntState(is_status);
                     agb.setStrState(obj.optString("auction_tip"));
                     agb.setStartTime(obj.optLong("starttime"));
-                    agb.setEndTime(obj.optLong("price_time"));
+                    agb.setEndTime(obj.optLong("endtime"));
+                    agb.setGoodsEndTime(obj.optLong("price_time"));
                     agb.setStartPrice(obj.optDouble("begin_price"));
                     agb.setEndPrice(obj.optDouble("end_price"));
-                    if(is_status==1 || is_status==5 || is_status==6 || is_status==7){
-                        agb.setPrice(obj.optDouble("reserve_money"));
+                    if(obj.optInt("type")==1){
+                        if(is_status==1 || is_status==5 || is_status==6 || is_status==7){
+                            agb.setPrice(obj.optDouble("reserve_money"));
+                        }
                     }
                     beanList.add(agb);
                 }
@@ -278,21 +281,30 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 int state = selectAGB.getIntState();
                 switch (view.getId()) {
                     case R.id.btn_sub:
-                        if(nowPrice<= endPrice+gapPrice){
-                            showToast("已是最低价");
+                        if(state >=5){
+                            showToast("已拍");
                         }else {
-                            selectAGB.setPrice(nowPrice -gapPrice);
-                            adapter.notifyItemChanged(position);
+                            if(nowPrice<= endPrice+gapPrice){
+                                showToast("已是最低价");
+                            }else {
+                                selectAGB.setPrice(nowPrice -gapPrice);
+                                adapter.notifyItemChanged(position);
+                            }
                         }
 
                         break;
                     case R.id.btn_add:
-                        if(nowPrice >= startPrice -gapPrice){
-                            showToast("已加到最大");
+                        if(state >=5){
+                            showToast("已拍");
                         }else {
-                            selectAGB.setPrice(nowPrice +gapPrice);
-                            adapter.notifyItemChanged(position);
+                            if(nowPrice >= startPrice -gapPrice){
+                                showToast("已加到最大");
+                            }else {
+                                selectAGB.setPrice(nowPrice +gapPrice);
+                                adapter.notifyItemChanged(position);
+                            }
                         }
+
                         break;
                     case R.id.btn_auction_goods_add_cart://加入购物车
                         requestNetwork(UrlUtils.addCard,1);
@@ -397,7 +409,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         boolean isOver=true;
         for (int i = 0; i < beanList.size(); i++) {
             AcutionGoodsBean agb = beanList.get(i);
-            if(System.currentTimeMillis()< agb.getEndTime()*1000 || agb.getPrice() > agb.getEndPrice()){//没有结束
+            if(System.currentTimeMillis()< agb.getGoodsEndTime()*1000 || agb.getPrice() > agb.getEndPrice()){//没有结束
                 isOver=false;
                 break;
             }
@@ -414,7 +426,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             int reduceTimes = agb.getReduceTimes();
             Double price = agb.getPrice();
             int state = agb.getIntState();
-            if(System.currentTimeMillis()>=agb.getEndTime()*1000 || agb.getPrice() <= agb.getEndPrice()){
+            if(System.currentTimeMillis()>=agb.getGoodsEndTime()*1000 || agb.getPrice() <= agb.getEndPrice()){
                 continue;
             }
             if(currentLeftTime <=0){

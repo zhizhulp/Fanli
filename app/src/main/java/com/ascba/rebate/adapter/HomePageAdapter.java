@@ -34,7 +34,6 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
     private Callback callback;
     public interface Callback{
         void click(AcutionGoodsBean item);
-        void timeToUpdate();
     }
 
     private Handler handler = new Handler() {
@@ -185,13 +184,6 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                     public void click(AcutionGoodsBean item) {
                         if(callback!=null){
                             callback.click(item);
-                        }
-                    }
-
-                    @Override
-                    public void timeToUpdate() {
-                        if(callback!=null){
-                            callback.timeToUpdate();
                         }
                     }
                 });

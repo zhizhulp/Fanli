@@ -219,7 +219,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 if(id ==R.id.btn_auction){
                     if(state==0){//待支付
                         Intent intent=new Intent(MyGetAuction2Activity.this,AuctionConfirmOrderActivity.class);
-                        intent.putExtra("goods_id",agb.getId());
+                        intent.putExtra("goods_id",agb.getId()+"");
                         startActivityForResult(intent,REQUEST_PAY);
                     }else if(state==1){
                         if(!isEmpty){//查看物流

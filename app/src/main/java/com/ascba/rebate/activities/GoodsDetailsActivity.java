@@ -331,7 +331,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         JSONObject obj = dataObj.optJSONObject("mallStore");
         String storeId = dataObj.optString("id");
         String store_name = obj.optString("store_name");
-        String store_logo = UrlUtils.baseWebsite + obj.optString("store_logo");
+        String store_logo = obj.optString("store_logo");
         phone = obj.optString("store_mobile");
         int goods_count = obj.optInt("goods_count");
         Picasso.with(this).load(store_logo).placeholder(R.mipmap.busi_loading).into(imgLogo);
@@ -494,7 +494,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 JSONObject object = array.optJSONObject(i);
                 int id = object.optInt("id");
                 String title = object.optString("title");
-                String img = UrlUtils.baseWebsite + object.optString("img");
+                String img =  object.optString("img");
                 String shop_price = object.optString("shop_price");
                 GoodsDetailsItem bean = new GoodsDetailsItem(id,img, title, "￥"+shop_price, null);
                 beanList.add(bean);
@@ -821,7 +821,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                     JSONObject jsonObject = pagerArray.getJSONObject(i);
                     GoodsImgBean imgBean = new GoodsImgBean();
                     imgBean.setId(jsonObject.optInt("id"));
-                    imgBean.setImgUrl(UrlUtils.baseWebsite + jsonObject.optString("img_url"));
+                    imgBean.setImgUrl(jsonObject.optString("img_url"));
                     imgBeanList.add(imgBean);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -844,7 +844,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         //店铺id
         goods.setStoreId(goodsObject.optInt("store_id"));
         //商品缩略图
-        goods.setImgUrl(UrlUtils.baseWebsite + "/" + goodsObject.optString("img"));
+        goods.setImgUrl( goodsObject.optString("img"));
         //品牌id
         goods.setBrand(goodsObject.optInt("brand"));
         //价格
@@ -873,7 +873,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Goods goods = new Goods();
                 goods.setTitleId(jsonObject.optInt("id"));
-                goods.setImgUrl(UrlUtils.baseWebsite + jsonObject.optString("img"));
+                goods.setImgUrl( jsonObject.optString("img"));
                 goods.setGoodsTitle(jsonObject.optString("title"));
                 goods.setGoodsPrice(jsonObject.optString("shop_price"));
                 goods.setGoodsPriceOld(jsonObject.optString("market_price"));
@@ -1119,7 +1119,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
             goods.setGoodsTitle(goodsInfo.optString("title"));
             goods.setInventory(Integer.parseInt(goodsInfo.optString("inventory")));
             goods.setGoodsPrice(goodsInfo.optString("shop_price"));
-            goods.setImgUrl(UrlUtils.baseWebsite + goodsInfo.optString("img"));
+            goods.setImgUrl(goodsInfo.optString("img"));
         }
         return goods;
     }

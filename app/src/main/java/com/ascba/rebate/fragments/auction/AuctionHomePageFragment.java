@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
@@ -82,6 +83,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     };
     private Timer timer;
     private AcutionGoodsBean selectAGB;
+    private View headView;
 
     @Nullable
     @Override
@@ -92,6 +94,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.headView=view;
         initView(view);
         requestNetwork(UrlUtils.auction, 0);
     }
@@ -121,10 +124,10 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if (what == 0) {
             getPageCount(dataObj);//分页
-            initHeadView(dataObj);//头部数据
             stopLoadMore();
             if (isRefresh) {//下拉刷新
                 clearData();
+                initHeadView(dataObj);//头部数据
                 initAuctionData(dataObj);//列表数据
             } else {//上拉加载
                 initAuctionData(dataObj);//列表数据
@@ -207,6 +210,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
             }
         });
         recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -263,7 +267,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     }
 
     private void initHeadView(JSONObject dataObj) {
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_auction_hp_headview, null, false);
+        //View headView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_auction_hp_headview, null, false);
         ShufflingViewPager viewPager = (ShufflingViewPager) headView.findViewById(R.id.shufflingViewPager);
         List<String> banner = new ArrayList<>();
         JSONArray array = dataObj.optJSONArray("banner");
@@ -279,7 +283,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         }
         //消息
         JSONArray msgArray = dataObj.optJSONArray("notice_list");
-        MarqueeTextView textView = (MarqueeTextView) headView.findViewById(R.id.text_auction_notif);
+        TextView textView = (TextView) headView.findViewById(R.id.text_auction_notif);
         View viewMsg = headView.findViewById(R.id.lat_msg);
         if (msgArray != null && msgArray.length() > 0) {
             viewMsg.setVisibility(View.VISIBLE);
@@ -311,7 +315,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 startActivity(intent);
             }
         });
-        this.adapter.setHeaderView(headView);
+        //this.adapter.setHeaderView(headView);
     }
 
 
@@ -324,7 +328,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-            if (!isTimerOver() && beanList.size()>0) {
+            if (!isTimerOver()) {
                 handler.sendEmptyMessage(REDUCE_TIME);
             }
         }
