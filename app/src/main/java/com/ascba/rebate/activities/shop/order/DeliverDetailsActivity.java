@@ -251,10 +251,12 @@ public class DeliverDetailsActivity extends BaseNetActivity implements SwipeRefr
                 String goodsPrice = goodObject.optString("goods_price");//商品价格
                 String specNames = goodObject.optString("spec_names");//商品规格
                 String goodNum = goodObject.optString("goods_num");//数量
-                String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
+                String goodImg = goodObject.optString("goods_img");//商品图片
                 Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
                 String goods_id = goodObject.optString("goods_id");//商品id
                 goods.setTitleId(Integer.parseInt(goods_id));
+                goods.setTeiHui(goodObject.optString("promotion_text"));
+                goods.setUseTicketToReduce(goodObject.optString("promotion_mark"));
                 goodsList.add(goods);
             }
         }

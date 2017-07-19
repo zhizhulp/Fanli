@@ -155,34 +155,60 @@
         android:id="@+id/shopbar"
         android:layout_width="match_parent"
         android:layout_height="48dp">
-
-        <ImageView
+        <FrameLayout
+            android:paddingLeft="5dp"
+            android:paddingRight="35dp"
             android:id="@+id/abar_im_back"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="55dp"
-            android:src="@mipmap/abar_back" />
-
-        <ImageView
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/abar_back" />
+        </FrameLayout>
+        <FrameLayout
             android:id="@+id/abar_im_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="12dp"
-            android:src="@mipmap/shop_no_msg" />
-
-        <ImageView
-            android:id="@+id/abar_im_cart"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="12dp"
+                android:src="@mipmap/shop_no_msg" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/abar_im_cart"
             android:layout_toLeftOf="@id/abar_im_msg"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@mipmap/icon_cart_black" />
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@mipmap/icon_cart_black" />
+        </FrameLayout>
+
     </RelativeLayout>
 </RelativeLayout>

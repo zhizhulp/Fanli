@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by 李平 on 2016/10/13.
+ * banner adapter
  */
 
 public class ShufflingViewPagerAdapter extends PagerAdapter {

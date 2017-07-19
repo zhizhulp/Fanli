@@ -433,16 +433,16 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                 reduceTimes++;
                 price -= agb.getGapPrice();
                 currentLeftTime = agb.getGapTime();
-                if(state<=4){
+                if(state<=4 && state!=3){
                     agb.setReduceTimes(reduceTimes);
                 }
-                if(type==1&&state<=4){
+                if(type==1 && state<=4 && state!=3){
                     agb.setPrice(price);
                 }
             }else {
                 currentLeftTime--;
             }
-            if(state<=4) {
+            if(state<=4 && state!=3) {
                 agb.setCurrentLeftTime(currentLeftTime);
             }
         }

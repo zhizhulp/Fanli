@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.activities.RechargeBillActivity;
 import com.ascba.rebate.activities.me_page.AccountRechargeActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;

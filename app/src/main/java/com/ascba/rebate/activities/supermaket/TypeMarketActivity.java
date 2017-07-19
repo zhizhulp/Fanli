@@ -280,7 +280,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
      */
     private void initViewpager(JSONObject dataObj) {
         //轮播数据
-        JSONArray pagerArray = dataObj.optJSONArray("banner");
+        JSONArray pagerArray = dataObj.optJSONArray("banners");
         if (pagerArray != null && pagerArray.length() != 0) {
             List<Banner> banners = JsonUtil.stringToList(pagerArray.toString(), Banner.class);
             ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager);

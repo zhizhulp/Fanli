@@ -3,8 +3,10 @@ package com.ascba.rebate.adapter;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
@@ -73,9 +75,21 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         helper.setText(R.id.text_auction_goods_person,"￥"+ item.getCashDeposit());//人数改为保证金
         helper.addOnClickListener(R.id.btn_auction_goods_add_cart);//加入购物车
         helper.addOnClickListener(R.id.btn_auction_goods_apply);//立即报名
+
+        View viewDepositTitle = helper.getView(R.id.tv_deposit_title);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewDepositTitle.getLayoutParams();
         int type = item.getType();//1抢拍 2盲拍
         if(type ==1){
-            helper.setText(R.id.text_reduce_times,item.getReduceTimes()+"次");//降价次数
+            if(intState==1){//结束
+                layoutParams.leftMargin=0;
+                helper.setVisible(R.id.tv_reduce_price_title,false);
+                helper.setVisible(R.id.text_reduce_times,false);
+            }else {
+                layoutParams.leftMargin= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,19,mContext.getResources().getDisplayMetrics());
+                helper.setVisible(R.id.tv_reduce_price_title,true);
+                helper.setVisible(R.id.text_reduce_times,true);
+                helper.setText(R.id.text_reduce_times,item.getReduceTimes()+"次");//降价次数
+            }
             helper.setText(R.id.text_auction_goods_price,"￥"+ NumberFormatUtils.getNewDouble(item.getPrice()));//价格
         }else if(type ==2){
             helper.addOnClickListener(R.id.btn_sub);//减号

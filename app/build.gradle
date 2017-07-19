@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
-            abiFilters "armeabi","armeabi-v8a","x86","x86_64","mips","mips64"
+            abiFilters "armeabi", "armeabi-v8a", "x86", "x86_64", "mips", "mips64"
         }
     }
     packagingOptions {
@@ -80,6 +80,6 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'top.zibin:Luban:1.1.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    testCompile 'junit:junit:4.12'
 }

@@ -1,9 +1,7 @@
-package com.ascba.rebate.fragments.shop;
-
+package com.ascba.rebate.activities.shop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -17,17 +15,14 @@ import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.ConfirmOrderActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.shop.ShopActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity1;
 import com.ascba.rebate.adapter.CartAdapter;
-import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
-import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.StringUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.view.BetterRecyclerView;
 import com.ascba.rebate.view.ShopABar;
-import com.ascba.rebate.view.ShopTabs;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -39,13 +34,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * 购物车
- */
-public class CartFragment extends BaseNetFragment implements
-        View.OnClickListener, BaseNetFragment.Callback, CartAdapter.CallBack {
-
+public class ShopCartActivity extends BaseNetActivity1 implements
+        View.OnClickListener, CartAdapter.CallBack  {
     private ShopABar sab;
     private BetterRecyclerView rv;
     private List<CartGoods> data = new ArrayList<>();
@@ -54,29 +44,19 @@ public class CartFragment extends BaseNetFragment implements
     private TextView tvCost;
     private TextView tvCostNum;
     private RelativeLayout cartClean;
-    private int finalScene;
     private int goodsCount;//当前商品数量
     private int position;//当前点击位置
-    private ShopTabs shopTabs;
     private int allGoodsNum;//购物车所有商品数量
-    private boolean isFirstResume=true;//是否第一次加载onResume
     private boolean isAdd;//当前在点加号还是减号
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initViews(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_cart);
+        initViews();
         requestNetwork(UrlUtils.shoppingCart, 0);
     }
-
-    @Override
-    protected int setContentView() {
-        return R.layout.fragment_cart;
-    }
-
-
     private void requestNetwork(String url, int scene) {
-        finalScene = scene;
         Request<JSONObject> request = buildNetRequest(url, 0, true);
         if (scene == 1) {//选商品
             request.add("cart_ids", createIds());
@@ -88,29 +68,28 @@ public class CartFragment extends BaseNetFragment implements
         } else if (scene == 4) {//购物车结算
             //request.add("cart_ids", createClearIds());
         }
-        executeNetWork(request, "请稍后");
-        setCallback(this);
+        executeNetWork(scene,request, "请稍后");
     }
 
-    private void initViews(View view) {
+    private void initViews() {
         /**
          * 合计 .结算
          */
-        cartClean = (RelativeLayout) view.findViewById(R.id.cart_clear);
+        cartClean = (RelativeLayout) findViewById(R.id.cart_clear);
 
         //初始化标题栏
-        sab = ((ShopABar) view.findViewById(R.id.sab));
+        sab = ((ShopABar) findViewById(R.id.sab));
         sab.setImageOtherEnable(false);
         sab.setTitle("购物车");
         sab.setCallback(new ShopABar.Callback() {
             @Override
             public void back(View v) {
-                getActivity().finish();
+                finish();
             }
 
             @Override
             public void clkMsg(View v) {
-                ShopMessageActivity.startIntent(getActivity());
+                ShopMessageActivity.startIntent(ShopCartActivity.this);
             }
 
             @Override
@@ -119,11 +98,11 @@ public class CartFragment extends BaseNetFragment implements
             }
         });
         //初始化recyclerView
-        rv = ((BetterRecyclerView) view.findViewById(R.id.cart_goods_list));
-        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv = ((BetterRecyclerView) findViewById(R.id.cart_goods_list));
+        rv.setLayoutManager(new LinearLayoutManager(this));
 
-        cbTotal = ((CheckBox) view.findViewById(R.id.cart_cb_total));
-        initRefreshLayout(view);
+        cbTotal = ((CheckBox) findViewById(R.id.cart_cb_total));
+        initRefreshLayout();
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -144,24 +123,21 @@ public class CartFragment extends BaseNetFragment implements
                 if (id == R.id.edit_standard) {//选择规格,进商品页
                     //GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
                 } else if (id == R.id.tv_go_shop) {//点击进店
-                    Intent intent = new Intent(getActivity(), BusinessShopActivity.class);
+                    Intent intent = new Intent(ShopCartActivity.this, BusinessShopActivity.class);
                     intent.putExtra("store_id", cartGoods.getId());
                     startActivity(intent);
                 } else if (id == R.id.cart_goods_title) {//点击购物车商品title,进去商品页
-                    GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
+                    GoodsDetailsActivity.startIntent(ShopCartActivity.this, cartGoods.t.getTitleId());
                 } else if(id == R.id.cart_goods_pic){
-                    GoodsDetailsActivity.startIntent(getActivity(), cartGoods.t.getTitleId());
+                    GoodsDetailsActivity.startIntent(ShopCartActivity.this, cartGoods.t.getTitleId());
                 }
             }
         });
 
         //总计
-        tvCost = ((TextView) view.findViewById(R.id.cart_tv_cost_total));
-        tvCostNum = ((TextView) view.findViewById(R.id.cart_tv_cost_total_count));
+        tvCost = ((TextView) findViewById(R.id.cart_tv_cost_total));
+        tvCostNum = ((TextView) findViewById(R.id.cart_tv_cost_total_count));
         tvCostNum.setOnClickListener(this);
-
-        ShopActivity shopActivity = (ShopActivity) getActivity();
-        shopTabs = shopActivity.getShopTabs();
     }
 
 
@@ -196,25 +172,24 @@ public class CartFragment extends BaseNetFragment implements
         return hasCheck;
     }
 
-
     @Override
-    public void handle200Data(JSONObject dataObj, String message) {
-        refreshLayout.setRefreshing(false);
-        if (finalScene == 0) {//购物车数据
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+        super.mhandle200Data(what, object, dataObj, message);
+        if (what == 0) {//购物车数据
             allGoodsNum = 0;
             getData(dataObj);
-            shopTabs.setThreeNoty(allGoodsNum);
+            //shopTabs.setThreeNoty(allGoodsNum);
             if (adapter == null) {
-                adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, getActivity(), cbTotal);
+                adapter = new CartAdapter(R.layout.cart_list_item, R.layout.cart_list_title, data, this, cbTotal);
                 //购物车是空的，去逛逛吧
-                View emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.cart_empty_view, null);
+                View emptyView = LayoutInflater.from(this).inflate(R.layout.cart_empty_view, null);
                 TextView goShop = (TextView) emptyView.findViewById(R.id.tx_go_shop);
                 goShop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ShopActivity a = (ShopActivity) getActivity();
+                        /*ShopActivity a = (ShopActivity) getActivity();
                         a.getShopTabs().statusChaByPosition(0, 1);
-                        a.selFrgByPos(ShopActivity.HOMEPAGE);
+                        a.selFrgByPos(ShopActivity.HOMEPAGE);*/
                     }
                 });
                 adapter.setEmptyView(emptyView);
@@ -224,24 +199,25 @@ public class CartFragment extends BaseNetFragment implements
                 adapter.notifyDataSetChanged();
             }
             calculateNumAndCost();
-        } else if (finalScene == 1) {//选择商品
+        } else if (what == 1) {//选择商品
             calculateNumAndCost();
-        } else if (finalScene == 2) {//加减商品
+        } else if (what == 2) {//加减商品
             data.get(position).t.setUserQuy(goodsCount);
             adapter.notifyItemChanged(position);
             calculateNumAndCost();
-            shopTabs.setThreeNoty(shopTabs.getThreeNotyNum()+ (isAdd ? 1:-1));
-        } else if (finalScene == 3) {//删除商品
+            //shopTabs.setThreeNoty(shopTabs.getThreeNotyNum()+ (isAdd ? 1:-1));
+        } else if (what == 3) {//删除商品
             data.remove(position);
             adapter.notifyItemRemoved(position);
             calculateNumAndCost();
             requestNetwork(UrlUtils.shoppingCart, 0);
-        } else if (finalScene == 4) {//商品结算
-            Intent intent = new Intent(getActivity(), ConfirmOrderActivity.class);
+        } else if (what == 4) {//商品结算
+            Intent intent = new Intent(this, ConfirmOrderActivity.class);
             intent.putExtra("json_data", dataObj.toString());
             startActivity(intent);
         }
     }
+
 
     private void getData(JSONObject dataObj) {
         JSONArray array = dataObj.optJSONArray("shoppingCar");
@@ -305,27 +281,6 @@ public class CartFragment extends BaseNetFragment implements
             cartClean.setVisibility(View.GONE);
         }
     }
-
-    @Override
-    public void handleReqFailed() {
-        stopRefresh();
-    }
-
-    @Override
-    public void handle404(String message, JSONObject dataObj) {
-        stopRefresh();
-    }
-
-    @Override
-    public void handleReLogin() {
-        stopRefresh();
-    }
-
-    @Override
-    public void handleNoNetWork() {
-        stopRefresh();
-    }
-
     @Override
     public void onClickedChild(boolean isChecked, int position) {
         requestNetwork(UrlUtils.cartSelectdGoods, 1);
@@ -405,38 +360,5 @@ public class CartFragment extends BaseNetFragment implements
             ids = ids.substring(0, ids.length() - 1);
         }
         return ids;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(!MyApplication.isSignOut && MyApplication.isLoadCartData && MyApplication.isRequestSuccess && !isFirstResume){
-            requestNetwork(UrlUtils.shoppingCart, 0);
-            MyApplication.isLoadCartData=false;
-        }else if(!MyApplication.isSignOut && MyApplication.signOutSignInCart && !isFirstResume){
-            requestNetwork(UrlUtils.shoppingCart, 0);
-            MyApplication.signOutSignInCart=false;
-        }
-        if(isFirstResume){
-            isFirstResume=false;
-        }
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if(!hidden){
-            if(!MyApplication.isSignOut && MyApplication.isLoadCartData && MyApplication.isRequestSuccess){
-                requestNetwork(UrlUtils.shoppingCart, 0);
-                MyApplication.isLoadCartData=false;
-            }
-        }
-    }
-
-
-    public void stopRefresh() {
-        if(refreshLayout.isRefreshing()){
-            refreshLayout.setRefreshing(false);
-        }
     }
 }

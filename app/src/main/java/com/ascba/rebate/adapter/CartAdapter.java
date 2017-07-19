@@ -2,9 +2,12 @@ package com.ascba.rebate.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -12,6 +15,8 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.beans.CartGoods;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.NetUtils;
+import com.ascba.rebate.utils.StringUtils;
+import com.ascba.rebate.view.RadiusBackgroundSpan;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -76,7 +81,7 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         ImageView imgview = helper.getView(R.id.cart_goods_pic);
         Goods goods = item.t;
         Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imgview);
-        helper.setText(R.id.cart_goods_title, goods.getGoodsTitle());
+        //helper.setText(R.id.cart_goods_title, goods.getGoodsTitle());
         helper.setText(R.id.cart_goods_standard, goods.getGoodsStandard());
         helper.setText(R.id.cart_price, goods.getGoodsPrice());
         helper.addOnClickListener(R.id.edit_standard);
@@ -88,6 +93,19 @@ public class CartAdapter extends BaseSectionQuickAdapter<CartGoods, BaseViewHold
         cb.setChecked(item.isCheck());
         cb.setOnClickListener(createItemListener(cb,helper,item));
         helper.setOnClickListener(R.id.btnDelete,createDelListener(helper));
+
+        //set goods name
+        TextView tvName = helper.getView(R.id.cart_goods_title);
+        String teiHui = goods.getTeiHui();
+        if(!StringUtils.isEmpty(teiHui)){
+            SpannableString ss=new SpannableString(teiHui+goods.getGoodsTitle());
+            ss.setSpan(new RadiusBackgroundSpan(mContext,0xfffa5e5f,2,11),0,teiHui.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvName.setText(ss);
+        }else {
+            tvName.setText(goods.getGoodsTitle());
+        }
+        //set reduce tag
+        helper.setVisible(R.id.tv_use_ticket_reduce, !StringUtils.isEmpty(goods.getUseTicketToReduce()));
     }
 
     private View.OnClickListener createDelListener(final BaseViewHolder helper) {

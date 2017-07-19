@@ -17,7 +17,7 @@ import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;

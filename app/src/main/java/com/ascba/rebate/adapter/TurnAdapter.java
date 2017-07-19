@@ -92,16 +92,17 @@ class TurnAdapter extends PagerAdapter {
         for (int i = 0; i < data.size(); i++) {
             AcutionGoodsBean agb = data.get(i);
             int currentLeftTime = agb.getCurrentLeftTime();
-            int reduceTimes = agb.getReduceTimes();
+            //int reduceTimes = agb.getReduceTimes();
+            int state = agb.getIntState();
             Double price = agb.getPrice();
-            if(System.currentTimeMillis()>=agb.getEndTime()*1000 || agb.getPrice() <= agb.getEndPrice()){
+            if(System.currentTimeMillis()>=agb.getEndTime()*1000 || agb.getPrice() <= agb.getEndPrice() || state==6 || state==5 || state==7){
                 continue;
             }
             if(currentLeftTime <=0){
-                reduceTimes++;
+                //reduceTimes++;
                 price -= agb.getGapPrice();
                 currentLeftTime = agb.getGapTime();
-                agb.setReduceTimes(reduceTimes);
+                //agb.setReduceTimes(reduceTimes);
                 agb.setPrice(price);
             }else {
                 currentLeftTime--;
@@ -157,15 +158,15 @@ class TurnAdapter extends PagerAdapter {
         Drawable drawableTop2 = context.getResources().getDrawable(R.mipmap.icon_auction);//未拍
         drawableTop2.setBounds(0,0,drawableTop2.getMinimumWidth(),drawableTop2.getMinimumHeight());
 
-        if(state==2){
+        if(state==2){//交保证金
             setViewStatus(textView,true,R.color.main_red_normal,drawableTop2, tvPriceDesc,"当前价",imAlreadyRush,false);
-        }else if(state==4){
+        }else if(state==4){//拍
             setViewStatus(textView,true,R.color.main_red_normal,drawableTop2, tvPriceDesc,"当前价",imAlreadyRush,false);
-        }else if(state==5){
+        }else if(state==5){//被别人抢光
             setViewStatus(textView,false,R.color.main_text_gary,drawableTop1, tvPriceDesc,"成交价",imAlreadyRush,true);
-        }else if(state==6){
+        }else if(state==6){//待支付
             setViewStatus(textView,true,R.color.main_red_normal,drawableTop2, tvPriceDesc,"待支付",imAlreadyRush,false);
-        }else if(state==7){
+        }else if(state==7){//已支付
             setViewStatus(textView,false,R.color.main_text_gary,drawableTop1, tvPriceDesc,"已支付",imAlreadyRush,false);
         }
     }
