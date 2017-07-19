@@ -2,12 +2,16 @@ package com.ascba.rebate.adapter.order;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
+import com.ascba.rebate.utils.StringUtils;
+import com.ascba.rebate.view.RadiusBackgroundSpan;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -72,6 +76,18 @@ public class DeliverOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, Ba
 
                 //点击查看订单详情
                 helper.addOnClickListener(R.id.item_goods_rl);
+                //set goods name
+                TextView tvName = helper.getView(R.id.item_goods_name);
+                String teiHui = goods.getTeiHui();
+                if(!StringUtils.isEmpty(teiHui)){
+                    SpannableString ss=new SpannableString(teiHui+goods.getGoodsTitle());
+                    ss.setSpan(new RadiusBackgroundSpan(mContext,0xfffa5e5f,2,11),0,teiHui.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tvName.setText(ss);
+                }else {
+                    tvName.setText(goods.getGoodsTitle());
+                }
+                //set reduce tag
+                helper.setVisible(R.id.tv_use_ticket_reduce, !StringUtils.isEmpty(goods.getUseTicketToReduce()));
                 break;
             case TYPE3:
                 /**

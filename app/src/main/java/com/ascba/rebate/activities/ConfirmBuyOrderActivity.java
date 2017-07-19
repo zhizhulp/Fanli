@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.appconfig.AppConfig;

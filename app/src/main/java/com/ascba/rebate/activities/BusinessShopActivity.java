@@ -19,6 +19,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
+import com.ascba.rebate.activities.shop.ShopCartActivity;
 import com.ascba.rebate.adapter.BusinessShopAdapter;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -186,8 +187,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
 
             @Override
             public void clkOther(View v) {
-                ShopActivity.setIndex(ShopActivity.CART);
-                startActivity(new Intent(context, ShopActivity.class));
+                startActivity(new Intent(BusinessShopActivity.this, ShopCartActivity.class));
             }
         });
 

@@ -2,6 +2,8 @@ package com.ascba.rebate.adapter.order;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,6 +11,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.beans.OrderBean;
 import com.ascba.rebate.utils.StringUtils;
+import com.ascba.rebate.view.RadiusBackgroundSpan;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -58,9 +61,6 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                 ImageView imageView = helper.getView(R.id.item_goods_img);
                 Picasso.with(context).load(goods.getImgUrl()).placeholder(R.mipmap.busi_loading).error(R.mipmap.busi_loading).into(imageView);
 
-                //商品名称
-                helper.setText(R.id.item_goods_name, goods.getGoodsTitle());
-
                 //商品规格
                 helper.setText(R.id.item_goods_standard, goods.getGoodsStandard());
 
@@ -72,6 +72,18 @@ public class AllOrderAdapter extends BaseMultiItemQuickAdapter<OrderBean, BaseVi
                 //查看物流
                 helper.addOnClickListener(R.id.tv_express_flow);
                 helper.setVisible(R.id.tv_express_flow, !StringUtils.isEmpty(goods.getDeliverNum()));
+                //set goods name
+                TextView tvName = helper.getView(R.id.item_goods_name);
+                String teiHui = goods.getTeiHui();
+                if(!StringUtils.isEmpty(teiHui)){
+                    SpannableString ss=new SpannableString(teiHui+goods.getGoodsTitle());
+                    ss.setSpan(new RadiusBackgroundSpan(mContext,0xfffa5e5f,2,11),0,teiHui.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tvName.setText(ss);
+                }else {
+                    tvName.setText(goods.getGoodsTitle());
+                }
+                //set reduce tag
+                helper.setVisible(R.id.tv_use_ticket_reduce, !StringUtils.isEmpty(goods.getUseTicketToReduce()));
 
                 break;
             case TYPE1:

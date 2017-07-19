@@ -217,6 +217,8 @@ public class CancelOrderDetailsActivity extends BaseNetActivity implements Swipe
                     Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
                     String goods_id = goodObject.optString("goods_id");//商品id
                     goods.setTitleId(Integer.parseInt(goods_id));
+                    goods.setTeiHui(goodObject.optString("promotion_text"));
+                    goods.setUseTicketToReduce(goodObject.optString("promotion_mark"));
                     goodsList.add(goods);
                 }
             }

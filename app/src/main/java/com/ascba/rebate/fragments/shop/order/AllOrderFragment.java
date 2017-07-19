@@ -14,7 +14,7 @@ import android.view.View;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.PayPsdSettingActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.CancelOrderDetailsActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
 import com.ascba.rebate.activities.shop.order.EvaluateDetailsActivity;
@@ -36,7 +36,6 @@ import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -173,6 +172,8 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
                         good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
                         good.setDeliverNum(goodsObject.optString("invoice_no"));//运单号
+                        good.setTeiHui(goodsObject.optString("promotion_text"));
+                        good.setUseTicketToReduce(goodsObject.optString("promotion_mark"));
                         OrderBean orderBean = new OrderBean(AllOrderAdapter.TYPE_GOODS, R.layout.item_goods, good);
                         orderBean.setId(orderId);
                         orderBean.setStateCode(orderStatus);

@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;
@@ -164,6 +164,8 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
                         good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
                         good.setDeliverNum(goodsObject.optString("invoice_no"));//运单号
+                        good.setTeiHui(goodsObject.optString("promotion_text"));
+                        good.setUseTicketToReduce(goodsObject.optString("promotion_mark"));
                         OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
                         orderBean.setId(orderId);
                         beanArrayList.add(orderBean);

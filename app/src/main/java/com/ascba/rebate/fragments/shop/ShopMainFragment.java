@@ -194,8 +194,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 getActivity().finish();
             }
         });
-        TextView etSearch = ((TextView) view.findViewById(R.id.et_search));
-        etSearch.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.et_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(),ShopSearchActivity.class);
@@ -301,7 +300,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
      */
     private void initViewpager(JSONObject dataObj) {
         //轮播数据
-        JSONArray pagerArray = dataObj.optJSONArray("banner");
+        JSONArray pagerArray = dataObj.optJSONArray("banners" );
         if (pagerArray != null && pagerArray.length() != 0) {
             List<Banner> banners = JsonUtil.stringToList(pagerArray.toString(), Banner.class);
             ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager);

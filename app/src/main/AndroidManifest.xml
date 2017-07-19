@@ -54,11 +54,11 @@
 
     <application
         android:name=".application.MyApplication"
-        tools:replace="android:icon,android:theme"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="4E8pe2i48Sb3pQvSXRpWvvnDV0GwLFxu" />
@@ -293,7 +293,8 @@
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <!--<service
+        <!--
+        <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
             android:exported="false">
@@ -303,11 +304,12 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>-->
+        </service>
+        -->
         <service
             android:name="cn.jpush.android.service.PushService"
-            android:process=":mult"
-            android:permission="">
+            android:permission=""
+            android:process=":mult">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -321,9 +323,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
+
                 <category android:name="com.ascba.rebate" />
             </intent-filter>
-
         </service>
         <!-- Required SDK核心功能 -->
         <receiver
@@ -528,7 +530,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
-            android:name=".activities.shop.order.MyOrderActivity"
+            android:name=".activities.shop.MyOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />
         <activity
@@ -733,11 +735,16 @@
             android:name=".activities.shop.ShopSearchActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.shop.order.OrderDetailsActivity" />
-        <activity android:name=".activities.offline_business.promotion_ceremony.PromotionCeremonyActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".activities.offline_business.promotion_ceremony.PromotionCeremonyActivity" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".activities.shop.ShopCartActivity"></activity>
     </application>
 
 </manifest>

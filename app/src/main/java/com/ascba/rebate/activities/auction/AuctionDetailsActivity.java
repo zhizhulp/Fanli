@@ -179,7 +179,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
                     showToast("已经到最低价了");
                 } else {
                     agb.setPrice(agb.getPrice() - agb.getGapPrice());
-                    tvPrice.setText(NumberFormatUtils.getNewDouble(agb.getPrice()) + "");
+                    //tvPrice.setText(NumberFormatUtils.getNewDouble(agb.getPrice()) + "");
                     tvPriceBlind.setText("￥" + NumberFormatUtils.getNewDouble(agb.getPrice()));
                 }
             }
@@ -191,7 +191,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
                     showToast("已经到最高价了");
                 } else {
                     agb.setPrice(agb.getPrice() + agb.getGapPrice());
-                    tvPrice.setText(NumberFormatUtils.getNewDouble(agb.getPrice()) + "");
+                    //tvPrice.setText(NumberFormatUtils.getNewDouble(agb.getPrice()) + "");
                     tvPriceBlind.setText("￥" + NumberFormatUtils.getNewDouble(agb.getPrice()));
                 }
             }
@@ -233,7 +233,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
             currentLeftTime = agb.getGapTime();//重置时间
             agb.setPrice(price);
             agb.setReduceTimes(reduceTimes);
-            if (agb.getType() == 1 && get_type==0) {
+            if (agb.getIntState()!=3 && agb.getType() == 1 && get_type==0 && agb.getIntPriceState()!=11 && agb.getIntPriceState()!=10 && agb.getIntPriceState()!=5) {
                 tvCount.setText("降价次数：" + reduceTimes + "次");
                 tvPrice.setText(NumberFormatUtils.getNewDouble(price) + "");
                 tvPriceBlind.setText("￥" + NumberFormatUtils.getNewDouble(price));
@@ -374,7 +374,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
         tvPersonNum.setText((type==1?"抢拍：":"盲拍：") + obj.optInt("auction_people") + "人");
         tvOtherPersonNum.setText("围观：" + obj.optInt("flow") + "人");
         tvRishingPersons.setText("目前有"+obj.optInt("flow")+"人正要下手");
-        if (timer == null && status==2 || status ==3) {
+        if (timer == null && status==2 || status ==3 ) {
             timer = new Timer();
             timer.schedule(new MyTimerTask(), 0, 1000);
         }
@@ -443,6 +443,13 @@ public class AuctionDetailsActivity extends BaseNetActivity {
      * @param type       1抢拍 2盲拍
      */
     private void setState(int state, int priceState,int type ,Double transaction_price, Double reserve_money,Double win_price ,Double begin_price,Double end_price) {
+        //降价次数显示与隐藏
+        if(state== 1){
+            tvCount.setVisibility(View.GONE);
+        }else {
+            tvCount.setVisibility(View.VISIBLE);
+        }
+
         //顶部状态条背景色
         if(state==2){
             if(priceState==11){

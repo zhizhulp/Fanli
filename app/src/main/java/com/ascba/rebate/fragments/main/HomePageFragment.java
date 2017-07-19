@@ -420,6 +420,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         obj.optString("name"), obj.optDouble("transaction_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
+                agb.setCurrentLeftTime(obj.optInt("count_down"));
                 agb.setGapTime(obj.optInt("interval_second"));
                 agb.setStartPrice(obj.optDouble("begin_price"));
                 agb.setEndPrice(obj.optDouble("end_price"));

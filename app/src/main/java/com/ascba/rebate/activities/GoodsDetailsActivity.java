@@ -47,6 +47,7 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
+import com.ascba.rebate.activities.shop.ShopCartActivity;
 import com.ascba.rebate.adapter.FilterAdapter;
 import com.ascba.rebate.adapter.IntegralValueAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -794,8 +795,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 break;
             case R.id.abar_im_cart:
                 //购物车
-                ShopActivity.setIndex(ShopActivity.CART);
-                startActivity(new Intent(this, ShopActivity.class));
+                startActivity(new Intent(this, ShopCartActivity.class));
                 break;
             case R.id.goods_details_shop_img1:
                 GoodsDetailsActivity.startIntent(this,storeGoodsList.get(0).getTitleId());
