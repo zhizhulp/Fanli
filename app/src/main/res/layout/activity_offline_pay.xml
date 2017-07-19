@@ -79,7 +79,6 @@
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@id/symbol"
                 android:background="@null"
-                android:digits="1234567890."
                 android:inputType="numberDecimal"
                 android:textColor="@color/black"
                 android:textColorHint="@color/main_text_gary"
