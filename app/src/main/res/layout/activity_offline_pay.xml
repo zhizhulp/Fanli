@@ -115,6 +115,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_offline_reminder"
                 android:layout_width="match_parent"
                 android:layout_height="72dp">
 
@@ -175,6 +176,7 @@
                 android:background="@color/gray_bg" />
 
             <RelativeLayout
+                android:id="@+id/rl_offline_other"
                 android:layout_width="match_parent"
                 android:layout_height="72dp">
 

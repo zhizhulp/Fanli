@@ -229,13 +229,12 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         executeNetWork(what, request, "请稍后");
     }
 
+
     //数据返回成功的处理
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
-
         CheckSellerEntity checkSellerEntity = JSON.parseObject(dataObj.toString(), CheckSellerEntity.class);
         CheckSellerEntity.InfoBean info = checkSellerEntity.getInfo();
-
         Intent intent = new Intent(this, OfflinePayActivity.class);
         Log.d("fanxi", "capture" + "-------" + resutlt);
         intent.putExtra("seller", info.getSeller());
@@ -254,7 +253,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
                 if (resultCode == RESULT_OK) {
                     finish();
                 }
-
                 break;
         }
     }

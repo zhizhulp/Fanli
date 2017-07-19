@@ -25,6 +25,8 @@ import java.util.Calendar;
 
 public class CostBillActivity extends BaseBillActivity {
     private int order_id;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         type=2;
@@ -98,7 +100,7 @@ public class CostBillActivity extends BaseBillActivity {
             }
         });
         super.onCreate(savedInstanceState);
-        setMoneyBar("消费账单",false,null);
+        setMoneyBar("消费明细",false,null);
 
         billAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
