@@ -734,7 +734,7 @@
         <activity
             android:name=".activities.shop.ShopSearchActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.shop.order.OrderDetailsActivity" />
+        <activity android:name=".activities.shop.OrderDetailsActivity" />
         <activity android:name=".activities.offline_business.promotion_ceremony.PromotionCeremonyActivity" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
