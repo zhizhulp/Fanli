@@ -30,6 +30,9 @@ import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 扫一扫-付款
  */
@@ -76,9 +79,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         rl_offline_other= (RelativeLayout) findViewById(R.id.rl_offline_other);
         rl_offline_reminder.setOnClickListener(this);
         rl_offline_other.setOnClickListener(this);
-
-
-
 
         rbReminder = (RadioButton) findViewById(R.id.rb_offline_reminder);
         rbOther = (RadioButton) findViewById(R.id.rb_offline_other);
@@ -334,6 +334,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         //只要前面的三位数
         if (s.toString().contains(".")) {
+
             if (s.length() - 1 - s.toString().indexOf(".") > 2) {
                 s = s.toString().subSequence(0,
                         s.toString().indexOf(".") + 3);
@@ -357,6 +358,14 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
                 etMoney.setSelection(2);
             }
         }
+        //如果点的次数出现了2次以上，就自动删除1个点
+        if(appearNumber(s.toString(),".")>=2){
+
+
+        }
+
+
+
 
         if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
             if (!s.toString().substring(1, 2).equals(".")) {
@@ -367,5 +376,13 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         }
         preChangeTxt = s.toString().trim();
     }
-
+    public static int appearNumber(String srcText, String findText) {
+        int count = 0;
+        Pattern p = Pattern.compile(findText);
+        Matcher m = p.matcher(srcText);
+        while (m.find()) {
+            count++;
+        }
+        return count;
+    }
 }

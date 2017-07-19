@@ -44,7 +44,7 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
     private boolean backToRefresh = false;//返回操作是否刷新
     private RelativeLayout seller_order_detail_employpay, seller_order_detail_contactway;
     private Button seller_detail_close;
-    private String type;//判断是否是通过用户的支付方式跳过来的
+    private String type="";//判断是否是通过用户的支付方式跳过来的
     private double member_money;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +232,7 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
         Intent intent = getIntent();
         intoType = intent.getIntExtra("into_type", 0);
         if (intent != null) {
+
             if (intoType != 1) {
                 Bundle bundle = intent.getExtras();
                 String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -243,6 +244,7 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
                         e.printStackTrace();
                     }
                 }
+
             } else {  //通过页面跳转穿过来的信息
                 order_id = intent.getIntExtra("order_id", 0);
                 type = intent.getStringExtra("type");
