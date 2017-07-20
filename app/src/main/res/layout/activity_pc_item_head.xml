@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"
-            app:msg_img="@mipmap/shop_no_msg"
+            app:msg_img="@mipmap/shop_me_msg"
             app:msg_indicator="false" />
 
     </RelativeLayout>

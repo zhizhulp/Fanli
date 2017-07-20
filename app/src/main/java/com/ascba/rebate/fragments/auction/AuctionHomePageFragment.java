@@ -58,9 +58,12 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REDUCE_TIME = 2;
+    private static final int TIME_DOWN =5 ;
     private boolean isRefresh = true;//当前是否是下拉刷新状态
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
+
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -77,6 +80,10 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                     break;
                 case REDUCE_TIME:
                     adapter.notifyDataSetChanged();
+                    break;
+                case TIME_DOWN:
+                    resetPageAndStatus();
+                    requestNetwork(UrlUtils.auction, 0);
                     break;
             }
         }
@@ -167,7 +174,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         if (goodsArray != null && goodsArray.length() > 0) {
             for (int i = 0; i < goodsArray.length(); i++) {
                 JSONObject obj = goodsArray.optJSONObject(i);
-                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.baseWebsite + obj.optString("index_img"),
+                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("index_img"),
                         obj.optString("name"), obj.optDouble("end_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
@@ -183,6 +190,10 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 agb.setCartStatusTip(obj.optString("cart_status_tip"));
                 if(is_status==5 || is_status==6 || is_status==7){
                     agb.setPrice(obj.optDouble("reserve_money"));
+                }
+                long leftTime = obj.optLong("endtime") * 1000 - System.currentTimeMillis();
+                if (!handler.hasMessages(TIME_DOWN)) {
+                    handler.sendEmptyMessageDelayed(TIME_DOWN,leftTime);
                 }
                 beanList.add(agb);
             }
@@ -202,13 +213,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new AcutionHPAdapter(getActivity(), R.layout.item_auction_hp, beanList);
-        adapter.setCallback(new AcutionHPAdapter.Callback() {
-            @Override
-            public void timeToUpdate() {//时间到主动刷新数据
-                resetPageAndStatus();
-                requestNetwork(UrlUtils.auction, 0);
-            }
-        });
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -273,7 +277,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         JSONArray array = dataObj.optJSONArray("banner");
         if (array != null && array.length() > 0) {
             for (int i = 0; i < array.length(); i++) {
-                banner.add(UrlUtils.baseWebsite + array.optString(i));
+                banner.add(array.optString(i));
             }
             ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(getActivity(), banner);
             viewPager.setAdapter(adapter);
@@ -336,9 +340,13 @@ public class AuctionHomePageFragment extends BaseNetFragment {
 
     //用于判断倒计时是否结束
     private boolean isTimerOver() {
-        AcutionGoodsBean agb = beanList.get(0);
-        int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000);
-        return leftTime <= 0;
+        if(beanList.size() > 0){
+            AcutionGoodsBean agb = beanList.get(0);
+            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000);
+            return leftTime <= 0;
+        }else {
+            return true;
+        }
     }
 
     private String getAutionIds() {

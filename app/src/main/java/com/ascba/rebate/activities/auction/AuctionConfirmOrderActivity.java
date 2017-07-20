@@ -284,7 +284,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
                 agb.setName(obj.optString("name"));
                 agb.setPrice(obj.optDouble("reserve_money"));
                 agb.setStartTimeStr(obj.optString("starttime"));
-                agb.setImgUrl(UrlUtils.baseWebsite + obj.optString("imghead"));
+                agb.setImgUrl(obj.optString("imghead"));
                 agb.setScore(obj.optString("points"));
                 beanList.add(agb);
             }

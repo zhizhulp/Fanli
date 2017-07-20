@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/load_end"
+            android:text="已经全部加载完毕"
             android:textColor="@android:color/darker_gray"/>
     </FrameLayout>
 </FrameLayout>

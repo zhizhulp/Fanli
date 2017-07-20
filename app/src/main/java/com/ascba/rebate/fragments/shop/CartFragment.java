@@ -272,7 +272,7 @@ public class CartFragment extends BaseNetFragment implements
                         String goods_name = (String) goodsOBj.opt("goods_name");//商品名称
                         String goods_price = (String) goodsOBj.opt("goods_price");//商品价格
                         int goods_num = goodsOBj.optInt("goods_num");//商品数量
-                        String goods_img = UrlUtils.baseWebsite + goodsOBj.optString("goods_img");//商品图片
+                        String goods_img =  goodsOBj.optString("goods_img");//商品图片
                         String spec_names = (String) goodsOBj.opt("spec_names");//商品规格
                         int selected = goodsOBj.optInt("selected");//商品是否被选中
                         int cart_id = goodsOBj.optInt("cart_id");//

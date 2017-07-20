@@ -198,7 +198,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                                 String goods_price = obj.optString("goods_price");
                                 String goods_num = obj.optString("goods_num");
                                 //商品信息
-                                goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.baseWebsite + obj.optString("goods_img"),
+                                goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, obj.optString("goods_img"),
                                         obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
                                         "no_old_price", Integer.parseInt(goods_num)));
                                 //店铺id
