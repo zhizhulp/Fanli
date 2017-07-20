@@ -30,9 +30,6 @@ import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONObject;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * 扫一扫-付款
  */
@@ -358,13 +355,14 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
                 etMoney.setSelection(2);
             }
         }
-        //如果点的次数出现了2次以上，就自动删除1个点
-        if(appearNumber(s.toString(),".")>=2){
-
-
-        }
-
-
+       // 如果点的次数出现了2次以上，就自动删除1个点
+//        if(s.toString().){
+//
+//        }
+//        if(appearNumber(s.toString(),".")>=2){
+//            StringBuffer buffer = new StringBuffer(s.toString());
+//            buffer.replace(2, 1, "");
+//        }
 
 
         if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
@@ -376,13 +374,15 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         }
         preChangeTxt = s.toString().trim();
     }
-    public static int appearNumber(String srcText, String findText) {
-        int count = 0;
-        Pattern p = Pattern.compile(findText);
-        Matcher m = p.matcher(srcText);
-        while (m.find()) {
-            count++;
-        }
-        return count;
-    }
+//    public static int appearNumber(String srcText, String findText) {
+//        int count = 0;
+//        Pattern p = Pattern.compile(findText);
+//        Matcher m = p.matcher(srcText);
+//        while (m.find()) {
+//            count++;
+//        }
+//        return count;
+//    }
+
+
 }

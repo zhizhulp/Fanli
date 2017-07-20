@@ -29,6 +29,7 @@ import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.MoneyBar;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.squareup.picasso.Picasso;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -59,6 +60,7 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
     private int moneyBarColor, red, green, blue;
     private LinearLayoutManager layoutManager;
     private Bitmap bitmap;
+    private ImageView promotion_head_iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,8 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
         promotion_friends_circle = (TextView) head.findViewById(R.id.promotion_friends_circle);//朋友圈
         promotion_total_money = (TextView) head.findViewById(R.id.promotion_total_money);
         promotion_total_people = (TextView) head.findViewById(R.id.promotion_total_people);
+        promotion_head_iv = (ImageView) head.findViewById(R.id.promotion_head_iv);
+        promotion_head_iv.setScaleType(ImageView.ScaleType.FIT_XY);
 
         loadRequestor = new LoadRequestor() {
             @Override
@@ -174,10 +178,14 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
     public void click(View view) {
         switch (view.getId()) {
             case R.id.promotion_weixin:  //邀请微信朋友
-                wechatShare(0, courtesy.getCourtesy_url().toString(), courtesy.getTitle(), courtesy.getSubtitle());
+                if(courtesy.getCourtesy_url()!=null){
+                    wechatShare(0, courtesy.getCourtesy_url(), courtesy.getTitle(), courtesy.getSubtitle());
+                }
                 break;
             case R.id.promotion_friends_circle://分享朋友圈
-                wechatShare(1, courtesy.getCourtesy_url().toString(), courtesy.getTitle(), courtesy.getSubtitle());
+                if (courtesy.getCourtesy_url()!=null) {
+                    wechatShare(1, courtesy.getCourtesy_url(), courtesy.getTitle(), courtesy.getSubtitle());
+                }
                 break;
             case R.id.promotion_qr_code://二维码的弹窗
                 showQRDialog();
@@ -199,7 +207,7 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
         msg.description = content;
         //  = BitmapFactory.decodeResource(getResources(),R.mipmap.share_icon);
 
-        downloadFile(UrlUtils.baseWebsite+courtesy.getCourtesy_img(), new ICallBack() {
+        downloadFile(UrlUtils.baseWebsite + courtesy.getCourtesy_img(), new ICallBack() {
             @Override
             public void callBack(final byte[] array) {
                 PromotionCeremonyActivity.this.runOnUiThread(new Runnable() {
@@ -211,9 +219,13 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
 
             }
         });
-        if(bitmap!=null){
+        if (bitmap != null) {
             //分享链接图片资源
             msg.setThumbImage(bitmap);
+        }else {
+            Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.share_icon);
+         //   msg.thumbData= bmpToByteArray(bitmap,true);
+            msg.setThumbImage(bitmap1);
         }
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis());
@@ -262,11 +274,11 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         super.mhandle200Data(what, object, dataObj, message);
-
         PromotionCeremoneyEntity promotionCeremoneyEntity = JSON.parseObject(dataObj.toString(), PromotionCeremoneyEntity.class);
         promotion_total_money.setText(promotionCeremoneyEntity.getTotal_money() + "");
         promotion_total_people.setText(promotionCeremoneyEntity.getPeople_num() + "");
         courtesy = promotionCeremoneyEntity.getCourtesy();
+        Picasso.with(this).load(UrlUtils.baseWebsite + courtesy.getImage()).placeholder(R.mipmap.banner_loading).into(promotion_head_iv);
         courtesy_url = courtesy.getCourtesy_url();
         if (isRefreshing) {
             if (data.size() != 0) {
@@ -312,5 +324,28 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
     public interface ICallBack {
         void callBack(byte[] array);
     }
+
+    @Override
+    protected void mhandle404(int what, JSONObject object, String message) {
+        super.mhandle404(what, object, message);
+        if (what == 0) {
+            finish();
+        }
+
+    }
+
+    @Override
+    protected void mhandleReLogin(int what) {
+        super.mhandleReLogin(what);
+        if (what == 0) {
+            finish();
+        }
+    }
+
+//    @Override
+//    protected void mhandleNoNetWord() {
+//        super.mhandleNoNetWord();
+//
+//    }
 }
 

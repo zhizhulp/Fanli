@@ -25,11 +25,10 @@ public class ToBeSuredOrdersAdapter extends BaseQuickAdapter<ToBeSuredOrdersEnti
         super(layoutResId, data);
 
     }
-
     @Override
     protected void convert(BaseViewHolder helper, ToBeSuredOrdersEntity.DataListBean item) {
         ImageView imageView = helper.getView(R.id.myallorders_icon);//商品图片
-        Picasso.with(mContext).load(UrlUtils.baseWebsite+item.getAvatar()).into(imageView);
+        Picasso.with(mContext).load(UrlUtils.baseWebsite+item.getAvatar()).placeholder(R.mipmap.shop_goods_loading).into(imageView);
         helper.setText(R.id.myallorders_money, item.getMoney());//名称
         helper.setText(R.id.myallorders_category_txt, TimeUtils.milliseconds2String(item.getCreate_time() * 1000));//交易时间
         helper.setText(R.id.myallorders_pay_cash,item.getPay_type_text());//支付类型
