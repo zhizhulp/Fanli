@@ -49,7 +49,7 @@ public class MyApplication extends MultiDexApplication {
     public static boolean isRefreshOrderCount;//是否刷新订单的数字图标
     public static boolean isRequestSuccess;//网络请求是否成功
     public static boolean isLoadAuctionCart;//是否需要刷新竞拍购物车数据
-    public static boolean isKillAppToLoadPatch;//是否需要杀死app去加载补丁
+    public static int patchStatusCode;//是否需要杀死app去加载补丁
     public final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
 
@@ -94,21 +94,21 @@ public class MyApplication extends MultiDexApplication {
                                 " Info:" + info +
                                 " HandlePatchVersion:" + handlePatchVersion;
                         Log.d(TAG, "onLoad: "+ msg);
+                        patchStatusCode=code;
                         // 补丁加载回调通知
                         if (code == PatchStatus.CODE_LOAD_SUCCESS) {
-                            Log.d(TAG, "onLoad: patch load success");
+                            //Log.d(TAG, "onLoad: patch load success");
                             // 表明补丁加载成功
                         } else if (code == PatchStatus.CODE_LOAD_RELAUNCH) {
-                            Log.d(TAG, "onLoad: load relaunch");
-                            isKillAppToLoadPatch=true;
+                            //Log.d(TAG, "onLoad: load relaunch");
                             // 表明新补丁生效需要重启. 开发者可提示用户或者强制重启;
                             // 建议: 用户可以监听进入后台事件, 然后应用自杀
                         } else if (code == PatchStatus.CODE_LOAD_FAIL) {
                             // 内部引擎异常, 推荐此时清空本地补丁, 防止失败补丁重复加载
-                            Log.d(TAG, "onLoad: load failed");
+                            //Log.d(TAG, "onLoad: load failed");
                             SophixManager.getInstance().cleanPatches();
-                        } else {
-                            Log.d(TAG, "onLoad: other status");
+                        } else if (code== PatchStatus.CODE_REQ_NOUPDATE) {//没有更新
+
                         }
                     }
                 }).initialize();
