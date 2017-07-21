@@ -209,7 +209,6 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
         // showResult(obj, barcode);
-
         String str = result.getText();
         Log.d("fanxi", "-----------" + str);
 

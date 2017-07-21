@@ -7,14 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ConfirmBuyOrderActivity;
@@ -38,14 +35,12 @@ import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.JsonUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
-import com.ascba.rebate.view.DividerGridItemDecoration;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.ShopTabs;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -376,7 +371,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             rv.setLayoutManager(manager);
             MySpanSizeLookUp mySpanSizeLookUp = new MySpanSizeLookUp();
             baseAdapter.setSpanSizeLookup(mySpanSizeLookUp);
-            //rv.addItemDecoration(new DividerGridItemDecoration(getActivity(),mySpanSizeLookUp,getResources().getColor(R.color.main_bg)));
+           // rv.addItemDecoration(new DividerGridItemDecoration(getActivity(),mySpanSizeLookUp,getResources().getColor(R.color.main_bg)));
             rv.setAdapter(baseAdapter);
             baseAdapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无信息"));
         } else {

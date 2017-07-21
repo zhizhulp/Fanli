@@ -72,6 +72,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                 if(loadRequestor!=null){
                     loadRequestor.pullToRefresh();
                 }
+
+
             }
         });
     }

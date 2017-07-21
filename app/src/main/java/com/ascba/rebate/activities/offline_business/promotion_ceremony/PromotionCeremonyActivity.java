@@ -342,10 +342,5 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
         }
     }
 
-//    @Override
-//    protected void mhandleNoNetWord() {
-//        super.mhandleNoNetWord();
-//
-//    }
 }
 
