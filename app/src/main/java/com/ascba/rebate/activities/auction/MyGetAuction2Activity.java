@@ -147,7 +147,7 @@ public class MyGetAuction2Activity extends BaseNetActivity {
                 AcutionGoodsBean agb=new AcutionGoodsBean();
                 agb.setId(obj.optInt("goods_id"));
                 agb.setOrderId(obj.optInt("id"));
-                agb.setImgUrl(UrlUtils.baseWebsite+obj.optString("imghead"));
+                agb.setImgUrl(obj.optString("imghead"));
                 agb.setName(obj.optString("name"));
                 agb.setPrice(obj.optDouble("reserve_money"));
                 agb.setScore(obj.optString("points"));

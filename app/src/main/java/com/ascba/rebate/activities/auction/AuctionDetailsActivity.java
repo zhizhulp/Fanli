@@ -299,7 +299,7 @@ public class AuctionDetailsActivity extends BaseNetActivity {
             }
             for (int i = 0; i < photos.length(); i++) {
                 String img = photos.optString(i);
-                urls.add(UrlUtils.baseWebsite + img);
+                urls.add(img);
             }
         }
         imageAdapter.notifyDataSetChanged();

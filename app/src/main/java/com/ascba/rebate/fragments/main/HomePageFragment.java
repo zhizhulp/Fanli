@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.ASKCollegeActivity;
 import com.ascba.rebate.activities.MessageLatestActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
@@ -114,16 +115,13 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     private MsgView msgView;
     private DownloadQueue downloadQueue;
     private ProgressDialog pD;
-    private boolean isFirstComing=true;
+    private boolean isFirstComing = true;
     private AcutionGoodsBean agb;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(handler.hasMessages(0)){
-                handler.removeMessages(0);
-                requestData(UrlUtils.index, 0);
-            }
+            requestData(UrlUtils.index, 0);
         }
     };
 
@@ -146,12 +144,12 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         Request<JSONObject> request = null;
         if (scene == 0) {
             request = buildNetRequest(url, 0, false);
-            request.add("version_code",getPackageVersion());
+            request.add("version_code", getPackageVersion());
         } else if (scene == 1) {
             request = buildNetRequest(url, 0, true);
         } else if (scene == 2) {
             request = buildNetRequest(url, 0, true);
-        } else if(scene ==3){
+        } else if (scene == 3) {
             request = buildNetRequest(url, 0, true);
             request.add("client_str", getAutionIds());
             request.add("total_price", agb.getPrice());
@@ -250,7 +248,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {//登录
                             activity.selFrgByPos(CAIFU);
                             BaseNetActivity.setRequestCode(REQUEST_LOGIN_CAIFU);
-                            activity.getAppTabs().statusChaByPosition(CAIFU,HOMEPAGE);
+                            activity.getAppTabs().statusChaByPosition(CAIFU, HOMEPAGE);
                             activity.getAppTabs().setFilPos(CAIFU);
                             MyApplication.isLoad = true;
                         } else {
@@ -275,15 +273,15 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         MessageLatestActivity.startIntent(context);
                         break;
                     case R.id.homepage_btn_global://进入商城
-                        Intent intent=new Intent(getActivity(),ShopActivity.class);
+                        Intent intent = new Intent(getActivity(), ShopActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.homepage_btn_offer://进入商城
-                        Intent intent1=new Intent(getActivity(),ShopActivity.class);
+                        Intent intent1 = new Intent(getActivity(), ShopActivity.class);
                         startActivity(intent1);
                         break;
                     case R.id.homepage_btn_selected://进入商城
-                        Intent intent2=new Intent(getActivity(),ShopActivity.class);
+                        Intent intent2 = new Intent(getActivity(), ShopActivity.class);
                         startActivity(intent2);
                         break;
                 }
@@ -325,7 +323,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             btnCode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                 // startActivity(new Intent(getActivity(), RecQRActivity.class));
+                    // startActivity(new Intent(getActivity(), RecQRActivity.class));
                     startActivity(new Intent(getActivity(), PromotionCeremonyActivity.class));
                     popupWindow.dismiss();
                 }
@@ -365,7 +363,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             //分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
             //全球券购 天天特价 品牌精选
-            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6,R.layout.home_page_comm));
+            items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE6, R.layout.home_page_comm));
             //initGoodsList(dataObj.optJSONArray("mallGoods"));
             //竞拍商品
             initAuctionGoods(dataObj.optJSONArray("auction_goods"));
@@ -396,12 +394,12 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             intent.putExtra("name", "数据统计");
             intent.putExtra("url", url);
             startActivity(intent);
-        } else if(finalScene ==3){
-            if(agb.getType()==1){
-                Intent intent=new Intent(getActivity(), AuctionConfirmOrderActivity.class);
-                intent.putExtra("goods_id",agb.getId()+"");
-                startActivityForResult(intent,REQUEST_PAY_ORDER);
-            }else {
+        } else if (finalScene == 3) {
+            if (agb.getType() == 1) {
+                Intent intent = new Intent(getActivity(), AuctionConfirmOrderActivity.class);
+                intent.putExtra("goods_id", agb.getId() + "");
+                startActivityForResult(intent, REQUEST_PAY_ORDER);
+            } else {
                 showToast(message);
                 requestData(UrlUtils.index, 0);
             }
@@ -409,14 +407,14 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     }
 
     private void initAuctionGoods(JSONArray goodsArray) {
-        if(goodsArray!=null && goodsArray.length() >0){
+        if (goodsArray != null && goodsArray.length() > 0) {
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE7, R.layout.goods_details_cuttingline_wide));
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "竞拍购"));
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
-            List<AcutionGoodsBean> beanList=new ArrayList<>();
+            List<AcutionGoodsBean> beanList = new ArrayList<>();
             for (int i = 0; i < goodsArray.length(); i++) {
                 JSONObject obj = goodsArray.optJSONObject(i);
-                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.baseWebsite + obj.optString("index_img"),
+                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"),  obj.optString("index_img"),
                         obj.optString("name"), obj.optDouble("transaction_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
@@ -431,13 +429,12 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 agb.setIntState(is_status);
                 agb.setStrState(obj.optString("auction_tip"));
                 agb.setCartStatusTip(obj.optString("cart_status_tip"));
-                if(is_status==5 || is_status==6 || is_status==7){
+                if (is_status == 5 || is_status == 6 || is_status == 7) {
                     agb.setPrice(obj.optDouble("reserve_money"));
                 }
                 beanList.add(agb);
-
-                long leftTime = obj.optLong("endtime") * 1000-System.currentTimeMillis() ;
-                if(!handler.hasMessages(0)){
+                long leftTime = obj.optLong("endtime") * 1000 - System.currentTimeMillis();
+                if (!handler.hasMessages(0)) {
                     handler.sendEmptyMessageDelayed(0,leftTime);
                 }
             }
@@ -451,15 +448,15 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     }
 
     private void initGoodsList(JSONArray jsonArray) {
-        if(jsonArray!=null && jsonArray.length()>0){
+        if (jsonArray != null && jsonArray.length() > 0) {
             //礼享城
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE5, R.layout.home_page_more_shop, "礼享城"));
             //分割线
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE4, R.layout.item_divider1));
-            List<Goods> goodses=new ArrayList<>();
+            List<Goods> goodses = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.optJSONObject(i);
-                Goods goods =new Goods();
+                Goods goods = new Goods();
                 goods.setTitleId(object.optInt("id"));
                 goods.setGoodsTitle(object.optString("title"));
                 goods.setGoodsPrice(object.optString("shop_price"));
@@ -474,14 +471,14 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     }
 
     private void updateApp(JSONObject verObj) {
-        if(isFirstComing){
+        if (isFirstComing) {
             int isUpdate = verObj.optInt("isUpdate");
             if (isUpdate == 1) {
                 String apk_url = verObj.optString("apk_url");
                 downLoadApp(apk_url);
             }
         }
-        isFirstComing=false;
+        isFirstComing = false;
     }
 
     /**
@@ -515,7 +512,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         }
     }
 
-   //解析视频消息
+    //解析视频消息
     private void initVideoTurn(JSONObject dataObj) {
         JSONArray video_list = dataObj.optJSONArray("video_list");
         if (video_list != null && video_list.length() != 0) {
@@ -526,7 +523,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);
-                String img = UrlUtils.baseWebsite + obj.optString("thumb");
+                String img = obj.optString("thumb");
                 String video_url = obj.optString("video_url");
                 String title = obj.optString("title");
                 VideoBean videoBean = new VideoBean(img, video_url, title);
@@ -538,7 +535,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     }
 
     /**
-     *  广告轮播
+     * 广告轮播
      */
     private void initPagerTurn(JSONObject dataObj) {
         JSONArray banner = dataObj.optJSONArray("banner");
@@ -571,7 +568,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             homePageAdapter.setCallback(new HomePageAdapter.Callback() {
                 @Override
                 public void click(AcutionGoodsBean item) {
-                    HomePageFragment.this.agb=item;
+                    HomePageFragment.this.agb = item;
                     if (agb.getIntState() == 2) {//交保证金
                         Intent intent = new Intent(getActivity(), PayDepositActivity.class);
                         intent.putExtra("client_ids", getClientIds(agb));
@@ -579,10 +576,10 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                         startActivityForResult(intent, REQUEST_PAY_DEPOSIT);
                     } else if (agb.getIntState() == 4) {//立即拍
                         requestData(UrlUtils.payAuction, 3);
-                    } else if(agb.getIntState()==6){//支付
-                        Intent intent=new Intent(getActivity(),AuctionConfirmOrderActivity.class);
-                        intent.putExtra("goods_id",agb.getId()+"");
-                        startActivityForResult(intent,REQUEST_PAY_ORDER);
+                    } else if (agb.getIntState() == 6) {//支付
+                        Intent intent = new Intent(getActivity(), AuctionConfirmOrderActivity.class);
+                        intent.putExtra("goods_id", agb.getId() + "");
+                        startActivityForResult(intent, REQUEST_PAY_ORDER);
                     }
                 }
 
@@ -645,6 +642,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 break;
         }
     }
+
     private String getPackageVersion() {
         PackageManager packageManager = getActivity().getPackageManager();
         PackageInfo packInfo;
@@ -747,6 +745,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         });*/
         pD.show();
     }
+
     public File getDiskCacheDir() {
         File dst;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
@@ -760,6 +759,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         }
         return dst;
     }
+
     private String getClientIds(AcutionGoodsBean selectAGB) {
         return "\"" +
                 selectAGB.getId() +
@@ -769,6 +769,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 selectAGB.getCashDeposit() +
                 "\"";
     }
+
     private String getAutionIds() {
         return "\"" +
                 agb.getId() +
@@ -782,7 +783,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(handler!=null && handler.hasMessages(0)){
+        if (handler != null && handler.hasMessages(0)) {
             handler.removeMessages(0);
         }
     }

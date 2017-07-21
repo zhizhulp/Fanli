@@ -70,7 +70,7 @@ public class AuctionMeFragment extends BaseNetFragment implements View.OnClickLi
 
     private void initMemberInfo(JSONObject dataObj) {
         JSONObject memberInfo = dataObj.optJSONObject("member_info");
-        Picasso.with(getActivity()).load(UrlUtils.baseWebsite+memberInfo.optString("avatar")).placeholder(R.mipmap.busi_loading).into(imUserIcon);
+        Picasso.with(getActivity()).load(memberInfo.optString("avatar")).placeholder(R.mipmap.busi_loading).into(imUserIcon);
         tvNickName.setText(memberInfo.optString("nickname"));
         tvCahLeft.setText(memberInfo.optString("money"));
         tvScore.setText(memberInfo.optString("white_score")+"分");

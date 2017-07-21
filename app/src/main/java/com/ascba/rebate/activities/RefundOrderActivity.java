@@ -112,7 +112,7 @@ public class RefundOrderActivity extends BaseNetActivity {
                         try {
                             JSONObject goodsObject = goodsArray.getJSONObject(j);
                             Goods good = new Goods();
-                            good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                            good.setImgUrl( goodsObject.optString("goods_img"));//图片
                             good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
                             int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));

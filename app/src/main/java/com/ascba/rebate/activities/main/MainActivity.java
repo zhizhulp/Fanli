@@ -25,6 +25,7 @@ import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.AppTabs;
+import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixManager;
 
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     public static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
     private static final int TIME_TO_UPDATE=2018;
+    private static final int NO_UPDATE = 2019;
+    private static final int PATCH_LOAD_SUCCESS = 2020;
+    private static final int QUERY_PATCH = 2021;
     private List<Fragment> fgts = new ArrayList<>();
     private final Handler mHandler = new Handler() {
         @Override
@@ -79,6 +83,16 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                         }
                     });
                     break;
+                case NO_UPDATE:
+                    timer.cancel();
+                    break;
+                case PATCH_LOAD_SUCCESS:
+                    timer.cancel();
+                    break;
+                case QUERY_PATCH:
+                    Log.d(TAG, "handleMessage: query");
+                    SophixManager.getInstance().queryAndLoadNewPatch();
+                    break;
                 default:
                     break;
             }
@@ -89,7 +103,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private Fragment mMoneyFragment;
     private Fragment mMeFragment;
     private AppTabs appTabs;
-    private Timer timer;
+    private Timer timer=new Timer();
 
 
 
@@ -106,19 +120,16 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         });
         setContentView(R.layout.activity_main);
         findViews();
-        checkHotfix();
+        timer.schedule(new UpdateTask(),0,5  * 1000);
+        mHandler.sendEmptyMessageDelayed(QUERY_PATCH,3000);//hotfix 2次query的时间间隔要大于3s
+        test();
     }
 
-    private void checkHotfix() {
-        timer=new Timer();
-        timer.schedule(new UpdateTask(),0, 30 * 1000);
+    private void test() {
+        Log.d(TAG, "test: bug1修复");
+        Log.d(TAG, "test: bug2修复");
     }
 
-    private void restartToUpdate() {
-        if(MyApplication.isKillAppToLoadPatch){
-            mHandler.sendEmptyMessage(TIME_TO_UPDATE);
-        }
-    }
 
     private void findViews() {
         appTabs = ((AppTabs) findViewById(R.id.tabs));
@@ -407,8 +418,18 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private class UpdateTask extends TimerTask{
         @Override
         public void run() {
-            Log.d("hotfix", "run: ");
-            restartToUpdate();
+            if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_RELAUNCH){//需要重启完成更新
+                Log.d(TAG, "run: 需要重启完成更新");
+                mHandler.sendEmptyMessage(TIME_TO_UPDATE);
+            }else if(MyApplication.patchStatusCode== PatchStatus.CODE_REQ_NOUPDATE){//没有更新
+                Log.d(TAG, "run: 没有更新");
+                mHandler.sendEmptyMessage(NO_UPDATE);
+            }else if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_SUCCESS){//补丁加载成功
+                Log.d(TAG, "run: 补丁加载成功");
+                mHandler.sendEmptyMessage(PATCH_LOAD_SUCCESS);
+            }else {
+                Log.d(TAG, "run: "+MyApplication.patchStatusCode);
+            }
         }
     }
 }

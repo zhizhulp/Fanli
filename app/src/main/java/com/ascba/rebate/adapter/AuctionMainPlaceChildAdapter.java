@@ -35,7 +35,7 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
     @Override
     protected void convert(BaseViewHolder helper, AcutionGoodsBean item) {//1:拍卖结束,2:立即报名,3:即将开始,4:已报名,5:抢拍完毕(抢光了) 6:待支付 7:已支付
         ImageView imageView = helper.getView(R.id.img_goods);//商品图片
-        Picasso.with(context).load(UrlUtils.baseWebsite+item.getImgUrl()).placeholder(R.mipmap.shop_goods_loading).error(R.mipmap.shop_goods_loading).into(imageView);
+        Picasso.with(context).load(item.getImgUrl()).placeholder(R.mipmap.shop_goods_loading).error(R.mipmap.shop_goods_loading).into(imageView);
         TextView view = helper.getView(R.id.btn_auction_goods_apply);//按钮
         int intState = item.getIntState();
         if(intState==3 ||intState==1 ){//1:拍卖结束3:即将开始
@@ -76,10 +76,11 @@ public class AuctionMainPlaceChildAdapter extends BaseQuickAdapter<AcutionGoodsB
         helper.addOnClickListener(R.id.btn_auction_goods_add_cart);//加入购物车
         helper.addOnClickListener(R.id.btn_auction_goods_apply);//立即报名
 
-        View viewDepositTitle = helper.getView(R.id.tv_deposit_title);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewDepositTitle.getLayoutParams();
+
         int type = item.getType();//1抢拍 2盲拍
         if(type ==1){
+            View viewDepositTitle = helper.getView(R.id.tv_deposit_title);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewDepositTitle.getLayoutParams();
             if(intState==1){//结束
                 layoutParams.leftMargin=0;
                 helper.setVisible(R.id.tv_reduce_price_title,false);

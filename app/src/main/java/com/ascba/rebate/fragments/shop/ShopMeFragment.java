@@ -163,7 +163,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         //头信息
         JSONObject meObject = Object.optJSONObject("member_info");
-        String headImg = UrlUtils.baseWebsite + meObject.optString("avatar");
+        String headImg = meObject.optString("avatar");
         String realname = meObject.optString("realname");
         String nickname = meObject.optString("nickname");
         AppConfig.getInstance().putInt("is_level_pwd",meObject.optInt("is_level_pwd"));//是设置支付密码 还是修改支付密码

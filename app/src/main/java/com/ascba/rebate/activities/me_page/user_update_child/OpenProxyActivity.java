@@ -342,7 +342,7 @@ public class OpenProxyActivity extends BaseNetActivity implements
                 if (finalGroup == 3) {
                     tvProxyNameStr.setText("我同意《" + name + "协议》");
                 } else {
-                    tvProxyNameStr.setText("我同意《" + name + "权协议》");
+                    tvProxyNameStr.setText("我同意《" + name + "协议》");
                 }
             }
             String price = upObj.optString("money");//代理价格

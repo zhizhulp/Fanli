@@ -147,7 +147,7 @@ public class PayOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                         JSONObject goodsObject = goodsArray.optJSONObject(j);
                         Goods good = new Goods();
                         good.setTitleId(Integer.parseInt(orderId));
-                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setImgUrl(goodsObject.optString("goods_img"));//图片
                         good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
                         int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));

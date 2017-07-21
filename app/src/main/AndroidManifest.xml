@@ -736,15 +736,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.shop.OrderDetailsActivity" />
         <activity android:name=".activities.offline_business.promotion_ceremony.PromotionCeremonyActivity" />
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <activity android:name=".activities.shop.ShopCartActivity"></activity>
+        <activity android:name=".activities.shop.ShopCartActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>
