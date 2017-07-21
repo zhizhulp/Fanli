@@ -208,7 +208,6 @@ public class DialogHome {
 
     public static abstract class Callback {
         public abstract void handleSure();
-
        public void handleCancel() {
         }
     }

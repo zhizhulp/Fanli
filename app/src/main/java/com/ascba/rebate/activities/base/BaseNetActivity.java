@@ -20,6 +20,7 @@ import java.util.LinkedHashSet;
 public abstract class BaseNetActivity extends BaseActivityNet {
     public static int REQUEST_LOGIN;
     private Callback callback;
+
     private CallbackWhat callbackWhat;
 
     @Override
