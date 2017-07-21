@@ -339,7 +339,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
      */
     private void initGoodsList(JSONObject dataObj) {
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
-        if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
+        if (mallGoodsAy != null &&  mallGoodsAy.length() != 0) {
             if(isRefreshing){
                 data.add(new ShopBaseItem(ShopItemType.TYPE_GUESS,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_title));
                 data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 1.0f));
