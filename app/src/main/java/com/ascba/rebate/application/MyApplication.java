@@ -106,7 +106,7 @@ public class MyApplication extends MultiDexApplication {
                         } else if (code == PatchStatus.CODE_LOAD_FAIL) {
                             // 内部引擎异常, 推荐此时清空本地补丁, 防止失败补丁重复加载
                             //Log.d(TAG, "onLoad: load failed");
-                            SophixManager.getInstance().cleanPatches();
+                            //SophixManager.getInstance().cleanPatches();
                         } else if (code== PatchStatus.CODE_REQ_NOUPDATE) {//没有更新
 
                         }

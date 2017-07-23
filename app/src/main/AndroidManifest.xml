@@ -307,9 +307,8 @@
         </service>
         -->
         <service
-            android:name="cn.jpush.android.service.PushService"
-            android:permission=""
-            android:process=":mult">
+            android:exported="false"
+            android:name="cn.jpush.android.service.PushService">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />

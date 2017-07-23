@@ -122,7 +122,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     }
 
     private void test() {
-        Log.d(TAG, "test: bug5修复");
+        Log.d(TAG, "test: 基线包");
     }
 
 
