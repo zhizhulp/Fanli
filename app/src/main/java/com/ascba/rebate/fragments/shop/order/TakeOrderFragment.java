@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.TakeDetailsActivity;
 import com.ascba.rebate.adapter.order.PayOrderAdapter;
 import com.ascba.rebate.adapter.order.TakeOrderAdapter;
@@ -154,7 +154,7 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         JSONObject goodsObject = goodsArray.optJSONObject(j);
                         Goods good = new Goods();
                         good.setTitleId(Integer.parseInt(goodsObject.optString("order_id")));
-                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setImgUrl( goodsObject.optString("goods_img"));//图片
                         good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
                         int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
@@ -164,6 +164,8 @@ public class TakeOrderFragment extends LazyLoadFragment implements BaseNetFragme
                         good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
                         good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
                         good.setDeliverNum(goodsObject.optString("invoice_no"));//运单号
+                        good.setTeiHui(goodsObject.optString("promotion_text"));
+                        good.setUseTicketToReduce(goodsObject.optString("promotion_mark"));
                         OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
                         orderBean.setId(orderId);
                         beanArrayList.add(orderBean);

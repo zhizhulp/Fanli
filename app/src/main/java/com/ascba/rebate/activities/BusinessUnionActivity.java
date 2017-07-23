@@ -39,6 +39,8 @@ public class BusinessUnionActivity extends BaseNetActivity implements
     private TextView tvTodayExtra;
     private TextView tvTodayCount;
     private MoneyBar mb;
+    public static final int REQUEST_CODE=201;
+    public static final int REQUEST_CODE2=202;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class BusinessUnionActivity extends BaseNetActivity implements
             case R.id.business_account:
                 //流水记录
                 Intent intent = new Intent(this, BusinessBillActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.business_data://现金确认
                 requestOrders(UrlUtils.sureOrderList, 2);
@@ -138,14 +140,31 @@ public class BusinessUnionActivity extends BaseNetActivity implements
         }else if(finalScene==2){//现金确认
             ToBeSuredOrdersEntity toBeSuredOrdersEntity = JSON.parseObject(dataObj.toString(), ToBeSuredOrdersEntity.class);
             ToBeSuredOrdersEntity.IdenInfoBean iden_info = toBeSuredOrdersEntity.getIden_info();
-            if (iden_info != null) {
+            if (iden_info != null && toBeSuredOrdersEntity.getData_list().size()>0 ) {
                 Intent intent1 = new Intent(context, ToBeSuredOrdersActivity.class);
-                startActivity(intent1);
+                startActivityForResult(intent1,REQUEST_CODE);
             } else {
                 showToast("暂无待确认订单！");
             }
 
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    resetPage();
+                    requestData(UrlUtils.businessManagement,1);
+                }
+                break;
+
+
+        }
+
     }
 
     @Override

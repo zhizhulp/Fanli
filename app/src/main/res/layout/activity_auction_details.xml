@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
-
         <!--倒计时-->
         <TextView
             android:id="@+id/tv_time_down_over"
@@ -237,27 +236,19 @@
                     android:id="@+id/viewpager_img"
                     android:layout_width="match_parent"
                     android:layout_height="312dp" />
-                <!--返回按钮-->
-                <ImageView
-                    android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="35dp"
-                    android:paddingTop="15dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/abar_back" />
+
                 <!--竞拍状态-->
                 <FrameLayout
                     android:layout_width="90dp"
                     android:layout_height="25dp"
                     android:layout_gravity="bottom|left">
+
                     <View
                         android:id="@+id/view_status_bg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/main_text_gary" />
+
                     <TextView
                         android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
@@ -267,6 +258,7 @@
                         android:textSize="14sp" />
                 </FrameLayout>
             </FrameLayout>
+
             <include layout="@layout/goods_details_cuttingline_wide" />
             <!--商品名-->
             <TextView
@@ -355,15 +347,15 @@
             </LinearLayout>
             <!--结束时间-->
             <TextView
-                android:textColor="@color/main_text_normal"
-                android:visibility="gone"
                 android:id="@+id/tv_over_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
                 android:layout_marginRight="11dp"
                 android:layout_marginTop="11dp"
+                android:textColor="@color/main_text_normal"
                 android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:visibility="gone" />
             <!--增值积分-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -432,60 +424,50 @@
                 android:background="@color/main_line_light_gray" />
 
             <!--起拍价、延迟周期-->
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/lat_some_params"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:orientation="vertical">
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_start_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="12dp"
-                    android:orientation="vertical">
+                    android:text="起拍价：￥0"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/tv_start_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="起拍价：￥0"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_gap_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
-                        android:text="降价幅度：0/h"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_gap_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="190dp"
-                    android:orientation="vertical">
+                    android:layout_alignLeft="@id/tv_start_price"
+                    android:layout_below="@id/tv_start_price"
+                    android:layout_marginTop="11dp"
+                    android:text="降价幅度：0/h"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/tv_gap_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="延时周期：0分钟/次"
-                        android:textSize="12sp" />
+                <TextView
+                    android:layout_marginLeft="70dp"
+                    android:id="@+id/tv_gap_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/tv_start_price"
+                    android:layout_toRightOf="@id/tv_start_price"
+                    android:text="延时周期：0分钟/次"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/tv_reduce_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
-                        android:text="降价次数：0次"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-
-            </FrameLayout>
+                <TextView
+                    android:id="@+id/tv_reduce_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/tv_gap_time"
+                    android:layout_below="@id/tv_gap_time"
+                    android:layout_marginTop="11dp"
+                    android:text="降价次数：0次"
+                    android:textSize="12sp" />
+            </RelativeLayout>
 
             <include layout="@layout/goods_details_cuttingline_wide" />
 
@@ -728,11 +710,11 @@
             </RelativeLayout>
 
             <View
-                android:visibility="gone"
                 android:id="@+id/goods_details_cuttingline_view"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/main_bg" />
+                android:background="@color/main_bg"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView9"
@@ -758,21 +740,44 @@
                 android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
+    <!--返回按钮-->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="7dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_back" />
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="35dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/abar_back" />
+    </FrameLayout>
     <!--目前有200人正要下手-->
     <TextView
-        android:visibility="gone"
-        android:text="前有0人正要下手！"
-        android:layout_alignParentRight="true"
+        android:id="@+id/tv_rushing_persons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@id/lat_bottom"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:layout_marginBottom="11.5dp"
+        android:layout_marginRight="11.5dp"
+        android:background="@drawable/tv_rushing_persons_bg"
+        android:lineSpacingExtra="4dp"
+        android:maxWidth="90dp"
+        android:text="前有0人正要下手！"
         android:textColor="@color/white"
         android:textSize="@dimen/main_text_13"
-        android:lineSpacingExtra="4dp"
-        android:background="@drawable/tv_rushing_persons_bg"
-        android:id="@+id/tv_rushing_persons"
-        android:layout_marginRight="11.5dp"
-        android:layout_marginBottom="11.5dp"
-        android:layout_gravity="right"
-        android:maxWidth="90dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:visibility="gone" />
 </RelativeLayout>

@@ -12,7 +12,11 @@ import com.ascba.rebate.activities.me_page.settings.child.PasswordProtect2Activi
 import com.ascba.rebate.activities.me_page.settings.child.PayPasswordChangeActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.SafeSettingActivity;
+import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.utils.JpushSetManager;
+
+import java.util.LinkedHashSet;
 
 public class SettingActivity extends BaseNetActivity {
 
@@ -63,6 +67,12 @@ public class SettingActivity extends BaseNetActivity {
         MyApplication.signOutSignInMe=true;
         MyApplication.signOutSignInCart=true;
         MyApplication.signOutSignInShopMe=true;
+        //jpush
+        AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
+        AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
+        JpushSetManager js=new JpushSetManager(this,1);
+        js.setTag(new LinkedHashSet<String>());
+        js.setAlias("");
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }

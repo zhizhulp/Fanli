@@ -284,7 +284,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
                 agb.setName(obj.optString("name"));
                 agb.setPrice(obj.optDouble("reserve_money"));
                 agb.setStartTimeStr(obj.optString("starttime"));
-                agb.setImgUrl(UrlUtils.baseWebsite + obj.optString("imghead"));
+                agb.setImgUrl(obj.optString("imghead"));
                 agb.setScore(obj.optString("points"));
                 beanList.add(agb);
             }
@@ -295,7 +295,7 @@ public class AuctionConfirmOrderActivity extends BaseNetActivity {
         tvShippingFee.setText("快递￥" + dataObj.optString("express_price"));
         tvTicket.setText(dataObj.optString("invoice_tip"));
         total_points = dataObj.optString("total_points");
-        tvScore.setText(total_points + "积分");
+        tvScore.setText(total_points + "分");
         vCount.setText("共" + dataObj.optInt("list_count") + "件商品  合计：");
         tvMoney.setText(dataObj.optString("total_price") + "元");
         total_price = dataObj.optString("total_price");

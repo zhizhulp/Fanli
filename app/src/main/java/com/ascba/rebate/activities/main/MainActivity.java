@@ -22,9 +22,10 @@ import com.ascba.rebate.fragments.main.MeFragment;
 import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.fragments.main.SideFragment;
 import com.ascba.rebate.utils.DialogHome;
-import com.ascba.rebate.utils.ExampleUtil;
 import com.ascba.rebate.utils.LogUtils;
+import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.AppTabs;
+import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixManager;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     public static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
     private static final int TIME_TO_UPDATE=2018;
+    private static final int PATCH_LOAD_SUCCESS = 2020;
+    private static final int QUERY_PATCH = 2021;
     private List<Fragment> fgts = new ArrayList<>();
     private final Handler mHandler = new Handler() {
         @Override
@@ -62,18 +65,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_SET_ALIAS:
-                    try {
-                        JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
                     break;
                 case MSG_SET_TAGS:
-                    try {
-                        JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
                     break;
                 case TIME_TO_UPDATE:
                     getDm().buildAlertDialogSure("重启app完成更新", new DialogHome.Callback() {
@@ -87,6 +82,13 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                         }
                     });
                     break;
+                case PATCH_LOAD_SUCCESS:
+                    timer.cancel();
+                    break;
+                case QUERY_PATCH:
+                    Log.d(TAG, "handleMessage: query");
+                    SophixManager.getInstance().queryAndLoadNewPatch();
+                    break;
                 default:
                     break;
             }
@@ -97,7 +99,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private Fragment mMoneyFragment;
     private Fragment mMeFragment;
     private AppTabs appTabs;
-    private Timer timer;
+    private Timer timer=new Timer();
 
 
 
@@ -114,19 +116,15 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         });
         setContentView(R.layout.activity_main);
         findViews();
-        checkHotfix();
+        timer.schedule(new UpdateTask(),0,5  * 1000);
+        mHandler.sendEmptyMessageDelayed(QUERY_PATCH,4000);//hotfix 2次query的时间间隔要大于3s
+        test();
     }
 
-    private void checkHotfix() {
-        timer=new Timer();
-        timer.schedule(new UpdateTask(),0, 30 * 1000);
+    private void test() {
+        Log.d(TAG, "test: bug5修复");
     }
 
-    private void restartToUpdate() {
-        if(MyApplication.isKillAppToLoadPatch){
-            mHandler.sendEmptyMessage(TIME_TO_UPDATE);
-        }
-    }
 
     private void findViews() {
         appTabs = ((AppTabs) findViewById(R.id.tabs));
@@ -328,9 +326,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             switch (code) {
                 case 0://成功
                     Log.d(TAG, "gotResult: setTagSuccess");
+                    AppConfig.getInstance().putBoolean("jpush_set_tag_success",true);
                     break;
                 case 6002://失败，重试
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                    if (NetUtils.isNetworkAvailable(MainActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
                     } else {
                         Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -347,9 +346,10 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             switch (code) {
                 case 0:
                     Log.d(TAG, "gotResult: setAliasSuccess");
+                    AppConfig.getInstance().putBoolean("jpush_set_alias_success",true);
                     break;
                 case 6002:
-                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                    if (NetUtils.isNetworkAvailable(MainActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
                     } else {
                         Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -364,11 +364,13 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     private void init() {
         int uuid = AppConfig.getInstance().getInt("uuid", -1000);
-        Log.d("info","-------------"+uuid);
-        if (uuid != -1000) {
-            setAlias(uuid + "");
-            boolean appDebug = LogUtils.isAppDebug(this);
-            setTag(appDebug);
+        if (uuid != -1000 ) {
+            if(!AppConfig.getInstance().getBoolean("jpush_set_alias_success",false)){
+                setAlias(uuid + "");
+            }
+            if(!AppConfig.getInstance().getBoolean("jpush_set_tag_success",false)){
+                setTag(LogUtils.isAppDebug(this));
+            }
         }
     }
 
@@ -411,8 +413,15 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private class UpdateTask extends TimerTask{
         @Override
         public void run() {
-            Log.d("hotfix", "run: ");
-            restartToUpdate();
+            if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_RELAUNCH){//需要重启完成更新
+                Log.d(TAG, "run: 需要重启完成更新");
+                mHandler.sendEmptyMessage(TIME_TO_UPDATE);
+            }else if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_SUCCESS){//补丁加载成功
+                Log.d(TAG, "run: 补丁加载成功");
+                mHandler.sendEmptyMessage(PATCH_LOAD_SUCCESS);
+            }else {
+                Log.d(TAG, "run: "+MyApplication.patchStatusCode);
+            }
         }
     }
 }

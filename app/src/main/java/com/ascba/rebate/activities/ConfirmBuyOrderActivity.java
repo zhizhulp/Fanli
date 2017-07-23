@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -199,7 +199,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                                 String goods_spec_id = obj.optString("goods_spec_id");
                                 jsonMessage.put("goods_spec_id", goods_spec_id);
                                 //商品信息
-                                goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.baseWebsite + obj.optString("goods_img"),
+                                goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, obj.optString("goods_img"),
                                         obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
                                         "no_old_price", Integer.parseInt(goods_num)));
                             }

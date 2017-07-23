@@ -89,24 +89,9 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/main_line_space">
-
-            <TextView
-                android:id="@+id/seller_order_acount"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginLeft="15dp"
-                android:gravity="right"
-                android:layout_toRightOf="@id/title2"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/main_text_gary"
-                android:textSize="@dimen/main_text_13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
             <TextView
                 android:layout_centerVertical="true"
-                android:id="@+id/title2"
+                android:id="@+id/title21"
                 android:text="对方账户"
                 android:textColor="@color/main_text_gary"
                 android:textSize="@dimen/main_text_13"
@@ -114,6 +99,21 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
+            <TextView
+                android:id="@+id/seller_order_acount"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginLeft="15dp"
+                android:gravity="right"
+                android:layout_toRightOf="@id/title21"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/main_text_gary"
+                android:textSize="@dimen/main_text_13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -258,13 +258,26 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/sure_order_vis"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
+        android:layout_weight="1">
+        <Button
+            android:visibility="gone"
+            android:id="@+id/seller_detail_close"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/register_btn_bg1"
+            android:gravity="center"
+            android:text="关闭"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
         <LinearLayout
+            android:id="@+id/sure_order_vis"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_alignParentBottom="true"

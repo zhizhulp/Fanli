@@ -41,6 +41,8 @@ public class Goods implements MultiItemEntity {
     private String subtract;//对应订单的 实际立减
     private String subDesc;//满减描述 对应订单的 满500立减200礼品券
     private String deliverNum;//运单号码
+    private String teiHui;//特惠信息
+    private String useTicketToReduce;//用券立减信息
 
     public String getDeliverNum() {
         return deliverNum;
@@ -48,6 +50,22 @@ public class Goods implements MultiItemEntity {
 
     public void setDeliverNum(String deliverNum) {
         this.deliverNum = deliverNum;
+    }
+
+    public String getTeiHui() {
+        return teiHui;
+    }
+
+    public void setTeiHui(String teiHui) {
+        this.teiHui = teiHui;
+    }
+
+    public String getUseTicketToReduce() {
+        return useTicketToReduce;
+    }
+
+    public void setUseTicketToReduce(String userTicketToReduce) {
+        this.useTicketToReduce = userTicketToReduce;
     }
 
     public Goods() {

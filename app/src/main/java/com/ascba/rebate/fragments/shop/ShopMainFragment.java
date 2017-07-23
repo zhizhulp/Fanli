@@ -7,14 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.ConfirmBuyOrderActivity;
@@ -38,14 +35,12 @@ import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.JsonUtil;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
-import com.ascba.rebate.view.DividerGridItemDecoration;
 import com.ascba.rebate.view.MsgView;
 import com.ascba.rebate.view.ShopTabs;
 import com.ascba.rebate.view.StdDialog;
 import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -95,8 +90,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
 
     private void initViews(View view) {
         initHeadView(view);
-
-
         //消息
         LinearLayout messageBtn = (LinearLayout) view.findViewById(R.id.head_rr);
         messageBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +100,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
         });
         msgView = (MsgView) view.findViewById(R.id.head_img_xiaoxi);
         rv = ((RecyclerView) view.findViewById(R.id.list_clothes));
-        //rv.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         setLoadRequestor(new LoadRequestor() {
             @Override
             public void loadMore() {
@@ -182,7 +174,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             }
         });
 
-
         ShopActivity shopActivity = (ShopActivity) getActivity();
         shopTabs = shopActivity.getShopTabs();
 
@@ -198,8 +189,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 getActivity().finish();
             }
         });
-        TextView etSearch = ((TextView) view.findViewById(R.id.et_search));
-        etSearch.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.et_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(),ShopSearchActivity.class);
@@ -294,7 +284,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             goods.setGoodsTitle(goodsInfo.optString("title"));
             goods.setInventory(Integer.parseInt(goodsInfo.optString("inventory")));
             goods.setGoodsPrice(goodsInfo.optString("shop_price"));
-            goods.setImgUrl(UrlUtils.baseWebsite + goodsInfo.optString("img"));
+            goods.setImgUrl( goodsInfo.optString("img"));
         }
         return goods;
     }
@@ -305,7 +295,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
      */
     private void initViewpager(JSONObject dataObj) {
         //轮播数据
-        JSONArray pagerArray = dataObj.optJSONArray("banner");
+        JSONArray pagerArray = dataObj.optJSONArray("banners" );
         if (pagerArray != null && pagerArray.length() != 0) {
             List<Banner> banners = JsonUtil.stringToList(pagerArray.toString(), Banner.class);
             ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager);
@@ -335,7 +325,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 String subtitle = gObj.optString("sub_title");
 
                 ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, weight, R.layout.shop_navigation,
-                        UrlUtils.baseWebsite + cover, subtitle);
+                        cover, subtitle);
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }
@@ -349,7 +339,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
      */
     private void initGoodsList(JSONObject dataObj) {
         JSONArray mallGoodsAy = dataObj.optJSONArray("mallGoods");
-        if (mallGoodsAy != null && mallGoodsAy.length() != 0) {
+        if (mallGoodsAy != null &&  mallGoodsAy.length() != 0) {
             if(isRefreshing){
                 data.add(new ShopBaseItem(ShopItemType.TYPE_GUESS,TypeWeight.TYPE_SPAN_SIZE_60,R.layout.shop_title));
                 data.add(new ShopBaseItem(ShopItemType.TYPE_LINE, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_line, 1.0f));
@@ -361,7 +351,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite + imgUrl, title, "￥" + shop_price, "", false);
+                        , imgUrl, title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 shopBaseItem.setHasStandard(gObj.optString("has_spec").equals("1"));
                 shopBaseItem.setTeiHui(gObj.optString("promotion_text"));
@@ -381,7 +371,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             rv.setLayoutManager(manager);
             MySpanSizeLookUp mySpanSizeLookUp = new MySpanSizeLookUp();
             baseAdapter.setSpanSizeLookup(mySpanSizeLookUp);
-            //rv.addItemDecoration(new DividerGridItemDecoration(getActivity(),mySpanSizeLookUp,getResources().getColor(R.color.main_bg)));
+           // rv.addItemDecoration(new DividerGridItemDecoration(getActivity(),mySpanSizeLookUp,getResources().getColor(R.color.main_bg)));
             rv.setAdapter(baseAdapter);
             baseAdapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无信息"));
         } else {

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.auction.AuctionConfirmOrderActivity;
@@ -57,9 +58,12 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     private static final int LOAD_MORE_END = 0;
     private static final int LOAD_MORE_ERROR = 1;
     private static final int REDUCE_TIME = 2;
+    private static final int TIME_DOWN =5 ;
     private boolean isRefresh = true;//当前是否是下拉刷新状态
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
+
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -77,11 +81,16 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 case REDUCE_TIME:
                     adapter.notifyDataSetChanged();
                     break;
+                case TIME_DOWN:
+                    resetPageAndStatus();
+                    requestNetwork(UrlUtils.auction, 0);
+                    break;
             }
         }
     };
     private Timer timer;
     private AcutionGoodsBean selectAGB;
+    private View headView;
 
     @Nullable
     @Override
@@ -92,6 +101,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.headView=view;
         initView(view);
         requestNetwork(UrlUtils.auction, 0);
     }
@@ -121,10 +131,10 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         if (what == 0) {
             getPageCount(dataObj);//分页
-            initHeadView(dataObj);//头部数据
             stopLoadMore();
             if (isRefresh) {//下拉刷新
                 clearData();
+                initHeadView(dataObj);//头部数据
                 initAuctionData(dataObj);//列表数据
             } else {//上拉加载
                 initAuctionData(dataObj);//列表数据
@@ -164,7 +174,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         if (goodsArray != null && goodsArray.length() > 0) {
             for (int i = 0; i < goodsArray.length(); i++) {
                 JSONObject obj = goodsArray.optJSONObject(i);
-                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.baseWebsite + obj.optString("index_img"),
+                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("index_img"),
                         obj.optString("name"), obj.optDouble("end_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
@@ -180,6 +190,10 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 agb.setCartStatusTip(obj.optString("cart_status_tip"));
                 if(is_status==5 || is_status==6 || is_status==7){
                     agb.setPrice(obj.optDouble("reserve_money"));
+                }
+                long leftTime = obj.optLong("endtime") * 1000 - System.currentTimeMillis();
+                if (!handler.hasMessages(TIME_DOWN)) {
+                    handler.sendEmptyMessageDelayed(TIME_DOWN,leftTime);
                 }
                 beanList.add(agb);
             }
@@ -199,14 +213,8 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new AcutionHPAdapter(getActivity(), R.layout.item_auction_hp, beanList);
-        adapter.setCallback(new AcutionHPAdapter.Callback() {
-            @Override
-            public void timeToUpdate() {//时间到主动刷新数据
-                resetPageAndStatus();
-                requestNetwork(UrlUtils.auction, 0);
-            }
-        });
         recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -263,13 +271,13 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     }
 
     private void initHeadView(JSONObject dataObj) {
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_auction_hp_headview, null, false);
+        //View headView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_auction_hp_headview, null, false);
         ShufflingViewPager viewPager = (ShufflingViewPager) headView.findViewById(R.id.shufflingViewPager);
         List<String> banner = new ArrayList<>();
         JSONArray array = dataObj.optJSONArray("banner");
         if (array != null && array.length() > 0) {
             for (int i = 0; i < array.length(); i++) {
-                banner.add(UrlUtils.baseWebsite + array.optString(i));
+                banner.add(array.optString(i));
             }
             ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(getActivity(), banner);
             viewPager.setAdapter(adapter);
@@ -279,7 +287,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         }
         //消息
         JSONArray msgArray = dataObj.optJSONArray("notice_list");
-        MarqueeTextView textView = (MarqueeTextView) headView.findViewById(R.id.text_auction_notif);
+        TextView textView = (TextView) headView.findViewById(R.id.text_auction_notif);
         View viewMsg = headView.findViewById(R.id.lat_msg);
         if (msgArray != null && msgArray.length() > 0) {
             viewMsg.setVisibility(View.VISIBLE);
@@ -311,7 +319,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 startActivity(intent);
             }
         });
-        this.adapter.setHeaderView(headView);
+        //this.adapter.setHeaderView(headView);
     }
 
 
@@ -324,7 +332,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-            if (!isTimerOver() && beanList.size()>0) {
+            if (!isTimerOver()) {
                 handler.sendEmptyMessage(REDUCE_TIME);
             }
         }
@@ -332,9 +340,13 @@ public class AuctionHomePageFragment extends BaseNetFragment {
 
     //用于判断倒计时是否结束
     private boolean isTimerOver() {
-        AcutionGoodsBean agb = beanList.get(0);
-        int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000);
-        return leftTime <= 0;
+        if(beanList.size() > 0){
+            AcutionGoodsBean agb = beanList.get(0);
+            int leftTime = (int) (agb.getEndTime() - System.currentTimeMillis() / 1000);
+            return leftTime <= 0;
+        }else {
+            return true;
+        }
     }
 
     private String getAutionIds() {

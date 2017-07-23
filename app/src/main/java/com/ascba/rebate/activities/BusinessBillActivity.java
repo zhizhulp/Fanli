@@ -9,6 +9,7 @@ import com.ascba.rebate.beans.CashAccount;
 import com.ascba.rebate.handlers.BillNetworker;
 import com.ascba.rebate.utils.TimeUtils;
 import com.ascba.rebate.utils.UrlUtils;
+import com.ascba.rebate.view.MoneyBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -26,7 +27,8 @@ public class BusinessBillActivity extends BaseBillActivity {
     private int  order_id;
     private int pay_type;
     private int is_money;
-    public static final int CONE_RESULT=101;
+    public static final int CODE_REQUEST=101;
+   // public static final int REQUEST_CODE=20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,24 @@ public class BusinessBillActivity extends BaseBillActivity {
         });
         super.onCreate(savedInstanceState);
         setMoneyBar("流水记录", false, null);
+     mb.setCallBack2(new MoneyBar.CallBack2() {
+        @Override
+        public void clickImage(View im) {
+
+        }
+
+        @Override
+        public void clickComplete(View tv) {
+
+        }
+
+        @Override
+        public void clickBack(View back) {
+            setResultsAndBack();
+
+        }
+    });
+
 
         billAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -112,7 +132,8 @@ public class BusinessBillActivity extends BaseBillActivity {
                     Intent intent=new Intent(BusinessBillActivity.this, SellerOrderDetailActivity.class);
                     intent.putExtra("order_id",data.get(position).getFivepercent_log_id());
                     intent.putExtra("into_type",1);
-                    startActivityForResult(intent,CONE_RESULT);
+                    intent.putExtra("type","other");
+                    startActivityForResult(intent,CODE_REQUEST);
                 }
 
             }
@@ -123,7 +144,7 @@ public class BusinessBillActivity extends BaseBillActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case CONE_RESULT:
+            case CODE_REQUEST:
                 if(resultCode==RESULT_OK){
                     reset();
                     requestNetwork(UrlUtils.merchantWaterLog, 0);
@@ -158,4 +179,18 @@ public class BusinessBillActivity extends BaseBillActivity {
         }
         executeNetWork(what, request, "请稍后");
     }
+    @Override
+    public void onBackPressed() {
+        setResultsAndBack();
+        super.onBackPressed();
+    }
+
+    private void setResultsAndBack() {
+        setResult(RESULT_OK, getIntent());
+        finish();
+    }
+
+
+
+
 }

@@ -571,7 +571,7 @@ public class CartChildFragment extends BaseNetFragment {
             }
         }
         if (status.equals("0,1")) {//交纳保证金
-            tvBtmTop.setText("￥" + money);
+            tvBtmTop.setText("￥" + NumberFormatUtils.getNewDouble(money));
             tvBtmBtm.setText("（未拍到保证金全额退款）");
             tvApply.setText("交保证金(" + count + ")");
         } else if (status.equals("2,3")) {//拍

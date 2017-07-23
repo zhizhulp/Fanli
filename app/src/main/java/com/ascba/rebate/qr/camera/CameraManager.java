@@ -330,7 +330,6 @@ public final class CameraManager {
 			} else {
 				parameter.setFlashMode(Parameters.FLASH_MODE_TORCH);
 			}
-
 			camera.setParameters(parameter);
 		}
 	}

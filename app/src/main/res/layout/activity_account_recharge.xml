@@ -86,6 +86,7 @@
         android:paddingRight="15dp"
         android:layout_marginTop="7dp"
         android:text="充值金额"
+        android:textSize="12sp"
         android:textColor="@color/main_text_normal"/>
 
     <LinearLayout
@@ -93,12 +94,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="¥"
+            android:gravity="center_vertical"
+            android:textSize="22sp"
             android:textColor="@color/black" />
 
         <com.ascba.rebate.view.EditTextWithCustomHint
@@ -108,12 +112,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:background="@null"
-            android:hint="请输入充值金额"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
             android:textSize="37sp"
+            android:gravity="center_vertical"
             app:hintSize="@dimen/main_text_15" />
     </LinearLayout>
+
     <Button
         android:textSize="@dimen/main_text_15"
         style="@style/btnNormal"

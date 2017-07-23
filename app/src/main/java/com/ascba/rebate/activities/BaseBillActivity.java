@@ -43,7 +43,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 public class BaseBillActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener
             ,BaseQuickAdapter.RequestLoadMoreListener{
 
-    private MoneyBar mb;
+    protected MoneyBar mb;
     private MoneyBarClickListener listener;
     public SwipeRefreshLayout refreshLat;
     public int now_page=1;//当前页

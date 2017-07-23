@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 /**
  * Created by 李鹏 on 2017/04/20 0020.
+ * 网络请求、dialog的封装
  */
 
 public abstract class BaseActivityNet extends BaseActivity {

@@ -6,8 +6,11 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.utils.JpushSetManager;
 
 import org.json.JSONObject;
+
+import java.util.LinkedHashSet;
 
 import static com.ascba.rebate.activities.base.BaseNetActivity.REQUEST_LOGIN;
 
@@ -34,6 +37,13 @@ public class BaseNetActivity1 extends BaseActivityNet {
             mhandle200Data(what, jObj, dataObj, message);
 
         } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+            //jpush
+            AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
+            AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
+            JpushSetManager js=new JpushSetManager(this,1);
+            js.setTag(new LinkedHashSet<String>());
+            js.setAlias("");
+
             mhandleReLogin(what);
             Intent intent = new Intent(this, LoginActivity.class);
             MyApplication.isSignOut=true;

@@ -12,8 +12,11 @@ import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.utils.JpushSetManager;
 
 import org.json.JSONObject;
+
+import java.util.LinkedHashSet;
 
 
 /**
@@ -87,6 +90,13 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
 
                 mhandle200Data(what, jObj, dataObj, message);
             } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+                //jpush
+                AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
+                AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
+                JpushSetManager js=new JpushSetManager(getContext(),1);
+                js.setTag(new LinkedHashSet<String>());
+                js.setAlias("");
+
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 MyApplication.isSignOut=true;
                 MyApplication.isLoadCartData=true;

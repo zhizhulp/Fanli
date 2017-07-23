@@ -280,7 +280,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
      */
     private void initViewpager(JSONObject dataObj) {
         //轮播数据
-        JSONArray pagerArray = dataObj.optJSONArray("banner");
+        JSONArray pagerArray = dataObj.optJSONArray("banners");
         if (pagerArray != null && pagerArray.length() != 0) {
             List<Banner> banners = JsonUtil.stringToList(pagerArray.toString(), Banner.class);
             ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_PAGER, TypeWeight.TYPE_SPAN_SIZE_60, R.layout.shop_pager);
@@ -312,7 +312,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
                 String subtitle = gObj.optString("sub_title");
 
                 ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, weight, R.layout.shop_navigation,
-                        UrlUtils.baseWebsite + cover, subtitle);
+                        cover, subtitle);
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }
@@ -337,7 +337,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , UrlUtils.baseWebsite + imgUrl, title, shop_price, "",false);
+                        , imgUrl, title, shop_price, "",false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 shopBaseItem.setHasStandard(gObj.optString("has_spec").equals("1"));
                 shopBaseItem.setTeiHui(gObj.optString("promotion_text"));

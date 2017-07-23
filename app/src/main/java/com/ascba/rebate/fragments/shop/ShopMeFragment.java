@@ -17,7 +17,7 @@ import com.ascba.rebate.activities.ReceiveAddressActivity;
 import com.ascba.rebate.activities.RefundOrderActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
 import com.ascba.rebate.activities.me_page.settings.SettingActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.adapter.PCMultipleItemAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
@@ -163,7 +163,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
 
         //头信息
         JSONObject meObject = Object.optJSONObject("member_info");
-        String headImg = UrlUtils.baseWebsite + meObject.optString("avatar");
+        String headImg = meObject.optString("avatar");
         String realname = meObject.optString("realname");
         String nickname = meObject.optString("nickname");
         AppConfig.getInstance().putInt("is_level_pwd",meObject.optInt("is_level_pwd"));//是设置支付密码 还是修改支付密码

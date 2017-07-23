@@ -139,7 +139,7 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                         JSONObject goodsObject = goodsArray.optJSONObject(j);
                         Goods good = new Goods();
                         good.setTitleId(Integer.parseInt(goodsObject.optString("order_id")));
-                        good.setImgUrl(UrlUtils.baseWebsite + goodsObject.optString("goods_img"));//图片
+                        good.setImgUrl( goodsObject.optString("goods_img"));//图片
                         good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
 
                         int num = Integer.parseInt(String.valueOf(goodsObject.opt("goods_num")));
@@ -148,6 +148,8 @@ public class EvaluateOrderFragment extends LazyLoadFragment implements BaseNetFr
                         good.setUserQuy(num);//购买数量
                         good.setGoodsPrice(goodsObject.optString("goods_price"));//市场价格
                         good.setGoodsPriceOld(goodsObject.optString("market_price"));//商品价格
+                        good.setTeiHui(goodsObject.optString("promotion_text"));
+                        good.setUseTicketToReduce(goodsObject.optString("promotion_mark"));
                         OrderBean orderBean = new OrderBean(PayOrderAdapter.TYPE2, R.layout.item_goods, good);
                         orderBean.setId(orderId);
                         beanArrayList.add(orderBean);

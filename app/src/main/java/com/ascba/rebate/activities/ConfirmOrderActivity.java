@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.shop.order.DeliverDetailsActivity;
-import com.ascba.rebate.activities.shop.order.MyOrderActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.activities.shop.order.PayDetailsActivity;
 import com.ascba.rebate.adapter.ConfirmOrderAdapter;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -24,7 +24,6 @@ import com.ascba.rebate.beans.ReceiveAddressBean;
 import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.PayUtils;
 import com.ascba.rebate.utils.StringUtils;
-import com.ascba.rebate.utils.UrlEncodeUtils;
 import com.ascba.rebate.utils.UrlUtils;
 import com.ascba.rebate.utils.ViewUtils;
 import com.ascba.rebate.view.ShopABarText;
@@ -34,7 +33,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -200,7 +198,7 @@ public class ConfirmOrderActivity extends BaseNetActivity implements View.OnClic
                                 String goods_price = obj.optString("goods_price");
                                 String goods_num = obj.optString("goods_num");
                                 //商品信息
-                                goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.baseWebsite + obj.optString("goods_img"),
+                                goodsList.add(new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, obj.optString("goods_img"),
                                         obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
                                         "no_old_price", Integer.parseInt(goods_num)));
                                 //店铺id

@@ -40,6 +40,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -58,7 +59,7 @@
             android:src="@mipmap/shop_search" />
 
         <TextView
-            android:id="@+id/et_search"
+
             android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,9 +67,9 @@
             android:layout_marginLeft="9dp"
             android:layout_toRightOf="@id/head_img_sousuo"
             android:background="@null"
-            android:hint="阿斯顿马丁2016豪华限量版"
+            android:hint="请输入要搜索的商品名称"
             android:textColorHint="@color/gray"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <View

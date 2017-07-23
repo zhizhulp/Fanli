@@ -115,12 +115,14 @@
         android:paddingTop="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:textColor="@color/main_text_normal"
-            android:textSize="@dimen/main_text_14"
+            android:textSize="22sp"
+            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="¥"/>
@@ -130,10 +132,10 @@
             android:textColorHint="@color/main_text_gary"
             android:id="@+id/money"
             android:inputType="numberDecimal"
-            android:hint="请输入提现金额"
             android:background="@null"
             android:layout_marginLeft="7dp"
             android:textSize="37sp"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

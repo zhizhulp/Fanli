@@ -56,7 +56,7 @@ public class Banner {
     }
 
     public String getImg_url() {
-        return UrlUtils.baseWebsite+img_url;
+        return img_url;
     }
 
     public void setImg_url(String img_url) {

@@ -2,11 +2,11 @@ package com.ascba.rebate.activities.offline_business;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -40,7 +40,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     private EditTextWithCustomHint etMoney;
     private TextView offline_tv_pay;
     private PsdDialog psdDialog;
-    private BottomSheetDialog payTypeDialog;
     private boolean isReminderPay = true;
     private RadioButton rbReminder, rbOther;
     private int payType = 2;
@@ -50,9 +49,10 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     private String password;
     //付款成功界面所需要的属性
     private String seller_logo, seller_name, seller_cover_logo;
-    public static final int RESULT_CODE = 1;
-    Intent intent1;
     private String preChangeTxt = "";
+    public static final int CODE_REQUEST = 101;
+    private String money_str;
+    private RelativeLayout rl_offline_reminder,rl_offline_other;
 
 
     @Override
@@ -72,33 +72,37 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         offline_tv_pay = (TextView) findViewById(R.id.offline_tv_pay);
         etMoney.addTextChangedListener(this);
         setBtnStatus(R.color.submit_gray, false);
+        rl_offline_reminder= (RelativeLayout) findViewById(R.id.rl_offline_reminder);
+        rl_offline_other= (RelativeLayout) findViewById(R.id.rl_offline_other);
+        rl_offline_reminder.setOnClickListener(this);
+        rl_offline_other.setOnClickListener(this);
+
         rbReminder = (RadioButton) findViewById(R.id.rb_offline_reminder);
         rbOther = (RadioButton) findViewById(R.id.rb_offline_other);
-        rbReminder.setOnClickListener(this);
-        rbOther.setOnClickListener(this);
+        rbReminder.setEnabled(false);
+        rbOther.setEnabled(false);
+//        rbReminder.setOnClickListener(this);
+//        rbOther.setOnClickListener(this);
         rbReminder.setChecked(true);
         offline_tv_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goPay();
-
             }
         });
 
         Intent intent = getIntent();
-        int type=intent.getIntExtra("type",0);
+        int type = intent.getIntExtra("type", 0);
 
-        if(type==0){//从captureactivity的页面
-           seller_cover_logo = intent.getStringExtra("seller_cover_logo");
+        if (type == 0) {//从captureactivity的页面
+            seller_cover_logo = intent.getStringExtra("seller_cover_logo");
             seller_name = intent.getStringExtra("seller_name");
             seller = intent.getIntExtra("seller", 0);
             self_money = Double.parseDouble(intent.getStringExtra("self_money"));//余额
-            seller_logo = UrlUtils.baseWebsite + seller_cover_logo;
-            Picasso.with(this).load(seller_logo).into(busiIcon);
+          //  seller_logo = UrlUtils.baseWebsite + seller_cover_logo;
+            Picasso.with(this).load(seller_cover_logo).into(busiIcon);
             tvBusiName.setText("向 " + seller_name + " 付款");
-            sweepRemainder.setText("可用余额" + NumberFormatUtils.getNewDouble(self_money)+ "元");
-        }else if(type==1){
-
+            sweepRemainder.setText("可用余额" + NumberFormatUtils.getNewDouble(self_money) + "元");
         }
 
     }
@@ -106,12 +110,12 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //点击更换支付方式
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.rb_offline_reminder) {//余额支付
+        if (v.getId() == R.id.rl_offline_reminder) {//余额支付
             isReminderPay = true;
             rbReminder.setChecked(true);
             rbOther.setChecked(false);
             payType = 2;
-        } else if (v.getId() == R.id.rb_offline_other) {//其他支付方式
+        } else if (v.getId() == R.id.rl_offline_other) {//其他支付方式
             isReminderPay = false;
             rbReminder.setChecked(false);
             rbOther.setChecked(true);
@@ -123,7 +127,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     @Override
     public void afterTextChanged(Editable s) {
         String finalString = s.toString();
-        if ("".equals(finalString) || finalString.substring(0,1).equals(".")) {//未输入金额的情况
+        if ("".equals(finalString) || finalString.substring(0, 1).equals(".")) {//未输入金额的情况
             setBtnStatus(R.color.submit_gray, false);
             return;
         }
@@ -145,20 +149,20 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //点击去付款
     private void goPay() {
         if (payType == 2) {//余额支付的方式
-            if(AppConfig.getInstance().getInt("is_level_pwd", 0) == 0){
+            if (AppConfig.getInstance().getInt("is_level_pwd", 0) == 0) {
 
                 getDm().buildAlertDialogSure("请设置支付密码！", "设置", "取消", new DialogHome.Callback() {
                     @Override
                     public void handleSure() {//取消
                     }
+
                     @Override
                     public void handleCancel() {
                         Intent intent = new Intent(OfflinePayActivity.this, PayPsdSettingActivity.class);
                         startActivity(intent);
                     }
                 });
-
-            }else{
+            } else {
                 showPsdDialog();
             }
 
@@ -172,8 +176,9 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //余额支付请求方式
     public void requestNetwork(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
+        money_str=etMoney.getText().toString();
         request.add("seller", seller);
-        request.add("money", importMoney);
+        request.add("money", money_str);
         request.add("pay_type", payType);
         request.add("pay_password", password);
         request.add("scenetype", 2);
@@ -183,9 +188,9 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     //记账的方式支付方式
     public void requestKeepAccounts(String url, int what) {
         Request<JSONObject> request = buildNetRequest(url, 0, true);
-        importMoney = Double.parseDouble(etMoney.getText().toString());//输入的金额
+        money_str=etMoney.getText().toString();
         request.add("seller", seller);
-        request.add("money", importMoney);
+        request.add("money",  money_str);
         request.add("pay_type", payType);
         request.add("scenetype", 2);
         executeNetWork(what, request, "请稍后");
@@ -208,9 +213,10 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
                 @Override
                 public void handleSure() {
                     Intent intent = new Intent(OfflinePayActivity.this, PayPsdSettingActivity.class);
-                    intent.putExtra("type",1);
+                    intent.putExtra("type", 1);
                     startActivity(intent);
                 }
+
                 @Override
                 public void handleCancel() {
                     super.handleCancel();
@@ -221,7 +227,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
 
         } /*else if (error_status == 3) {//未设置密码
 
-        }*/ else if (error_status == 4) {
+        }*/ else if (error_status == 4) {//商家余额不足
             showToast(message);
         }
 
@@ -234,55 +240,23 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
             if (importMoney < self_money) {//余额足的情况下
                 SubmitEntity submitEntity = JSON.parseObject(dataObj.toString(), SubmitEntity.class);
                 SubmitEntity.InfoBean info = submitEntity.getInfo();
-
-                int accumulate_points = info.getScore();
-                String seller_mobile = info.getMember_username();
-                String order_number = info.getOrder_number();
-                String pay_type_text = info.getPay_type_text();
-                Intent intent = new Intent(OfflinePayActivity.this, OfflinePaySuccedActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("pay_type", info.getPay_type());
-
-                bundle.putString("importMoney", info.getMoney());
-                bundle.putString("seller_cover_logo", seller_cover_logo);
-                bundle.putString("seller_name", seller_name);
-                bundle.putString("order_status_text", info.getOrder_status_text());
-                bundle.putString("pay_type_text", pay_type_text);
-
-                bundle.putString("member_username", seller_mobile);
-                bundle.putString("accumulate_points", accumulate_points + "");
-                bundle.putLong("create_time", info.getCreate_time());
-                bundle.putString("order_number", order_number);
-
-                intent.putExtras(bundle);
-                startActivityForResult(intent, RESULT_CODE);
-                finish();
-
+                Intent intent = new Intent(OfflinePayActivity.this, SellerOrderDetailActivity.class);
+                intent.putExtra("into_type", 1);
+                intent.putExtra("type", "pay");
+                intent.putExtra("order_id", info.getOrder_id());
+                startActivityForResult(intent, CODE_REQUEST);
             } //余额不足在404处理
 
 
         } else {//记账的方式支付
             KeepAccountSubmitEntity keepAccountSubmitEntity = JSON.parseObject(dataObj.toString(), KeepAccountSubmitEntity.class);
             KeepAccountSubmitEntity.InfoBean infoBean = keepAccountSubmitEntity.getInfo();
-            Intent intent = new Intent(this, OfflinePaySuccedActivity.class);
+            Intent intent = new Intent(this, SellerOrderDetailActivity.class);
+            intent.putExtra("type", "pay");
+            intent.putExtra("into_type", 1);
+            intent.putExtra("order_id", infoBean.getOrder_id());
+            startActivityForResult(intent, CODE_REQUEST);
 
-            Bundle bundle = new Bundle();//有11项
-            bundle.putInt("pay_type", infoBean.getPay_type());
-            bundle.putString("importMoney", infoBean.getMoney() + "");
-            bundle.putString("seller_cover_logo", seller_cover_logo);
-            bundle.putString("seller_name", infoBean.getName());
-            bundle.putString("order_status_text", infoBean.getOrder_status_text());
-            bundle.putString("pay_type_text", infoBean.getPay_type_text());
-            bundle.putString("member_username", infoBean.getMember_username());
-            bundle.putString("accumulate_points", infoBean.getScore() + "");
-            bundle.putLong("create_time", infoBean.getCreate_time());
-            bundle.putString("order_number", infoBean.getOrder_number());
-            bundle.putString("seller_contact", infoBean.getSeller_contact());
-
-            intent.putExtras(bundle);
-            startActivityForResult(intent, RESULT_CODE);
-            finish();
-            // showToast("待商家确认，请稍后");
         }
 
 
@@ -292,13 +266,18 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case RESULT_CODE:
-                if (resultCode == 3) {
-                    setResult(100);
-                    finish();
+            case CODE_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    int pay_type = data.getIntExtra("pay_type", 0);
+                    if(pay_type==1){//记账的方式
+                    }else if(pay_type==2){//余额的方式
+                        double member_money = data.getDoubleExtra("member_money", 0);
+                        sweepRemainder.setText("可用余额" + NumberFormatUtils.getNewDouble(member_money) + "元");
+                    }
+                    etMoney.setText("");
+                } else if (resultCode == RESULT_CANCELED) {
+                    this.finish();
                 }
-                break;
-
 
         }
 
@@ -352,6 +331,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         //只要前面的三位数
         if (s.toString().contains(".")) {
+
             if (s.length() - 1 - s.toString().indexOf(".") > 2) {
                 s = s.toString().subSequence(0,
                         s.toString().indexOf(".") + 3);
@@ -361,20 +341,29 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         }
         //开够输入.自动变为0.x的类型
         if (s.toString().trim().substring(0).equals(".")) {
-            if(preChangeTxt.toString().trim().length() == 0){
+            if (preChangeTxt.toString().trim().length() == 0) {
                 s = "0" + s;
                 etMoney.setText(s);
                 etMoney.setSelection(2);
             }
         }
 
-        if(s.toString().trim().substring(0).equals("0")){
-            if(preChangeTxt.toString().trim().length() == 0){
+        if (s.toString().trim().substring(0).equals("0")) {
+            if (preChangeTxt.toString().trim().length() == 0) {
                 s = s + ".";
                 etMoney.setText(s);
                 etMoney.setSelection(2);
             }
         }
+       // 如果点的次数出现了2次以上，就自动删除1个点
+//        if(s.toString().){
+//
+//        }
+//        if(appearNumber(s.toString(),".")>=2){
+//            StringBuffer buffer = new StringBuffer(s.toString());
+//            buffer.replace(2, 1, "");
+//        }
+
 
         if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
             if (!s.toString().substring(1, 2).equals(".")) {
@@ -385,5 +374,15 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
         }
         preChangeTxt = s.toString().trim();
     }
+//    public static int appearNumber(String srcText, String findText) {
+//        int count = 0;
+//        Pattern p = Pattern.compile(findText);
+//        Matcher m = p.matcher(srcText);
+//        while (m.find()) {
+//            count++;
+//        }
+//        return count;
+//    }
+
 
 }

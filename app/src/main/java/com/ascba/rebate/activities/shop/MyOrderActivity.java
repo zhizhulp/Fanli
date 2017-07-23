@@ -1,4 +1,4 @@
-package com.ascba.rebate.activities.shop.order;
+package com.ascba.rebate.activities.shop;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

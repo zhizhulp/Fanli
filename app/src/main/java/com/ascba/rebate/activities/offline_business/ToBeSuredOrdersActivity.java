@@ -25,7 +25,6 @@ import java.util.List;
 public class ToBeSuredOrdersActivity extends BaseNetActivity {
     private RecyclerView recycler;
     private TextView tobe_sure_tv1, tobe_sure_tv2, tobe_sure_tv3, seller_sure_order_tv4, tobe_sure_noorders;
-    //private ToBeSuredOrdersAdapter adapter;
     List<ToBeSuredOrdersEntity.DataListBean> data_list = new ArrayList<>();
     private int order_id;
     ToBeSuredOrdersEntity.IdenInfoBean iden_info;
@@ -54,11 +53,15 @@ public class ToBeSuredOrdersActivity extends BaseNetActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(ToBeSuredOrdersActivity.this, SellerOrderDetailActivity.class);
                 order_id = data_list.get(position).getFivepercent_log_id();
+                intent.putExtra("type","other");
                 intent.putExtra("order_id", order_id);
                 intent.putExtra("into_type", 1);
                 startActivityForResult(intent, CODE_RESULE);
             }
         });
+
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
 
 
         loadRequestor = new LoadRequestor() {

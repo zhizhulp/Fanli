@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +16,7 @@ import com.ascba.rebate.activities.BusinessShopActivity;
 import com.ascba.rebate.activities.GoodsDetailsActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.WebViewBaseActivity;
+import com.ascba.rebate.activities.shop.MyOrderActivity;
 import com.ascba.rebate.adapter.order.DeliverDetailsAdapter;
 import com.ascba.rebate.beans.Goods;
 import com.ascba.rebate.utils.DialogHome;
@@ -29,7 +29,6 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -261,11 +260,13 @@ public class TakeDetailsActivity extends BaseNetActivity implements SwipeRefresh
                 String goodsPrice = goodObject.optString("goods_price");//商品价格
                 String specNames = goodObject.optString("spec_names");//商品规格
                 String goodNum = goodObject.optString("goods_num");//数量
-                String goodImg = UrlUtils.baseWebsite + goodObject.optString("goods_img");//商品图片
+                String goodImg = goodObject.optString("goods_img");//商品图片
                 Goods goods = new Goods(goodImg, goodName, specNames, goodsPrice, Integer.parseInt(goodNum));
                 String goods_id = goodObject.optString("goods_id");//商品id
                 goods.setTitleId(Integer.parseInt(goods_id));
                 goods.setDeliverNum(goodObject.optString("invoice_no"));//运单号
+                goods.setTeiHui(goodObject.optString("promotion_text"));
+                goods.setUseTicketToReduce(goodObject.optString("promotion_mark"));
                 goodsList.add(goods);
             }
         }

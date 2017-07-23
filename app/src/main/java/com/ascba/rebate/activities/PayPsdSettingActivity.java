@@ -116,7 +116,7 @@ public class PayPsdSettingActivity extends BaseNetActivity implements View.OnFoc
             scene=0;
             if(firstNum==null){
                 firstNum=number;
-                tvDesc.setText("请再次设置6位支付密码");
+                tvDesc.setText("确认6位新支付密码");
             }else {
                 if(secNum==null){
                     secNum=number;
