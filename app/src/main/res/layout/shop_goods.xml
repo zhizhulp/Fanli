@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="239dp"
+    android:layout_height="269dp"
     android:background="@color/lighter_gray"
     android:minHeight="239dp"
     android:orientation="vertical">
+    <!--android:layout_marginLeft="2dp"-->
+    <!--android:layout_marginRight="2dp"-->
+    <!--android:layout_marginBottom="4dp"-->
 
     <LinearLayout
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:background="@color/white"
         android:orientation="vertical">
 
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7">
+            android:layout_height="179dp"
+            android:minHeight="178dp"
+              >
+
 
             <ImageView
                 android:id="@+id/goods_list_img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter" />
+                android:layout_width="179dp"
+                android:layout_height="179dp"
+                android:scaleType="centerCrop" />
 
             <TextView
-                android:gravity="center"
                 android:id="@+id/tv_use_ticket_reduce"
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/ticket_reduce"
+                android:gravity="center"
                 android:text="用券立减"
                 android:textColor="@color/white"
                 android:textSize="11sp"
@@ -42,34 +48,34 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
             android:id="@+id/goods_list_name"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="51dp"
             android:background="@android:color/white"
             android:ellipsize="end"
             android:lineSpacingExtra="2dp"
             android:lines="2"
+            android:gravity="center_vertical"
             android:paddingLeft="12dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
+            android:layout_height="38dp"
             android:background="@android:color/white"
             android:paddingLeft="14dp">
 
             <TextView
                 android:id="@+id/goods_list_price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_centerVertical="true"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -82,5 +88,8 @@
                 android:paddingRight="13dp"
                 android:src="@mipmap/icon_add_cart" />
         </RelativeLayout>
+
+
+
     </LinearLayout>
 </LinearLayout>

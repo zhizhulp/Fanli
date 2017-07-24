@@ -9,30 +9,33 @@
     android:fitsSystemWindows="true"
     tools:context="com.ascba.rebate.activities.offline_business.promotion_ceremony.PromotionCeremonyActivity">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/promotion_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/promotion_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <TextView
-                    android:id="@+id/promotion_ceremoney_nodata"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="您还没有任何收益哦~"
-                    android:textColor="@color/textgray"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-            </LinearLayout>
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/promotion_ceremoney_nodata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="您还没有任何收益哦~"
+                android:textColor="@color/textgray"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <com.ascba.rebate.view.MoneyBar
         android:id="@+id/ceremony_moneybar"
         android:layout_width="wrap_content"
