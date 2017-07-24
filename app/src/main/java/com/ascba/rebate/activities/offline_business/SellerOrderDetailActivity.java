@@ -137,7 +137,8 @@ public class SellerOrderDetailActivity extends BaseNetActivity implements View.O
                 seller_order_trade_number.setText(infoBean.getOrder_number());
                 seller_order_contactway.setText(infoBean.getSeller_contact());
 
-                Picasso.with(this).load(UrlUtils.baseWebsite + infoBean.getAvatar()).into(seller_order_icon);
+               // Picasso.with(this).load(UrlUtils.baseWebsite + infoBean.getAvatar()).into(seller_order_icon);
+                Picasso.with(this).load(infoBean.getAvatar()).into(seller_order_icon);
                 break;
             case 1:
                 AffrimEntity affrimEntity = JSON.parseObject(dataObj.toString(), AffrimEntity.class);
