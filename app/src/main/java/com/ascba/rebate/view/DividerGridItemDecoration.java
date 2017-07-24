@@ -43,7 +43,6 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
-//        mDivider=context.getResources().getDrawable(resId);
         this.spanSize = spanSize;
         lineWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
         lineHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
@@ -173,10 +172,6 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
             int spanSize = this.spanSize.getSpanSize((GridLayoutManager) layoutManager, itemPosition);
             Log.d("ItemDecoration", "spanSize: "+spanSize);
             if (spanSize == 30) {
-                if(isFirstDrawLine){
-                    firstDrawLinePosition=itemPosition;
-                    isFirstDrawLine=false;
-                }
                 int spanCount = getSpanCount(parent);//固定为2
                 int childCount = parent.getAdapter().getItemCount();
                 if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
