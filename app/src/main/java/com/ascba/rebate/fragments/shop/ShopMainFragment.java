@@ -176,7 +176,6 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
 
         ShopActivity shopActivity = (ShopActivity) getActivity();
         shopTabs = shopActivity.getShopTabs();
-
         requestNetwork(UrlUtils.shop, 0);
     }
 
