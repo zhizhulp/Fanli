@@ -1,28 +1,40 @@
 package com.ascba.rebate.activities.base;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.main.MainActivity;
+import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.taobao.sophix.PatchStatus;
+import com.taobao.sophix.SophixManager;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
 /**
  * Created by 李鹏 on 2017/04/20 0020.
- * 权限 吐司 下拉刷新 上拉加载
+ * 权限 吐司 下拉刷新 上拉加载 home键锁屏键监听
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-
+    protected String TAG=getClass().getSimpleName();
     protected PermissionCallback requestPermissionAndBack;
     protected SwipeRefreshLayout refreshLayout;
     protected CustomLoadMoreView loadMoreView;
@@ -168,4 +180,53 @@ public abstract class BaseActivity extends AppCompatActivity {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(mHomeKeyEventReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_RELAUNCH){
+            if(this instanceof MainActivity){
+                killProcess(false);
+            }
+        }
+        unregisterReceiver(mHomeKeyEventReceiver);
+        super.onDestroy();
+    }
+
+    private BroadcastReceiver mHomeKeyEventReceiver = new BroadcastReceiver() {
+        String SYSTEM_REASON = "reason";
+        String SYSTEM_HOME_KEY = "homekey";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_RELAUNCH){
+                String action = intent.getAction();
+                if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+                    String reason = intent.getStringExtra(SYSTEM_REASON);
+                    if (TextUtils.equals(reason, SYSTEM_HOME_KEY)) {
+                        killProcess(true);
+                    }
+                }else if(action.equals(Intent.ACTION_SCREEN_OFF)){
+                    killProcess(true);
+                }
+            }
+        }
+    };
+    //杀进程，用于加载补丁
+    private void killProcess(boolean needReboot){
+        SophixManager.getInstance().killProcessSafely();
+        if(needReboot){
+            Intent i = getBaseContext().getPackageManager()
+                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }
+    }
 }

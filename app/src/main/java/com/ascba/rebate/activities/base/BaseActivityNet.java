@@ -27,7 +27,6 @@ import org.json.JSONObject;
 public abstract class BaseActivityNet extends BaseActivity {
 
     protected DialogHome dialogManager;
-    protected String TAG=getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

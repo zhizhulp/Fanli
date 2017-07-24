@@ -61,13 +61,13 @@ public class MyApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
+        initHotFix();
         super.onCreate();
         app = this;
         initNohttp();
         requestQueue = NoHttp.newRequestQueue();
         JPushInterface.init(this);//极光推送
         initWXPay();
-        initHotFix();
     }
     /**
      * hotfix初始化
@@ -95,24 +95,10 @@ public class MyApplication extends MultiDexApplication {
                                 " HandlePatchVersion:" + handlePatchVersion;
                         Log.d(TAG, "onLoad: "+ msg);
                         patchStatusCode=code;
-                        // 补丁加载回调通知
-                        if (code == PatchStatus.CODE_LOAD_SUCCESS) {
-                            //Log.d(TAG, "onLoad: patch load success");
-                            // 表明补丁加载成功
-                        } else if (code == PatchStatus.CODE_LOAD_RELAUNCH) {
-                            //Log.d(TAG, "onLoad: load relaunch");
-                            // 表明新补丁生效需要重启. 开发者可提示用户或者强制重启;
-                            // 建议: 用户可以监听进入后台事件, 然后应用自杀
-                        } else if (code == PatchStatus.CODE_LOAD_FAIL) {
-                            // 内部引擎异常, 推荐此时清空本地补丁, 防止失败补丁重复加载
-                            //Log.d(TAG, "onLoad: load failed");
-                            //SophixManager.getInstance().cleanPatches();
-                        } else if (code== PatchStatus.CODE_REQ_NOUPDATE) {//没有更新
-
-                        }
                     }
                 }).initialize();
-        SophixManager.getInstance().queryAndLoadNewPatch();
+        //Log.d("hotfix", "initHotFix: query");
+        //SophixManager.getInstance().queryAndLoadNewPatch();
     }
 
     /**

@@ -145,6 +145,3 @@
 #hotfix
 -keep class com.taobao.sophix.**{*;}
 -keep class com.ta.utdid2.device.**{*;}
-
-
-

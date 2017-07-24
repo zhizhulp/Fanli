@@ -1,12 +1,15 @@
 package com.ascba.rebate.activities.main;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -21,11 +24,9 @@ import com.ascba.rebate.fragments.main.HomePageFragment;
 import com.ascba.rebate.fragments.main.MeFragment;
 import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.fragments.main.SideFragment;
-import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.AppTabs;
-import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixManager;
 
 import java.util.ArrayList;
@@ -55,8 +56,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private static final int REQUEST_LOGIN_SHOP = 2015;
     public static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
-    private static final int TIME_TO_UPDATE=2018;
-    private static final int PATCH_LOAD_SUCCESS = 2020;
     private static final int QUERY_PATCH = 2021;
     private List<Fragment> fgts = new ArrayList<>();
     private final Handler mHandler = new Handler() {
@@ -69,21 +68,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     break;
                 case MSG_SET_TAGS:
                     JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
-                    break;
-                case TIME_TO_UPDATE:
-                    getDm().buildAlertDialogSure("重启app完成更新", new DialogHome.Callback() {
-                        @Override
-                        public void handleSure() {
-                            Intent i = getBaseContext().getPackageManager()
-                                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(i);
-                            SophixManager.getInstance().killProcessSafely();
-                        }
-                    });
-                    break;
-                case PATCH_LOAD_SUCCESS:
-                    timer.cancel();
                     break;
                 case QUERY_PATCH:
                     Log.d(TAG, "handleMessage: query");
@@ -106,26 +90,31 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SophixManager.getInstance().queryAndLoadNewPatch();
         //解决fragment重叠问题
         resolveProblems(savedInstanceState);
+        setContentView(R.layout.activity_main);
         //请求读写权限(用于热更新)
         checkAndRequestAllPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionCallback() {
             @Override
             public void requestPermissionAndBack(boolean isOk) {
             }
         });
-        setContentView(R.layout.activity_main);
         findViews();
-        timer.schedule(new UpdateTask(),0,5  * 1000);
-        mHandler.sendEmptyMessageDelayed(QUERY_PATCH,4000);//hotfix 2次query的时间间隔要大于3s
+        //timer.schedule(new UpdateTask(), 30 * 60 * 1000 , 30 * 60 * 1000);
         test();
     }
 
     private void test() {
-        Log.d(TAG, "test: 基线包");
+        Log.d(TAG, "test: bug1修复");
     }
 
-
+    private class UpdateTask extends TimerTask{
+        @Override
+        public void run() {
+            mHandler.sendEmptyMessage(QUERY_PATCH);
+        }
+    }
     private void findViews() {
         appTabs = ((AppTabs) findViewById(R.id.tabs));
         appTabs.setCallback(this);
@@ -197,8 +186,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN_CAIFU);
         }
-
-
     }
 
     //我
@@ -406,21 +393,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     fgts.add(fragment);
                 }
                 index = 0;
-            }
-        }
-    }
-
-    private class UpdateTask extends TimerTask{
-        @Override
-        public void run() {
-            if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_RELAUNCH){//需要重启完成更新
-                Log.d(TAG, "run: 需要重启完成更新");
-                mHandler.sendEmptyMessage(TIME_TO_UPDATE);
-            }else if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_SUCCESS){//补丁加载成功
-                Log.d(TAG, "run: 补丁加载成功");
-                mHandler.sendEmptyMessage(PATCH_LOAD_SUCCESS);
-            }else {
-                Log.d(TAG, "run: "+MyApplication.patchStatusCode);
             }
         }
     }
