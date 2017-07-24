@@ -199,7 +199,6 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
     @Override
     protected void mhandle404(int what, JSONObject dataObj, String message) {
         // error_status:1余额不足（消费者），2密码错误（消费者），3未设置支付密码（消费者），4商家余额不足
-
         int error_status = dataObj.optInt("error_status");
         if (error_status == 1) {//
             getDm().buildAlertDialogSure("账户余额不足，请先充值，再进行支付！", "重新选择", "立即充值", new DialogHome.Callback() {

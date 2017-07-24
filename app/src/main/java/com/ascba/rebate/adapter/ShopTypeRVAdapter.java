@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,7 +20,6 @@ import com.ascba.rebate.beans.ShopBaseItem;
 import com.ascba.rebate.beans.ShopItemType;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.StringUtils;
-import com.ascba.rebate.view.DrawableBgSpan;
 import com.ascba.rebate.view.RadiusBackgroundSpan;
 import com.ascba.rebate.view.pagerWithTurn.ShufflingViewPager;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -100,7 +96,6 @@ public class ShopTypeRVAdapter extends BaseMultiItemQuickAdapter<ShopBaseItem, B
                 break;
 
             case ShopItemType.TYPE_CHEAP:
-
                 break;
             case ShopItemType.TYPE_OTHER:
                 helper.setText(R.id.item_type6_text1, item.getTitle());
