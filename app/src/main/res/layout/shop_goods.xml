@@ -21,15 +21,16 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="179dp"
             android:minHeight="178dp"
-            android:layout_weight="7">
+              >
+
 
             <ImageView
                 android:id="@+id/goods_list_img"
-                android:layout_width="match_parent"
-                android:layout_height="178dp"
-                android:scaleType="fitXY" />
+                android:layout_width="179dp"
+                android:layout_height="179dp"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/tv_use_ticket_reduce"
@@ -49,8 +50,7 @@
         <TextView
             android:id="@+id/goods_list_name"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="51dp"
             android:background="@android:color/white"
             android:ellipsize="end"
             android:lineSpacingExtra="2dp"
@@ -64,8 +64,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
+            android:layout_height="38dp"
             android:background="@android:color/white"
             android:paddingLeft="14dp">
 
