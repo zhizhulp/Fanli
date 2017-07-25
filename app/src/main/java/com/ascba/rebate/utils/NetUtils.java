@@ -2,50 +2,25 @@ package com.ascba.rebate.utils;
 
 /**
  * Created by Administrator on 2016/10/18.
+ * 跟网络相关的工具类
  */
-
-import java.util.List;
 
 import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.telephony.TelephonyManager;
 
-/**
- * 跟网络相关的工具类
- */
+import java.util.List;
+
 public class NetUtils {
 
     /**
      * 网络是否可用
-     *
-     * @param context
-     * @return
      */
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        /*if (connectivity != null) {
-            if (Build.VERSION.SDK_INT > 21) {
-                Network[] allNetworks = connectivity.getAllNetworks();
-                for (int i = 0; i < allNetworks.length; i++) {
-                    NetworkInfo networkInfo = connectivity.getNetworkInfo(allNetworks[i]);
-                    if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-                }
-            } else {
-                NetworkInfo[] info = connectivity.getAllNetworkInfo();
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-                }
-            }
-        }*/
         if (connectivity != null) {
             NetworkInfo[] info = connectivity.getAllNetworkInfo();
             for (NetworkInfo anInfo : info) {
@@ -60,9 +35,6 @@ public class NetUtils {
 
     /**
      * Gps是否打开
-     *
-     * @param context
-     * @return
      */
     public static boolean isGpsEnabled(Context context) {
         LocationManager locationManager = ((LocationManager) context
@@ -87,9 +59,6 @@ public class NetUtils {
     /**
      * 判断当前网络是否是wifi网络
      * if(activeNetInfo.getType()==ConnectivityManager.TYPE_MOBILE) {
-     *
-     * @param context
-     * @return boolean
      */
     public static boolean isWifi(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context
@@ -104,9 +73,6 @@ public class NetUtils {
 
     /**
      * 判断当前网络是否3G网络
-     *
-     * @param context
-     * @return boolean
      */
     public static boolean is3G(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context

@@ -52,7 +52,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
     private EndTimeListener listener;
-    interface EndTimeListener{
+    public interface EndTimeListener{
         void timeCome();
     }
     private static final int REQUEST_PAY_DEPOSIT = 3;
@@ -262,6 +262,7 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         } else if (type == 2) {
             adapter = new AuctionMainPlaceChildAdapter(getActivity(), R.layout.item_auction_goods, beanList);
         }
+        adapter.setEmptyView(ViewUtils.getEmptyView(getActivity(),"暂无数据"));
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
