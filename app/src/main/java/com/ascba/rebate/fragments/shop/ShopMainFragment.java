@@ -499,11 +499,9 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             @Override
             public void onClick(View v) {
                 if(isAll){
-                    if(!isAll){
-                        getDm().buildAlertDialog(attention);
-                    }else {
-                        nb.setCurrentNumber(nb.getNumber()-1);
-                    }
+                    nb.setCurrentNumber(nb.getNumber()-1);
+                }else {
+                    getDm().buildAlertDialog(attention);
                 }
             }
         });

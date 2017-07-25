@@ -102,11 +102,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         });
         findViews();
         //timer.schedule(new UpdateTask(), 30 * 60 * 1000 , 30 * 60 * 1000);
-        test();
-    }
-
-    private void test() {
-        Log.d(TAG, "test: bug1修复");
     }
 
     private class UpdateTask extends TimerTask{

@@ -281,16 +281,15 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
         Picasso.with(this).load(UrlUtils.baseWebsite + courtesy.getImage()).placeholder(R.mipmap.banner_loading).into(promotion_head_iv);
         courtesy_url = courtesy.getCourtesy_url();
         if (isRefreshing) {
-            if (data.size() != 0) {
+            if (data.size() > 0) {
                 data.clear();
+                promotion_ceremoney_nodata.setVisibility(View.GONE);
+            }else {
+                promotion_ceremoney_nodata.setVisibility(View.VISIBLE);
             }
         }
         data.addAll(promotionCeremoneyEntity.getReferee_list());
         baseAdapter.notifyDataSetChanged();
-        if (data.size() == 0) {
-            promotion_ceremoney_nodata.setVisibility(View.VISIBLE);
-        }
-
     }
 
     /**

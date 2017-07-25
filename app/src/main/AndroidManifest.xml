@@ -400,10 +400,6 @@
             android:exported="false"
             android:screenOrientation="behind" />
         <activity
-            android:name=".activities.main_page.RecQRActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
-        <activity
             android:name=".activities.me_page.ProxyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" />

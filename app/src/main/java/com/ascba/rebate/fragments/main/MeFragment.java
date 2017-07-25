@@ -15,7 +15,6 @@ import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusinessUnionActivity;
 import com.ascba.rebate.activities.ProxyDetActivity;
 import com.ascba.rebate.activities.ShopMessageActivity;
-import com.ascba.rebate.activities.main_page.RecQRActivity;
 import com.ascba.rebate.activities.me_page.CardActivity;
 import com.ascba.rebate.activities.me_page.MyAwardActivity;
 import com.ascba.rebate.activities.me_page.MyRecActivity;
@@ -28,6 +27,7 @@ import com.ascba.rebate.activities.me_page.settings.SettingActivity;
 import com.ascba.rebate.activities.me_page.settings.child.PersonalDataActivity;
 import com.ascba.rebate.activities.me_page.settings.child.RealNameCofirmActivity;
 import com.ascba.rebate.activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity;
+import com.ascba.rebate.activities.offline_business.promotion_ceremony.PromotionCeremonyActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
@@ -162,7 +162,7 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                 ShopMessageActivity.startIntent(getActivity());
                 break;
             case R.id.setting_my_qr://我的推广码
-                startActivity(new Intent(getActivity(), RecQRActivity.class));
+                startActivity(new Intent(getActivity(), PromotionCeremonyActivity.class));
                 break;
             case R.id.me_lat_setting://设置
                 Intent intent2 = new Intent(getActivity(), SettingActivity.class);

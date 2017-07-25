@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 商城设置
+ * 商城的我
  */
 public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayout.OnRefreshListener,
         BaseNetFragment.Callback {

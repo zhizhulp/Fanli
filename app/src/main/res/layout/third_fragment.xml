@@ -11,8 +11,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_clothes"
-            android:paddingLeft="-3dp"
-            android:paddingRight="-3dp"
+            android:paddingLeft="-2.5dp"
+            android:paddingRight="-2.5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
