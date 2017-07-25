@@ -87,7 +87,8 @@ public class AuctionListActivity extends BaseNetActivity {
                 delay = between = (titleList.get(0).getEndTime()-titleList.get(0).getStartTime())* 1000;
             }
             Log.d(TAG, "mhandle200Data: "+delay+".."+between);
-            if(timer!=null){
+            if(timer==null){
+                timer= new Timer();
                 timer.schedule(new MyTimerTask(),delay,between);
             }
         }
@@ -130,7 +131,9 @@ public class AuctionListActivity extends BaseNetActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+        if(timer!=null){
+            timer.cancel();
+        }
     }
 
     private class MyTimerTask extends TimerTask{
