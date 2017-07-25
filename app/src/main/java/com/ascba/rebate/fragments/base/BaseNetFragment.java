@@ -89,7 +89,7 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
                 }
 
                 mhandle200Data(what, jObj, dataObj, message);
-            } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+            } else if (status == 3) {//需要重新登陆
                 //jpush
                 AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
                 AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
@@ -110,6 +110,8 @@ public abstract class BaseNetFragment extends BaseFragmentNet {
                 if(callbackWhat != null){
                     callbackWhat.handleReLogin();
                 }
+            } else if (status == 1 || status == 2  || status == 4 || status == 5) {//缺少sign参数
+                showToast(message);
             } else if (status == 404) {
                 if (callback != null) {
                     callback.handle404(message, dataObj);

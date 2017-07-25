@@ -45,7 +45,7 @@ public abstract class BaseNetActivity extends BaseActivityNet {
 
             mhandle200Data(what, jObj, dataObj, message);
 
-        } else if (status == 1 || status == 2 || status == 3 || status == 4 || status == 5) {//缺少sign参数
+        } else if ( status == 3) {//需要登陆
             //jpush
             AppConfig.getInstance().putBoolean("jpush_set_tag_success",false);
             AppConfig.getInstance().putBoolean("jpush_set_alias_success",false);
@@ -61,6 +61,8 @@ public abstract class BaseNetActivity extends BaseActivityNet {
             AppConfig.getInstance().putLong("expiring_time", -2000);
             AppConfig.getInstance().putInt("uuid", -1000);
             startActivityForResult(intent, REQUEST_LOGIN);
+        } else if (status == 1 || status == 2 || status == 4 || status == 5) {//缺少sign参数
+            showToast(message);
         } else if (status == 404) {
             if (callback != null) {
                 callback.handle404(message);
