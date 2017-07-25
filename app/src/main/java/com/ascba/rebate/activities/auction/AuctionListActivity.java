@@ -34,7 +34,7 @@ public class AuctionListActivity extends BaseNetActivity {
     private int position;
     private int type;
     private int client_key;
-    private Timer timer=new Timer();
+    private Timer timer;
     private long delay;
     private long between;
 
@@ -72,12 +72,6 @@ public class AuctionListActivity extends BaseNetActivity {
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
                 titleList.add(tb);
                 AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(type, client_key, tb);
-                childFragment.setListener(new AuctionMainPlaceChildFragment.EndTimeListener() {
-                    @Override
-                    public void timeCome() {
-                        requestNetwork(UrlUtils.auctionType, 0);
-                    }
-                });
                 fragmentList.add(childFragment);
             }
         }
@@ -89,9 +83,13 @@ public class AuctionListActivity extends BaseNetActivity {
                 if(tabAt!=null){
                     tabAt.select();
                 }
+            }else {
+                delay = between = (titleList.get(0).getEndTime()-titleList.get(0).getStartTime())* 1000;
             }
             Log.d(TAG, "mhandle200Data: "+delay+".."+between);
-            //timer.schedule(new MyTimerTask(),delay,between);
+            if(timer!=null){
+                timer.schedule(new MyTimerTask(),delay,between);
+            }
         }
     }
 
@@ -124,8 +122,6 @@ public class AuctionListActivity extends BaseNetActivity {
                 position=i;
                 hasGoing=true;
                 break;
-            }else {
-                delay=between;
             }
         }
         return hasGoing;
