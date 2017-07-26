@@ -55,6 +55,7 @@ public class PCMultipleItemAdapter extends BaseMultiItemQuickAdapter<PCMultipleI
                 helper.setText(R.id.activity_pc_item3_text, item.getContent());
 
                 if (item.getMessageNum() > 0) {
+                    helper.setVisible(R.id.activity_pc_item3_text_notify, true);
                     helper.setText(R.id.activity_pc_item3_text_notify, String.valueOf(item.getMessageNum()));
                 } else {
                     helper.setVisible(R.id.activity_pc_item3_text_notify, false);
