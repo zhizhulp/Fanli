@@ -29,7 +29,6 @@ import java.util.TimerTask;
 public class AuctionListActivity extends BaseNetActivity {
     private List<Fragment> fragmentList=new ArrayList<>();//fragment列表
     private List<TittleBean> titleList=new ArrayList<>();//tab名的列表
-    private MyFragmentPagerAdapter adapter;
     private TabLayout tabLayout;
     private int position;
     private int type;
@@ -37,6 +36,7 @@ public class AuctionListActivity extends BaseNetActivity {
     private Timer timer;
     private long delay;
     private long between;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,25 +66,16 @@ public class AuctionListActivity extends BaseNetActivity {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
-        tabLayout.removeAllTabs();
         titleList.clear();
         fragmentList.clear();
-        if(jsonArray!=null && jsonArray.length()>0){
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject obj = jsonArray.optJSONObject(i);
-                TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
-                titleList.add(tb);
-                AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(type, client_key, tb);
-                /*childFragment.setListener(new AuctionMainPlaceChildFragment.EndTimeListener() {
-                    @Override
-                    public void timeCome() {
-                        requestNetwork(UrlUtils.auctionType, 0);
-                    }
-                });*/
-                fragmentList.add(childFragment);
-            }
-        }
-        adapter.notifyDataSetChanged();
+        parseData(jsonArray);
+        setTabLayout();
+    }
+
+    private void setTabLayout() {
+        MyFragmentPagerAdapter adapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),fragmentList,titleList);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
         int tabCount = tabLayout.getTabCount();
         if(tabCount >0){
             if(isGoing()){
@@ -92,11 +83,24 @@ public class AuctionListActivity extends BaseNetActivity {
                 if(tabAt!=null){
                     tabAt.select();
                 }
+            }else {
+                delay = between = (titleList.get(0).getEndTime()-titleList.get(0).getStartTime())* 1000;
             }
-            Log.d(TAG, "mhandle200Data: "+delay+".."+between);
             if(timer==null){
-                timer=new Timer();
-                timer.schedule(new MyTimerTask(),delay,between);
+                timer= new Timer();
+                timer.schedule(new MyTimerTask(),delay+1500,between);//1.5后进行请求，否则会有2个进行中
+            }
+        }
+    }
+
+    private void parseData(JSONArray jsonArray) {
+        if(jsonArray!=null && jsonArray.length()>0){
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.optJSONObject(i);
+                TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
+                titleList.add(tb);
+                AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(type, client_key, tb);
+                fragmentList.add(childFragment);
             }
         }
     }
@@ -108,10 +112,7 @@ public class AuctionListActivity extends BaseNetActivity {
             TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
             tabLayout.addTab(tab);
         }
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        adapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),fragmentList,titleList);
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
     }
     //是否有正在进行的商品
     private boolean isGoing(){
@@ -149,18 +150,6 @@ public class AuctionListActivity extends BaseNetActivity {
         @Override
         public void run() {
             requestNetwork(UrlUtils.auctionType, 0);
-        }
-    }
-    public void setTabNextSelect() {
-        int tabCount = tabLayout.getTabCount();
-        if (tabCount > 0) {
-            int position = tabLayout.getSelectedTabPosition();
-            TabLayout.Tab tabAt = tabLayout.getTabAt(position+1);
-            if (tabAt != null) {
-                if (!tabAt.isSelected()) {
-                    tabAt.select();
-                }
-            }
         }
     }
 }
