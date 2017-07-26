@@ -150,7 +150,7 @@ public class PayUtils {
     public void showDialog(final OnCreatOrder onCreatOrder) {
         dialog = new BottomSheetDialog(context, R.style.AlertDialog);
         dialog.setContentView(R.layout.layout_pay_pop);
-        ((TextView) dialog.findViewById(R.id.dlg_tv_total_cash)).setText(price);
+        ((TextView) dialog.findViewById(R.id.dlg_tv_total_cash)).setText(price.startsWith("￥")? price: "￥"+price );
         //关闭对话框
         dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
