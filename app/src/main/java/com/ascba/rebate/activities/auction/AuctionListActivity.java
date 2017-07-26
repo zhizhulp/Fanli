@@ -34,7 +34,7 @@ public class AuctionListActivity extends BaseNetActivity {
     private int position;
     private int type;
     private int client_key;
-    private Timer timer=new Timer();
+    private Timer timer;
     private long delay;
     private long between;
 
@@ -66,18 +66,21 @@ public class AuctionListActivity extends BaseNetActivity {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
+        tabLayout.removeAllTabs();
+        titleList.clear();
+        fragmentList.clear();
         if(jsonArray!=null && jsonArray.length()>0){
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.optJSONObject(i);
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
                 titleList.add(tb);
                 AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(type, client_key, tb);
-                childFragment.setListener(new AuctionMainPlaceChildFragment.EndTimeListener() {
+                /*childFragment.setListener(new AuctionMainPlaceChildFragment.EndTimeListener() {
                     @Override
                     public void timeCome() {
                         requestNetwork(UrlUtils.auctionType, 0);
                     }
-                });
+                });*/
                 fragmentList.add(childFragment);
             }
         }
@@ -91,7 +94,10 @@ public class AuctionListActivity extends BaseNetActivity {
                 }
             }
             Log.d(TAG, "mhandle200Data: "+delay+".."+between);
-            //timer.schedule(new MyTimerTask(),delay,between);
+            if(timer==null){
+                timer=new Timer();
+                timer.schedule(new MyTimerTask(),delay,between);
+            }
         }
     }
 
@@ -134,7 +140,9 @@ public class AuctionListActivity extends BaseNetActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+        if(timer!=null){
+            timer.cancel();
+        }
     }
 
     private class MyTimerTask extends TimerTask{
