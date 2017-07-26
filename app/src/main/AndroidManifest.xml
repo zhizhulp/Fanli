@@ -57,7 +57,7 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppStyle"
         tools:replace="android:icon,android:theme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
