@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +83,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                     adapter.notifyDataSetChanged();
                     break;
                 case TIME_DOWN:
+                    Log.d(TAG, "handleMessage: refresh");
                     resetPageAndStatus();
                     requestNetwork(UrlUtils.auction, 0);
                     break;
@@ -193,12 +195,11 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 }
                 long leftTime = obj.optLong("endtime") * 1000 - System.currentTimeMillis();
                 if (!handler.hasMessages(TIME_DOWN)) {
+                    Log.d(TAG, "initAuctionData: "+leftTime);
                     handler.sendEmptyMessageDelayed(TIME_DOWN,leftTime);
                 }
                 beanList.add(agb);
             }
-        }
-        if (beanList.size() > 0) {
             if (timer == null) {
                 timer = new Timer();
                 timer.schedule(new MyTimerTask(), 0, 1000);
@@ -319,7 +320,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                 startActivity(intent);
             }
         });
-        //this.adapter.setHeaderView(headView);
     }
 
 
