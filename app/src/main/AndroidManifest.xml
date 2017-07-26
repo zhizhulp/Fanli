@@ -80,11 +80,11 @@
         <activity
             android:name=".activities.splash.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".activities.main.MainActivity"
@@ -232,7 +232,13 @@
         <activity
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppStyle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.main_page.CityList"
             android:screenOrientation="portrait"
@@ -307,8 +313,8 @@
         </service>
         -->
         <service
-            android:exported="false"
-            android:name="cn.jpush.android.service.PushService">
+            android:name="cn.jpush.android.service.PushService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -731,8 +737,14 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.shop.OrderDetailsActivity" />
         <activity android:name=".activities.offline_business.promotion_ceremony.PromotionCeremonyActivity" />
-        <activity android:name=".activities.shop.ShopCartActivity"
-            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".activities.shop.ShopCartActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activities.BaseUIActivity"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
     </application>
 
 </manifest>
