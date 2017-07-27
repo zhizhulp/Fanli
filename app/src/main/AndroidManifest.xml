@@ -80,11 +80,11 @@
         <activity
             android:name=".activities.splash.SplashActivity"
             android:screenOrientation="portrait">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.main.MainActivity"
@@ -233,11 +233,11 @@
             android:name=".activities.TestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppStyle" >
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".activities.main_page.CityList"

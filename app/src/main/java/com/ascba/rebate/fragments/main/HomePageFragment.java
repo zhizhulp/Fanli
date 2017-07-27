@@ -160,7 +160,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
 
     private void initView(View view) {
         //悬浮球
-        TextView floatButton = (TextView) view.findViewById(R.id.floatButton);
+       /* TextView floatButton = (TextView) view.findViewById(R.id.floatButton);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +172,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         textSpan.setSpan(new RelativeSizeSpan(1.0f), 0, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         textSpan.setSpan(new RelativeSizeSpan(0.7f), 4, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         floatButton.setText(textSpan);
-        floatButton.setVisibility(View.GONE);
+        floatButton.setVisibility(View.GONE);*/
         //刷新
         initRefreshLayout(view);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
