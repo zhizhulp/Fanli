@@ -31,7 +31,7 @@ public abstract class BaseActivityNet extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppStyle);
+        //setTheme(R.style.AppStyle);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         dialogManager = new DialogHome(this);
     }

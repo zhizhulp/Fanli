@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--<item name="colorPrimaryDark">#ff000000</item>&lt;!&ndash;status_bar颜色&ndash;&gt;-->
-        <item name="android:windowBackground">@color/main_bg</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--底部导航栏透明-->
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!--<item name="android:listDivider" >@drawable/line_4dp</item>-->
     </style>
 </resources>
