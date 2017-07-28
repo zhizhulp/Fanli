@@ -169,7 +169,7 @@ public class PayUtils {
         RecyclerView rvTypes = (RecyclerView) dialog.findViewById(R.id.pay_type_list);
         List<PayType> types = new ArrayList<>();
         initPayTypesData(types);
-        PayTypeAdapter pt = new PayTypeAdapter(R.layout.pay_type_item, types);
+        PayTypeAdapter pt = new PayTypeAdapter(R.layout.pay_type_item, types );
         pt.setCallback(new PayTypeAdapter.Callback() {
             @Override
             public void onClicked(String arg0) {
@@ -189,9 +189,17 @@ public class PayUtils {
     }
 
     private void initPayTypesData(List<PayType> types) {
-        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "方便快捷，支付无忧 ￥" + balance, "balance"));
-        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", null, "alipay"));
-        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", null, "wxpay"));
+        types.add(new PayType(true, R.mipmap.pay_left, "账户余额支付", "方便快捷，支付无忧 ￥" + balance, "balance",true));
+        types.add(new PayType(false, R.mipmap.pay_ali, "支付宝支付", null, "alipay",getEnable()));
+        types.add(new PayType(false, R.mipmap.pay_weixin, "微信支付", null, "wxpay",getEnable()));
+    }
+
+    private boolean getEnable(){
+        if(price.startsWith("￥")){
+            price= price.substring(1,price.length());
+        }
+        double v = Double.parseDouble(price);
+        return v != 0;
     }
 
     //调起支付宝

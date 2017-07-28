@@ -5,18 +5,20 @@ package com.ascba.rebate.beans;
  */
 
 public class PayType {
-    private boolean isSelect;
+    private boolean isSelect;//是否被选择
     private int icon;
     private String title;
     private String content;
     private String type;
+    private boolean isEnable;//是否可用
 
-    public PayType(boolean isSelect, int icon, String title, String content,String type) {
+    public PayType(boolean isSelect, int icon, String title, String content,String type ,boolean isEnable) {
         this.isSelect = isSelect;
         this.icon = icon;
         this.title = title;
         this.content = content;
         this.type=type;
+        this.isEnable=isEnable;
     }
 
     public String getType() {
@@ -57,5 +59,13 @@ public class PayType {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(boolean enable) {
+        isEnable = enable;
     }
 }
