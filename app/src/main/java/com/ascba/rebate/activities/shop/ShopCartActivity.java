@@ -81,6 +81,7 @@ public class ShopCartActivity extends BaseNetActivity1 implements
         sab = ((ShopABar) findViewById(R.id.sab));
         sab.setImageOtherEnable(false);
         sab.setTitle("购物车");
+        sab.setBackEnable(true);
         sab.setCallback(new ShopABar.Callback() {
             @Override
             public void back(View v) {
@@ -187,9 +188,7 @@ public class ShopCartActivity extends BaseNetActivity1 implements
                 goShop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*ShopActivity a = (ShopActivity) getActivity();
-                        a.getShopTabs().statusChaByPosition(0, 1);
-                        a.selFrgByPos(ShopActivity.HOMEPAGE);*/
+                        finish();
                     }
                 });
                 adapter.setEmptyView(emptyView);

@@ -57,8 +57,8 @@ public class ShopABar extends RelativeLayout implements View.OnClickListener {
         ta.recycle();
 
         msgView2.setImage(icon);
+        imBack.setOnClickListener(this);
         if(hasBack){
-            imBack.setOnClickListener(this);
             imBack.setVisibility(VISIBLE);
         }else {
             imBack.setVisibility(GONE);
