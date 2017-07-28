@@ -195,7 +195,7 @@ public class BusinessDetailsActivity extends BaseNetActivity implements BaseNetA
         String seller_return_ratio = seObj.optString("seller_return_ratio");
         String seller_return_ratio_tip = seObj.optString("seller_return_ratio_tip");
         String seller_image = seObj.optString("seller_image");
-        Picasso.with(BusinessDetailsActivity.this).load(UrlUtils.baseWebsite+seller_image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+        Picasso.with(BusinessDetailsActivity.this).load(seller_image).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.mipmap.loading_rect).error(R.mipmap.loading_rect).into(imBusiPic);
         try {
             tvName.setText(seller_name);

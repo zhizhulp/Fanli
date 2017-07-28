@@ -111,7 +111,7 @@ public class ShopMessageActivity extends BaseNetActivity {
                     bean.setTitle(title);
                     int templet = newsObject.optInt("templet");
                     bean.setType(templet);
-                    String img = UrlUtils.baseWebsite + newsObject.optString("pic");
+                    String img = newsObject.optString("pic");
                     bean.setImg(img);
                     JSONObject jsonObject = newsObject.optJSONObject("notice_index");
                     if (jsonObject != null && jsonObject.length() > 0) {

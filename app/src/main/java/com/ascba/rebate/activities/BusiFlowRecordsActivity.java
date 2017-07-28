@@ -248,7 +248,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                     String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
                     String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
                     CashAccount ca = new CashAccount(day, time, object1.optString("score_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
-                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("img"));
+                    ca.setImgUrl(object1.optString("img"));
                     data.add(ca);
                 }
                 adapter.notifyDataSetChanged();
@@ -268,7 +268,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                     String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
                     String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
                     CashAccount ca = new CashAccount(day, time, object1.optString("money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
-                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    ca.setImgUrl( object1.optString("pic"));
                     data.add(ca);
                 }
                 adapter.notifyDataSetChanged();
@@ -288,7 +288,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                     String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
                     String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
                     CashAccount ca = new CashAccount(day, time, object1.optString("money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
-                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    ca.setImgUrl(object1.optString("pic"));
                     data.add(ca);
                 }
                 adapter.notifyDataSetChanged();
@@ -308,7 +308,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                     String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
                     String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
                     CashAccount ca = new CashAccount(day, time, object1.optString("tills_money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
-                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    ca.setImgUrl( object1.optString("pic"));
                     data.add(ca);
                 }
                 adapter.notifyDataSetChanged();
@@ -329,7 +329,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                     String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
                     String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
                     CashAccount ca = new CashAccount(day, time, object1.optString("cashing_money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
-                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    ca.setImgUrl(object1.optString("pic"));
                     data.add(ca);
                 }
                 adapter.notifyDataSetChanged();
@@ -349,7 +349,7 @@ public class BusiFlowRecordsActivity extends BaseNetActivity implements
                     String day = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("yyyy.MM.dd"));
                     String time = TimeUtils.milliseconds2String(create_time * 1000, new SimpleDateFormat("HH.mm"));
                     CashAccount ca = new CashAccount(day, time, object1.optString("money_num"),object1.optString("remarks") , null, R.mipmap.cash_cost);
-                    ca.setImgUrl(UrlUtils.baseWebsite+ object1.optString("pic"));
+                    ca.setImgUrl(object1.optString("pic"));
                     data.add(ca);
                 }
                 adapter.notifyDataSetChanged();

@@ -522,7 +522,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             List<VideoBean> videoBeans = new ArrayList<>();
             for (int i = 0; i < video_list.length(); i++) {
                 JSONObject obj = video_list.optJSONObject(i);
-                String img = UrlUtils.baseWebsite + obj.optString("thumb");
+                String img = obj.optString("thumb");
                 String video_url = obj.optString("video_url");
                 String title = obj.optString("title");
                 VideoBean videoBean = new VideoBean(img, video_url, title);
@@ -542,7 +542,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             List<String> list = new ArrayList<>();
             for (int i = 0; i < banner.length(); i++) {
                 String string = banner.optString(i);
-                list.add(UrlUtils.baseWebsite + string);
+                list.add(string);
             }
             items.add(new HomePageMultiItemItem(HomePageMultiItemItem.TYPE1, R.layout.home_page_viewpager, list));
         }

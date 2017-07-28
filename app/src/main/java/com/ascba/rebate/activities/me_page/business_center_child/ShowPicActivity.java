@@ -31,7 +31,7 @@ public class ShowPicActivity extends BaseNetActivity {
         if(intent!=null){
             String image = intent.getStringExtra("image");
             if(image!=null){
-                Picasso.with(this).load(UrlUtils.baseWebsite+image).fit().centerInside().placeholder(R.mipmap.busi_apply_show_pic_holder).into(imageView);
+                Picasso.with(this).load(image).fit().centerInside().placeholder(R.mipmap.busi_apply_show_pic_holder).into(imageView);
             }
         }
     }

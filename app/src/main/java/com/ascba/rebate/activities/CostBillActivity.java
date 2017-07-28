@@ -85,7 +85,7 @@ public class CostBillActivity extends BaseBillActivity {
                             ca.setDay(day);
                             ca.setTime(time);
                             ca.setMoney(score);
-                            ca.setImgUrl(UrlUtils.baseWebsite + pic);
+                            ca.setImgUrl( pic);
                             ca.setFilterText(filterText);
                             ca.setItemType(1);
                             ca.setFivepercent_log_id(order_id);

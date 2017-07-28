@@ -256,7 +256,7 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                 refreshLayout.setRefreshing(false);
             }
             JSONObject infoObj = dataObj.optJSONObject("myInfo");
-            Picasso.with(getActivity()).load(UrlUtils.baseWebsite + infoObj.optString("avatar")).error(R.mipmap.logo).noPlaceholder().into(userIcon);
+            Picasso.with(getActivity()).load( infoObj.optString("avatar")).error(R.mipmap.logo).noPlaceholder().into(userIcon);
             JSONArray group_type = infoObj.optJSONArray("group_type");
             if (group_type == null || group_type.length() == 0) {
                 return;
@@ -273,11 +273,11 @@ public class MeFragment extends BaseNetFragment implements SwipeRefreshLayout.On
                 imageView.setLayoutParams(lp);
                 if (isUpgraded == 1 || id == 1) {
                     String upgraded_icon = typeObj.optString("upgraded_icon");
-                    Picasso.with(getActivity()).load(UrlUtils.baseWebsite + upgraded_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
+                    Picasso.with(getActivity()).load(upgraded_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
                             .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(imageView);
                 } else {
                     String default_icon = typeObj.optString("default_icon");
-                    Picasso.with(getActivity()).load(UrlUtils.baseWebsite + default_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
+                    Picasso.with(getActivity()).load(default_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
                             .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(imageView);
                 }
                 imgsLat.addView(imageView);
