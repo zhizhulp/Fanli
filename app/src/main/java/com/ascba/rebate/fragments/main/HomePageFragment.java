@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -124,6 +125,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             requestData(UrlUtils.index, 0);
         }
     };
+    private AppBarLayout appBarLayout;
 
 
     @Override
@@ -210,7 +212,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 //滑动的距离
-                mDistanceY += dy;
+                /*mDistanceY += dy;
                 //toolbar的高度
                 int toolbarHeight = homepage_head.getBottom();
                 float maxAlpha = 229.5f;//最大透明度80%
@@ -220,10 +222,17 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     float alpha = scale * maxAlpha;
                     homepage_head.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
                     homepage_head_line.setAlpha(alpha);
-                }
+                }*/
             }
         });
-
+        appBarLayout = ((AppBarLayout) view.findViewById(R.id.appbar_layout));
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                Log.d(TAG, "onOffsetChanged: "+verticalOffset);
+                //homepage_head.setBackgroundColor(changeAlpha(getResources().getColor(R.color.colorPrimary),Math.abs(verticalOffset)));
+            }
+        });
         recylerview.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -287,6 +296,14 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                 }
             }
         });
+    }
+
+    public int changeAlpha(int color, float fraction) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        int alpha = (int) (Color.alpha(color) * fraction);
+        return Color.argb(alpha, red, green, blue);
     }
 
     // 弹窗

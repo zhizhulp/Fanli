@@ -89,7 +89,7 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.Collapsing" />
         <activity
             android:name=".activities.guide.GuideActivity"
             android:screenOrientation="portrait" />
