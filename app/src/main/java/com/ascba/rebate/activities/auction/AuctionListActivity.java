@@ -68,6 +68,7 @@ public class AuctionListActivity extends BaseNetActivity {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
         titleList.clear();
         fragmentList.clear();
+        tabLayout.removeAllTabs();
         parseData(jsonArray);
         setTabLayout();
     }

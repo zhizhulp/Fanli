@@ -11,12 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.auction.AuctionListActivity;
 import com.ascba.rebate.adapter.MyFragmentPagerAdapter;
 import com.ascba.rebate.beans.TittleBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
 import com.ascba.rebate.utils.UrlUtils;
-import com.ascba.rebate.view.ShopABar;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import org.json.JSONArray;
@@ -69,6 +67,7 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
         titleList.clear();
         fragmentList.clear();
+        tabLayout.removeAllTabs();
         parseData(jsonArray);
         setTabLayout();
     }
