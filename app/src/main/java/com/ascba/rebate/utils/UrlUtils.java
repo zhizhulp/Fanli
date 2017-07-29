@@ -1,7 +1,5 @@
 package com.ascba.rebate.utils;
 
-import android.util.Log;
-
 /**
  * 存储所有网址
  */
@@ -9,10 +7,8 @@ import android.util.Log;
 public class UrlUtils {
     public static String getNewUrl(String oldUrl){
         if(oldUrl.startsWith("http")){
-            Log.d("UrlUtils", "getNewUrl: "+oldUrl);
             return oldUrl;
         }else {
-            Log.d("UrlUtils", "getNewUrl: "+(baseWebsite+oldUrl));
             return baseWebsite + oldUrl;
         }
     }

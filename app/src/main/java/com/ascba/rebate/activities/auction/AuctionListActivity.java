@@ -82,6 +82,7 @@ public class AuctionListActivity extends BaseNetActivity {
                 TabLayout.Tab tabAt = tabLayout.getTabAt(position);
                 if(tabAt!=null){
                     tabAt.select();
+                    adapter.notifyDataSetChanged();
                 }
             }else {
                 delay = between = (titleList.get(0).getEndTime()-titleList.get(0).getStartTime())* 1000;

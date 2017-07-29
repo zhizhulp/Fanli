@@ -39,6 +39,8 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     private Timer timer;
     private long delay;
     private long between;
+    private List<Fragment> fragmentList=new ArrayList<>();//fragment列表
+    private List<TittleBean> titleList=new ArrayList<>();//tab名的列表
 
     @Nullable
     @Override
@@ -65,62 +67,55 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         JSONArray jsonArray = dataObj.optJSONArray("auction_subcategory");
-        List<TittleBean> titleList = new ArrayList<>();
-        List<Fragment> fragmentList = new ArrayList<>();
-        if (jsonArray != null && jsonArray.length() > 0) {
-            //parseData
+        titleList.clear();
+        fragmentList.clear();
+        parseData(jsonArray);
+        setTabLayout();
+    }
+
+    private void setTabLayout() {
+        MyFragmentPagerAdapter adapter=new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(),fragmentList,titleList);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        int tabCount = tabLayout.getTabCount();
+        if(tabCount >0){
+            if(isGoing(titleList)){
+                TabLayout.Tab tabAt = tabLayout.getTabAt(position);
+                if(tabAt!=null){
+                    tabAt.select();
+                    adapter.notifyDataSetChanged();
+                }
+            }else {
+                delay = between = (titleList.get(0).getEndTime()-titleList.get(0).getStartTime())* 1000;
+            }
+            if(timer==null){
+                timer= new Timer();
+                timer.schedule(new MyTimerTask(),delay+1500,between);//1.5后进行请求，否则会有2个进行中
+            }
+        }
+    }
+
+    private void parseData(JSONArray jsonArray) {
+        if(jsonArray!=null && jsonArray.length()>0){
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.optJSONObject(i);
                 TittleBean tb = new TittleBean(obj.optInt("id"), obj.optLong("starttime"), obj.optLong("endtime"), obj.optString("auction_status"), obj.optString("now_time"));
                 titleList.add(tb);
-                AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(1,0, tb);
-                childFragment.setListener(new AuctionMainPlaceChildFragment.EndTimeListener() {
-                    @Override
-                    public void timeCome() {
-                        requestNetwork(UrlUtils.auctionType, 0);
-                    }
-                });
+                AuctionMainPlaceChildFragment childFragment = AuctionMainPlaceChildFragment.newInstance(1, 0, tb);
                 fragmentList.add(childFragment);
             }
-
-            //setTabTitle
-            for (int i = 0; i < titleList.size(); i++) {
-                TittleBean tb = titleList.get(i);
-                TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
-                tabLayout.addTab(tab);
-            }
-
-            //setAdapter
-            MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(), fragmentList, titleList);
-            viewPager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(viewPager);
-
-            //setTabSelect setTimerTask
-            int tabCount = tabLayout.getTabCount();
-            if(tabCount >0){
-                if(isGoing(titleList)){
-                    TabLayout.Tab tabAt = tabLayout.getTabAt(position);
-                    if(tabAt!=null){
-                        tabAt.select();
-                    }
-                }else {
-                    delay = between = (titleList.get(0).getEndTime()-titleList.get(0).getStartTime())* 1000;
-                }
-                if(timer==null){
-                    timer= new Timer();
-                    timer.schedule(new MyTimerTask(),delay+1500,between);//1.5后进行请求，否则会有2个进行中
-                }
-            }
         }
-
     }
 
 
     private void initView(View view) {
-
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        for (int i=0;i<titleList.size();i++){
+            TittleBean tb = titleList.get(i);
+            TabLayout.Tab tab = tabLayout.newTab().setText(tb.getNowTime() + "\n" + tb.getStatus());
+            tabLayout.addTab(tab);
+        }
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-
     }
 
     private void setTabSelect(List<TittleBean> titleList) {
