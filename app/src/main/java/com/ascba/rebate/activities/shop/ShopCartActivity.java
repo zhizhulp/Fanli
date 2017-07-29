@@ -257,7 +257,7 @@ public class ShopCartActivity extends BaseNetActivity1 implements
                         goods.setGoodsPrice(goods_price);
                         goods.setUserQuy(goods_num);
                         allGoodsNum = allGoodsNum + goods_num;
-                        goods.setImgUrl(goods_img);
+                        goods.setImgUrl(UrlUtils.getNewUrl(goods_img));
                         goods.setGoodsStandard(spec_names);
                         goods.setCartId(cart_id+"");
                         goods.setTitleId(goods_id);

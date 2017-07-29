@@ -401,7 +401,7 @@ public class PersonalDataActivity extends BaseNetActivity implements View.OnClic
             int sex = userInfo.optInt("sex");
             int age = userInfo.optInt("age");
             String location = userInfo.optString("location");
-            Picasso.with(PersonalDataActivity.this).load( avatar).error(R.mipmap.logo).noPlaceholder().into(userIconView);
+            Picasso.with(PersonalDataActivity.this).load( UrlUtils.getNewUrl(avatar)).error(R.mipmap.logo).noPlaceholder().into(userIconView);
             tvMobile.setText(mobile);
             tvNickname.setText(nickname);
             if (sex == 0) {

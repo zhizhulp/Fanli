@@ -203,7 +203,7 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
                 Goods goods=new Goods();
                 goods.setTitleId(object.optInt("id"));
                 goods.setGoodsTitle(object.optString("title"));
-                goods.setImgUrl(object.optString("img"));
+                goods.setImgUrl(UrlUtils.getNewUrl(object.optString("img")));
                 goods.setGoodsPrice("¥"+object.optString("shop_price"));
                 goods.setStoreId(object.optInt("store_id"));
                 goods.setHasStandard(object.optInt("has_spec") == 1);
@@ -377,7 +377,7 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
             goods.setGoodsTitle(goodsInfo.optString("title"));
             goods.setInventory(Integer.parseInt(goodsInfo.optString("inventory")));
             goods.setGoodsPrice(goodsInfo.optString("shop_price"));
-            goods.setImgUrl(goodsInfo.optString("img"));
+            goods.setImgUrl(UrlUtils.getNewUrl(goodsInfo.optString("img")));
         }
         return goods;
     }

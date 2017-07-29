@@ -489,7 +489,7 @@ public class CartChildFragment extends BaseNetFragment {
         if (array != null && array.length() > 0) {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.optJSONObject(i);
-                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("imghead"),
+                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.getNewUrl(obj.optString("imghead")),
                         obj.optString("name"), obj.optDouble("transaction_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));

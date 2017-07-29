@@ -160,7 +160,7 @@ public class AllOrderFragment extends LazyLoadFragment implements BaseNetFragmen
                     for (int j = 0; j < goodsArray.length(); j++) {
                         JSONObject goodsObject = goodsArray.optJSONObject(j);
                         Goods good = new Goods();
-                        good.setImgUrl(goodsObject.optString("goods_img"));//图片
+                        good.setImgUrl(UrlUtils.getNewUrl(goodsObject.optString("goods_img")));//图片
                         good.setGoodsTitle(goodsObject.optString("goods_name"));//商品名
                         good.setGoodsId(goodsObject.optString("goods_id"));
                         good.setOrderGoodsId(goodsObject.optString("order_goods_id"));

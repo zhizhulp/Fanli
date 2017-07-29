@@ -112,7 +112,7 @@ public class ShopMessageActivity extends BaseNetActivity {
                     int templet = newsObject.optInt("templet");
                     bean.setType(templet);
                     String img = newsObject.optString("pic");
-                    bean.setImg(img);
+                    bean.setImg(UrlUtils.getNewUrl(img));
                     JSONObject jsonObject = newsObject.optJSONObject("notice_index");
                     if (jsonObject != null && jsonObject.length() > 0) {
                         String timeUnix = jsonObject.optString("create_time");

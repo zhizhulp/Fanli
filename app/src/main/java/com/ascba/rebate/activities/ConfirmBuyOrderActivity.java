@@ -199,7 +199,7 @@ public class ConfirmBuyOrderActivity extends BaseNetActivity implements View.OnC
                                 String goods_spec_id = obj.optString("goods_spec_id");
                                 jsonMessage.put("goods_spec_id", goods_spec_id);
                                 //商品信息
-                                Goods goods = new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, obj.optString("goods_img"),
+                                Goods goods = new Goods(ConfirmOrderAdapter.TYPE2, R.layout.item_goods, UrlUtils.getNewUrl(obj.optString("goods_img")),
                                         obj.optString("goods_name"), obj.optString("spec_names"), goods_price,
                                         "no_old_price", Integer.parseInt(goods_num));
                                 goods.setTeiHui(obj.optString("promotion_text"));

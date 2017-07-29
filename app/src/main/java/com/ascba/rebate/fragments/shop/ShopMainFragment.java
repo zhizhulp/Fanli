@@ -284,7 +284,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
             goods.setGoodsTitle(goodsInfo.optString("title"));
             goods.setInventory(Integer.parseInt(goodsInfo.optString("inventory")));
             goods.setGoodsPrice(goodsInfo.optString("shop_price"));
-            goods.setImgUrl( goodsInfo.optString("img"));
+            goods.setImgUrl( UrlUtils.getNewUrl(goodsInfo.optString("img")));
         }
         return goods;
     }
@@ -325,7 +325,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 String subtitle = gObj.optString("sub_title");
 
                 ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, weight, R.layout.shop_navigation,
-                        cover, subtitle);
+                        UrlUtils.getNewUrl(cover), subtitle);
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }

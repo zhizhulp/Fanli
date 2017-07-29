@@ -119,7 +119,7 @@ public class UserUpdateActivity extends BaseNetActivity implements
                     }else{
                         open=false;
                     }
-                    Proxy proxy=new Proxy(icon,name,money,open);
+                    Proxy proxy=new Proxy(UrlUtils.getNewUrl(icon),name,money,open);
                     proxy.setDesc(description);
                     proxy.setGroup_id(id);
                     proxy.setGroup(group);

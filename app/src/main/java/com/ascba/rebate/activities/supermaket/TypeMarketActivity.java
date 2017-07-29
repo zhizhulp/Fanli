@@ -312,7 +312,7 @@ public class TypeMarketActivity extends BaseNetActivity implements
                 String subtitle = gObj.optString("sub_title");
 
                 ShopBaseItem baseItem = new ShopBaseItem(ShopItemType.TYPE_NAVIGATION, weight, R.layout.shop_navigation,
-                        cover, subtitle);
+                        UrlUtils.getNewUrl(cover), subtitle);
                 baseItem.setColor(Integer.parseInt(id));
                 data.add(baseItem);
             }

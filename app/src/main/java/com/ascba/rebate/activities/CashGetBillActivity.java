@@ -74,7 +74,7 @@ public class CashGetBillActivity extends BaseBillActivity {
                             ca.setDay(day);
                             ca.setTime(time);
                             ca.setMoney(score);
-                            ca.setImgUrl( pic);
+                            ca.setImgUrl(UrlUtils.getNewUrl(pic) );
                             ca.setFilterText(filterText);
                             ca.setItemType(1);
                             data.add(ca);

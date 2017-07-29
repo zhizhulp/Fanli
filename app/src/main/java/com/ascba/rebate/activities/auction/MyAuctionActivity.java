@@ -142,7 +142,7 @@ public class MyAuctionActivity extends BaseNetActivity {
                 JSONObject obj = array.optJSONObject(i);
                 AcutionGoodsBean bean = new AcutionGoodsBean();
                 bean.setId(obj.optInt("goods_id"));
-                bean.setImgUrl( obj.optString("imghead"));
+                bean.setImgUrl(UrlUtils.getNewUrl(obj.optString("imghead")));
                 bean.setName(obj.optString("name"));
                 bean.setStrState(obj.optString("is_win_tip"));
                 bean.setPrice(obj.optDouble("reserve_money"));

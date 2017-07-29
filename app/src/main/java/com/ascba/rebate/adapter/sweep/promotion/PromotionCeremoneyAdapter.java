@@ -26,7 +26,7 @@ public class PromotionCeremoneyAdapter extends BaseQuickAdapter<PromotionCeremon
     protected void convert(BaseViewHolder helper, PromotionCeremoneyEntity.RefereeListBean item) {
 
         ImageView iv = helper.getView(R.id.item_promotion_iv);
-        Picasso.with(mContext).load(item.getAvatar()).placeholder(R.mipmap.shop_goods_loading).into(iv);
+        Picasso.with(mContext).load(UrlUtils.getNewUrl(item.getAvatar())).placeholder(R.mipmap.shop_goods_loading).into(iv);
         helper.setText(R.id.item_promotion_tv_name, item.getMobile());
         helper.setText(R.id.item_promotion_content,item.getRemarks());//完成订单否
 

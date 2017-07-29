@@ -176,7 +176,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         if (goodsArray != null && goodsArray.length() > 0) {
             for (int i = 0; i < goodsArray.length(); i++) {
                 JSONObject obj = goodsArray.optJSONObject(i);
-                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), obj.optString("index_img"),
+                AcutionGoodsBean agb = new AcutionGoodsBean(obj.optInt("id"), obj.optInt("type"), UrlUtils.getNewUrl(obj.optString("index_img")),
                         obj.optString("name"), obj.optDouble("end_price"),
                         obj.optString("points"), obj.optString("cash_deposit"), obj.optInt("refresh_count"));
                 agb.setGapPrice(obj.optDouble("range"));
@@ -278,7 +278,7 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         JSONArray array = dataObj.optJSONArray("banner");
         if (array != null && array.length() > 0) {
             for (int i = 0; i < array.length(); i++) {
-                banner.add(array.optString(i));
+                banner.add(UrlUtils.getNewUrl(array.optString(i)));
             }
             ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(getActivity(), banner);
             viewPager.setAdapter(adapter);

@@ -159,7 +159,7 @@ public class MyCashDepositActivity extends BaseNetActivity {
                 JSONObject obj = array.optJSONObject(i);
                 AcutionGoodsBean bean = new AcutionGoodsBean();
                 bean.setId(obj.optInt("goods_id"));
-                bean.setImgUrl(obj.optString("imghead"));
+                bean.setImgUrl(UrlUtils.getNewUrl(obj.optString("imghead")));
                 bean.setType(obj.optInt("type"));
                 bean.setName(obj.optString("name"));
                 bean.setStartTime(obj.optLong("starttime"));

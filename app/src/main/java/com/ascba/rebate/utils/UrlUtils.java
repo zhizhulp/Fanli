@@ -1,11 +1,21 @@
 package com.ascba.rebate.utils;
 
+import android.util.Log;
+
 /**
  * 存储所有网址
  */
 
 public class UrlUtils {
-
+    public static String getNewUrl(String oldUrl){
+        if(oldUrl.startsWith("http")){
+            Log.d("UrlUtils", "getNewUrl: "+oldUrl);
+            return oldUrl;
+        }else {
+            Log.d("UrlUtils", "getNewUrl: "+(baseWebsite+oldUrl));
+            return baseWebsite + oldUrl;
+        }
+    }
     public static final String baseWebsite = "http://api.qlqwp2p.com";//p2p改为shop
     private static final String baseWebsiteChange = "http://home.qlqwp2p.com";//p2p改为shop
     private static final String webVersion = "v1";

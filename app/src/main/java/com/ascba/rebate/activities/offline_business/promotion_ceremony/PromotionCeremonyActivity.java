@@ -278,7 +278,7 @@ public class PromotionCeremonyActivity extends BaseNetActivity {
         promotion_total_money.setText(promotionCeremoneyEntity.getTotal_money() + "");
         promotion_total_people.setText(promotionCeremoneyEntity.getPeople_num() + "");
         courtesy = promotionCeremoneyEntity.getCourtesy();
-        Picasso.with(this).load(courtesy.getImage()).placeholder(R.mipmap.banner_loading).into(promotion_head_iv);
+        Picasso.with(this).load(UrlUtils.getNewUrl(courtesy.getImage())).placeholder(R.mipmap.banner_loading).into(promotion_head_iv);
         courtesy_url = courtesy.getCourtesy_url();
         if (isRefreshing) {
             if (data.size() > 0) {

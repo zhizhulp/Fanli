@@ -279,7 +279,7 @@ public class SideFragment extends BaseNetFragment implements
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
                 Business business = new Business();
                 //logo
-                business.setLogo(jsonObject.optString("seller_cover_logo"));
+                business.setLogo(UrlUtils.getNewUrl(jsonObject.optString("seller_cover_logo")));
                 //店名
                 business.setbName(jsonObject.optString("seller_name"));
                 business.setId(jsonObject.optInt("id"));

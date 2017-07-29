@@ -302,7 +302,7 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
             } else if (merchant == 3) {
                 tvBusiStatus.setText("已通过审核");
             }
-            Picasso.with(getActivity()).load(avatar).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+            Picasso.with(getActivity()).load(UrlUtils.getNewUrl(avatar)).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(goUserCenterView);
             //MemoryPolicy.NO_STORE图片出现问题，禁用掉
             JSONArray group_type = infoObj.optJSONArray("group_type");
@@ -317,11 +317,11 @@ public class FourthFragment extends BaseNetFragment implements View.OnClickListe
                 imageView.setLayoutParams(lp);
                 if (isUpgraded == 1 || id == 1) {
                     String upgraded_icon = typeObj.optString("upgraded_icon");
-                    Picasso.with(getActivity()).load(upgraded_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
+                    Picasso.with(getActivity()).load(UrlUtils.getNewUrl(upgraded_icon)).memoryPolicy(MemoryPolicy.NO_CACHE)
                             .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(imageView);
                 } else {
                     String default_icon = typeObj.optString("default_icon");
-                    Picasso.with(getActivity()).load(default_icon).memoryPolicy(MemoryPolicy.NO_CACHE)
+                    Picasso.with(getActivity()).load(UrlUtils.getNewUrl(default_icon)).memoryPolicy(MemoryPolicy.NO_CACHE)
                             .networkPolicy(NetworkPolicy.NO_CACHE).error(R.mipmap.logo).noPlaceholder().into(imageView);
                 }
                 imgsContainer.addView(imageView);

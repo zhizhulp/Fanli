@@ -146,7 +146,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
             int is_oper_name = intent.optInt("is_oper_name", 1);// 0:与法人信息一致，1：与法人信息不一致
             chartered = intent.optString("chartered");//营业执照图片链接
             if (chartered != null) {
-                Picasso.with(this).load( chartered).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
+                Picasso.with(this).load(UrlUtils.getNewUrl(chartered) ).placeholder(R.mipmap.bc_icon).into(imWorkIcon);
             }
             if (is_oper_name == 0) {
                 authView.setVisibility(View.GONE);
@@ -155,7 +155,7 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                 String clientele_name = intent.optString("clientele_name");
                 warrant = intent.optString("warrant");//授权书图片链接
                 if (warrant != null) {
-                    Picasso.with(this).load( warrant).fit().placeholder(R.mipmap.bc_icon).into(imAuthIcon);
+                    Picasso.with(this).load(UrlUtils.getNewUrl(warrant) ).fit().placeholder(R.mipmap.bc_icon).into(imAuthIcon);
                 }
                 edAuthName.setText(clientele_name);
             }

@@ -494,8 +494,8 @@ public class BusinessDataActivity extends BaseNetActivity implements BaseNetActi
                 lat = Double.parseDouble(seller_lat);
             }
             tvName.setText(seller_name);
-            Picasso.with(this).load(seller_cover_logo).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusLogo);
-            Picasso.with(this).load(seller_image).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusPic);
+            Picasso.with(this).load(UrlUtils.getNewUrl(seller_cover_logo) ).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusLogo);
+            Picasso.with(this).load( UrlUtils.getNewUrl(seller_image) ).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).networkPolicy(NetworkPolicy.NO_CACHE).into(imBusPic);
             tvType.setText(seller_taglib);
             tvLocation.setText(seller_address);
             tvLocDet.setText(StringUtils.isEmpty(seller_localhost)?null:seller_localhost);

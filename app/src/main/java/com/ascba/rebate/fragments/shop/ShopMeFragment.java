@@ -167,7 +167,7 @@ public class ShopMeFragment extends BaseNetFragment implements SwipeRefreshLayou
         String realname = meObject.optString("realname");
         String nickname = meObject.optString("nickname");
         AppConfig.getInstance().putInt("is_level_pwd",meObject.optInt("is_level_pwd"));//是设置支付密码 还是修改支付密码
-        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_0, R.mipmap.pc_xiaoxi, R.mipmap.pc_dianpu, headImg, nickname));
+        pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_0, R.mipmap.pc_xiaoxi, R.mipmap.pc_dianpu, UrlUtils.getNewUrl(headImg), nickname));
 
         //我的订单
         pcMultipleItems.add(new PCMultipleItem(PCMultipleItem.TYPE_1, R.mipmap.pc_wodedingdan, "我的订单", R.mipmap.pc_qianjin, "查看全部订单"));

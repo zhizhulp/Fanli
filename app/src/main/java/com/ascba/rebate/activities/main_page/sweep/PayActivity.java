@@ -73,7 +73,7 @@ public class PayActivity extends BaseNetActivity implements BaseNetActivity.Call
             bus_uuid = intent.getIntExtra("bus_uuid",-200);
             avatar = intent.getStringExtra("avatar");
             if(avatar!=null){
-                Picasso.with(this).load(avatar).placeholder(R.mipmap.me_user_img).into(imageView);
+                Picasso.with(this).load(UrlUtils.getNewUrl(avatar)).placeholder(R.mipmap.me_user_img).into(imageView);
             }
         }
     }

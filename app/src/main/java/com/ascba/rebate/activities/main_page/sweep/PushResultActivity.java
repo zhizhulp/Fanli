@@ -64,7 +64,7 @@ public class PushResultActivity extends BaseNetActivity implements BaseNetActivi
                 customer = jObj.getInt("customer");
                 seller = jObj.getInt("seller");
                 if (customer_avatar != null) {
-                    Picasso.with(this).load(customer_avatar).placeholder(R.mipmap.me_user_img).into(imageView);
+                    Picasso.with(this).load(UrlUtils.getNewUrl(customer_avatar)).placeholder(R.mipmap.me_user_img).into(imageView);
                 }
                 tvSellerName.setText(seller_name);
                 tvSellerAddress.setText(seller_address);
