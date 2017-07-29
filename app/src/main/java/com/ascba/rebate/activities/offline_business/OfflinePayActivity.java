@@ -100,7 +100,7 @@ public class OfflinePayActivity extends BaseNetActivity1 implements View.OnClick
             seller = intent.getIntExtra("seller", 0);
             self_money = Double.parseDouble(intent.getStringExtra("self_money"));//余额
           //  seller_logo = UrlUtils.baseWebsite + seller_cover_logo;
-            Picasso.with(this).load(seller_cover_logo).into(busiIcon);
+            Picasso.with(this).load(UrlUtils.getNewUrl(seller_cover_logo)).into(busiIcon);
             tvBusiName.setText("向 " + seller_name + " 付款");
             sweepRemainder.setText("可用余额" + NumberFormatUtils.getNewDouble(self_money) + "元");
         }
