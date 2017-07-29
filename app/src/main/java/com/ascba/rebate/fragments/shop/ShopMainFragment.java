@@ -351,7 +351,7 @@ public class ShopMainFragment extends BaseNetFragment implements BaseNetFragment
                 String title = gObj.optString("title");
                 String shop_price = gObj.optString("shop_price");
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        , imgUrl, title, "￥" + shop_price, "", false);
+                        , UrlUtils.getNewUrl(imgUrl), title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 shopBaseItem.setHasStandard(gObj.optString("has_spec").equals("1"));
                 shopBaseItem.setTeiHui(gObj.optString("promotion_text"));

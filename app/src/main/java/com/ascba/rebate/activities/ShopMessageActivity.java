@@ -134,6 +134,12 @@ public class ShopMessageActivity extends BaseNetActivity {
     }
 
     @Override
+    protected void mhandleReLogin(int what) {
+        super.mhandleReLogin(what);
+        finish();
+    }
+
+    @Override
     protected void mhandleFailed(int what, Exception e) {
     }
 }

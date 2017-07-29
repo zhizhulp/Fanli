@@ -354,7 +354,6 @@ public class ShopSearchActivity extends BaseNetActivity implements View.OnClickL
                                 int item_id = obj.optInt("item_id");
                                 String item_value = obj.optString("item_value");
                                 GoodsAttr.Attrs as = ga.new Attrs(item_id, item_value, 0);
-
                                 ats.add(as);
                             }
                         }

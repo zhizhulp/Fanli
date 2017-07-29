@@ -355,7 +355,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
                 String shop_price = obj.optString("shop_price");
 
                 ShopBaseItem shopBaseItem = new ShopBaseItem(ShopItemType.TYPE_GOODS, TypeWeight.TYPE_SPAN_SIZE_30, R.layout.shop_goods
-                        ,  img, title, "￥" + shop_price, "", false);
+                        ,  UrlUtils.getNewUrl(img), title, "￥" + shop_price, "", false);
                 shopBaseItem.setColor(Integer.parseInt(id));
                 shopBaseItem.setHasStandard(obj.optString("has_spec").equals("1"));
                 shopBaseItem.setTeiHui(obj.optString("promotion_text"));
@@ -370,8 +370,8 @@ public class BusinessShopActivity extends BaseNetActivity implements
         if (head == null) {
             adapter.removeHeaderView(headView);
         } else {
-            Picasso.with(this).load(head.optString("store_banner")).placeholder(R.mipmap.banner_loading).into(backImg);
-            Picasso.with(this).load(head.optString("store_logo")).placeholder(R.mipmap.loading_rect).into(headImg);
+            Picasso.with(this).load(UrlUtils.getNewUrl(head.optString("store_banner"))).placeholder(R.mipmap.banner_loading).into(backImg);
+            Picasso.with(this).load(UrlUtils.getNewUrl(head.optString("store_logo"))).placeholder(R.mipmap.loading_rect).into(headImg);
             tvShopName.setText(head.optString("store_name"));
             headTvType.setText(head.optString("store_type_name"));
         }

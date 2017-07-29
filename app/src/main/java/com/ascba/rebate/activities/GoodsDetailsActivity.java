@@ -335,7 +335,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         String store_logo = obj.optString("store_logo");
         phone = obj.optString("store_mobile");
         int goods_count = obj.optInt("goods_count");
-        Picasso.with(this).load(store_logo).placeholder(R.mipmap.busi_loading).into(imgLogo);
+        Picasso.with(this).load(UrlUtils.getNewUrl(store_logo)).placeholder(R.mipmap.busi_loading).into(imgLogo);
         shopName.setText(store_name);
         shopAll.setText(String.valueOf(goods_count));
         shopRecomm.setText(String.valueOf(goods_count));
@@ -821,7 +821,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                     JSONObject jsonObject = pagerArray.getJSONObject(i);
                     GoodsImgBean imgBean = new GoodsImgBean();
                     imgBean.setId(jsonObject.optInt("id"));
-                    imgBean.setImgUrl(jsonObject.optString("img_url"));
+                    imgBean.setImgUrl(UrlUtils.getNewUrl(jsonObject.optString("img_url")));
                     imgBeanList.add(imgBean);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -844,7 +844,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
         //店铺id
         goods.setStoreId(goodsObject.optInt("store_id"));
         //商品缩略图
-        goods.setImgUrl( goodsObject.optString("img"));
+        goods.setImgUrl(UrlUtils.getNewUrl(goodsObject.optString("img")));
         //品牌id
         goods.setBrand(goodsObject.optInt("brand"));
         //价格
@@ -873,7 +873,7 @@ public class GoodsDetailsActivity extends BaseNetActivity implements View.OnClic
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Goods goods = new Goods();
                 goods.setTitleId(jsonObject.optInt("id"));
-                goods.setImgUrl( jsonObject.optString("img"));
+                goods.setImgUrl(UrlUtils.getNewUrl(jsonObject.optString("img")));
                 goods.setGoodsTitle(jsonObject.optString("title"));
                 goods.setGoodsPrice(jsonObject.optString("shop_price"));
                 goods.setGoodsPriceOld(jsonObject.optString("market_price"));
