@@ -331,7 +331,7 @@ public class PayUtils {
                         Intent intent=new Intent(context, PayPsdSettingActivity.class);
                         intent.putExtra("type",1);
                         context.startActivity(intent);
-                        AppConfig.getInstance().putInt("is_level_pwd",0);
+                        //AppConfig.getInstance().putInt("is_level_pwd",0);
                         psdDialog.showMyDialog();
                     }
                     @Override
