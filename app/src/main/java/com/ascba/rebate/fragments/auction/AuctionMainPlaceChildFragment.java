@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +52,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
 
 public class AuctionMainPlaceChildFragment extends BaseNetFragment {
 
-    private EndTimeListener listener;
-    public interface EndTimeListener{
-        void timeCome();
-    }
     private static final int REQUEST_PAY_DEPOSIT = 3;
-    private static final int NEXT = 4;
     private static final int REQUEST_PAY_ORDER = 5;
     private List<AcutionGoodsBean> beanList = new ArrayList<>();
     private AuctionMainPlaceChildAdapter adapter;
@@ -87,11 +83,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     break;
                 case REDUCE_TIME:
                     setBeanProperty();
-                    break;
-                case NEXT:
-                    if(listener!=null){
-                        listener.timeCome();
-                    }
                     break;
             }
         }
@@ -130,11 +121,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
             this.type = b.getInt("type");
             this.tb = b.getParcelable("title_bean");
             this.client_key =b.getInt("client_key");
-            if(tb!=null){//一场结束后切换到下一场
-                if(tb.getStatus().equals("进行中")){
-                    handler.sendEmptyMessageDelayed(NEXT,(tb.getEndTime())*1000-System.currentTimeMillis());
-                }
-            }
         }
     }
 
@@ -208,12 +194,12 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
                     beanList.add(agb);
                 }
             }
-            if(beanList.size()>0){
+            /*if(beanList.size()>0){
                 if(timer==null){
                     timer = new Timer();
                     timer.schedule(new MyTimerTask(),0,1000);
                 }
-            }
+            }*/
             adapter.notifyDataSetChanged();
         }else if(what==1){
             ViewUtils.showMyToast(getActivity(),R.layout.add_to_cart_toast);
@@ -346,15 +332,9 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_PAY_DEPOSIT && resultCode== Activity.RESULT_OK){
-            /*selectAGB.setIntState(4);//可拍
-            selectAGB.setStrState("立即拍");
-            adapter.notifyItemChanged(beanList.indexOf(selectAGB));*/
             resetPageAndStatus();
             requestNetwork(UrlUtils.auctionType, 0);
         }else if(requestCode==REQUEST_PAY_ORDER){
-            /*selectAGB.setIntState(7);//已支付
-            selectAGB.setStrState("已支付");
-            adapter.notifyItemChanged(beanList.indexOf(selectAGB));*/
             resetPageAndStatus();
             requestNetwork(UrlUtils.auctionType, 0);
         }
@@ -455,9 +435,6 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         resetPageAndStatus();
         clearData();
         isRefresh=true;
-        if(handler.hasMessages(NEXT)){
-            handler.removeMessages(NEXT);
-        }
         if(timer!=null){
             timer.cancel();
         }
@@ -467,13 +444,5 @@ public class AuctionMainPlaceChildFragment extends BaseNetFragment {
         isRefresh=true;
         now_page=1;
         total_page=0;
-    }
-
-    public EndTimeListener getListener() {
-        return listener;
-    }
-
-    public void setListener(EndTimeListener listener) {
-        this.listener = listener;
     }
 }

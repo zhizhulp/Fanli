@@ -199,7 +199,6 @@ class TurnAdapter extends PagerAdapter {
             }
 
         }else {
-            Log.d("time_down", "it is time to update");
             return "商品拍卖结束";
         }
     }

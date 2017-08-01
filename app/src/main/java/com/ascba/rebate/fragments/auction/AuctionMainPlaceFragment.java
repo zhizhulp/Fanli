@@ -73,7 +73,7 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
     }
 
     private void setTabLayout() {
-        MyFragmentPagerAdapter adapter=new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(),fragmentList,titleList);
+        MyFragmentPagerAdapter adapter=new MyFragmentPagerAdapter(getChildFragmentManager(),fragmentList,titleList);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         int tabCount = tabLayout.getTabCount();
@@ -117,21 +117,6 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
     }
 
-    private void setTabSelect(List<TittleBean> titleList) {
-        for (int i = 0; i < titleList.size(); i++) {
-            TittleBean tb = titleList.get(i);
-            long endTime = tb.getEndTime() * 1000;//ms
-            long startTime = tb.getStartTime() * 1000;//ms
-            long nowTime = System.currentTimeMillis();
-            if (nowTime >= startTime && nowTime <= endTime) {
-                TabLayout.Tab tabAt = tabLayout.getTabAt(i);
-                if (tabAt != null) {
-                    tabAt.select();
-                }
-                break;
-            }
-        }
-    }
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -160,5 +145,13 @@ public class AuctionMainPlaceFragment extends BaseNetFragment {
             }
         }
         return hasGoing;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(timer!=null){
+            timer.cancel();
+        }
     }
 }

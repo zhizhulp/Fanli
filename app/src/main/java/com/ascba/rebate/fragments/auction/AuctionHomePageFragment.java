@@ -83,7 +83,6 @@ public class AuctionHomePageFragment extends BaseNetFragment {
                     adapter.notifyDataSetChanged();
                     break;
                 case TIME_DOWN:
-                    Log.d(TAG, "handleMessage: refresh");
                     resetPageAndStatus();
                     requestNetwork(UrlUtils.auction, 0);
                     break;
@@ -412,5 +411,11 @@ public class AuctionHomePageFragment extends BaseNetFragment {
         if (timer != null) {
             timer.cancel();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);//add versin3.1.0 20170801
     }
 }

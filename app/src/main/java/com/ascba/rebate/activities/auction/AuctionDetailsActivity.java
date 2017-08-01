@@ -410,7 +410,6 @@ public class AuctionDetailsActivity extends BaseNetActivity {
     private class MyTimerTask extends TimerTask {
         @Override
         public void run() {
-            Log.d(TAG, "run: "+isTimerOver());
             if (!isTimerOver()) {
                 handler.sendEmptyMessage(REDUCE_TIME);
             }
