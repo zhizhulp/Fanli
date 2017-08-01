@@ -83,6 +83,8 @@ public class ShopMessageActivity extends BaseNetActivity {
                 if(time!=null){
                     if(type==0){//文章模板
                         SystemMsgActivity.startIntent(ShopMessageActivity.this,id);
+
+                        String s=new String("hahha");
                     }
                 }
 
