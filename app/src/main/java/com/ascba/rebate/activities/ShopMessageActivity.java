@@ -85,6 +85,7 @@ public class ShopMessageActivity extends BaseNetActivity {
                         SystemMsgActivity.startIntent(ShopMessageActivity.this,id);
 
                         String s=new String("hahha");
+                        String s2="xixi";
                     }
                 }
 
