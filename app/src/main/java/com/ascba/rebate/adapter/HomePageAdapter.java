@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,14 +68,19 @@ public class HomePageAdapter extends BaseMultiItemQuickAdapter<HomePageMultiItem
                  * 新闻轮播
                  */
                 ShufflingViewPager viewPager = helper.getView(R.id.homepage_pager);
-                ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(context, item.getList());
+                final List<String> list = item.getList();
+                ShufflingViewPagerAdapter adapter = new ShufflingViewPagerAdapter(context,list );
                 adapter.addOnClick(new ShufflingViewPagerAdapter.OnClick() {
                     @Override
-                    public void OnClick(int position) {
-                        if (position % 2 == 0) {//竞拍
-                            mContext.startActivity(new Intent(mContext, BCProcessActivity.class));
-                        } else {
-                            mContext.startActivity(new Intent(mContext, AuctionActivity.class));
+                    public void onClickObject(Object o) {
+                        if(o instanceof String){
+                            String url = (String) o;
+                            int index = list.indexOf(url);
+                            if (index % 2 == 0) {//竞拍
+                                mContext.startActivity(new Intent(mContext, AuctionActivity.class));
+                            } else {
+                                mContext.startActivity(new Intent(mContext, BCProcessActivity.class));
+                            }
                         }
                     }
                 });
