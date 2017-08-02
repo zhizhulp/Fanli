@@ -147,6 +147,10 @@ public class BaseFragment extends Fragment {
             //requestPermissions(permissions, 1);
             if(!checkAllPermissions(permissions)){//没有所有的权限
                 requestPermissions(permissions, 1);
+            }else {
+                if (requestPermissionAndBack != null) {
+                    requestPermissionAndBack.requestPermissionAndBack(true);//有权限
+                }
             }
         }
     }

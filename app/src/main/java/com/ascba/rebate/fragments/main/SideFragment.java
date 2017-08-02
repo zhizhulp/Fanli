@@ -159,7 +159,7 @@ public class SideFragment extends BaseNetFragment implements
                 if (StringUtils.isEmpty(s.toString())) {
                     finalScene = 0;
                     clearData();
-                    resetPage();
+                    resetPageAndStatus();
                     requestNetwork(finalScene);
                 }
             }
@@ -171,7 +171,7 @@ public class SideFragment extends BaseNetFragment implements
                 if (!StringUtils.isEmpty(etSearch.getText().toString())) {
                     finalScene = 1;
                     clearData();
-                    resetPage();
+                    resetPageAndStatus();
                     requestNetwork(finalScene);
                 } else {
                     getDm().buildAlertDialog("请输入商家名称");
@@ -205,7 +205,7 @@ public class SideFragment extends BaseNetFragment implements
                 if (!StringUtils.isEmpty(city)) {
                     finalScene = 0;
                     clearData();
-                    resetPage();
+                    resetPageAndStatus();
                     region_name = city;
                     requestNetwork(finalScene);
                 }
@@ -243,6 +243,8 @@ public class SideFragment extends BaseNetFragment implements
             public void onLoadMoreRequested() {
                 if (now_page > total_page && total_page != 0) {
                     handler.sendEmptyMessage(LOAD_MORE_END);
+                }else if(total_page==0){
+                    handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
                     requestNetwork(finalScene);
                 }
@@ -252,7 +254,7 @@ public class SideFragment extends BaseNetFragment implements
 
     @Override
     public void onRefresh() {
-        resetPage();
+        resetPageAndStatus();
         clearData();
         if(isLocateSuss){
             requestNetwork(finalScene);
@@ -260,6 +262,11 @@ public class SideFragment extends BaseNetFragment implements
             initLocation();
         }
 
+    }
+
+    private void resetPageAndStatus() {
+        now_page=1;
+        total_page=0;
     }
 
 
@@ -357,7 +364,6 @@ public class SideFragment extends BaseNetFragment implements
     private void initLocation() {
         if (Build.VERSION.SDK_INT >= 23) {
             String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-            checkAndRequestAllPermission(permissions);
             setRequestPermissionAndBack(new PermissionCallback() {
                 @Override
                 public void requestPermissionAndBack(boolean isOk) {
@@ -369,6 +375,7 @@ public class SideFragment extends BaseNetFragment implements
                     }
                 }
             });
+            checkAndRequestAllPermission(permissions);
         } else {
             initLocationListener();
         }

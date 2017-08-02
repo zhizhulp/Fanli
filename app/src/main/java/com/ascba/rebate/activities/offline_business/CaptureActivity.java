@@ -112,19 +112,17 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
 
     @Override
     protected void onResume() {
-        Log.d(TAG, "onResume: ");
         super.onResume();
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (handler != null) {
+        /*if (handler != null) {
             handler.quitSynchronously();
             handler = null;
         }
-        cameraManager.closeDriver();
+        cameraManager.closeDriver();*/
     }
 
     @Override
@@ -138,35 +136,33 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
             checkAndRequestAllPermission(permissions, new PermissionCallback() {
                 @Override
                 public void requestPermissionAndBack(boolean isOk) {
+                    Log.d(TAG, "requestPermissionAndBack: hasPermission"+isOk);
                     if (!isOk) {
                         finish();
                     } else {
-                        try {
-                            cameraManager.openDriver(surfaceHolder);
-                            Log.d(TAG, "openDriver: ");
-                            if (handler == null) {
-                                handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
-                                Log.d(TAG, "CaptureActivityHandler init: ");
-                            }
-                        } catch (IOException | RuntimeException ioe) {
-                            Log.d(TAG, "exception: ");
-                            ioe.printStackTrace();
-                        }
+                        openDriver(surfaceHolder);
                     }
                 }
             });
         } else {
-            try {
-                cameraManager.openDriver(surfaceHolder);
-                if (handler == null) {
-                    handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            openDriver(surfaceHolder);
         }
 
 
+    }
+
+    private void openDriver(SurfaceHolder surfaceHolder) {
+        try {
+            cameraManager.openDriver(surfaceHolder);
+            Log.d(TAG, "openDriver: ");
+            if (handler == null) {
+                handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
+                Log.d(TAG, "CaptureActivityHandler init: ");
+            }
+        } catch (IOException | RuntimeException ioe) {
+            Log.d(TAG, "exception: ");
+            ioe.printStackTrace();
+        }
     }
 
     @Override
@@ -209,16 +205,15 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
     public void handleDecode(Result result, Bitmap barcode) {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
-        // showResult(obj, barcode);
         String str = result.getText();
-        Log.d("fanxi", "-----------" + str);
-
-        String[] strs = str.split("/");
-
-        Log.d("fanxi", "-----------" + strs[4]);
-        resutlt = strs[4];
-        requestNetwork(UrlUtils.checkSeller, 0, strs[4]);
-
+        if(str.contains("getUserMobile")){
+            String[] strs = str.split("/");
+            resutlt = strs[4];
+            requestNetwork(UrlUtils.checkSeller, 0, strs[4]);
+        }else {
+            showToast("请扫描商家二维码！");
+            restartPreviewAfterDelay(0);
+        }
 
     }
 
