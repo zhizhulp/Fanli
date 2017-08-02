@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -138,26 +139,25 @@ public class BaseFragment extends Fragment {
     /**
      * 申请权限
      */
-    protected void checkAndRequestAllPermission(String[] permissions, PermissionCallback requestPermissionAndBack) {
-        this.requestPermissionAndBack = requestPermissionAndBack;
-        if (permissions == null) {
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= 23) {
-            requestPermissions(permissions, 1);
-        }
-    }
-
-    /**
-     * 申请权限
-     */
     protected void checkAndRequestAllPermission(String[] permissions) {
         if (permissions == null) {
             return;
         }
         if (Build.VERSION.SDK_INT >= 23) {
-            requestPermissions(permissions, 1);
+            //requestPermissions(permissions, 1);
+            if(!checkAllPermissions(permissions)){//没有所有的权限
+                requestPermissions(permissions, 1);
+            }
         }
+    }
+
+    private boolean checkAllPermissions(@NonNull String[] permissions) {
+        for (String permission :permissions) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

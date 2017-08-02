@@ -143,13 +143,14 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
                     } else {
                         try {
                             cameraManager.openDriver(surfaceHolder);
-                        } catch (IOException ioe) {
-                            return;
-                        } catch (RuntimeException e) {
-                            return;
-                        }
-                        if (handler == null) {
-                            handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
+                            Log.d(TAG, "openDriver: ");
+                            if (handler == null) {
+                                handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, characterSet);
+                                Log.d(TAG, "CaptureActivityHandler init: ");
+                            }
+                        } catch (IOException | RuntimeException ioe) {
+                            Log.d(TAG, "exception: ");
+                            ioe.printStackTrace();
                         }
                     }
                 }

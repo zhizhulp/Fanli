@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -149,8 +150,20 @@ public abstract class BaseActivity extends AppCompatActivity {
             return;
         }
         if (Build.VERSION.SDK_INT >= 23) {
-            requestPermissions(permissions, 1);
+            //requestPermissions(permissions, 1);
+            if(!checkAllPermissions(permissions)){//没有所有的权限
+                requestPermissions(permissions, 1);
+            }
         }
+    }
+
+    private boolean checkAllPermissions(@NonNull String[] permissions) {
+        for (String permission :permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

@@ -435,7 +435,9 @@ public class SideFragment extends BaseNetFragment implements
      * 停止定位
      */
     private void stopLocation() {
-        locationClient.stopLocation();
+        if(locationClient!=null){
+            locationClient.stopLocation();
+        }
     }
 
     private void clearData() {
