@@ -2,7 +2,10 @@ package com.ascba.rebate.activities.base;
 
 import android.app.Dialog;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -31,7 +34,11 @@ public abstract class BaseActivityNet extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setTheme(R.style.AppStyle);
+        setTheme(R.style.AppTheme);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN  | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         dialogManager = new DialogHome(this);
     }

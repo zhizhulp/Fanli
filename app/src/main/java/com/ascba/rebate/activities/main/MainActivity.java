@@ -1,21 +1,15 @@
 package com.ascba.rebate.activities.main;
 
-import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -31,7 +25,6 @@ import com.ascba.rebate.fragments.main.SideFragment;
 import com.ascba.rebate.utils.LogUtils;
 import com.ascba.rebate.utils.NetUtils;
 import com.ascba.rebate.view.AppTabs;
-import com.jaeger.library.StatusBarUtil;
 import com.taobao.sophix.SophixManager;
 
 import java.util.ArrayList;
@@ -39,7 +32,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -61,7 +53,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private static final int REQUEST_LOGIN_SHOP = 2015;
     public static final int REQUEST_LOGIN_CAIFU = 2016;
     private static final int REQUEST_LOGIN_ME = 2017;
-    private static final int QUERY_PATCH = 2021;
     private List<Fragment> fgts = new ArrayList<>();
     private final Handler mHandler = new Handler() {
         @Override
@@ -73,10 +64,6 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
                     break;
                 case MSG_SET_TAGS:
                     JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
-                    break;
-                case QUERY_PATCH:
-                    Log.d(TAG, "handleMessage: query");
-                    SophixManager.getInstance().queryAndLoadNewPatch();
                     break;
                 default:
                     break;
@@ -98,26 +85,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         SophixManager.getInstance().queryAndLoadNewPatch();
         //解决fragment重叠问题
         resolveProblems(savedInstanceState);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN  | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        }
         setContentView(R.layout.activity_main);
-        //请求读写权限(用于热更新)
-        checkAndRequestAllPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionCallback() {
-            @Override
-            public void requestPermissionAndBack(boolean isOk) {
-            }
-        });
         findViews();
-        //timer.schedule(new UpdateTask(), 30 * 60 * 1000 , 30 * 60 * 1000);
-    }
-
-    private class UpdateTask extends TimerTask{
-        @Override
-        public void run() {
-            mHandler.sendEmptyMessage(QUERY_PATCH);
-        }
     }
     private void findViews() {
         appTabs = ((AppTabs) findViewById(R.id.tabs));

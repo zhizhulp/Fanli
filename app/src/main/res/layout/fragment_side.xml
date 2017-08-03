@@ -11,6 +11,7 @@
         android:background="#ff5c5d">
 
         <LinearLayout
+            android:layout_marginTop="@dimen/home_top"
             android:id="@+id/side_locate_lat"
             android:layout_width="match_parent"
             android:layout_height="30dp"

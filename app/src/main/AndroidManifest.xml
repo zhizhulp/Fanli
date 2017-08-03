@@ -87,152 +87,116 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Collapsing" />
+            android:name=".activities.main.MainActivity" />
         <activity
-            android:name=".activities.guide.GuideActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activities.guide.GuideActivity" />
         <activity
             android:name=".activities.register.RegisterInputNumberActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.register.RegisterAfterReceiveCodeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.password_loss.PasswordLossActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.password_loss.PasswordLossWithCodeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.PersonalDataActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.SafeSettingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.SettingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.RealNameCofirmActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.QRCodeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.personal_data_child.ModifyNicknameActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.safe_setting_child.PhoneChangeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.personal_data_child.SexChangeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.safe_setting_child.LoginPasswordChangeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.personal_data_child.AgeChangeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.safe_setting_child.PasswordProtectActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.PasswordProtect2Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.login.LoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.AccountRechargeActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.CashGetActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.BusinessCenterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessDataActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.main_page.BusinessDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.white_score_child.WSExchangeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.TicketActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.UserUpdateActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.PayPasswordChangeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.EmployeeRateActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessPhoneActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessTagActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessNameActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessDescriptionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessPicActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.CardActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.TestActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" >
+            android:theme="@style/AppTheme" >
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -241,37 +205,29 @@
         </activity>
         <activity
             android:name=".activities.main_page.CityList"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity android:name=".view.cityList.searchactivity" />
         <activity
             android:name=".activities.main_page.sweep.PayActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.safe_setting_child.PhoneChange2Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessLocationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.BusinessTimeActivity"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity
             android:name=".activities.me_page.bank_card_child.CardDataActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.bank_card_child.AddCardActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.GoodsDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
@@ -384,16 +340,13 @@
 
         <activity
             android:name=".activities.main_page.sweep.PushResultActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.bank_card_child.BankCardActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.AllAccountActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <!-- 支付宝相关 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -407,89 +360,70 @@
             android:screenOrientation="behind" />
         <activity
             android:name=".activities.me_page.ProxyActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.base.WebViewBaseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.register.RegisterProtocolActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.user_update_child.OpenProxyActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.message.MessageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.main_page.ShowDescriptionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.WhiteScoreActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.settings.child.real_name_confirm.RealNameSuccessActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.RedScoreUpdateActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.BCInputNameActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.BCProcessActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
             android:name=".activities.me_page.business_center_child.ShowPicActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.main_page.sweep.TradeResultActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.recharge_child.RechaSuccActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.cash_get_child.CashGetSuccActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.white_score_child.WSSuccActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.red_score_child.RedScSuccActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.offline_business.CaptureActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.business_center_child.child.GaoDeSearchUpdate"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -500,48 +434,37 @@
         </activity>
         <activity
             android:name=".activities.me_page.business_center_child.child.BusLocDetActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.supermaket.TypeMarketActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.milk.TypeMilkActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.BeginnerGuideActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.AllEvaluationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.GoodsListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.ReceiveAddressActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.AddAdressActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.shop.MyOrderActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.shop.order.DeliverDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.ConfirmOrderActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <!-- 文件共享 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -555,170 +478,130 @@
 
         <activity
             android:name=".activities.FilterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.BusinessShopActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.shop.ShopActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.ASKCollegeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.CollegeEnrollmentActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.MemCardActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.clothes.TypeClothActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.MyEvaluationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.MyRecActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.MyAwardActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.PlayVideoActivity"
             android:screenOrientation="landscape"
             android:theme="@style/NotitleTheme" />
         <activity
             android:name=".activities.ShopMessageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.MessageDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.TransactionRecordsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.MessageLatestActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.CommissionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.EditAdressActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.SelectAddrssActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.BusinessUnionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.ProxyDetActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.RefundOrderActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.BusiFlowRecordsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.shop.order.EvaluateDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.shop.order.TakeDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.shop.order.PayDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.me_page.WhiteBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.ConfirmBuyOrderActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.BaseBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.RechargeBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.CostBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.CashGetBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.FindPayPasswordActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.PayPsdSettingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.FastBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.SystemMsgActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.BusinessBillActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.shop.order.CancelOrderDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.auction.AuctionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.auction.PayDepositActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.auction.MyCashDepositActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.auction.MyGetAuctionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppStyle" />
+            android:theme="@style/AppTheme" />
         <activity android:name=".activities.offline_business.OfflinePayActivity" />
         <activity android:name=".activities.offline_business.ToBeSuredOrdersActivity" />
         <activity android:name=".activities.offline_business.SellerOrderDetailActivity" />

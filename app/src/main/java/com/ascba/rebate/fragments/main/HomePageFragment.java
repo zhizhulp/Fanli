@@ -29,6 +29,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -125,7 +127,6 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
             requestData(UrlUtils.index, 0);
         }
     };
-    private AppBarLayout appBarLayout;
 
 
     @Override
@@ -223,14 +224,16 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     homepage_head.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
                     homepage_head_line.setAlpha(alpha);
                 }*/
-            }
-        });
-        appBarLayout = ((AppBarLayout) view.findViewById(R.id.appbar_layout));
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.d(TAG, "onOffsetChanged: "+verticalOffset);
-                //homepage_head.setBackgroundColor(changeAlpha(getResources().getColor(R.color.colorPrimary),Math.abs(verticalOffset)));
+                //改变状态栏颜色
+                Log.d(TAG, "onScrolled: "+dy);
+                if(dy>= 25 ){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = getActivity().getWindow();
+                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                        window.setStatusBarColor(Color.argb(125,0,0,0));
+                    }
+                }
+
             }
         });
         recylerview.addOnItemTouchListener(new OnItemClickListener() {
@@ -362,7 +365,7 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {
-            updateApp(dataObj.optJSONObject("version"));
+            //updateApp(dataObj.optJSONObject("version"));
             clearData();
             stopRefresh();
             initPagerTurn(dataObj);//广告轮播
