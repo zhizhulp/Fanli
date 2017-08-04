@@ -33,7 +33,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  * 权限 吐司 下拉刷新 上拉加载 home键锁屏键监听
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends BaseUIActivity {
     protected String TAG=getClass().getSimpleName();
     protected PermissionCallback requestPermissionAndBack;
     protected SwipeRefreshLayout refreshLayout;

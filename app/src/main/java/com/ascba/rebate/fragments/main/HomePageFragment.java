@@ -225,14 +225,14 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
                     homepage_head_line.setAlpha(alpha);
                 }*/
                 //改变状态栏颜色
-                Log.d(TAG, "onScrolled: "+dy);
+                /*Log.d(TAG, "onScrolled: "+dy);
                 if(dy>= 25 ){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getActivity().getWindow();
                         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                         window.setStatusBarColor(Color.argb(125,0,0,0));
                     }
-                }
+                }*/
 
             }
         });

@@ -89,4 +89,16 @@
         <attr name="mi_indicatorColor" format="color|reference" />
     </declare-styleable>
 
+    <declare-styleable name="EasyStatusView">
+
+        <attr name="esv_loading" format="reference"/>
+
+        <attr name="esv_error" format="reference"/>
+
+        <attr name="esv_empty" format="reference"/>
+
+        <attr name="esv_noNet" format="reference"/>
+
+    </declare-styleable>
+
 </resources>

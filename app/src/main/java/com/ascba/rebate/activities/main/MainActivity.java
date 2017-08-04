@@ -1,6 +1,7 @@
 package com.ascba.rebate.activities.main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.BaseUIActivity;
 import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
@@ -81,6 +83,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setUIMode(BaseUIActivity.UIMODE_TRANSPARENT);
         super.onCreate(savedInstanceState);
         SophixManager.getInstance().queryAndLoadNewPatch();
         //解决fragment重叠问题

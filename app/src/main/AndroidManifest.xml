@@ -86,10 +86,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.main.MainActivity" />
-        <activity
-            android:name=".activities.guide.GuideActivity" />
+        <activity android:name=".activities.main.MainActivity" />
+        <activity android:name=".activities.guide.GuideActivity" />
         <activity
             android:name=".activities.register.RegisterInputNumberActivity"
             android:theme="@style/AppTheme" />
@@ -196,12 +194,15 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.TestActivity"
-            android:theme="@style/AppTheme" >
-            <!--<intent-filter>
+            android:theme="@style/AppTheme">
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".activities.main_page.CityList"
@@ -623,11 +624,7 @@
         <activity
             android:name=".activities.shop.ShopCartActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activities.BaseUIActivity"
-            android:theme="@style/AppTheme">
-
-        </activity>
-
+        <activity android:name=".activities.base.BaseUIActivity"></activity>
     </application>
 
 </manifest>

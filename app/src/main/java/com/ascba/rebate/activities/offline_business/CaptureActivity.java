@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSON;
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.BaseUIActivity;
 import com.ascba.rebate.beans.sweep.CheckSellerEntity;
 import com.ascba.rebate.qr.MessageIDs;
 import com.ascba.rebate.qr.camera.CameraManager;
@@ -64,6 +65,7 @@ public class CaptureActivity extends BaseNetActivity implements Callback {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        //setUIMode(BaseUIActivity.UIMODE_TRANSPARENT_NOTALL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceview);

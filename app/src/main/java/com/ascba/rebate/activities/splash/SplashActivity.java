@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseUIActivity;
 import com.ascba.rebate.activities.guide.GuideActivity;
 import com.ascba.rebate.activities.main.MainActivity;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
@@ -18,7 +19,7 @@ import com.ascba.rebate.utils.SharedPreferencesUtil;
 /**
  * 启动页
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseUIActivity {
 
     private Handler handler = new Handler();
     private ImageView imageView;
@@ -26,9 +27,8 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setUIMode(BaseUIActivity.UIMODE_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //设置无标题
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  //设置全屏
         setContentView(R.layout.activity_splash);
         imageView = (ImageView) findViewById(R.id.iv_entry);
 
