@@ -23,11 +23,17 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/bill_list"
+        <com.ascba.rebate.view.EasyStatusView
+            android:id="@+id/statusView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/main_content_bg" />
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/bill_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/main_content_bg" />
+        </com.ascba.rebate.view.EasyStatusView>
+
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

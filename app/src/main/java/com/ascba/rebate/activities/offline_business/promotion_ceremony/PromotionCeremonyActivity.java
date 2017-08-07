@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.ascba.rebate.R;
+import com.ascba.rebate.activities.base.BaseNetActivity;
 import com.ascba.rebate.activities.base.BaseNetActivity2;
 import com.ascba.rebate.adapter.sweep.promotion.PromotionCeremoneyAdapter;
 import com.ascba.rebate.application.MyApplication;
@@ -45,7 +46,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PromotionCeremonyActivity extends BaseNetActivity2 {
+public class PromotionCeremonyActivity extends BaseNetActivity {
     private RecyclerView recycler;
     private TextView promotion_weixin, promotion_friends_circle, promotion_qr_code;
     private TextView promotion_total_money, promotion_total_people;
@@ -65,16 +66,11 @@ public class PromotionCeremonyActivity extends BaseNetActivity2 {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_promotion_ceremony);
+        setContentView(R.layout.activity_promotion_ceremony);
         initRefreshLayout();
         initSystemBar();
-        //initView();
+        initView();
         requestNetWork(UrlUtils.courtesyRecommended, 0);
-    }
-
-    @Override
-    protected int bindLayout() {
-        return R.layout.activity_promotion_ceremony;
     }
 
     public void requestNetwork(String url, int what) {
@@ -82,9 +78,7 @@ public class PromotionCeremonyActivity extends BaseNetActivity2 {
         request.add("now_page", now_page);
         executeNetWork(what, request, "请稍后");
     }
-    @Override
-    public void initViewss() {
-        super.initViewss();
+    public void initView() {
         recycler = (RecyclerView) findViewById(R.id.promotion_recycler);
         layoutManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(layoutManager);
@@ -105,13 +99,11 @@ public class PromotionCeremonyActivity extends BaseNetActivity2 {
         loadRequestor = new LoadRequestor() {
             @Override
             public void loadMore() {
-                statusView.loading();
                 requestNetWork(UrlUtils.courtesyRecommended, 0);
             }
 
             @Override
             public void pullToRefresh() {
-                statusView.loading();
                 requestNetWork(UrlUtils.courtesyRecommended, 0);
             }
         };
@@ -282,7 +274,6 @@ public class PromotionCeremonyActivity extends BaseNetActivity2 {
     @Override
     protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
         super.mhandle200Data(what, object, dataObj, message);
-        statusView.content();
         PromotionCeremoneyEntity promotionCeremoneyEntity = JSON.parseObject(dataObj.toString(), PromotionCeremoneyEntity.class);
         promotion_total_money.setText(promotionCeremoneyEntity.getTotal_money() + "");
         promotion_total_people.setText(promotionCeremoneyEntity.getPeople_num() + "");
@@ -299,6 +290,11 @@ public class PromotionCeremonyActivity extends BaseNetActivity2 {
         }
         data.addAll(promotionCeremoneyEntity.getReferee_list());
         baseAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void mhandleFailed(int what, Exception e) {
+        super.mhandleFailed(what, e);
     }
 
     /**

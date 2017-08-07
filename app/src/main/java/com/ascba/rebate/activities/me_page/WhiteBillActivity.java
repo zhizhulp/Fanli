@@ -18,9 +18,10 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.ascba.rebate.R;
 import com.ascba.rebate.activities.BusiFlowRecordsActivity;
-import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity2;
 import com.ascba.rebate.adapter.BillBaseAdapter;
 import com.ascba.rebate.beans.BillType;
 import com.ascba.rebate.beans.CashAccount;
@@ -31,14 +32,15 @@ import com.ascba.rebate.view.MoneyBar;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yanzhenjie.nohttp.rest.Request;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
@@ -46,7 +48,7 @@ import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT
  * 财富-白积分
  */
 
-public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLayout.OnRefreshListener
+public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshLayout.OnRefreshListener
         , MoneyBar.CallBack {
 
     private RecyclerView billRV;
@@ -94,8 +96,13 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_bill);
-        initViews();
+        //initViews();
         requestNetwork(UrlUtils.scoreBillList, 0);
+    }
+
+    @Override
+    protected int bindLayout() {
+        return R.layout.activity_white_bill;
     }
 
     private void requestNetwork(String url, int what) {
@@ -105,8 +112,9 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
         }
         executeNetWork(what, request, "请稍后");
     }
-
-    private void initViews() {
+    @Override
+    protected void initViewss() {
+        super.initViewss();
         initRefreshLayoutMine();
         initRecyclerView();
         initMoneyBar();
@@ -163,6 +171,7 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
                     loadmore=false;
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
+                    statusView.loading();
                     loadmore=true;
                     requestNetwork(UrlUtils.scoreBillList, 0);
                 }
@@ -212,6 +221,7 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
+        statusView.loading();
         reset();
         requestNetwork(UrlUtils.scoreBillList, 0);
     }
@@ -287,6 +297,7 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
             now_page++;
             JSONArray array = dataObj.optJSONArray("scoreList");
             if (array != null && array.length() != 0) {
+                statusView.content();
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
                     long create_time = obj.optLong("create_time");
@@ -336,6 +347,9 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
                 billAdapter.notifyDataSetChanged();
             }else {
                 viewHead.setVisibility(View.GONE);
+                if(!loadmore){
+                    statusView.empty();
+                }
             }
         } else if (what == 1) {
             JSONArray array = dataObj.optJSONArray("scoreList");
@@ -374,6 +388,7 @@ public class WhiteBillActivity extends BaseNetActivity implements SwipeRefreshLa
     @Override
     protected void mhandleFailed(int what, Exception e) {
         refreshLayout.setRefreshing(false);
+        statusView.error();
     }
 
     @Override

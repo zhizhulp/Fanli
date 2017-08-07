@@ -105,7 +105,7 @@ public abstract class BaseActivityNet1 extends BaseActivity1 {
 
         @Override
         public void onStart(int what) {
-            dialog = dialogManager.buildWaitDialog(message);
+            //dialog = dialogManager.buildWaitDialog(message);
         }
 
         @Override
@@ -125,7 +125,7 @@ public abstract class BaseActivityNet1 extends BaseActivity1 {
         public void onFinish(int what) {
             stopRefresh();
             stopLoadMore();
-            dialog.dismiss();
+            //dialog.dismiss();
             requstFinish(what);
         }
     }
