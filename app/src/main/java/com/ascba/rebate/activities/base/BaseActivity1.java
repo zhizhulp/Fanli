@@ -13,9 +13,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.ascba.rebate.R;
@@ -28,14 +26,11 @@ import com.taobao.sophix.SophixManager;
 
 import static com.chad.library.adapter.base.loadmore.LoadMoreView.STATUS_DEFAULT;
 
-/**
- * Created by 李鹏 on 2017/04/20 0020.
- * 权限 吐司 下拉刷新 上拉加载 home键锁屏键监听
- */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public class BaseActivity1 extends BaseDefaultUIActivity {
+
     protected String TAG=getClass().getSimpleName();
-    protected PermissionCallback requestPermissionAndBack;
+    protected BaseActivity.PermissionCallback requestPermissionAndBack;
     protected SwipeRefreshLayout refreshLayout;
     protected CustomLoadMoreView loadMoreView;
     protected static final int LOAD_MORE_END = 2017;
@@ -143,7 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 申请权限
      */
-    protected void checkAndRequestAllPermission(String[] permissions, PermissionCallback requestPermissionAndBack) {
+    protected void checkAndRequestAllPermission(String[] permissions, BaseActivity.PermissionCallback requestPermissionAndBack) {
         this.requestPermissionAndBack = requestPermissionAndBack;
         if (permissions == null) {
             return;
@@ -191,11 +186,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_RELAUNCH){
+        /*if(MyApplication.patchStatusCode== PatchStatus.CODE_LOAD_RELAUNCH){
             if(this instanceof MainActivity){
                 killProcess(false);
             }
-        }
+        }*/
         unregisterReceiver(mHomeKeyEventReceiver);
         super.onDestroy();
     }

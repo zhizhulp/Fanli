@@ -83,7 +83,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setUIMode(BaseUIActivity.UIMODE_TRANSPARENT);
+        //setUIMode(BaseUIActivity.UIMODE_TRANSPARENT);
         super.onCreate(savedInstanceState);
         SophixManager.getInstance().queryAndLoadNewPatch();
         //解决fragment重叠问题

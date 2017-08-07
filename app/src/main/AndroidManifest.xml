@@ -624,7 +624,11 @@
         <activity
             android:name=".activities.shop.ShopCartActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activities.base.BaseUIActivity"></activity>
+        <activity android:name=".activities.base.BaseUIActivity" />
+        <activity android:name=".activities.base.BaseDefaultUIActivity" />
+        <activity android:name=".activities.base.BaseActivity1" />
+        <activity android:name=".activities.base.BaseActivityNet1" />
+        <activity android:name=".activities.base.BaseNetActivity2"></activity>
     </application>
 
 </manifest>

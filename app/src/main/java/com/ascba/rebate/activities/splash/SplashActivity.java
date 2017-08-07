@@ -19,7 +19,7 @@ import com.ascba.rebate.utils.SharedPreferencesUtil;
 /**
  * 启动页
  */
-public class SplashActivity extends BaseUIActivity {
+public class SplashActivity extends Activity {
 
     private Handler handler = new Handler();
     private ImageView imageView;
@@ -27,7 +27,7 @@ public class SplashActivity extends BaseUIActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setUIMode(BaseUIActivity.UIMODE_FULLSCREEN);
+        //setUIMode(BaseUIActivity.UIMODE_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         imageView = (ImageView) findViewById(R.id.iv_entry);

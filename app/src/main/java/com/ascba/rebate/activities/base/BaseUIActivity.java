@@ -9,13 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.ascba.rebate.R;
 
 /**
  * UI层
  */
-public class BaseUIActivity extends AppCompatActivity {
+public abstract class BaseUIActivity extends AppCompatActivity {
     protected static final int UIMODE_NORMAL = 0;//状态栏着色，占位置(默认)
     protected static final int UIMODE_FULLSCREEN_NOTALL = 1;//全屏,虚拟键透明
     protected static final int UIMODE_FULLSCREEN = 2;//全屏(状态栏透明，虚拟键透明)
@@ -28,6 +29,8 @@ public class BaseUIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//屏幕方向固定为竖屏
         setUITheme();
+        setContentView(bindLayout());
+        initViewss();
     }
 
     /**
@@ -58,7 +61,7 @@ public class BaseUIActivity extends AppCompatActivity {
     }
 
     /**
-     * 设置主题样式的值
+     * 设置主题样式的值 注意一定要在setContentview前调用
      * @param uiMode 主题样式的值
      */
     protected void setUIMode(int uiMode){
@@ -75,7 +78,34 @@ public class BaseUIActivity extends AppCompatActivity {
         }
     }
 
-    protected void addStatusView(){
-
+    /**
+     * 简化findviewbyid
+     * @param resId 控件id
+     * @param <T> view
+     * @return view
+     */
+    @SuppressWarnings("unchecked")
+    protected <T extends View> T fv(int resId){
+        return (T) findViewById(resId);
     }
+
+    /**
+     * 吐司
+     * @param content 内容
+     */
+    protected void showToast(String content){
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 绑定视图id    (setContentView());
+     * @return 视图id
+     */
+    protected abstract int bindLayout();
+
+    /**
+     * 控件的初始化
+     */
+    protected abstract void initViewss();
+
 }
