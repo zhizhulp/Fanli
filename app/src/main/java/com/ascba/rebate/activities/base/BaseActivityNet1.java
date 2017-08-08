@@ -25,12 +25,6 @@ public abstract class BaseActivityNet1 extends BaseActivity1 {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*setTheme(R.style.AppTheme);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN  | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        }
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);*/
         dialogManager = new DialogHome(this);
     }
 
@@ -77,21 +71,22 @@ public abstract class BaseActivityNet1 extends BaseActivity1 {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         isNetWork(netAva);
         if (!netAva) {
-            dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
+            //dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
             return;
         }
         MyApplication.getRequestQueue().add(what, jsonRequest, new NetResponseListener(message));
     }
 
     //执行网络请求
-    protected void executeNetWork(Request<JSONObject> jsonRequest, String message) {
+    protected boolean executeNetWork(Request<JSONObject> jsonRequest, String message) {
         boolean netAva = NetUtils.isNetworkAvailable(this);
         isNetWork(netAva);
         if (!netAva) {
-            dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
-            return;
+            //dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
+            return false;
         }
         MyApplication.getRequestQueue().add(0, jsonRequest, new NetResponseListener(message));
+        return true;
     }
 
 
@@ -116,7 +111,7 @@ public abstract class BaseActivityNet1 extends BaseActivity1 {
 
         @Override
         public void onFailed(int what, Response<JSONObject> response) {
-            showToast(getString(R.string.no_response));
+            //showToast(getString(R.string.no_response));
             handler.sendEmptyMessage(LOAD_MORE_ERROR);
             requstFailed(what, response.getException());
         }

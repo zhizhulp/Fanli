@@ -95,9 +95,10 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_white_bill);
+        //setContentView(R.layout.activity_white_bill);
         //initViews();
         requestNetwork(UrlUtils.scoreBillList, 0);
+        statusView.loading();
     }
 
     @Override
@@ -112,6 +113,8 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
         }
         executeNetWork(what, request, "请稍后");
     }
+
+
     @Override
     protected void initViewss() {
         super.initViewss();
@@ -124,6 +127,7 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
     private void initHeadView() {
         viewHead = findViewById(R.id.head);
         viewHead.setBackgroundColor(Color.WHITE);
+        viewHead.setVisibility(View.GONE);
         tvFirstMonth = ((TextView) findViewById(R.id.tv_month));
         imCalendar = ((ImageView) findViewById(R.id.im_calendar));
         imCalendar.setVisibility(View.VISIBLE);
@@ -155,7 +159,7 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
         billAdapter = new BillBaseAdapter(billData, this);
         billRV.setLayoutManager(new LinearLayoutManager(this));
         billRV.setAdapter(billAdapter);
-        billAdapter.setEmptyView(getLayoutInflater().inflate(R.layout.bill_list_empty, null));
+        //billAdapter.setEmptyView(getLayoutInflater().inflate(R.layout.bill_list_empty, null));
         initLoadMore();
     }
 
@@ -171,12 +175,17 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
                     loadmore=false;
                     handler.sendEmptyMessage(LOAD_MORE_END);
                 } else {
-                    statusView.loading();
                     loadmore=true;
                     requestNetwork(UrlUtils.scoreBillList, 0);
                 }
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        reset();
+        requestNetwork(UrlUtils.scoreBillList, 0);
     }
 
     /**
@@ -218,13 +227,6 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
         billData = new ArrayList<>();
     }
 
-
-    @Override
-    public void onRefresh() {
-        statusView.loading();
-        reset();
-        requestNetwork(UrlUtils.scoreBillList, 0);
-    }
 
     private void reset() {
         loadmore=false;
@@ -297,6 +299,7 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
             now_page++;
             JSONArray array = dataObj.optJSONArray("scoreList");
             if (array != null && array.length() != 0) {
+                viewHead.setVisibility(View.VISIBLE);
                 statusView.content();
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.optJSONObject(i);
@@ -311,7 +314,6 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
                     if (i != 0) {
                         if (yearLast != Integer.parseInt(year)) {
                             addHead(month,year);
-
                         } else {
                             if (monthLast != Integer.parseInt(month)) {
                                 addHead(month,year);
@@ -387,6 +389,7 @@ public class WhiteBillActivity extends BaseNetActivity2 implements SwipeRefreshL
 
     @Override
     protected void mhandleFailed(int what, Exception e) {
+        viewHead.setVisibility(View.GONE);
         refreshLayout.setRefreshing(false);
         statusView.error();
     }

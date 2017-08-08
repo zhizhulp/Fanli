@@ -2,12 +2,13 @@ package com.ascba.rebate.activities.me_page;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.ascba.rebate.R;
-import com.ascba.rebate.activities.base.BaseNetActivity;
+import com.ascba.rebate.activities.base.BaseNetActivity2;
 import com.ascba.rebate.activities.me_page.red_score_child.RedScSuccActivity;
 import com.ascba.rebate.fragments.main.MoneyFragment;
 import com.ascba.rebate.utils.DialogHome;
@@ -20,7 +21,7 @@ import org.json.JSONObject;
 /**
  * 财富——红积分
  */
-public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetActivity.Callback {
+public class RedScoreUpdateActivity extends BaseNetActivity2{
     private int finalScene;
     private TextView tvMax;
     private TextView tvCash;
@@ -36,12 +37,20 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_red_score_update);
-        initViews();
+        //setContentView(R.layout.activity_red_score_update);
+        //initViews();
         requestRedScore();
+
     }
 
-    private void initViews() {
+    @Override
+    protected int bindLayout() {
+        return R.layout.activity_red_score_update;
+    }
+
+    @Override
+    protected void initViewss() {
+        super.initViewss();
         moneyBar = (MoneyBar) findViewById(R.id.moneyBar);
         moneyBar.setCallBack(new MoneyBar.CallBack() {
             @Override
@@ -54,7 +63,20 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
 
             }
         });
+        loadRequestor=new LoadRequestor() {
+            @Override
+            public void loadMore() {
 
+            }
+
+            @Override
+            public void pullToRefresh() {
+                requestRedScore();
+            }
+        };
+        initRefreshLayout();
+
+        //initRefreshLayout();
         tvMax = ((TextView) findViewById(R.id.total_red_score));
         tvCash = ((TextView) findViewById(R.id.tv_cash));
         tvTicket = ((TextView) findViewById(R.id.tv_ticket));
@@ -71,14 +93,26 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     private void requestRedScore() {
         finalScene = 1;
         Request<JSONObject> request = buildNetRequest(UrlUtils.getRedScore, 0, true);
-        executeNetWork(request, "请稍后");
-        setCallback(this);
+        boolean netEnable = executeNetWork(request, "请稍后");
+        if(netEnable){
+            statusView.loading();
+        }else {
+            statusView.noNet();
+        }
+
+        //setCallback(this);
     }
 
+    @Override
+    protected void mhandleReLogin(int what) {
+
+    }
 
     @Override
-    public void handle200Data(JSONObject dataObj, String message) {
+    protected void mhandle200Data(int what, JSONObject object, JSONObject dataObj, String message) {
+        super.mhandle200Data(what, object, dataObj, message);
         if (finalScene == 1) {
+            statusView.content();
             JSONObject redObj = dataObj.optJSONObject("getRedScore");
             //最大兑换金额
             int convertible_money = redObj.optInt("convertible_money");
@@ -114,12 +148,9 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
     }
 
     @Override
-    public void handle404(String message) {
-    }
-
-    @Override
-    public void handleNoNetWork() {
-
+    protected void mhandleFailed(int what, Exception e) {
+        super.mhandleFailed(what, e);
+        statusView.error();
     }
 
     //点击兑换红积分
@@ -135,7 +166,6 @@ public class RedScoreUpdateActivity extends BaseNetActivity implements BaseNetAc
                 Request<JSONObject> request = buildNetRequest(UrlUtils.redIntegration, 0, true);
                 request.add("red_integration", tvMax.getText().toString());
                 executeNetWork(request, "请稍后");
-                setCallback(RedScoreUpdateActivity.this);
             }
         });
     }

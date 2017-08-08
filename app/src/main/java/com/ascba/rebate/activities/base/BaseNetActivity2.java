@@ -77,7 +77,9 @@ public class BaseNetActivity2 extends BaseActivityNet1 {
         if (!isNetWork) {
             //没网
             mhandleNoNetWord();
-            showToast(getString(R.string.no_network));
+            stopRefresh();
+            stopLoadMore();
+            //showToast(getString(R.string.no_network));
             //getDm().buildAlertDialog(getString(R.string.no_network));
         }
     }
