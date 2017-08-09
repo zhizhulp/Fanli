@@ -1,7 +1,9 @@
 package com.ascba.rebate.activities.main;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +22,7 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.activities.shop.ShopActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
+import com.ascba.rebate.broadcast.NetworkReceiver;
 import com.ascba.rebate.fragments.main.HomePageFragment;
 import com.ascba.rebate.fragments.main.MeFragment;
 import com.ascba.rebate.fragments.main.MoneyFragment;
@@ -78,7 +81,8 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
     private Fragment mMeFragment;
     private AppTabs appTabs;
     private Timer timer=new Timer();
-
+    private View viewNetWatcher;
+    private NetworkReceiver receiver;
 
 
     @Override
@@ -90,8 +94,28 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         resolveProblems(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new NetworkReceiver();
+        receiver.setNetListener(new NetworkReceiver.NetStateListener() {
+            @Override
+            public void onNetChange(boolean available) {
+                Log.d(TAG, "main_onReceive: "+available);
+                if(available){
+                    if(viewNetWatcher.getVisibility()!=View.GONE){
+                        viewNetWatcher.setVisibility(View.GONE);
+                    }
+                }else {
+                    if(viewNetWatcher.getVisibility()!=View.VISIBLE){
+                        viewNetWatcher.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        registerReceiver(receiver,filter);
     }
     private void findViews() {
+        viewNetWatcher = findViewById(R.id.tv_net_watcher);
         appTabs = ((AppTabs) findViewById(R.id.tabs));
         appTabs.setCallback(this);
         appTabs.statusChaByPosition(index, currIndex);
@@ -184,6 +208,7 @@ public class MainActivity extends BaseNetActivity implements AppTabs.Callback {
         if(timer!=null){
             timer.cancel();
         }
+        unregisterReceiver(receiver);
     }
 
     //根据位置切换相应碎片

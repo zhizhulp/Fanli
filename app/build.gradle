@@ -81,4 +81,8 @@ dependencies {
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'top.zibin:Luban:1.1.1'
     testCompile 'junit:junit:4.12'
+
+    compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'
+    compile 'com.zhy:base-rvadapter:3.0.3'
+    compile 'com.jcodecraeer:xrecyclerview:1.4.2'
 }

@@ -3,6 +3,7 @@
     android:id="@+id/main_rr"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.ascba.rebate.view.AppTabs
         android:layout_alignParentBottom="true"
         android:id="@+id/tabs"
@@ -10,9 +11,23 @@
         android:layout_height="wrap_content"/>
     <FrameLayout
         android:layout_above="@id/tabs"
-        android:id="@+id/fl_change"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/fl_change"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+        <TextView
+            android:alpha="0.55"
+            android:background="@color/black"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="48dp"
+            android:text="请手动打开网络"
+            android:id="@+id/tv_net_watcher"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
     </FrameLayout>
     <View
         android:layout_above="@id/tabs"

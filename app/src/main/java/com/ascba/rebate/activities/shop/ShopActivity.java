@@ -16,9 +16,9 @@ import com.ascba.rebate.activities.login.LoginActivity;
 import com.ascba.rebate.appconfig.AppConfig;
 import com.ascba.rebate.application.MyApplication;
 import com.ascba.rebate.fragments.shop.CartFragment;
+import com.ascba.rebate.fragments.shop.ShopMainFragment1;
 import com.ascba.rebate.fragments.shop.ShopMeFragment;
 import com.ascba.rebate.fragments.shop.TypeFragment;
-import com.ascba.rebate.fragments.shop.ShopMainFragment;
 import com.ascba.rebate.view.ShopTabs;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
     private static final int REQUEST_LOGIN_CART = 0;
     private static final int REQUEST_LOGIN_ME = 1;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private Fragment mFirstFragment=new ShopMainFragment();
+    private Fragment mFirstFragment=new ShopMainFragment1();
     private Fragment mSecondFragment=new TypeFragment();
     private Fragment mThirdFragment=new CartFragment();
     private Fragment mFourthFragment = new ShopMeFragment();
@@ -56,7 +56,7 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
             if (fragments != null && fragments.size() != 0) {
                 for (int i = 0; i < fragments.size(); i++) {
                     Fragment fragment = fragments.get(i);
-                    if (fragment instanceof ShopMainFragment)
+                    if (fragment instanceof ShopMainFragment1)
                         mFirstFragment = fragment;
                         mFragments.add(fragment);
                     if (fragment instanceof TypeFragment)
@@ -125,7 +125,7 @@ public class ShopActivity extends BaseNetActivity implements ShopTabs.Callback {
             }
             for (int i = 0; i < mFragments.size(); i++) {
                 Fragment fragment = mFragments.get(i);
-                if (fragment instanceof ShopMainFragment ) {
+                if (fragment instanceof ShopMainFragment1 ) {
                     ft.show(fragment);
                 } else {
                     ft.hide(fragment);
