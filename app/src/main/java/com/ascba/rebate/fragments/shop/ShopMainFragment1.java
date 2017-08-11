@@ -95,10 +95,6 @@ public class ShopMainFragment1 extends BaseNetFragment implements BaseNetFragmen
             public void onRefresh() {
                 rv.reset();
                 isRefreshing=true;
-                /*if (data.size() != 0) {
-                    data.clear();
-                    shopAdapter.notifyDataSetChanged();
-                }*/
                 requestNetwork(UrlUtils.shop, 0);
             }
 

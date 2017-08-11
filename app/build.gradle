@@ -85,4 +85,7 @@ dependencies {
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'
     compile 'com.zhy:base-rvadapter:3.0.3'
     compile 'com.jcodecraeer:xrecyclerview:1.4.2'
+
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
 }

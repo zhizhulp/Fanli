@@ -12,15 +12,20 @@
         android:background="@color/white"
         app:abar_title="商家店铺" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        app:srlFooterHeight="48dp"
+        app:srlHeaderHeight="48dp"
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/qlqw_refresh_head"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recylerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

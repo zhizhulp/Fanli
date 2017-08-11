@@ -86,12 +86,12 @@ public abstract class BaseFragmentNet extends BaseFragment {
     //执行网络请求
     protected void executeNetWork(Request<JSONObject> jsonRequest, String message) {
 
-        boolean netAva = NetUtils.isNetworkAvailable(getActivity());
+        /*boolean netAva = NetUtils.isNetworkAvailable(getActivity());
         isNetWork(netAva);
         if (!netAva) {
             dialogManager.buildAlertDialog(getResources().getString(R.string.no_network));
             return;
-        }
+        }*/
         MyApplication.getRequestQueue().add(1, jsonRequest, netResponseListener);
     }
 
@@ -145,7 +145,7 @@ public abstract class BaseFragmentNet extends BaseFragment {
      * 是否启用缓存
      */
     protected boolean hasCache() {
-        return false;
+        return true;
     }
 
 }

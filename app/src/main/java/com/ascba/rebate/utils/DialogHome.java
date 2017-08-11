@@ -158,11 +158,12 @@ public class DialogHome {
         tvMsg.setText(message);
 
         Window window = dialogAlterSure.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        Display display = window.getWindowManager().getDefaultDisplay();
-        wlp.width = ScreenDpiUtils.dip2px(context,260);
-        window.setAttributes(wlp);
-
+        WindowManager.LayoutParams wlp ;
+        if (window != null) {
+            wlp = window.getAttributes();
+            wlp.width = ScreenDpiUtils.dip2px(context,260);
+            window.setAttributes(wlp);
+        }
         dialogAlterSure.show();
         return dialogAlterSure;
     }
@@ -202,6 +203,13 @@ public class DialogHome {
         });
 
         tvMsg.setText(message);
+        Window window = dialogAlterSure.getWindow();
+        WindowManager.LayoutParams wlp ;
+        if (window != null) {
+            wlp = window.getAttributes();
+            wlp.width = ScreenDpiUtils.dip2px(context,260);
+            window.setAttributes(wlp);
+        }
         dialogAlterSure.show();
         return dialogAlterSure;
     }

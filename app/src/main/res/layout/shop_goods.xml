@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="276dp"
-    android:background="@color/lighter_gray"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
     <LinearLayout

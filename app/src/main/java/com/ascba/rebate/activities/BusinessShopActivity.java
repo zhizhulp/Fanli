@@ -38,6 +38,16 @@ import com.ascba.rebate.view.cart_btn.NumberButton;
 import com.ascba.rebate.view.loadmore.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.rest.Request;
 
@@ -107,6 +117,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
 
     private boolean has_spec;//加入购物车的商品是否有规格
     private TextView headTvType;
+    private SmartRefreshLayout smartRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +132,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
         if (AppConfig.getInstance().getInt("uuid", -1000) != -1000) {
             getStoreFromIntent();
             requestData(UrlUtils.getStore, 0);
+            smartRefreshLayout.autoRefresh();
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN);
@@ -164,11 +176,52 @@ public class BusinessShopActivity extends BaseNetActivity implements
         executeNetWork(request, "请稍后");
         setCallback(this);
     }
-
+    static {
+        ClassicsFooter.REFRESH_FOOTER_PULLUP = "上拉加载更多";
+        ClassicsFooter.REFRESH_FOOTER_RELEASE = "释放立即加载";
+        ClassicsFooter.REFRESH_FOOTER_REFRESHING = "正在刷新...";
+        ClassicsFooter.REFRESH_FOOTER_LOADING= "正在加载...";
+        ClassicsFooter.REFRESH_FOOTER_FINISH = "加载完成";
+        ClassicsFooter.REFRESH_FOOTER_FAILED = "加载失败";
+        ClassicsFooter.REFRESH_FOOTER_ALLLOADED = "全部加载完成";
+    }
     private void initView() {
         //刷新
-        initRefreshLayout();
-        refreshLayout.setOnRefreshListener(this);
+        //initRefreshLayout();
+        //refreshLayout.setOnRefreshListener(this);
+        smartRefreshLayout = ((SmartRefreshLayout) findViewById(R.id.refresh_layout));
+        smartRefreshLayout.setRefreshFooter(new ClassicsFooter(this));
+        //smartRefreshLayout.setRefreshHeader(new ClassicsHeader(this));
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if (!isRefresh) {
+                    isRefresh = true;
+                }
+                clearData();
+                resetPageAndStatus();
+                requestData(UrlUtils.getStore, 0);
+            }
+        });
+        smartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (isRefresh) {
+                    isRefresh = false;
+                }
+                if (now_page > total_page  && total_page != 0) {
+                    refreshlayout.finishLoadmore();
+                    smartRefreshLayout.setLoadmoreFinished(true);
+                    //handler.sendEmptyMessage(LOAD_MORE_END);
+                } else if(total_page==0){
+                    refreshlayout.finishLoadmore();
+                    smartRefreshLayout.setLoadmoreFinished(true);
+                    //handler.sendEmptyMessage(LOAD_MORE_END);
+                }else {
+                    requestData(UrlUtils.getStore, 0);
+                }
+            }
+        });
 
         //导航栏
         shopABar = (ShopABar) findViewById(R.id.shopbar);
@@ -254,14 +307,23 @@ public class BusinessShopActivity extends BaseNetActivity implements
     @Override
     public void handle200Data(JSONObject dataObj, String message) {
         if (finalScene == 0) {
-            refreshLayout.setRefreshing(false);
+            getPageCount(dataObj);//分页数据
+            if(smartRefreshLayout.isRefreshing()){
+                smartRefreshLayout.finishRefresh();
+                smartRefreshLayout.setLoadmoreFinished(false);
+            }
+            if(smartRefreshLayout.isLoading()){
+                smartRefreshLayout.finishLoadmore();
+            }
+
+
+            /*refreshLayout.setRefreshing(false);
             if (adapter != null) {
                 adapter.loadMoreComplete();
             }
             if (loadMoreView != null) {
                 loadMoreView.setLoadMoreStatus(STATUS_DEFAULT);
-            }
-            getPageCount(dataObj);//分页数据
+            }*/
             if (isRefresh) {//下拉刷新
                 clearData();
                 refreshHeadData(dataObj);//头部数据
@@ -270,7 +332,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
                 refreshGoodsData(dataObj);//商品列表数据
             }
             initAdapterAndRefresh();
-            initLoadMore();
+            //initLoadMore();
         } else if (finalScene == 1) {//添加到购物车成功
             ViewUtils.showMyToast(this,R.layout.add_to_cart_toast);
             MyApplication.isLoadCartData=true;
@@ -387,9 +449,16 @@ public class BusinessShopActivity extends BaseNetActivity implements
     }
 
     @Override
+    protected void mhandleFailed(int what, Exception e) {
+        super.mhandleFailed(what, e);
+        smartRefreshLayout.finishLoadmore(false);
+    }
+
+    @Override
     public void handleNoNetWork() {
-        refreshLayout.setRefreshing(false);
-        handler.sendEmptyMessage(LOAD_MORE_ERROR);
+        //refreshLayout.setRefreshing(false);
+        //handler.sendEmptyMessage(LOAD_MORE_ERROR);
+        smartRefreshLayout.finishLoadmore(false);
     }
 
 

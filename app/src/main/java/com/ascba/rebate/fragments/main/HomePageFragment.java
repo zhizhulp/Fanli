@@ -61,6 +61,7 @@ import com.ascba.rebate.beans.HomePageMultiItemItem;
 import com.ascba.rebate.beans.NewsBean;
 import com.ascba.rebate.beans.VideoBean;
 import com.ascba.rebate.fragments.base.BaseNetFragment;
+import com.ascba.rebate.utils.DialogHome;
 import com.ascba.rebate.utils.ScreenDpiUtils;
 import com.ascba.rebate.utils.SharedPreferencesUtil;
 import com.ascba.rebate.utils.TimeUtils;
@@ -139,6 +140,13 @@ public class HomePageFragment extends BaseNetFragment implements BaseNetFragment
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
         initView(view);
+        getDm().buildAlertDialogSure("一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话" +
+                "一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话一串很长很长的话", null, null, new DialogHome.Callback() {
+            @Override
+            public void handleSure() {
+
+            }
+        });
         requestData(UrlUtils.index, 0);
     }
 
