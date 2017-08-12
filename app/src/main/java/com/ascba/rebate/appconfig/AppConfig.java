@@ -9,8 +9,6 @@ import com.ascba.rebate.application.MyApplication;
 
 /**
  * Created in Nov 8, 2015 7:48:11 PM.
- *
- * @author Yan Zhenjie.
  */
 public class AppConfig {
 
@@ -20,7 +18,7 @@ public class AppConfig {
 
 
     private AppConfig() {
-        preferences = MyApplication.getInstance().getSharedPreferences("first_login_success_name_password", Context.MODE_PRIVATE);
+        preferences = MyApplication.getInstance().getSharedPreferences("app_config", Context.MODE_PRIVATE);
     }
 
     public static AppConfig getInstance() {
@@ -61,11 +59,4 @@ public class AppConfig {
         return preferences.getLong(key, defValue);
     }
 
-    public void putFloat(String key, float value) {
-        preferences.edit().putFloat(key, value).apply();
-    }
-
-    public float getFloat(String key, float defValue) {
-        return preferences.getFloat(key, defValue);
-    }
 }
