@@ -4,15 +4,16 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by 李平 on 2017/8/10.
- * 管理activity
+ * activity类
  */
 
 public class ActivityManager {
     private static ActivityManager manager = new ActivityManager();
-    private List<Activity> ayList = new ArrayList<>();
+    private Stack<Activity> ayList = new Stack<>();
 
     private ActivityManager() {
     }
