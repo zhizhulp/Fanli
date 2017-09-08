@@ -191,7 +191,7 @@ public class BusinessShopActivity extends BaseNetActivity implements
         //refreshLayout.setOnRefreshListener(this);
         smartRefreshLayout = ((SmartRefreshLayout) findViewById(R.id.refresh_layout));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(this));
-        //smartRefreshLayout.setRefreshHeader(new ClassicsHeader(this));
+        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(this));
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {

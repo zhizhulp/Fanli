@@ -371,40 +371,12 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
         return file;
     }
 
-    public Bitmap handleBitmap(File file) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(file.getPath(), options);
-        int scale = (int) (options.outWidth / (float) 300);
-        if (scale <= 0)
-            scale = 1;
-        options.inSampleSize = scale;
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-    }
-
-    public void saveBitmapFile(Bitmap bitmap, File file) {
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            bos.flush();
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GO_CAMERA_WORK:
                 if (fileWork != null && fileWork.exists()) {
-                    /*Bitmap bitmap = handleBitmap(fileWork);
-                    saveBitmapFile(bitmap, fileWork);
-                    imWorkIcon.setImageBitmap(bitmap);*/
                     handleImage(imWorkIcon,fileWork);
                 }
                 break;
@@ -422,17 +394,11 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
                     fileWork = new File(picturePath);
-                    /*Bitmap bitmap = handleBitmap(fileWork);
-                    saveBitmapFile(bitmap, fileWork);
-                    imWorkIcon.setImageBitmap(bitmap);*/
                     handleImage(imWorkIcon,fileWork);
                 }
                 break;
             case GO_CAMERA_AUTH:
                 if (fileAuth != null && fileAuth.exists()) {
-                    /*Bitmap bitmap = handleBitmap(fileAuth);
-                    saveBitmapFile(bitmap, fileAuth);
-                    imAuthIcon.setImageBitmap(bitmap);*/
                     handleImage(imAuthIcon,fileAuth);
                 }
                 break;
@@ -450,9 +416,6 @@ public class BusinessCenterActivity extends BaseNetActivity implements BaseNetAc
                     String picturePath = cursor2.getString(columnIndex);
                     cursor2.close();
                     fileAuth = new File(picturePath);
-                    /*Bitmap bitmap = handleBitmap(fileAuth);
-                    saveBitmapFile(bitmap, fileAuth);
-                    imAuthIcon.setImageBitmap(bitmap);*/
                     handleImage(imAuthIcon,fileAuth);
                 }
                 break;
