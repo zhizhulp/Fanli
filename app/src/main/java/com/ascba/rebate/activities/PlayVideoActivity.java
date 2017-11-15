@@ -143,11 +143,4 @@ public class PlayVideoActivity extends BaseNetActivity implements SuperPlayer.On
         }
     }
 
-    @Override
-    public void onBackPressed() {
-//        if (player != null && player.onBackPressed()) {
-//            return;
-//        }
-        super.onBackPressed();
-    }
 }
